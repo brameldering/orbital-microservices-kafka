@@ -11,7 +11,7 @@ import {
   useCreateProductMutation,
 } from '../../slices/productsApiSlice';
 import { toast } from 'react-toastify';
-import { EURO_SYMBOL } from '../utils/constants.js';
+import { EURO_SYMBOL } from '../../utils/constants';
 
 const ProductListScreen = () => {
   const { pageNumber } = useParams();
