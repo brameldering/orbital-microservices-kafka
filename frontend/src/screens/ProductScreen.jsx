@@ -21,6 +21,7 @@ import Loader from '../components/Loader';
 import Message from '../components/Message';
 import Meta from '../components/Meta';
 import { addToCart } from '../slices/cartSlice';
+import { EURO_SYMBOL } from '../utils/constants.js';
 
 const ProductScreen = () => {
   const { id: productId } = useParams();
@@ -94,7 +95,10 @@ const ProductScreen = () => {
                     text={`${product.numReviews} reviews`}
                   />
                 </ListGroup.Item>
-                <ListGroup.Item>Price: ${product.price}</ListGroup.Item>
+                <ListGroup.Item>
+                  Price: {EURO_SYMBOL}
+                  {product.price}
+                </ListGroup.Item>
                 <ListGroup.Item>
                   Description: {product.description}
                 </ListGroup.Item>
@@ -107,7 +111,10 @@ const ProductScreen = () => {
                     <Row>
                       <Col>Price:</Col>
                       <Col>
-                        <strong>${product.price}</strong>
+                        <strong>
+                          {EURO_SYMBOL}
+                          {product.price}
+                        </strong>
                       </Col>
                     </Row>
                   </ListGroup.Item>
