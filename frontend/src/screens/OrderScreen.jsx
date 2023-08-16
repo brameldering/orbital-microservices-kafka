@@ -1,11 +1,13 @@
 import { useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap';
+import { useParams } from 'react-router-dom';
+import { Row, Col, ListGroup, Card, Button } from 'react-bootstrap';
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
+import OrderItemLine from '../components/OrderItemLine';
+import OrderSummaryBlock from '../components/OrderSummaryBlock';
 import {
   useDeliverOrderMutation,
   useGetOrderDetailsQuery,
@@ -156,24 +158,7 @@ const OrderScreen = () => {
                 <ListGroup variant='flush'>
                   {order.orderItems.map((item, index) => (
                     <ListGroup.Item key={index}>
-                      <Row>
-                        <Col md={1}>
-                          <Image
-                            src={item.image}
-                            alt={item.name}
-                            fluid
-                            rounded
-                          />
-                        </Col>
-                        <Col>
-                          <Link to={`/product/${item.product}`}>
-                            {item.name}
-                          </Link>
-                        </Col>
-                        <Col md={4}>
-                          {item.qty} x ${item.price} = ${item.qty * item.price}
-                        </Col>
-                      </Row>
+                      <OrderItemLine productId={item.product} item={item} />
                     </ListGroup.Item>
                   ))}
                 </ListGroup>
@@ -184,33 +169,8 @@ const OrderScreen = () => {
         <Col md={4}>
           <Card>
             <ListGroup variant='flush'>
-              <ListGroup.Item>
-                <h2>Order Summary</h2>
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <Row>
-                  <Col>Items</Col>
-                  <Col>${order.itemsPrice}</Col>
-                </Row>
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <Row>
-                  <Col>Shipping</Col>
-                  <Col>${order.shippingPrice}</Col>
-                </Row>
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <Row>
-                  <Col>Tax</Col>
-                  <Col>${order.taxPrice}</Col>
-                </Row>
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <Row>
-                  <Col>Total</Col>
-                  <Col>${order.totalPrice}</Col>
-                </Row>
-              </ListGroup.Item>
+              <OrderSummaryBlock order={order} />
+
               {!order.isPaid && (
                 <ListGroup.Item>
                   {loadingPay && <Loader />}

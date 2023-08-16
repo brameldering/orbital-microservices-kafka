@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Row,
@@ -12,10 +12,12 @@ import {
 import { FaTrash } from 'react-icons/fa';
 import Message from '../components/Message';
 import { addToCart, removeFromCart } from '../slices/cartSlice';
+import { CURRENCY_SYMBOL } from '../constants';
 
 const CartScreen = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const currentPath = useLocation().pathname;
 
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
@@ -51,9 +53,14 @@ const CartScreen = () => {
                     <Image src={item.image} alt={item.name} fluid rounded />
                   </Col>
                   <Col md={3}>
-                    <Link to={`/product/${item._id}`}>{item.name}</Link>
+                    <Link to={`/product/${item._id}?goBackPath=${currentPath}`}>
+                      {item.name}
+                    </Link>
                   </Col>
-                  <Col md={2}>${item.price}</Col>
+                  <Col md={2}>
+                    {CURRENCY_SYMBOL}
+                    {item.price}
+                  </Col>
                   <Col md={2}>
                     <Form.Control
                       as='select'
@@ -92,7 +99,7 @@ const CartScreen = () => {
                 Subtotal ({cartItems.reduce((acc, item) => acc + item.qty, 0)})
                 items
               </h2>
-              $
+              {CURRENCY_SYMBOL}
               {cartItems
                 .reduce((acc, item) => acc + item.qty * item.price, 0)
                 .toFixed(2)}

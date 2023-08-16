@@ -21,10 +21,12 @@ import Loader from '../components/Loader';
 import Message from '../components/Message';
 import Meta from '../components/Meta';
 import { addToCart } from '../slices/cartSlice';
-import { EURO_SYMBOL } from '../utils/constants.js';
+import { CURRENCY_SYMBOL } from '../constants.js';
 
 const ProductScreen = () => {
   const { id: productId } = useParams();
+  const queryParams = new URLSearchParams(window.location.search);
+  const goBackPath = queryParams.get('goBackPath');
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -68,7 +70,7 @@ const ProductScreen = () => {
 
   return (
     <>
-      <Link className='btn btn-light my-3' to='/'>
+      <Link className='btn btn-light my-3' to={goBackPath}>
         Go Back
       </Link>
       {isLoading ? (
@@ -96,7 +98,7 @@ const ProductScreen = () => {
                   />
                 </ListGroup.Item>
                 <ListGroup.Item>
-                  Price: {EURO_SYMBOL}
+                  Price: {CURRENCY_SYMBOL}
                   {product.price}
                 </ListGroup.Item>
                 <ListGroup.Item>
@@ -112,7 +114,7 @@ const ProductScreen = () => {
                       <Col>Price:</Col>
                       <Col>
                         <strong>
-                          {EURO_SYMBOL}
+                          {CURRENCY_SYMBOL}
                           {product.price}
                         </strong>
                       </Col>

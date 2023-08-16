@@ -11,7 +11,7 @@ import {
   useCreateProductMutation,
 } from '../../slices/productsApiSlice';
 import { toast } from 'react-toastify';
-import { EURO_SYMBOL } from '../../utils/constants';
+import { CURRENCY_SYMBOL } from '../../constants';
 
 const ProductListScreen = () => {
   const { pageNumber } = useParams();
@@ -86,7 +86,7 @@ const ProductListScreen = () => {
                   <td>{product._id}</td>
                   <td>{product.name}</td>
                   <td>
-                    {EURO_SYMBOL}
+                    {CURRENCY_SYMBOL}
                     {product.price}
                   </td>
                   <td>{product.category}</td>
