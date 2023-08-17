@@ -26,7 +26,7 @@ import { CURRENCY_SYMBOL } from '../constants.js';
 const ProductScreen = () => {
   const { id: productId } = useParams();
   const queryParams = new URLSearchParams(window.location.search);
-  const goBackPath = queryParams.get('goBackPath');
+  const goBackPath = queryParams.get('goBackPath') || '/';
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
