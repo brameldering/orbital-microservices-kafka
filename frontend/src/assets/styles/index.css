@@ -51,3 +51,50 @@ table th {
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
 }
+
+/* Process flow - block arrow CSS */
+.processFlow {
+  color: white;
+  text-align: center;
+}
+
+.processFlow li {
+  display: inline-block;
+  position: relative;
+  margin: 10px;
+  width: 100px; /* width of block */
+  height: 30px;
+  line-height: 30px;
+}
+
+.processFlow li:after {
+  border-left: 15px solid;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+  display: inline-block;
+  content: '';
+  position: absolute;
+  right: -20px;
+  top: 0;
+}
+
+.processFlow li.completed {
+  background-color: #77a942;
+}
+.processFlow li.completed:after {
+  border-left: 20px solid #77a942;
+}
+
+.processFlow li.current {
+  background-color: #4d81bf;
+}
+.processFlow li.current:after {
+  border-left: 20px solid #4d81bf;
+}
+
+.processFlow li.todo {
+  background-color: #909090;
+}
+.processFlow li.todo:after {
+  border-left: 20px solid #909090;
+}
