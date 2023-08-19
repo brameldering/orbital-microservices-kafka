@@ -140,6 +140,8 @@ const ProductScreen = () => {
                             value={qty}
                             onChange={(e) => setQty(Number(e.target.value))}
                           >
+                            {/* The following creates an array starting with 0 to countinStock-1:
+                                [...Array(product.countInStock).keys()] */}
                             {[...Array(product.countInStock).keys()].map(
                               (x) => (
                                 <option key={x + 1} value={x + 1}>
