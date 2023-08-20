@@ -1,8 +1,8 @@
 {
-  "name": "bram-pos",
+  "name": "bram-shop",
   "version": "0.1.0",
   "type": "module",
-  "description": "Point of Sale application built with the MERN stack",
+  "description": "eCommerce application built with the MERN stack",
   "main": "server.js",
   "scripts": {
     "start": "node backend/server.js",

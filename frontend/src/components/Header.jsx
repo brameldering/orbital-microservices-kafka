@@ -6,7 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import { useLogoutMutation } from '../slices/usersApiSlice';
 import { logout } from '../slices/authSlice';
 import SearchBox from './SearchBox';
-import logo from '../assets/bram-pos.png';
+// import logo from '../assets/bram-pos.png';
+import LogoSVG from '../assets/LogoSVG';
 import { resetCart } from '../slices/cartSlice';
 
 const Header = () => {
@@ -37,7 +38,10 @@ const Header = () => {
         <Container>
           <LinkContainer to='/'>
             <Navbar.Brand>
-              <img src={logo} alt='Bram PoS' width='180' />
+              {/* <div className='brandName'> */}
+              <LogoSVG />
+              <span style={{ marginLeft: '10px' }}>Bram's Shop</span>
+              {/* </div> */}
             </Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls='basic-navbar-nav' />

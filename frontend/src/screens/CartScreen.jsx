@@ -19,8 +19,7 @@ const CartScreen = () => {
   const dispatch = useDispatch();
   const currentPath = useLocation().pathname;
 
-  const cart = useSelector((state) => state.cart);
-  const { cartItems } = cart;
+  const { cartItems } = useSelector((state) => state.cart);
 
   // NOTE: no need for an async function here as we are not awaiting the
   // resolution of a Promise
@@ -52,7 +51,7 @@ const CartScreen = () => {
                   <Col md={2}>
                     <Image src={item.image} alt={item.name} fluid rounded />
                   </Col>
-                  <Col md={3}>
+                  <Col md={4}>
                     <Link to={`/product/${item._id}?goBackPath=${currentPath}`}>
                       {item.name}
                     </Link>
