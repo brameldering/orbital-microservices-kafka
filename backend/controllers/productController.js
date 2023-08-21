@@ -22,7 +22,7 @@ const getProducts = asyncHandler(async (req, res) => {
     .limit(pageSize)
     .skip(pageSize * (page - 1));
 
-  res.json({ products, page, pages: Math.ceil(count / pageSize) });
+  res.status(200).json({ products, page, pages: Math.ceil(count / pageSize) });
 });
 
 // @desc    Fetch single product
@@ -34,7 +34,7 @@ const getProductById = asyncHandler(async (req, res) => {
 
   const product = await Product.findById(req.params.id);
   if (product) {
-    return res.json(product);
+    return res.status(200).json(product);
   } else {
     // NOTE: this will run if a valid ObjectId but no product was found
     // i.e. product may be null
@@ -82,7 +82,7 @@ const updateProduct = asyncHandler(async (req, res) => {
     product.countInStock = countInStock;
 
     const updatedProduct = await product.save();
-    res.json(updatedProduct);
+    res.status(200).json(updatedProduct);
   } else {
     res.status(404);
     throw new Error('Product not found');
@@ -97,7 +97,7 @@ const deleteProduct = asyncHandler(async (req, res) => {
 
   if (product) {
     await Product.deleteOne({ _id: product._id });
-    res.json({ message: 'Product removed' });
+    res.status(200).json({ message: 'Product removed' });
   } else {
     res.status(404);
     throw new Error('Product not found');
@@ -151,7 +151,7 @@ const createProductReview = asyncHandler(async (req, res) => {
 const getTopProducts = asyncHandler(async (req, res) => {
   const products = await Product.find({}).sort({ rating: -1 }).limit(3);
 
-  res.json(products);
+  res.status(200).json(products);
 });
 
 export {
