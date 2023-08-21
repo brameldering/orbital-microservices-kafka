@@ -5,7 +5,10 @@ const FormContainer = ({ children }) => {
     <Container>
       <Row className='justify-content-md-center'>
         <Col xs={12} md={6}>
-          {children}
+          <div className='card' style={{ padding: '4rem' }}>
+            {' '}
+            {children}
+          </div>
         </Col>
       </Row>
     </Container>
