@@ -38,10 +38,8 @@ const Header = () => {
         <Container>
           <LinkContainer to='/'>
             <Navbar.Brand>
-              {/* <div className='brandName'> */}
               <LogoSVG />
               <span style={{ marginLeft: '10px' }}>Bram's Shop</span>
-              {/* </div> */}
             </Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls='basic-navbar-nav' />

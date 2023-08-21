@@ -20,7 +20,7 @@ const authUser = asyncHandler(async (req, res) => {
       isAdmin: user.isAdmin,
     });
   } else {
-    res.status(401);
+    res.status(401); // Unauthorized
     throw new Error('Invalid email or password');
   }
 });
