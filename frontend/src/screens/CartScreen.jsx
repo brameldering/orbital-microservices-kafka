@@ -16,8 +16,8 @@ import CheckoutSteps from '../components/CheckoutSteps';
 import { CURRENCY_SYMBOL } from '../constants';
 
 const CartScreen = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const currentPath = useLocation().pathname;
 
   const { cartItems } = useSelector((state) => state.cart);

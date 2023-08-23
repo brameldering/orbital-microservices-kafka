@@ -9,11 +9,11 @@ import { setCredentials } from '../slices/authSlice';
 import { toast } from 'react-toastify';
 
 const LoginScreen = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const [login, { isLoading }] = useLoginMutation();
 

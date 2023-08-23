@@ -10,13 +10,13 @@ import { setCredentials } from '../slices/authSlice';
 import { toast } from 'react-toastify';
 
 const RegisterScreen = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const [register, { isLoading }] = useRegisterMutation();
 

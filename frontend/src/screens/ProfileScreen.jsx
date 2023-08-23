@@ -12,6 +12,8 @@ import { useGetMyOrdersQuery } from '../slices/ordersApiSlice';
 import { setCredentials } from '../slices/authSlice';
 
 const ProfileScreen = () => {
+  const dispatch = useDispatch();
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -29,7 +31,6 @@ const ProfileScreen = () => {
     setEmail(userInfo.email);
   }, [userInfo.email, userInfo.name]);
 
-  const dispatch = useDispatch();
   const submitHandler = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {

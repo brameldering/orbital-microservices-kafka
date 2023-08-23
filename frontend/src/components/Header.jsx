@@ -10,11 +10,11 @@ import LogoSVG from '../assets/LogoSVG';
 import { resetCart } from '../slices/cartSlice';
 
 const Header = () => {
-  const { cartItems } = useSelector((state) => state.cart);
-  const { userInfo } = useSelector((state) => state.auth);
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const { cartItems } = useSelector((state) => state.cart);
+  const { userInfo } = useSelector((state) => state.auth);
 
   const [logoutApiCall] = useLogoutMutation();
 

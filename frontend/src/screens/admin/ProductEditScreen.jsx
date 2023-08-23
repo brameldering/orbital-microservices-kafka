@@ -12,6 +12,8 @@ import {
 } from '../../slices/productsApiSlice';
 
 const ProductEditScreen = () => {
+  const navigate = useNavigate();
+
   const { id: productId } = useParams();
 
   const [name, setName] = useState('');
@@ -34,8 +36,6 @@ const ProductEditScreen = () => {
 
   const [uploadProductImage, { isLoading: loadingUpload }] =
     useUploadProductImageMutation();
-
-  const navigate = useNavigate();
 
   const submitHandler = async (e) => {
     e.preventDefault();

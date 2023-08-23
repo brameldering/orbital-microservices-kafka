@@ -24,12 +24,12 @@ import { addToCart } from '../slices/cartSlice';
 import { CURRENCY_SYMBOL } from '../constants.js';
 
 const ProductScreen = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const { id: productId } = useParams();
   const queryParams = new URLSearchParams(window.location.search);
   const goBackPath = queryParams.get('goBackPath') || '/';
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const [qty, setQty] = useState(1);
   const [rating, setRating] = useState(0);

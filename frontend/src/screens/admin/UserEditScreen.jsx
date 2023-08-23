@@ -12,6 +12,8 @@ import {
 } from '../../slices/usersApiSlice';
 
 const UserEditScreen = () => {
+  const navigate = useNavigate();
+
   const { id: userId } = useParams();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -25,8 +27,6 @@ const UserEditScreen = () => {
   } = useGetUserDetailsQuery(userId);
 
   const [updateUser, { isLoading: loadingUpdate }] = useUpdateUserMutation();
-
-  const navigate = useNavigate();
 
   const submitHandler = async (e) => {
     e.preventDefault();

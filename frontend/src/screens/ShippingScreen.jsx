@@ -7,6 +7,9 @@ import CheckoutSteps from '../components/CheckoutSteps';
 import { saveShippingAddress } from '../slices/cartSlice';
 
 const ShippingScreen = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const cart = useSelector((state) => state.cart);
   const { shippingAddress } = cart;
 
@@ -16,9 +19,6 @@ const ShippingScreen = () => {
     shippingAddress.postalCode || ''
   );
   const [country, setCountry] = useState(shippingAddress.country || '');
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const submitHandler = (e) => {
     e.preventDefault();
