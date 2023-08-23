@@ -21,6 +21,7 @@ const CartScreen = () => {
   const currentPath = useLocation().pathname;
 
   const { cartItems } = useSelector((state) => state.cart);
+  const { userInfo } = useSelector((state) => state.auth);
 
   // NOTE: no need for an async function here as we are not awaiting the
   // resolution of a Promise
@@ -33,7 +34,13 @@ const CartScreen = () => {
   };
 
   const checkoutHandler = () => {
-    navigate('/login?redirect=/shipping');
+    if (userInfo) {
+      // user already logged in
+      navigate('/shipping');
+    } else {
+      // user not yet logged in, log in first then redirect to shipping
+      navigate('/login?redirect=/shipping');
+    }
   };
 
   return (
