@@ -13,6 +13,7 @@ const PaymentScreen = () => {
   const cart = useSelector((state) => state.cart);
   const { shippingAddress } = cart;
 
+  /* If shippingAddress has not yet been filled then redirect */
   useEffect(() => {
     if (!shippingAddress.address) {
       navigate('/shipping');

@@ -18,6 +18,8 @@ import {
 const OrderScreen = () => {
   const { id: orderId } = useParams();
 
+  const { userInfo } = useSelector((state) => state.auth);
+
   const {
     data: order,
     refetch,
@@ -29,8 +31,6 @@ const OrderScreen = () => {
 
   const [deliverOrder, { isLoading: loadingDeliver }] =
     useDeliverOrderMutation();
-
-  const { userInfo } = useSelector((state) => state.auth);
 
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
 
@@ -123,7 +123,7 @@ const OrderScreen = () => {
                 <a href={`mailto:${order.user.email}`}>{order.user.email}</a>
               </p>
               <p>
-                <strong>Address:</strong>
+                <strong>Address: </strong>
                 {order.shippingAddress.address}, {order.shippingAddress.city}{' '}
                 {order.shippingAddress.postalCode},{' '}
                 {order.shippingAddress.country}
