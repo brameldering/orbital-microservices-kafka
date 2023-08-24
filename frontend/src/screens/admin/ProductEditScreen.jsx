@@ -16,6 +16,7 @@ const ProductEditScreen = () => {
 
   const { id: productId } = useParams();
 
+  const [productIdSeq, setProductIdSeq] = useState('');
   const [name, setName] = useState('');
   const [price, setPrice] = useState(0);
   const [image, setImage] = useState('');
@@ -60,6 +61,7 @@ const ProductEditScreen = () => {
 
   useEffect(() => {
     if (product) {
+      setProductIdSeq(product.productId);
       setName(product.name);
       setPrice(product.price);
       setImage(product.image);
@@ -96,6 +98,16 @@ const ProductEditScreen = () => {
           <Message variant='danger'>{error.data.message}</Message>
         ) : (
           <Form onSubmit={submitHandler}>
+            <Form.Group controlId='productId'>
+              <Form.Label>Product Id</Form.Label>
+              <Form.Control
+                type='text'
+                placeholder='Unknown'
+                value={productIdSeq}
+                disabled
+              ></Form.Control>
+            </Form.Group>
+
             <Form.Group controlId='name'>
               <Form.Label>Name</Form.Label>
               <Form.Control

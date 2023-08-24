@@ -104,6 +104,7 @@ const ProductScreen = () => {
                 <ListGroup.Item>
                   Description: {product.description}
                 </ListGroup.Item>
+                <ListGroup.Item>Product Id: {product.productId}</ListGroup.Item>
               </ListGroup>
             </Col>
             <Col md={3}>

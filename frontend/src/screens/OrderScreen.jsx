@@ -109,10 +109,20 @@ const OrderScreen = () => {
     <Message variant='danger'>{error.data.message}</Message>
   ) : (
     <>
-      <h1>Order {order._id}</h1>
       <Row>
         <Col md={8}>
           <ListGroup variant='flush'>
+            <ListGroup.Item>
+              <h2>Order Details</h2>
+              <p>
+                <strong>Order Id: </strong> {order.orderId}
+              </p>
+              <p>
+                <strong>Order Date: </strong> {order.createdAt}
+                {}
+              </p>
+            </ListGroup.Item>
+
             <ListGroup.Item>
               <h2>Shipping</h2>
               <p>

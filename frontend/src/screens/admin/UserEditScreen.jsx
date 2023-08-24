@@ -15,6 +15,7 @@ const UserEditScreen = () => {
   const navigate = useNavigate();
 
   const { id: userId } = useParams();
+  const [seqUserId, setSeqUserId] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [isAdmin, setIsAdmin] = useState(false);
@@ -42,6 +43,7 @@ const UserEditScreen = () => {
 
   useEffect(() => {
     if (user) {
+      setSeqUserId(user.userId);
       setName(user.name);
       setEmail(user.email);
       setIsAdmin(user.isAdmin);
@@ -64,6 +66,16 @@ const UserEditScreen = () => {
           </Message>
         ) : (
           <Form onSubmit={submitHandler}>
+            <Form.Group className='my-2' controlId='userId'>
+              <Form.Label>User Id</Form.Label>
+              <Form.Control
+                type='text'
+                placeholder='Unknown'
+                value={seqUserId}
+                disabled
+              ></Form.Control>
+            </Form.Group>
+
             <Form.Group className='my-2' controlId='name'>
               <Form.Label>Name</Form.Label>
               <Form.Control
