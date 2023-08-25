@@ -28,9 +28,10 @@ const OrderScreen = () => {
     error,
   } = useGetOrderDetailsQuery(orderId);
 
-  const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation();
+  const [payOrder, { isLoading: loadingPay, error: errorPay }] =
+    usePayOrderMutation();
 
-  const [deliverOrder, { isLoading: loadingDeliver }] =
+  const [deliverOrder, { isLoading: loadingDeliver, error: errorDeliver }] =
     useDeliverOrderMutation();
 
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
@@ -66,7 +67,11 @@ const OrderScreen = () => {
       try {
         await payOrder({ orderId, details });
         refetch();
-        toast.success('Order is paid');
+        if (errorPay) {
+          toast.error('Order has not been paid');
+        } else {
+          toast.success('Order is paid');
+        }
       } catch (err) {
         toast.error(err?.data?.message || err.error);
       }
@@ -74,12 +79,15 @@ const OrderScreen = () => {
   }
 
   // TESTING ONLY! REMOVE BEFORE PRODUCTION
-  // async function onApproveTest() {
-  //   await payOrder({ orderId, details: { payer: {} } });
-  //   refetch();
-
-  //   toast.success('Order is paid');
-  // }
+  async function onApproveTest() {
+    await payOrder({ orderId, details: { payer: {} } });
+    refetch();
+    if (errorPay) {
+      toast.error('Order has not been paid');
+    } else {
+      toast.success('Order is paid');
+    }
+  }
 
   function onError(err) {
     toast.error(err.message);
@@ -102,12 +110,23 @@ const OrderScreen = () => {
   const deliverHandler = async () => {
     await deliverOrder(orderId);
     refetch();
+    if (errorDeliver) {
+      toast.error('Error setting order to delivered');
+    }
   };
 
   return isLoading ? (
     <Loader />
   ) : error ? (
     <Message variant='danger'>{error.data.message}</Message>
+  ) : errorPay ? (
+    <Message variant='danger'>
+      Error paying order: {errorPay.data.message}
+    </Message>
+  ) : errorDeliver ? (
+    <Message variant='danger'>
+      Error setting status to delivered: {errorDeliver.data.message}
+    </Message>
   ) : (
     <>
       <Row>
@@ -190,12 +209,12 @@ const OrderScreen = () => {
                   ) : (
                     <div>
                       {/* THIS BUTTON IS FOR TESTING! REMOVE BEFORE PRODUCTION! */}
-                      {/* <Button
+                      <Button
                         style={{ marginBottom: '10px' }}
                         onClick={onApproveTest}
                       >
                         Test Pay Order
-                      </Button> */}
+                      </Button>
 
                       <div>
                         <PayPalButtons
