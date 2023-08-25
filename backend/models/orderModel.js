@@ -19,11 +19,7 @@ const orderItemsSchema = mongoose.Schema(
 
 const orderSchema = mongoose.Schema(
   {
-    orderId: {
-      type: String,
-      required: true,
-      unique: true,
-    },
+    sequenceOrderId: { type: String, required: true, unique: true },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,

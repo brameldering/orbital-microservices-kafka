@@ -1,7 +1,6 @@
 import asyncHandler from '../middleware/asyncHandler.js';
 import generateToken from '../utils/generateToken.js';
 import User from '../models/userModel.js';
-import redisClient from '../config/redis.js';
 
 // @desc    Auth user & get token
 // @route   POST /api/users/auth
@@ -39,11 +38,7 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new Error('User already exists');
   }
 
-  const sequence_user_id = await redisClient.INCR('sequence_user_id');
-  const userId = 'USR-' + sequence_user_id.toString().padStart(8, '0');
-
   const user = await User.create({
-    userId,
     name,
     email,
     password,

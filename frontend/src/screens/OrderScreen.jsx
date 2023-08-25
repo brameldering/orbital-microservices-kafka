@@ -115,11 +115,10 @@ const OrderScreen = () => {
             <ListGroup.Item>
               <h2>Order Details</h2>
               <p>
-                <strong>Order Id: </strong> {order.orderId}
+                <strong>Order Id: </strong> {order.sequenceOrderId}
               </p>
               <p>
-                <strong>Order Date: </strong> {order.createdAt}
-                {}
+                <strong>Order Date: </strong> {order.createdAt.substring(0, 10)}
               </p>
             </ListGroup.Item>
 

@@ -18,7 +18,7 @@ const reviewSchema = mongoose.Schema(
 
 const productSchema = mongoose.Schema(
   {
-    productId: {
+    sequenceProductId: {
       type: String,
       required: true,
       unique: true,

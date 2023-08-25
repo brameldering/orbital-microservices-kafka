@@ -1,8 +1,10 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import colors from 'colors';
+import idSequences from './data/idSequences.js';
 import users from './data/users.js';
 import products from './data/products.js';
+import IdSequence from './models/idSequenceModel.js';
 import User from './models/userModel.js';
 import Product from './models/productModel.js';
 import Order from './models/orderModel.js';
@@ -17,6 +19,9 @@ const importData = async () => {
     await Order.deleteMany();
     await Product.deleteMany();
     await User.deleteMany();
+    await IdSequence.deleteMany();
+
+    await IdSequence.insertMany(idSequences);
 
     const createdUsers = await User.insertMany(users);
 
@@ -41,6 +46,7 @@ const destroyData = async () => {
     await Order.deleteMany();
     await Product.deleteMany();
     await User.deleteMany();
+    await IdSequence.deleteMany();
 
     console.log('Data Destroyed!'.red.inverse);
     process.exit();

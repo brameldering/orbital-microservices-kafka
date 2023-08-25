@@ -49,7 +49,7 @@ const UserListScreen = () => {
           <tbody>
             {users.map((user) => (
               <tr key={user._id}>
-                <td>{user.userId}</td>
+                <td>{user._id}</td>
                 <td>{user.name}</td>
                 <td>
                   <a href={`mailto:${user.email}`}>{user.email}</a>

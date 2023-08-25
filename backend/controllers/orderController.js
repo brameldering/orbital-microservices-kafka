@@ -1,9 +1,9 @@
 import asyncHandler from '../middleware/asyncHandler.js';
+import IdSequence from '../models/idSequenceModel.js';
 import Order from '../models/orderModel.js';
 import Product from '../models/productModel.js';
 import { calcPrices } from '../utils/calcPrices.js';
 import { verifyPayPalPayment, checkIfNewTransaction } from '../utils/paypal.js';
-import redisClient from '../config/redis.js';
 
 // @desc    Create new order
 // @route   POST /api/orders
@@ -42,12 +42,18 @@ const addOrderItems = asyncHandler(async (req, res) => {
     const { itemsPrice, taxPrice, shippingPrice, totalPrice } =
       calcPrices(dbOrderItems);
 
-    // Get next orderId
-    const sequence_order_id = await redisClient.INCR('sequence_order_id');
-    const orderId = 'ORD-' + sequence_order_id.toString().padStart(8, '0');
+    console.time('TimeNeededToSaveOrder');
+    // Determine next orderId
+    const seqNumberOrderId = await IdSequence.findOneAndUpdate(
+      { sequenceName: 'sequenceOrderId' },
+      { $inc: { sequenceCounter: 1 } },
+      { returnOriginal: false, upsert: true }
+    );
+    const sequenceOrderId =
+      'ORD-' + seqNumberOrderId.sequenceCounter.toString().padStart(10, '0');
 
     const order = new Order({
-      orderId,
+      sequenceOrderId: sequenceOrderId,
       orderItems: dbOrderItems,
       user: req.user._id,
       shippingAddress,
@@ -59,7 +65,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
     });
 
     const createdOrder = await order.save();
-
+    console.timeEnd('TimeNeededToSaveOrder');
     res.status(201).json(createdOrder);
   }
 });

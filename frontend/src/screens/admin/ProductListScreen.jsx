@@ -83,7 +83,7 @@ const ProductListScreen = () => {
             <tbody>
               {data.products.map((product) => (
                 <tr key={product._id}>
-                  <td>{product.productId}</td>
+                  <td>{product.sequenceProductId}</td>
                   <td>{product.name}</td>
                   <td>
                     {CURRENCY_SYMBOL}

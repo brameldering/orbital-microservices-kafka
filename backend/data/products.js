@@ -1,5 +1,6 @@
 const products = [
   {
+    sequenceProductId: 'PRD-00000001',
     name: 'Airpods Wireless Bluetooth Headphones',
     image: '/images/airpods.jpg',
     description:
@@ -12,6 +13,7 @@ const products = [
     numReviews: 12,
   },
   {
+    sequenceProductId: 'PRD-00000002',
     name: 'iPhone 13 Pro 256GB Memory',
     image: '/images/phone.jpg',
     description:
@@ -24,6 +26,7 @@ const products = [
     numReviews: 8,
   },
   {
+    sequenceProductId: 'PRD-00000003',
     name: 'Cannon EOS 80D DSLR Camera',
     image: '/images/camera.jpg',
     description:
@@ -36,6 +39,7 @@ const products = [
     numReviews: 12,
   },
   {
+    sequenceProductId: 'PRD-00000004',
     name: 'Sony Playstation 5',
     image: '/images/playstation.jpg',
     description:
@@ -48,6 +52,7 @@ const products = [
     numReviews: 12,
   },
   {
+    sequenceProductId: 'PRD-00000005',
     name: 'Logitech G-Series Gaming Mouse',
     image: '/images/mouse.jpg',
     description:
@@ -60,6 +65,7 @@ const products = [
     numReviews: 10,
   },
   {
+    sequenceProductId: 'PRD-00000006',
     name: 'Amazon Echo Dot 3rd Generation',
     image: '/images/alexa.jpg',
     description:

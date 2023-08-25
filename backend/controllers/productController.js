@@ -1,6 +1,6 @@
+import IdSequence from '../models/idSequenceModel.js';
 import asyncHandler from '../middleware/asyncHandler.js';
 import Product from '../models/productModel.js';
-import redisClient from '../config/redis.js';
 
 // @desc    Fetch all products
 // @route   GET /api/products
@@ -48,11 +48,16 @@ const getProductById = asyncHandler(async (req, res) => {
 // @route   POST /api/products
 // @access  Private/Admin
 const createProduct = asyncHandler(async (req, res) => {
-  const sequence_product_id = await redisClient.INCR('sequence_product_id');
-  const productId = 'PRD-' + sequence_product_id.toString().padStart(8, '0');
+  const seqProductId = await IdSequence.findOneAndUpdate(
+    { sequenceName: 'sequenceProductId' },
+    { $inc: { sequenceCounter: 1 } },
+    { returnOriginal: false, upsert: true }
+  );
+  const sequenceProductId =
+    'PRD-' + seqProductId.sequenceCounter.toString().padStart(8, '0');
 
   const product = new Product({
-    productId,
+    sequenceProductId,
     name: 'Sample name',
     price: 0,
     user: req.user._id,

@@ -43,6 +43,7 @@ const ProductEditScreen = () => {
     try {
       await updateProduct({
         productId,
+        productIdSeq,
         name,
         price,
         image,
@@ -61,7 +62,7 @@ const ProductEditScreen = () => {
 
   useEffect(() => {
     if (product) {
-      setProductIdSeq(product.productId);
+      setProductIdSeq(product.sequenceProductId);
       setName(product.name);
       setPrice(product.price);
       setImage(product.image);
