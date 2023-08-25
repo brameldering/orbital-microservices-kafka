@@ -14,6 +14,7 @@ import {
   useGetPaypalClientIdQuery,
   usePayOrderMutation,
 } from '../slices/ordersApiSlice';
+import { CURRENCY_PAYPAL } from '../constants';
 
 const OrderScreen = () => {
   const { id: orderId } = useParams();
@@ -47,7 +48,7 @@ const OrderScreen = () => {
           type: 'resetOptions',
           value: {
             'client-id': paypal.clientId,
-            currency: 'USD',
+            currency: CURRENCY_PAYPAL,
           },
         });
         paypalDispatch({ type: 'setLoadingStatus', value: 'pending' });
