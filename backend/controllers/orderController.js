@@ -42,7 +42,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
     const { itemsPrice, taxPrice, shippingPrice, totalPrice } =
       calcPrices(dbOrderItems);
 
-    console.time('TimeNeededToSaveOrder');
+    // console.time('TimeNeededToSaveOrder');
     // Determine next orderId
     const seqNumberOrderId = await IdSequence.findOneAndUpdate(
       { sequenceName: 'sequenceOrderId' },
@@ -65,7 +65,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
     });
 
     const createdOrder = await order.save();
-    console.timeEnd('TimeNeededToSaveOrder');
+    // console.timeEnd('TimeNeededToSaveOrder');
     res.status(201).json(createdOrder);
   }
 });
@@ -106,7 +106,9 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
 
   // check if this transaction has been used before
   const isNewTransaction = await checkIfNewTransaction(Order, req.body.id);
-  if (!isNewTransaction) throw new Error('Transaction has been used before');
+  if (!isNewTransaction) {
+    throw new Error('Transaction has been used before');
+  }
 
   const order = await Order.findById(req.params.id);
 
@@ -134,9 +136,11 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
 });
 
 // @desc    Update order to delivered
-// @route   GET /api/orders/:id/deliver
+// @route   POST /api/orders/:id/deliver
 // @access  Private/Admin
 const updateOrderToDelivered = asyncHandler(async (req, res) => {
+  console.log('updateOrderToDelivered start');
+
   const order = await Order.findById(req.params.id);
 
   if (order) {
