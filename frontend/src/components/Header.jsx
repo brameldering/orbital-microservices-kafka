@@ -38,7 +38,7 @@ const Header = () => {
           <LinkContainer to='/'>
             <Navbar.Brand>
               <LogoSVG />
-              <span style={{ marginLeft: '10px' }}>Bram's Shop</span>
+              <span style={{ marginLeft: '10px' }}>Orbital Shop</span>
             </Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
