@@ -1,9 +1,12 @@
-import asyncHandler from '../middleware/asyncHandler.js';
-import IdSequence from '../models/idSequenceModel.js';
+import asyncHandler from '../../general/middleware/asyncHandler.js';
+import IdSequence from '../../general/models/idSequenceModel.js';
 import Order from '../models/orderModel.js';
-import Product from '../models/productModel.js';
-import { calcPrices } from '../utils/calcPrices.js';
-import { verifyPayPalPayment, checkIfNewTransaction } from '../utils/paypal.js';
+import Product from '../../product/models/productModel.js';
+import { calcPrices } from '../../general/utils/calcPrices.js';
+import {
+  verifyPayPalPayment,
+  checkIfNewTransaction,
+} from '../../general/utils/paypal.js';
 
 // @desc    Create new order
 // @route   POST /api/orders

@@ -2,12 +2,15 @@ import path from 'path';
 import express from 'express';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
-import connectDB from './config/db.js';
-import productRoutes from './routes/productRoutes.js';
-import userRoutes from './routes/userRoutes.js';
-import orderRoutes from './routes/orderRoutes.js';
-import uploadRoutes from './routes/uploadRoutes.js';
-import { notFound, errorHandler } from './middleware/errorMiddleware.js';
+import connectDB from './general/config/db.js';
+import productRoutes from './product/routes/productRoutes.js';
+import userRoutes from './user/routes/userRoutes.js';
+import orderRoutes from './order/routes/orderRoutes.js';
+import uploadRoutes from './product/routes/uploadRoutes.js';
+import {
+  notFound,
+  errorHandler,
+} from './general/middleware/errorMiddleware.js';
 
 dotenv.config();
 const port = process.env.PORT || 5000;

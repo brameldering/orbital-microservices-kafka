@@ -13,7 +13,7 @@ const OrderSummaryBlock = (orderProp) => {
           <Col>Items</Col>
           <Col>
             {CURRENCY_SYMBOL}
-            {order.itemsPrice}
+            {Number(order.itemsPrice).toFixed(2)}
           </Col>
         </Row>
       </ListGroup.Item>
@@ -22,7 +22,7 @@ const OrderSummaryBlock = (orderProp) => {
           <Col>Shipping</Col>
           <Col>
             {CURRENCY_SYMBOL}
-            {order.shippingPrice}
+            {Number(order.shippingPrice).toFixed(2)}
           </Col>
         </Row>
       </ListGroup.Item>
@@ -31,7 +31,7 @@ const OrderSummaryBlock = (orderProp) => {
           <Col>Tax</Col>
           <Col>
             {CURRENCY_SYMBOL}
-            {order.taxPrice}
+            {Number(order.taxPrice).toFixed(2)}
           </Col>
         </Row>
       </ListGroup.Item>
@@ -40,7 +40,7 @@ const OrderSummaryBlock = (orderProp) => {
           <Col>Total</Col>
           <Col>
             {CURRENCY_SYMBOL}
-            {order.totalPrice}
+            {Number(order.totalPrice).toFixed(2)}
           </Col>
         </Row>
       </ListGroup.Item>

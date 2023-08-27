@@ -18,8 +18,8 @@ const OrderItemLine = (itemProps) => {
       </Col>
       <Col md={4}>
         {item.qty} x {CURRENCY_SYMBOL}
-        {item.price} = {CURRENCY_SYMBOL}
-        {item.qty * item.price}
+        {Number(item.price).toFixed(2)} = {CURRENCY_SYMBOL}
+        {Number(item.qty * item.price).toFixed(2)}
       </Col>
     </Row>
   );
