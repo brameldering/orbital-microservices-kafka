@@ -139,8 +139,6 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
 // @route   POST /api/orders/:id/deliver
 // @access  Private/Admin
 const updateOrderToDelivered = asyncHandler(async (req, res) => {
-  console.log('updateOrderToDelivered start');
-
   const order = await Order.findById(req.params.id);
 
   if (order) {

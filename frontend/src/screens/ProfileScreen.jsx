@@ -96,7 +96,7 @@ const ProfileScreen = () => {
             ></Form.Control>
           </Form.Group>
 
-          <Button type='submit' variant='primary'>
+          <Button type='submit' variant='primary' style={{ marginTop: '1rem' }}>
             Update
           </Button>
           {loadingUpdateProfile && <Loader />}

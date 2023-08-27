@@ -41,7 +41,7 @@ const PlaceOrderScreen = () => {
       dispatch(clearCartItems());
       navigate(`/order/${res._id}`);
     } catch (err) {
-      toast.error(err);
+      toast.error(err?.data?.message || err.error);
     }
   };
 
@@ -97,6 +97,7 @@ const PlaceOrderScreen = () => {
                 <Button
                   type='button'
                   className='btn-block'
+                  style={{ marginTop: '1rem' }}
                   disabled={cart.cartItems === 0}
                   onClick={placeOrderHandler}
                 >

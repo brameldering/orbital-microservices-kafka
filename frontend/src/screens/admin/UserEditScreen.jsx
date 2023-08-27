@@ -28,6 +28,14 @@ const UserEditScreen = () => {
 
   const [updateUser, { isLoading: loadingUpdate }] = useUpdateUserMutation();
 
+  useEffect(() => {
+    if (user) {
+      setName(user.name);
+      setEmail(user.email);
+      setIsAdmin(user.isAdmin);
+    }
+  }, [user]);
+
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
@@ -39,14 +47,6 @@ const UserEditScreen = () => {
       toast.error(err?.data?.message || err.error);
     }
   };
-
-  useEffect(() => {
-    if (user) {
-      setName(user.name);
-      setEmail(user.email);
-      setIsAdmin(user.isAdmin);
-    }
-  }, [user]);
 
   return (
     <>
@@ -93,7 +93,11 @@ const UserEditScreen = () => {
               ></Form.Check>
             </Form.Group>
 
-            <Button type='submit' variant='primary'>
+            <Button
+              type='submit'
+              variant='primary'
+              style={{ marginTop: '1rem' }}
+            >
               Update
             </Button>
           </Form>

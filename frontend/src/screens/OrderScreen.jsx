@@ -63,8 +63,8 @@ const OrderScreen = () => {
   }, [errorPayPal, loadingPayPal, order, paypal, paypalDispatch]);
 
   function onApprove(data, actions) {
-    return actions.order.capture().then(async function (details) {
-      try {
+    try {
+      return actions.order.capture().then(async function (details) {
         await payOrder({ orderId, details });
         refetch();
         if (errorPay) {
@@ -72,46 +72,54 @@ const OrderScreen = () => {
         } else {
           toast.success('Order is paid');
         }
-      } catch (err) {
-        toast.error(err?.data?.message || err.error);
-      }
-    });
+      });
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+    }
   }
 
   // TESTING ONLY! REMOVE BEFORE PRODUCTION
-  async function onApproveTest() {
-    await payOrder({ orderId, details: { payer: {} } });
-    refetch();
-    if (errorPay) {
-      toast.error('Order has not been paid');
-    } else {
-      toast.success('Order is paid');
-    }
-  }
+  // async function onApproveTest() {
+  //   await payOrder({ orderId, details: { payer: {} } });
+  //   refetch();
+  //   if (errorPay) {
+  //     toast.error('Order has not been paid');
+  //   } else {
+  //     toast.success('Order is paid');
+  //   }
+  // }
 
   function onError(err) {
     toast.error(err.message);
   }
 
   function createOrder(data, actions) {
-    return actions.order
-      .create({
-        purchase_units: [
-          {
-            amount: { value: order.totalPrice },
-          },
-        ],
-      })
-      .then((orderID) => {
-        return orderID;
-      });
+    try {
+      return actions.order
+        .create({
+          purchase_units: [
+            {
+              amount: { value: order.totalPrice },
+            },
+          ],
+        })
+        .then((orderID) => {
+          return orderID;
+        });
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+    }
   }
 
   const deliverHandler = async () => {
-    await deliverOrder(orderId);
-    refetch();
-    if (errorDeliver) {
-      toast.error('Error setting order to delivered');
+    try {
+      await deliverOrder(orderId);
+      refetch();
+      if (errorDeliver) {
+        toast.error('Error setting order to delivered');
+      }
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
     }
   };
 
@@ -209,12 +217,12 @@ const OrderScreen = () => {
                   ) : (
                     <div>
                       {/* THIS BUTTON IS FOR TESTING! REMOVE BEFORE PRODUCTION! */}
-                      <Button
+                      {/* <Button
                         style={{ marginBottom: '10px' }}
                         onClick={onApproveTest}
                       >
                         Test Pay Order
-                      </Button>
+                      </Button> */}
 
                       <div>
                         <PayPalButtons

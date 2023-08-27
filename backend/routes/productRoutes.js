@@ -13,12 +13,12 @@ import { protect, admin } from '../middleware/authMiddleware.js';
 import checkObjectId from '../middleware/checkObjectId.js';
 
 router.route('/').get(getProducts).post(protect, admin, createProduct);
-router.route('/:id/reviews').post(protect, checkObjectId, createProductReview);
-router.get('/top', getTopProducts);
+router.get('/top', getTopProducts); // this needs to be before the /:id otherwise it will use the /;id route
 router
   .route('/:id')
   .get(checkObjectId, getProductById)
   .put(protect, admin, checkObjectId, updateProduct)
   .delete(protect, admin, checkObjectId, deleteProduct);
+router.route('/:id/reviews').post(protect, checkObjectId, createProductReview);
 
 export default router;

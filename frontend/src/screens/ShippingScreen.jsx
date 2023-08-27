@@ -76,7 +76,7 @@ const ShippingScreen = () => {
             ></Form.Control>
           </Form.Group>
 
-          <Button type='submit' variant='primary'>
+          <Button type='submit' variant='primary' style={{ marginTop: '1rem' }}>
             Continue
           </Button>
         </Form>

@@ -52,7 +52,7 @@ const ProductScreen = () => {
   const [createReview, { isLoading: loadingProductReview }] =
     useCreateReviewMutation();
 
-  const submitHandler = async (e) => {
+  const submitReviewHandler = async (e) => {
     e.preventDefault();
 
     try {
@@ -191,7 +191,7 @@ const ProductScreen = () => {
                   {loadingProductReview && <Loader />}
 
                   {userInfo ? (
-                    <Form onSubmit={submitHandler}>
+                    <Form onSubmit={submitReviewHandler}>
                       <Form.Group className='my-2' controlId='rating'>
                         <Form.Label>Rating</Form.Label>
                         <Form.Control
