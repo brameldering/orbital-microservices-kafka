@@ -10,6 +10,7 @@ import Message from '../components/Message';
 import CheckoutSteps from '../components/CheckoutSteps';
 import OrderItemLine from '../components/OrderItemLine';
 import OrderSummaryBlock from '../components/OrderSummaryBlock';
+import Meta from '../components/Meta';
 
 const PlaceOrderScreen = () => {
   const navigate = useNavigate();
@@ -47,6 +48,7 @@ const PlaceOrderScreen = () => {
 
   return (
     <>
+      <Meta title='Confirm Order' />
       <CheckoutSteps currentStep={3} />
       <Row>
         <Col md={8}>

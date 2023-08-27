@@ -11,6 +11,7 @@ import {
 } from 'react-bootstrap';
 import { FaTrash } from 'react-icons/fa';
 import Message from '../components/Message';
+import Meta from '../components/Meta';
 import { addToCart, removeFromCart } from '../slices/cartSlice';
 import CheckoutSteps from '../components/CheckoutSteps';
 import { CURRENCY_SYMBOL } from '../constants';
@@ -45,6 +46,7 @@ const CartScreen = () => {
 
   return (
     <>
+      <Meta title='Shopping Cart' />
       <CheckoutSteps currentStep={0} />
       <Row>
         <Col md={8}>

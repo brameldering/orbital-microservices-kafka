@@ -3,6 +3,7 @@ import { Table, Button } from 'react-bootstrap';
 import { FaTimes } from 'react-icons/fa';
 import Message from '../../components/Message';
 import Loader from '../../components/Loader';
+import Meta from '../../components/Meta';
 import { useGetOrdersQuery } from '../../slices/ordersApiSlice';
 
 const OrderListScreen = () => {
@@ -10,6 +11,7 @@ const OrderListScreen = () => {
 
   return (
     <>
+      <Meta title='Manage Orders' />
       <h1>Orders</h1>
       {isLoading ? (
         <Loader />

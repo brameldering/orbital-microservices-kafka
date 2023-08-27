@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import Message from '../../components/Message';
 import Loader from '../../components/Loader';
 import Paginate from '../../components/Paginate';
+import Meta from '../../components/Meta';
 import {
   useGetProductsQuery,
   useDeleteProductMutation,
@@ -50,6 +51,7 @@ const ProductListScreen = () => {
 
   return (
     <>
+      <Meta title='Manage Products' />
       <Row className='align-items-center'>
         <Col>
           <h1>Products</h1>

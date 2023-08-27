@@ -4,6 +4,7 @@ import { Form, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import Loader from '../components/Loader';
 import FormContainer from '../components/FormContainer';
+import Meta from '../components/Meta';
 import { useLoginMutation } from '../slices/usersApiSlice';
 import { setCredentials } from '../slices/authSlice';
 import { toast } from 'react-toastify';
@@ -34,6 +35,7 @@ const LoginScreen = () => {
 
   return (
     <FormContainer>
+      <Meta title='Sign In' />
       <h1>Sign In</h1>
 
       <Form onSubmit={submitHandler}>

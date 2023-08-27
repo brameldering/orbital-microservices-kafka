@@ -8,6 +8,7 @@ import Message from '../components/Message';
 import Loader from '../components/Loader';
 import OrderItemLine from '../components/OrderItemLine';
 import OrderSummaryBlock from '../components/OrderSummaryBlock';
+import Meta from '../components/Meta';
 import {
   useDeliverOrderMutation,
   useGetOrderDetailsQuery,
@@ -137,6 +138,7 @@ const OrderScreen = () => {
     </Message>
   ) : (
     <>
+      <Meta title='Order Details' />
       <Row>
         <Col md={8}>
           <ListGroup variant='flush'>

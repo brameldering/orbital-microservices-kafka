@@ -4,6 +4,7 @@ import { Form, Button } from 'react-bootstrap';
 import Message from '../../components/Message';
 import Loader from '../../components/Loader';
 import FormContainer from '../../components/FormContainer';
+import Meta from '../../components/Meta';
 import { toast } from 'react-toastify';
 import {
   useGetProductDetailsQuery,
@@ -87,6 +88,7 @@ const ProductEditScreen = () => {
 
   return (
     <>
+      <Meta title='Edit Product' />
       <Link to='/admin/productlist' className='btn btn-light my-3'>
         Go Back
       </Link>

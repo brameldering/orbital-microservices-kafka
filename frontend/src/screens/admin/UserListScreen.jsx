@@ -4,6 +4,7 @@ import { Table, Button } from 'react-bootstrap';
 import { FaTrash, FaEdit, FaCheck, FaTimes } from 'react-icons/fa';
 import Message from '../../components/Message';
 import Loader from '../../components/Loader';
+import Meta from '../../components/Meta';
 import {
   useDeleteUserMutation,
   useGetUsersQuery,
@@ -28,6 +29,7 @@ const UserListScreen = () => {
 
   return (
     <>
+      <Meta title='Manage Users' />
       <h1>Users</h1>
       {isLoading ? (
         <Loader />

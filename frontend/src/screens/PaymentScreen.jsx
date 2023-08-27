@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import FormContainer from '../components/FormContainer';
 import CheckoutSteps from '../components/CheckoutSteps';
+import Meta from '../components/Meta';
 import { savePaymentMethod } from '../slices/cartSlice';
 
 const PaymentScreen = () => {
@@ -30,6 +31,7 @@ const PaymentScreen = () => {
 
   return (
     <>
+      <Meta title='Payment Method' />
       <CheckoutSteps currentStep={2} />
       <FormContainer>
         <h1>Payment Method</h1>
