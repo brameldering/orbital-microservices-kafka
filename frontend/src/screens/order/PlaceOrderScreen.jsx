@@ -3,14 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Button, Row, Col, ListGroup, Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { useCreateOrderMutation } from '../slices/ordersApiSlice';
-import { clearCartItems } from '../slices/cartSlice';
-import Loader from '../components/Loader';
-import Message from '../components/Message';
-import CheckoutSteps from '../components/CheckoutSteps';
-import OrderItemLine from '../components/OrderItemLine';
-import OrderSummaryBlock from '../components/OrderSummaryBlock';
-import Meta from '../components/Meta';
+
+import Meta from '../../components/Meta';
+import Loader from '../../components/Loader';
+import Message from '../../components/Message';
+import CheckoutSteps from '../../components/CheckoutSteps';
+import OrderItemLine from '../../components/order/OrderItemLine';
+import OrderSummaryBlock from '../../components/order/OrderSummaryBlock';
+import { useCreateOrderMutation } from '../../slices/ordersApiSlice';
+import { clearCartItems } from '../../slices/cartSlice';
 
 const PlaceOrderScreen = () => {
   const navigate = useNavigate();

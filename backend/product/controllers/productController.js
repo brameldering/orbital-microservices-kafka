@@ -1,5 +1,5 @@
-import IdSequence from '../../general/models/idSequenceModel.js';
 import asyncHandler from '../../general/middleware/asyncHandler.js';
+import IdSequence from '../../general/models/idSequenceModel.js';
 import Product from '../models/productModel.js';
 
 // @desc    Fetch all products

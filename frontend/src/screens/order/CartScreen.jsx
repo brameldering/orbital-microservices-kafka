@@ -10,11 +10,12 @@ import {
   Card,
 } from 'react-bootstrap';
 import { FaTrash } from 'react-icons/fa';
-import Message from '../components/Message';
-import Meta from '../components/Meta';
-import { addToCart, removeFromCart } from '../slices/cartSlice';
-import CheckoutSteps from '../components/CheckoutSteps';
-import { CURRENCY_SYMBOL } from '../constants';
+
+import { CURRENCY_SYMBOL } from '../../constants';
+import Message from '../../components/Message';
+import Meta from '../../components/Meta';
+import CheckoutSteps from '../../components/CheckoutSteps';
+import { addToCart, removeFromCart } from '../../slices/cartSlice';
 
 const CartScreen = () => {
   const dispatch = useDispatch();

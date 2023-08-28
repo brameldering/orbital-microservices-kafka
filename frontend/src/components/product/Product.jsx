@@ -1,7 +1,8 @@
 import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+
+import { CURRENCY_SYMBOL } from '../../constants.js';
 import Rating from './Rating';
-import { CURRENCY_SYMBOL } from '../constants.js';
 
 const Product = ({ product }) => {
   return (

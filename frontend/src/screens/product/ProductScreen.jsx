@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Row,
@@ -12,16 +11,17 @@ import {
   Form,
 } from 'react-bootstrap';
 import { toast } from 'react-toastify';
+
+import { CURRENCY_SYMBOL } from '../../constants.js';
+import Meta from '../../components/Meta';
+import Loader from '../../components/Loader';
+import Message from '../../components/Message';
+import Rating from '../../components/product/Rating';
 import {
   useGetProductDetailsQuery,
   useCreateReviewMutation,
-} from '../slices/productsApiSlice';
-import Rating from '../components/Rating';
-import Loader from '../components/Loader';
-import Message from '../components/Message';
-import Meta from '../components/Meta';
-import { addToCart } from '../slices/cartSlice';
-import { CURRENCY_SYMBOL } from '../constants.js';
+} from '../../slices/productsApiSlice';
+import { addToCart } from '../../slices/cartSlice';
 
 const ProductScreen = () => {
   const dispatch = useDispatch();

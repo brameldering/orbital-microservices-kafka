@@ -1,15 +1,16 @@
 import React from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Table, Button } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 import { FaTrash, FaEdit, FaCheck, FaTimes } from 'react-icons/fa';
+
+import Meta from '../../components/Meta';
 import Message from '../../components/Message';
 import Loader from '../../components/Loader';
-import Meta from '../../components/Meta';
 import {
   useDeleteUserMutation,
   useGetUsersQuery,
 } from '../../slices/usersApiSlice';
-import { toast } from 'react-toastify';
 
 const UserListScreen = () => {
   const { data: users, refetch, isLoading, error } = useGetUsersQuery();

@@ -1,9 +1,10 @@
 import { LinkContainer } from 'react-router-bootstrap';
 import { Table, Button } from 'react-bootstrap';
 import { FaTimes } from 'react-icons/fa';
+
+import Meta from '../../components/Meta';
 import Message from '../../components/Message';
 import Loader from '../../components/Loader';
-import Meta from '../../components/Meta';
 import { useGetOrdersQuery } from '../../slices/ordersApiSlice';
 
 const OrderListScreen = () => {

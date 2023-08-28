@@ -4,18 +4,19 @@ import { Row, Col, ListGroup, Card, Button } from 'react-bootstrap';
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import Message from '../components/Message';
-import Loader from '../components/Loader';
-import OrderItemLine from '../components/OrderItemLine';
-import OrderSummaryBlock from '../components/OrderSummaryBlock';
-import Meta from '../components/Meta';
+
+import { CURRENCY_PAYPAL } from '../../constants';
+import Meta from '../../components/Meta';
+import Message from '../../components/Message';
+import Loader from '../../components/Loader';
+import OrderItemLine from '../../components/order/OrderItemLine';
+import OrderSummaryBlock from '../../components/order/OrderSummaryBlock';
 import {
   useDeliverOrderMutation,
   useGetOrderDetailsQuery,
   useGetPaypalClientIdQuery,
   usePayOrderMutation,
-} from '../slices/ordersApiSlice';
-import { CURRENCY_PAYPAL } from '../constants';
+} from '../../slices/ordersApiSlice';
 
 const OrderScreen = () => {
   const { id: orderId } = useParams();

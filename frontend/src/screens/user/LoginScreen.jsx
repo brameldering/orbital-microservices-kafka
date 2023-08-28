@@ -2,12 +2,13 @@ import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
-import Loader from '../components/Loader';
-import FormContainer from '../components/FormContainer';
-import Meta from '../components/Meta';
-import { useLoginMutation } from '../slices/usersApiSlice';
-import { setCredentials } from '../slices/authSlice';
 import { toast } from 'react-toastify';
+
+import Meta from '../../components/Meta';
+import Loader from '../../components/Loader';
+import FormContainer from '../../components/FormContainer';
+import { setCredentials } from '../../slices/authSlice';
+import { useLoginMutation } from '../../slices/usersApiSlice';
 
 const LoginScreen = () => {
   const dispatch = useDispatch();

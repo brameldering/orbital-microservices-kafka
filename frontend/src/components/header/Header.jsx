@@ -1,13 +1,14 @@
 import { Navbar, Nav, Container, NavDropdown, Badge } from 'react-bootstrap';
-import { FaShoppingCart, FaUser } from 'react-icons/fa';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useLogoutMutation } from '../slices/usersApiSlice';
-import { logout } from '../slices/authSlice';
+import { FaShoppingCart, FaUser } from 'react-icons/fa';
+
+import LogoSVG from '../../assets/LogoSVG';
 import SearchBox from './SearchBox';
-import LogoSVG from '../assets/LogoSVG';
-import { resetCart } from '../slices/cartSlice';
+import { useLogoutMutation } from '../../slices/usersApiSlice';
+import { logout } from '../../slices/authSlice';
+import { resetCart } from '../../slices/cartSlice';
 
 const Header = () => {
   const dispatch = useDispatch();

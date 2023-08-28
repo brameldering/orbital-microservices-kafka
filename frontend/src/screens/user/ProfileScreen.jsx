@@ -4,12 +4,13 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaTimes } from 'react-icons/fa';
 import { toast } from 'react-toastify';
-import Message from '../components/Message';
-import Loader from '../components/Loader';
-import Meta from '../components/Meta';
-import { useProfileMutation } from '../slices/usersApiSlice';
-import { useGetMyOrdersQuery } from '../slices/ordersApiSlice';
-import { setCredentials } from '../slices/authSlice';
+
+import Meta from '../../components/Meta';
+import Message from '../../components/Message';
+import Loader from '../../components/Loader';
+import { setCredentials } from '../../slices/authSlice';
+import { useProfileMutation } from '../../slices/usersApiSlice';
+import { useGetMyOrdersQuery } from '../../slices/ordersApiSlice';
 
 const ProfileScreen = () => {
   const dispatch = useDispatch();

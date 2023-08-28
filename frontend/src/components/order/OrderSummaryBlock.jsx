@@ -1,5 +1,5 @@
 import { Row, Col, ListGroup } from 'react-bootstrap';
-import { CURRENCY_SYMBOL } from '../constants';
+import { CURRENCY_SYMBOL } from '../../constants';
 
 const OrderSummaryBlock = (orderProp) => {
   const order = orderProp.order;

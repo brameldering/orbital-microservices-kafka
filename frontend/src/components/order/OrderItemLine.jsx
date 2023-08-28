@@ -1,6 +1,6 @@
 import { Row, Col, Image } from 'react-bootstrap';
 import { Link, useLocation } from 'react-router-dom';
-import { CURRENCY_SYMBOL } from '../constants';
+import { CURRENCY_SYMBOL } from '../../constants';
 
 const OrderItemLine = (itemProps) => {
   const currentPath = useLocation().pathname;
