@@ -33,6 +33,7 @@ app.get('/api/config/paypal', (req, res) =>
   res.send({ clientId: process.env.PAYPAL_CLIENT_ID })
 );
 
+// Set upload path, build folder and default route for production or development
 if (process.env.NODE_ENV === 'production') {
   const __dirname = path.resolve();
   app.use('/uploads', express.static('/var/data/uploads'));
@@ -42,6 +43,7 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
   );
 } else {
+  // development
   const __dirname = path.resolve();
   app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
   app.get('/', (req, res) => {
@@ -51,6 +53,22 @@ if (process.env.NODE_ENV === 'production') {
 
 app.use(notFound);
 app.use(errorHandler);
+
+// Handle Uncaught exceptions
+process.on('uncaughtException', (err) => {
+  console.log(`ERROR: ${err.stack}`);
+  console.log('Shutting down due to uncaught exception');
+  process.exit(1);
+});
+
+// Handle Unhandled Promise rejections
+process.on('unhandledRejection', (err) => {
+  console.log(`ERROR: ${err.stack}`);
+  console.log('Shutting down the server due to Unhandled Promise rejection');
+  server.close(() => {
+    process.exit(1);
+  });
+});
 
 app.listen(port, () =>
   console.log(`Server running in ${process.env.NODE_ENV} mode on port ${port}`)
