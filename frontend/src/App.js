@@ -25,7 +25,7 @@ const App = () => {
 
   return (
     <>
-      <ToastContainer />
+      <ToastContainer autoClose={3000} />
       <Header />
       <main className='py-3'>
         <Container>

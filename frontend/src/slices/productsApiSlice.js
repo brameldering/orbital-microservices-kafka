@@ -8,14 +8,18 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         url: PRODUCTS_URL,
         params: { keyword, pageNumber },
       }),
-      keepUnusedDataFor: 5,
-      providesTags: ['Products'],
+      providesTags: (result, error, arg) => {
+        const products = result.products;
+        return products
+          ? [...products.map(({ id }) => ({ type: 'Product', id })), 'Product']
+          : ['Product'];
+      },
     }),
     getProductDetails: builder.query({
       query: (productId) => ({
         url: `${PRODUCTS_URL}/${productId}`,
       }),
-      keepUnusedDataFor: 5,
+      providesTags: (result, error, id) => [{ type: 'Product', id }],
     }),
     createProduct: builder.mutation({
       query: () => ({
@@ -30,7 +34,9 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         method: 'PUT',
         body: data,
       }),
-      invalidatesTags: ['Products'],
+      invalidatesTags: (result, error, arg) => [
+        { type: 'Product', id: arg.id },
+      ],
     }),
     uploadProductImage: builder.mutation({
       query: (data) => ({
@@ -38,13 +44,16 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         method: 'POST',
         body: data,
       }),
+      invalidatesTags: (result, error, arg) => [
+        { type: 'Product', id: arg.id },
+      ],
     }),
     deleteProduct: builder.mutation({
       query: (productId) => ({
         url: `${PRODUCTS_URL}/${productId}`,
         method: 'DELETE',
       }),
-      providesTags: ['Product'],
+      invalidatesTags: ['Product'],
     }),
     createReview: builder.mutation({
       query: (data) => ({
@@ -52,11 +61,12 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         method: 'POST',
         body: data,
       }),
-      invalidatesTags: ['Product'],
+      invalidatesTags: (result, error, arg) => [
+        { type: 'Product', id: arg.id },
+      ],
     }),
     getTopProducts: builder.query({
       query: () => `${PRODUCTS_URL}/top`,
-      keepUnusedDataFor: 5,
     }),
   }),
 });

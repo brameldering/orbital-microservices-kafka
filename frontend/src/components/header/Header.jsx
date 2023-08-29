@@ -3,7 +3,6 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { FaShoppingCart, FaUser } from 'react-icons/fa';
-
 import LogoSVG from '../../assets/LogoSVG';
 import SearchBox from './SearchBox';
 import { useLogoutMutation } from '../../slices/usersApiSlice';

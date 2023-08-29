@@ -3,18 +3,42 @@ import { apiSlice } from './apiSlice';
 
 export const orderApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
+    getOrders: builder.query({
+      query: () => ({
+        url: ORDERS_URL,
+      }),
+      providesTags: (result, error, arg) =>
+        result
+          ? [...result.map(({ id }) => ({ type: 'Order', id })), 'Order']
+          : ['Order'],
+    }),
+    getMyOrders: builder.query({
+      query: () => ({
+        url: `${ORDERS_URL}/mine`,
+      }),
+      providesTags: (result, error, arg) =>
+        result
+          ? [...result.map(({ id }) => ({ type: 'Order', id })), 'Order']
+          : ['Order'],
+    }),
+    getOrderDetails: builder.query({
+      query: (id) => ({
+        url: `${ORDERS_URL}/${id}`,
+      }),
+      providesTags: (result, error, id) => [{ type: 'Order', id }],
+    }),
     createOrder: builder.mutation({
       query: (order) => ({
         url: ORDERS_URL,
         method: 'POST',
         body: order,
       }),
+      invalidatesTags: ['Order'],
     }),
-    getOrderDetails: builder.query({
-      query: (id) => ({
-        url: `${ORDERS_URL}/${id}`,
+    getPaypalClientId: builder.query({
+      query: () => ({
+        url: PAYPAL_URL,
       }),
-      keepUnusedDataFor: 5,
     }),
     payOrder: builder.mutation({
       query: ({ orderId, details }) => ({
@@ -22,30 +46,14 @@ export const orderApiSlice = apiSlice.injectEndpoints({
         method: 'PUT',
         body: details,
       }),
-    }),
-    getPaypalClientId: builder.query({
-      query: () => ({
-        url: PAYPAL_URL,
-      }),
-      keepUnusedDataFor: 5,
-    }),
-    getMyOrders: builder.query({
-      query: () => ({
-        url: `${ORDERS_URL}/mine`,
-      }),
-      keepUnusedDataFor: 5,
-    }),
-    getOrders: builder.query({
-      query: () => ({
-        url: ORDERS_URL,
-      }),
-      keepUnusedDataFor: 5,
+      invalidatesTags: (result, error, arg) => [{ type: 'Order', id: arg.id }],
     }),
     deliverOrder: builder.mutation({
       query: (orderId) => ({
         url: `${ORDERS_URL}/${orderId}/deliver`,
         method: 'PUT',
       }),
+      invalidatesTags: (result, error, arg) => [{ type: 'Order', id: arg.id }],
     }),
   }),
 });

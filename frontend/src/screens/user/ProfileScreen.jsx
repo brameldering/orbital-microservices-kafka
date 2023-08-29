@@ -9,7 +9,7 @@ import Meta from '../../components/Meta';
 import Message from '../../components/Message';
 import Loader from '../../components/Loader';
 import { setCredentials } from '../../slices/authSlice';
-import { useProfileMutation } from '../../slices/usersApiSlice';
+import { useUpdateProfileMutation } from '../../slices/usersApiSlice';
 import { useGetMyOrdersQuery } from '../../slices/ordersApiSlice';
 
 const ProfileScreen = () => {
@@ -25,7 +25,7 @@ const ProfileScreen = () => {
   const { data: orders, isLoading, error } = useGetMyOrdersQuery();
 
   const [updateProfile, { isLoading: loadingUpdateProfile }] =
-    useProfileMutation();
+    useUpdateProfileMutation();
 
   useEffect(() => {
     setName(userInfo.name);
