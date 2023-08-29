@@ -49,8 +49,10 @@ const ProductScreen = () => {
 
   const { userInfo } = useSelector((state) => state.auth);
 
-  const [createReview, { isLoading: loadingProductReview }] =
-    useCreateReviewMutation();
+  const [
+    createReview,
+    { isLoading: loadingProductReview, error: errorCreateReview },
+  ] = useCreateReviewMutation();
 
   const submitReviewHandler = async (e) => {
     e.preventDefault();
@@ -73,6 +75,11 @@ const ProductScreen = () => {
       <Link className='btn btn-light my-3' to={goBackPath}>
         Go Back
       </Link>
+      {errorCreateReview && (
+        <Message variant='danger'>
+          {errorCreateReview?.data?.message || errorCreateReview.error}
+        </Message>
+      )}
       {isLoading ? (
         <Loader />
       ) : error ? (

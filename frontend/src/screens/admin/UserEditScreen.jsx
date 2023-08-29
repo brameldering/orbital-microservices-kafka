@@ -27,7 +27,8 @@ const UserEditScreen = () => {
     refetch,
   } = useGetUserDetailsQuery(userId);
 
-  const [updateUser, { isLoading: loadingUpdate }] = useUpdateUserMutation();
+  const [updateUser, { isLoading: loadingUpdate, error: errorUpdate }] =
+    useUpdateUserMutation();
 
   useEffect(() => {
     if (user) {
@@ -40,7 +41,7 @@ const UserEditScreen = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      await updateUser({ userId, name, email, isAdmin });
+      await updateUser({ userId, name, email, isAdmin }).unwrap();
       toast.success('user updated successfully');
       refetch();
       navigate('/admin/userlist');
@@ -58,6 +59,11 @@ const UserEditScreen = () => {
       <FormContainer>
         <h1>Edit User</h1>
         {loadingUpdate && <Loader />}
+        {errorUpdate && (
+          <Message variant='danger'>
+            {errorUpdate?.data?.message || errorUpdate.error}
+          </Message>
+        )}
         {isLoading ? (
           <Loader />
         ) : error ? (

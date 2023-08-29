@@ -24,8 +24,10 @@ const ProfileScreen = () => {
 
   const { data: orders, isLoading, error } = useGetMyOrdersQuery();
 
-  const [updateProfile, { isLoading: loadingUpdateProfile }] =
-    useUpdateProfileMutation();
+  const [
+    updateProfile,
+    { isLoading: loadingUpdateProfile, error: errorUpdate },
+  ] = useUpdateProfileMutation();
 
   useEffect(() => {
     setName(userInfo.name);
@@ -58,7 +60,11 @@ const ProfileScreen = () => {
       <Row>
         <Col md={3}>
           <h2>Your Profile and Orders</h2>
-
+          {errorUpdate && (
+            <Message variant='danger'>
+              {errorUpdate?.data?.message || errorUpdate.error}
+            </Message>
+          )}
           <Form onSubmit={submitHandler}>
             <Form.Group className='my-2' controlId='name'>
               <Form.Label>Name</Form.Label>

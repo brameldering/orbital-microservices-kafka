@@ -67,7 +67,7 @@ const OrderScreen = () => {
   function onApprove(data, actions) {
     try {
       return actions.order.capture().then(async function (details) {
-        await payOrder({ orderId, details });
+        await payOrder({ orderId, details }).unwrap();
         refetch();
         if (errorPay) {
           toast.error('Order has not been paid');
@@ -115,7 +115,7 @@ const OrderScreen = () => {
 
   const deliverHandler = async () => {
     try {
-      await deliverOrder(orderId);
+      await deliverOrder(orderId).unwrap();
       refetch();
       if (errorDeliver) {
         toast.error('Error setting order to delivered');
@@ -128,14 +128,15 @@ const OrderScreen = () => {
   return isLoading ? (
     <Loader />
   ) : error ? (
-    <Message variant='danger'>{error.data.message}</Message>
+    <Message variant='danger'>{error?.data?.message || error.error}</Message>
   ) : errorPay ? (
     <Message variant='danger'>
-      Error paying order: {errorPay.data.message}
+      Error paying order: {errorPay?.data?.message || errorPay.error}
     </Message>
   ) : errorDeliver ? (
     <Message variant='danger'>
-      Error setting status to delivered: {errorDeliver.data.message}
+      Error setting status to delivered:{' '}
+      {errorDeliver?.data?.message || errorDeliver.error}
     </Message>
   ) : (
     <>

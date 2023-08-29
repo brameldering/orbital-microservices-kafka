@@ -28,7 +28,7 @@ const ProductListScreen = () => {
   const deleteHandler = async (id) => {
     if (window.confirm('Are you sure')) {
       try {
-        await deleteProduct(id);
+        await deleteProduct(id).unwrap();
         refetch();
       } catch (err) {
         toast.error(err?.data?.message || err.error);
@@ -42,7 +42,7 @@ const ProductListScreen = () => {
   const createProductHandler = async () => {
     if (window.confirm('Are you sure you want to create a new product?')) {
       try {
-        await createProduct();
+        await createProduct().unwrap();
         refetch();
       } catch (err) {
         toast.error(err?.data?.message || err.error);
@@ -67,15 +67,21 @@ const ProductListScreen = () => {
       {loadingCreate && <Loader />}
       {loadingDelete && <Loader />}
       {errorCreate && (
-        <Message variant='danger'>{errorCreate.data.message}</Message>
+        <Message variant='danger'>
+          {errorCreate?.data?.message || errorCreate.error}
+        </Message>
       )}
       {errorDelete && (
-        <Message variant='danger'>{errorDelete.data.message}</Message>
+        <Message variant='danger'>
+          {errorDelete?.data?.message || errorDelete.error}
+        </Message>
       )}
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>{error.data.message}</Message>
+        <Message variant='danger'>
+          {error?.data?.message || error.error}
+        </Message>
       ) : (
         <>
           <Table striped hover responsive className='table-sm'>

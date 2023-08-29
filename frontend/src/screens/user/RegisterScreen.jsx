@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../../components/Loader';
+import Message from '../../components/Message';
 import FormContainer from '../../components/FormContainer';
 import Meta from '../../components/Meta';
 import { useRegisterMutation } from '../../slices/usersApiSlice';
@@ -18,7 +19,7 @@ const RegisterScreen = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  const [register, { isLoading }] = useRegisterMutation();
+  const [register, { isLoading, error }] = useRegisterMutation();
 
   const { userInfo } = useSelector((state) => state.auth);
 
@@ -53,6 +54,11 @@ const RegisterScreen = () => {
       <Meta title='Registration' />
       <FormContainer>
         <h1>Register</h1>
+        {error && (
+          <Message variant='danger'>
+            {error?.data?.message || error.error}
+          </Message>
+        )}
         <Form onSubmit={submitHandler}>
           <Form.Group className='my-2' controlId='name'>
             <Form.Label>Name</Form.Label>

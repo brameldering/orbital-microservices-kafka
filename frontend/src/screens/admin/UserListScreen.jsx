@@ -15,12 +15,13 @@ import {
 const UserListScreen = () => {
   const { data: users, refetch, isLoading, error } = useGetUsersQuery();
 
-  const [deleteUser] = useDeleteUserMutation();
+  const [deleteUser, { isLoading: loadingDelete, error: errorDelete }] =
+    useDeleteUserMutation();
 
   const deleteHandler = async (id) => {
     if (window.confirm('Are you sure')) {
       try {
-        await deleteUser(id);
+        await deleteUser(id).unwrap();
         refetch();
       } catch (err) {
         toast.error(err?.data?.message || err.error);
@@ -32,6 +33,12 @@ const UserListScreen = () => {
     <>
       <Meta title='Manage Users' />
       <h1>Users</h1>
+      {loadingDelete && <Loader />}
+      {errorDelete && (
+        <Message variant='danger'>
+          {errorDelete?.data?.message || errorDelete.error}
+        </Message>
+      )}
       {isLoading ? (
         <Loader />
       ) : error ? (

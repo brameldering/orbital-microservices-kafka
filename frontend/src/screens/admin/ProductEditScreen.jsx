@@ -34,11 +34,13 @@ const ProductEditScreen = () => {
     error,
   } = useGetProductDetailsQuery(productId);
 
-  const [updateProduct, { isLoading: loadingUpdate }] =
+  const [updateProduct, { isLoading: loadingUpdate, error: errorUpdate }] =
     useUpdateProductMutation();
 
-  const [uploadProductImage, { isLoading: loadingUpload }] =
-    useUploadProductImageMutation();
+  const [
+    uploadProductImage,
+    { isLoading: loadingUpload, error: errorUploadImage },
+  ] = useUploadProductImageMutation();
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -96,10 +98,22 @@ const ProductEditScreen = () => {
       <FormContainer>
         <h1>Edit Product</h1>
         {loadingUpdate && <Loader />}
+        {errorUpdate && (
+          <Message variant='danger'>
+            {errorUpdate?.data?.message || errorUpdate.error}
+          </Message>
+        )}
+        {errorUploadImage && (
+          <Message variant='danger'>
+            {errorUploadImage?.data?.message || errorUploadImage.error}
+          </Message>
+        )}
         {isLoading ? (
           <Loader />
         ) : error ? (
-          <Message variant='danger'>{error.data.message}</Message>
+          <Message variant='danger'>
+            {error?.data?.message || error.error}
+          </Message>
         ) : (
           <Form onSubmit={submitHandler}>
             <Form.Group controlId='productId'>
