@@ -22,7 +22,7 @@ const ProductListScreen = () => {
     pageNumber,
   });
 
-  const [deleteProduct, { isLoading: loadingDelete }] =
+  const [deleteProduct, { isLoading: loadingDelete, error: errorDelete }] =
     useDeleteProductMutation();
 
   const deleteHandler = async (id) => {
@@ -36,7 +36,7 @@ const ProductListScreen = () => {
     }
   };
 
-  const [createProduct, { isLoading: loadingCreate }] =
+  const [createProduct, { isLoading: loadingCreate, error: errorCreate }] =
     useCreateProductMutation();
 
   const createProductHandler = async () => {
@@ -66,6 +66,12 @@ const ProductListScreen = () => {
 
       {loadingCreate && <Loader />}
       {loadingDelete && <Loader />}
+      {errorCreate && (
+        <Message variant='danger'>{errorCreate.data.message}</Message>
+      )}
+      {errorDelete && (
+        <Message variant='danger'>{errorDelete.data.message}</Message>
+      )}
       {isLoading ? (
         <Loader />
       ) : error ? (

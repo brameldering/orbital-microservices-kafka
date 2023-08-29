@@ -7,7 +7,7 @@ import Product from '../models/productModel.js';
 // @access  Public
 const getProducts = asyncHandler(async (req, res) => {
   const pageSize = process.env.PRODUCTS_PER_PAGE;
-  const page = Number(req.query.pageNumber) || 1;
+  let page = Number(req.query.pageNumber) || 1;
 
   const keyword = req.query.keyword
     ? {
@@ -19,9 +19,17 @@ const getProducts = asyncHandler(async (req, res) => {
     : {};
 
   const count = await Product.countDocuments({ ...keyword });
-  const products = await Product.find({ ...keyword })
+  let products = await Product.find({ ...keyword })
     .limit(pageSize)
     .skip(pageSize * (page - 1));
+  // Check if page is empty after a delete refresh
+  if (page > 1 && products.length === 0) {
+    // Current page is empty, set page - 1 and refetch
+    page--;
+    products = await Product.find({ ...keyword })
+      .limit(pageSize)
+      .skip(pageSize * (page - 1));
+  }
   res.status(200).json({ products, page, pages: Math.ceil(count / pageSize) });
 });
 
