@@ -6,7 +6,7 @@ import { FaTimes } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 
 import Meta from '../../components/Meta';
-import Message from '../../components/Message';
+import ErrorMessage from '../../components/messages/ErrorMessage';
 import Loader from '../../components/Loader';
 import { setCredentials } from '../../slices/authSlice';
 import { useUpdateProfileMutation } from '../../slices/usersApiSlice';
@@ -60,11 +60,7 @@ const ProfileScreen = () => {
       <Row>
         <Col md={3}>
           <h2>Your Profile and Orders</h2>
-          {errorUpdate && (
-            <Message variant='danger'>
-              {errorUpdate?.data?.message || errorUpdate.error}
-            </Message>
-          )}
+          {errorUpdate && <ErrorMessage error={errorUpdate} />}
           <Form onSubmit={submitHandler}>
             <Form.Group className='my-2' controlId='name'>
               <Form.Label>Name</Form.Label>
@@ -121,9 +117,7 @@ const ProfileScreen = () => {
           {isLoading ? (
             <Loader />
           ) : error ? (
-            <Message variant='danger'>
-              {error?.data?.message || error.error}
-            </Message>
+            <ErrorMessage error={error} />
           ) : (
             <Table striped hover responsive className='table-sm'>
               <thead>

@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { FaTrash, FaEdit, FaCheck, FaTimes } from 'react-icons/fa';
 
 import Meta from '../../components/Meta';
-import Message from '../../components/Message';
+import ErrorMessage from '../../components/messages/ErrorMessage';
 import Loader from '../../components/Loader';
 import ModalConfirmBox from '../../components/ModalConfirmBox';
 import {
@@ -54,17 +54,11 @@ const UserListScreen = () => {
       />
       <h1>Users</h1>
       {loadingDelete && <Loader />}
-      {errorDelete && (
-        <Message variant='danger'>
-          {errorDelete?.data?.message || errorDelete.error}
-        </Message>
-      )}
+      {errorDelete && <ErrorMessage error={errorDelete} />}
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>
-          {error?.data?.message || error.error}
-        </Message>
+        <ErrorMessage error={error} />
       ) : (
         <Table striped hover responsive className='table-sm'>
           <thead>

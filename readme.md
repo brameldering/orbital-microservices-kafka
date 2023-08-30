@@ -205,41 +205,6 @@ is a little more explicit in checking fo such an error.
 
 > Changes can be seen in [errorMiddleware.js](./backend/middleware/errorMiddleware.js), [productRoutes.js](./backend/routes/productRoutes.js), [productController.js]('./backend/controllers/productController.js') and [checkObjectId.js](./backend/middleware/checkObjectId.js)
 
-### BUG: Bad responses not handled in the frontend
-
-There are a few cases in our frontend where if we get a bad response from our
-API then we try and render the error object.
-This you cannot do in React - if you are seeing an error along the lines of
-**Objects are not valid as a React child** and the app breaks for you, then this
-is likely the fix you need.
-
-#### Example from PlaceOrderScreen.jsx
-
-```jsx
-<ListGroup.Item>
-  {error && <Message variant='danger'>{error}</Message>}
-</ListGroup.Item>
-```
-
-In the above code we check for a error that we get from our [useMutation](https://redux-toolkit.js.org/rtk-query/usage/mutations)
-hook. This will be an object though which we cannot render in React, so here we
-need the message we sent back from our API server...
-
-```jsx
-<ListGroup.Item>
-  {error && <Message variant='danger'>{error.data.message}</Message>}
-</ListGroup.Item>
-```
-
-The same is true for [handling errors from our RTK queries.](https://redux-toolkit.js.org/rtk-query/usage/error-handling)
-
-> Changes can be seen in:-
->
-> - [PlaceOrderScreen.jsx](./frontend/src/screens/PlaceOrderScreen.jsx)
-> - [OrderScreen.jsx](./frontend/src/screens/OrderScreen.jsx)
-> - [ProductEditScreen.jsx](./frontend/src/screens/admin/ProductEditScreen.jsx)
-> - [ProductListScreen.jsx](./frontend/src/screens/admin/ProductListScreen.jsx)
-
 ### BUG: After switching users, our new user gets the previous users cart
 
 When our user logs out we clear **userInfo** and **expirationTime** from local

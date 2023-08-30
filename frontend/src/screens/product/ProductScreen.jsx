@@ -15,7 +15,8 @@ import { toast } from 'react-toastify';
 import { CURRENCY_SYMBOL } from '../../constants.js';
 import Meta from '../../components/Meta';
 import Loader from '../../components/Loader';
-import Message from '../../components/Message';
+import Message from '../../components/messages/Message.jsx';
+import ErrorMessage from '../../components/messages/ErrorMessage';
 import Rating from '../../components/product/Rating';
 import {
   useGetProductDetailsQuery,
@@ -75,17 +76,11 @@ const ProductScreen = () => {
       <Link className='btn btn-light my-3' to={goBackPath}>
         Go Back
       </Link>
-      {errorCreateReview && (
-        <Message variant='danger'>
-          {errorCreateReview?.data?.message || errorCreateReview.error}
-        </Message>
-      )}
+      {errorCreateReview && <ErrorMessage error={errorCreateReview} />}
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>
-          {error?.data?.message || error.error}
-        </Message>
+        <ErrorMessage error={error} />
       ) : (
         <>
           <Meta title={product.name} description={product.description} />

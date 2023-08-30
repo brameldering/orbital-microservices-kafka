@@ -7,7 +7,8 @@ import { toast } from 'react-toastify';
 
 import { CURRENCY_PAYPAL } from '../../constants';
 import Meta from '../../components/Meta';
-import Message from '../../components/Message';
+import Message from '../../components/messages/Message';
+import ErrorMessage from '../../components/messages/ErrorMessage';
 import Loader from '../../components/Loader';
 import OrderItemLine from '../../components/order/OrderItemLine';
 import OrderSummaryBlock from '../../components/order/OrderSummaryBlock';
@@ -128,16 +129,11 @@ const OrderScreen = () => {
   return isLoading ? (
     <Loader />
   ) : error ? (
-    <Message variant='danger'>{error?.data?.message || error.error}</Message>
+    <ErrorMessage error={error} />
   ) : errorPay ? (
-    <Message variant='danger'>
-      Error paying order: {errorPay?.data?.message || errorPay.error}
-    </Message>
+    <ErrorMessage error={errorPay} />
   ) : errorDeliver ? (
-    <Message variant='danger'>
-      Error setting status to delivered:{' '}
-      {errorDeliver?.data?.message || errorDeliver.error}
-    </Message>
+    <ErrorMessage error={errorDeliver} />
   ) : (
     <>
       <Meta title='Order Details' />

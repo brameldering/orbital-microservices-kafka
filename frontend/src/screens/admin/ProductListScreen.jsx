@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 
 import { CURRENCY_SYMBOL } from '../../constants';
 import Meta from '../../components/Meta';
-import Message from '../../components/Message';
+import ErrorMessage from '../../components/messages/ErrorMessage';
 import Loader from '../../components/Loader';
 import Paginate from '../../components/Paginate';
 import ModalConfirmBox from '../../components/ModalConfirmBox';
@@ -102,22 +102,12 @@ const ProductListScreen = () => {
       </Row>
       {loadingCreate && <Loader />}
       {loadingDelete && <Loader />}
-      {errorCreate && (
-        <Message variant='danger'>
-          {errorCreate?.data?.message || errorCreate.error}
-        </Message>
-      )}
-      {errorDelete && (
-        <Message variant='danger'>
-          {errorDelete?.data?.message || errorDelete.error}
-        </Message>
-      )}
+      {errorCreate && <ErrorMessage error={errorCreate} />}
+      {errorDelete && <ErrorMessage error={errorDelete} />}
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>
-          {error?.data?.message || error.error}
-        </Message>
+        <ErrorMessage error={error} />
       ) : (
         <>
           <Table striped hover responsive className='table-sm'>

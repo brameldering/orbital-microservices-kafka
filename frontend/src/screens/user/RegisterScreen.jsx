@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../../components/Loader';
-import Message from '../../components/Message';
+import ErrorMessage from '../../components/messages/ErrorMessage';
 import FormContainer from '../../components/FormContainer';
 import Meta from '../../components/Meta';
 import { useRegisterMutation } from '../../slices/usersApiSlice';
@@ -54,11 +54,7 @@ const RegisterScreen = () => {
       <Meta title='Registration' />
       <FormContainer>
         <h1>Register</h1>
-        {error && (
-          <Message variant='danger'>
-            {error?.data?.message || error.error}
-          </Message>
-        )}
+        {error && <ErrorMessage error={error} />}
         <Form onSubmit={submitHandler}>
           <Form.Group className='my-2' controlId='name'>
             <Form.Label>Name</Form.Label>

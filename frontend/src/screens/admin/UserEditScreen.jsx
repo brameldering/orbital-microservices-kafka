@@ -4,7 +4,7 @@ import { Form, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 
 import Meta from '../../components/Meta';
-import Message from '../../components/Message';
+import ErrorMessage from '../../components/messages/ErrorMessage';
 import Loader from '../../components/Loader';
 import FormContainer from '../../components/FormContainer';
 import {
@@ -59,17 +59,11 @@ const UserEditScreen = () => {
       <FormContainer>
         <h1>Edit User</h1>
         {loadingUpdate && <Loader />}
-        {errorUpdate && (
-          <Message variant='danger'>
-            {errorUpdate?.data?.message || errorUpdate.error}
-          </Message>
-        )}
+        {errorUpdate && <ErrorMessage error={errorUpdate} />}
         {isLoading ? (
           <Loader />
         ) : error ? (
-          <Message variant='danger'>
-            {error?.data?.message || error.error}
-          </Message>
+          <ErrorMessage error={error} />
         ) : (
           <Form onSubmit={submitHandler}>
             <Form.Group className='my-2' controlId='name'>

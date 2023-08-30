@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 
 import Meta from '../../components/Meta';
 import Loader from '../../components/Loader';
-import Message from '../../components/Message';
+import ErrorMessage from '../../components/messages/ErrorMessage';
 import FormContainer from '../../components/FormContainer';
 import { setCredentials } from '../../slices/authSlice';
 import { useLoginMutation } from '../../slices/usersApiSlice';
@@ -39,11 +39,7 @@ const LoginScreen = () => {
     <FormContainer>
       <Meta title='Sign In' />
       <h1>Sign In</h1>
-      {error && (
-        <Message variant='danger'>
-          {error?.data?.message || error.error}
-        </Message>
-      )}
+      {error && <ErrorMessage error={error} />}
       <Form onSubmit={submitHandler}>
         <Form.Group className='my-2' controlId='email'>
           <Form.Label>Email Address</Form.Label>

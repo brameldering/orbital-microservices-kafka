@@ -6,7 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import Meta from '../../components/Meta';
 import Loader from '../../components/Loader';
-import Message from '../../components/Message';
+import Message from '../../components/messages/Message';
+import ErrorMessage from '../../components/messages/ErrorMessage';
 import CheckoutSteps from '../../components/order/CheckoutSteps';
 import OrderItemLine from '../../components/order/OrderItemLine';
 import OrderSummaryBlock from '../../components/order/OrderSummaryBlock';
@@ -92,11 +93,7 @@ const PlaceOrderScreen = () => {
               <OrderSummaryBlock order={cart} />
 
               <ListGroup.Item>
-                {error && (
-                  <Message variant='danger'>
-                    {error?.data?.message || error.error}
-                  </Message>
-                )}
+                {error && <ErrorMessage error={error} />}
               </ListGroup.Item>
               <ListGroup.Item>
                 <Button

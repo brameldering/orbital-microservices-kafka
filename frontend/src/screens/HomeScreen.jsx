@@ -4,7 +4,7 @@ import { useGetProductsQuery } from '../slices/productsApiSlice';
 import { Link } from 'react-router-dom';
 import Product from '../components/product/Product';
 import Loader from '../components/Loader';
-import Message from '../components/Message';
+import ErrorMessage from '../components/messages/ErrorMessage';
 import Paginate from '../components/Paginate';
 import Meta from '../components/Meta';
 
@@ -26,9 +26,7 @@ const HomeScreen = () => {
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>
-          {error?.data?.message || error.error}
-        </Message>
+        <ErrorMessage error={error} />
       ) : (
         <>
           <Meta />
