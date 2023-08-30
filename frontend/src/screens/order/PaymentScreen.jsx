@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import Meta from '../../components/Meta';
 import FormContainer from '../../components/FormContainer';
-import CheckoutSteps from '../../components/CheckoutSteps';
+import CheckoutSteps from '../../components/order/CheckoutSteps';
 import { savePaymentMethod } from '../../slices/cartSlice';
 
 const PaymentScreen = () => {

@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Meta from '../../components/Meta';
 import Loader from '../../components/Loader';
 import Message from '../../components/Message';
-import CheckoutSteps from '../../components/CheckoutSteps';
+import CheckoutSteps from '../../components/order/CheckoutSteps';
 import OrderItemLine from '../../components/order/OrderItemLine';
 import OrderSummaryBlock from '../../components/order/OrderSummaryBlock';
 import { useCreateOrderMutation } from '../../slices/ordersApiSlice';

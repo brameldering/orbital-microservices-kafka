@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 import Meta from '../../components/Meta';
 import FormContainer from '../../components/FormContainer';
-import CheckoutSteps from '../../components/CheckoutSteps';
+import CheckoutSteps from '../../components/order/CheckoutSteps';
 import { saveShippingAddress } from '../../slices/cartSlice';
 
 const ShippingScreen = () => {

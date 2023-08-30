@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Table, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
@@ -7,31 +7,51 @@ import { FaTrash, FaEdit, FaCheck, FaTimes } from 'react-icons/fa';
 import Meta from '../../components/Meta';
 import Message from '../../components/Message';
 import Loader from '../../components/Loader';
+import ModalConfirmBox from '../../components/ModalConfirmBox';
 import {
   useDeleteUserMutation,
   useGetUsersQuery,
 } from '../../slices/usersApiSlice';
 
 const UserListScreen = () => {
+  // --------------- Get Users ---------------
   const { data: users, refetch, isLoading, error } = useGetUsersQuery();
 
+  // --------------- Delete User ---------------
   const [deleteUser, { isLoading: loadingDelete, error: errorDelete }] =
     useDeleteUserMutation();
 
-  const deleteHandler = async (id) => {
-    if (window.confirm('Are you sure')) {
-      try {
-        await deleteUser(id).unwrap();
-        refetch();
-      } catch (err) {
-        toast.error(err?.data?.message || err.error);
-      }
+  const [confirmDeleteUserModal, setConfirmDeleteUserModal] = useState(false);
+  const [deleteUserId, setDeleteUserId] = useState();
+
+  const confirmDeleteUser = (id) => {
+    setDeleteUserId(id);
+    setConfirmDeleteUserModal(true);
+  };
+  const cancelDeleteUser = () => setConfirmDeleteUserModal(false);
+
+  const deleteUserHandler = async () => {
+    try {
+      await deleteUser(deleteUserId).unwrap();
+      refetch();
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+    } finally {
+      setConfirmDeleteUserModal(false);
     }
   };
 
+  // --------------------------------------------
   return (
     <>
       <Meta title='Manage Users' />
+      <ModalConfirmBox
+        showModal={confirmDeleteUserModal}
+        title='Delete User'
+        body='Are you sure you want to delete this user?'
+        handleClose={cancelDeleteUser}
+        handleConfirm={deleteUserHandler.bind(this)}
+      />
       <h1>Users</h1>
       {loadingDelete && <Loader />}
       {errorDelete && (
@@ -85,7 +105,7 @@ const UserListScreen = () => {
                       <Button
                         variant='danger'
                         className='btn-sm'
-                        onClick={() => deleteHandler(user._id)}
+                        onClick={() => confirmDeleteUser(user._id)}
                       >
                         <FaTrash style={{ color: 'white' }} />
                       </Button>

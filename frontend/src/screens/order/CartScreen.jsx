@@ -14,7 +14,7 @@ import { FaTrash } from 'react-icons/fa';
 import { CURRENCY_SYMBOL } from '../../constants';
 import Message from '../../components/Message';
 import Meta from '../../components/Meta';
-import CheckoutSteps from '../../components/CheckoutSteps';
+import CheckoutSteps from '../../components/order/CheckoutSteps';
 import { addToCart, removeFromCart } from '../../slices/cartSlice';
 
 const CartScreen = () => {
