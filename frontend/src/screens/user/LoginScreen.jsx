@@ -7,7 +7,12 @@ import { toast } from 'react-toastify';
 import Meta from '../../components/Meta';
 import Loader from '../../components/Loader';
 import ErrorMessage from '../../components/messages/ErrorMessage';
-import FormContainer from '../../components/FormContainer';
+import FormContainer from '../../components/formComponents/FormContainer';
+import {
+  FormGroupEmailEdit,
+  FormGroupPasswordEdit,
+} from '../../components/formComponents/FormGroupControls';
+
 import { setCredentials } from '../../slices/authSlice';
 import { useLoginMutation } from '../../slices/usersApiSlice';
 
@@ -41,25 +46,19 @@ const LoginScreen = () => {
       <h1>Sign In</h1>
       {error && <ErrorMessage error={error} />}
       <Form onSubmit={submitHandler}>
-        <Form.Group className='my-2' controlId='email'>
-          <Form.Label>Email Address</Form.Label>
-          <Form.Control
-            type='email'
-            placeholder='Enter email'
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
+        <FormGroupEmailEdit
+          controlId='email'
+          label='Email Address'
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
 
-        <Form.Group className='my-2' controlId='password'>
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type='password'
-            placeholder='Enter password'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
+        <FormGroupPasswordEdit
+          controlId='password'
+          label='Password'
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
         <Button disabled={isLoading} type='submit' variant='primary'>
           Sign In

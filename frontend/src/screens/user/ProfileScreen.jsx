@@ -8,6 +8,12 @@ import { toast } from 'react-toastify';
 import Meta from '../../components/Meta';
 import ErrorMessage from '../../components/messages/ErrorMessage';
 import Loader from '../../components/Loader';
+import {
+  FormGroupTextEdit,
+  FormGroupEmailEdit,
+  FormGroupPasswordEdit,
+} from '../../components/formComponents/FormGroupControls';
+
 import { setCredentials } from '../../slices/authSlice';
 import { useUpdateProfileMutation } from '../../slices/usersApiSlice';
 import { useGetMyOrdersQuery } from '../../slices/ordersApiSlice';
@@ -62,45 +68,33 @@ const ProfileScreen = () => {
           <h2>Your Profile and Orders</h2>
           {errorUpdate && <ErrorMessage error={errorUpdate} />}
           <Form onSubmit={submitHandler}>
-            <Form.Group className='my-2' controlId='name'>
-              <Form.Label>Name</Form.Label>
-              <Form.Control
-                type='text'
-                placeholder='Enter name'
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
+            <FormGroupTextEdit
+              controlId='name'
+              label='Name'
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
 
-            <Form.Group className='my-2' controlId='email'>
-              <Form.Label>Email Address</Form.Label>
-              <Form.Control
-                type='email'
-                placeholder='Enter email'
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
+            <FormGroupEmailEdit
+              controlId='email'
+              label='Email Address'
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
 
-            <Form.Group className='my-2' controlId='password'>
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type='password'
-                placeholder='Enter password'
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
+            <FormGroupPasswordEdit
+              controlId='password'
+              label='Password'
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
 
-            <Form.Group className='my-2' controlId='confirmPassword'>
-              <Form.Label>Confirm Password</Form.Label>
-              <Form.Control
-                type='password'
-                placeholder='Confirm password'
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
+            <FormGroupPasswordEdit
+              controlId='confirmPassword'
+              label='Confirm Password'
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
 
             <Button
               type='submit'

@@ -6,7 +6,13 @@ import { toast } from 'react-toastify';
 import Meta from '../../components/Meta';
 import ErrorMessage from '../../components/messages/ErrorMessage';
 import Loader from '../../components/Loader';
-import FormContainer from '../../components/FormContainer';
+import FormContainer from '../../components/formComponents/FormContainer';
+import {
+  FormGroupTextEdit,
+  FormGroupEmailEdit,
+  FormGroupCheckBox,
+} from '../../components/formComponents/FormGroupControls';
+
 import {
   useGetUserDetailsQuery,
   useUpdateUserMutation,
@@ -66,34 +72,26 @@ const UserEditScreen = () => {
           <ErrorMessage error={error} />
         ) : (
           <Form onSubmit={submitHandler}>
-            <Form.Group className='my-2' controlId='name'>
-              <Form.Label>Name</Form.Label>
-              <Form.Control
-                type='text'
-                placeholder='Enter name'
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
+            <FormGroupTextEdit
+              controlId='name'
+              label='Name'
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
 
-            <Form.Group className='my-2' controlId='email'>
-              <Form.Label>Email Address</Form.Label>
-              <Form.Control
-                type='email'
-                placeholder='Enter email'
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
+            <FormGroupEmailEdit
+              controlId='email'
+              label='Email Address'
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
 
-            <Form.Group className='my-2' controlId='isadmin'>
-              <Form.Check
-                type='checkbox'
-                label='Is Admin'
-                checked={isAdmin}
-                onChange={(e) => setIsAdmin(e.target.checked)}
-              ></Form.Check>
-            </Form.Group>
+            <FormGroupCheckBox
+              controlId='isadmin'
+              label='Is Admin'
+              checked={isAdmin}
+              onChange={(e) => setIsAdmin(e.target.checked)}
+            />
 
             <Button
               type='submit'

@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import Meta from '../../components/Meta';
-import FormContainer from '../../components/FormContainer';
+import FormContainer from '../../components/formComponents/FormContainer';
+import { FormGroupTextEdit } from '../../components/formComponents/FormGroupControls';
 import CheckoutSteps from '../../components/order/CheckoutSteps';
 import { saveShippingAddress } from '../../slices/cartSlice';
 
@@ -35,49 +36,33 @@ const ShippingScreen = () => {
       <FormContainer>
         <h1>Address</h1>
         <Form onSubmit={submitHandler}>
-          <Form.Group className='my-2' controlId='address'>
-            <Form.Label>Address</Form.Label>
-            <Form.Control
-              type='text'
-              placeholder='Enter address'
-              value={address}
-              required
-              onChange={(e) => setAddress(e.target.value)}
-            ></Form.Control>
-          </Form.Group>
+          <FormGroupTextEdit
+            controlId='address'
+            label='Address'
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+          />
 
-          <Form.Group className='my-2' controlId='city'>
-            <Form.Label>City</Form.Label>
-            <Form.Control
-              type='text'
-              placeholder='Enter city'
-              value={city}
-              required
-              onChange={(e) => setCity(e.target.value)}
-            ></Form.Control>
-          </Form.Group>
+          <FormGroupTextEdit
+            controlId='city'
+            label='City'
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+          />
 
-          <Form.Group className='my-2' controlId='postalCode'>
-            <Form.Label>Postal Code</Form.Label>
-            <Form.Control
-              type='text'
-              placeholder='Enter postal code'
-              value={postalCode}
-              required
-              onChange={(e) => setPostalCode(e.target.value)}
-            ></Form.Control>
-          </Form.Group>
+          <FormGroupTextEdit
+            controlId='postalCode'
+            label='Postal Code'
+            value={postalCode}
+            onChange={(e) => setPostalCode(e.target.value)}
+          />
 
-          <Form.Group className='my-2' controlId='country'>
-            <Form.Label>Country</Form.Label>
-            <Form.Control
-              type='text'
-              placeholder='Enter country'
-              value={country}
-              required
-              onChange={(e) => setCountry(e.target.value)}
-            ></Form.Control>
-          </Form.Group>
+          <FormGroupTextEdit
+            controlId='country'
+            label='Country'
+            value={country}
+            onChange={(e) => setCountry(e.target.value)}
+          />
 
           <Button type='submit' variant='primary' style={{ marginTop: '1rem' }}>
             Continue

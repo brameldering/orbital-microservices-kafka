@@ -6,7 +6,11 @@ import { toast } from 'react-toastify';
 import Meta from '../../components/Meta';
 import ErrorMessage from '../../components/messages/ErrorMessage';
 import Loader from '../../components/Loader';
-import FormContainer from '../../components/FormContainer';
+import FormContainer from '../../components/formComponents/FormContainer';
+import {
+  FormGroupTextEdit,
+  FormGroupNumberEdit,
+} from '../../components/formComponents/FormGroupControls';
 import {
   useGetProductDetailsQuery,
   useUpdateProductMutation,
@@ -116,34 +120,28 @@ const ProductEditScreen = () => {
               ></Form.Control>
             </Form.Group>
 
-            <Form.Group controlId='name'>
-              <Form.Label>Name</Form.Label>
-              <Form.Control
-                type='text'
-                placeholder='Enter name'
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
+            <FormGroupTextEdit
+              controlId='name'
+              label='Name'
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
 
-            <Form.Group controlId='price'>
-              <Form.Label>Price</Form.Label>
-              <Form.Control
-                type='number'
-                placeholder='Enter price'
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
+            <FormGroupNumberEdit
+              controlId='price'
+              label='Price'
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+            />
 
-            <Form.Group controlId='image'>
-              <Form.Label>Image</Form.Label>
-              <Form.Control
-                type='text'
-                placeholder='Enter image url'
-                value={image}
-                onChange={(e) => setImage(e.target.value)}
-              ></Form.Control>
+            <FormGroupTextEdit
+              controlId='imageURL'
+              label='Image'
+              value={image}
+              onChange={(e) => setImage(e.target.value)}
+            />
+
+            <Form.Group>
               <Form.Control
                 label='Choose File'
                 onChange={uploadFileHandler}
@@ -152,45 +150,33 @@ const ProductEditScreen = () => {
               {loadingUpload && <Loader />}
             </Form.Group>
 
-            <Form.Group controlId='brand'>
-              <Form.Label>Brand</Form.Label>
-              <Form.Control
-                type='text'
-                placeholder='Enter brand'
-                value={brand}
-                onChange={(e) => setBrand(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
+            <FormGroupTextEdit
+              controlId='brand'
+              label='Brand'
+              value={brand}
+              onChange={(e) => setBrand(e.target.value)}
+            />
 
-            <Form.Group controlId='countInStock'>
-              <Form.Label>Count In Stock</Form.Label>
-              <Form.Control
-                type='number'
-                placeholder='Enter countInStock'
-                value={countInStock}
-                onChange={(e) => setCountInStock(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
+            <FormGroupNumberEdit
+              controlId='countInStock'
+              label='Count In Stock'
+              value={countInStock}
+              onChange={(e) => setCountInStock(e.target.value)}
+            />
 
-            <Form.Group controlId='category'>
-              <Form.Label>Category</Form.Label>
-              <Form.Control
-                type='text'
-                placeholder='Enter category'
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
+            <FormGroupTextEdit
+              controlId='category'
+              label='Category'
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+            />
 
-            <Form.Group controlId='description'>
-              <Form.Label>Description</Form.Label>
-              <Form.Control
-                type='text'
-                placeholder='Enter description'
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
+            <FormGroupTextEdit
+              controlId='description'
+              label='Description'
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
 
             <Button
               type='submit'

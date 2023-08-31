@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Meta from '../../components/Meta';
-import FormContainer from '../../components/FormContainer';
+import FormContainer from '../../components/formComponents/FormContainer';
 import CheckoutSteps from '../../components/order/CheckoutSteps';
 import { savePaymentMethod } from '../../slices/cartSlice';
 
