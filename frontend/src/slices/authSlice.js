@@ -12,6 +12,7 @@ const authSlice = createSlice({
   reducers: {
     setCredentials: (state, action) => {
       state.userInfo = action.payload;
+
       localStorage.setItem('userInfo', JSON.stringify(action.payload));
 
       const expirationTime = new Date().getTime() + 30 * 24 * 60 * 60 * 1000; // 30 days

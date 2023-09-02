@@ -56,20 +56,20 @@ app.use(errorHandler);
 
 // Handle Uncaught exceptions
 process.on('uncaughtException', (err) => {
-  console.log(`ERROR: ${err.stack}`);
-  console.log('Shutting down due to uncaught exception');
+  console.error(`ERROR: ${err.stack}`);
+  console.error('Shutting down due to uncaught exception');
   process.exit(1);
 });
 
 // Handle Unhandled Promise rejections
 process.on('unhandledRejection', (err) => {
-  console.log(`ERROR: ${err.stack}`);
-  console.log('Shutting down the server due to Unhandled Promise rejection');
+  console.error(`ERROR: ${err.stack}`);
+  console.error('Shutting down the server due to Unhandled Promise rejection');
   server.close(() => {
     process.exit(1);
   });
 });
 
 app.listen(port, () =>
-  console.log(`Server running in ${process.env.NODE_ENV} mode on port ${port}`)
+  console.info(`Server running in ${process.env.NODE_ENV} mode on port ${port}`)
 );

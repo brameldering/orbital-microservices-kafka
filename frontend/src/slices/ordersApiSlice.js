@@ -7,17 +7,19 @@ export const orderApiSlice = apiSlice.injectEndpoints({
       query: () => ({
         url: ORDERS_URL,
       }),
+      providesTags: ['Order'],
     }),
     getMyOrders: builder.query({
-      query: () => ({
-        url: `${ORDERS_URL}/mine`,
+      query: (userId) => ({
+        url: `${ORDERS_URL}/mine/${userId}`,
       }),
+      providesTags: ['MyOrders'],
     }),
     getOrderDetails: builder.query({
       query: (id) => ({
         url: `${ORDERS_URL}/${id}`,
       }),
-      providesTags: (result, error, id) => [{ type: 'Order', id }],
+      providesTags: ['Order'],
     }),
     createOrder: builder.mutation({
       query: (order) => ({
@@ -38,14 +40,14 @@ export const orderApiSlice = apiSlice.injectEndpoints({
         method: 'PUT',
         body: details,
       }),
-      invalidatesTags: (result, error, arg) => [{ type: 'Order', id: arg.id }],
+      invalidatesTags: ['Order'],
     }),
     deliverOrder: builder.mutation({
       query: (orderId) => ({
         url: `${ORDERS_URL}/${orderId}/deliver`,
         method: 'PUT',
       }),
-      invalidatesTags: (result, error, arg) => [{ type: 'Order', id: arg.id }],
+      invalidatesTags: ['Order'],
     }),
   }),
 });

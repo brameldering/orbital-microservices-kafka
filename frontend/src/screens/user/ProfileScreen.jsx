@@ -25,7 +25,8 @@ const ProfileScreen = () => {
   const dispatch = useDispatch();
 
   const { userInfo } = useSelector((state) => state.auth);
-  const { data: orders, isLoading, error } = useGetMyOrdersQuery();
+  // console.log('ProfileScreen - userInfo', userInfo);
+  const { data: orders, isLoading, error } = useGetMyOrdersQuery(userInfo._id);
 
   const [
     updateProfile,
@@ -53,9 +54,6 @@ const ProfileScreen = () => {
       const name = values.name;
       const email = values.email;
       const password = values.password;
-      console.log(name);
-      console.log(email);
-      console.log(password);
       try {
         const res = await updateProfile({
           _id: userInfo._id,

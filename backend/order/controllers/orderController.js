@@ -7,6 +7,7 @@ import {
   verifyPayPalPayment,
   checkIfNewTransaction,
 } from '../../general/utils/paypal.js';
+import mongoose from 'mongoose';
 
 // @desc    Create new order
 // @route   POST /api/orders
@@ -74,10 +75,13 @@ const addOrderItems = asyncHandler(async (req, res) => {
 });
 
 // @desc    Get logged in user orders
-// @route   GET /api/orders/myorders
+// @route   GET /api/orders/mine/:userId
 // @access  Private
 const getMyOrders = asyncHandler(async (req, res) => {
-  const orders = await Order.find({ user: req.user._id });
+  const userId = new mongoose.Types.ObjectId(req.params.userId);
+  // console.log('orderController - getMyOrders: userId', userId);
+  const orders = await Order.find({ user: userId });
+  // const orders = await Order.find({ user: req.user._id });
   res.status(200).json(orders);
 });
 

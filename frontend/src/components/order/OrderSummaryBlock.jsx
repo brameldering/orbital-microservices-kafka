@@ -17,7 +17,6 @@ const CurrencyField = ({ label, amount }) => {
 
 const OrderSummaryBlock = (orderProp) => {
   const order = orderProp.order;
-  console.log(order);
   return (
     <>
       <ListGroup.Item>
