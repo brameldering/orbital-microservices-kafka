@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import {
   Row,
   Col,
@@ -11,18 +11,16 @@ import {
   Form,
 } from 'react-bootstrap';
 import { toast } from 'react-toastify';
-
-import { CURRENCY_SYMBOL } from '../../constants.js';
-import Meta from '../../components/Meta';
-import Loader from '../../components/Loader';
-import Message from '../../components/messages/Message.jsx';
-import ErrorMessage from '../../components/messages/ErrorMessage';
+import Meta from '../../components/general/Meta';
+import Loader from '../../components/general/Loader.jsx';
+import { Message, ErrorMessage } from '../../components/general/Messages';
 import Rating from '../../components/product/Rating';
 import {
   useGetProductDetailsQuery,
   useCreateReviewMutation,
 } from '../../slices/productsApiSlice';
 import { addToCart } from '../../slices/cartSlice';
+import { CURRENCY_SYMBOL } from '../../constants.js';
 
 const ProductScreen = () => {
   const dispatch = useDispatch();
@@ -101,7 +99,7 @@ const ProductScreen = () => {
                 </ListGroup.Item>
                 <ListGroup.Item>
                   Price: {CURRENCY_SYMBOL}
-                  {product.price}
+                  {Number(product.price).toFixed(2)}
                 </ListGroup.Item>
                 <ListGroup.Item>
                   Description: {product.description}
@@ -120,7 +118,7 @@ const ProductScreen = () => {
                       <Col>
                         <strong>
                           {CURRENCY_SYMBOL}
-                          {product.price}
+                          {Number(product.price).toFixed(2)}
                         </strong>
                       </Col>
                     </Row>
@@ -133,8 +131,6 @@ const ProductScreen = () => {
                       </Col>
                     </Row>
                   </ListGroup.Item>
-
-                  {/* Qty Select */}
                   {product.countInStock > 0 && (
                     <ListGroup.Item>
                       <Row>
@@ -159,10 +155,9 @@ const ProductScreen = () => {
                       </Row>
                     </ListGroup.Item>
                   )}
-
                   <ListGroup.Item>
                     <Button
-                      className='btn-block'
+                      className='btn-block mt-2'
                       type='button'
                       disabled={product.countInStock === 0}
                       onClick={addToCartHandler}
@@ -177,7 +172,9 @@ const ProductScreen = () => {
           <Row className='review'>
             <Col md={6}>
               <h2>Reviews</h2>
-              {product.reviews.length === 0 && <Message>No Reviews</Message>}
+              {product.reviews.length === 0 && (
+                <Message variant='info'>No Reviews</Message>
+              )}
               <ListGroup variant='flush'>
                 {product.reviews.map((review) => (
                   <ListGroup.Item key={review._id}>
@@ -189,9 +186,7 @@ const ProductScreen = () => {
                 ))}
                 <ListGroup.Item>
                   <h2>Write a Customer Review</h2>
-
                   {loadingProductReview && <Loader />}
-
                   {userInfo ? (
                     <Form onSubmit={submitReviewHandler}>
                       <Form.Group className='my-2' controlId='rating'>
@@ -223,13 +218,13 @@ const ProductScreen = () => {
                       <Button
                         disabled={loadingProductReview}
                         type='submit'
-                        variant='primary'
+                        variant='primary mt-2'
                       >
                         Submit
                       </Button>
                     </Form>
                   ) : (
-                    <Message>
+                    <Message variant='info'>
                       Please <Link to='/login'>sign in</Link> to write a review
                     </Message>
                   )}

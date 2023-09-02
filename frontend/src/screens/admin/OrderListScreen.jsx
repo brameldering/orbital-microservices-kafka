@@ -1,10 +1,9 @@
 import { LinkContainer } from 'react-router-bootstrap';
 import { Table, Button } from 'react-bootstrap';
 import { FaTimes } from 'react-icons/fa';
-
-import Meta from '../../components/Meta';
-import ErrorMessage from '../../components/messages/ErrorMessage';
-import Loader from '../../components/Loader';
+import Meta from '../../components/general/Meta';
+import Loader from '../../components/general/Loader';
+import { ErrorMessage } from '../../components/general/Messages';
 import { useGetOrdersQuery } from '../../slices/ordersApiSlice';
 
 const OrderListScreen = () => {

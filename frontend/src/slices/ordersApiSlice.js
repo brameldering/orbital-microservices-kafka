@@ -1,5 +1,5 @@
-import { ORDERS_URL, PAYPAL_URL } from '../constants';
 import { apiSlice } from './apiSlice';
+import { ORDERS_URL, PAYPAL_URL } from '../constants';
 
 export const orderApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -7,19 +7,11 @@ export const orderApiSlice = apiSlice.injectEndpoints({
       query: () => ({
         url: ORDERS_URL,
       }),
-      providesTags: (result, error, arg) =>
-        result
-          ? [...result.map(({ id }) => ({ type: 'Order', id })), 'Order']
-          : ['Order'],
     }),
     getMyOrders: builder.query({
       query: () => ({
         url: `${ORDERS_URL}/mine`,
       }),
-      providesTags: (result, error, arg) =>
-        result
-          ? [...result.map(({ id }) => ({ type: 'Order', id })), 'Order']
-          : ['Order'],
     }),
     getOrderDetails: builder.query({
       query: (id) => ({

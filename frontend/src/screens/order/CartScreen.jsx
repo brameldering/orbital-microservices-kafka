@@ -1,5 +1,5 @@
-import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import {
   Row,
   Col,
@@ -10,12 +10,11 @@ import {
   Card,
 } from 'react-bootstrap';
 import { FaTrash } from 'react-icons/fa';
-
-import { CURRENCY_SYMBOL } from '../../constants';
-import Message from '../../components/messages/Message';
-import Meta from '../../components/Meta';
+import Meta from '../../components/general/Meta';
+import { Message } from '../../components/general/Messages';
 import CheckoutSteps from '../../components/order/CheckoutSteps';
 import { addToCart, removeFromCart } from '../../slices/cartSlice';
+import { CURRENCY_SYMBOL } from '../../constants';
 
 const CartScreen = () => {
   const dispatch = useDispatch();
@@ -53,7 +52,7 @@ const CartScreen = () => {
         <Col md={8}>
           <h1 style={{ marginBottom: '20px' }}>Shopping Cart</h1>
           {cartItems.length === 0 ? (
-            <Message>
+            <Message variant='info'>
               Your cart is empty <Link to='/'>Go Back</Link>
             </Message>
           ) : (
@@ -73,7 +72,7 @@ const CartScreen = () => {
                     </Col>
                     <Col md={2}>
                       {CURRENCY_SYMBOL}
-                      {item.price}
+                      {Number(item.price).toFixed(2)}
                     </Col>
                     <Col md={2}>
                       <Form.Control
@@ -121,7 +120,7 @@ const CartScreen = () => {
               <ListGroup.Item>
                 <Button
                   type='button'
-                  className='btn-block'
+                  className='btn-block mt-2'
                   disabled={cartItems.length === 0}
                   onClick={checkoutHandler}
                 >

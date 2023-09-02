@@ -1,19 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import { Table, Form, Button, Row, Col } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import { LinkContainer } from 'react-router-bootstrap';
+import { Table, Form, Button, Row, Col } from 'react-bootstrap';
 import { FaTimes } from 'react-icons/fa';
 import { toast } from 'react-toastify';
-
-import Meta from '../../components/Meta';
-import ErrorMessage from '../../components/messages/ErrorMessage';
-import Loader from '../../components/Loader';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 import {
-  FormGroupTextEdit,
-  FormGroupEmailEdit,
-  FormGroupPasswordEdit,
-} from '../../components/formComponents/FormGroupControls';
-
+  textField,
+  passwordField,
+} from '../../components/form/ValidationSpecs';
+import {
+  TextField,
+  EmailField,
+  PasswordField,
+} from '../../components/form/FormComponents';
+import Meta from '../../components/general/Meta';
+import Loader from '../../components/general/Loader';
+import { ErrorMessage } from '../../components/general/Messages';
 import { setCredentials } from '../../slices/authSlice';
 import { useUpdateProfileMutation } from '../../slices/usersApiSlice';
 import { useGetMyOrdersQuery } from '../../slices/ordersApiSlice';
@@ -21,13 +24,7 @@ import { useGetMyOrdersQuery } from '../../slices/ordersApiSlice';
 const ProfileScreen = () => {
   const dispatch = useDispatch();
 
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-
   const { userInfo } = useSelector((state) => state.auth);
-
   const { data: orders, isLoading, error } = useGetMyOrdersQuery();
 
   const [
@@ -35,16 +32,30 @@ const ProfileScreen = () => {
     { isLoading: loadingUpdateProfile, error: errorUpdate },
   ] = useUpdateProfileMutation();
 
-  useEffect(() => {
-    setName(userInfo.name);
-    setEmail(userInfo.email);
-  }, [userInfo.email, userInfo.name]);
-
-  const submitHandler = async (e) => {
-    e.preventDefault();
-    if (password !== confirmPassword) {
-      toast.error('Passwords do not match');
-    } else {
+  const formik = useFormik({
+    initialValues: {
+      name: userInfo?.name || '',
+      email: userInfo?.email || '',
+      password: '',
+      passwordConfirmation: '',
+    },
+    enableReinitialize: true,
+    validationSchema: Yup.object({
+      name: textField().required('required'),
+      email: textField().required('required').email('Invalid email address'),
+      password: passwordField(),
+      passwordConfirmation: passwordField().oneOf(
+        [Yup.ref('password'), null],
+        'Passwords must match'
+      ),
+    }),
+    onSubmit: async (values) => {
+      const name = values.name;
+      const email = values.email;
+      const password = values.password;
+      console.log(name);
+      console.log(email);
+      console.log(password);
       try {
         const res = await updateProfile({
           _id: userInfo._id,
@@ -57,50 +68,30 @@ const ProfileScreen = () => {
       } catch (err) {
         toast.error(err?.data?.message || err.error);
       }
-    }
-  };
+    },
+  });
 
   return (
     <>
-      <Meta title='Your Profile and Orders' />
+      <Meta title='Profile' />
       <Row>
         <Col md={3}>
-          <h2>Your Profile and Orders</h2>
+          <h2>My Profile</h2>
           {errorUpdate && <ErrorMessage error={errorUpdate} />}
-          <Form onSubmit={submitHandler}>
-            <FormGroupTextEdit
-              controlId='name'
-              label='Name'
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-
-            <FormGroupEmailEdit
-              controlId='email'
-              label='Email Address'
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-
-            <FormGroupPasswordEdit
+          <Form onSubmit={formik.handleSubmit}>
+            <TextField controlId='name' label='Full name' formik={formik} />
+            <EmailField controlId='email' label='Email' formik={formik} />
+            <PasswordField
               controlId='password'
               label='Password'
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              formik={formik}
             />
-
-            <FormGroupPasswordEdit
-              controlId='confirmPassword'
-              label='Confirm Password'
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+            <PasswordField
+              controlId='passwordConfirmation'
+              label='Password Confirmation'
+              formik={formik}
             />
-
-            <Button
-              type='submit'
-              variant='primary'
-              style={{ marginTop: '1rem' }}
-            >
+            <Button disabled={isLoading} type='submit' variant='primary mt-2'>
               Update
             </Button>
             {loadingUpdateProfile && <Loader />}

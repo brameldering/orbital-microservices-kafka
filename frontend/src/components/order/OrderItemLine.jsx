@@ -1,5 +1,5 @@
-import { Row, Col, Image } from 'react-bootstrap';
 import { Link, useLocation } from 'react-router-dom';
+import { Row, Col, Image } from 'react-bootstrap';
 import { CURRENCY_SYMBOL } from '../../constants';
 
 const OrderItemLine = (itemProps) => {

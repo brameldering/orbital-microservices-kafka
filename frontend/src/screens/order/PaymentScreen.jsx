@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Form, Button, Col } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-
-import Meta from '../../components/Meta';
-import FormContainer from '../../components/formComponents/FormContainer';
+import { useNavigate } from 'react-router-dom';
+import { Form, Button, Col } from 'react-bootstrap';
+import FormContainer from '../../components/form/FormContainer';
+import Meta from '../../components/general/Meta';
 import CheckoutSteps from '../../components/order/CheckoutSteps';
 import { savePaymentMethod } from '../../slices/cartSlice';
 
@@ -52,8 +51,7 @@ const PaymentScreen = () => {
               ></Form.Check>
             </Col>
           </Form.Group>
-
-          <Button type='submit' variant='primary' style={{ marginTop: '1rem' }}>
+          <Button type='submit' variant='primary mt-2'>
             Continue
           </Button>
         </Form>

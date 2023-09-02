@@ -1,5 +1,5 @@
-import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { Card } from 'react-bootstrap';
 
 import { CURRENCY_SYMBOL } from '../../constants.js';
 import Rating from './Rating';
@@ -27,7 +27,7 @@ const Product = ({ product }) => {
 
         <Card.Text as='h3'>
           {CURRENCY_SYMBOL}
-          {product.price}
+          {Number(product.price).toFixed(2)}
         </Card.Text>
       </Card.Body>
     </Card>

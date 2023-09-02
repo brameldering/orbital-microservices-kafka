@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Table, Button } from 'react-bootstrap';
-import { toast } from 'react-toastify';
 import { FaTrash, FaEdit, FaCheck, FaTimes } from 'react-icons/fa';
+import { toast } from 'react-toastify';
 
-import Meta from '../../components/Meta';
-import ErrorMessage from '../../components/messages/ErrorMessage';
-import Loader from '../../components/Loader';
-import ModalConfirmBox from '../../components/ModalConfirmBox';
+import Meta from '../../components/general/Meta';
+import Loader from '../../components/general/Loader';
+import { ErrorMessage } from '../../components/general/Messages';
+import ModalConfirmBox from '../../components/general/ModalConfirmBox';
 import {
   useDeleteUserMutation,
   useGetUsersQuery,
@@ -53,7 +53,6 @@ const UserListScreen = () => {
         handleConfirm={deleteUserHandler.bind(this)}
       />
       <h1>Users</h1>
-      {loadingDelete && <Loader />}
       {errorDelete && <ErrorMessage error={errorDelete} />}
       {isLoading ? (
         <Loader />
@@ -86,31 +85,28 @@ const UserListScreen = () => {
                   )}
                 </td>
                 <td>
-                  {!user.isAdmin && (
-                    <>
-                      <LinkContainer
-                        to={`/admin/user/${user._id}/edit`}
-                        style={{ marginRight: '10px' }}
-                      >
-                        <Button variant='light' className='btn-sm'>
-                          <FaEdit />
-                        </Button>
-                      </LinkContainer>
-                      <Button
-                        variant='danger'
-                        className='btn-sm'
-                        onClick={() => confirmDeleteUser(user._id)}
-                      >
-                        <FaTrash style={{ color: 'white' }} />
-                      </Button>
-                    </>
-                  )}
+                  <LinkContainer
+                    to={`/admin/user/${user._id}/edit`}
+                    style={{ marginRight: '10px' }}
+                  >
+                    <Button variant='light' className='btn-sm'>
+                      <FaEdit />
+                    </Button>
+                  </LinkContainer>
+                  <Button
+                    variant='danger'
+                    className='btn-sm'
+                    onClick={() => confirmDeleteUser(user._id)}
+                  >
+                    <FaTrash style={{ color: 'white' }} />
+                  </Button>
                 </td>
               </tr>
             ))}
           </tbody>
         </Table>
       )}
+      {loadingDelete && <Loader />}
     </>
   );
 };

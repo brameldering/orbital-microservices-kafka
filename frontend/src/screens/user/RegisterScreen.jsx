@@ -1,28 +1,29 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Form, Button, Row, Col } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
-import Loader from '../../components/Loader';
-import ErrorMessage from '../../components/messages/ErrorMessage';
-import FormContainer from '../../components/formComponents/FormContainer';
+import { toast } from 'react-toastify';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 import {
-  FormGroupTextEdit,
-  FormGroupEmailEdit,
-  FormGroupPasswordEdit,
-} from '../../components/formComponents/FormGroupControls';
-import Meta from '../../components/Meta';
+  textField,
+  passwordField,
+} from '../../components/form/ValidationSpecs';
+import FormContainer from '../../components/form/FormContainer';
+import {
+  TextField,
+  EmailField,
+  PasswordField,
+} from '../../components/form/FormComponents';
+import Meta from '../../components/general/Meta';
+import Loader from '../../components/general/Loader';
+import { ErrorMessage } from '../../components/general/Messages';
 import { useRegisterMutation } from '../../slices/usersApiSlice';
 import { setCredentials } from '../../slices/authSlice';
-import { toast } from 'react-toastify';
 
-const RegisterScreen = () => {
+function RegisterScreen() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
 
   const [register, { isLoading, error }] = useRegisterMutation();
 
@@ -38,12 +39,26 @@ const RegisterScreen = () => {
     }
   }, [navigate, redirect, userInfo]);
 
-  const submitHandler = async (e) => {
-    e.preventDefault();
-
-    if (password !== confirmPassword) {
-      toast.error('Passwords do not match');
-    } else {
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+      email: '',
+      password: '',
+      passwordConfirmation: '',
+    },
+    validationSchema: Yup.object({
+      name: textField().required('required'),
+      email: textField().required('required').email('Invalid email address'),
+      password: passwordField().required('required'),
+      passwordConfirmation: passwordField().oneOf(
+        [Yup.ref('password'), null],
+        'Passwords must match'
+      ),
+    }),
+    onSubmit: async (values) => {
+      const name = values.name;
+      const email = values.email;
+      const password = values.password;
       try {
         const res = await register({ name, email, password }).unwrap();
         dispatch(setCredentials({ ...res }));
@@ -51,62 +66,37 @@ const RegisterScreen = () => {
       } catch (err) {
         toast.error(err?.data?.message || err.error);
       }
-    }
-  };
+    },
+  });
 
   return (
-    <>
+    <FormContainer>
       <Meta title='Registration' />
-      <FormContainer>
-        <h1>Register</h1>
-        {error && <ErrorMessage error={error} />}
-        <Form onSubmit={submitHandler}>
-          <FormGroupTextEdit
-            controlId='name'
-            label='Name'
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-
-          <FormGroupEmailEdit
-            controlId='email'
-            label='Email Address'
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-
-          <FormGroupPasswordEdit
-            controlId='password'
-            label='Password'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-
-          <FormGroupPasswordEdit
-            controlId='confirmPassword'
-            label='Confirm Password'
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-
-          <Button disabled={isLoading} type='submit' variant='primary'>
-            Register
-          </Button>
-
-          {isLoading && <Loader />}
-        </Form>
-
-        <Row className='py-3'>
-          <Col>
-            Already have an account?{' '}
-            <Link to={redirect ? `/login?redirect=${redirect}` : '/login'}>
-              Login
-            </Link>
-          </Col>
-        </Row>
-      </FormContainer>
-    </>
+      <h1>Register account</h1>
+      {isLoading && <Loader />}
+      {error && <ErrorMessage error={error} />}
+      <Form onSubmit={formik.handleSubmit}>
+        <TextField controlId='name' label='Full name' formik={formik} />
+        <EmailField controlId='email' label='Email' formik={formik} />
+        <PasswordField controlId='password' label='Password' formik={formik} />
+        <PasswordField
+          controlId='passwordConfirmation'
+          label='Password Confirmation'
+          formik={formik}
+        />
+        <Button disabled={isLoading} type='submit' variant='primary mt-2'>
+          Register
+        </Button>
+      </Form>
+      <Row className='py-3'>
+        <Col>
+          Already have an account?{' '}
+          <Link to={redirect ? `/login?redirect=${redirect}` : '/login'}>
+            Login
+          </Link>
+        </Col>
+      </Row>
+    </FormContainer>
   );
-};
-
+}
 export default RegisterScreen;

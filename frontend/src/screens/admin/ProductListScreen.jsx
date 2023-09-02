@@ -1,21 +1,21 @@
 import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Table, Button, Row, Col } from 'react-bootstrap';
 import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
-import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-import { CURRENCY_SYMBOL } from '../../constants';
-import Meta from '../../components/Meta';
-import ErrorMessage from '../../components/messages/ErrorMessage';
-import Loader from '../../components/Loader';
-import Paginate from '../../components/Paginate';
-import ModalConfirmBox from '../../components/ModalConfirmBox';
+import Meta from '../../components/general/Meta';
+import Loader from '../../components/general/Loader';
+import { ErrorMessage } from '../../components/general/Messages';
+import Paginate from '../../components/general/Paginate';
+import ModalConfirmBox from '../../components/general/ModalConfirmBox';
 import {
   useGetProductsQuery,
   useDeleteProductMutation,
   useCreateProductMutation,
 } from '../../slices/productsApiSlice';
+import { CURRENCY_SYMBOL } from '../../constants';
 
 const ProductListScreen = () => {
   const { pageNumber } = useParams();
@@ -100,8 +100,6 @@ const ProductListScreen = () => {
           </Button>
         </Col>
       </Row>
-      {loadingCreate && <Loader />}
-      {loadingDelete && <Loader />}
       {errorCreate && <ErrorMessage error={errorCreate} />}
       {errorDelete && <ErrorMessage error={errorDelete} />}
       {isLoading ? (
@@ -128,7 +126,7 @@ const ProductListScreen = () => {
                   <td>{product.name}</td>
                   <td>
                     {CURRENCY_SYMBOL}
-                    {product.price}
+                    {Number(product.price).toFixed(2)}
                   </td>
                   <td>{product.category}</td>
                   <td>{product.brand}</td>
@@ -151,6 +149,8 @@ const ProductListScreen = () => {
             </tbody>
           </Table>
           <Paginate pages={data.pages} page={data.page} isAdmin={true} />
+          {loadingCreate && <Loader />}
+          {loadingDelete && <Loader />}
         </>
       )}
     </>

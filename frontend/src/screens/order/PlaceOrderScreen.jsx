@@ -1,13 +1,12 @@
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import { Button, Row, Col, ListGroup, Card } from 'react-bootstrap';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { Button, Row, Col, ListGroup, Card } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 
-import Meta from '../../components/Meta';
-import Loader from '../../components/Loader';
-import Message from '../../components/messages/Message';
-import ErrorMessage from '../../components/messages/ErrorMessage';
+import Meta from '../../components/general/Meta';
+import Loader from '../../components/general/Loader';
+import { Message, ErrorMessage } from '../../components/general/Messages';
 import CheckoutSteps from '../../components/order/CheckoutSteps';
 import OrderItemLine from '../../components/order/OrderItemLine';
 import OrderSummaryBlock from '../../components/order/OrderSummaryBlock';
@@ -64,17 +63,15 @@ const PlaceOrderScreen = () => {
                 {cart.shippingAddress.country}
               </p>
             </ListGroup.Item>
-
             <ListGroup.Item>
               <h2>Payment Method</h2>
               <strong>Method: </strong>
               {cart.paymentMethod}
             </ListGroup.Item>
-
             <ListGroup.Item>
               <h2>Order Items</h2>
               {cart.cartItems.length === 0 ? (
-                <Message>Your cart is empty</Message>
+                <Message variant='info'>Your cart is empty</Message>
               ) : (
                 <ListGroup variant='flush'>
                   {cart.cartItems.map((item, index) => (
@@ -91,15 +88,13 @@ const PlaceOrderScreen = () => {
           <Card>
             <ListGroup variant='flush'>
               <OrderSummaryBlock order={cart} />
-
               <ListGroup.Item>
                 {error && <ErrorMessage error={error} />}
               </ListGroup.Item>
               <ListGroup.Item>
                 <Button
                   type='button'
-                  className='btn-block'
-                  style={{ marginTop: '1rem' }}
+                  className='btn-block mt-2'
                   disabled={cart.cartItems === 0}
                   onClick={placeOrderHandler}
                 >

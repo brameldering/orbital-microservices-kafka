@@ -1,15 +1,13 @@
 import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Row, Col, ListGroup, Card, Button } from 'react-bootstrap';
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
-import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
-import { CURRENCY_PAYPAL } from '../../constants';
-import Meta from '../../components/Meta';
-import Message from '../../components/messages/Message';
-import ErrorMessage from '../../components/messages/ErrorMessage';
-import Loader from '../../components/Loader';
+import Meta from '../../components/general/Meta';
+import Loader from '../../components/general/Loader';
+import { Message, ErrorMessage } from '../../components/general/Messages';
 import OrderItemLine from '../../components/order/OrderItemLine';
 import OrderSummaryBlock from '../../components/order/OrderSummaryBlock';
 import {
@@ -18,6 +16,7 @@ import {
   useGetPaypalClientIdQuery,
   usePayOrderMutation,
 } from '../../slices/ordersApiSlice';
+import { CURRENCY_PAYPAL } from '../../constants';
 
 const OrderScreen = () => {
   const { id: orderId } = useParams();
@@ -149,7 +148,6 @@ const OrderScreen = () => {
                 <strong>Order Date: </strong> {order.createdAt.substring(0, 10)}
               </p>
             </ListGroup.Item>
-
             <ListGroup.Item>
               <h2>Shipping</h2>
               <p>
@@ -173,7 +171,6 @@ const OrderScreen = () => {
                 <Message variant='danger'>Not Delivered</Message>
               )}
             </ListGroup.Item>
-
             <ListGroup.Item>
               <h2>Payment Method</h2>
               <p>
@@ -186,11 +183,10 @@ const OrderScreen = () => {
                 <Message variant='danger'>Not Paid</Message>
               )}
             </ListGroup.Item>
-
             <ListGroup.Item>
               <h2>Order Items</h2>
               {order.orderItems.length === 0 ? (
-                <Message>Order is empty</Message>
+                <Message variant='info'>Order is empty</Message>
               ) : (
                 <ListGroup variant='flush'>
                   {order.orderItems.map((item, index) => (
@@ -207,7 +203,6 @@ const OrderScreen = () => {
           <Card>
             <ListGroup variant='flush'>
               <OrderSummaryBlock order={order} />
-
               {!order.isPaid && (
                 <ListGroup.Item>
                   {loadingPay && <Loader />}
@@ -235,9 +230,7 @@ const OrderScreen = () => {
                   )}
                 </ListGroup.Item>
               )}
-
               {loadingDeliver && <Loader />}
-
               {userInfo &&
                 userInfo.isAdmin &&
                 order.isPaid &&
@@ -245,7 +238,7 @@ const OrderScreen = () => {
                   <ListGroup.Item>
                     <Button
                       type='button'
-                      className='btn btn-block'
+                      className='btn btn-block mt-2'
                       onClick={deliverHandler}
                     >
                       Mark As Delivered

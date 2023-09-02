@@ -1,5 +1,5 @@
-import { USERS_URL } from '../constants';
 import { apiSlice } from './apiSlice';
+import { USERS_URL } from '../constants';
 
 export const userApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -38,6 +38,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
         url: `${USERS_URL}/logout`,
         method: 'POST',
       }),
+      invalidatesTags: ['User', 'Order'],
     }),
     updateProfile: builder.mutation({
       query: (data) => ({

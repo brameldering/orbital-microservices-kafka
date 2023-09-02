@@ -1,16 +1,14 @@
-import { useState, useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
-
-import Meta from '../../components/Meta';
-import ErrorMessage from '../../components/messages/ErrorMessage';
-import Loader from '../../components/Loader';
-import FormContainer from '../../components/formComponents/FormContainer';
-import {
-  FormGroupTextEdit,
-  FormGroupNumberEdit,
-} from '../../components/formComponents/FormGroupControls';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { textField, numField } from '../../components/form/ValidationSpecs';
+import FormContainer from '../../components/form/FormContainer';
+import { TextField, NumberField } from '../../components/form/FormComponents';
+import Meta from '../../components/general/Meta';
+import Loader from '../../components/general/Loader';
+import { ErrorMessage } from '../../components/general/Messages';
 import {
   useGetProductDetailsQuery,
   useUpdateProductMutation,
@@ -21,15 +19,6 @@ const ProductEditScreen = () => {
   const navigate = useNavigate();
 
   const { id: productId } = useParams();
-
-  const [productIdSeq, setProductIdSeq] = useState('');
-  const [name, setName] = useState('');
-  const [price, setPrice] = useState(0);
-  const [image, setImage] = useState('');
-  const [brand, setBrand] = useState('');
-  const [category, setCategory] = useState('');
-  const [countInStock, setCountInStock] = useState(0);
-  const [description, setDescription] = useState('');
 
   const {
     data: product,
@@ -46,40 +35,56 @@ const ProductEditScreen = () => {
     { isLoading: loadingUpload, error: errorUploadImage },
   ] = useUploadProductImageMutation();
 
-  const submitHandler = async (e) => {
-    e.preventDefault();
-    try {
-      await updateProduct({
-        productId,
-        productIdSeq,
-        name,
-        price,
-        image,
-        brand,
-        category,
-        description,
-        countInStock,
-      }).unwrap(); // NOTE: here we need to unwrap the Promise to catch any rejection in our catch block
-      toast.success('Product updated');
-      refetch();
-      navigate('/admin/productlist');
-    } catch (err) {
-      toast.error(err?.data?.message || err.error);
-    }
-  };
-
-  useEffect(() => {
-    if (product) {
-      setProductIdSeq(product.sequenceProductId);
-      setName(product.name);
-      setPrice(product.price);
-      setImage(product.image);
-      setBrand(product.brand);
-      setCategory(product.category);
-      setCountInStock(product.countInStock);
-      setDescription(product.description);
-    }
-  }, [product]);
+  const formik = useFormik({
+    initialValues: {
+      productIdSeq: product?.sequenceProductId || null,
+      name: product?.name || '',
+      price: product?.price || 0,
+      image: product?.image || '',
+      brand: product?.brand || '',
+      category: product?.category || '',
+      countInStock: product?.countInStock || 0,
+      description: product?.description || '',
+    },
+    enableReinitialize: true,
+    validationSchema: Yup.object({
+      name: textField().required('required'),
+      price: numField().required('required'),
+      image: textField(),
+      brand: textField(),
+      category: textField(),
+      countInStock: numField().required('required'),
+      description: textField(),
+    }),
+    onSubmit: async (values) => {
+      const productIdSeq = values.productIdSeq;
+      const name = values.name;
+      const price = values.price;
+      const image = values.image;
+      const brand = values.brand;
+      const category = values.category;
+      const countInStock = values.countInStock;
+      const description = values.description;
+      try {
+        await updateProduct({
+          productId,
+          productIdSeq,
+          name,
+          price,
+          image,
+          brand,
+          category,
+          countInStock,
+          description,
+        }).unwrap(); // NOTE: here we need to unwrap the Promise to catch any rejection in our catch block
+        toast.success('Product updated');
+        refetch();
+        navigate('/admin/productlist');
+      } catch (err) {
+        toast.error(err?.data?.message || err.error);
+      }
+    },
+  });
 
   const uploadFileHandler = async (e) => {
     const formData = new FormData();
@@ -87,7 +92,7 @@ const ProductEditScreen = () => {
     try {
       const res = await uploadProductImage(formData).unwrap();
       toast.success(res.message);
-      setImage(res.image);
+      formik.setFieldValue('image', res.image);
     } catch (err) {
       toast.error(err?.data?.message || err.error);
     }
@@ -101,7 +106,6 @@ const ProductEditScreen = () => {
       </Link>
       <FormContainer>
         <h1>Edit Product</h1>
-        {loadingUpdate && <Loader />}
         {errorUpdate && <ErrorMessage error={errorUpdate} />}
         {errorUploadImage && <ErrorMessage error={errorUploadImage} />}
         {isLoading ? (
@@ -109,38 +113,13 @@ const ProductEditScreen = () => {
         ) : error ? (
           <ErrorMessage error={error} />
         ) : (
-          <Form onSubmit={submitHandler}>
-            <Form.Group controlId='productId'>
-              <Form.Label>Product Id</Form.Label>
-              <Form.Control
-                type='text'
-                placeholder='Unknown'
-                value={productIdSeq}
-                disabled
-              ></Form.Control>
-            </Form.Group>
-
-            <FormGroupTextEdit
-              controlId='name'
-              label='Name'
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-
-            <FormGroupNumberEdit
-              controlId='price'
-              label='Price'
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-            />
-
-            <FormGroupTextEdit
-              controlId='imageURL'
-              label='Image'
-              value={image}
-              onChange={(e) => setImage(e.target.value)}
-            />
-
+          <Form onSubmit={formik.handleSubmit}>
+            <p>
+              <strong>Product Id: </strong> {product?.sequenceProductId}
+            </p>
+            <TextField controlId='name' label='Product name' formik={formik} />
+            <NumberField controlId='price' label='Price' formik={formik} />
+            <TextField controlId='image' label='Image' formik={formik} />
             <Form.Group>
               <Form.Control
                 label='Choose File'
@@ -149,42 +128,22 @@ const ProductEditScreen = () => {
               ></Form.Control>
               {loadingUpload && <Loader />}
             </Form.Group>
-
-            <FormGroupTextEdit
-              controlId='brand'
-              label='Brand'
-              value={brand}
-              onChange={(e) => setBrand(e.target.value)}
-            />
-
-            <FormGroupNumberEdit
+            <TextField controlId='brand' label='Brand' formik={formik} />
+            <NumberField
               controlId='countInStock'
               label='Count In Stock'
-              value={countInStock}
-              onChange={(e) => setCountInStock(e.target.value)}
+              formik={formik}
             />
-
-            <FormGroupTextEdit
-              controlId='category'
-              label='Category'
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-            />
-
-            <FormGroupTextEdit
+            <TextField controlId='category' label='Category' formik={formik} />
+            <TextField
               controlId='description'
               label='Description'
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              formik={formik}
             />
-
-            <Button
-              type='submit'
-              variant='primary'
-              style={{ marginTop: '1rem' }}
-            >
+            <Button type='submit' variant='primary' className='mt-2'>
               Update
             </Button>
+            {loadingUpdate && <Loader />}
           </Form>
         )}
       </FormContainer>
