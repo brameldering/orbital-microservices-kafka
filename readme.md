@@ -63,7 +63,7 @@ This is version 2.0 of the app, which uses Redux Toolkit. The first version can 
 Rename the `.env.example` file to `.env` and define settings accordingly
 
 ```
-NODE_ENV=<development_or_production>
+NODE_ENV=<development_or_test_or_production>
 PORT=<development_port_default_is_5000>
 MONGO_URI=<your_mongo_db_uri>
 REDIS_HOST=<your_redis_db_uri>
