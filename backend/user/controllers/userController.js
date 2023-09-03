@@ -31,12 +31,14 @@ const authUser = asyncHandler(async (req, res) => {
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
 
-  const userExists = await User.findOne({ email });
-
-  if (userExists) {
-    res.status(400);
-    throw new Error('User already exists');
-  }
+  // The errorMiddleware now returns user friendly error messages
+  // for example for the case when a unique field such as email already exists
+  // ===========================================================
+  // const userExists = await User.findOne({ email });
+  // if (userExists) {
+  //   res.status(400);
+  //   throw new Error('User already exists');
+  // }
 
   const user = await User.create({
     name,
