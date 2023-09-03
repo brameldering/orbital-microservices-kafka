@@ -14,12 +14,14 @@ export const productsApiSlice = apiSlice.injectEndpoints({
           ? [...products.map(({ id }) => ({ type: 'Product', id })), 'Product']
           : ['Product'];
       },
+      keepUnusedDataFor: 60 * 60,
     }),
     getProductDetails: builder.query({
       query: (productId) => ({
         url: `${PRODUCTS_URL}/${productId}`,
       }),
       providesTags: (result, error, id) => [{ type: 'Product', id }],
+      keepUnusedDataFor: 60 * 60,
     }),
     createProduct: builder.mutation({
       query: () => ({

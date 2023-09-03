@@ -7,19 +7,25 @@ export const orderApiSlice = apiSlice.injectEndpoints({
       query: () => ({
         url: ORDERS_URL,
       }),
-      providesTags: ['Order'],
+      providesTags: (result, error, arg) =>
+        result
+          ? [...result.map(({ id }) => ({ type: 'Order', id })), 'Order']
+          : ['Order'],
     }),
     getMyOrders: builder.query({
       query: (userId) => ({
         url: `${ORDERS_URL}/mine/${userId}`,
       }),
-      providesTags: ['MyOrders'],
+      providesTags: (result, error, arg) =>
+        result
+          ? [...result.map(({ id }) => ({ type: 'Order', id })), 'Order']
+          : ['Order'],
     }),
     getOrderDetails: builder.query({
       query: (id) => ({
         url: `${ORDERS_URL}/${id}`,
       }),
-      providesTags: ['Order'],
+      providesTags: (result, error, id) => [{ type: 'Order', id }],
     }),
     createOrder: builder.mutation({
       query: (order) => ({
@@ -33,6 +39,7 @@ export const orderApiSlice = apiSlice.injectEndpoints({
       query: () => ({
         url: PAYPAL_URL,
       }),
+      keepUnusedDataFor: 60 * 60 * 24,
     }),
     payOrder: builder.mutation({
       query: ({ orderId, details }) => ({
@@ -40,14 +47,14 @@ export const orderApiSlice = apiSlice.injectEndpoints({
         method: 'PUT',
         body: details,
       }),
-      invalidatesTags: ['Order'],
+      invalidatesTags: (result, error, arg) => [{ type: 'Order', id: arg.id }],
     }),
     deliverOrder: builder.mutation({
       query: (orderId) => ({
         url: `${ORDERS_URL}/${orderId}/deliver`,
         method: 'PUT',
       }),
-      invalidatesTags: ['Order'],
+      invalidatesTags: (result, error, arg) => [{ type: 'Order', id: arg.id }],
     }),
   }),
 });
