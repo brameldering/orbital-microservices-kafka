@@ -6,7 +6,7 @@ const router = express.Router();
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
-    cb(null, 'uploads' + path.sep);
+    cb(null, 'uploads');
   },
   filename(req, file, cb) {
     cb(
@@ -26,7 +26,7 @@ function fileFilter(req, file, cb) {
   if (extname && mimetype) {
     cb(null, true);
   } else {
-    cb(new Error('Images only!'), false);
+    cb(new Error('Only image files can be uploaded!'), false);
   }
 }
 
@@ -37,11 +37,12 @@ router.post('/', (req, res) => {
   uploadSingleImage(req, res, function (err) {
     if (err) {
       res.status(400).send({ message: err.message });
+    } else {
+      res.status(200).send({
+        message: 'Image uploaded successfully',
+        image: path.sep + `${req.file.path}`,
+      });
     }
-    res.status(200).send({
-      message: 'Image uploaded successfully',
-      image: path.sep + `${req.file.path}`,
-    });
   });
 });
 
