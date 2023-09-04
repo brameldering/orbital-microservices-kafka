@@ -3,7 +3,7 @@ import IdSequence from '../../general/models/idSequenceModel.js';
 import Product from '../models/productModel.js';
 
 // @desc    Fetch all products
-// @route   GET /api/products
+// @route   GET /api/products/v1
 // @access  Public
 const getProducts = asyncHandler(async (req, res) => {
   const pageSize = process.env.PRODUCTS_PER_PAGE;
@@ -34,7 +34,7 @@ const getProducts = asyncHandler(async (req, res) => {
 });
 
 // @desc    Fetch single product
-// @route   GET /api/products/:id
+// @route   GET /api/products/v1/:id
 // @access  Public
 const getProductById = asyncHandler(async (req, res) => {
   // NOTE: checking for valid ObjectId to prevent CastError moved to separate
@@ -52,7 +52,7 @@ const getProductById = asyncHandler(async (req, res) => {
 });
 
 // @desc    Create a product
-// @route   POST /api/products
+// @route   POST /api/products/v1
 // @access  Private/Admin
 const createProduct = asyncHandler(async (req, res) => {
   const seqProductId = await IdSequence.findOneAndUpdate(
@@ -80,7 +80,7 @@ const createProduct = asyncHandler(async (req, res) => {
 });
 
 // @desc    Update a product
-// @route   PUT /api/products/:id
+// @route   PUT /api/products/v1/:id
 // @access  Private/Admin
 const updateProduct = asyncHandler(async (req, res) => {
   const { name, price, description, image, brand, category, countInStock } =
@@ -106,7 +106,7 @@ const updateProduct = asyncHandler(async (req, res) => {
 });
 
 // @desc    Delete a product
-// @route   DELETE /api/products/:id
+// @route   DELETE /api/products/v1/:id
 // @access  Private/Admin
 const deleteProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
@@ -121,7 +121,7 @@ const deleteProduct = asyncHandler(async (req, res) => {
 });
 
 // @desc    Create new review
-// @route   POST /api/products/:id/reviews
+// @route   POST /api/products/v1/:id/reviews
 // @access  Private
 const createProductReview = asyncHandler(async (req, res) => {
   const { rating, comment } = req.body;
@@ -162,7 +162,7 @@ const createProductReview = asyncHandler(async (req, res) => {
 });
 
 // @desc    Get top rated products
-// @route   GET /api/products/top
+// @route   GET /api/products/v1/top
 // @access  Public
 const getTopProducts = asyncHandler(async (req, res) => {
   const products = await Product.find({}).sort({ rating: -1 }).limit(3);

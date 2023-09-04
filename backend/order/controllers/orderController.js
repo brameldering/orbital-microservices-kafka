@@ -10,7 +10,7 @@ import {
 import mongoose from 'mongoose';
 
 // @desc    Create new order
-// @route   POST /api/orders
+// @route   POST /api/orders/v1
 // @access  Private
 const addOrderItems = asyncHandler(async (req, res) => {
   const { orderItems, shippingAddress, paymentMethod } = req.body;
@@ -75,7 +75,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
 });
 
 // @desc    Get logged in user orders
-// @route   GET /api/orders/mine/:userId
+// @route   GET /api/orders/v1/mine/:userId
 // @access  Private
 const getMyOrders = asyncHandler(async (req, res) => {
   const userId = new mongoose.Types.ObjectId(req.params.userId);
@@ -86,7 +86,7 @@ const getMyOrders = asyncHandler(async (req, res) => {
 });
 
 // @desc    Get order by ID
-// @route   GET /api/orders/:id
+// @route   GET /api/orders/v1/:id
 // @access  Private
 const getOrderById = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id).populate(
@@ -103,7 +103,7 @@ const getOrderById = asyncHandler(async (req, res) => {
 });
 
 // @desc    Update order to paid
-// @route   PUT /api/orders/:id/pay
+// @route   PUT /api/orders/v1/:id/pay
 // @access  Private
 const updateOrderToPaid = asyncHandler(async (req, res) => {
   // NOTE: here we need to verify the payment was made to PayPal before marking
@@ -142,7 +142,7 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
 });
 
 // @desc    Update order to delivered
-// @route   POST /api/orders/:id/deliver
+// @route   POST /api/orders/v1/:id/deliver
 // @access  Private/Admin
 const updateOrderToDelivered = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id);
@@ -161,7 +161,7 @@ const updateOrderToDelivered = asyncHandler(async (req, res) => {
 });
 
 // @desc    Get all orders
-// @route   GET /api/orders
+// @route   GET /api/orders/v1
 // @access  Private/Admin
 const getOrders = asyncHandler(async (req, res) => {
   const orders = await Order.find({}).populate('user', 'id name');
