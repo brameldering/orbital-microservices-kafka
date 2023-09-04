@@ -11,7 +11,7 @@ import { useGetProductsQuery } from '../slices/productsApiSlice';
 const HomeScreen = () => {
   const { pageNumber, keyword } = useParams();
 
-  const { data, isLoading, error } = useGetProductsQuery({
+  const { data, isLoading, errorLoading } = useGetProductsQuery({
     keyword,
     pageNumber,
   });
@@ -25,8 +25,8 @@ const HomeScreen = () => {
       )}
       {isLoading ? (
         <Loader />
-      ) : error ? (
-        <ErrorMessage error={error} />
+      ) : errorLoading ? (
+        <ErrorMessage error={errorLoading} />
       ) : (
         <>
           <Meta />

@@ -23,7 +23,7 @@ const LoginScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [login, { isLoading, error }] = useLoginMutation();
+  const [login, { isLoading, errorLogin }] = useLoginMutation();
 
   const { search } = useLocation();
   const sp = new URLSearchParams(search);
@@ -55,7 +55,7 @@ const LoginScreen = () => {
     <FormContainer>
       <Meta title='Sign In' />
       <h1>Sign In</h1>
-      {error && <ErrorMessage error={error} />}
+      {errorLogin && <ErrorMessage error={errorLogin} />}
       <Form onSubmit={formik.handleSubmit}>
         <EmailField controlId='email' label='Email' formik={formik} />
         <PasswordField controlId='password' label='Password' formik={formik} />

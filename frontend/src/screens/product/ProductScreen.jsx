@@ -43,7 +43,7 @@ const ProductScreen = () => {
     data: product,
     isLoading,
     refetch,
-    error,
+    errorLoading,
   } = useGetProductDetailsQuery(productId);
 
   const { userInfo } = useSelector((state) => state.auth);
@@ -77,8 +77,8 @@ const ProductScreen = () => {
       {errorCreateReview && <ErrorMessage error={errorCreateReview} />}
       {isLoading ? (
         <Loader />
-      ) : error ? (
-        <ErrorMessage error={error} />
+      ) : errorLoading ? (
+        <ErrorMessage error={errorLoading} />
       ) : (
         <>
           <Meta title={product.name} description={product.description} />

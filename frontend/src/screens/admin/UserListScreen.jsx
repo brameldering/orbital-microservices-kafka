@@ -15,7 +15,7 @@ import {
 
 const UserListScreen = () => {
   // --------------- Get Users ---------------
-  const { data: users, refetch, isLoading, error } = useGetUsersQuery();
+  const { data: users, refetch, isLoading, errorLoading } = useGetUsersQuery();
 
   // --------------- Delete User ---------------
   const [deleteUser, { isLoading: loadingDelete, error: errorDelete }] =
@@ -56,8 +56,8 @@ const UserListScreen = () => {
       {errorDelete && <ErrorMessage error={errorDelete} />}
       {isLoading ? (
         <Loader />
-      ) : error ? (
-        <ErrorMessage error={error} />
+      ) : errorLoading ? (
+        <ErrorMessage error={errorLoading} />
       ) : (
         <Table striped hover responsive className='table-sm'>
           <thead>

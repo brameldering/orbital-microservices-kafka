@@ -26,7 +26,11 @@ const ProfileScreen = () => {
 
   const { userInfo } = useSelector((state) => state.auth);
   // console.log('ProfileScreen - userInfo', userInfo);
-  const { data: orders, isLoading, error } = useGetMyOrdersQuery(userInfo._id);
+  const {
+    data: orders,
+    isLoading,
+    errorLoading,
+  } = useGetMyOrdersQuery(userInfo._id);
 
   const [
     updateProfile,
@@ -99,8 +103,8 @@ const ProfileScreen = () => {
           <h2>My Orders</h2>
           {isLoading ? (
             <Loader />
-          ) : error ? (
-            <ErrorMessage error={error} />
+          ) : errorLoading ? (
+            <ErrorMessage error={errorLoading} />
           ) : (
             <Table striped hover responsive className='table-sm'>
               <thead>

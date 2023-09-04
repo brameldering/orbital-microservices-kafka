@@ -27,7 +27,7 @@ const OrderScreen = () => {
     data: order,
     refetch,
     isLoading,
-    error,
+    errorLoading,
   } = useGetOrderDetailsQuery(orderId);
 
   const [payOrder, { isLoading: loadingPay, error: errorPay }] =
@@ -41,11 +41,11 @@ const OrderScreen = () => {
   const {
     data: paypal,
     isLoading: loadingPayPal,
-    error: errorPayPal,
+    error: errorGetPayPalClientId,
   } = useGetPaypalClientIdQuery();
 
   useEffect(() => {
-    if (!errorPayPal && !loadingPayPal && paypal.clientId) {
+    if (!errorGetPayPalClientId && !loadingPayPal && paypal.clientId) {
       const loadPaypalScript = async () => {
         paypalDispatch({
           type: 'resetOptions',
@@ -62,7 +62,7 @@ const OrderScreen = () => {
         }
       }
     }
-  }, [errorPayPal, loadingPayPal, order, paypal, paypalDispatch]);
+  }, [errorGetPayPalClientId, loadingPayPal, order, paypal, paypalDispatch]);
 
   function onApprove(data, actions) {
     try {
@@ -91,7 +91,7 @@ const OrderScreen = () => {
   //   }
   // }
 
-  function onError(err) {
+  function onPayPalError(err) {
     toast.error(err.message);
   }
 
@@ -127,8 +127,8 @@ const OrderScreen = () => {
 
   return isLoading ? (
     <Loader />
-  ) : error ? (
-    <ErrorMessage error={error} />
+  ) : errorLoading ? (
+    <ErrorMessage error={errorLoading} />
   ) : errorPay ? (
     <ErrorMessage error={errorPay} />
   ) : errorDeliver ? (
@@ -223,7 +223,7 @@ const OrderScreen = () => {
                         <PayPalButtons
                           createOrder={createOrder}
                           onApprove={onApprove}
-                          onError={onError}
+                          onError={onPayPalError}
                         ></PayPalButtons>
                       </div>
                     </div>

@@ -21,7 +21,7 @@ const ProductListScreen = () => {
   const { pageNumber } = useParams();
 
   // --------------- Get Products ---------------
-  const { data, isLoading, error, refetch } = useGetProductsQuery({
+  const { data, isLoading, errorLoading, refetch } = useGetProductsQuery({
     pageNumber,
   });
 
@@ -104,8 +104,8 @@ const ProductListScreen = () => {
       {errorDelete && <ErrorMessage error={errorDelete} />}
       {isLoading ? (
         <Loader />
-      ) : error ? (
-        <ErrorMessage error={error} />
+      ) : errorLoading ? (
+        <ErrorMessage error={errorLoading} />
       ) : (
         <>
           <Table striped hover responsive className='table-sm'>

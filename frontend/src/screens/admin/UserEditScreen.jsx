@@ -26,7 +26,7 @@ const UserEditScreen = () => {
   const {
     data: user,
     isLoading,
-    error,
+    errorLoading,
     refetch,
   } = useGetUserDetailsQuery(userId);
 
@@ -70,8 +70,8 @@ const UserEditScreen = () => {
         {errorUpdate && <ErrorMessage error={errorUpdate} />}
         {isLoading ? (
           <Loader />
-        ) : error ? (
-          <ErrorMessage error={error} />
+        ) : errorLoading ? (
+          <ErrorMessage error={errorLoading} />
         ) : (
           <Form onSubmit={formik.handleSubmit}>
             <TextField controlId='name' label='Full name' formik={formik} />

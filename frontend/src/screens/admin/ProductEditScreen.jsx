@@ -24,7 +24,7 @@ const ProductEditScreen = () => {
     data: product,
     isLoading,
     refetch,
-    error,
+    errorLoading,
   } = useGetProductDetailsQuery(productId);
 
   const [updateProduct, { isLoading: loadingUpdate, error: errorUpdate }] =
@@ -110,8 +110,8 @@ const ProductEditScreen = () => {
         {errorUploadImage && <ErrorMessage error={errorUploadImage} />}
         {isLoading ? (
           <Loader />
-        ) : error ? (
-          <ErrorMessage error={error} />
+        ) : errorLoading ? (
+          <ErrorMessage error={errorLoading} />
         ) : (
           <Form onSubmit={formik.handleSubmit}>
             <p>

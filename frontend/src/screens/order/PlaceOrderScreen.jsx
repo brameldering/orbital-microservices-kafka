@@ -19,7 +19,7 @@ const PlaceOrderScreen = () => {
 
   const cart = useSelector((state) => state.cart);
 
-  const [createOrder, { isLoading, error }] = useCreateOrderMutation();
+  const [createOrder, { isLoading, errorCreate }] = useCreateOrderMutation();
 
   useEffect(() => {
     if (!cart.shippingAddress.address) {
@@ -89,7 +89,7 @@ const PlaceOrderScreen = () => {
             <ListGroup variant='flush'>
               <OrderSummaryBlock order={cart} />
               <ListGroup.Item>
-                {error && <ErrorMessage error={error} />}
+                {errorCreate && <ErrorMessage error={errorCreate} />}
               </ListGroup.Item>
               <ListGroup.Item>
                 <Button
