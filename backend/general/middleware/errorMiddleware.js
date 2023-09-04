@@ -13,7 +13,7 @@ const errorHandler = (err, req, res, next) => {
   // Handle dublicate unique field error such as register or profile update
   // to an already existing email address
   if (errorCode === 11000) {
-    message = `A user with that ${Object.keys(err.keyValue)} already exists`;
+    message = `That ${Object.keys(err.keyValue)} already exists`;
   }
 
   // NOTE: checking for invalid ObjectId moved to it's own middleware
