@@ -54,7 +54,8 @@ const UserEditScreen = () => {
         refetch();
         navigate('/admin/userlist');
       } catch (err) {
-        toast.error(err?.data?.message || err.error);
+        // Do nothing because the error will be displayed as ErrorMessage
+        // toast.error(err?.data?.message || err.error);
       }
     },
   });

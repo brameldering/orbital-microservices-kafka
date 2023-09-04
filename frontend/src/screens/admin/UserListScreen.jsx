@@ -2,8 +2,6 @@ import { useState } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Table, Button } from 'react-bootstrap';
 import { FaTrash, FaEdit, FaCheck, FaTimes } from 'react-icons/fa';
-import { toast } from 'react-toastify';
-
 import Meta from '../../components/general/Meta';
 import Loader from '../../components/general/Loader';
 import { ErrorMessage } from '../../components/general/Messages';
@@ -35,7 +33,8 @@ const UserListScreen = () => {
       await deleteUser(deleteUserId).unwrap();
       refetch();
     } catch (err) {
-      toast.error(err?.data?.message || err.error);
+      // Do nothing because the error will be displayed as ErrorMessage
+      // toast.error(err?.data?.message || err.error);
     } finally {
       setConfirmDeleteUserModal(false);
     }

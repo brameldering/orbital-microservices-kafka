@@ -3,8 +3,6 @@ import { useParams } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Table, Button, Row, Col } from 'react-bootstrap';
 import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
-import { toast } from 'react-toastify';
-
 import Meta from '../../components/general/Meta';
 import Loader from '../../components/general/Loader';
 import { ErrorMessage } from '../../components/general/Messages';
@@ -41,7 +39,8 @@ const ProductListScreen = () => {
       await createProduct().unwrap();
       refetch();
     } catch (err) {
-      toast.error(err?.data?.message || err.error);
+      // Do nothing because the error will be displayed as ErrorMessage
+      // toast.error(err?.data?.message || err.error);
     } finally {
       setConfirmCreateProductModal(false);
     }
@@ -66,7 +65,8 @@ const ProductListScreen = () => {
       await deleteProduct(deleteProductId).unwrap();
       refetch();
     } catch (err) {
-      toast.error(err?.data?.message || err.error);
+      // Do nothing because the error will be displayed as ErrorMessage
+      // toast.error(err?.data?.message || err.error);
     } finally {
       setConfirmDeleteProductModal(false);
     }

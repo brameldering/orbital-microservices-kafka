@@ -65,7 +65,8 @@ const ProductScreen = () => {
       refetch();
       toast.success('Review created successfully');
     } catch (err) {
-      toast.error(err?.data?.message || err.error);
+      // do nothing because any error will be shown on screen as errorCreateReview
+      // toast.error(err?.data?.message || err.error);
     }
   };
 

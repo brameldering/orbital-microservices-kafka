@@ -1,7 +1,7 @@
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Form, Button, Row, Col } from 'react-bootstrap';
-import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import {
@@ -15,13 +15,14 @@ import {
 } from '../../components/form/FormComponents';
 import Meta from '../../components/general/Meta';
 import Loader from '../../components/general/Loader';
-import { ErrorMessage } from '../../components/general/Messages';
+import { Message, ErrorMessage } from '../../components/general/Messages';
 import { setCredentials } from '../../slices/authSlice';
 import { useLoginMutation } from '../../slices/usersApiSlice';
 
 const LoginScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [errorMsg, setErrorMsg] = useState('');
 
   const [login, { isLoading, errorLogin }] = useLoginMutation();
 
@@ -46,7 +47,8 @@ const LoginScreen = () => {
         dispatch(setCredentials({ ...res }));
         navigate(redirect);
       } catch (err) {
-        toast.error(err?.data?.message || err.error);
+        setErrorMsg(err?.data?.message || err.error);
+        // toast.error(err?.data?.message || err.error);
       }
     },
   });
@@ -56,6 +58,7 @@ const LoginScreen = () => {
       <Meta title='Sign In' />
       <h1>Sign In</h1>
       {errorLogin && <ErrorMessage error={errorLogin} />}
+      {errorMsg && <Message variant='danger'>{errorMsg}</Message>}
       <Form onSubmit={formik.handleSubmit}>
         <EmailField controlId='email' label='Email' formik={formik} />
         <PasswordField controlId='password' label='Password' formik={formik} />

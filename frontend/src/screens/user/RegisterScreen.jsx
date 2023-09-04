@@ -1,8 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Form, Button, Row, Col } from 'react-bootstrap';
-import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import {
@@ -17,13 +16,14 @@ import {
 } from '../../components/form/FormComponents';
 import Meta from '../../components/general/Meta';
 import Loader from '../../components/general/Loader';
-import { ErrorMessage } from '../../components/general/Messages';
+import { Message, ErrorMessage } from '../../components/general/Messages';
 import { useRegisterMutation } from '../../slices/usersApiSlice';
 import { setCredentials } from '../../slices/authSlice';
 
 function RegisterScreen() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [errorMsg, setErrorMsg] = useState('');
 
   const [register, { isLoading, errorRegister }] = useRegisterMutation();
 
@@ -64,7 +64,7 @@ function RegisterScreen() {
         dispatch(setCredentials({ ...res }));
         navigate(redirect);
       } catch (err) {
-        toast.error(err?.data?.message || err.error);
+        setErrorMsg(err?.data?.message || err.error);
       }
     },
   });
@@ -75,6 +75,7 @@ function RegisterScreen() {
       <h1>Register account</h1>
       {isLoading && <Loader />}
       {errorRegister && <ErrorMessage error={errorRegister} />}
+      {errorMsg && <Message variant='danger'>{errorMsg}</Message>}
       <Form onSubmit={formik.handleSubmit}>
         <TextField controlId='name' label='Full name' formik={formik} />
         <EmailField controlId='email' label='Email' formik={formik} />

@@ -1,9 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Button, Row, Col, ListGroup, Card } from 'react-bootstrap';
-import { toast } from 'react-toastify';
-
 import Meta from '../../components/general/Meta';
 import Loader from '../../components/general/Loader';
 import { Message, ErrorMessage } from '../../components/general/Messages';
@@ -16,6 +14,7 @@ import { clearCartItems } from '../../slices/cartSlice';
 const PlaceOrderScreen = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [errorMsg, setErrorMsg] = useState('');
 
   const cart = useSelector((state) => state.cart);
 
@@ -43,7 +42,7 @@ const PlaceOrderScreen = () => {
       dispatch(clearCartItems());
       navigate(`/order/${res._id}`);
     } catch (err) {
-      toast.error(err?.data?.message || err.error);
+      setErrorMsg(err?.data?.message || err.error);
     }
   };
 
@@ -90,6 +89,7 @@ const PlaceOrderScreen = () => {
               <OrderSummaryBlock order={cart} />
               <ListGroup.Item>
                 {errorCreate && <ErrorMessage error={errorCreate} />}
+                {errorMsg && <Message variant='danger'>{errorMsg}</Message>}
               </ListGroup.Item>
               <ListGroup.Item>
                 <Button

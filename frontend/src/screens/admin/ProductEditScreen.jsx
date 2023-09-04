@@ -81,7 +81,8 @@ const ProductEditScreen = () => {
         refetch();
         navigate('/admin/productlist');
       } catch (err) {
-        toast.error(err?.data?.message || err.error);
+        // Do nothing because the error will be displayed as ErrorMessage
+        // toast.error(err?.data?.message || err.error);
       }
     },
   });
@@ -94,7 +95,8 @@ const ProductEditScreen = () => {
       toast.success(res.message);
       formik.setFieldValue('image', res.image);
     } catch (err) {
-      toast.error(err?.data?.message || err.error);
+      // Do nothing because the error will be displayed as ErrorMessage errorUploadImage
+      // toast.error(err?.data?.message || err.error);
     }
   };
 

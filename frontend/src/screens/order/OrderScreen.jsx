@@ -1,10 +1,9 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Row, Col, ListGroup, Card, Button } from 'react-bootstrap';
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
 import { toast } from 'react-toastify';
-
 import Meta from '../../components/general/Meta';
 import Loader from '../../components/general/Loader';
 import { Message, ErrorMessage } from '../../components/general/Messages';
@@ -20,7 +19,7 @@ import { CURRENCY_PAYPAL } from '../../constants';
 
 const OrderScreen = () => {
   const { id: orderId } = useParams();
-
+  const [errorMsg, setErrorMsg] = useState('');
   const { userInfo } = useSelector((state) => state.auth);
 
   const {
@@ -70,13 +69,13 @@ const OrderScreen = () => {
         await payOrder({ orderId, details }).unwrap();
         refetch();
         if (errorPay) {
-          toast.error('Order has not been paid');
+          setErrorMsg('Order has not been paid');
         } else {
           toast.success('Order is paid');
         }
       });
     } catch (err) {
-      toast.error(err?.data?.message || err.error);
+      setErrorMsg(err?.data?.message || err.error);
     }
   }
 
@@ -85,14 +84,14 @@ const OrderScreen = () => {
   //   await payOrder({ orderId, details: { payer: {} } });
   //   refetch();
   //   if (errorPay) {
-  //     toast.error('Order has not been paid');
+  //     setErrorMsg('Order has not been paid');
   //   } else {
   //     toast.success('Order is paid');
   //   }
   // }
 
   function onPayPalError(err) {
-    toast.error(err.message);
+    setErrorMsg(err.message);
   }
 
   function createOrder(data, actions) {
@@ -109,7 +108,7 @@ const OrderScreen = () => {
           return orderID;
         });
     } catch (err) {
-      toast.error(err?.data?.message || err.error);
+      setErrorMsg(err?.data?.message || err.error);
     }
   }
 
@@ -117,16 +116,15 @@ const OrderScreen = () => {
     try {
       await deliverOrder(orderId).unwrap();
       refetch();
-      if (errorDeliver) {
-        toast.error('Error setting order to delivered');
-      }
     } catch (err) {
-      toast.error(err?.data?.message || err.error);
+      setErrorMsg(err?.data?.message || err.error);
     }
   };
 
   return isLoading ? (
     <Loader />
+  ) : errorMsg ? (
+    <Message variant='danger'>{errorMsg}</Message>
   ) : errorLoading ? (
     <ErrorMessage error={errorLoading} />
   ) : errorPay ? (
@@ -168,7 +166,7 @@ const OrderScreen = () => {
                   Delivered on {order.deliveredAt}
                 </Message>
               ) : (
-                <Message variant='danger'>Not Delivered</Message>
+                <Message variant='info'>Not Delivered</Message>
               )}
             </ListGroup.Item>
             <ListGroup.Item>
@@ -180,7 +178,7 @@ const OrderScreen = () => {
               {order.isPaid ? (
                 <Message variant='success'>Paid on {order.paidAt}</Message>
               ) : (
-                <Message variant='danger'>Not Paid</Message>
+                <Message variant='info'>Not Paid</Message>
               )}
             </ListGroup.Item>
             <ListGroup.Item>
