@@ -43,7 +43,7 @@ app.use('/api/orders/v1', orderRoutes);
 app.use('/api/upload/v1', uploadRoutes);
 
 // API to provide the PAYPAL_CLIENT_ID from .env to frontend
-app.get('/api/config/paypal/v1', (req, res) =>
+app.get('/api/config/v1/paypal', (req, res) =>
   res.send({ clientId: process.env.PAYPAL_CLIENT_ID })
 );
 
