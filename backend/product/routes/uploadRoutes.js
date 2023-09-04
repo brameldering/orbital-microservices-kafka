@@ -4,6 +4,7 @@ import multer from 'multer';
 
 const router = express.Router();
 
+// -------------------------------------------
 const storage = multer.diskStorage({
   destination(req, file, cb) {
     cb(null, 'uploads');
@@ -32,18 +33,29 @@ function fileFilter(req, file, cb) {
 
 const upload = multer({ storage, fileFilter });
 const uploadSingleImage = upload.single('image');
+// -------------------------------------------
+
+const errorFunction = (err) => {
+  if (err) {
+    res.status(400).send({ message: err.message });
+  } else {
+    res.status(200).send({
+      message: 'Image uploaded successfully',
+      image: path.sep + `${req.file.path}`,
+    });
+  }
+};
+
+const uploadSingleImageServerDisk = (req, res) => {
+  uploadSingleImage(req, res, errorFunction);
+};
 
 router.post('/', (req, res) => {
-  uploadSingleImage(req, res, function (err) {
-    if (err) {
-      res.status(400).send({ message: err.message });
-    } else {
-      res.status(200).send({
-        message: 'Image uploaded successfully',
-        image: path.sep + `${req.file.path}`,
-      });
-    }
-  });
+  if (process.env.IMAGES_ON_SERVER_OR_CLOUDINARY === 'cloudinary') {
+    console.log('cloudinary');
+  } else {
+    uploadSingleImageServerDisk(req, res);
+  }
 });
 
 export default router;

@@ -1,5 +1,6 @@
 import path from 'path';
 import express from 'express';
+import cors from 'cors';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import connectDB from './general/config/db.js';
@@ -20,6 +21,12 @@ connectDB();
 const app = express();
 
 app.use(express.json());
+// app.use(
+//   cors({
+// origin: process.env.CORS_ALLOWED_ORIGINS,
+// credentials: true,
+//   })
+// );
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
