@@ -5,7 +5,11 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { textField, numField } from '../../components/form/ValidationSpecs';
 import FormContainer from '../../components/form/FormContainer';
-import { TextField, NumberField } from '../../components/form/FormComponents';
+import {
+  TextField,
+  NumberField,
+  HiddenTextField,
+} from '../../components/form/FormComponents';
 import Meta from '../../components/general/Meta';
 import Loader from '../../components/general/Loader';
 import { ErrorMessage } from '../../components/general/Messages';
@@ -121,17 +125,26 @@ const ProductEditScreen = () => {
               <strong>Product Id: </strong> {product?.sequenceProductId}
             </p>
             <TextField controlId='name' label='Product name' formik={formik} />
-            <NumberField controlId='price' label='Price' formik={formik} />
-            <TextField controlId='image' label='Image' formik={formik} />
-            <Form.Group>
-              <Form.Control
-                label='Choose File'
-                onChange={uploadFileHandler}
-                type='file'
-              ></Form.Control>
-            </Form.Group>
+            <HiddenTextField controlId='image' formik={formik} />
+
+            <Form.Control
+              label='Choose File'
+              onChange={uploadFileHandler}
+              type='file'
+              className='mt-3'
+            ></Form.Control>
+
+            <img
+              src={formik.values.image}
+              alt='formik.values.name'
+              className='mt-2'
+              width='80'
+              height='80'
+              fluid
+            />
             {loadingUpload && <Loader />}
             <TextField controlId='brand' label='Brand' formik={formik} />
+            <NumberField controlId='price' label='Price' formik={formik} />
             <NumberField
               controlId='countInStock'
               label='Count In Stock'

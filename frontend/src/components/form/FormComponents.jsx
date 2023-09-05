@@ -2,23 +2,21 @@ import { Form } from 'react-bootstrap';
 
 const FormComponent = ({ controlId, label, type, formik }) => {
   return (
-    <>
-      <Form.Group className='my-2' controlId={controlId}>
-        <Form.Label className='my-1'>{label}</Form.Label>
-        <Form.Control
-          name={controlId}
-          type={type}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values[controlId]}
-        />
-        <Form.Text className='text-danger'>
-          {formik.touched[controlId] && formik.errors[controlId] ? (
-            <div className='text-danger'>{formik.errors[controlId]}</div>
-          ) : null}
-        </Form.Text>
-      </Form.Group>
-    </>
+    <Form.Group className='my-2' controlId={controlId}>
+      <Form.Label className='my-1'>{label}</Form.Label>
+      <Form.Control
+        name={controlId}
+        type={type}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        value={formik.values[controlId]}
+      />
+      <Form.Text className='text-danger'>
+        {formik.touched[controlId] && formik.errors[controlId] ? (
+          <div className='text-danger'>{formik.errors[controlId]}</div>
+        ) : null}
+      </Form.Text>
+    </Form.Group>
   );
 };
 
@@ -79,4 +77,23 @@ const CheckBoxField = ({ controlId, label, formik }) => {
   );
 };
 
-export { TextField, EmailField, PasswordField, NumberField, CheckBoxField };
+const HiddenTextField = ({ controlId, formik }) => {
+  return (
+    <Form.Group className='my-2' controlId={controlId}>
+      <Form.Control
+        name={controlId}
+        type='hidden'
+        value={formik.values[controlId]}
+      />
+    </Form.Group>
+  );
+};
+
+export {
+  TextField,
+  EmailField,
+  PasswordField,
+  NumberField,
+  CheckBoxField,
+  HiddenTextField,
+};
