@@ -20,7 +20,7 @@ import {
   useCreateReviewMutation,
 } from '../../slices/productsApiSlice';
 import { addToCart } from '../../slices/cartSlice';
-import { CURRENCY_SYMBOL } from '../../constants.js';
+import { CURRENCY_SYMBOL } from '../../constantsFrontend.js';
 
 const ProductScreen = () => {
   const dispatch = useDispatch();

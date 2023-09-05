@@ -14,7 +14,7 @@ import Meta from '../../components/general/Meta';
 import { Message } from '../../components/general/Messages';
 import CheckoutSteps from '../../components/order/CheckoutSteps';
 import { addToCart, removeFromCart } from '../../slices/cartSlice';
-import { CURRENCY_SYMBOL } from '../../constants';
+import { CURRENCY_SYMBOL } from '../../constantsFrontend';
 
 const CartScreen = () => {
   const dispatch = useDispatch();

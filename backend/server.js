@@ -10,7 +10,8 @@ import {
 import productRoutes from './product/routes/productRoutes.js';
 import userRoutes from './user/routes/userRoutes.js';
 import orderRoutes from './order/routes/orderRoutes.js';
-import uploadRoutes from './product/routes/uploadRoutes.js';
+import uploadRoutes from './product/routes/uploadImageRoutes.js';
+import { PUBLIC_URL } from './constantsBackend.js';
 
 dotenv.config();
 const port = process.env.PORT || 5000;
@@ -61,8 +62,8 @@ if (process.env.NODE_ENV === 'production') {
   );
 } else {
   // development
-  const __dirname = path.resolve();
-  app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
+  // app.use(express.static(PUBLIC_URL));
+  // app.use('/uploads', express.static(uploadPath));
   app.get('/', (req, res) => {
     res.send('API is running....');
   });

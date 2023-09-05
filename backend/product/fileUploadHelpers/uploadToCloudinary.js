@@ -8,25 +8,6 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-async function handleUpload(file) {
-  const res = await cloudinary.uploader.upload(file, {
-    resource_type: 'auto',
-  });
-  return res;
-}
-
-// const storage = multer.diskStorage({
-//   destination(req, file, cb) {
-//     cb(null, 'uploads');
-//   },
-//   filename(req, file, cb) {
-//     cb(
-//       null,
-//       `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`
-//     );
-//   },
-// });
-
 function fileFilter(req, file, cb) {
   const filetypes = /jpe?g|png|webp/;
   const mimetypes = /image\/jpe?g|image\/png|image\/webp/;
@@ -42,9 +23,7 @@ function fileFilter(req, file, cb) {
 }
 
 const storage = multer.memoryStorage();
-
 const upload = multer({ storage, fileFilter });
 const uploadSingleImage = upload.single('image');
 
 export default uploadSingleImage;
-export { handleUpload };

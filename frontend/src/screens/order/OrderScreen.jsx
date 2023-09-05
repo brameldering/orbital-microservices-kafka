@@ -15,7 +15,7 @@ import {
   useGetPaypalClientIdQuery,
   usePayOrderMutation,
 } from '../../slices/ordersApiSlice';
-import { CURRENCY_PAYPAL } from '../../constants';
+import { CURRENCY_PAYPAL } from '../../constantsFrontend';
 
 const OrderScreen = () => {
   const { id: orderId } = useParams();

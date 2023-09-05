@@ -13,7 +13,7 @@ import {
   useDeleteProductMutation,
   useCreateProductMutation,
 } from '../../slices/productsApiSlice';
-import { CURRENCY_SYMBOL } from '../../constants';
+import { CURRENCY_SYMBOL } from '../../constantsFrontend';
 
 const ProductListScreen = () => {
   const { pageNumber } = useParams();

@@ -5,8 +5,8 @@ export const PRODUCTS_URL = '/api/products/v1';
 export const USERS_URL = '/api/users/v1';
 export const ORDERS_URL = '/api/orders/v1';
 export const PAYPAL_URL = '/api/config/v1/paypal';
-// export const UPLOAD_URL = `/api/upload`;
 export const UPLOAD_URL = `/api/upload/v1/cloudinary`;
+// export const UPLOAD_URL = `/api/upload/v1/disk`;
 
 export const CURRENCY_SYMBOL = '€';
 export const CURRENCY_PAYPAL = 'EUR';
