@@ -95,10 +95,11 @@ const ProductEditScreen = () => {
       toast.success(res.message);
       formik.setFieldValue('image', res.image);
     } catch (err) {
-      // Do nothing because the error will be displayed as ErrorMessage errorUploadImage
-      // toast.error(err?.data?.message || err.error);
+      toast.error(err?.data?.message || err.error);
     }
   };
+
+  const disableSubmit = isLoading || loadingUpdate || loadingUpload;
 
   return (
     <>
@@ -128,8 +129,8 @@ const ProductEditScreen = () => {
                 onChange={uploadFileHandler}
                 type='file'
               ></Form.Control>
-              {loadingUpload && <Loader />}
             </Form.Group>
+            {loadingUpload && <Loader />}
             <TextField controlId='brand' label='Brand' formik={formik} />
             <NumberField
               controlId='countInStock'
@@ -142,7 +143,12 @@ const ProductEditScreen = () => {
               label='Description'
               formik={formik}
             />
-            <Button type='submit' variant='primary' className='mt-2'>
+            <Button
+              type='submit'
+              variant='primary'
+              className='mt-2'
+              disabled={disableSubmit}
+            >
               Update
             </Button>
             {loadingUpdate && <Loader />}

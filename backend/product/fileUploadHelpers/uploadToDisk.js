@@ -1,11 +1,16 @@
 import path from 'path';
 import multer from 'multer';
+import fileFilter from './imageFileFilter.js';
+import {
+  MAX_IMAGE_FILE_SIZE,
+  SERVER_DISK_UPLOADS_FOLDER,
+} from '../../constantsBackend.js';
 
-const storage = multer.diskStorage({
-  destination(req, file, cb) {
-    cb(null, 'uploads');
+const diskStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, SERVER_DISK_UPLOADS_FOLDER);
   },
-  filename(req, file, cb) {
+  filename: (req, file, cb) => {
     cb(
       null,
       `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`
@@ -13,21 +18,11 @@ const storage = multer.diskStorage({
   },
 });
 
-function fileFilter(req, file, cb) {
-  const filetypes = /jpe?g|png|webp/;
-  const mimetypes = /image\/jpe?g|image\/png|image\/webp/;
+const uploadToDisk = multer({
+  storage: diskStorage,
+  limits: { fileSize: MAX_IMAGE_FILE_SIZE },
+  fileFilter,
+});
+const uploadSingleImageToDisk = uploadToDisk.single('image');
 
-  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-  const mimetype = mimetypes.test(file.mimetype);
-
-  if (extname && mimetype) {
-    cb(null, true);
-  } else {
-    cb(new Error('Images only!'), false);
-  }
-}
-
-const upload = multer({ storage, fileFilter });
-const uploadSingleImage = upload.single('image');
-
-export default uploadSingleImage;
+export { uploadSingleImageToDisk };
