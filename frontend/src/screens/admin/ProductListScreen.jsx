@@ -73,6 +73,9 @@ const ProductListScreen = () => {
   };
 
   // --------------------------------------------
+
+  const disableSubmit = isLoading || loadingCreate || loadingDelete;
+
   return (
     <>
       <Meta title='Manage Products' />
@@ -95,7 +98,11 @@ const ProductListScreen = () => {
           <h1>Products</h1>
         </Col>
         <Col className='text-end'>
-          <Button className='my-3' onClick={confirmCreateProduct}>
+          <Button
+            className='my-3'
+            onClick={confirmCreateProduct}
+            disabled={disableSubmit}
+          >
             <FaPlus /> Create Product
           </Button>
         </Col>

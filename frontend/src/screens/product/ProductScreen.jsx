@@ -70,6 +70,8 @@ const ProductScreen = () => {
     }
   };
 
+  const buttonDisabled = isLoading || loadingProductReview;
+
   return (
     <>
       <Link className='btn btn-light my-3' to={goBackPath}>
@@ -160,7 +162,7 @@ const ProductScreen = () => {
                     <Button
                       className='btn-block mt-2'
                       type='button'
-                      disabled={product.countInStock === 0}
+                      disabled={product.countInStock === 0 || buttonDisabled}
                       onClick={addToCartHandler}
                     >
                       Add To Cart
@@ -217,7 +219,7 @@ const ProductScreen = () => {
                         ></Form.Control>
                       </Form.Group>
                       <Button
-                        disabled={loadingProductReview}
+                        disabled={buttonDisabled}
                         type='submit'
                         variant='primary mt-2'
                       >

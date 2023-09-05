@@ -74,6 +74,8 @@ const ProfileScreen = () => {
     },
   });
 
+  const buttonDisabled = isLoading || loadingUpdateProfile;
+
   return (
     <>
       <Meta title='Profile' />
@@ -94,7 +96,11 @@ const ProfileScreen = () => {
               label='Password Confirmation'
               formik={formik}
             />
-            <Button disabled={isLoading} type='submit' variant='primary mt-2'>
+            <Button
+              disabled={buttonDisabled}
+              type='submit'
+              variant='primary mt-2'
+            >
               Update
             </Button>
             {loadingUpdateProfile && <Loader />}

@@ -60,6 +60,8 @@ const UserEditScreen = () => {
     },
   });
 
+  const disableSubmit = isLoading || loadingUpdate;
+
   return (
     <>
       <Meta title='Edit User' />
@@ -82,7 +84,12 @@ const UserEditScreen = () => {
               label='Is Admin'
               formik={formik}
             />
-            <Button type='submit' variant='primary' className='mt-2'>
+            <Button
+              type='submit'
+              variant='primary'
+              className='mt-2'
+              disabled={disableSubmit}
+            >
               Update
             </Button>
             {loadingUpdate && <Loader />}
