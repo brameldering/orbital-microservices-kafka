@@ -1,6 +1,5 @@
 import path from 'path';
 import express from 'express';
-import cors from 'cors';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import connectDB from './general/config/db.js';
@@ -21,19 +20,23 @@ connectDB();
 const app = express();
 
 app.use(express.json());
+// ================= Configure CORS =================
 app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, GET, PUT');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  const allowedOrigins = process.env.CORS_ALLOWED_ORIGINS;
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', allowedOrigins);
+  }
+  res.header('Access-Control-Allow-Headers', 'Origin, Content-Type, Accept');
+  res.header(
+    'Access-Control-Allow-Methods',
+    'POST, GET, PUT, PATCH, DELETE, OPTIONS'
+  );
+  res.header('Access-Control-Allow-Credentials', true);
   next();
 });
-// app.use(cors());
-// app.use(
-//   cors({
-// origin: process.env.CORS_ALLOWED_ORIGINS,
-// credentials: true,
-//   })
-// );
+// ==================================================
+
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
