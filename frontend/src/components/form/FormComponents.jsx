@@ -77,9 +77,10 @@ const CheckBoxField = ({ controlId, label, formik }) => {
   );
 };
 
-const HiddenTextField = ({ controlId, formik }) => {
+const HiddenTextField = ({ controlId, label, formik }) => {
   return (
     <Form.Group className='my-2' controlId={controlId}>
+      <Form.Label className='my-0'>{label}</Form.Label>
       <Form.Control
         name={controlId}
         type='hidden'

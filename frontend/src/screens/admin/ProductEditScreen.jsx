@@ -125,7 +125,7 @@ const ProductEditScreen = () => {
               <strong>Product Id: </strong> {product?.sequenceProductId}
             </p>
             <TextField controlId='name' label='Product name' formik={formik} />
-            <HiddenTextField controlId='image' formik={formik} />
+            <HiddenTextField controlId='image' label='Image' formik={formik} />
 
             <Form.Control
               label='Choose File'

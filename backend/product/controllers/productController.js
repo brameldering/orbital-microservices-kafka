@@ -1,6 +1,7 @@
 import asyncHandler from '../../general/middleware/asyncHandler.js';
 import IdSequence from '../../general/models/idSequenceModel.js';
 import Product from '../models/productModel.js';
+import { v2 as cloudinary } from 'cloudinary';
 
 // @desc    Fetch all products
 // @route   GET /api/products/v1
@@ -105,6 +106,15 @@ const updateProduct = asyncHandler(async (req, res) => {
   }
 });
 
+const removeImageFromCloudinary = async (imageURL) => {
+  const fileNameWithoutExtFromURL = /([\w\d_-]*)\.?[^\\\/]*$/i;
+  const imageId = imageURL.match(fileNameWithoutExtFromURL)[1];
+  await cloudinary.api.delete_resources([imageId], {
+    type: 'upload',
+    resource_type: 'image',
+  });
+};
+
 // @desc    Delete a product
 // @route   DELETE /api/products/v1/:id
 // @access  Private/Admin
@@ -112,6 +122,8 @@ const deleteProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
 
   if (product) {
+    await removeImageFromCloudinary(product.image);
+
     await Product.deleteOne({ _id: product._id });
     res.status(200).json({ message: 'Product removed' });
   } else {
