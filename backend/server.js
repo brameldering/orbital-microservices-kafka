@@ -3,6 +3,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import connectDB from './general/config/db.js';
+import configureCORS from './general/middleware/configureCORS.js';
 import {
   notFound,
   errorHandler,
@@ -11,6 +12,8 @@ import productRoutes from './product/routes/productRoutes.js';
 import userRoutes from './user/routes/userRoutes.js';
 import orderRoutes from './order/routes/orderRoutes.js';
 import uploadRoutes from './product/routes/uploadImageRoutes.js';
+import { configFileUploadCloudinary } from './product/fileUploadHelpers/uploadToCloudinary.js';
+import { ENV_CONFIG_CLOUDINARY } from './constantsBackend.js';
 
 dotenv.config();
 const port = process.env.PORT || 5000;
@@ -19,27 +22,18 @@ connectDB();
 
 const app = express();
 
+// 3rd party middleware
 app.use(express.json());
-// ================= Configure CORS =================
-app.use((req, res, next) => {
-  const allowedOrigins = process.env.CORS_ALLOWED_ORIGINS;
-  const origin = req.headers.origin;
-  if (allowedOrigins.includes(origin)) {
-    res.header('Access-Control-Allow-Origin', allowedOrigins);
-  }
-  res.header('Access-Control-Allow-Headers', 'Origin, Content-Type, Accept');
-  res.header(
-    'Access-Control-Allow-Methods',
-    'POST, GET, PUT, PATCH, DELETE, OPTIONS'
-  );
-  res.header('Access-Control-Allow-Credentials', true);
-  next();
-});
-// ==================================================
-
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+// Custom middleware
+app.use(configureCORS);
+
+// Controllers
+if (process.env.IMAGE_STORAGE_LOCATION === ENV_CONFIG_CLOUDINARY) {
+  app.use('/api/upload/v1', configFileUploadCloudinary);
+}
 app.use('/api/products/v1', productRoutes);
 app.use('/api/users/v1', userRoutes);
 app.use('/api/orders/v1', orderRoutes);
@@ -53,6 +47,7 @@ app.get('/api/config/v1/paypal', (req, res) =>
 // Set upload path, build folder and default route for production or development
 if (process.env.NODE_ENV === 'production') {
   const __dirname = path.resolve();
+  // TO UPDATE BECAUSE THE FOLLOWING WILL PROBABLY NOT WORK ON PRODUCTION
   app.use('/uploads', express.static('/var/data/uploads'));
   app.use(express.static(path.join(__dirname, '/frontend/build')));
 
@@ -68,6 +63,7 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
+// Error handling middleware
 app.use(notFound);
 app.use(errorHandler);
 
