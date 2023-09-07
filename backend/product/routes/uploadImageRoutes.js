@@ -6,6 +6,4 @@ import uploadImageController from '../controllers/fileUploadController.js';
 const router = express.Router();
 router.route('/').post(protect, admin, uploadImageController);
 
-// ADD DELETE
-
 export default router;

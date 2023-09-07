@@ -16,7 +16,6 @@ import { ErrorMessage } from '../../components/general/Messages';
 import {
   useGetProductDetailsQuery,
   useUpdateProductMutation,
-  useUpdateProductImageMutation,
   useUploadProductImageMutation,
 } from '../../slices/productsApiSlice';
 
@@ -34,11 +33,6 @@ const ProductEditScreen = () => {
 
   const [updateProduct, { isLoading: loadingUpdate, error: errorUpdate }] =
     useUpdateProductMutation();
-
-  const [
-    updateProductImage,
-    { isLoading: loadingUpdateImage, error: errorUpdateImage },
-  ] = useUpdateProductImageMutation();
 
   const [
     uploadProductImage,
@@ -101,20 +95,15 @@ const ProductEditScreen = () => {
     const formData = new FormData();
     formData.append('image', e.target.files[0]);
     try {
-      // ========= CREATE A TRANSACTION FOR THE FOLLOWING =========
       const res = await uploadProductImage(formData).unwrap();
-      const image = res.image;
-      await updateProductImage({ productId, image }).unwrap();
-      formik.setFieldValue('image', image);
-      // ==========================================================
+      formik.setFieldValue('image', res.image);
       toast.success(res.message);
     } catch (err) {
       toast.error(err?.data?.message || err.error);
     }
   };
 
-  const disableSubmit =
-    isLoading || loadingUpdate || loadingUpdateImage || loadingUpload;
+  const disableSubmit = isLoading || loadingUpdate || loadingUpload;
 
   return (
     <>
@@ -126,7 +115,6 @@ const ProductEditScreen = () => {
         <h1>Edit Product</h1>
         {errorUpdate && <ErrorMessage error={errorUpdate} />}
         {errorUploadImage && <ErrorMessage error={errorUploadImage} />}
-        {errorUpdateImage && <ErrorMessage error={errorUpdateImage} />}
         {isLoading ? (
           <Loader />
         ) : errorLoading ? (
@@ -166,7 +154,6 @@ const ProductEditScreen = () => {
               ></Form.Control>
             </Form.Group>
             {loadingUpload && <Loader />}
-            {loadingUpdateImage && <Loader />}
             <TextField controlId='brand' label='Brand' formik={formik} />
             <NumberField controlId='price' label='Price' formik={formik} />
             <NumberField

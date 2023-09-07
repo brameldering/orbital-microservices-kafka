@@ -6,7 +6,6 @@ import {
   getProductById,
   createProduct,
   updateProduct,
-  updateProductImage,
   deleteProduct,
   createProductReview,
   getTopProducts,
@@ -14,7 +13,6 @@ import {
 
 const router = express.Router();
 router.route('/').get(getProducts).post(protect, admin, createProduct);
-router.patch('/:id/image', protect, checkObjectId, updateProductImage);
 router.get('/top', getTopProducts); // this needs to be before the /:id otherwise it will use the /:id route
 router
   .route('/:id')

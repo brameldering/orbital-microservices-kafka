@@ -2,10 +2,6 @@ import asyncHandler from '../../general/middleware/asyncHandler.js';
 import IdSequence from '../../general/models/idSequenceModel.js';
 import Product from '../models/productModel.js';
 import { removeImageFromCloudinary } from '../fileUploadHelpers/uploadToCloudinary.js';
-import {
-  ENV_CONFIG_CLOUDINARY,
-  ENV_CONFIG_SERVER_DISK,
-} from '../../constantsBackend.js';
 
 // @desc    Fetch all products
 // @route   GET /api/products/v1
@@ -111,27 +107,6 @@ const updateProduct = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Update the image of a product in database
-// @route   PATCH /api/products/v1/:id/image
-// @access  Private/Admin
-const updateProductImage = asyncHandler(async (req, res) => {
-  const { image } = req.body;
-
-  const product = await Product.findById(req.params.id);
-  console.log(product);
-
-  if (product) {
-    console.log('updateProductImage', product.image, image);
-    product.image = image;
-    const updatedProduct = await product.save();
-    console.log('updatedProduct', updatedProduct);
-    res.status(200).json(updatedProduct);
-  } else {
-    res.status(404);
-    throw new Error('Product not found');
-  }
-});
-
 // @desc    Delete a product
 // @route   DELETE /api/products/v1/:id
 // @access  Private/Admin
@@ -139,14 +114,7 @@ const deleteProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
 
   if (product) {
-    if (process.env.IMAGE_STORAGE_LOCATION === ENV_CONFIG_CLOUDINARY) {
-      await removeImageFromCloudinary(product.image);
-    } else {
-      if (process.env.IMAGE_STORAGE_LOCATION === ENV_CONFIG_SERVER_DISK) {
-        await removeImageFromDisk(product.image);
-      }
-    }
-
+    await removeImageFromCloudinary(product.image);
     await Product.deleteOne({ _id: product._id });
     res.status(200).json({ message: 'Product removed' });
   } else {
@@ -210,7 +178,6 @@ export {
   getProductById,
   createProduct,
   updateProduct,
-  updateProductImage,
   deleteProduct,
   createProductReview,
   getTopProducts,

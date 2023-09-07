@@ -13,7 +13,6 @@ import userRoutes from './user/routes/userRoutes.js';
 import orderRoutes from './order/routes/orderRoutes.js';
 import uploadRoutes from './product/routes/uploadImageRoutes.js';
 import { configFileUploadCloudinary } from './product/fileUploadHelpers/uploadToCloudinary.js';
-import { ENV_CONFIG_CLOUDINARY } from './constantsBackend.js';
 
 dotenv.config();
 const port = process.env.PORT || 5000;
@@ -30,10 +29,10 @@ app.use(cookieParser());
 // Custom middleware
 app.use(configureCORS);
 
+// Cloudinary configuration middleware
+app.use('/api/upload/v1', configFileUploadCloudinary);
 // Controllers
-if (process.env.IMAGE_STORAGE_LOCATION === ENV_CONFIG_CLOUDINARY) {
-  app.use('/api/upload/v1', configFileUploadCloudinary);
-}
+
 app.use('/api/products/v1', productRoutes);
 app.use('/api/users/v1', userRoutes);
 app.use('/api/orders/v1', orderRoutes);
@@ -47,17 +46,11 @@ app.get('/api/config/v1/paypal', (req, res) =>
 // Set upload path, build folder and default route for production or development
 if (process.env.NODE_ENV === 'production') {
   const __dirname = path.resolve();
-  // TO UPDATE BECAUSE THE FOLLOWING WILL PROBABLY NOT WORK ON PRODUCTION
-  app.use('/uploads', express.static('/var/data/uploads'));
   app.use(express.static(path.join(__dirname, '/frontend/build')));
-
   app.get('*', (req, res) =>
     res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
   );
 } else {
-  // development
-  // app.use(express.static(PUBLIC_URL));
-  // app.use('/uploads', express.static(uploadPath));
   app.get('/', (req, res) => {
     res.send('API is running....');
   });
