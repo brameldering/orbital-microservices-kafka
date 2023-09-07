@@ -12,7 +12,6 @@ import productRoutes from './product/routes/productRoutes.js';
 import userRoutes from './user/routes/userRoutes.js';
 import orderRoutes from './order/routes/orderRoutes.js';
 import uploadRoutes from './product/routes/uploadImageRoutes.js';
-import { configFileUploadCloudinary } from './product/fileUploadHelpers/uploadToCloudinary.js';
 
 dotenv.config();
 const port = process.env.PORT || 5000;
@@ -33,7 +32,7 @@ app.use(configureCORS);
 app.use('/api/products/v1', productRoutes);
 app.use('/api/users/v1', userRoutes);
 app.use('/api/orders/v1', orderRoutes);
-app.use('/api/upload/v1', configFileUploadCloudinary, uploadRoutes);
+app.use('/api/upload/v1', uploadRoutes);
 
 // API to provide the PAYPAL_CLIENT_ID from .env to frontend
 app.get('/api/config/v1/paypal', (req, res) =>
