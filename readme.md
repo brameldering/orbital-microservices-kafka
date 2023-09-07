@@ -64,7 +64,7 @@ Rename the `.env.example` file to `.env` and define settings accordingly
 
 ```
 NODE_ENV = <development / test / production>
-IMAGES_ON_SERVER_OR_CLOUDINARY = <serverdisk / cloudinary>
+IMAGE_STORAGE_LOCATION = <serverdisk / cloudinary>
 CORS_ALLOWED_ORIGINS = <array of allowed origins such as ['http://127.0.0.1:3000', 'http://localhost:3000']>
 PORT = <development port (default is 5000)>
 

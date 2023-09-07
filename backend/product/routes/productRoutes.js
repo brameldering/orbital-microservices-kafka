@@ -6,6 +6,7 @@ import {
   getProductById,
   createProduct,
   updateProduct,
+  updateProductImage,
   deleteProduct,
   createProductReview,
   getTopProducts,
@@ -13,12 +14,14 @@ import {
 
 const router = express.Router();
 router.route('/').get(getProducts).post(protect, admin, createProduct);
-router.get('/top', getTopProducts); // this needs to be before the /:id otherwise it will use the /;id route
+router.patch('/:id/image', protect, checkObjectId, updateProductImage);
+router.get('/top', getTopProducts); // this needs to be before the /:id otherwise it will use the /:id route
 router
   .route('/:id')
   .get(checkObjectId, getProductById)
   .put(protect, admin, checkObjectId, updateProduct)
   .delete(protect, admin, checkObjectId, deleteProduct);
 router.route('/:id/reviews').post(protect, checkObjectId, createProductReview);
+// router.route('/:id/image').patch(protect, checkObjectId, updateProductImage);
 
 export default router;

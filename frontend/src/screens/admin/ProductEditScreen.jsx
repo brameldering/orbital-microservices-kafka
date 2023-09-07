@@ -1,5 +1,5 @@
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { Form, Button } from 'react-bootstrap';
+import { Row, Col, Form, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -8,7 +8,7 @@ import FormContainer from '../../components/form/FormContainer';
 import {
   TextField,
   NumberField,
-  HiddenTextField,
+  // HiddenTextField,
 } from '../../components/form/FormComponents';
 import Meta from '../../components/general/Meta';
 import Loader from '../../components/general/Loader';
@@ -16,6 +16,7 @@ import { ErrorMessage } from '../../components/general/Messages';
 import {
   useGetProductDetailsQuery,
   useUpdateProductMutation,
+  useUpdateProductImageMutation,
   useUploadProductImageMutation,
 } from '../../slices/productsApiSlice';
 
@@ -33,6 +34,11 @@ const ProductEditScreen = () => {
 
   const [updateProduct, { isLoading: loadingUpdate, error: errorUpdate }] =
     useUpdateProductMutation();
+
+  const [
+    updateProductImage,
+    { isLoading: loadingUpdateImage, error: errorUpdateImage },
+  ] = useUpdateProductImageMutation();
 
   const [
     uploadProductImage,
@@ -95,15 +101,20 @@ const ProductEditScreen = () => {
     const formData = new FormData();
     formData.append('image', e.target.files[0]);
     try {
+      // ========= CREATE A TRANSACTION FOR THE FOLLOWING =========
       const res = await uploadProductImage(formData).unwrap();
+      const image = res.image;
+      await updateProductImage({ productId, image }).unwrap();
+      formik.setFieldValue('image', image);
+      // ==========================================================
       toast.success(res.message);
-      formik.setFieldValue('image', res.image);
     } catch (err) {
       toast.error(err?.data?.message || err.error);
     }
   };
 
-  const disableSubmit = isLoading || loadingUpdate || loadingUpload;
+  const disableSubmit =
+    isLoading || loadingUpdate || loadingUpdateImage || loadingUpload;
 
   return (
     <>
@@ -115,6 +126,7 @@ const ProductEditScreen = () => {
         <h1>Edit Product</h1>
         {errorUpdate && <ErrorMessage error={errorUpdate} />}
         {errorUploadImage && <ErrorMessage error={errorUploadImage} />}
+        {errorUpdateImage && <ErrorMessage error={errorUpdateImage} />}
         {isLoading ? (
           <Loader />
         ) : errorLoading ? (
@@ -125,24 +137,36 @@ const ProductEditScreen = () => {
               <strong>Product Id: </strong> {product?.sequenceProductId}
             </p>
             <TextField controlId='name' label='Product name' formik={formik} />
-            <HiddenTextField controlId='image' label='Image' formik={formik} />
-
-            <Form.Control
-              label='Choose File'
-              onChange={uploadFileHandler}
-              type='file'
-              className='mt-3'
-            ></Form.Control>
-
-            <img
-              src={formik.values.image}
-              alt='formik.values.name'
-              className='mt-2'
-              width='80'
-              height='80'
-              fluid
-            />
+            <Form.Group className='my-2' controlId='image'>
+              <Form.Label className='my-1'>Image</Form.Label>
+              <Row className='align-items-center'>
+                <Col md={4}>
+                  <img
+                    src={formik.values.image}
+                    alt='formik.values.name'
+                    width='80'
+                    height='80'
+                  />
+                </Col>
+                <Col md={8}>
+                  <Form.Control
+                    name='image'
+                    type='text'
+                    value={formik.values.image}
+                    disabled
+                  />
+                </Col>
+                {/* <HiddenTextField controlId='image' formik={formik} /> */}
+              </Row>
+              <Form.Control
+                label='Choose File'
+                onChange={uploadFileHandler}
+                type='file'
+                className='my-1'
+              ></Form.Control>
+            </Form.Group>
             {loadingUpload && <Loader />}
+            {loadingUpdateImage && <Loader />}
             <TextField controlId='brand' label='Brand' formik={formik} />
             <NumberField controlId='price' label='Price' formik={formik} />
             <NumberField

@@ -1,51 +1,33 @@
-import path from 'path';
-import {
-  cloudinary,
-  cloudinarySettings,
-} from '../fileUploadHelpers/uploadToCloudinary.js';
-import { uploadSingleImageToDisk } from '../fileUploadHelpers/uploadToDisk.js';
+import { uploadImageToCloudinary } from '../fileUploadHelpers/uploadToCloudinary.js';
+import { uploadImageToDisk } from '../fileUploadHelpers/uploadToDisk.js';
 import asyncHandler from '../../general/middleware/asyncHandler.js';
-import { UPLOADS_URL } from '../../constantsBackend.js';
+import {
+  ENV_CONFIG_CLOUDINARY,
+  ENV_CONFIG_SERVER_DISK,
+} from '../../constantsBackend.js';
 
-// ================ Upload to Server Disk ================
-// @desc    Upload image to server disk
-// @route   POST /api/upload/v1/disk
+// ================ Upload image ================
+// @desc    Upload image to serverdisk or cloudinary
+// @route   POST /api/upload/v1/
 // @access  public
-const uploadImageToDisk = asyncHandler(async (req, res) => {
-  uploadSingleImageToDisk(req, res, function (err) {
-    if (err) {
-      res.status(400).send({ message: 'Image NOT uploaded: ' + err.message });
-    } else {
-      res.status(200).send({
-        message: 'Image uploaded successfully',
-        image: path.sep + UPLOADS_URL + path.sep + `${req.file.filename}`,
-      });
-    }
-  });
-});
-
-// ================ Upload to Cloudinary ================
-// @desc    Upload image to cloudinary
-// @route   POST /api/upload/v1/cloudinary
-// @access  public
-const uploadImageToCloudinary = asyncHandler(async (req, res) => {
+const uploadImageController = asyncHandler(async (req, res) => {
+  let result = {};
   try {
-    const b64 = Buffer.from(req.file.buffer).toString('base64');
-    let dataURI = 'data:' + req.file.mimetype + ';base64,' + b64;
-    const cldRes = await cloudinary.uploader.upload(dataURI, {
-      resource_type: 'auto',
-    });
-    // console.log('===> cldRes:', cldRes.secure_url);
-    res.status(200).send({
-      message: 'Image uploaded successfully',
-      image: cldRes.secure_url,
-    });
+    if (process.env.IMAGE_STORAGE_LOCATION === ENV_CONFIG_CLOUDINARY) {
+      result = await uploadImageToCloudinary(req, res);
+      console.warn('=== uploadImageController - result', result);
+    } else {
+      if (process.env.IMAGE_STORAGE_LOCATION === ENV_CONFIG_SERVER_DISK) {
+        result = await uploadImageToDisk(req, res);
+      }
+    }
+    res.status(200).send(result);
   } catch (error) {
-    console.log(error);
+    console.error('=== uploadImageController - error', error);
     res.status(400).send({
-      message: error.message,
+      message: 'Image NOT uploaded: ' + error.message,
     });
   }
 });
 
-export { uploadImageToDisk, cloudinarySettings, uploadImageToCloudinary };
+export default uploadImageController;

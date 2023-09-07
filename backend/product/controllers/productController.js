@@ -1,7 +1,11 @@
 import asyncHandler from '../../general/middleware/asyncHandler.js';
 import IdSequence from '../../general/models/idSequenceModel.js';
 import Product from '../models/productModel.js';
-import { v2 as cloudinary } from 'cloudinary';
+import { removeImageFromCloudinary } from '../fileUploadHelpers/uploadToCloudinary.js';
+import {
+  ENV_CONFIG_CLOUDINARY,
+  ENV_CONFIG_SERVER_DISK,
+} from '../../constantsBackend.js';
 
 // @desc    Fetch all products
 // @route   GET /api/products/v1
@@ -47,8 +51,9 @@ const getProductById = asyncHandler(async (req, res) => {
   } else {
     // NOTE: this will run if a valid ObjectId but no product was found
     // i.e. product may be null
+    console.log('Product not found Bram');
     res.status(404);
-    throw new Error('Product not found');
+    throw new Error('Product not found Bram');
   }
 });
 
@@ -106,14 +111,26 @@ const updateProduct = asyncHandler(async (req, res) => {
   }
 });
 
-const removeImageFromCloudinary = async (imageURL) => {
-  const fileNameWithoutExtFromURL = /([\w\d_-]*)\.?[^\\\/]*$/i;
-  const imageId = imageURL.match(fileNameWithoutExtFromURL)[1];
-  await cloudinary.api.delete_resources([imageId], {
-    type: 'upload',
-    resource_type: 'image',
-  });
-};
+// @desc    Update the image of a product in database
+// @route   PATCH /api/products/v1/:id/image
+// @access  Private/Admin
+const updateProductImage = asyncHandler(async (req, res) => {
+  const { image } = req.body;
+
+  const product = await Product.findById(req.params.id);
+  console.log(product);
+
+  if (product) {
+    console.log('updateProductImage', product.image, image);
+    product.image = image;
+    const updatedProduct = await product.save();
+    console.log('updatedProduct', updatedProduct);
+    res.status(200).json(updatedProduct);
+  } else {
+    res.status(404);
+    throw new Error('Product not found');
+  }
+});
 
 // @desc    Delete a product
 // @route   DELETE /api/products/v1/:id
@@ -122,7 +139,13 @@ const deleteProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
 
   if (product) {
-    await removeImageFromCloudinary(product.image);
+    if (process.env.IMAGE_STORAGE_LOCATION === ENV_CONFIG_CLOUDINARY) {
+      await removeImageFromCloudinary(product.image);
+    } else {
+      if (process.env.IMAGE_STORAGE_LOCATION === ENV_CONFIG_SERVER_DISK) {
+        await removeImageFromDisk(product.image);
+      }
+    }
 
     await Product.deleteOne({ _id: product._id });
     res.status(200).json({ message: 'Product removed' });
@@ -187,6 +210,7 @@ export {
   getProductById,
   createProduct,
   updateProduct,
+  updateProductImage,
   deleteProduct,
   createProductReview,
   getTopProducts,
