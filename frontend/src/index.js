@@ -15,6 +15,7 @@ import store from './store';
 import App from './App';
 import PrivateRoute from './components/authorization/PrivateRoute';
 import AdminRoute from './components/authorization/AdminRoute';
+import NotFound from './components/general/NotFound';
 
 import HomeScreen from './screens/HomeScreen';
 import ProductScreen from './screens/product/ProductScreen';
@@ -74,6 +75,7 @@ const router = createBrowserRouter(
 
         <Route path='/admin/orderlist' element={<OrderListScreen />} />
       </Route>
+      <Route path='*' element={<NotFound />} />
     </Route>
   )
 );
