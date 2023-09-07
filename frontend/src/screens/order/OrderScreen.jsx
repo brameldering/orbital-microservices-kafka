@@ -10,10 +10,10 @@ import { Message, ErrorMessage } from '../../components/general/Messages';
 import OrderItemLine from '../../components/order/OrderItemLine';
 import OrderSummaryBlock from '../../components/order/OrderSummaryBlock';
 import {
-  useDeliverOrderMutation,
   useGetOrderDetailsQuery,
   useGetPaypalClientIdQuery,
   usePayOrderMutation,
+  useDeliverOrderMutation,
 } from '../../slices/ordersApiSlice';
 import { CURRENCY_PAYPAL } from '../../constantsFrontend';
 

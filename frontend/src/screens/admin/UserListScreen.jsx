@@ -7,8 +7,8 @@ import Loader from '../../components/general/Loader';
 import { ErrorMessage } from '../../components/general/Messages';
 import ModalConfirmBox from '../../components/general/ModalConfirmBox';
 import {
-  useDeleteUserMutation,
   useGetUsersQuery,
+  useDeleteUserMutation,
 } from '../../slices/usersApiSlice';
 
 const UserListScreen = () => {

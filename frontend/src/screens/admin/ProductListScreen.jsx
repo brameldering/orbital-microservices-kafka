@@ -10,8 +10,8 @@ import Paginate from '../../components/general/Paginate';
 import ModalConfirmBox from '../../components/general/ModalConfirmBox';
 import {
   useGetProductsQuery,
-  useDeleteProductMutation,
   useCreateProductMutation,
+  useDeleteProductMutation,
 } from '../../slices/productsApiSlice';
 import { CURRENCY_SYMBOL } from '../../constantsFrontend';
 

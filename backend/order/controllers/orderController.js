@@ -9,26 +9,27 @@ import {
 } from '../../general/utils/paypal.js';
 import mongoose from 'mongoose';
 
+// @desc    Get all orders
+// @route   GET /api/orders/v1
+// @access  Private/Admin
+const getOrders = asyncHandler(async (req, res) => {
+  const orders = await Order.find({}).populate('user', 'id name');
+  res.status(200).json(orders);
+});
+
 // @desc    Create new order
 // @route   POST /api/orders/v1
 // @access  Private
-const addOrderItems = asyncHandler(async (req, res) => {
+const createOrder = asyncHandler(async (req, res) => {
   const { orderItems, shippingAddress, paymentMethod } = req.body;
-
   if (orderItems && orderItems.length === 0) {
     res.status(400);
     throw new Error('No order items');
   } else {
-    // NOTE: here we must assume that the prices from our client are incorrect.
-    // We must only trust the price of the item as it exists in
-    // our DB. This prevents a user paying whatever they want by hacking our client
-    // side code - https://gist.github.com/bushblade/725780e6043eaf59415fbaf6ca7376ff
-
     // get the ordered items from our database
     const itemsFromDB = await Product.find({
       _id: { $in: orderItems.map((x) => x._id) },
     });
-
     // map over the order items and use the price from our items from database
     const dbOrderItems = orderItems.map((itemFromClient) => {
       const matchingItemFromDB = itemsFromDB.find(
@@ -41,11 +42,9 @@ const addOrderItems = asyncHandler(async (req, res) => {
         _id: undefined,
       };
     });
-
     // calculate prices
     const { itemsPrice, taxPrice, shippingPrice, totalPrice } =
       calcPrices(dbOrderItems);
-
     // console.time('TimeNeededToSaveOrder');
     // Determine next orderId
     const seqNumberOrderId = await IdSequence.findOneAndUpdate(
@@ -55,7 +54,6 @@ const addOrderItems = asyncHandler(async (req, res) => {
     );
     const sequenceOrderId =
       'ORD-' + seqNumberOrderId.sequenceCounter.toString().padStart(10, '0');
-
     const order = new Order({
       sequenceOrderId: sequenceOrderId,
       orderItems: dbOrderItems,
@@ -67,7 +65,6 @@ const addOrderItems = asyncHandler(async (req, res) => {
       shippingPrice,
       totalPrice,
     });
-
     const createdOrder = await order.save();
     // console.timeEnd('TimeNeededToSaveOrder');
     res.status(201).json(createdOrder);
@@ -75,13 +72,11 @@ const addOrderItems = asyncHandler(async (req, res) => {
 });
 
 // @desc    Get logged in user orders
-// @route   GET /api/orders/v1/mine/:userId
+// @route   GET /api/orders/v1/mine/:id
 // @access  Private
 const getMyOrders = asyncHandler(async (req, res) => {
-  const userId = new mongoose.Types.ObjectId(req.params.userId);
-  // console.log('orderController - getMyOrders: userId', userId);
-  const orders = await Order.find({ user: userId });
-  // const orders = await Order.find({ user: req.user._id });
+  const id = new mongoose.Types.ObjectId(req.params.id);
+  const orders = await Order.find({ user: id });
   res.status(200).json(orders);
 });
 
@@ -93,7 +88,6 @@ const getOrderById = asyncHandler(async (req, res) => {
     'user',
     'name email'
   );
-
   if (order) {
     res.status(200).json(order);
   } else {
@@ -115,14 +109,11 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
   if (!isNewTransaction) {
     throw new Error('Transaction has been used before');
   }
-
   const order = await Order.findById(req.params.id);
-
   if (order) {
     // check the correct amount was paid
     const paidCorrectAmount = order.totalPrice.toString() === value;
     if (!paidCorrectAmount) throw new Error('Incorrect amount paid');
-
     order.isPaid = true;
     order.paidAt = Date.now();
     order.paymentResult = {
@@ -131,9 +122,7 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
       update_time: req.body.update_time,
       email_address: req.body.payer.email_address,
     };
-
     const updatedOrder = await order.save();
-
     res.status(200).json(updatedOrder);
   } else {
     res.status(404);
@@ -146,13 +135,10 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
 // @access  Private/Admin
 const updateOrderToDelivered = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id);
-
   if (order) {
     order.isDelivered = true;
     order.deliveredAt = Date.now();
-
     const updatedOrder = await order.save();
-
     res.status(200).json(updatedOrder);
   } else {
     res.status(404);
@@ -160,19 +146,11 @@ const updateOrderToDelivered = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Get all orders
-// @route   GET /api/orders/v1
-// @access  Private/Admin
-const getOrders = asyncHandler(async (req, res) => {
-  const orders = await Order.find({}).populate('user', 'id name');
-  res.status(200).json(orders);
-});
-
 export {
-  addOrderItems,
+  getOrders,
+  createOrder,
   getMyOrders,
   getOrderById,
   updateOrderToPaid,
   updateOrderToDelivered,
-  getOrders,
 };
