@@ -15,7 +15,8 @@ const uploadImageController = asyncHandler(async (req, res) => {
     res.status(400).send({
       message: 'Image NOT uploaded: ' + error.message,
     });
+    throw new Error('Image NOT uploaded: ' + error.message);
   }
 });
 
-export default uploadImageController;
+export { uploadImageController };

@@ -1,7 +1,7 @@
 import asyncHandler from '../../general/middleware/asyncHandler.js';
 import IdSequence from '../../general/models/idSequenceModel.js';
 import Product from '../models/productModel.js';
-import { removeImageFromCloudinary } from '../fileUploadHelpers/uploadToCloudinary.js';
+import { CLOUDINARY_SAMPLE_IMAGE_URL } from '../../constantsBackend.js';
 
 // @desc    Fetch all products
 // @route   GET /api/products/v1
@@ -70,7 +70,7 @@ const createProduct = asyncHandler(async (req, res) => {
     name: 'Sample name',
     price: 0,
     user: req.user._id,
-    image: '/images/sample.jpg',
+    image: CLOUDINARY_SAMPLE_IMAGE_URL,
     brand: 'Sample brand',
     category: 'Sample category',
     countInStock: 0,
@@ -88,6 +88,7 @@ const updateProduct = asyncHandler(async (req, res) => {
   const { name, price, description, image, brand, category, countInStock } =
     req.body;
 
+  console.log('=== updateProduct', req.params.id);
   const product = await Product.findById(req.params.id);
 
   if (product) {
@@ -114,7 +115,6 @@ const deleteProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
 
   if (product) {
-    await removeImageFromCloudinary(product.image);
     await Product.deleteOne({ _id: product._id });
     res.status(200).json({ message: 'Product removed' });
   } else {

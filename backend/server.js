@@ -31,8 +31,8 @@ app.use(configureCORS);
 
 // Cloudinary configuration middleware
 app.use('/api/upload/v1', configFileUploadCloudinary);
-// Controllers
 
+// Controllers
 app.use('/api/products/v1', productRoutes);
 app.use('/api/users/v1', userRoutes);
 app.use('/api/orders/v1', orderRoutes);
@@ -43,7 +43,7 @@ app.get('/api/config/v1/paypal', (req, res) =>
   res.send({ clientId: process.env.PAYPAL_CLIENT_ID })
 );
 
-// Set upload path, build folder and default route for production or development
+// Set build folder and default route for production or development
 if (process.env.NODE_ENV === 'production') {
   const __dirname = path.resolve();
   app.use(express.static(path.join(__dirname, '/frontend/build')));

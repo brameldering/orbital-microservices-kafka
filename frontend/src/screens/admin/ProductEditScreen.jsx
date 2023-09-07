@@ -31,12 +31,12 @@ const ProductEditScreen = () => {
     errorLoading,
   } = useGetProductDetailsQuery(productId);
 
-  const [updateProduct, { isLoading: loadingUpdate, error: errorUpdate }] =
+  const [updateProduct, { isLoading: performingUpdate, error: errorUpdate }] =
     useUpdateProductMutation();
 
   const [
     uploadProductImage,
-    { isLoading: loadingUpload, error: errorUploadImage },
+    { isLoading: performinUploadImage, error: errorUploadImage },
   ] = useUploadProductImageMutation();
 
   const formik = useFormik({
@@ -80,7 +80,7 @@ const ProductEditScreen = () => {
           category,
           countInStock,
           description,
-        }).unwrap(); // NOTE: here we need to unwrap the Promise to catch any rejection in our catch block
+        }).unwrap();
         toast.success('Product updated');
         refetch();
         navigate('/admin/productlist');
@@ -103,7 +103,7 @@ const ProductEditScreen = () => {
     }
   };
 
-  const disableSubmit = isLoading || loadingUpdate || loadingUpload;
+  const disableSubmit = isLoading || performingUpdate || performinUploadImage;
 
   return (
     <>
@@ -153,7 +153,7 @@ const ProductEditScreen = () => {
                 className='my-1'
               ></Form.Control>
             </Form.Group>
-            {loadingUpload && <Loader />}
+            {performinUploadImage && <Loader />}
             <TextField controlId='brand' label='Brand' formik={formik} />
             <NumberField controlId='price' label='Price' formik={formik} />
             <NumberField
@@ -175,7 +175,7 @@ const ProductEditScreen = () => {
             >
               Update
             </Button>
-            {loadingUpdate && <Loader />}
+            {performingUpdate && <Loader />}
           </Form>
         )}
       </FormContainer>
