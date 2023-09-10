@@ -13,7 +13,12 @@ import {
 
 const UserListScreen = () => {
   // --------------- Get Users ---------------
-  const { data: users, refetch, isLoading, errorLoading } = useGetUsersQuery();
+  const {
+    data: users,
+    refetch,
+    isLoading,
+    error: errorLoading,
+  } = useGetUsersQuery();
 
   // --------------- Delete User ---------------
   const [deleteUser, { isLoading: loadingDelete, error: errorDelete }] =

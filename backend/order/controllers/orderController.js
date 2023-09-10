@@ -12,6 +12,8 @@ import mongoose from 'mongoose';
 // @desc    Get all orders
 // @route   GET /api/orders/v1
 // @access  Private/Admin
+// @req
+// @res     status(200).json(orders)
 const getOrders = asyncHandler(async (req, res) => {
   const orders = await Order.find({}).populate('user', 'id name');
   res.status(200).json(orders);
@@ -20,6 +22,10 @@ const getOrders = asyncHandler(async (req, res) => {
 // @desc    Create new order
 // @route   POST /api/orders/v1
 // @access  Private
+// @req     user._id
+//          body {orderItems, shippingAddress, paymentMethod}
+// @res     status(201).json(createdOrder)
+//       or status(400);throw new Error('No order items');
 const createOrder = asyncHandler(async (req, res) => {
   const { orderItems, shippingAddress, paymentMethod } = req.body;
   if (orderItems && orderItems.length === 0) {
@@ -74,6 +80,8 @@ const createOrder = asyncHandler(async (req, res) => {
 // @desc    Get logged in user orders
 // @route   GET /api/orders/v1/mine/:id
 // @access  Private
+// @req     params.id
+// @res     status(200).json(orders)
 const getMyOrders = asyncHandler(async (req, res) => {
   const id = new mongoose.Types.ObjectId(req.params.id);
   const orders = await Order.find({ user: id });
@@ -83,6 +91,9 @@ const getMyOrders = asyncHandler(async (req, res) => {
 // @desc    Get order by ID
 // @route   GET /api/orders/v1/:id
 // @access  Private
+// @req     params.id
+// @res     status(200).json(order)
+//       or status(404);throw new Error('Order not found')
 const getOrderById = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id).populate(
     'user',
@@ -99,6 +110,10 @@ const getOrderById = asyncHandler(async (req, res) => {
 // @desc    Update order to paid
 // @route   PUT /api/orders/v1/:id/pay
 // @access  Private
+// @req     params.id
+//          body {id, status, update_time, email_address}
+// @res     status(200).json(updatedOrder)
+//       or status(404);throw new Error('Order not found')
 const updateOrderToPaid = asyncHandler(async (req, res) => {
   // NOTE: here we need to verify the payment was made to PayPal before marking
   // the order as paid
@@ -131,8 +146,11 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
 });
 
 // @desc    Update order to delivered
-// @route   POST /api/orders/v1/:id/deliver
+// @route   PUT /api/orders/v1/:id/deliver
 // @access  Private/Admin
+// @req     params.id
+// @res     status(200).json(updatedOrder)
+//       or status(404);throw new Error('Order not found')
 const updateOrderToDelivered = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id);
   if (order) {

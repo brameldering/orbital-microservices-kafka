@@ -26,7 +26,7 @@ const UserEditScreen = () => {
   const {
     data: user,
     isLoading,
-    errorLoading,
+    error: errorLoading,
     refetch,
   } = useGetUserDetailsQuery(userId);
 

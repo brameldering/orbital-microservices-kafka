@@ -29,7 +29,7 @@ const ProfileScreen = () => {
   const {
     data: orders,
     isLoading,
-    errorLoading,
+    error: errorLoading,
   } = useGetMyOrdersQuery(userInfo._id);
 
   const [
@@ -79,10 +79,10 @@ const ProfileScreen = () => {
   return (
     <>
       <Meta title='Profile' />
+      {errorUpdate && <ErrorMessage error={errorUpdate} />}
       <Row>
         <Col md={3}>
           <h2>My Profile</h2>
-          {errorUpdate && <ErrorMessage error={errorUpdate} />}
           <Form onSubmit={formik.handleSubmit}>
             <TextField controlId='name' label='Full name' formik={formik} />
             <EmailField controlId='email' label='Email' formik={formik} />

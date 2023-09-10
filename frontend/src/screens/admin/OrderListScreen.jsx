@@ -7,7 +7,7 @@ import { ErrorMessage } from '../../components/general/Messages';
 import { useGetOrdersQuery } from '../../slices/ordersApiSlice';
 
 const OrderListScreen = () => {
-  const { data: orders, isLoading, errorLoading } = useGetOrdersQuery();
+  const { data: orders, isLoading, error: errorLoading } = useGetOrdersQuery();
 
   return (
     <>

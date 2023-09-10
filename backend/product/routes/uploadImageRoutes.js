@@ -1,7 +1,7 @@
 import express from 'express';
 import { protect, admin } from '../../general/middleware/authMiddleware.js';
-import { configFileUploadCloudinary } from '../fileUploadHelpers/uploadToCloudinary.js';
-import { uploadImageController } from '../controllers/fileUploadController.js';
+import { configFileUploadCloudinary } from '../fileUploadHelpers/uploadImageToCloudinary.js';
+import { uploadImageController } from '../controllers/uploadImageController.js';
 
 const router = express.Router();
 router

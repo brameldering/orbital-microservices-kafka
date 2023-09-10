@@ -43,7 +43,7 @@ const ProductScreen = () => {
     data: product,
     isLoading,
     refetch,
-    errorLoading,
+    error: errorLoading,
   } = useGetProductDetailsQuery(productId);
 
   const { userInfo } = useSelector((state) => state.auth);

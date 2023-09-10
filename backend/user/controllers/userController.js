@@ -5,6 +5,8 @@ import generateToken from '../../general/utils/generateToken.js';
 // @desc    Get all users
 // @route   GET /api/users/v1
 // @access  Private/Admin
+// @req
+// @res     status(200).json(users)
 const getUsers = asyncHandler(async (req, res) => {
   const users = await User.find({});
   res.status(200).json(users);
@@ -13,16 +15,14 @@ const getUsers = asyncHandler(async (req, res) => {
 // @desc    Register a new user
 // @route   POST /api/users/v1
 // @access  Public
+// @req     body {name, email, password}
+// @res     status(201).json({_id, name, email, isAdmin}
+//       or status(400);throw new Error('Invalid user data')
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
+  // No need to check if user already exists since there is an unique check on the data model
   // The errorMiddleware now returns user friendly error messages
-  // for example for the case when a unique field such as email already exists
-  // ===========================================================
-  // const userExists = await User.findOne({ email });
-  // if (userExists) {
-  //   res.status(400);
-  //   throw new Error('User already exists');
-  // }
+  // for the case when a unique field value already exists
   const user = await User.create({
     name,
     email,
@@ -30,7 +30,6 @@ const registerUser = asyncHandler(async (req, res) => {
   });
   if (user) {
     generateToken(res, user._id);
-
     res.status(201).json({
       _id: user._id,
       name: user.name,
@@ -46,6 +45,10 @@ const registerUser = asyncHandler(async (req, res) => {
 // @desc    Auth user & get token
 // @route   POST /api/users/v1/auth
 // @access  Public
+// @req     body {email, password}
+// @res     cookie('jwt', token, {httpOnly, secure, sameSite, maxAge});
+//      and status(200).json({_id, name, email, isAdmin}
+//       or status(401);throw new Error('Invalid email or password')
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
@@ -66,6 +69,9 @@ const authUser = asyncHandler(async (req, res) => {
 // @desc    Logout user / clear cookie
 // @route   POST /api/users/v1/logout
 // @access  Public
+// @req
+// @res     cookie('jwt', '', {httpOnly, secure, sameSite, expires})
+//      and status(200).json({ message: 'Logged out successfully' })
 const logoutUser = (req, res) => {
   res.cookie('jwt', '', {
     httpOnly: true,
@@ -79,6 +85,9 @@ const logoutUser = (req, res) => {
 // @desc    Get user profile
 // @route   GET /api/users/v1/profile
 // @access  Private
+// @req     user._id
+// @res     status(200).json({_id, name, email, isAdmin})
+//       or status(404);throw new Error('User not found')
 const getUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
   if (user) {
@@ -97,21 +106,30 @@ const getUserProfile = asyncHandler(async (req, res) => {
 // @desc    Update user profile
 // @route   PUT /api/users/v1/profile
 // @access  Private
+// @req     user._id
+//          body {name, email, password}
+// @res     status(200).json({_id, name, email, isAdmin})
+//       or status(404);throw new Error('User not found');
 const updateUserProfile = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.user._id);
-  if (user) {
-    user.name = req.body.name || user.name;
-    user.email = req.body.email || user.email;
-    if (req.body.password) {
-      user.password = req.body.password;
+  if (req.user && req.user._id) {
+    const user = await User.findById(req.user._id);
+    if (user) {
+      user.name = req.body.name || user.name;
+      user.email = req.body.email || user.email;
+      if (req.body.password) {
+        user.password = req.body.password;
+      }
+      const updatedUser = await user.save();
+      res.status(200).json({
+        _id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        isAdmin: updatedUser.isAdmin,
+      });
+    } else {
+      res.status(404);
+      throw new Error('User not found');
     }
-    const updatedUser = await user.save();
-    res.status(200).json({
-      _id: updatedUser._id,
-      name: updatedUser.name,
-      email: updatedUser.email,
-      isAdmin: updatedUser.isAdmin,
-    });
   } else {
     res.status(404);
     throw new Error('User not found');
@@ -121,6 +139,9 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 // @desc    Get user by ID
 // @route   GET /api/users/v1/:id
 // @access  Private/Admin
+// @req     params.id
+// @res     status(200).json(user)
+//       or status(404);throw new Error('User not found');
 const getUserById = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id).select('-password');
   if (user) {
@@ -134,6 +155,10 @@ const getUserById = asyncHandler(async (req, res) => {
 // @desc    Update user
 // @route   PUT /api/users/v1/:id
 // @access  Private/Admin
+// @req     params.id
+//          body {name, email, isAdmin}
+// @res     status(200).json({_id, name, email, isAdmin}
+//       or status(404);throw new Error('User not found');
 const updateUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id);
   if (user) {
@@ -156,6 +181,9 @@ const updateUser = asyncHandler(async (req, res) => {
 // @desc    Delete user
 // @route   DELETE /api/users/v1/:id
 // @access  Private/Admin
+// @req     params.id
+// @res     status(200).json({message})
+//       or status(404);throw new Error('User not found');
 const deleteUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id);
   if (user) {

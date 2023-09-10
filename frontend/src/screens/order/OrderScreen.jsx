@@ -26,7 +26,7 @@ const OrderScreen = () => {
     data: order,
     refetch,
     isLoading,
-    errorLoading,
+    error: errorLoading,
   } = useGetOrderDetailsQuery(orderId);
 
   const [payOrder, { isLoading: loadingPay, error: errorPay }] =

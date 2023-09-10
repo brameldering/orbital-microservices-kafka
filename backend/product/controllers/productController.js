@@ -6,6 +6,9 @@ import { CLOUDINARY_SAMPLE_IMAGE_URL } from '../../constantsBackend.js';
 // @desc    Fetch all products
 // @route   GET /api/products/v1
 // @access  Public
+// @req     query.pageNumber (optional)
+//          query.keyword (optional)
+// @res     status(200).json({ products, page, pages })
 const getProducts = asyncHandler(async (req, res) => {
   const pageSize = process.env.PRODUCTS_PER_PAGE;
   let page = Number(req.query.pageNumber) || 1;
@@ -29,12 +32,16 @@ const getProducts = asyncHandler(async (req, res) => {
       .limit(pageSize)
       .skip(pageSize * (page - 1));
   }
-  res.status(200).json({ products, page, pages: Math.ceil(count / pageSize) });
+  const pages = Math.ceil(count / pageSize);
+  res.status(200).json({ products, page, pages });
 });
 
 // @desc    Create a product
 // @route   POST /api/products/v1
 // @access  Private/Admin
+// @req     user._id
+//          body {product}
+// @res     status(201).json(createdProduct)
 const createProduct = asyncHandler(async (req, res) => {
   const seqProductId = await IdSequence.findOneAndUpdate(
     { sequenceName: 'sequenceProductId' },
@@ -62,6 +69,8 @@ const createProduct = asyncHandler(async (req, res) => {
 // @desc    Get top rated products
 // @route   GET /api/products/v1/top
 // @access  Public
+// @req
+// @res     status(200).json(products)
 const getTopProducts = asyncHandler(async (req, res) => {
   const products = await Product.find({}).sort({ rating: -1 }).limit(3);
   res.status(200).json(products);
@@ -70,22 +79,26 @@ const getTopProducts = asyncHandler(async (req, res) => {
 // @desc    Fetch single product
 // @route   GET /api/products/v1/:id
 // @access  Public
+// @req     params.id
+// @res     status(200).json(product)
+//       or status(404);throw new Error('Product ' + req.params.id + ' not found')
 const getProductById = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
   if (product) {
     return res.status(200).json(product);
   } else {
-    // NOTE: this will run if a valid ObjectId but no product was found
-    // i.e. product may be null
-    console.log('Product not found Bram');
     res.status(404);
-    throw new Error('Product not found Bram');
+    throw new Error('Product ' + req.params.id + ' not found');
   }
 });
 
 // @desc    Update a product
 // @route   PUT /api/products/v1/:id
 // @access  Private/Admin
+// @req     params.id
+//          body {Product}
+// @res     status(200).json(updatedProduct)
+//       or status(404);throw new Error('Product not found')
 const updateProduct = asyncHandler(async (req, res) => {
   const { name, price, description, image, brand, category, countInStock } =
     req.body;
@@ -110,6 +123,9 @@ const updateProduct = asyncHandler(async (req, res) => {
 // @desc    Delete a product
 // @route   DELETE /api/products/v1/:id
 // @access  Private/Admin
+// @req     params.id
+// @res     status(200).json({ message: 'Product removed' })
+//       or status(404);throw new Error('Product not found')
 const deleteProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
   if (product) {
@@ -124,6 +140,13 @@ const deleteProduct = asyncHandler(async (req, res) => {
 // @desc    Create new review
 // @route   POST /api/products/v1/:id/reviews
 // @access  Private
+// @req     params.id
+//          user._id
+//          user.name
+//          body {rating, comment}
+// @res     status(201).json({ message: 'Review added' })
+//       or status(400);throw new Error('Product already reviewed');
+//       or status(404);throw new Error('Product not found')
 const createProductReview = asyncHandler(async (req, res) => {
   const { rating, comment } = req.body;
   const product = await Product.findById(req.params.id);

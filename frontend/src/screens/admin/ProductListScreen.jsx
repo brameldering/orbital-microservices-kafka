@@ -19,7 +19,12 @@ const ProductListScreen = () => {
   const { pageNumber } = useParams();
 
   // --------------- Get Products ---------------
-  const { data, isLoading, errorLoading, refetch } = useGetProductsQuery({
+  const {
+    data,
+    isLoading,
+    error: errorLoading,
+    refetch,
+  } = useGetProductsQuery({
     pageNumber,
   });
 

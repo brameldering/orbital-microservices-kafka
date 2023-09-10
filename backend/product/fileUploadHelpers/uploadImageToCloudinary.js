@@ -1,7 +1,7 @@
 import multer from 'multer';
 import { v2 as cloudinary } from 'cloudinary';
 import asyncHandler from '../../general/middleware/asyncHandler.js';
-import fileFilter from './imageFileFilter.js';
+import fileFilter from './fileFilter.js';
 import { MAX_IMAGE_FILE_SIZE } from '../../constantsBackend.js';
 
 // cloudinary.config({
@@ -28,10 +28,14 @@ const configFileUploadCloudinary = (req, res, next) => {
   multerUpload.single('image')(req, res, (err) => {
     console.log('configFileUploadCloudinary --> upload.single');
     if (err) {
-      console.error('configFileUploadCloudinary --> upload.single === Error ');
-      return res
-        .status(400)
-        .json({ error: 'configFileUploadCloudinary: File upload failed' });
+      console.error(
+        'configFileUploadCloudinary --> upload.single === Error ',
+        err
+      );
+      throw new Error('File upload failed');
+      // return res
+      //   .status(400)
+      //   .json({ error: 'configFileUploadCloudinary: File upload failed' });
     }
   });
   next();
@@ -48,26 +52,25 @@ const configFileUploadCloudinary = (req, res, next) => {
 };
 
 const uploadImageToCloudinary = asyncHandler(async (req, res) => {
-  try {
-    console.warn('===> uploadImageToCloudinary');
-    const b64 = Buffer.from(req.file.buffer).toString('base64');
-    let dataURI = 'data:' + req.file.mimetype + ';base64,' + b64;
-    const cldRes = await cloudinary.uploader.upload(dataURI, {
-      resource_type: 'auto',
-    });
-    console.log('===> cldRes:', cldRes.secure_url);
-
-    return { message: 'Image uploaded successfully', image: cldRes.secure_url };
-    // res.status(200).send({
-    //   message: 'Image uploaded successfully',
-    // });
-  } catch (error) {
-    // TO IMPROVE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    console.log('uploadImageToCloudinary error', error);
-    // res.status(400).send({
-    //   message: error.message,
-    // });
-  }
+  // try {
+  console.warn('===> uploadImageToCloudinary');
+  const b64 = Buffer.from(req.file.buffer).toString('base64');
+  let dataURI = 'data:' + req.file.mimetype + ';base64,' + b64;
+  const cldRes = await cloudinary.uploader.upload(dataURI, {
+    resource_type: 'auto',
+  });
+  console.log('===> cldRes:', cldRes.secure_url);
+  return cldRes.secure_url;
+  // res.status(200).send({
+  //   message: 'Image uploaded successfully',
+  // });
+  // } catch (error) {
+  // TO IMPROVE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  // console.log('uploadImageToCloudinary error', error);
+  // res.status(400).send({
+  //   message: error.message,
+  // });
+  // }
 });
 
 export { cloudinary, configFileUploadCloudinary, uploadImageToCloudinary };

@@ -30,9 +30,9 @@ app.use(configureCORS);
 
 // Controllers
 app.use('/api/products/v1', productRoutes);
+app.use('/api/upload/v1', uploadRoutes);
 app.use('/api/users/v1', userRoutes);
 app.use('/api/orders/v1', orderRoutes);
-app.use('/api/upload/v1', uploadRoutes);
 
 // API to provide the PAYPAL_CLIENT_ID from .env to frontend
 app.get('/api/config/v1/paypal', (req, res) =>
