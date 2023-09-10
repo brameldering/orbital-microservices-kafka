@@ -1,5 +1,6 @@
-import { uploadImageToCloudinary } from '../fileUploadHelpers/uploadImageToCloudinary.js';
 import asyncHandler from '../../general/middleware/asyncHandler.js';
+import { ExtendedError } from '../../general/middleware/errorMiddleware.js';
+import { uploadImageToCloudinary } from '../fileUploadHelpers/uploadImageToCloudinary.js';
 
 // ================ Upload image ================
 // @desc    Upload image to cloudinary
@@ -9,7 +10,7 @@ import asyncHandler from '../../general/middleware/asyncHandler.js';
 //          file.mimetype
 //          file.originalname
 // @res     status(200).send(result)
-//       or status(415).send({message: 'Image NOT uploaded: ' + error.message});
+//       or status(415).message:'Image NOT uploaded'
 const uploadImageController = asyncHandler(async (req, res) => {
   try {
     const imageURL = await uploadImageToCloudinary(req, res);
@@ -20,7 +21,7 @@ const uploadImageController = asyncHandler(async (req, res) => {
   } catch (error) {
     console.error('=== uploadImageController - error', error);
     res.status(415);
-    throw new Error('Image NOT uploaded: ' + error.message);
+    throw new ExtendedError('Image NOT uploaded: ' + error.message);
   }
 });
 export { uploadImageController };

@@ -1,14 +1,14 @@
+// Extend Error class with default statusCode of 500
 class ExtendedError extends Error {
-  constructor(message, statusCode) {
+  constructor(message, statusCode = 500) {
     super(message);
-    this.statusCode = statusCode || 500; // Default to Internal Server Error
-    this.name = this.constructor.name; // Set the error name to the class name
+    this.statusCode = statusCode;
+    this.name = this.constructor.name;
   }
 }
 
 const notFound = (req, res, next) => {
-  const error = new Error(`API Not Found for: ${req.originalUrl}`);
-  res.status(404);
+  const error = new ExtendedError(`API Not Found for: ${req.originalUrl}`, 404);
   next(error);
 };
 

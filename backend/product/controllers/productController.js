@@ -1,4 +1,5 @@
 import asyncHandler from '../../general/middleware/asyncHandler.js';
+import { ExtendedError } from '../../general/middleware/errorMiddleware.js';
 import IdSequence from '../../general/models/idSequenceModel.js';
 import Product from '../models/productModel.js';
 import { CLOUDINARY_SAMPLE_IMAGE_URL } from '../../constantsBackend.js';
@@ -81,14 +82,13 @@ const getTopProducts = asyncHandler(async (req, res) => {
 // @access  Public
 // @req     params.id
 // @res     status(200).json(product)
-//       or status(404);throw new Error('Product ' + req.params.id + ' not found')
+//       or status(404).message:'Product ' + req.params.id + ' not found'
 const getProductById = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
   if (product) {
     return res.status(200).json(product);
   } else {
-    res.status(404);
-    throw new Error('Product ' + req.params.id + ' not found');
+    throw new ExtendedError('Product ' + req.params.id + ' not found', 404);
   }
 });
 
@@ -98,7 +98,7 @@ const getProductById = asyncHandler(async (req, res) => {
 // @req     params.id
 //          body {Product}
 // @res     status(200).json(updatedProduct)
-//       or status(404);throw new Error('Product not found')
+//       or status(404).message:'Product not found'
 const updateProduct = asyncHandler(async (req, res) => {
   const { name, price, description, image, brand, category, countInStock } =
     req.body;
@@ -115,8 +115,7 @@ const updateProduct = asyncHandler(async (req, res) => {
     const updatedProduct = await product.save();
     res.status(200).json(updatedProduct);
   } else {
-    res.status(404);
-    throw new Error('Product not found');
+    throw new ExtendedError('Product not found', 404);
   }
 });
 
@@ -125,15 +124,14 @@ const updateProduct = asyncHandler(async (req, res) => {
 // @access  Private/Admin
 // @req     params.id
 // @res     status(200).json({ message: 'Product removed' })
-//       or status(404);throw new Error('Product not found')
+//       or status(404).message:'Product not found'
 const deleteProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
   if (product) {
     await Product.deleteOne({ _id: product._id });
     res.status(200).json({ message: 'Product removed' });
   } else {
-    res.status(404);
-    throw new Error('Product not found');
+    throw new ExtendedError('Product not found', 404);
   }
 });
 
@@ -145,8 +143,8 @@ const deleteProduct = asyncHandler(async (req, res) => {
 //          user.name
 //          body {rating, comment}
 // @res     status(201).json({ message: 'Review added' })
-//       or status(400);throw new Error('Product already reviewed');
-//       or status(404);throw new Error('Product not found')
+//       or status(400).message:'Product already reviewed'
+//       or status(404).message:'Product not found'
 const createProductReview = asyncHandler(async (req, res) => {
   const { rating, comment } = req.body;
   const product = await Product.findById(req.params.id);
@@ -155,8 +153,7 @@ const createProductReview = asyncHandler(async (req, res) => {
       (review) => review.user.toString() === req.user._id.toString()
     );
     if (alreadyReviewed) {
-      res.status(400);
-      throw new Error('Product already reviewed');
+      throw new ExtendedError('Product already reviewed', 400);
     }
     const review = {
       name: req.user.name,
@@ -172,8 +169,7 @@ const createProductReview = asyncHandler(async (req, res) => {
     await product.save();
     res.status(201).json({ message: 'Review added' });
   } else {
-    res.status(404);
-    throw new Error('Product not found');
+    throw new ExtendedError('Product not found', 404);
   }
 });
 

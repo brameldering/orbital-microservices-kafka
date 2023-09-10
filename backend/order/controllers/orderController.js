@@ -1,4 +1,6 @@
+import mongoose from 'mongoose';
 import asyncHandler from '../../general/middleware/asyncHandler.js';
+import { ExtendedError } from '../../general/middleware/errorMiddleware.js';
 import IdSequence from '../../general/models/idSequenceModel.js';
 import Order from '../models/orderModel.js';
 import Product from '../../product/models/productModel.js';
@@ -7,7 +9,6 @@ import {
   verifyPayPalPayment,
   checkIfNewTransaction,
 } from '../../general/utils/paypal.js';
-import mongoose from 'mongoose';
 
 // @desc    Get all orders
 // @route   GET /api/orders/v1
@@ -25,12 +26,11 @@ const getOrders = asyncHandler(async (req, res) => {
 // @req     user._id
 //          body {orderItems, shippingAddress, paymentMethod}
 // @res     status(201).json(createdOrder)
-//       or status(400);throw new Error('No order items');
+//       or status(400).message:'No order items'
 const createOrder = asyncHandler(async (req, res) => {
   const { orderItems, shippingAddress, paymentMethod } = req.body;
   if (orderItems && orderItems.length === 0) {
-    res.status(400);
-    throw new Error('No order items');
+    throw new ExtendedError('No order items', 400);
   } else {
     // get the ordered items from our database
     const itemsFromDB = await Product.find({
@@ -93,7 +93,7 @@ const getMyOrders = asyncHandler(async (req, res) => {
 // @access  Private
 // @req     params.id
 // @res     status(200).json(order)
-//       or status(404);throw new Error('Order not found')
+//       or status(404).message:'Order not found'
 const getOrderById = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id).populate(
     'user',
@@ -102,8 +102,7 @@ const getOrderById = asyncHandler(async (req, res) => {
   if (order) {
     res.status(200).json(order);
   } else {
-    res.status(404);
-    throw new Error('Order not found');
+    throw new ExtendedError('Order not found', 404);
   }
 });
 
@@ -113,22 +112,22 @@ const getOrderById = asyncHandler(async (req, res) => {
 // @req     params.id
 //          body {id, status, update_time, email_address}
 // @res     status(200).json(updatedOrder)
-//       or status(404);throw new Error('Order not found')
+//       or status(404).message:'Order not found'
 const updateOrderToPaid = asyncHandler(async (req, res) => {
   // NOTE: here we need to verify the payment was made to PayPal before marking
   // the order as paid
   const { verified, value } = await verifyPayPalPayment(req.body.id);
-  if (!verified) throw new Error('Payment not verified');
+  if (!verified) throw new ExtendedError('Payment not verified');
   // check if this transaction has been used before
   const isNewTransaction = await checkIfNewTransaction(Order, req.body.id);
   if (!isNewTransaction) {
-    throw new Error('Transaction has been used before');
+    throw new ExtendedError('Transaction has been used before');
   }
   const order = await Order.findById(req.params.id);
   if (order) {
     // check the correct amount was paid
     const paidCorrectAmount = order.totalPrice.toString() === value;
-    if (!paidCorrectAmount) throw new Error('Incorrect amount paid');
+    if (!paidCorrectAmount) throw new ExtendedError('Incorrect amount paid');
     order.isPaid = true;
     order.paidAt = Date.now();
     order.paymentResult = {
@@ -140,8 +139,7 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
     const updatedOrder = await order.save();
     res.status(200).json(updatedOrder);
   } else {
-    res.status(404);
-    throw new Error('Order not found');
+    throw new ExtendedError('Order not found', 404);
   }
 });
 
@@ -150,7 +148,7 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
 // @access  Private/Admin
 // @req     params.id
 // @res     status(200).json(updatedOrder)
-//       or status(404);throw new Error('Order not found')
+//       or status(404).message:'Order not found'
 const updateOrderToDelivered = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id);
   if (order) {
@@ -159,8 +157,7 @@ const updateOrderToDelivered = asyncHandler(async (req, res) => {
     const updatedOrder = await order.save();
     res.status(200).json(updatedOrder);
   } else {
-    res.status(404);
-    throw new Error('Order not found');
+    throw new ExtendedError('Order not found', 404);
   }
 });
 

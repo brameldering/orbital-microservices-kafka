@@ -1,4 +1,5 @@
 import asyncHandler from '../../general/middleware/asyncHandler.js';
+import { ExtendedError } from '../../general/middleware/errorMiddleware.js';
 import User from '../models/userModel.js';
 import generateToken from '../../general/utils/generateToken.js';
 
@@ -17,7 +18,7 @@ const getUsers = asyncHandler(async (req, res) => {
 // @access  Public
 // @req     body {name, email, password}
 // @res     status(201).json({_id, name, email, isAdmin}
-//       or status(400);throw new Error('Invalid user data')
+//       or status(400).message:'Invalid user data'
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
   // No need to check if user already exists since there is an unique check on the data model
@@ -37,8 +38,7 @@ const registerUser = asyncHandler(async (req, res) => {
       isAdmin: user.isAdmin,
     });
   } else {
-    res.status(400);
-    throw new Error('Invalid user data');
+    throw new ExtendedError('Invalid user data', 400);
   }
 });
 
@@ -48,7 +48,7 @@ const registerUser = asyncHandler(async (req, res) => {
 // @req     body {email, password}
 // @res     cookie('jwt', token, {httpOnly, secure, sameSite, maxAge});
 //      and status(200).json({_id, name, email, isAdmin}
-//       or status(401);throw new Error('Invalid email or password')
+//       or status(401).message:'Invalid email or password'
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
@@ -61,8 +61,7 @@ const authUser = asyncHandler(async (req, res) => {
       isAdmin: user.isAdmin,
     });
   } else {
-    res.status(401); // Unauthorized
-    throw new Error('Invalid email or password');
+    throw new ExtendedError('Invalid email or password', 401);
   }
 });
 
@@ -87,7 +86,7 @@ const logoutUser = (req, res) => {
 // @access  Private
 // @req     user._id
 // @res     status(200).json({_id, name, email, isAdmin})
-//       or status(404);throw new Error('User not found')
+//       or status(404).message:'User not found'
 const getUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
   if (user) {
@@ -98,8 +97,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
       isAdmin: user.isAdmin,
     });
   } else {
-    res.status(404);
-    throw new Error('User not found');
+    throw new ExtendedError('User not found', 404);
   }
 });
 
@@ -109,7 +107,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
 // @req     user._id
 //          body {name, email, password}
 // @res     status(200).json({_id, name, email, isAdmin})
-//       or status(404);throw new Error('User not found');
+//       or status(404).message:'User not found'
 const updateUserProfile = asyncHandler(async (req, res) => {
   if (req.user && req.user._id) {
     const user = await User.findById(req.user._id);
@@ -128,11 +126,11 @@ const updateUserProfile = asyncHandler(async (req, res) => {
       });
     } else {
       res.status(404);
-      throw new Error('User not found');
+      throw new ExtendedError('User not found', 404);
     }
   } else {
     res.status(404);
-    throw new Error('User not found');
+    throw new ExtendedError('User not found', 404);
   }
 });
 
@@ -141,14 +139,13 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 // @access  Private/Admin
 // @req     params.id
 // @res     status(200).json(user)
-//       or status(404);throw new Error('User not found');
+//       or status(404).message:'User not found'
 const getUserById = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id).select('-password');
   if (user) {
     res.status(200).json(user);
   } else {
-    res.status(404);
-    throw new Error('User not found');
+    throw new ExtendedError('User not found', 404);
   }
 });
 
@@ -158,7 +155,7 @@ const getUserById = asyncHandler(async (req, res) => {
 // @req     params.id
 //          body {name, email, isAdmin}
 // @res     status(200).json({_id, name, email, isAdmin}
-//       or status(404);throw new Error('User not found');
+//       or status(404).message:'User not found'
 const updateUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id);
   if (user) {
@@ -173,8 +170,7 @@ const updateUser = asyncHandler(async (req, res) => {
       isAdmin: updatedUser.isAdmin,
     });
   } else {
-    res.status(404);
-    throw new Error('User not found');
+    throw new ExtendedError('User not found', 404);
   }
 });
 
@@ -183,19 +179,14 @@ const updateUser = asyncHandler(async (req, res) => {
 // @access  Private/Admin
 // @req     params.id
 // @res     status(200).json({message})
-//       or status(404);throw new Error('User not found');
+//       or status(404).message:'User not found'
 const deleteUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id);
   if (user) {
-    if (user.isAdmin) {
-      res.status(400);
-      throw new Error('Can not delete admin user');
-    }
     await User.deleteOne({ _id: user._id });
     res.status(200).json({ message: 'User removed' });
   } else {
-    res.status(404);
-    throw new Error('User not found');
+    throw new ExtendedError('User not found', 404);
   }
 });
 

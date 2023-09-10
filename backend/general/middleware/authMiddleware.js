@@ -1,5 +1,7 @@
 import jwt from 'jsonwebtoken';
 import asyncHandler from './asyncHandler.js';
+import { ExtendedError } from './errorMiddleware.js';
+
 import User from '../../user/models/userModel.js';
 
 // User must be authenticated
@@ -21,12 +23,10 @@ const protect = asyncHandler(async (req, res, next) => {
       next();
     } catch (error) {
       console.error(error);
-      res.status(401);
-      throw new Error('Not authorized, token failed');
+      throw new ExtendedError('Not authorized, token failed', 401);
     }
   } else {
-    res.status(401);
-    throw new Error('Not authorized, no token');
+    throw new ExtendedError('Not authorized, no token', 401);
   }
 });
 
@@ -35,8 +35,7 @@ const admin = (req, res, next) => {
   if (req.user && req.user.isAdmin) {
     next();
   } else {
-    res.status(401);
-    throw new Error('Not authorized, for this you must be an admin');
+    throw new ExtendedError('Not authorized, you must be an admin', 401);
   }
 };
 

@@ -1,6 +1,7 @@
 import multer from 'multer';
 import { v2 as cloudinary } from 'cloudinary';
 import asyncHandler from '../../general/middleware/asyncHandler.js';
+import { ExtendedError } from '../../general/middleware/errorMiddleware.js';
 import fileFilter from './fileFilter.js';
 import { MAX_IMAGE_FILE_SIZE } from '../../constantsBackend.js';
 
@@ -32,7 +33,7 @@ const configFileUploadCloudinary = (req, res, next) => {
         'configFileUploadCloudinary --> upload.single === Error ',
         err
       );
-      throw new Error('File upload failed');
+      throw new ExtendedError('File upload failed');
       // return res
       //   .status(400)
       //   .json({ error: 'configFileUploadCloudinary: File upload failed' });
