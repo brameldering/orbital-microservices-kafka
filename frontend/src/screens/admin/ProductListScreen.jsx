@@ -44,7 +44,7 @@ const ProductListScreen = () => {
       await createProduct().unwrap();
       refetch();
     } catch (err) {
-      // Do nothing because errorCreate will have the error object
+      // Do nothing because useCreateProductMutation will set errorCreate in case of an error
     } finally {
       setConfirmCreateProductModal(false);
     }
@@ -69,7 +69,7 @@ const ProductListScreen = () => {
       await deleteProduct(deleteProductId).unwrap();
       refetch();
     } catch (err) {
-      // Do nothing because errorDelete will have the error object
+      // Do nothing because useDeleteProductMutation will set errorDelete in case of an error
     } finally {
       setConfirmDeleteProductModal(false);
     }

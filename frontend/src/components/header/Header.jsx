@@ -27,6 +27,7 @@ const Header = () => {
       dispatch(resetCart());
       navigate('/login');
     } catch (err) {
+      // LOG ERROR
       console.error(err);
     }
   };

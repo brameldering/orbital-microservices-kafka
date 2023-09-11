@@ -9,9 +9,9 @@ import {
   errorHandler,
 } from './general/middleware/errorMiddleware.js';
 import productRoutes from './product/routes/productRoutes.js';
+import uploadRoutes from './product/routes/uploadImageRoutes.js';
 import userRoutes from './user/routes/userRoutes.js';
 import orderRoutes from './order/routes/orderRoutes.js';
-import uploadRoutes from './product/routes/uploadImageRoutes.js';
 
 dotenv.config();
 const port = process.env.PORT || 5000;

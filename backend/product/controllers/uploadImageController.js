@@ -6,12 +6,10 @@ import { uploadImageToCloudinary } from '../fileUploadHelpers/uploadImageToCloud
 // @desc    Upload image to cloudinary
 // @route   POST /api/upload/v1/
 // @access  Private/Admin
-// @req     file.buffer
-//          file.mimetype
-//          file.originalname
+// @req     body: FormData.image
 // @res     status(200).send(result)
 //       or status(415).message:'Image NOT uploaded'
-const uploadImageController = asyncHandler(async (req, res) => {
+const uploadImage = asyncHandler(async (req, res) => {
   try {
     const imageURL = await uploadImageToCloudinary(req, res);
     res.status(201).json({
@@ -19,8 +17,9 @@ const uploadImageController = asyncHandler(async (req, res) => {
       image: imageURL,
     });
   } catch (error) {
+    console.log(error);
     res.status(415);
     throw new ExtendedError('Image NOT uploaded: ' + error.message);
   }
 });
-export { uploadImageController };
+export { uploadImage };

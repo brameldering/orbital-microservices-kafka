@@ -48,7 +48,6 @@ const LoginScreen = () => {
         navigate(redirect);
       } catch (err) {
         setErrorMsg(err?.data?.message || err.error);
-        // toast.error(err?.data?.message || err.error);
       }
     },
   });

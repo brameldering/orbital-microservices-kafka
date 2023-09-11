@@ -84,8 +84,7 @@ const ProductEditScreen = () => {
         refetch();
         navigate('/admin/productlist');
       } catch (err) {
-        // setError(err);
-        // Do nothing because errorUpdate also has a velue
+        // Do nothing because useUploadProductImageMutation will set errorUploadImage in case of an error
       }
     },
   });
@@ -98,8 +97,7 @@ const ProductEditScreen = () => {
       formik.setFieldValue('image', res.image);
       toast.success(res.message);
     } catch (err) {
-      // setError(err);
-      // Do nothing because errorUploadImage also has a velue
+      // Do nothing because useUpdateProductMutation will set errorUpdate in case of an error
     }
   };
 

@@ -38,8 +38,7 @@ const UserListScreen = () => {
       await deleteUser(deleteUserId).unwrap();
       refetch();
     } catch (err) {
-      // Do nothing because the error will be displayed as ErrorMessage
-      // toast.error(err?.data?.message || err.error);
+      // Do nothing because useDeleteUserMutation will set errorDelete in case of an error
     } finally {
       setConfirmDeleteUserModal(false);
     }
