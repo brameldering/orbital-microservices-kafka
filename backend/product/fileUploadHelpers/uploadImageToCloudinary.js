@@ -1,77 +1,47 @@
 import multer from 'multer';
 import { v2 as cloudinary } from 'cloudinary';
 import asyncHandler from '../../general/middleware/asyncHandler.js';
-import { ExtendedError } from '../../general/middleware/errorMiddleware.js';
 import fileFilter from './fileFilter.js';
 import { MAX_IMAGE_FILE_SIZE } from '../../constantsBackend.js';
 
-// cloudinary.config({
-//   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-//   api_key: process.env.CLOUDINARY_API_KEY,
-//   api_secret: process.env.CLOUDINARY_API_SECRET,
-// });
-const memoryStorage = multer.memoryStorage();
-const multerUpload = multer({
-  storage: memoryStorage,
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+const storage = multer.memoryStorage();
+const upload = multer({
+  storage: storage,
   limits: { fileSize: MAX_IMAGE_FILE_SIZE },
   fileFilter,
 });
 
-// This function is configured as middleware in server.js
-const configFileUploadCloudinary = (req, res, next) => {
-  console.warn('===> configFileUploadCloudinary');
-  cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET,
+const uploadDefault = async (dataURI) => {
+  return cloudinary.uploader.upload(dataURI, {
+    resource_type: 'auto',
   });
+};
 
-  multerUpload.single('image')(req, res, (err) => {
-    console.log('configFileUploadCloudinary --> upload.single');
-    if (err) {
-      console.error(
-        'configFileUploadCloudinary --> upload.single === Error ',
-        err
-      );
-      throw new ExtendedError('File upload failed');
-      // return res
-      //   .status(400)
-      //   .json({ error: 'configFileUploadCloudinary: File upload failed' });
-    }
+const uploadMiddleware = upload.single('image');
+
+const runMiddleware = (fn, req, res) => {
+  return new Promise((resolve, reject) => {
+    fn(req, res, (result) => {
+      if (result instanceof Error) {
+        return reject(result);
+      }
+      return resolve(result);
+    });
   });
-  next();
-
-  // multerUpload.single('image')(req, res, (err) => {
-  //   console.log('configFileUploadCloudinary --> upload.single');
-  //   if (err) {
-  //     console.error('configFileUploadCloudinary --> upload.single === Error ');
-  //     return res
-  //       .status(400)
-  //       .json({ error: 'configFileUploadCloudinary: File upload failed' });
-  //   }
-  // });
 };
 
 const uploadImageToCloudinary = asyncHandler(async (req, res) => {
-  // try {
-  console.warn('===> uploadImageToCloudinary');
+  await runMiddleware(uploadMiddleware, req, res);
   const b64 = Buffer.from(req.file.buffer).toString('base64');
   let dataURI = 'data:' + req.file.mimetype + ';base64,' + b64;
-  const cldRes = await cloudinary.uploader.upload(dataURI, {
-    resource_type: 'auto',
-  });
-  console.log('===> cldRes:', cldRes.secure_url);
+  const cldRes = await uploadDefault(dataURI);
   return cldRes.secure_url;
-  // res.status(200).send({
-  //   message: 'Image uploaded successfully',
-  // });
-  // } catch (error) {
-  // TO IMPROVE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  // console.log('uploadImageToCloudinary error', error);
-  // res.status(400).send({
-  //   message: error.message,
-  // });
-  // }
 });
 
-export { cloudinary, configFileUploadCloudinary, uploadImageToCloudinary };
+export { uploadImageToCloudinary };

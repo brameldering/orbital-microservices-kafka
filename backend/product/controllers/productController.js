@@ -88,7 +88,7 @@ const getProductById = asyncHandler(async (req, res) => {
   if (product) {
     return res.status(200).json(product);
   } else {
-    throw new ExtendedError('Product ' + req.params.id + ' not found', 404);
+    throw new ExtendedError('Product not found', 404);
   }
 });
 
@@ -115,7 +115,7 @@ const updateProduct = asyncHandler(async (req, res) => {
     const updatedProduct = await product.save();
     res.status(200).json(updatedProduct);
   } else {
-    throw new ExtendedError('Product not found', 404);
+    throw new ExtendedError('updateProduct, Product not found', 404);
   }
 });
 

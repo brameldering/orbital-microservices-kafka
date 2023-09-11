@@ -44,8 +44,7 @@ const ProductListScreen = () => {
       await createProduct().unwrap();
       refetch();
     } catch (err) {
-      // Do nothing because the error will be displayed as ErrorMessage
-      // toast.error(err?.data?.message || err.error);
+      // Do nothing because errorCreate will have the error object
     } finally {
       setConfirmCreateProductModal(false);
     }
@@ -70,8 +69,7 @@ const ProductListScreen = () => {
       await deleteProduct(deleteProductId).unwrap();
       refetch();
     } catch (err) {
-      // Do nothing because the error will be displayed as ErrorMessage
-      // toast.error(err?.data?.message || err.error);
+      // Do nothing because errorDelete will have the error object
     } finally {
       setConfirmDeleteProductModal(false);
     }
@@ -161,8 +159,7 @@ const ProductListScreen = () => {
             </tbody>
           </Table>
           <Paginate pages={data.pages} page={data.page} isAdmin={true} />
-          {loadingCreate && <Loader />}
-          {loadingDelete && <Loader />}
+          {(loadingCreate || loadingDelete) && <Loader />}
         </>
       )}
     </>

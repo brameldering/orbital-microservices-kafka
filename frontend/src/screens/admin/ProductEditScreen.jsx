@@ -21,7 +21,6 @@ import {
 
 const ProductEditScreen = () => {
   const navigate = useNavigate();
-
   const { id: productId } = useParams();
 
   const {
@@ -85,8 +84,8 @@ const ProductEditScreen = () => {
         refetch();
         navigate('/admin/productlist');
       } catch (err) {
-        // Do nothing because the error will be displayed as ErrorMessage
-        // toast.error(err?.data?.message || err.error);
+        // setError(err);
+        // Do nothing because errorUpdate also has a velue
       }
     },
   });
@@ -99,7 +98,8 @@ const ProductEditScreen = () => {
       formik.setFieldValue('image', res.image);
       toast.success(res.message);
     } catch (err) {
-      toast.error(err?.data?.message || err.error);
+      // setError(err);
+      // Do nothing because errorUploadImage also has a velue
     }
   };
 

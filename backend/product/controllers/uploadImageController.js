@@ -14,12 +14,11 @@ import { uploadImageToCloudinary } from '../fileUploadHelpers/uploadImageToCloud
 const uploadImageController = asyncHandler(async (req, res) => {
   try {
     const imageURL = await uploadImageToCloudinary(req, res);
-    console.info('=== uploadImageController - imageURL', imageURL);
-    res
-      .status(201)
-      .json({ message: 'Image uploaded successfully', image: imageURL });
+    res.status(201).json({
+      message: 'Image uploaded successfully',
+      image: imageURL,
+    });
   } catch (error) {
-    console.error('=== uploadImageController - error', error);
     res.status(415);
     throw new ExtendedError('Image NOT uploaded: ' + error.message);
   }
