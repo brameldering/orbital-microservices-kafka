@@ -17,12 +17,6 @@ const upload = multer({
   fileFilter,
 });
 
-const uploadDefault = async (dataURI) => {
-  return cloudinary.uploader.upload(dataURI, {
-    resource_type: 'auto',
-  });
-};
-
 const uploadMiddleware = upload.single('image');
 
 const runMiddleware = (fn, req, res) => {
@@ -33,6 +27,12 @@ const runMiddleware = (fn, req, res) => {
       }
       return resolve(result);
     });
+  });
+};
+
+const uploadDefault = async (dataURI) => {
+  return cloudinary.uploader.upload(dataURI, {
+    resource_type: 'auto',
   });
 };
 

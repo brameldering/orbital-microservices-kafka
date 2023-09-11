@@ -8,8 +8,10 @@ const Message = ({ variant, children }) => {
 const ErrorMessage = ({ error }) => {
   return (
     <>
-      {error.status < 500 ? (
-        <Message variant='danger'>{error.data?.message}</Message>
+      {error.status < 500 && !isNaN(error.status) ? (
+        <Message variant='danger'>
+          {error?.data?.message || error?.error}
+        </Message>
       ) : (
         <ErrorBlock error={error} />
       )}

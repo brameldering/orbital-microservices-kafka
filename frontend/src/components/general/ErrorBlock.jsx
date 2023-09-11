@@ -8,7 +8,7 @@ const ErrorBlock = ({ error }) => {
           <Card
             style={{
               padding: '1rem 1rem',
-              margin: '1rem',
+              margin: '0rem',
               background: '#fc6f6f',
               color: '#000000',
             }}
@@ -16,8 +16,11 @@ const ErrorBlock = ({ error }) => {
             <p>
               <strong>An Error occured on our side</strong>
             </p>
-            <p>Status code: {error.status}</p>
-            Error message: {error.data?.message}
+            <p>
+              <strong>Status code:</strong> {error?.status}
+            </p>
+            <strong>Error message:</strong>{' '}
+            {error?.data?.message || error?.error}
           </Card>
         </Col>
       </Row>

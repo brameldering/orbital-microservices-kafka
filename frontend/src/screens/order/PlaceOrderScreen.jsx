@@ -14,7 +14,7 @@ import { clearCartItems } from '../../slices/cartSlice';
 const PlaceOrderScreen = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [errorMsg, setErrorMsg] = useState('');
+  const [error, setError] = useState();
 
   const cart = useSelector((state) => state.cart);
 
@@ -42,7 +42,7 @@ const PlaceOrderScreen = () => {
       dispatch(clearCartItems());
       navigate(`/order/${res._id}`);
     } catch (err) {
-      setErrorMsg(err?.data?.message || err.error);
+      setError(err);
     }
   };
 
@@ -89,7 +89,7 @@ const PlaceOrderScreen = () => {
               <OrderSummaryBlock order={cart} />
               <ListGroup.Item>
                 {errorCreate && <ErrorMessage error={errorCreate} />}
-                {errorMsg && <Message variant='danger'>{errorMsg}</Message>}
+                {error && <ErrorMessage error={error} />}
               </ListGroup.Item>
               <ListGroup.Item>
                 <Button
