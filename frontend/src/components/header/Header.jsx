@@ -22,12 +22,9 @@ const Header = () => {
     try {
       await logoutApiCall().unwrap();
       dispatch(logout());
-      // NOTE: here we need to reset cart state for when a user logs out so the next
-      // user doesn't inherit the previous users cart and shipping
       dispatch(resetCart());
       navigate('/login');
     } catch (err) {
-      // LOG ERROR
       console.error(err);
     }
   };
@@ -62,6 +59,9 @@ const Header = () => {
                   <NavDropdown title={userInfo.name} id='username'>
                     <LinkContainer to='/profile'>
                       <NavDropdown.Item>Profile</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to='/myorders'>
+                      <NavDropdown.Item>My Orders</NavDropdown.Item>
                     </LinkContainer>
                     <NavDropdown.Item onClick={logoutHandler}>
                       Logout
