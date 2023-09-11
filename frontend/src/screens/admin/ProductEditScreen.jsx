@@ -1,4 +1,5 @@
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Row, Col, Form, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
@@ -13,6 +14,7 @@ import {
 import Meta from '../../components/general/Meta';
 import Loader from '../../components/general/Loader';
 import { ErrorMessage } from '../../components/general/Messages';
+import ModalConfirmBox from '../../components/general/ModalConfirmBox';
 import {
   useGetProductDetailsQuery,
   useUpdateProductMutation,
@@ -101,14 +103,39 @@ const ProductEditScreen = () => {
     }
   };
 
+  const [showChangesModal, setShowChangesModal] = useState(false);
+  const goBackWithoutSaving = () => {
+    setShowChangesModal(false);
+    navigate('/admin/productlist');
+  };
+  const cancelGoBack = () => setShowChangesModal(false);
+  const goBackHandler = async () => {
+    if (formik.dirty) {
+      setShowChangesModal(true);
+    } else {
+      navigate('/admin/productlist');
+    }
+  };
+
   const disableSubmit = isLoading || performingUpdate || performinUploadImage;
 
   return (
     <>
       <Meta title='Edit Product' />
-      <Link to='/admin/productlist' className='btn btn-light my-3'>
+      <ModalConfirmBox
+        showModal={showChangesModal}
+        title='Discard Changes'
+        body='You have made changes that have not yet been saved.  Do you want to go back and discard these changes?'
+        handleClose={cancelGoBack}
+        handleConfirm={goBackWithoutSaving}
+      />
+      <Button
+        className='btn btn-light my-3'
+        onClick={goBackHandler}
+        disabled={disableSubmit}
+      >
         Go Back
-      </Link>
+      </Button>
       <FormContainer>
         <h1>Edit Product</h1>
         {errorUpdate && <ErrorMessage error={errorUpdate} />}
@@ -171,7 +198,7 @@ const ProductEditScreen = () => {
               className='mt-2'
               disabled={disableSubmit}
             >
-              Update
+              Save
             </Button>
             {performingUpdate && <Loader />}
           </Form>

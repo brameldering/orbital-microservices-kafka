@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
@@ -13,6 +14,7 @@ import {
 import Meta from '../../components/general/Meta';
 import Loader from '../../components/general/Loader';
 import { ErrorMessage } from '../../components/general/Messages';
+import ModalConfirmBox from '../../components/general/ModalConfirmBox';
 import {
   useGetUserDetailsQuery,
   useUpdateUserMutation,
@@ -59,14 +61,39 @@ const UserEditScreen = () => {
     },
   });
 
+  const [showChangesModal, setShowChangesModal] = useState(false);
+  const goBackWithoutSaving = () => {
+    setShowChangesModal(false);
+    navigate('/admin/userlist');
+  };
+  const cancelGoBack = () => setShowChangesModal(false);
+  const goBackHandler = async () => {
+    if (formik.dirty) {
+      setShowChangesModal(true);
+    } else {
+      navigate('/admin/userlist');
+    }
+  };
+
   const disableSubmit = isLoading || loadingUpdate;
 
   return (
     <>
       <Meta title='Edit User' />
-      <Link to='/admin/userlist' className='btn btn-light my-3'>
+      <ModalConfirmBox
+        showModal={showChangesModal}
+        title='Discard Changes'
+        body='You have made changes that have not yet been saved.  Do you want to go back and discard these changes?'
+        handleClose={cancelGoBack}
+        handleConfirm={goBackWithoutSaving}
+      />
+      <Button
+        className='btn btn-light my-3'
+        onClick={goBackHandler}
+        disabled={disableSubmit}
+      >
         Go Back
-      </Link>
+      </Button>
       <FormContainer>
         <h1>Edit User</h1>
         {errorUpdate && <ErrorMessage error={errorUpdate} />}
