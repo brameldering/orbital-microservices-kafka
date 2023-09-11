@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Form, Button, Row, Col } from 'react-bootstrap';
@@ -15,16 +14,15 @@ import {
 } from '../../components/form/FormComponents';
 import Meta from '../../components/general/Meta';
 import Loader from '../../components/general/Loader';
-import { Message, ErrorMessage } from '../../components/general/Messages';
+import { ErrorMessage } from '../../components/general/Messages';
 import { setCredentials } from '../../slices/authSlice';
 import { useLoginMutation } from '../../slices/usersApiSlice';
 
 const LoginScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [errorMsg, setErrorMsg] = useState('');
 
-  const [login, { isLoading, errorLogin }] = useLoginMutation();
+  const [login, { isLoading, error: errorLogin }] = useLoginMutation();
 
   const { search } = useLocation();
   const sp = new URLSearchParams(search);
@@ -47,7 +45,7 @@ const LoginScreen = () => {
         dispatch(setCredentials({ ...res }));
         navigate(redirect);
       } catch (err) {
-        setErrorMsg(err?.data?.message || err.error);
+        // Do nothing because useLoginMutation will set errorLogin in case of an error
       }
     },
   });
@@ -57,7 +55,6 @@ const LoginScreen = () => {
       <Meta title='Sign In' />
       <h1>Sign In</h1>
       {errorLogin && <ErrorMessage error={errorLogin} />}
-      {errorMsg && <Message variant='danger'>{errorMsg}</Message>}
       <Form onSubmit={formik.handleSubmit}>
         <EmailField controlId='email' label='Email' formik={formik} />
         <PasswordField controlId='password' label='Password' formik={formik} />

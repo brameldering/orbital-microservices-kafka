@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Button, Row, Col, ListGroup, Card } from 'react-bootstrap';
@@ -14,11 +14,11 @@ import { clearCartItems } from '../../slices/cartSlice';
 const PlaceOrderScreen = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [error, setError] = useState();
 
   const cart = useSelector((state) => state.cart);
 
-  const [createOrder, { isLoading, errorCreate }] = useCreateOrderMutation();
+  const [createOrder, { isLoading, error: errorCreate }] =
+    useCreateOrderMutation();
 
   useEffect(() => {
     if (!cart.shippingAddress.address) {
@@ -42,7 +42,7 @@ const PlaceOrderScreen = () => {
       dispatch(clearCartItems());
       navigate(`/order/${res._id}`);
     } catch (err) {
-      setError(err);
+      // Do nothing because useCreateOrderMutation will set errorCreate in case of an error
     }
   };
 
@@ -89,7 +89,6 @@ const PlaceOrderScreen = () => {
               <OrderSummaryBlock order={cart} />
               <ListGroup.Item>
                 {errorCreate && <ErrorMessage error={errorCreate} />}
-                {error && <ErrorMessage error={error} />}
               </ListGroup.Item>
               <ListGroup.Item>
                 <Button

@@ -19,7 +19,7 @@ import { CURRENCY_PAYPAL } from '../../constantsFrontend';
 
 const OrderScreen = () => {
   const { id: orderId } = useParams();
-  const [errorMsg, setErrorMsg] = useState('');
+  const [payPalError, setPayPalError] = useState();
   const { userInfo } = useSelector((state) => state.auth);
 
   const {
@@ -29,7 +29,7 @@ const OrderScreen = () => {
     error: errorLoading,
   } = useGetOrderDetailsQuery(orderId);
 
-  const [payOrder, { isLoading: loadingPay, error: errorPay }] =
+  const [payOrder, { isLoading: loadingPayOrder, error: errorPayOrder }] =
     usePayOrderMutation();
 
   const [deliverOrder, { isLoading: loadingDeliver, error: errorDeliver }] =
@@ -68,14 +68,14 @@ const OrderScreen = () => {
       return actions.order.capture().then(async function (details) {
         await payOrder({ orderId, details }).unwrap();
         refetch();
-        if (errorPay) {
-          setErrorMsg('Order has not been paid');
+        if (errorPayOrder) {
+          setPayPalError(errorPayOrder);
         } else {
           toast.success('Order is paid');
         }
       });
     } catch (err) {
-      setErrorMsg(err?.data?.message || err.error);
+      setPayPalError(err);
     }
   }
 
@@ -83,15 +83,15 @@ const OrderScreen = () => {
   // async function onApproveTest() {
   //   await payOrder({ orderId, details: { payer: {} } });
   //   refetch();
-  //   if (errorPay) {
-  //     setErrorMsg('Order has not been paid');
+  //   if (errorPayOrder) {
+  //     setError(errorPayOrder);
   //   } else {
   //     toast.success('Order is paid');
   //   }
   // }
 
   function onPayPalError(err) {
-    setErrorMsg(err.message);
+    setPayPalError(err);
   }
 
   function createOrder(data, actions) {
@@ -108,7 +108,7 @@ const OrderScreen = () => {
           return orderID;
         });
     } catch (err) {
-      setErrorMsg(err?.data?.message || err.error);
+      setPayPalError(err);
     }
   }
 
@@ -117,20 +117,14 @@ const OrderScreen = () => {
       await deliverOrder(orderId).unwrap();
       refetch();
     } catch (err) {
-      setErrorMsg(err?.data?.message || err.error);
+      // Do nothing because the useDeliverOrderMutation will set errorDeliver
     }
   };
 
   return isLoading ? (
     <Loader />
-  ) : errorMsg ? (
-    <Message variant='danger'>{errorMsg}</Message>
   ) : errorLoading ? (
     <ErrorMessage error={errorLoading} />
-  ) : errorPay ? (
-    <ErrorMessage error={errorPay} />
-  ) : errorDeliver ? (
-    <ErrorMessage error={errorDeliver} />
   ) : (
     <>
       <Meta title='Order Details' />
@@ -203,10 +197,14 @@ const OrderScreen = () => {
               <OrderSummaryBlock order={order} />
               {!order.isPaid && (
                 <ListGroup.Item>
-                  {loadingPay && <Loader />}
-
-                  {isPending ? (
-                    <Loader />
+                  {loadingPayOrder && <Loader />}
+                  {isPending && <Loader />}
+                  {errorPayOrder ? (
+                    <ErrorMessage error={errorPayOrder} />
+                  ) : errorDeliver ? (
+                    <ErrorMessage error={errorDeliver} />
+                  ) : payPalError ? (
+                    <ErrorMessage error={payPalError} />
                   ) : (
                     <div>
                       {/* THIS BUTTON IS FOR TESTING! REMOVE BEFORE PRODUCTION! */}
@@ -216,7 +214,6 @@ const OrderScreen = () => {
                       >
                         Test Pay Order
                       </Button> */}
-
                       <div>
                         <PayPalButtons
                           createOrder={createOrder}
