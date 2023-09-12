@@ -22,7 +22,8 @@ const LoginScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [login, { isLoading, error: errorLogin }] = useLoginMutation();
+  const [login, { isLoading: loggingIn, error: errorLogginIn }] =
+    useLoginMutation();
 
   const { search } = useLocation();
   const sp = new URLSearchParams(search);
@@ -54,14 +55,14 @@ const LoginScreen = () => {
     <FormContainer>
       <Meta title='Sign In' />
       <h1>Sign In</h1>
-      {errorLogin && <ErrorMessage error={errorLogin} />}
+      {errorLogginIn && <ErrorMessage error={errorLogginIn} />}
       <Form onSubmit={formik.handleSubmit}>
         <EmailField controlId='email' label='Email' formik={formik} />
         <PasswordField controlId='password' label='Password' formik={formik} />
-        <Button disabled={isLoading} type='submit' variant='primary mt-2'>
+        <Button disabled={loggingIn} type='submit' variant='primary mt-2'>
           Sign In
         </Button>
-        {isLoading && <Loader />}
+        {loggingIn && <Loader />}
       </Form>
       <Row className='py-3'>
         <Col>

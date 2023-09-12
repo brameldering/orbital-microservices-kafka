@@ -21,7 +21,7 @@ const UserListScreen = () => {
   } = useGetUsersQuery();
 
   // --------------- Delete User ---------------
-  const [deleteUser, { isLoading: loadingDelete, error: errorDelete }] =
+  const [deleteUser, { isLoading: deleting, error: errorDeleting }] =
     useDeleteUserMutation();
 
   const [confirmDeleteUserModal, setConfirmDeleteUserModal] = useState(false);
@@ -38,7 +38,7 @@ const UserListScreen = () => {
       await deleteUser(deleteUserId).unwrap();
       refetch();
     } catch (err) {
-      // Do nothing because useDeleteUserMutation will set errorDelete in case of an error
+      // Do nothing because useDeleteUserMutation will set errorDeleting in case of an error
     } finally {
       setConfirmDeleteUserModal(false);
     }
@@ -56,7 +56,7 @@ const UserListScreen = () => {
         handleConfirm={deleteUserHandler.bind(this)}
       />
       <h1>Users</h1>
-      {errorDelete && <ErrorMessage error={errorDelete} />}
+      {errorDeleting && <ErrorMessage error={errorDeleting} />}
       {isLoading ? (
         <Loader />
       ) : errorLoading ? (
@@ -109,7 +109,7 @@ const UserListScreen = () => {
           </tbody>
         </Table>
       )}
-      {loadingDelete && <Loader />}
+      {deleting && <Loader />}
     </>
   );
 };

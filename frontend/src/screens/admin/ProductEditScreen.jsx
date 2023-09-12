@@ -32,7 +32,7 @@ const ProductEditScreen = () => {
     error: errorLoading,
   } = useGetProductDetailsQuery(productId);
 
-  const [updateProduct, { isLoading: performingUpdate, error: errorUpdate }] =
+  const [updateProduct, { isLoading: performingUpdate, error: errorUpdating }] =
     useUpdateProductMutation();
 
   const [
@@ -99,7 +99,7 @@ const ProductEditScreen = () => {
       formik.setFieldValue('image', res.image);
       toast.success(res.message);
     } catch (err) {
-      // Do nothing because useUpdateProductMutation will set errorUpdate in case of an error
+      // Do nothing because useUpdateProductMutation will set errorUpdating in case of an error
     }
   };
 
@@ -138,7 +138,7 @@ const ProductEditScreen = () => {
       </Button>
       <FormContainer>
         <h1>Edit Product</h1>
-        {errorUpdate && <ErrorMessage error={errorUpdate} />}
+        {errorUpdating && <ErrorMessage error={errorUpdating} />}
         {errorUploadImage && <ErrorMessage error={errorUploadImage} />}
         {isLoading ? (
           <Loader />

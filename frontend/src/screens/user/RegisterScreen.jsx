@@ -24,7 +24,8 @@ function RegisterScreen() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [register, { isLoading, error: errorRegister }] = useRegisterMutation();
+  const [register, { isLoading: registering, error: errorRegistering }] =
+    useRegisterMutation();
 
   const { userInfo } = useSelector((state) => state.auth);
 
@@ -72,8 +73,8 @@ function RegisterScreen() {
     <FormContainer>
       <Meta title='Registration' />
       <h1>Register account</h1>
-      {isLoading && <Loader />}
-      {errorRegister && <ErrorMessage error={errorRegister} />}
+      {registering && <Loader />}
+      {errorRegistering && <ErrorMessage error={errorRegistering} />}
       <Form onSubmit={formik.handleSubmit}>
         <TextField controlId='name' label='Full name' formik={formik} />
         <EmailField controlId='email' label='Email' formik={formik} />
@@ -83,7 +84,7 @@ function RegisterScreen() {
           label='Password Confirmation'
           formik={formik}
         />
-        <Button disabled={isLoading} type='submit' variant='primary mt-2'>
+        <Button disabled={registering} type='submit' variant='primary mt-2'>
           Register
         </Button>
       </Form>

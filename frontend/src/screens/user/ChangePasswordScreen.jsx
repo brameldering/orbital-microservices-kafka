@@ -20,8 +20,10 @@ const ChangePasswordScreen = () => {
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.auth);
 
-  const [updatePassword, { isLoading: performingUpdate, error: errorUpdate }] =
-    useUpdatePasswordMutation();
+  const [
+    updatePassword,
+    { isLoading: updatingPassword, error: errorUpdating },
+  ] = useUpdatePasswordMutation();
 
   const formik = useFormik({
     initialValues: {
@@ -46,7 +48,7 @@ const ChangePasswordScreen = () => {
         toast.success('Password updated successfully');
         navigate('/profile');
       } catch (err) {
-        // Do nothing because useUpdateProfileMutation will set errorUpdate in case of an error
+        // Do nothing because useUpdateProfileMutation will set errorUpdating in case of an error
       }
     },
   });
@@ -65,7 +67,7 @@ const ChangePasswordScreen = () => {
     }
   };
 
-  const buttonDisabled = performingUpdate;
+  const buttonDisabled = updatingPassword;
 
   return (
     <>
@@ -86,7 +88,7 @@ const ChangePasswordScreen = () => {
       </Button>
       <FormContainer>
         <h1>Change Password</h1>
-        {errorUpdate && <ErrorMessage error={errorUpdate} />}
+        {errorUpdating && <ErrorMessage error={errorUpdating} />}
         <Form onSubmit={formik.handleSubmit}>
           <PasswordField
             controlId='currentPassword'
@@ -105,7 +107,7 @@ const ChangePasswordScreen = () => {
           >
             Update
           </Button>
-          {performingUpdate && <Loader />}
+          {updatingPassword && <Loader />}
         </Form>
       </FormContainer>
     </>

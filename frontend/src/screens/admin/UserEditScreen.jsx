@@ -32,7 +32,7 @@ const UserEditScreen = () => {
     refetch,
   } = useGetUserDetailsQuery(userId);
 
-  const [updateUser, { isLoading: loadingUpdate, error: errorUpdate }] =
+  const [updateUser, { isLoading: updating, error: errorUpdating }] =
     useUpdateUserMutation();
 
   const formik = useFormik({
@@ -56,7 +56,7 @@ const UserEditScreen = () => {
         refetch();
         navigate('/admin/userlist');
       } catch (err) {
-        // Do nothing because useUpdateUserMutation will set errorUpdate in case of an error
+        // Do nothing because useUpdateUserMutation will set errorUpdating in case of an error
       }
     },
   });
@@ -75,7 +75,7 @@ const UserEditScreen = () => {
     }
   };
 
-  const disableSubmit = isLoading || loadingUpdate;
+  const disableSubmit = isLoading || updating;
 
   return (
     <>
@@ -96,7 +96,7 @@ const UserEditScreen = () => {
       </Button>
       <FormContainer>
         <h1>Edit User</h1>
-        {errorUpdate && <ErrorMessage error={errorUpdate} />}
+        {errorUpdating && <ErrorMessage error={errorUpdating} />}
         {isLoading ? (
           <Loader />
         ) : errorLoading ? (
@@ -118,7 +118,7 @@ const UserEditScreen = () => {
             >
               Update
             </Button>
-            {loadingUpdate && <Loader />}
+            {updating && <Loader />}
           </Form>
         )}
       </FormContainer>

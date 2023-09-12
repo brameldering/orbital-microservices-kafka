@@ -29,7 +29,7 @@ const ProductListScreen = () => {
   });
 
   // --------------- Create Product ---------------
-  const [createProduct, { isLoading: loadingCreate, error: errorCreate }] =
+  const [createProduct, { isLoading: creating, error: errorCreating }] =
     useCreateProductMutation();
 
   const [confirmCreateProductModal, setConfirmCreateProductModal] =
@@ -44,14 +44,14 @@ const ProductListScreen = () => {
       await createProduct().unwrap();
       refetch();
     } catch (err) {
-      // Do nothing because useCreateProductMutation will set errorCreate in case of an error
+      // Do nothing because useCreateProductMutation will set errorCreating in case of an error
     } finally {
       setConfirmCreateProductModal(false);
     }
   };
 
   // --------------- Delete Product ---------------
-  const [deleteProduct, { isLoading: loadingDelete, error: errorDelete }] =
+  const [deleteProduct, { isLoading: deleting, error: errorDeleting }] =
     useDeleteProductMutation();
 
   const [confirmDeleteProductModal, setConfirmDeleteProductModal] =
@@ -69,7 +69,7 @@ const ProductListScreen = () => {
       await deleteProduct(deleteProductId).unwrap();
       refetch();
     } catch (err) {
-      // Do nothing because useDeleteProductMutation will set errorDelete in case of an error
+      // Do nothing because useDeleteProductMutation will set errorDeleting in case of an error
     } finally {
       setConfirmDeleteProductModal(false);
     }
@@ -77,7 +77,7 @@ const ProductListScreen = () => {
 
   // --------------------------------------------
 
-  const disableSubmit = isLoading || loadingCreate || loadingDelete;
+  const disableSubmit = isLoading || creating || deleting;
 
   return (
     <>
@@ -110,8 +110,8 @@ const ProductListScreen = () => {
           </Button>
         </Col>
       </Row>
-      {errorCreate && <ErrorMessage error={errorCreate} />}
-      {errorDelete && <ErrorMessage error={errorDelete} />}
+      {errorCreating && <ErrorMessage error={errorCreating} />}
+      {errorDeleting && <ErrorMessage error={errorDeleting} />}
       {isLoading ? (
         <Loader />
       ) : errorLoading ? (
@@ -159,7 +159,7 @@ const ProductListScreen = () => {
             </tbody>
           </Table>
           <Paginate pages={data.pages} page={data.page} isAdmin={true} />
-          {(loadingCreate || loadingDelete) && <Loader />}
+          {(creating || deleting) && <Loader />}
         </>
       )}
     </>

@@ -29,22 +29,28 @@ const OrderScreen = () => {
     error: errorLoading,
   } = useGetOrderDetailsQuery(orderId);
 
-  const [payOrder, { isLoading: loadingPayOrder, error: errorPayOrder }] =
+  const [payOrder, { isLoading: payingOrder, error: errorPayingOrder }] =
     usePayOrderMutation();
 
-  const [deliverOrder, { isLoading: loadingDeliver, error: errorDeliver }] =
-    useDeliverOrderMutation();
+  const [
+    deliverOrder,
+    { isLoading: settingDeliverOrder, error: errorSettingDeliverOrder },
+  ] = useDeliverOrderMutation();
 
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
 
   const {
     data: paypal,
-    isLoading: loadingPayPal,
-    error: errorGetPayPalClientId,
+    isLoading: loadingPayPalClientId,
+    error: errorLoadingPayPalClientId,
   } = useGetPaypalClientIdQuery();
 
   useEffect(() => {
-    if (!errorGetPayPalClientId && !loadingPayPal && paypal.clientId) {
+    if (
+      !errorLoadingPayPalClientId &&
+      !loadingPayPalClientId &&
+      paypal.clientId
+    ) {
       const loadPaypalScript = async () => {
         paypalDispatch({
           type: 'resetOptions',
@@ -61,15 +67,21 @@ const OrderScreen = () => {
         }
       }
     }
-  }, [errorGetPayPalClientId, loadingPayPal, order, paypal, paypalDispatch]);
+  }, [
+    errorLoadingPayPalClientId,
+    loadingPayPalClientId,
+    order,
+    paypal,
+    paypalDispatch,
+  ]);
 
   function onApprove(data, actions) {
     try {
       return actions.order.capture().then(async function (details) {
         await payOrder({ orderId, details }).unwrap();
         refetch();
-        if (errorPayOrder) {
-          setPayPalError(errorPayOrder);
+        if (errorPayingOrder) {
+          setPayPalError(errorPayingOrder);
         } else {
           toast.success('Order is paid');
         }
@@ -83,8 +95,8 @@ const OrderScreen = () => {
   // async function onApproveTest() {
   //   await payOrder({ orderId, details: { payer: {} } });
   //   refetch();
-  //   if (errorPayOrder) {
-  //     setError(errorPayOrder);
+  //   if (errorPayingOrder) {
+  //     setError(errorPayingOrder);
   //   } else {
   //     toast.success('Order is paid');
   //   }
@@ -117,7 +129,7 @@ const OrderScreen = () => {
       await deliverOrder(orderId).unwrap();
       refetch();
     } catch (err) {
-      // Do nothing because the useDeliverOrderMutation will set errorDeliver
+      // Do nothing because the useDeliverOrderMutation will set errorSettingDeliverOrder
     }
   };
 
@@ -197,12 +209,12 @@ const OrderScreen = () => {
               <OrderSummaryBlock order={order} />
               {!order.isPaid && (
                 <ListGroup.Item>
-                  {loadingPayOrder && <Loader />}
+                  {payingOrder && <Loader />}
                   {isPending && <Loader />}
-                  {errorPayOrder ? (
-                    <ErrorMessage error={errorPayOrder} />
-                  ) : errorDeliver ? (
-                    <ErrorMessage error={errorDeliver} />
+                  {errorPayingOrder ? (
+                    <ErrorMessage error={errorPayingOrder} />
+                  ) : errorSettingDeliverOrder ? (
+                    <ErrorMessage error={errorSettingDeliverOrder} />
                   ) : payPalError ? (
                     <ErrorMessage error={payPalError} />
                   ) : (
@@ -225,7 +237,7 @@ const OrderScreen = () => {
                   )}
                 </ListGroup.Item>
               )}
-              {loadingDeliver && <Loader />}
+              {settingDeliverOrder && <Loader />}
               {userInfo &&
                 userInfo.isAdmin &&
                 order.isPaid &&

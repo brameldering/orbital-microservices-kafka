@@ -15,10 +15,8 @@ import { useUpdateProfileMutation } from '../../slices/usersApiSlice';
 const ProfileScreen = () => {
   const { userInfo } = useSelector((state) => state.auth);
 
-  const [
-    updateProfile,
-    { isLoading: loadingUpdateProfile, error: errorUpdate },
-  ] = useUpdateProfileMutation();
+  const [updateProfile, { isLoading: updatingProfile, error: errorUpdating }] =
+    useUpdateProfileMutation();
 
   const formik = useFormik({
     initialValues: {
@@ -41,18 +39,18 @@ const ProfileScreen = () => {
         }).unwrap();
         toast.success('Profile updated successfully');
       } catch (err) {
-        // Do nothing because useUpdateProfileMutation will set errorUpdate in case of an error
+        // Do nothing because useUpdateProfileMutation will set errorUpdating in case of an error
       }
     },
   });
 
-  const buttonDisabled = loadingUpdateProfile;
+  const buttonDisabled = updatingProfile;
 
   return (
     <FormContainer>
       <Meta title='My Profile' />
       <h1>My Profile</h1>
-      {errorUpdate && <ErrorMessage error={errorUpdate} />}
+      {errorUpdating && <ErrorMessage error={errorUpdating} />}
       <Form onSubmit={formik.handleSubmit}>
         <TextField controlId='name' label='Full name' formik={formik} />
         <EmailField controlId='email' label='Email' formik={formik} />
@@ -70,7 +68,7 @@ const ProfileScreen = () => {
             <Link to='/password'>Change Password</Link>
           </Col>
         </Row>
-        {loadingUpdateProfile && <Loader />}
+        {updatingProfile && <Loader />}
       </Form>
     </FormContainer>
   );

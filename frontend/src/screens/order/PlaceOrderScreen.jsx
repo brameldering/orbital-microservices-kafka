@@ -17,7 +17,7 @@ const PlaceOrderScreen = () => {
 
   const cart = useSelector((state) => state.cart);
 
-  const [createOrder, { isLoading, error: errorCreate }] =
+  const [createOrder, { isLoading: creatingOrder, error: errorCreatingOrder }] =
     useCreateOrderMutation();
 
   useEffect(() => {
@@ -42,7 +42,7 @@ const PlaceOrderScreen = () => {
       dispatch(clearCartItems());
       navigate(`/order/${res._id}`);
     } catch (err) {
-      // Do nothing because useCreateOrderMutation will set errorCreate in case of an error
+      // Do nothing because useCreateOrderMutation will set errorCreatingOrder in case of an error
     }
   };
 
@@ -88,18 +88,20 @@ const PlaceOrderScreen = () => {
             <ListGroup variant='flush'>
               <OrderSummaryBlock order={cart} />
               <ListGroup.Item>
-                {errorCreate && <ErrorMessage error={errorCreate} />}
+                {errorCreatingOrder && (
+                  <ErrorMessage error={errorCreatingOrder} />
+                )}
               </ListGroup.Item>
               <ListGroup.Item>
                 <Button
                   type='button'
                   className='btn-block mt-2'
-                  disabled={cart.cartItems === 0 || isLoading}
+                  disabled={cart.cartItems === 0 || creatingOrder}
                   onClick={placeOrderHandler}
                 >
                   Place Order
                 </Button>
-                {isLoading && <Loader />}
+                {creatingOrder && <Loader />}
               </ListGroup.Item>
             </ListGroup>
           </Card>

@@ -50,7 +50,7 @@ const ProductScreen = () => {
 
   const [
     createReview,
-    { isLoading: loadingProductReview, error: errorCreateReview },
+    { isLoading: creatingProductReview, error: errorCreatingReview },
   ] = useCreateReviewMutation();
 
   const submitReviewHandler = async (e) => {
@@ -65,18 +65,18 @@ const ProductScreen = () => {
       refetch();
       toast.success('Review created successfully');
     } catch (err) {
-      // Do nothing because useCreateReviewMutation will set errorCreateReview in case of an error
+      // Do nothing because useCreateReviewMutation will set errorCreatingReview in case of an error
     }
   };
 
-  const buttonDisabled = isLoading || loadingProductReview;
+  const buttonDisabled = isLoading || creatingProductReview;
 
   return (
     <>
       <Link className='btn btn-light my-3' to={goBackPath}>
         Go Back
       </Link>
-      {errorCreateReview && <ErrorMessage error={errorCreateReview} />}
+      {errorCreatingReview && <ErrorMessage error={errorCreatingReview} />}
       {isLoading ? (
         <Loader />
       ) : errorLoading ? (
@@ -188,7 +188,7 @@ const ProductScreen = () => {
                 ))}
                 <ListGroup.Item>
                   <h2>Write a Customer Review</h2>
-                  {loadingProductReview && <Loader />}
+                  {creatingProductReview && <Loader />}
                   {userInfo ? (
                     <Form onSubmit={submitReviewHandler}>
                       <Form.Group className='my-2' controlId='rating'>
