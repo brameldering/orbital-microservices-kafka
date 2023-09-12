@@ -58,7 +58,7 @@ const Header = () => {
                 <>
                   <NavDropdown title={userInfo.name} id='username'>
                     <LinkContainer to='/profile'>
-                      <NavDropdown.Item>Profile</NavDropdown.Item>
+                      <NavDropdown.Item>My Profile</NavDropdown.Item>
                     </LinkContainer>
                     <LinkContainer to='/myorders'>
                       <NavDropdown.Item>My Orders</NavDropdown.Item>

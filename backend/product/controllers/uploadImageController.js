@@ -18,8 +18,7 @@ const uploadImage = asyncHandler(async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(415);
-    throw new ExtendedError('Image NOT uploaded: ' + error.message);
+    throw new ExtendedError('Image NOT uploaded: ' + error.message, 415);
   }
 });
 export { uploadImage };

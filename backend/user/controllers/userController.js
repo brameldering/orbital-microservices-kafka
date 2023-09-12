@@ -101,7 +101,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Update user profile
+// @desc    Update user profile (name, email)
 // @route   PUT /api/users/v1/profile
 // @access  Private
 // @req     user._id
@@ -114,9 +114,6 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     if (user) {
       user.name = req.body.name || user.name;
       user.email = req.body.email || user.email;
-      if (req.body.password) {
-        user.password = req.body.password;
-      }
       const updatedUser = await user.save();
       res.status(200).json({
         _id: updatedUser._id,
@@ -125,12 +122,49 @@ const updateUserProfile = asyncHandler(async (req, res) => {
         isAdmin: updatedUser.isAdmin,
       });
     } else {
-      res.status(404);
       throw new ExtendedError('User not found', 404);
     }
   } else {
-    res.status(404);
-    throw new ExtendedError('User not found', 404);
+    throw new ExtendedError('Not logged in', 401);
+  }
+});
+
+// @desc    Update user password
+// @route   PUT /api/users/v1/password
+// @access  Private
+// @req     user._id
+//          body {currentPassword, newPassword}
+// @res     status(200).json({_id, name, email, isAdmin})
+//       or status(404).message:'User not found'
+const updatePassword = asyncHandler(async (req, res) => {
+  if (req.user && req.user._id) {
+    const user = await User.findById(req.user._id);
+    if (user) {
+      const { currentPassword, newPassword } = req.body;
+      if (currentPassword !== newPassword) {
+        if (await user.matchPassword(currentPassword)) {
+          user.password = newPassword;
+          const updatedUser = await user.save();
+          res.status(200).json({
+            _id: updatedUser._id,
+            name: updatedUser.name,
+            email: updatedUser.email,
+            isAdmin: updatedUser.isAdmin,
+          });
+        } else {
+          throw new ExtendedError('Current password is not correct', 401);
+        }
+      } else {
+        throw new ExtendedError(
+          'New password is the same as current password',
+          400
+        );
+      }
+    } else {
+      throw new ExtendedError('User not found', 404);
+    }
+  } else {
+    throw new ExtendedError('Not logged in', 401);
   }
 });
 
@@ -197,6 +231,7 @@ export {
   logoutUser,
   getUserProfile,
   updateUserProfile,
+  updatePassword,
   getUserById,
   updateUser,
   deleteUser,
