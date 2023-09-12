@@ -70,7 +70,7 @@ const authUser = asyncHandler(async (req, res) => {
 // @access  Public
 // @req
 // @res     cookie('jwt', '', {httpOnly, secure, sameSite, expires})
-//      and status(200).json({ message: 'Logged out successfully' })
+//      and status(200).json({ message: 'Logged out' })
 const logoutUser = (req, res) => {
   res.cookie('jwt', '', {
     httpOnly: true,
@@ -78,7 +78,7 @@ const logoutUser = (req, res) => {
     sameSite: 'strict',
     expires: new Date(0),
   });
-  res.status(200).json({ message: 'Logged out successfully' });
+  res.status(200).json({ message: 'Logged out' });
 };
 
 // @desc    Get user profile

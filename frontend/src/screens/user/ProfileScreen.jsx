@@ -36,7 +36,7 @@ const ProfileScreen = () => {
           name,
           email,
         }).unwrap();
-        toast.success('Profile updated successfully');
+        toast.success('Profile updated');
       } catch (err) {
         // Do nothing because useUpdateProfileMutation will set errorUpdating in case of an error
       }

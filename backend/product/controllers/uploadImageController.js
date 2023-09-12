@@ -13,7 +13,7 @@ const uploadImage = asyncHandler(async (req, res) => {
   try {
     const imageURL = await uploadImageToCloudinary(req, res);
     res.status(201).json({
-      message: 'Image uploaded successfully',
+      message: 'Image uploaded',
       image: imageURL,
     });
   } catch (error) {

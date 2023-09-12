@@ -52,7 +52,7 @@ const UserEditScreen = () => {
       const isAdmin = values.isAdmin;
       try {
         await updateUser({ userId, name, email, isAdmin }).unwrap();
-        toast.success('user updated successfully');
+        toast.success('User updated');
         refetch();
         navigate('/admin/userlist');
       } catch (err) {

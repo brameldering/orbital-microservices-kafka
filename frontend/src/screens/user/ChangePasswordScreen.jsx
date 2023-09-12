@@ -44,7 +44,7 @@ const ChangePasswordScreen = () => {
           newPassword,
         }).unwrap();
         dispatch(setCredentials({ ...res }));
-        toast.success('Password updated successfully');
+        toast.success('Password updated');
         navigate('/profile');
       } catch (err) {
         // Do nothing because useUpdateProfileMutation will set errorUpdating in case of an error

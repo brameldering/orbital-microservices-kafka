@@ -63,7 +63,7 @@ const ProductScreen = () => {
         comment,
       }).unwrap();
       refetch();
-      toast.success('Review created successfully');
+      toast.success('Review created');
     } catch (err) {
       // Do nothing because useCreateReviewMutation will set errorCreatingReview in case of an error
     }
