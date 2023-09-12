@@ -8,6 +8,7 @@ import {
   getUserProfile,
   updateUserProfile,
   updatePassword,
+  resetPassword,
   getUsers,
   deleteUser,
   getUserById,
@@ -22,7 +23,8 @@ router
   .route('/profile')
   .get(protect, getUserProfile)
   .put(protect, updateUserProfile);
-router.route('/password').put(protect, updatePassword);
+router.route('/updatepassword').put(protect, updatePassword);
+router.route('/resetpassword').put(resetPassword);
 router
   .route('/:id')
   .get(protect, admin, checkObjectId, getUserById)

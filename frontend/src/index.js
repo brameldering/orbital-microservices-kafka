@@ -21,9 +21,11 @@ import HomeScreen from './screens/HomeScreen';
 import ProductScreen from './screens/product/ProductScreen';
 import LoginScreen from './screens/user/LoginScreen';
 import RegisterScreen from './screens/user/RegisterScreen';
+import PasswordResetScreen from './screens/user/PasswordResetScreen';
 import ProfileScreen from './screens/user/ProfileScreen';
 import MyOrdersScreen from './screens/user/MyOrdersScreen';
 import ChangePasswordScreen from './screens/user/ChangePasswordScreen';
+import PasswordResetConfirmation from './screens/user/PasswordResetConfirmation';
 import CartScreen from './screens/order/CartScreen';
 import ShippingScreen from './screens/order/ShippingScreen';
 import PaymentScreen from './screens/order/PaymentScreen';
@@ -54,6 +56,11 @@ const router = createBrowserRouter(
       <Route path='/cart' element={<CartScreen />} />
       <Route path='/login' element={<LoginScreen />} />
       <Route path='/register' element={<RegisterScreen />} />
+      <Route path='/passwordreset' element={<PasswordResetScreen />} />
+      <Route
+        path='/passwordresetconfirmation'
+        element={<PasswordResetConfirmation />}
+      />
 
       {/* Registered users */}
       <Route path='' element={<PrivateRoute />}>

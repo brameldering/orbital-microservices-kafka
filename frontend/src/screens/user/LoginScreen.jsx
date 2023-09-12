@@ -66,10 +66,16 @@ const LoginScreen = () => {
       </Form>
       <Row className='py-3'>
         <Col>
-          New Customer?{' '}
+          New Customer?<span> </span>
           <Link to={redirect ? `/register?redirect=${redirect}` : '/register'}>
             Register
           </Link>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          Password forgotten?<span> </span>
+          <Link to={'/passwordreset'}>Reset password</Link>
         </Col>
       </Row>
     </FormContainer>

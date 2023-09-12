@@ -168,6 +168,26 @@ const updatePassword = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Reset user password
+// @route   PUT /api/users/v1/resetpassword
+// @access  Private
+// @req     body {email}
+// @res     status(200).message:'Password has been reset'
+//       or status(404).message:'User not found'
+const resetPassword = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+  const user = await User.findOne({ email });
+  if (user) {
+    user.password = process.env.DEFAULT_RESET_PASSWORD;
+    await user.save();
+    res.status(200).json({
+      message: 'Password has been reset',
+    });
+  } else {
+    throw new ExtendedError('This email address is not known to us', 404);
+  }
+});
+
 // @desc    Get user by ID
 // @route   GET /api/users/v1/:id
 // @access  Private/Admin
@@ -232,6 +252,7 @@ export {
   getUserProfile,
   updateUserProfile,
   updatePassword,
+  resetPassword,
   getUserById,
   updateUser,
   deleteUser,
