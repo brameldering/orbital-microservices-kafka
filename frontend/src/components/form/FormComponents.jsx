@@ -1,4 +1,6 @@
-import { Form } from 'react-bootstrap';
+import { useState } from 'react';
+import { Form, InputGroup, Button } from 'react-bootstrap';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const FormComponent = ({ controlId, label, type, formik }) => {
   return (
@@ -42,17 +44,6 @@ const EmailField = ({ controlId, label, formik }) => {
   );
 };
 
-const PasswordField = ({ controlId, label, formik }) => {
-  return (
-    <FormComponent
-      controlId={controlId}
-      label={label}
-      type='password'
-      formik={formik}
-    />
-  );
-};
-
 const NumberField = ({ controlId, label, formik }) => {
   return (
     <FormComponent
@@ -87,11 +78,53 @@ const HiddenTextField = ({ controlId, formik }) => {
   );
 };
 
+const PasswordField = ({ controlId, label, formik }) => {
+  const [contentVisible, setContentVisible] = useState(false);
+  const showPassword = () => {
+    setContentVisible(true);
+  };
+  const hidePassword = () => {
+    setContentVisible(false);
+  };
+
+  return (
+    <>
+      <Form.Group className='my-2' controlId={controlId}>
+        <Form.Label className='my-1'>{label}</Form.Label>
+        <InputGroup>
+          <Form.Control
+            name={controlId}
+            type={contentVisible ? 'text' : 'password'}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values[controlId]}
+          />
+          <Button
+            className='btn-outline'
+            style={{ position: 'relative' }}
+            onMouseDown={showPassword}
+            onMouseUp={hidePassword}
+            onBlur={hidePassword}
+            type='button'
+          >
+            {contentVisible ? <FaEye /> : <FaEyeSlash />}
+          </Button>
+        </InputGroup>
+        <Form.Text className='text-danger'>
+          {formik.touched[controlId] && formik.errors[controlId] ? (
+            <div className='text-danger'>{formik.errors[controlId]}</div>
+          ) : null}
+        </Form.Text>
+      </Form.Group>
+    </>
+  );
+};
+
 export {
   TextField,
   EmailField,
-  PasswordField,
   NumberField,
   CheckBoxField,
   HiddenTextField,
+  PasswordField,
 };

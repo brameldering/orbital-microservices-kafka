@@ -23,7 +23,6 @@ const ProfileScreen = () => {
       name: userInfo?.name || '',
       email: userInfo?.email || '',
     },
-    enableReinitialize: true,
     validationSchema: Yup.object({
       name: textField().required('required'),
       email: textField().required('required').email('Invalid email address'),

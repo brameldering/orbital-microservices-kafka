@@ -30,7 +30,6 @@ const ChangePasswordScreen = () => {
       currentPassword: '',
       newPassword: '',
     },
-    enableReinitialize: true,
     validationSchema: Yup.object({
       currentPassword: passwordField(),
       newPassword: passwordField(),
@@ -89,7 +88,7 @@ const ChangePasswordScreen = () => {
       <FormContainer>
         <h1>Change Password</h1>
         {errorUpdating && <ErrorMessage error={errorUpdating} />}
-        <Form onSubmit={formik.handleSubmit}>
+        <Form>
           <PasswordField
             controlId='currentPassword'
             label='Current Password'
@@ -101,6 +100,7 @@ const ChangePasswordScreen = () => {
             formik={formik}
           />
           <Button
+            onClick={formik.handleSubmit}
             disabled={buttonDisabled}
             type='submit'
             variant='primary mt-2'

@@ -44,16 +44,11 @@ function RegisterScreen() {
       name: '',
       email: '',
       password: '',
-      passwordConfirmation: '',
     },
     validationSchema: Yup.object({
       name: textField().required('required'),
       email: textField().required('required').email('Invalid email address'),
       password: passwordField().required('required'),
-      passwordConfirmation: passwordField().oneOf(
-        [Yup.ref('password'), null],
-        'Passwords must match'
-      ),
     }),
     onSubmit: async (values) => {
       const name = values.name;
@@ -79,11 +74,6 @@ function RegisterScreen() {
         <TextField controlId='name' label='Full name' formik={formik} />
         <EmailField controlId='email' label='Email' formik={formik} />
         <PasswordField controlId='password' label='Password' formik={formik} />
-        <PasswordField
-          controlId='passwordConfirmation'
-          label='Password Confirmation'
-          formik={formik}
-        />
         <Button disabled={registering} type='submit' variant='primary mt-2'>
           Register
         </Button>

@@ -11,6 +11,7 @@ const numField = () =>
 
 const passwordField = () =>
   Yup.string()
+    .required()
     .min(
       6,
       'password must contain 6 or more characters with at least one of each: uppercase, lowercase, number and special'
