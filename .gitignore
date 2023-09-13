@@ -9,11 +9,16 @@ node_modules
 # testing
 /coverage
 
+# next.js
+/.next/
+/out/
+
 # production
 /build
 
 # misc
 .DS_Store
+*.pem
 .env
 .env.local
 .env.development.local
@@ -28,3 +33,16 @@ frontend/build
 
 uploads/*
 frontend/public/uploads
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+
+# cypress
+/cypress/videos
+/cypress/screenshots
+
+# storybook
+/storybook-static
