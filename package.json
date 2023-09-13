@@ -14,8 +14,6 @@
     "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend",
     "generate-toc": "markdown-toc -i readme.md",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx ./backend",
-    "format:check": "npm run prettier -- --check",
-    "format:fix": "npm run prettier -- --write",
     "types:check": "tsc --noEmit --pretty"
   },
   "author": "Bram Eldering",
