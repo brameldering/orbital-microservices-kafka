@@ -11,11 +11,11 @@ import { ExtendedError } from './errorMiddleware.js';
  * @throws {ExtendedError} Throws an error if the ObjectId is invalid.
  */
 
-function checkObjectId(req, res, next) {
+const checkObjectId = (req, res, next) => {
   if (!isValidObjectId(req.params.id)) {
     throw new ExtendedError(`Invalid ObjectId of:  ${req.params.id}`, 404);
   }
   next();
-}
+};
 
 export default checkObjectId;

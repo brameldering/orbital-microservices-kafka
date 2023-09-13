@@ -61,7 +61,7 @@ const createOrder = asyncHandler(async (req, res) => {
     const sequenceOrderId =
       'ORD-' + seqNumberOrderId.sequenceCounter.toString().padStart(10, '0');
     const order = new Order({
-      sequenceOrderId: sequenceOrderId,
+      sequenceOrderId,
       orderItems: dbOrderItems,
       user: req.user._id,
       shippingAddress,

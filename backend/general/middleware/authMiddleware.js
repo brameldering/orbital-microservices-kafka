@@ -6,10 +6,8 @@ import User from '../../user/models/userModel.js';
 
 // User must be authenticated
 const protect = asyncHandler(async (req, res, next) => {
-  let token;
-
   // Read JWT from the 'jwt' cookie
-  token = req.cookies.jwt;
+  const token = req.cookies.jwt;
   if (token) {
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);

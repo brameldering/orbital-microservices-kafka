@@ -75,9 +75,9 @@ const OrderScreen = () => {
     paypalDispatch,
   ]);
 
-  function onApprove(data, actions) {
+  const onApprove = (data, actions) => {
     try {
-      return actions.order.capture().then(async function (details) {
+      return actions.order.capture().then(async (details) => {
         await payOrder({ orderId, details }).unwrap();
         refetch();
         if (errorPayingOrder) {
@@ -89,10 +89,10 @@ const OrderScreen = () => {
     } catch (err) {
       setPayPalError(err);
     }
-  }
+  };
 
   // TESTING ONLY! REMOVE BEFORE PRODUCTION
-  // async function onApproveTest() {
+  // const onApproveTest = async () => {
   //   await payOrder({ orderId, details: { payer: {} } });
   //   refetch();
   //   if (errorPayingOrder) {
@@ -102,11 +102,11 @@ const OrderScreen = () => {
   //   }
   // }
 
-  function onPayPalError(err) {
+  const onPayPalError = (err) => {
     setPayPalError(err);
-  }
+  };
 
-  function createOrder(data, actions) {
+  const createOrder = (data, actions) => {
     try {
       return actions.order
         .create({
@@ -122,7 +122,7 @@ const OrderScreen = () => {
     } catch (err) {
       setPayPalError(err);
     }
-  }
+  };
 
   const deliverHandler = async () => {
     try {

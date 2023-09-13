@@ -7,7 +7,7 @@ import { MAX_IMAGE_FILE_SIZE } from '../../constantsBackend.js';
 
 const storage = multer.memoryStorage();
 const upload = multer({
-  storage: storage,
+  storage,
   limits: { fileSize: MAX_IMAGE_FILE_SIZE },
   fileFilter,
 });
@@ -41,7 +41,7 @@ const uploadImageToCloudinary = asyncHandler(async (req, res) => {
   try {
     await runMiddleware(uploadMiddleware, req, res);
     const b64 = Buffer.from(req.file.buffer).toString('base64');
-    let dataURI = 'data:' + req.file.mimetype + ';base64,' + b64;
+    const dataURI = 'data:' + req.file.mimetype + ';base64,' + b64;
     const cldRes = await uploadDefault(dataURI);
     return cldRes.secure_url;
   } catch (err) {

@@ -20,7 +20,7 @@ import { ErrorMessage } from '../../components/general/Messages';
 import { useRegisterMutation } from '../../slices/usersApiSlice';
 import { setCredentials } from '../../slices/authSlice';
 
-function RegisterScreen() {
+const RegisterScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -88,5 +88,5 @@ function RegisterScreen() {
       </Row>
     </FormContainer>
   );
-}
+};
 export default RegisterScreen;

@@ -11,7 +11,7 @@ const { PAYPAL_CLIENT_ID, PAYPAL_APP_SECRET, PAYPAL_API_URL } = process.env;
  * @throws {ExtendedError} If the request is not successful.
  *
  */
-async function getPayPalAccessToken() {
+const getPayPalAccessToken = async () => {
   // Authorization header requires base64 encoding
   const auth = Buffer.from(PAYPAL_CLIENT_ID + ':' + PAYPAL_APP_SECRET).toString(
     'base64'
@@ -37,7 +37,7 @@ async function getPayPalAccessToken() {
   const paypalData = await response.json();
 
   return paypalData.access_token;
-}
+};
 
 /**
  * Verifies a PayPal payment by making a request to the PayPal API.
@@ -48,7 +48,7 @@ async function getPayPalAccessToken() {
  * @throws {ExtendedError} If the request is not successful.
  *
  */
-export async function verifyPayPalPayment(paypalTransactionId) {
+export const verifyPayPalPayment = async (paypalTransactionId) => {
   const accessToken = await getPayPalAccessToken();
   const paypalResponse = await fetch(
     `${PAYPAL_API_URL}/v2/checkout/orders/${paypalTransactionId}`,
@@ -66,7 +66,7 @@ export async function verifyPayPalPayment(paypalTransactionId) {
     verified: paypalData.status === 'COMPLETED',
     value: paypalData.purchase_units[0].amount.value,
   };
-}
+};
 
 /**
  * Checks if a PayPal transaction is new by comparing the transaction ID with existing orders in the database.
@@ -77,7 +77,10 @@ export async function verifyPayPalPayment(paypalTransactionId) {
  * @throws {ExtendedError} If there's an error in querying the database.
  *
  */
-export async function checkIfNewTransaction(orderModel, paypalTransactionId) {
+export const checkIfNewTransaction = async (
+  orderModel,
+  paypalTransactionId
+) => {
   try {
     // Find all documents where Order.paymentResult.id is the same as the id passed paypalTransactionId
     const orders = await orderModel.find({
@@ -89,4 +92,4 @@ export async function checkIfNewTransaction(orderModel, paypalTransactionId) {
   } catch (err) {
     throw new ExtendedError(err.message);
   }
-}
+};

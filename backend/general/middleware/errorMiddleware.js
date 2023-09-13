@@ -22,14 +22,14 @@ const errorHandler = (err, req, res, next) => {
   // MongoDB provides err.code. This is 11000 to indicate dublicate unique field error.
   // Which happens when registering or updating profile to an already existing email address
   if (err.code && err.code === 11000) {
-    (statusCode = 422),
-      (message = `That ${Object.keys(err.keyValue)} already exists`);
+    statusCode = 422;
+    message = `That ${Object.keys(err.keyValue)} already exists`;
   }
 
   // TO DO: Log error to Winston
 
   res.status(statusCode).json({
-    message: message,
+    message,
     stack: err.stack,
   });
 };

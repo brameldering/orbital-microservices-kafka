@@ -28,12 +28,12 @@ const userSchema = mongoose.Schema(
 );
 
 // Match user entered password to hashed password in database
-userSchema.methods.matchPassword = async function (enteredPassword) {
+userSchema.methods.matchPassword = async (enteredPassword) => {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
 // Before saving new user, encrypt password using bcrypt
-userSchema.pre('save', async function (next) {
+userSchema.pre('save', async (next) => {
   if (!this.isModified('password')) {
     next();
   }

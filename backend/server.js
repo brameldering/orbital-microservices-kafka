@@ -67,9 +67,7 @@ process.on('uncaughtException', (err) => {
 process.on('unhandledRejection', (err) => {
   console.error(`ERROR: ${err.stack}`);
   console.error('Shutting down the server due to Unhandled Promise rejection');
-  server.close(() => {
-    process.exit(1);
-  });
+  process.exit(1);
 });
 
 app.listen(port, () =>
