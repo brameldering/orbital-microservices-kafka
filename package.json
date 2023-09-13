@@ -13,7 +13,10 @@
     "data:destroy": "node backend/seeder -d",
     "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend",
     "generate-toc": "markdown-toc -i readme.md",
-    "lint": "eslint --ext .js,.jsx,.ts,.tsx ./backend"
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx ./backend",
+    "format:check": "npm run prettier -- --check",
+    "format:fix": "npm run prettier -- --write",
+    "types:check": "tsc --noEmit --pretty"
   },
   "author": "Bram Eldering",
   "license": "MIT",
@@ -38,6 +41,8 @@
     "eslint-plugin-n": "^16.1.0",
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-react": "^7.33.2",
+    "husky": "^8.0.3",
+    "lint-staged": "^14.0.1",
     "markdown-toc": "^1.2.0",
     "nodemon": "^3.0.1",
     "typescript": "^5.2.2"
