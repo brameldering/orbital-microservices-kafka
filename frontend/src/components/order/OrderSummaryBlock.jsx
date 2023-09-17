@@ -1,3 +1,4 @@
+import React from 'react';
 import { Row, Col, ListGroup } from 'react-bootstrap';
 import { CURRENCY_SYMBOL } from '../../constantsFrontend';
 

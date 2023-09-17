@@ -1,3 +1,4 @@
+import React from 'react';
 import { Spinner } from 'react-bootstrap';
 
 const Loader = () => {
@@ -10,8 +11,7 @@ const Loader = () => {
         height: '100px',
         margin: 'auto',
         display: 'block',
-      }}
-    ></Spinner>
+      }}></Spinner>
   );
 };
 

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, Button } from 'react-bootstrap';
@@ -81,8 +81,7 @@ const ChangePasswordScreen = () => {
       <Button
         className='btn btn-light my-3'
         onClick={goBackHandler}
-        disabled={buttonDisabled}
-      >
+        disabled={buttonDisabled}>
         Go Back
       </Button>
       <FormContainer>
@@ -103,8 +102,7 @@ const ChangePasswordScreen = () => {
             onClick={formik.handleSubmit}
             disabled={buttonDisabled}
             type='submit'
-            variant='primary mt-2'
-          >
+            variant='primary mt-2'>
             Update
           </Button>
           {updatingPassword && <Loader />}

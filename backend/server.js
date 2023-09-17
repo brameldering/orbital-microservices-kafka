@@ -1,5 +1,6 @@
 import path from 'path';
 import express from 'express';
+// import compression from 'compression';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import connectDB from './general/config/db.js';
@@ -19,6 +20,9 @@ const port = process.env.PORT || 5000;
 connectDB();
 
 const app = express();
+
+// add compression middleware
+// app.use(compression());
 
 // 3rd party middleware
 app.use(express.json());
@@ -42,9 +46,14 @@ app.get('/api/config/v1/paypal', (req, res) =>
 // Set build folder and default route for production or development
 if (process.env.NODE_ENV === 'production') {
   const __dirname = path.resolve();
-  app.use(express.static(path.join(__dirname, '/frontend/build')));
+  app.use(express.static(path.join(__dirname, '/frontend/dist')));
+  // app.get('*.js', function (req, res, next) {
+  //   req.url = req.url + '.gz';
+  //   res.set('Content-Encoding', 'gzip');
+  //   next();
+  // });
   app.get('*', (req, res) =>
-    res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
+    res.sendFile(path.resolve(__dirname, 'frontend', 'dist', 'index.html'))
   );
 } else {
   app.get('/', (req, res) => {

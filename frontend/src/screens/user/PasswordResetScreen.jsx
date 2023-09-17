@@ -1,3 +1,4 @@
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
@@ -52,8 +53,7 @@ const PasswordResetScreen = () => {
         <Button
           disabled={resettingPassword}
           type='submit'
-          variant='primary mt-2'
-        >
+          variant='primary mt-2'>
           Reset Password
         </Button>
         {resettingPassword && <Loader />}

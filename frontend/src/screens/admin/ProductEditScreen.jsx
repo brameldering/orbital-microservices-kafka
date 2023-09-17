@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Row, Col, Form, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
@@ -132,8 +132,7 @@ const ProductEditScreen = () => {
       <Button
         className='btn btn-light my-3'
         onClick={goBackHandler}
-        disabled={disableSubmit}
-      >
+        disabled={disableSubmit}>
         Go Back
       </Button>
       <FormContainer>
@@ -175,8 +174,7 @@ const ProductEditScreen = () => {
                 label='Choose File'
                 onChange={uploadFileHandler}
                 type='file'
-                className='my-1'
-              ></Form.Control>
+                className='my-1'></Form.Control>
             </Form.Group>
             {performinUploadImage && <Loader />}
             <TextField controlId='brand' label='Brand' formik={formik} />
@@ -196,8 +194,7 @@ const ProductEditScreen = () => {
               type='submit'
               variant='primary'
               className='mt-2'
-              disabled={disableSubmit}
-            >
+              disabled={disableSubmit}>
               Save
             </Button>
             {performingUpdate && <Loader />}

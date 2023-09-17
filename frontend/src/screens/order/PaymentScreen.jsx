@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Form, Button, Col } from 'react-bootstrap';
@@ -47,8 +47,7 @@ const PaymentScreen = () => {
                 name='paymentMethod'
                 value='PayPal'
                 checked
-                onChange={(e) => setPaymentMethod(e.target.value)}
-              ></Form.Check>
+                onChange={(e) => setPaymentMethod(e.target.value)}></Form.Check>
             </Col>
           </Form.Group>
           <Button type='submit' variant='primary mt-2'>

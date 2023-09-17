@@ -1,3 +1,4 @@
+import React from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Nav } from 'react-bootstrap';
 
@@ -20,8 +21,7 @@ const CheckoutSteps = ({ currentStep }) => {
               : index === currentStep
               ? 'current'
               : 'todo'
-          }
-        >
+          }>
           <LinkContainer to={element.path}>
             <Nav.Link disabled={index >= currentStep}>{element.name}</Nav.Link>
           </LinkContainer>

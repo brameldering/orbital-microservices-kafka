@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Table, Button, Row, Col } from 'react-bootstrap';
@@ -104,8 +104,7 @@ const ProductListScreen = () => {
           <Button
             className='my-3'
             onClick={confirmCreateProduct}
-            disabled={disableSubmit}
-          >
+            disabled={disableSubmit}>
             <FaPlus /> Create Product
           </Button>
         </Col>
@@ -149,8 +148,7 @@ const ProductListScreen = () => {
                     <Button
                       variant='danger'
                       className='btn-sm'
-                      onClick={() => confirmDeleteProduct(product._id)}
-                    >
+                      onClick={() => confirmDeleteProduct(product._id)}>
                       <FaTrash style={{ color: 'white' }} />
                     </Button>
                   </td>

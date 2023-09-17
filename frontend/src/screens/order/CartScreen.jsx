@@ -1,3 +1,4 @@
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import {
@@ -65,8 +66,7 @@ const CartScreen = () => {
                     </Col>
                     <Col md={4}>
                       <Link
-                        to={`/product/${item._id}?goBackPath=${currentPath}`}
-                      >
+                        to={`/product/${item._id}?goBackPath=${currentPath}`}>
                         {item.name}
                       </Link>
                     </Col>
@@ -80,8 +80,7 @@ const CartScreen = () => {
                         value={item.qty}
                         onChange={(e) =>
                           addToCartHandler(item, Number(e.target.value))
-                        }
-                      >
+                        }>
                         {[...Array(item.countInStock).keys()].map((x) => (
                           <option key={x + 1} value={x + 1}>
                             {x + 1}
@@ -93,8 +92,7 @@ const CartScreen = () => {
                       <Button
                         type='button'
                         variant='light'
-                        onClick={() => removeFromCartHandler(item._id)}
-                      >
+                        onClick={() => removeFromCartHandler(item._id)}>
                         <FaTrash />
                       </Button>
                     </Col>
@@ -122,8 +120,7 @@ const CartScreen = () => {
                   type='button'
                   className='btn-block mt-2'
                   disabled={cartItems.length === 0}
-                  onClick={checkoutHandler}
-                >
+                  onClick={checkoutHandler}>
                   Proceed To Checkout
                 </Button>
               </ListGroup.Item>

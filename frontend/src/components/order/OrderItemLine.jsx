@@ -1,3 +1,4 @@
+import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Row, Col, Image } from 'react-bootstrap';
 import { CURRENCY_SYMBOL } from '../../constantsFrontend';
@@ -9,7 +10,7 @@ const OrderItemLine = (itemProps) => {
   return (
     <Row>
       <Col md={1}>
-        <Image src={item.image} alt={item.name} fluid rounded />
+        <Image src={item.image} alt={item.name} fluid />
       </Col>
       <Col>
         <Link to={`/product/${productId}?goBackPath=${currentPath}`}>

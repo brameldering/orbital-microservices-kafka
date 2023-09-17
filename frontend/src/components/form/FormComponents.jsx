@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Form, InputGroup, Button } from 'react-bootstrap';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
@@ -62,8 +62,7 @@ const CheckBoxField = ({ controlId, label, formik }) => {
         name={controlId}
         label={label}
         checked={formik.values[controlId]}
-        onChange={formik.handleChange}
-      ></Form.Check>
+        onChange={formik.handleChange}></Form.Check>
     </Form.Group>
   );
 };
@@ -105,8 +104,7 @@ const PasswordField = ({ controlId, label, formik }) => {
             onMouseDown={showPassword}
             onMouseUp={hidePassword}
             onBlur={hidePassword}
-            type='button'
-          >
+            type='button'>
             {contentVisible ? <FaEye /> : <FaEyeSlash />}
           </Button>
         </InputGroup>

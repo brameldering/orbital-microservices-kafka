@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Row, Col, ListGroup, Card, Button } from 'react-bootstrap';
@@ -230,8 +230,7 @@ const OrderScreen = () => {
                         <PayPalButtons
                           createOrder={createOrder}
                           onApprove={onApprove}
-                          onError={onPayPalError}
-                        ></PayPalButtons>
+                          onError={onPayPalError}></PayPalButtons>
                       </div>
                     </div>
                   )}
@@ -246,8 +245,7 @@ const OrderScreen = () => {
                     <Button
                       type='button'
                       className='btn btn-block mt-2'
-                      onClick={deliverHandler}
-                    >
+                      onClick={deliverHandler}>
                       Mark As Delivered
                     </Button>
                   </ListGroup.Item>

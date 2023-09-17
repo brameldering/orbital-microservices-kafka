@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Table, Button } from 'react-bootstrap';
 import { FaTrash, FaEdit, FaCheck, FaTimes } from 'react-icons/fa';
@@ -90,8 +90,7 @@ const UserListScreen = () => {
                 <td>
                   <LinkContainer
                     to={`/admin/user/${user._id}/edit`}
-                    style={{ marginRight: '10px' }}
-                  >
+                    style={{ marginRight: '10px' }}>
                     <Button variant='light' className='btn-sm'>
                       <FaEdit />
                     </Button>
@@ -99,8 +98,7 @@ const UserListScreen = () => {
                   <Button
                     variant='danger'
                     className='btn-sm'
-                    onClick={() => confirmDeleteUser(user._id)}
-                  >
+                    onClick={() => confirmDeleteUser(user._id)}>
                     <FaTrash style={{ color: 'white' }} />
                   </Button>
                 </td>

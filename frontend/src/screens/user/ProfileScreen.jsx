@@ -1,3 +1,4 @@
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Row, Col, Form, Button } from 'react-bootstrap';
@@ -58,8 +59,7 @@ const ProfileScreen = () => {
             <Button
               disabled={buttonDisabled}
               type='submit'
-              variant='primary mt-2'
-            >
+              variant='primary mt-2'>
               Update
             </Button>
           </Col>

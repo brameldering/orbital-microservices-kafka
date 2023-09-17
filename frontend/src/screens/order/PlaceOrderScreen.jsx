@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Button, Row, Col, ListGroup, Card } from 'react-bootstrap';
@@ -97,8 +97,7 @@ const PlaceOrderScreen = () => {
                   type='button'
                   className='btn-block mt-2'
                   disabled={cart.cartItems === 0 || creatingOrder}
-                  onClick={placeOrderHandler}
-                >
+                  onClick={placeOrderHandler}>
                   Place Order
                 </Button>
                 {creatingOrder && <Loader />}

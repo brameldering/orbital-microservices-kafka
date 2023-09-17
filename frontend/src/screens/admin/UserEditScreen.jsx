@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
@@ -90,8 +90,7 @@ const UserEditScreen = () => {
       <Button
         className='btn btn-light my-3'
         onClick={goBackHandler}
-        disabled={disableSubmit}
-      >
+        disabled={disableSubmit}>
         Go Back
       </Button>
       <FormContainer>
@@ -114,8 +113,7 @@ const UserEditScreen = () => {
               type='submit'
               variant='primary'
               className='mt-2'
-              disabled={disableSubmit}
-            >
+              disabled={disableSubmit}>
               Update
             </Button>
             {updating && <Loader />}

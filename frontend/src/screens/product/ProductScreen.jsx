@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import {
@@ -86,7 +86,7 @@ const ProductScreen = () => {
           <Meta title={product.name} description={product.description} />
           <Row>
             <Col md={6}>
-              <Image src={product.image} alt={product.name} />
+              <Image src={product.image} alt={product.name} fluid='true' />
             </Col>
             <Col md={3}>
               <ListGroup variant='flush'>
@@ -141,8 +141,7 @@ const ProductScreen = () => {
                           <Form.Control
                             as='select'
                             value={qty}
-                            onChange={(e) => setQty(Number(e.target.value))}
-                          >
+                            onChange={(e) => setQty(Number(e.target.value))}>
                             {/* The following creates an array starting with 0 to countinStock-1:
                                 [...Array(product.countInStock).keys()] */}
                             {[...Array(product.countInStock).keys()].map(
@@ -162,8 +161,7 @@ const ProductScreen = () => {
                       className='btn-block mt-2'
                       type='button'
                       disabled={product.countInStock === 0 || buttonDisabled}
-                      onClick={addToCartHandler}
-                    >
+                      onClick={addToCartHandler}>
                       Add To Cart
                     </Button>
                   </ListGroup.Item>
@@ -197,8 +195,7 @@ const ProductScreen = () => {
                           as='select'
                           required
                           value={rating}
-                          onChange={(e) => setRating(e.target.value)}
-                        >
+                          onChange={(e) => setRating(e.target.value)}>
                           <option value=''>Select...</option>
                           <option value='1'>1 - Poor</option>
                           <option value='2'>2 - Fair</option>
@@ -214,14 +211,14 @@ const ProductScreen = () => {
                           row='3'
                           required
                           value={comment}
-                          onChange={(e) => setComment(e.target.value)}
-                        ></Form.Control>
+                          onChange={(e) =>
+                            setComment(e.target.value)
+                          }></Form.Control>
                       </Form.Group>
                       <Button
                         disabled={buttonDisabled}
                         type='submit'
-                        variant='primary mt-2'
-                      >
+                        variant='primary mt-2'>
                         Submit
                       </Button>
                     </Form>

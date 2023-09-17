@@ -1,3 +1,4 @@
+import React from 'react';
 import { Container, Card, Row, Col } from 'react-bootstrap';
 
 const ErrorBlock = ({ error }) => {
@@ -11,8 +12,7 @@ const ErrorBlock = ({ error }) => {
               margin: '0rem',
               background: '#fc6f6f',
               color: '#000000',
-            }}
-          >
+            }}>
             <p>
               <strong>An Error occured on our side</strong>
             </p>
