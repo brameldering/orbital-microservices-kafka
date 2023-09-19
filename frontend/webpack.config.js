@@ -8,8 +8,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   mode: 'development',
-  entry: path.resolve(__dirname, './src/index.js'),
-  // entry: './src/index.js',
+  entry: path.resolve(__dirname, './src/index.tsx'),
   output: {
     path: path.join(__dirname, '/dist'),
     filename: 'bundle.js',
@@ -64,7 +63,7 @@ module.exports = {
      */
     rules: [
       {
-        test: /\.(js|jsx)$/, //kind of file extension this rule should look for and apply in test
+        test: /\.(ts|tsx|js|jsx)$/, //kind of file extension this rule should look for and apply in test
         exclude: /node_modules/, //folder to be excluded
         // use:  'babel-loader' //loader which we are going to use
         use: {

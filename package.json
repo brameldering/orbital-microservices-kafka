@@ -10,5 +10,11 @@
     "generate-toc": "markdown-toc -i readme.md"
   },
   "author": "Bram Eldering",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/preset-env": "^7.22.20",
+    "@babel/preset-react": "^7.22.15",
+    "@babel/preset-typescript": "^7.22.15",
+    "@types/react-bootstrap": "^0.32.32"
+  }
 }

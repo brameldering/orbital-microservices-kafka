@@ -1,15 +1,15 @@
 {
-  "name": "orbital-shop",
+  "name": "orbital-backend",
   "version": "0.1.0",
   "type": "module",
   "description": "eCommerce application built with the MERN stack",
   "main": "server.js",
   "private": true,
   "scripts": {
-    "start": "node backend/server.js",
-    "server": "nodemon backend/server.js",
-    "data:import": "node backend/seeder",
-    "data:destroy": "node backend/seeder -d"
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "data:import": "node seeder",
+    "data:destroy": "node seeder -d"
   },
   "author": "Bram Eldering",
   "license": "MIT",

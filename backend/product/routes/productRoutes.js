@@ -8,12 +8,10 @@ import {
   updateProduct,
   deleteProduct,
   createProductReview,
-  getTopProducts,
 } from '../controllers/productController.js';
 
 const router = express.Router();
 router.route('/').get(getProducts).post(protect, admin, createProduct);
-router.get('/top', getTopProducts); // this needs to be before the /:id otherwise it will use the /:id route
 router
   .route('/:id')
   .get(checkObjectId, getProductById)

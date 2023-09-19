@@ -43,7 +43,7 @@ const createOrder = asyncHandler(async (req, res) => {
       );
       return {
         ...itemFromClient,
-        product: itemFromClient._id,
+        productId: itemFromClient._id,
         price: matchingItemFromDB.price,
         _id: undefined,
       };
@@ -110,7 +110,7 @@ const getOrderById = asyncHandler(async (req, res) => {
 // @route   PUT /api/orders/v1/:id/pay
 // @access  Private
 // @req     params.id
-//          body {id, status, update_time, email_address}
+//          body {id, status, update_time, payer.email_address}
 // @res     status(200).json(updatedOrder)
 //       or status(404).message:'Order not found'
 const updateOrderToPaid = asyncHandler(async (req, res) => {
