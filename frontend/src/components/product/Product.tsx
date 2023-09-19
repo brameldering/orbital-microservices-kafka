@@ -20,7 +20,7 @@ const Product: React.FunctionComponent<ProductComponentProps> = ({
           src={product.image}
           alt={product.name}
           variant='top'
-          img-fluid
+          img-fluid='true'
         />
       </Link>
 

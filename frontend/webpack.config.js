@@ -16,6 +16,10 @@ module.exports = {
     devtoolModuleFilenameTemplate: (info) =>
       'file:///' + path.resolve(info.absoluteResourcePath).replace(/\\/g, '/'),
   },
+  watchOptions: {
+    aggregateTimeout: 200,
+    ignored: /node_modules/,
+  },
   /** "target"
    * setting "node" as target app (server side), and setting it as "web" is
    * for browser (client side). Default is "web"
@@ -41,6 +45,7 @@ module.exports = {
      * disable live reload on the browser. "hot" must be set to false for this to work
      */
     liveReload: true,
+    historyApiFallback: true,
   },
   resolveLoader: {
     modules: [path.join(__dirname, 'node_modules')],

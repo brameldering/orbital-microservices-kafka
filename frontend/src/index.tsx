@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import {
   createBrowserRouter,
@@ -95,9 +96,10 @@ const paypalOptions = {
   clientId: 'DUMMY',
 };
 
-const root = document.getElementById('root') as HTMLFormElement;
+const container = document.getElementById('root') as HTMLFormElement;
+const root = createRoot(container);
 
-ReactDOM.render(
+root.render(
   <React.StrictMode>
     <HelmetProvider>
       <Provider store={store}>
@@ -106,8 +108,7 @@ ReactDOM.render(
         </PayPalScriptProvider>
       </Provider>
     </HelmetProvider>
-  </React.StrictMode>,
-  root
+  </React.StrictMode>
 );
 
 reportWebVitals();
