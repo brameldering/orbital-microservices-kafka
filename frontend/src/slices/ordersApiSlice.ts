@@ -25,15 +25,7 @@ export const orderApiSlice = apiSlice.injectEndpoints({
         method: 'POST',
         body: order,
       }),
-      invalidatesTags: (result, error, order) => {
-        if (error) {
-          return [];
-        }
-        // Assuming that the result contains the newly created order
-        const orderId = result ? result._id : order._id; // Use the _id of the created order
-        // Invalidate the cache for the specific order
-        return [{ type: 'Order', id: orderId }];
-      },
+      invalidatesTags: ['Order'],
     }),
     // Get a list of orders for the current user
     getMyOrders: builder.query<Order[], string>({

@@ -16,7 +16,8 @@ import {
 // @req
 // @res     status(200).json(orders)
 const getOrders = asyncHandler(async (req, res) => {
-  const orders = await Order.find({}).populate('user', 'id name');
+  const orders = await Order.find({}).populate('user', 'name');
+  console.log(orders);
   res.status(200).json(orders);
 });
 
@@ -84,8 +85,8 @@ const createOrder = asyncHandler(async (req, res) => {
 // @req     params.id
 // @res     status(200).json(orders)
 const getMyOrders = asyncHandler(async (req, res) => {
-  const id = new mongoose.Types.ObjectId(req.params.id);
-  const orders = await Order.find({ user: id });
+  const userId = new mongoose.Types.ObjectId(req.params.id);
+  const orders = await Order.find({ user: userId });
   res.status(200).json(orders);
 });
 
@@ -100,6 +101,8 @@ const getOrderById = asyncHandler(async (req, res) => {
     'user',
     'name email'
   );
+  console.log('getOrderById');
+  console.log(order);
   if (order) {
     res.status(200).json(order);
   } else {

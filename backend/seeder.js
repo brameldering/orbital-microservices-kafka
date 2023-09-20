@@ -28,10 +28,10 @@ const importData = async () => {
 
     const createdUsers = await User.insertMany(users);
 
-    const adminUser = createdUsers[0]._id;
+    const adminUserId = createdUsers[0]._id;
 
     const sampleProducts = products.map((product) => {
-      return { ...product, user: adminUser };
+      return { ...product, user: adminUserId };
     });
 
     await Product.insertMany(sampleProducts);
