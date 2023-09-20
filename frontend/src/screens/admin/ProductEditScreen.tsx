@@ -18,7 +18,7 @@ import ModalConfirmBox from '../../components/general/ModalConfirmBox';
 import {
   useGetProductDetailsQuery,
   useUpdateProductMutation,
-  useUploadProductImageMutation,
+  useUploadImageMutation,
 } from '../../slices/productsApiSlice';
 
 const ProductEditScreen = () => {
@@ -40,9 +40,9 @@ const ProductEditScreen = () => {
     useUpdateProductMutation();
 
   const [
-    uploadProductImage,
+    uploadImage,
     { isLoading: performinUploadImage, error: errorUploadImage },
-  ] = useUploadProductImageMutation();
+  ] = useUploadImageMutation();
 
   const formik = useFormik({
     initialValues: {
@@ -90,7 +90,7 @@ const ProductEditScreen = () => {
         refetch();
         navigate('/admin/productlist');
       } catch (err) {
-        // Do nothing because useUploadProductImageMutation will set errorUploadImage in case of an error
+        // Do nothing because useUploadImageMutation will set errorUploadImage in case of an error
       }
     },
   });
@@ -101,7 +101,7 @@ const ProductEditScreen = () => {
       formData.append('image', e.target.files[0]);
     }
     try {
-      const res = await uploadProductImage(formData).unwrap();
+      const res = await uploadImage(formData).unwrap();
       formik.setFieldValue('image', res.image);
       toast.success(res.message);
     } catch (err) {

@@ -50,7 +50,7 @@ export interface GetProductsRes {
   pages: number;
 }
 
-export interface UploadProductImageResponse {
+export interface UploadImageResponse {
   message: string;
   image: string;
 }

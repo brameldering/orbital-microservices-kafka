@@ -5,7 +5,7 @@ import {
   NewUpdateProduct,
   GetProductsRes,
   ReviewInput,
-  UploadProductImageResponse,
+  UploadImageResponse,
 } from '../types/productTypes';
 
 export const productsApiSlice = apiSlice.injectEndpoints({
@@ -62,7 +62,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         return [{ type: 'Product', id: productId }];
       },
     }),
-    uploadProductImage: builder.mutation<UploadProductImageResponse, FormData>({
+    uploadImage: builder.mutation<UploadImageResponse, FormData>({
       query: (data) => ({
         url: UPLOAD_URL,
         method: 'POST',
@@ -79,5 +79,5 @@ export const {
   useUpdateProductMutation,
   useDeleteProductMutation,
   useCreateReviewMutation,
-  useUploadProductImageMutation,
+  useUploadImageMutation,
 } = productsApiSlice;
