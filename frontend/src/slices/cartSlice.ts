@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { updateCart } from '../utils/cartUtils';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import type { CartInfo, CartItem, Address } from '../types/cartTypes';
+import type { CartInfo, CartItem, ShippingAddress } from '../types/cartTypes';
 
 // Define the initial state
 const cartInfoLocalStorage: string | null = localStorage.getItem('cart');
@@ -40,7 +40,7 @@ const cartSlice = createSlice({
       // Assuming updateCart modifies the cart in some way
       return updateCart(state);
     },
-    saveShippingAddress: (state, action: PayloadAction<Address>) => {
+    saveShippingAddress: (state, action: PayloadAction<ShippingAddress>) => {
       state.shippingAddress = action.payload;
       localStorage.setItem('cart', JSON.stringify(state));
     },

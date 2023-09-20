@@ -9,7 +9,7 @@ export interface OrderItem {
   updatedAt?: string;
 }
 
-export interface Address {
+export interface ShippingAddress {
   address: string;
   city: string;
   postalCode: string;
@@ -34,7 +34,7 @@ export interface Order {
   sequenceOrderId?: string;
   user?: User;
   orderItems: Array<OrderItem>;
-  shippingAddress: Address;
+  shippingAddress: ShippingAddress;
   paymentMethod: string;
   paymentResult?: PaymentResult;
   itemsPrice: number;
