@@ -210,7 +210,7 @@ const OrderScreen = () => {
               </ListGroup.Item>
               <ListGroup.Item>
                 <h2>Order Items</h2>
-                {order && order.orderItems.length === 0 ? (
+                {order.orderItems.length === 0 ? (
                   <Message variant='info'>Order is empty</Message>
                 ) : (
                   <ListGroup variant='flush'>
@@ -228,8 +228,13 @@ const OrderScreen = () => {
           <Col md={4}>
             <Card>
               <ListGroup variant='flush'>
-                <OrderSummaryBlock order={order} />
-                {order && !order.isPaid && (
+                <OrderSummaryBlock
+                  itemsPrice={order.itemsPrice}
+                  shippingPrice={order.shippingPrice}
+                  taxPrice={order.taxPrice}
+                  totalPrice={order.totalPrice}
+                />
+                {!order.isPaid && (
                   <ListGroup.Item>
                     {payingOrder && <Loader />}
                     {isPending && <Loader />}

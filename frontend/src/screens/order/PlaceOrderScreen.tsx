@@ -97,7 +97,12 @@ const PlaceOrderScreen = () => {
         <Col md={4}>
           <Card>
             <ListGroup variant='flush'>
-              {/* <OrderSummaryBlock order={cart} /> */}
+              <OrderSummaryBlock
+                itemsPrice={Number(cart.itemsPrice)}
+                shippingPrice={Number(cart.shippingPrice)}
+                taxPrice={Number(cart.taxPrice)}
+                totalPrice={Number(cart.totalPrice)}
+              />
               <ListGroup.Item>
                 {errorCreatingOrder && (
                   <ErrorMessage error={errorCreatingOrder} />

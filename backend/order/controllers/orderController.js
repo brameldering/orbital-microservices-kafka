@@ -34,16 +34,17 @@ const createOrder = asyncHandler(async (req, res) => {
   } else {
     // get the ordered items from our database
     const itemsFromDB = await Product.find({
-      _id: { $in: orderItems.map((x) => x._id) },
+      _id: { $in: orderItems.map((x) => x.productId) },
     });
+    console.log(itemsFromDB);
     // map over the order items and use the price from our items from database
     const dbOrderItems = orderItems.map((itemFromClient) => {
       const matchingItemFromDB = itemsFromDB.find(
-        (itemFromDB) => itemFromDB._id.toString() === itemFromClient._id
+        (itemFromDB) => itemFromDB._id.toString() === itemFromClient.productId
       );
       return {
         ...itemFromClient,
-        productId: itemFromClient._id,
+        productId: itemFromClient.productId,
         price: matchingItemFromDB.price,
         _id: undefined,
       };

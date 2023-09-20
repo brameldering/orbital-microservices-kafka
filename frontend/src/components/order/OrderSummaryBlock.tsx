@@ -9,7 +9,10 @@ interface CurrencyFieldProps {
 }
 
 interface OrderSummaryBlockProps {
-  order: Order;
+  itemsPrice: number;
+  shippingPrice: number;
+  taxPrice: number;
+  totalPrice: number;
 }
 
 const CurrencyField: React.FunctionComponent<CurrencyFieldProps> = ({
@@ -30,17 +33,20 @@ const CurrencyField: React.FunctionComponent<CurrencyFieldProps> = ({
 };
 
 const OrderSummaryBlock: React.FunctionComponent<OrderSummaryBlockProps> = ({
-  order,
+  itemsPrice,
+  shippingPrice,
+  taxPrice,
+  totalPrice,
 }) => {
   return (
     <>
       <ListGroup.Item>
         <h2>Order Summary</h2>
       </ListGroup.Item>
-      <CurrencyField label='Items' amount={order.itemsPrice} />
-      <CurrencyField label='Shipping' amount={order.shippingPrice} />
-      <CurrencyField label='Tax' amount={order.taxPrice} />
-      <CurrencyField label='Total' amount={order.totalPrice} />
+      <CurrencyField label='Items' amount={itemsPrice} />
+      <CurrencyField label='Shipping' amount={shippingPrice} />
+      <CurrencyField label='Tax' amount={taxPrice} />
+      <CurrencyField label='Total' amount={totalPrice} />
     </>
   );
 };
