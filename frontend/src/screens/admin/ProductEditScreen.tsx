@@ -49,7 +49,7 @@ const ProductEditScreen = () => {
       productIdSeq: product?.sequenceProductId || '',
       name: product?.name || '',
       price: product?.price || 0,
-      image: product?.image || '',
+      imageURL: product?.imageURL || '',
       brand: product?.brand || '',
       category: product?.category || '',
       countInStock: product?.countInStock || 0,
@@ -59,7 +59,7 @@ const ProductEditScreen = () => {
     validationSchema: Yup.object({
       name: textField().required('required'),
       price: numField().required('required'),
-      image: textField(),
+      imageURL: textField(),
       brand: textField(),
       category: textField(),
       countInStock: numField().required('required'),
@@ -69,7 +69,7 @@ const ProductEditScreen = () => {
       const productIdSeq = values.productIdSeq;
       const name = values.name;
       const price = values.price;
-      const image = values.image;
+      const imageURL = values.imageURL;
       const brand = values.brand;
       const category = values.category;
       const countInStock = values.countInStock;
@@ -80,7 +80,7 @@ const ProductEditScreen = () => {
           productIdSeq,
           name,
           price,
-          image,
+          imageURL,
           brand,
           category,
           countInStock,
@@ -98,11 +98,11 @@ const ProductEditScreen = () => {
   const uploadFileHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const formData = new FormData();
     if (e.target.files && e.target.files.length > 0) {
-      formData.append('image', e.target.files[0]);
+      formData.append('imageURL', e.target.files[0]);
     }
     try {
       const res = await uploadImage(formData).unwrap();
-      formik.setFieldValue('image', res.image);
+      formik.setFieldValue('imageURL', res.imageURL);
       toast.success(res.message);
     } catch (err) {
       // Do nothing because useUpdateProductMutation will set errorUpdating in case of an error
@@ -155,12 +155,12 @@ const ProductEditScreen = () => {
               <strong>Product Id: </strong> {product?.sequenceProductId}
             </p>
             <TextField controlId='name' label='Product name' formik={formik} />
-            <Form.Group className='my-2' controlId='image'>
+            <Form.Group className='my-2' controlId='imageURL'>
               <Form.Label className='my-1'>Image</Form.Label>
               <Row className='align-items-center'>
                 <Col md={4}>
                   <img
-                    src={formik.values.image}
+                    src={formik.values.imageURL}
                     alt={formik.values.name}
                     width='80'
                     height='80'
@@ -168,13 +168,13 @@ const ProductEditScreen = () => {
                 </Col>
                 <Col md={8}>
                   <Form.Control
-                    name='image'
+                    name='imageURL'
                     type='text'
-                    value={formik.values.image}
+                    value={formik.values.imageURL}
                     disabled
                   />
                 </Col>
-                {/* <HiddenTextField controlId='image' formik={formik} /> */}
+                {/* <HiddenTextField controlId='imageURL' formik={formik} /> */}
               </Row>
               <Form.Control
                 name='imageFile'

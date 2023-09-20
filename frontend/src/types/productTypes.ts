@@ -19,7 +19,7 @@ export interface ProductType {
   sequenceProductId: string;
   user: string;
   name: string;
-  image: string;
+  imageURL: string;
   brand: string;
   category: string;
   description: string;
@@ -36,7 +36,7 @@ export interface NewUpdateProduct {
   productId: string;
   productIdSeq: string;
   name: string;
-  image: string;
+  imageURL: string;
   brand: string;
   category: string;
   description: string;
@@ -52,5 +52,5 @@ export interface GetProductsRes {
 
 export interface UploadImageResponse {
   message: string;
-  image: string;
+  imageURL: string;
 }

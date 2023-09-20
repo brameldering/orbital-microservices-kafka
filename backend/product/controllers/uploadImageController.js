@@ -14,7 +14,7 @@ const uploadImage = asyncHandler(async (req, res) => {
     const imageURL = await uploadImageToCloudinary(req, res);
     res.status(201).json({
       message: 'Image uploaded',
-      image: imageURL,
+      imageURL: imageURL,
     });
   } catch (error) {
     console.log(error);

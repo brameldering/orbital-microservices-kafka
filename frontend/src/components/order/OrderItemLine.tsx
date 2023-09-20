@@ -14,7 +14,7 @@ const OrderItemLine = (itemProps: OrderItemLineProps) => {
   return (
     <Row>
       <Col md={1}>
-        <Image src={item.image} alt={item.name} fluid />
+        <Image src={item.imageURL} alt={item.name} fluid />
       </Col>
       <Col>
         <Link to={`/product/${item.productId}?goBackPath=${currentPath}`}>

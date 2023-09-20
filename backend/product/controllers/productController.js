@@ -56,7 +56,7 @@ const createProduct = asyncHandler(async (req, res) => {
     name: 'Sample name',
     price: 0,
     user: req.user._id,
-    image: CLOUDINARY_SAMPLE_IMAGE_URL,
+    imageURL: CLOUDINARY_SAMPLE_IMAGE_URL,
     brand: 'Sample brand',
     category: 'Sample category',
     countInStock: 0,
@@ -90,14 +90,14 @@ const getProductById = asyncHandler(async (req, res) => {
 // @res     status(200).json(updatedProduct)
 //       or status(404).message:'Product not found'
 const updateProduct = asyncHandler(async (req, res) => {
-  const { name, price, description, image, brand, category, countInStock } =
+  const { name, price, description, imageURL, brand, category, countInStock } =
     req.body;
   const product = await Product.findById(req.params.id);
   if (product) {
     product.name = name;
     product.price = price;
     product.description = description;
-    product.image = image;
+    product.imageURL = imageURL;
     product.brand = brand;
     product.category = category;
     product.countInStock = countInStock;

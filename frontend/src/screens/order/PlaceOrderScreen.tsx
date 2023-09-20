@@ -36,7 +36,7 @@ const PlaceOrderScreen = () => {
         productId: item.productId,
         name: item.name,
         qty: item.qty,
-        image: item.image,
+        imageURL: item.imageURL,
         price: item.price,
       };
     });

@@ -3,7 +3,7 @@ export interface OrderItem {
   productId: string;
   name: string;
   qty: number;
-  image: string;
+  imageURL: string;
   price: number;
   createdAt?: string;
   updatedAt?: string;

@@ -12,7 +12,7 @@ const upload = multer({
   fileFilter,
 });
 
-const uploadMiddleware = upload.single('image');
+const uploadMiddleware = upload.single('imageURL');
 
 const runMiddleware = (fn, req, res) => {
   return new Promise((resolve, reject) => {

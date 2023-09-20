@@ -48,7 +48,7 @@ const ProductScreen = () => {
       const cartItem: CartItem = {
         productId: product._id,
         name: product.name,
-        image: product.image,
+        imageURL: product.imageURL,
         price: product.price,
         countInStock: product.countInStock,
         qty: 0,
@@ -97,7 +97,7 @@ const ProductScreen = () => {
           <Meta title={product.name} description={product.description} />
           <Row>
             <Col md={6}>
-              <Image src={product.image} alt={product.name} fluid />
+              <Image src={product.imageURL} alt={product.name} fluid />
             </Col>
             <Col md={3}>
               <ListGroup variant='flush'>
