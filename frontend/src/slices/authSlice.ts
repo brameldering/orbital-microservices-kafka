@@ -1,6 +1,7 @@
 import { createSlice, createAction } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import type { User, UserInfo } from '../types/authTypes';
+import type { UserInfo } from '../types/authTypes';
+import { User } from '../types/userTypes';
 
 const userInfoLocalStorage: string | null = localStorage.getItem('userInfo');
 

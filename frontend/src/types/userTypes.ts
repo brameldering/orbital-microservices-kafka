@@ -4,8 +4,8 @@ export interface User {
   email: string;
   password: string;
   isAdmin: boolean;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface UserRes {

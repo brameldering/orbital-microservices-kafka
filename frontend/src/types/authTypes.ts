@@ -1,9 +1,4 @@
-export interface User {
-  _id: string;
-  name: string;
-  email: string;
-  isAdmin: boolean;
-}
+import { User } from './userTypes';
 
 export interface UserInfo {
   userInfo: User | null;

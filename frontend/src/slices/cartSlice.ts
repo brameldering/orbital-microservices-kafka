@@ -1,12 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { updateCart } from '../utils/cartUtils';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import type { CartInfo, CartItem, ShippingAddress } from '../types/cartTypes';
+import type { Cart, CartItem, ShippingAddress } from '../types/cartTypes';
 
 // Define the initial state
 const cartInfoLocalStorage: string | null = localStorage.getItem('cart');
 
-const initialState: CartInfo = cartInfoLocalStorage
+const initialState: Cart = cartInfoLocalStorage
   ? JSON.parse(cartInfoLocalStorage)
   : { cartItems: [], shippingAddress: {}, paymentMethod: 'PayPal' };
 

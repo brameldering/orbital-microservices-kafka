@@ -14,7 +14,7 @@ export interface ShippingAddress {
   country: string;
 }
 
-export interface CartInfo {
+export interface Cart {
   cartItems: Array<CartItem>;
   shippingAddress: ShippingAddress;
   paymentMethod: string;
