@@ -4,10 +4,10 @@ import Card from 'react-bootstrap/Card';
 
 import { CURRENCY_SYMBOL } from '../../constantsFrontend';
 import Rating from './Rating';
-import { ProductType } from '../../types/productTypes';
+import { IProduct } from '../../types/productTypes';
 
 interface ProductComponentProps {
-  product: ProductType;
+  product: IProduct;
 }
 
 const Product: React.FunctionComponent<ProductComponentProps> = ({

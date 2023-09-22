@@ -46,7 +46,7 @@ const ProductEditScreen = () => {
 
   const formik = useFormik({
     initialValues: {
-      productIdSeq: product?.sequenceProductId || '',
+      sequenceProductId: product?.sequenceProductId || '',
       name: product?.name || '',
       price: product?.price || 0,
       imageURL: product?.imageURL || '',
@@ -66,25 +66,25 @@ const ProductEditScreen = () => {
       description: textField(),
     }),
     onSubmit: async (values) => {
-      const productIdSeq = values.productIdSeq;
+      const sequenceProductId = values.sequenceProductId;
       const name = values.name;
-      const price = values.price;
       const imageURL = values.imageURL;
       const brand = values.brand;
       const category = values.category;
-      const countInStock = values.countInStock;
       const description = values.description;
+      const price = values.price;
+      const countInStock = values.countInStock;
       try {
         await updateProduct({
-          productId,
-          productIdSeq,
+          _id: productId,
+          sequenceProductId,
           name,
-          price,
           imageURL,
           brand,
           category,
-          countInStock,
           description,
+          price,
+          countInStock,
         }).unwrap();
         toast.success('Product updated');
         refetch();

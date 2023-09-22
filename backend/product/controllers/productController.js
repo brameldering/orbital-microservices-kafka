@@ -54,14 +54,14 @@ const createProduct = asyncHandler(async (req, res) => {
   const product = new Product({
     sequenceProductId,
     name: 'Sample name',
-    price: 0,
-    user: req.user._id,
     imageURL: CLOUDINARY_SAMPLE_IMAGE_URL,
     brand: 'Sample brand',
     category: 'Sample category',
-    countInStock: 0,
-    numReviews: 0,
     description: 'Sample description',
+    numReviews: 0,
+    price: 0,
+    countInStock: 0,
+    user: req.user._id,
   });
   const createdProduct = await product.save();
   res.status(201).json(createdProduct);

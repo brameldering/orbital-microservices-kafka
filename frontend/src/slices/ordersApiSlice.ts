@@ -1,12 +1,12 @@
 import { apiSlice } from './apiSlice';
 import { ORDERS_URL, PAYPAL_URL } from '../constantsFrontend';
-import { Order, PaymentResult, PayPalClientId } from '../types/orderTypes';
+import { IOrder, IPaymentResult, IPayPalClientId } from '../types/orderTypes';
 
 // Define an API slice for orders
 export const orderApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     // Get a list of orders
-    getOrders: builder.query<Order[], void>({
+    getOrders: builder.query<IOrder[], void>({
       query: () => ({
         url: ORDERS_URL,
       }),
@@ -19,7 +19,7 @@ export const orderApiSlice = apiSlice.injectEndpoints({
           : [{ type: 'Order', id: 'LIST' }],
     }),
     // Create a new order
-    createOrder: builder.mutation<Order, Order>({
+    createOrder: builder.mutation<IOrder, IOrder>({
       query: (order) => ({
         url: ORDERS_URL,
         method: 'POST',
@@ -28,7 +28,7 @@ export const orderApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: ['Order'],
     }),
     // Get a list of orders for the current user
-    getMyOrders: builder.query<Order[], string>({
+    getMyOrders: builder.query<IOrder[], string>({
       query: (id) => ({
         url: `${ORDERS_URL}/mine/${id}`,
       }),
@@ -42,7 +42,7 @@ export const orderApiSlice = apiSlice.injectEndpoints({
     }),
 
     // Get order details by ID
-    getOrderDetails: builder.query<Order, string>({
+    getOrderDetails: builder.query<IOrder, string>({
       query: (id) => ({
         url: `${ORDERS_URL}/${id}`,
       }),
@@ -50,7 +50,7 @@ export const orderApiSlice = apiSlice.injectEndpoints({
     }),
 
     // Get the PayPal client ID
-    getPaypalClientId: builder.query<PayPalClientId, void>({
+    getPaypalClientId: builder.query<IPayPalClientId, void>({
       query: () => ({
         url: PAYPAL_URL,
       }),
@@ -59,8 +59,8 @@ export const orderApiSlice = apiSlice.injectEndpoints({
 
     // Pay for an order
     payOrder: builder.mutation<
-      Order,
-      { orderId: string; details: PaymentResult }
+      IOrder,
+      { orderId: string; details: IPaymentResult }
     >({
       query: ({ orderId, details }) => ({
         url: `${ORDERS_URL}/${orderId}/pay`,
@@ -77,7 +77,7 @@ export const orderApiSlice = apiSlice.injectEndpoints({
     }),
 
     // Deliver an order
-    deliverOrder: builder.mutation<Order, string>({
+    deliverOrder: builder.mutation<IOrder, string>({
       query: (orderId) => ({
         url: `${ORDERS_URL}/${orderId}/deliver`,
         method: 'PUT',

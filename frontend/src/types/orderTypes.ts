@@ -1,42 +1,14 @@
-export interface OrderItem {
-  _id?: string;
-  productId: string;
-  name: string;
-  qty: number;
-  imageURL: string;
-  price: number;
-  createdAt?: string;
-  updatedAt?: string;
-}
+import { IShippingAddress } from './cartTypes';
+import { IUser } from './userTypes';
 
-export interface ShippingAddress {
-  address: string;
-  city: string;
-  postalCode: string;
-  country: string;
-}
-
-export interface User {
-  _id: string;
-  name: string;
-  email: string;
-}
-
-export interface PaymentResult {
-  id: string;
-  status: string;
-  update_time: string;
-  email_address: string;
-}
-
-export interface Order {
+export interface IOrder {
   _id?: string;
   sequenceOrderId?: string;
-  user?: User;
-  orderItems: Array<OrderItem>;
-  shippingAddress: ShippingAddress;
+  user?: IUser;
+  orderItems: Array<IOrderItem>;
+  shippingAddress: IShippingAddress;
   paymentMethod: string;
-  paymentResult?: PaymentResult;
+  paymentResult?: IPaymentResult;
   itemsPrice: number;
   taxPrice: number;
   shippingPrice: number;
@@ -49,6 +21,24 @@ export interface Order {
   updatedAt?: string;
 }
 
-export interface PayPalClientId {
+export interface IOrderItem {
+  _id?: string;
+  productId: string;
+  name: string;
+  qty: number;
+  imageURL: string;
+  price: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface IPaymentResult {
+  id: string;
+  status: string;
+  update_time: string;
+  email_address: string;
+}
+
+export interface IPayPalClientId {
   clientId: string;
 }

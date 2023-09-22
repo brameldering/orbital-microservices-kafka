@@ -15,7 +15,7 @@ import {
 import { addToCart } from '../../slices/cartSlice';
 import { CURRENCY_SYMBOL } from '../../constantsFrontend';
 import type { RootState } from '../../store';
-import { CartItem } from '../../types/cartTypes';
+import { ICartItem } from '../../types/cartTypes';
 
 const ProductScreen = () => {
   const dispatch = useDispatch();
@@ -45,7 +45,7 @@ const ProductScreen = () => {
 
   const addToCartHandler = () => {
     if (product) {
-      const cartItem: CartItem = {
+      const cartItem: ICartItem = {
         productId: product._id,
         name: product.name,
         imageURL: product.imageURL,

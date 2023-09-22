@@ -1,10 +1,10 @@
-import { Cart } from '../types/cartTypes';
+import { ICart } from '../types/cartTypes';
 
 export const addDecimals = (num: number): number => {
   return Number((Math.round(num * 100) / 100).toFixed(2));
 };
 
-export const updateCart = (state: Cart) => {
+export const updateCart = (state: ICart) => {
   // Calculate the items price
   state.itemsPrice = addDecimals(
     state.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0)

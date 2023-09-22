@@ -10,7 +10,7 @@ import CheckoutSteps from '../../components/order/CheckoutSteps';
 import { addToCart, removeFromCart } from '../../slices/cartSlice';
 import { CURRENCY_SYMBOL } from '../../constantsFrontend';
 import type { RootState } from '../../store';
-import { CartItem } from '../../types/cartTypes';
+import { ICartItem } from '../../types/cartTypes';
 
 const CartScreen = () => {
   const dispatch = useDispatch();
@@ -20,7 +20,7 @@ const CartScreen = () => {
   const { cartItems } = useSelector((state: RootState) => state.cart);
   const { userInfo } = useSelector((state: RootState) => state.auth);
 
-  const addToCartHandler = (product: CartItem, qty: number) => {
+  const addToCartHandler = (product: ICartItem, qty: number) => {
     dispatch(addToCart({ ...product, qty }));
   };
 

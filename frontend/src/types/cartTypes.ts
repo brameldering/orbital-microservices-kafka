@@ -1,4 +1,14 @@
-export interface CartItem {
+export interface ICart {
+  cartItems: Array<ICartItem>;
+  shippingAddress: IShippingAddress;
+  paymentMethod: string;
+  itemsPrice: number;
+  shippingPrice: number;
+  taxPrice: number;
+  totalPrice: number;
+}
+
+export interface ICartItem {
   productId: string;
   name: string;
   imageURL: string;
@@ -7,19 +17,9 @@ export interface CartItem {
   qty: number;
 }
 
-export interface ShippingAddress {
+export interface IShippingAddress {
   address: string;
   city: string;
   postalCode: string;
   country: string;
-}
-
-export interface Cart {
-  cartItems: Array<CartItem>;
-  shippingAddress: ShippingAddress;
-  paymentMethod: string;
-  itemsPrice: number;
-  shippingPrice: number;
-  taxPrice: number;
-  totalPrice: number;
 }

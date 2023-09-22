@@ -1,17 +1,17 @@
 import { apiSlice } from './apiSlice';
 import { PRODUCTS_URL, UPLOAD_URL } from '../constantsFrontend';
 import {
-  ProductType,
-  NewUpdateProduct,
-  GetProductsRes,
-  ReviewInput,
-  UploadImageResponse,
+  IBaseProduct,
+  IProduct,
+  IGetProductsPaginated,
+  IReviewInput,
+  IUploadImageResponse,
 } from '../types/productTypes';
 
 export const productsApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getProducts: builder.query<
-      GetProductsRes,
+      IGetProductsPaginated,
       { keyword?: string; pageNumber?: string }
     >({
       query: ({ keyword, pageNumber }) => ({
@@ -20,22 +20,22 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       }),
       providesTags: ['Product'],
     }),
-    createProduct: builder.mutation<NewUpdateProduct, void>({
+    createProduct: builder.mutation<IBaseProduct, void>({
       query: () => ({
         url: PRODUCTS_URL,
         method: 'POST',
       }),
       invalidatesTags: ['Product'],
     }),
-    getProductDetails: builder.query<ProductType, string>({
+    getProductDetails: builder.query<IProduct, string>({
       query: (productId) => ({
         url: `${PRODUCTS_URL}/${productId}`,
       }),
       providesTags: (result, error, id) => [{ type: 'Product', id }],
     }),
-    updateProduct: builder.mutation<ProductType, NewUpdateProduct>({
+    updateProduct: builder.mutation<IProduct, IBaseProduct>({
       query: (data) => ({
-        url: `${PRODUCTS_URL}/${data.productId}`,
+        url: `${PRODUCTS_URL}/${data._id}`,
         method: 'PUT',
         body: data,
       }),
@@ -48,7 +48,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['Product'],
     }),
-    createReview: builder.mutation<void, ReviewInput>({
+    createReview: builder.mutation<void, IReviewInput>({
       query: (data) => ({
         url: `${PRODUCTS_URL}/${data.productId}/reviews`,
         method: 'POST',
@@ -62,7 +62,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         return [{ type: 'Product', id: productId }];
       },
     }),
-    uploadImage: builder.mutation<UploadImageResponse, FormData>({
+    uploadImage: builder.mutation<IUploadImageResponse, FormData>({
       query: (data) => ({
         url: UPLOAD_URL,
         method: 'POST',

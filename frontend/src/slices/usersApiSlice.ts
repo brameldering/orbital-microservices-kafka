@@ -1,21 +1,16 @@
 import { apiSlice } from './apiSlice';
 import { USERS_URL } from '../constantsFrontend';
 import {
-  User,
-  UserRes,
-  UserUpdateReq,
-  UserUpdateRes,
-  RegistrationReq,
-  LoginReq,
-  ProfileUpdateReq,
-  ProfileUpdateRes,
-  PasswordUpdateReq,
-  PasswordResetReq,
+  IUser,
+  IRegistration,
+  ILogin,
+  IPasswordUpdate,
+  IPasswordReset,
 } from '../types/userTypes';
 
 export const userApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getUsers: builder.query<User[], void>({
+    getUsers: builder.query<IUser[], void>({
       query: () => ({
         url: USERS_URL,
       }),
@@ -27,7 +22,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
             ]
           : [{ type: 'User', id: 'LIST' }],
     }),
-    register: builder.mutation<UserRes, RegistrationReq>({
+    register: builder.mutation<IUser, IRegistration>({
       query: (data) => ({
         url: `${USERS_URL}`,
         method: 'POST',
@@ -35,7 +30,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['User'],
     }),
-    login: builder.mutation<UserRes, LoginReq>({
+    login: builder.mutation<IUser, ILogin>({
       query: (data) => ({
         url: `${USERS_URL}/auth`,
         method: 'POST',
@@ -49,7 +44,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['User', 'Order'],
     }),
-    updateProfile: builder.mutation<ProfileUpdateRes, ProfileUpdateReq>({
+    updateProfile: builder.mutation<IUser, IUser>({
       query: (data) => ({
         url: `${USERS_URL}/profile`,
         method: 'PUT',
@@ -63,43 +58,43 @@ export const userApiSlice = apiSlice.injectEndpoints({
         return [{ type: 'User', id: _id }];
       },
     }),
-    updatePassword: builder.mutation<ProfileUpdateRes, PasswordUpdateReq>({
+    updatePassword: builder.mutation<IUser, IPasswordUpdate>({
       query: (data) => ({
         url: `${USERS_URL}/updatepassword`,
         method: 'PUT',
         body: data,
       }),
     }),
-    resetPassword: builder.mutation<void, PasswordResetReq>({
+    resetPassword: builder.mutation<void, IPasswordReset>({
       query: (data) => ({
         url: `${USERS_URL}/resetpassword`,
         method: 'PUT',
         body: data,
       }),
     }),
-    getUserDetails: builder.query<User, string>({
+    getUserDetails: builder.query<IUser, string>({
       query: (id) => ({
         url: `${USERS_URL}/${id}`,
       }),
       providesTags: (result, error, id) => [{ type: 'User', id }],
     }),
-    updateUser: builder.mutation<UserUpdateRes, UserUpdateReq>({
+    updateUser: builder.mutation<IUser, IUser>({
       query: (data) => ({
-        url: `${USERS_URL}/${data.userId}`,
+        url: `${USERS_URL}/${data._id}`,
         method: 'PUT',
         body: data,
       }),
-      invalidatesTags: (result, error, { userId }) => {
+      invalidatesTags: (result, error, { _id }) => {
         if (error) {
           return [];
         }
         // Invalidate the cache for the specific user
-        return [{ type: 'User', id: userId }];
+        return [{ type: 'User', id: _id }];
       },
     }),
     deleteUser: builder.mutation<void, string>({
-      query: (userId) => ({
-        url: `${USERS_URL}/${userId}`,
+      query: (id) => ({
+        url: `${USERS_URL}/${id}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['User'],

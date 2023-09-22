@@ -55,7 +55,7 @@ const UserEditScreen = () => {
       const email = values.email;
       const isAdmin = values.isAdmin;
       try {
-        await updateUser({ userId, name, email, isAdmin }).unwrap();
+        await updateUser({ _id: userId, name, email, isAdmin }).unwrap();
         toast.success('User updated');
         refetch();
         navigate('/admin/userlist');

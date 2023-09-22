@@ -1,5 +1,5 @@
-import { User } from './userTypes';
+import { IUser } from './userTypes';
 
-export interface UserInfo {
-  userInfo: User | null;
+export interface IUserInfo {
+  userInfo: IUser | null;
 }

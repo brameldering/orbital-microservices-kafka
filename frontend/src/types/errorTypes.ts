@@ -1,9 +1,9 @@
-export interface ErrorDataType {
+export interface IErrorDataType {
   message: string;
   stack: string;
 }
 
-export interface ErrorType {
+export interface IErrorType {
   status: number;
-  data: ErrorDataType;
+  data: IErrorDataType;
 }
