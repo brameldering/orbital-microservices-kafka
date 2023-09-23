@@ -2,7 +2,7 @@ import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import Card from 'react-bootstrap/Card';
-// import { ErrorType } from '../../types/errorTypes';
+// import { IErrorType } from '../../types/errorTypes';
 
 interface FormContainerErrorProps {
   error: any;

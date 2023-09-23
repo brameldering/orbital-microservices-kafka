@@ -2,10 +2,10 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Row, Col, Image } from 'react-bootstrap';
 import { CURRENCY_SYMBOL } from '../../constantsFrontend';
-import { OrderItem } from '../../types/orderTypes';
+import { IOrderItem } from '../../types/orderTypes';
 
 interface OrderItemLineProps {
-  item: OrderItem;
+  item: IOrderItem;
 }
 
 const OrderItemLine = (itemProps: OrderItemLineProps) => {

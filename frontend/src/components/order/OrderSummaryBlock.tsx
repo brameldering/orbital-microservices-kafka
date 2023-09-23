@@ -1,7 +1,6 @@
 import React from 'react';
 import { Row, Col, ListGroup } from 'react-bootstrap';
 import { CURRENCY_SYMBOL } from '../../constantsFrontend';
-import { Order } from '../../types/orderTypes';
 
 interface CurrencyFieldProps {
   label: string;

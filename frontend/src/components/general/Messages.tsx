@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { Alert } from 'react-bootstrap';
 import ErrorBlock from './ErrorBlock';
-// import { ErrorType } from '../../types/errorTypes';
+// import { IErrorType } from '../../types/errorTypes';
 // import { PayloadAction } from '@reduxjs/toolkit';
 
 interface MessageProps {

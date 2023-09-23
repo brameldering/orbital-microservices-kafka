@@ -49,14 +49,6 @@ export const orderApiSlice = apiSlice.injectEndpoints({
       providesTags: (result, error, id) => [{ type: 'Order', id }],
     }),
 
-    // Get the PayPal client ID
-    getPaypalClientId: builder.query<IPayPalClientId, void>({
-      query: () => ({
-        url: PAYPAL_URL,
-      }),
-      keepUnusedDataFor: 60 * 60 * 24,
-    }),
-
     // Pay for an order
     payOrder: builder.mutation<
       IOrder,
@@ -90,6 +82,13 @@ export const orderApiSlice = apiSlice.injectEndpoints({
         return [{ type: 'Order', id: orderId }];
       },
     }),
+    // Get the PayPal client ID
+    getPaypalClientId: builder.query<IPayPalClientId, void>({
+      query: () => ({
+        url: PAYPAL_URL,
+      }),
+      keepUnusedDataFor: 60 * 60 * 24,
+    }),
   }),
 });
 
@@ -99,7 +98,7 @@ export const {
   useCreateOrderMutation,
   useGetMyOrdersQuery,
   useGetOrderDetailsQuery,
-  useGetPaypalClientIdQuery,
   usePayOrderMutation,
   useDeliverOrderMutation,
+  useGetPaypalClientIdQuery,
 } = orderApiSlice;
