@@ -9,6 +9,7 @@ import {
   notFound,
   errorHandler,
 } from './general/middleware/errorMiddleware.js';
+import configRoutes from './config/configRoutes.js';
 import productRoutes from './product/routes/productRoutes.js';
 import uploadRoutes from './product/routes/uploadImageRoutes.js';
 import userRoutes from './user/routes/userRoutes.js';
@@ -33,15 +34,11 @@ app.use(cookieParser());
 app.use(configureCORS);
 
 // Controllers
+app.use('/api/config/v1', configRoutes);
 app.use('/api/products/v1', productRoutes);
 app.use('/api/upload/v1', uploadRoutes);
 app.use('/api/users/v1', userRoutes);
 app.use('/api/orders/v1', orderRoutes);
-
-// API to provide the PAYPAL_CLIENT_ID from .env to frontend
-app.get('/api/config/v1/paypal', (req, res) =>
-  res.send({ clientId: process.env.PAYPAL_CLIENT_ID })
-);
 
 // Set build folder and default route for production or development
 if (process.env.NODE_ENV === 'production') {
