@@ -8,6 +8,7 @@ import {
   usePayPalScriptReducer,
   SCRIPT_LOADING_STATE,
 } from '@paypal/react-paypal-js';
+// import { OnApproveActions } from '@paypal/paypal-js/types/components/buttons';
 import { toast } from 'react-toastify';
 import Meta from '../../components/general/Meta';
 import Loader from '../../components/general/Loader';
@@ -97,8 +98,10 @@ const OrderScreen = () => {
     paypalDispatch,
   ]);
 
-  function onApprove(actions: any) {
+  function onApprove(data: any, actions: any) {
     console.log('== onApprove ===');
+    console.log(actions);
+    // if (actions.order) {
     try {
       return actions.order.capture().then(async function (details: any) {
         console.log('== payOrder ===');
@@ -112,6 +115,9 @@ const OrderScreen = () => {
           toast.success('Order is paid');
         }
       });
+      // } else {
+      //   throw new Error('Error approving paypal payment');
+      // }
     } catch (err: any) {
       console.log('=== onApprove error');
       console.log(err);

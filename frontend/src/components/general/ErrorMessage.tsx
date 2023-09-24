@@ -37,6 +37,8 @@ const isErrorWithStatusAndData = (
 
 // Create IError object from either IStandardError or IErrorWithStatusAndData
 const deriveErrorData = (error: unknown): IError => {
+  console.log('Object.getOwnPropertyNames(error)');
+  console.log(Object.getOwnPropertyNames(error));
   let errorObject: IError = { status: 0, message: '', stack: '' };
   try {
     if (isErrorWithStatusAndData(error)) {
