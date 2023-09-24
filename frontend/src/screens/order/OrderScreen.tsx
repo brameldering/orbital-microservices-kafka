@@ -98,6 +98,31 @@ const OrderScreen = () => {
     paypalDispatch,
   ]);
 
+  function createOrder(data: any, actions: any) {
+    if (!order || !order.totalPrice)
+      throw new Error('THIS ERROR SHOULD NOT HAPPEN, TO IMPROVE HANDLING THIS');
+    try {
+      console.log('=== createOrder');
+      return actions.order
+        .create({
+          purchase_units: [
+            {
+              description: 'Orbital order',
+              reference_id: order.sequenceOrderId,
+              amount: { value: order.totalPrice },
+            },
+          ],
+        })
+        .then((orderID: string) => {
+          return orderID;
+        });
+    } catch (err) {
+      console.log('=== createOrder Error');
+      console.log(err);
+      setPayPalError(err);
+    }
+  }
+
   function onApprove(data: any, actions: any) {
     console.log('== onApprove ===');
     console.log(actions);
@@ -112,7 +137,7 @@ const OrderScreen = () => {
         if (errorPayingOrder) {
           setPayPalError(errorPayingOrder);
         } else {
-          toast.success('Order is paid');
+          toast.success('Order is paid with orderId: ' + orderId);
         }
       });
       // } else {
@@ -140,29 +165,6 @@ const OrderScreen = () => {
     console.log('=== onPayPalError');
     console.log(err);
     setPayPalError(err);
-  }
-
-  function createOrder(data: any, actions: any) {
-    if (!order || !order.totalPrice)
-      throw new Error('THIS ERROR SHOULD NOT HAPPEN, TO IMPROVE HANDLING THIS');
-    try {
-      console.log('=== createOrder');
-      return actions.order
-        .create({
-          purchase_units: [
-            {
-              amount: { value: order.totalPrice },
-            },
-          ],
-        })
-        .then((orderID: string) => {
-          return orderID;
-        });
-    } catch (err) {
-      console.log('=== createOrder Error');
-      console.log(err);
-      setPayPalError(err);
-    }
   }
 
   const deliverHandler = async () => {
