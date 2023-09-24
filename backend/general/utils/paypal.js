@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import { ExtendedError } from '../middleware/errorMiddleware.js';
+import { ExtendedError } from '../../middleware/errorMiddleware.js';
 dotenv.config();
 const { PAYPAL_CLIENT_ID, PAYPAL_APP_SECRET, PAYPAL_API_URL } = process.env;
 

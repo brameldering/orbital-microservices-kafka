@@ -1,6 +1,6 @@
-import asyncHandler from '../../general/middleware/asyncHandler.js';
-import { ExtendedError } from '../../general/middleware/errorMiddleware.js';
-import { uploadImageToCloudinary } from '../fileUploadHelpers/uploadImageToCloudinary.js';
+import asyncHandler from '../middleware/asyncHandler.js';
+import { ExtendedError } from '../middleware/errorMiddleware.js';
+import { uploadImageToCloudinary } from './fileUploadHelpers/uploadImageToCloudinary.js';
 
 // ================ Upload image ================
 // @desc    Upload image to cloudinary

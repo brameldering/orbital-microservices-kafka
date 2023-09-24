@@ -3,17 +3,14 @@ import express from 'express';
 // import compression from 'compression';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
-import connectDB from './general/config/db.js';
-import configureCORS from './general/middleware/configureCORS.js';
-import {
-  notFound,
-  errorHandler,
-} from './general/middleware/errorMiddleware.js';
+import connectDB from './general/db/db.js';
+import configureCORS from './middleware/configureCORS.js';
+import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 import configRoutes from './config/configRoutes.js';
-import productRoutes from './product/routes/productRoutes.js';
-import uploadRoutes from './product/routes/uploadImageRoutes.js';
-import userRoutes from './user/routes/userRoutes.js';
-import orderRoutes from './order/routes/orderRoutes.js';
+import productRoutes from './product/productRoutes.js';
+import uploadRoutes from './product/uploadImageRoutes.js';
+import userRoutes from './user/userRoutes.js';
+import orderRoutes from './order/orderRoutes.js';
 
 dotenv.config();
 const port = process.env.PORT || 5000;

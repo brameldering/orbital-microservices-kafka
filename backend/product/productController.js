@@ -1,8 +1,8 @@
-import asyncHandler from '../../general/middleware/asyncHandler.js';
-import { ExtendedError } from '../../general/middleware/errorMiddleware.js';
-import IdSequence from '../../general/models/idSequenceModel.js';
-import Product from '../models/productModel.js';
-import { CLOUDINARY_SAMPLE_IMAGE_URL } from '../../constantsBackend.js';
+import asyncHandler from '../middleware/asyncHandler.js';
+import { ExtendedError } from '../middleware/errorMiddleware.js';
+import IdSequence from '../general/models/idSequenceModel.js';
+import Product from './productModel.js';
+import { CLOUDINARY_SAMPLE_IMAGE_URL } from '../constantsBackend.js';
 
 // @desc    Fetch all products
 // @route   GET /api/products/v1

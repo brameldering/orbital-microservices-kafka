@@ -2,12 +2,12 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import colors from 'colors';
 
-import connectDB from './general/config/db.js';
+import connectDB from './general/db/db.js';
 
 import IdSequence from './general/models/idSequenceModel.js';
-import Product from './product/models/productModel.js';
-import User from './user/models/userModel.js';
-import Order from './order/models/orderModel.js';
+import Product from './product/productModel.js';
+import User from './user/userModel.js';
+import Order from './order/orderModel.js';
 
 import idSequences from './general/seederdata/idSequences.js';
 import users from './general/seederdata/users.js';

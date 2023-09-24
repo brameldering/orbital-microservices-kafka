@@ -1,7 +1,7 @@
-import asyncHandler from '../../general/middleware/asyncHandler.js';
-import { ExtendedError } from '../../general/middleware/errorMiddleware.js';
-import User from '../models/userModel.js';
-import generateToken from '../../general/utils/generateToken.js';
+import asyncHandler from '../middleware/asyncHandler.js';
+import { ExtendedError } from '../middleware/errorMiddleware.js';
+import User from './userModel.js';
+import generateToken from '../general/utils/generateToken.js';
 
 // @desc    Get all users
 // @route   GET /api/users/v1

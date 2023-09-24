@@ -1,14 +1,14 @@
 import mongoose from 'mongoose';
-import asyncHandler from '../../general/middleware/asyncHandler.js';
-import { ExtendedError } from '../../general/middleware/errorMiddleware.js';
-import IdSequence from '../../general/models/idSequenceModel.js';
-import Order from '../models/orderModel.js';
-import Product from '../../product/models/productModel.js';
-import { calcPrices } from '../../general/utils/calcPrices.js';
+import asyncHandler from '../middleware/asyncHandler.js';
+import { ExtendedError } from '../middleware/errorMiddleware.js';
+import IdSequence from '../general/models/idSequenceModel.js';
+import Order from './orderModel.js';
+import Product from '../product/productModel.js';
+import { calcPrices } from '../general/utils/calcPrices.js';
 import {
   verifyPayPalPayment,
   checkIfNewTransaction,
-} from '../../general/utils/paypal.js';
+} from '../general/utils/paypal.js';
 
 // @desc    Get all orders
 // @route   GET /api/orders/v1

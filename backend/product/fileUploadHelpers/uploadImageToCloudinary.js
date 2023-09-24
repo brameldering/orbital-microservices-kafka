@@ -1,7 +1,7 @@
 import multer from 'multer';
 import { v2 as cloudinary } from 'cloudinary';
-import asyncHandler from '../../general/middleware/asyncHandler.js';
-import { ExtendedError } from '../../general/middleware/errorMiddleware.js';
+import asyncHandler from '../../middleware/asyncHandler.js';
+import { ExtendedError } from '../../middleware/errorMiddleware.js';
 import fileFilter from './fileFilter.js';
 import { MAX_IMAGE_FILE_SIZE } from '../../constantsBackend.js';
 

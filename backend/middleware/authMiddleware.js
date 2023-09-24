@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import asyncHandler from './asyncHandler.js';
 import { ExtendedError } from './errorMiddleware.js';
 
-import User from '../../user/models/userModel.js';
+import User from '../user/userModel.js';
 
 // User must be authenticated
 const protect = asyncHandler(async (req, res, next) => {

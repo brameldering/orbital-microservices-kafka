@@ -1,4 +1,4 @@
-import asyncHandler from '../general/middleware/asyncHandler.js';
+import asyncHandler from '../middleware/asyncHandler.js';
 
 // @desc    Get PayPal client id from .env
 // @route   GET /api/config/v1/paypalclientid
