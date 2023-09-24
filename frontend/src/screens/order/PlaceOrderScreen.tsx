@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Button, Row, Col, ListGroup } from 'react-bootstrap';
+import { Button, Row, Col, ListGroup, Alert } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
 import Meta from '../../components/general/Meta';
 import Loader from '../../components/general/Loader';
-import { Message, ErrorMessage } from '../../components/general/Messages';
+import ErrorMessage from '../../components/general/ErrorMessage';
 import CheckoutSteps from '../../components/order/CheckoutSteps';
 import OrderItemLine from '../../components/order/OrderItemLine';
 import OrderSummaryBlock from '../../components/order/OrderSummaryBlock';
@@ -81,7 +81,7 @@ const PlaceOrderScreen = () => {
             <ListGroup.Item>
               <h2>Order Items</h2>
               {cart.cartItems.length === 0 ? (
-                <Message variant='info'>Your cart is empty</Message>
+                <Alert variant='info'>Your cart is empty</Alert>
               ) : (
                 <ListGroup variant='flush'>
                   {cart.cartItems.map((item, index) => (

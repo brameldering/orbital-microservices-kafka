@@ -1,12 +1,20 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { Row, Col, Image, ListGroup, Button, Form } from 'react-bootstrap';
+import {
+  Row,
+  Col,
+  Image,
+  ListGroup,
+  Button,
+  Form,
+  Alert,
+} from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
 import { toast } from 'react-toastify';
 import Meta from '../../components/general/Meta';
 import Loader from '../../components/general/Loader';
-import { Message, ErrorMessage } from '../../components/general/Messages';
+import ErrorMessage from '../../components/general/ErrorMessage';
 import Rating from '../../components/product/Rating';
 import {
   useGetProductDetailsQuery,
@@ -184,7 +192,7 @@ const ProductScreen = () => {
             <Col md={6}>
               <h2>Reviews</h2>
               {product.reviews.length === 0 && (
-                <Message variant='info'>No Reviews</Message>
+                <Alert variant='info'>No Reviews</Alert>
               )}
               <ListGroup variant='flush'>
                 {product.reviews.map((review) => (
@@ -234,9 +242,9 @@ const ProductScreen = () => {
                       </Button>
                     </Form>
                   ) : (
-                    <Message variant='info'>
+                    <Alert variant='info'>
                       Please <Link to='/login'>sign in</Link> to write a review
-                    </Message>
+                    </Alert>
                   )}
                 </ListGroup.Item>
               </ListGroup>

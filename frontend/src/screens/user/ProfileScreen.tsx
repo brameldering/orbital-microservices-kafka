@@ -10,7 +10,7 @@ import FormContainer from '../../components/form/FormContainer';
 import { TextField, EmailField } from '../../components/form/FormComponents';
 import Meta from '../../components/general/Meta';
 import Loader from '../../components/general/Loader';
-import { ErrorMessage } from '../../components/general/Messages';
+import ErrorMessage from '../../components/general/ErrorMessage';
 import { useUpdateProfileMutation } from '../../slices/usersApiSlice';
 import type { RootState } from '../../store';
 

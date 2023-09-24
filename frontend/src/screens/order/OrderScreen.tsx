@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { Row, Col, ListGroup, Button } from 'react-bootstrap';
+import { Row, Col, ListGroup, Button, Alert } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
 import {
   PayPalButtons,
@@ -11,7 +11,7 @@ import {
 import { toast } from 'react-toastify';
 import Meta from '../../components/general/Meta';
 import Loader from '../../components/general/Loader';
-import { Message, ErrorMessage } from '../../components/general/Messages';
+import ErrorMessage from '../../components/general/ErrorMessage';
 import OrderItemLine from '../../components/order/OrderItemLine';
 import OrderSummaryBlock from '../../components/order/OrderSummaryBlock';
 import {
@@ -40,6 +40,12 @@ const OrderScreen = () => {
     error: errorLoading,
   } = useGetOrderDetailsQuery(orderId);
 
+  const {
+    data: payPalClientId,
+    isLoading: loadingPayPalClientId,
+    error: errorLoadingPayPalClientId,
+  } = useGetPaypalClientIdQuery();
+
   const [payOrder, { isLoading: payingOrder, error: errorPayingOrder }] =
     usePayOrderMutation();
 
@@ -50,34 +56,35 @@ const OrderScreen = () => {
 
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
 
-  const {
-    data: paypal,
-    isLoading: loadingPayPalClientId,
-    error: errorLoadingPayPalClientId,
-  } = useGetPaypalClientIdQuery();
-
   useEffect(() => {
+    console.log('== orderScreen == useEffect ===');
     if (
       !errorLoadingPayPalClientId &&
       !loadingPayPalClientId &&
-      paypal &&
-      paypal.clientId
+      payPalClientId &&
+      payPalClientId.clientId
     ) {
+      console.log('== loadPaypalScript.paypalDispatch - resetOptions ===');
       const loadPaypalScript = async () => {
         paypalDispatch({
           type: 'resetOptions',
           value: {
-            clientId: paypal.clientId,
+            clientId: payPalClientId.clientId,
             currency: CURRENCY_PAYPAL,
           },
         });
+        console.log(
+          '== loadPaypalScript.paypalDispatch - setLoadingStatus ==='
+        );
         paypalDispatch({
           type: 'setLoadingStatus',
           value: SCRIPT_LOADING_STATE['PENDING'],
         });
       };
       if (order && !order.isPaid) {
+        console.log('== !order.isPaid ===');
         if (!window.paypal) {
+          console.log('== !window.paypal ===');
           loadPaypalScript();
         }
       }
@@ -86,13 +93,17 @@ const OrderScreen = () => {
     errorLoadingPayPalClientId,
     loadingPayPalClientId,
     order,
-    paypal,
+    payPalClientId,
     paypalDispatch,
   ]);
 
   function onApprove(actions: any) {
+    console.log('== onApprove ===');
     try {
       return actions.order.capture().then(async function (details: any) {
+        console.log('== payOrder ===');
+        console.log('== orderId ===', orderId);
+        console.log('== details ===', details);
         await payOrder({ orderId, details }).unwrap();
         refetch();
         if (errorPayingOrder) {
@@ -101,7 +112,9 @@ const OrderScreen = () => {
           toast.success('Order is paid');
         }
       });
-    } catch (err) {
+    } catch (err: any) {
+      console.log('=== onApprove error');
+      console.log(err);
       setPayPalError(err);
     }
   }
@@ -118,6 +131,8 @@ const OrderScreen = () => {
   // }
 
   function onPayPalError(err: any) {
+    console.log('=== onPayPalError');
+    console.log(err);
     setPayPalError(err);
   }
 
@@ -125,6 +140,7 @@ const OrderScreen = () => {
     if (!order || !order.totalPrice)
       throw new Error('THIS ERROR SHOULD NOT HAPPEN, TO IMPROVE HANDLING THIS');
     try {
+      console.log('=== createOrder');
       return actions.order
         .create({
           purchase_units: [
@@ -137,6 +153,8 @@ const OrderScreen = () => {
           return orderID;
         });
     } catch (err) {
+      console.log('=== createOrder Error');
+      console.log(err);
       setPayPalError(err);
     }
   }
@@ -189,11 +207,11 @@ const OrderScreen = () => {
                   {order.shippingAddress.country}
                 </p>
                 {order.isDelivered ? (
-                  <Message variant='success'>
+                  <Alert variant='success'>
                     Delivered on {order.deliveredAt}
-                  </Message>
+                  </Alert>
                 ) : (
-                  <Message variant='info'>Not Delivered</Message>
+                  <Alert variant='info'>Not Delivered</Alert>
                 )}
               </ListGroup.Item>
               <ListGroup.Item>
@@ -203,15 +221,15 @@ const OrderScreen = () => {
                   {order.paymentMethod}
                 </p>
                 {order.isPaid ? (
-                  <Message variant='success'>Paid on {order.paidAt}</Message>
+                  <Alert variant='success'>Paid on {order.paidAt}</Alert>
                 ) : (
-                  <Message variant='info'>Not Paid</Message>
+                  <Alert variant='info'>Not Paid</Alert>
                 )}
               </ListGroup.Item>
               <ListGroup.Item>
                 <h2>Order Items</h2>
                 {order.orderItems.length === 0 ? (
-                  <Message variant='info'>Order is empty</Message>
+                  <Alert variant='info'>Order is empty</Alert>
                 ) : (
                   <ListGroup variant='flush'>
                     {order &&

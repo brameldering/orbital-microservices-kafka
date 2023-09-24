@@ -10,7 +10,7 @@ import FormContainer from '../../components/form/FormContainer';
 import { PasswordField } from '../../components/form/FormComponents';
 import Meta from '../../components/general/Meta';
 import Loader from '../../components/general/Loader';
-import { ErrorMessage } from '../../components/general/Messages';
+import ErrorMessage from '../../components/general/ErrorMessage';
 import ModalConfirmBox from '../../components/general/ModalConfirmBox';
 import { setCredentials } from '../../slices/authSlice';
 import { useUpdatePasswordMutation } from '../../slices/usersApiSlice';

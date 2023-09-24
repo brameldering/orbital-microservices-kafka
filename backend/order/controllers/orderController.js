@@ -17,7 +17,9 @@ import {
 // @res     status(200).json(orders)
 const getOrders = asyncHandler(async (req, res) => {
   const orders = await Order.find({}).populate('user', 'name');
+  console.log('= getOrders ==============================');
   console.log(orders);
+  console.log('==========================================');
   res.status(200).json(orders);
 });
 
@@ -37,7 +39,9 @@ const createOrder = asyncHandler(async (req, res) => {
     const itemsFromDB = await Product.find({
       _id: { $in: orderItems.map((x) => x.productId) },
     });
+    console.log('= createOrder ==============================');
     console.log(itemsFromDB);
+    console.log('============================================');
     // map over the order items and use the price from our items from database
     const dbOrderItems = orderItems.map((itemFromClient) => {
       const matchingItemFromDB = itemsFromDB.find(
@@ -101,8 +105,9 @@ const getOrderById = asyncHandler(async (req, res) => {
     'user',
     'name email'
   );
-  console.log('getOrderById');
+  console.log('= getOrderById ==============================');
   console.log(order);
+  console.log('=============================================');
   if (order) {
     res.status(200).json(order);
   } else {
@@ -120,7 +125,10 @@ const getOrderById = asyncHandler(async (req, res) => {
 const updateOrderToPaid = asyncHandler(async (req, res) => {
   // NOTE: here we need to verify the payment was made to PayPal before marking
   // the order as paid
+  console.log('= updateOrderToPaid ==============================');
   const { verified, value } = await verifyPayPalPayment(req.body.id);
+  console.log('verified', verified);
+  console.log('value', value);
   if (!verified) throw new ExtendedError('Payment not verified');
   // check if this transaction has been used before
   const isNewTransaction = await checkIfNewTransaction(Order, req.body.id);

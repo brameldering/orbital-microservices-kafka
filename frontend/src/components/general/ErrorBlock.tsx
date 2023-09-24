@@ -2,14 +2,13 @@ import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import Card from 'react-bootstrap/Card';
-// import { IErrorType } from '../../types/errorTypes';
 
 interface FormContainerErrorProps {
-  error: any;
+  errorMessage: string;
 }
 
 const ErrorBlock: React.FunctionComponent<FormContainerErrorProps> = ({
-  error,
+  errorMessage,
 }) => {
   return (
     <Container>
@@ -25,11 +24,7 @@ const ErrorBlock: React.FunctionComponent<FormContainerErrorProps> = ({
             <p>
               <strong>An Error occured on our side</strong>
             </p>
-            <p>
-              <strong>Status code:</strong> {error?.status}
-            </p>
-            <strong>Error message:</strong>{' '}
-            {error?.data?.message || error?.error}
+            {errorMessage}
           </Card>
         </Col>
       </Row>

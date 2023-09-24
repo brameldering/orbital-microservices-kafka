@@ -5,7 +5,7 @@ import { Table, Button, Row, Col } from 'react-bootstrap';
 import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
 import Meta from '../../components/general/Meta';
 import Loader from '../../components/general/Loader';
-import { ErrorMessage } from '../../components/general/Messages';
+import ErrorMessage from '../../components/general/ErrorMessage';
 import Paginate from '../../components/general/Paginate';
 import ModalConfirmBox from '../../components/general/ModalConfirmBox';
 import {

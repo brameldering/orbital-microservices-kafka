@@ -4,7 +4,7 @@ import { Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Meta from '../components/general/Meta';
 import Loader from '../components/general/Loader';
-import { ErrorMessage } from '../components/general/Messages';
+import ErrorMessage from '../components/general/ErrorMessage';
 import Paginate from '../components/general/Paginate';
 import Product from '../components/product/Product';
 import { useGetProductsQuery } from '../slices/productsApiSlice';

@@ -1,11 +1,18 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Row, Col, ListGroup, Image, Form, Button } from 'react-bootstrap';
+import {
+  Row,
+  Col,
+  ListGroup,
+  Image,
+  Form,
+  Button,
+  Alert,
+} from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
 import { FaTrash } from 'react-icons/fa';
 import Meta from '../../components/general/Meta';
-import { Message } from '../../components/general/Messages';
 import CheckoutSteps from '../../components/order/CheckoutSteps';
 import { addToCart, removeFromCart } from '../../slices/cartSlice';
 import { CURRENCY_SYMBOL } from '../../constantsFrontend';
@@ -46,9 +53,9 @@ const CartScreen = () => {
         <Col md={8}>
           <h1 style={{ marginBottom: '20px' }}>Shopping Cart</h1>
           {cartItems.length === 0 ? (
-            <Message variant='info'>
+            <Alert variant='info'>
               Your cart is empty <Link to='/'>Go to shop</Link>
-            </Message>
+            </Alert>
           ) : (
             <ListGroup variant='flush'>
               {cartItems.map((item) => (
