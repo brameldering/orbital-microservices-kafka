@@ -27,6 +27,7 @@ import type { RootState } from '../../store';
 const OrderScreen = () => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const [payPalError, setPayPalError] = useState<any>();
+  const [deliverError, setDeliverError] = useState<any>();
 
   const { id } = useParams();
   let orderId: string = '';
@@ -55,52 +56,51 @@ const OrderScreen = () => {
     { isLoading: settingDeliverOrder, error: errorSettingDeliverOrder },
   ] = useDeliverOrderMutation();
 
-  const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
+  const [{ isPending, isRejected }, payPalDispatch] = usePayPalScriptReducer();
 
+  const loadPayPalScript = async () => {
+    console.log('== loadPayPalScript.payPalDispatch - resetOptions ===');
+    if (payPalClientId && payPalClientId.clientId) {
+      payPalDispatch({
+        type: 'resetOptions',
+        value: {
+          clientId: payPalClientId.clientId,
+          currency: CURRENCY_PAYPAL,
+        },
+      });
+      console.log('== loadPayPalScript.payPalDispatch - setLoadingStatus ===');
+      payPalDispatch({
+        type: 'setLoadingStatus',
+        value: SCRIPT_LOADING_STATE['PENDING'],
+      });
+    } else {
+      throw new Error('Error: PayPal ClientId not defined');
+    }
+  };
+
+  // Perform loadPayPalScript when order info has been loaded
   useEffect(() => {
     console.log('== orderScreen == useEffect ===');
-    if (
-      !errorLoadingPayPalClientId &&
-      !loadingPayPalClientId &&
-      payPalClientId &&
-      payPalClientId.clientId
-    ) {
-      console.log('== loadPaypalScript.paypalDispatch - resetOptions ===');
-      const loadPaypalScript = async () => {
-        paypalDispatch({
-          type: 'resetOptions',
-          value: {
-            clientId: payPalClientId.clientId,
-            currency: CURRENCY_PAYPAL,
-          },
-        });
-        console.log(
-          '== loadPaypalScript.paypalDispatch - setLoadingStatus ==='
-        );
-        paypalDispatch({
-          type: 'setLoadingStatus',
-          value: SCRIPT_LOADING_STATE['PENDING'],
-        });
-      };
+    if (!errorLoadingPayPalClientId && !loadingPayPalClientId) {
+      // if !order.isPaid and paypal window not yet shown then load script
       if (order && !order.isPaid) {
         console.log('== !order.isPaid ===');
         if (!window.paypal) {
           console.log('== !window.paypal ===');
-          loadPaypalScript();
+          try {
+            loadPayPalScript();
+          } catch (err) {
+            console.log('isRejected', isRejected);
+            setPayPalError(err);
+          }
         }
       }
     }
-  }, [
-    errorLoadingPayPalClientId,
-    loadingPayPalClientId,
-    order,
-    payPalClientId,
-    paypalDispatch,
-  ]);
+  }, [errorLoadingPayPalClientId, loadingPayPalClientId, order]);
 
   function createOrder(data: any, actions: any) {
     if (!order || !order.totalPrice)
-      throw new Error('THIS ERROR SHOULD NOT HAPPEN, TO IMPROVE HANDLING THIS');
+      throw new Error('Error: order does not exist');
     try {
       console.log('=== createOrder');
       return actions.order
@@ -140,9 +140,6 @@ const OrderScreen = () => {
           toast.success('Order is paid with orderId: ' + orderId);
         }
       });
-      // } else {
-      //   throw new Error('Error approving paypal payment');
-      // }
     } catch (err: any) {
       console.log('=== onApprove error');
       console.log(err);
@@ -172,7 +169,7 @@ const OrderScreen = () => {
       await deliverOrder(orderId).unwrap();
       refetch();
     } catch (err) {
-      // Do nothing because the useDeliverOrderMutation will set errorSettingDeliverOrder
+      setDeliverError(err);
     }
   };
 
@@ -290,6 +287,7 @@ const OrderScreen = () => {
                   </ListGroup.Item>
                 )}
                 {settingDeliverOrder && <Loader />}
+                {deliverError && <ErrorMessage error={deliverError} />}
                 {userInfo &&
                   userInfo.isAdmin &&
                   order &&

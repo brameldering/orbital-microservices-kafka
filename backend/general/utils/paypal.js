@@ -34,24 +34,24 @@ async function getPayPalAccessToken() {
 
   if (!response.ok) throw new ExtendedError('Failed to get access token');
 
-  const paypalData = await response.json();
+  const payPalData = await response.json();
 
-  return paypalData.access_token;
+  return payPalData.access_token;
 }
 
 /**
  * Verifies a PayPal payment by making a request to the PayPal API.
  * @see {@link https://developer.paypal.com/docs/api/orders/v2/#orders_get}
  *
- * @param {string} paypalTransactionId - The PayPal transaction ID to be verified.
+ * @param {string} payPalTransactionId - The PayPal transaction ID to be verified.
  * @returns {Promise<Object>} An object with properties 'verified' indicating if the payment is completed and 'value' indicating the payment amount.
  * @throws {ExtendedError} If the request is not successful.
  *
  */
-export async function verifyPayPalPayment(paypalTransactionId) {
+export async function verifyPayPalPayment(payPalTransactionId) {
   const accessToken = await getPayPalAccessToken();
-  const paypalResponse = await fetch(
-    `${PAYPAL_API_URL}/v2/checkout/orders/${paypalTransactionId}`,
+  const payPalResponse = await fetch(
+    `${PAYPAL_API_URL}/v2/checkout/orders/${payPalTransactionId}`,
     {
       headers: {
         'Content-Type': 'application/json',
@@ -59,12 +59,12 @@ export async function verifyPayPalPayment(paypalTransactionId) {
       },
     }
   );
-  if (!paypalResponse.ok) throw new ExtendedError('Failed to verify payment');
+  if (!payPalResponse.ok) throw new ExtendedError('Failed to verify payment');
 
-  const paypalData = await paypalResponse.json();
+  const payPalData = await payPalResponse.json();
   return {
-    verified: paypalData.status === 'COMPLETED',
-    value: paypalData.purchase_units[0].amount.value,
+    verified: payPalData.status === 'COMPLETED',
+    value: payPalData.purchase_units[0].amount.value,
   };
 }
 
@@ -72,16 +72,16 @@ export async function verifyPayPalPayment(paypalTransactionId) {
  * Checks if a PayPal transaction is new by comparing the transaction ID with existing orders in the database.
  *
  * @param {Mongoose.Model} orderModel - The Mongoose model for the orders in the database.
- * @param {string} paypalTransactionId - The PayPal transaction ID to be checked.
+ * @param {string} payPalTransactionId - The PayPal transaction ID to be checked.
  * @returns {Promise<boolean>} Returns true if it is a new transaction (i.e., the transaction ID does not exist in the database), false otherwise.
  * @throws {ExtendedError} If there's an error in querying the database.
  *
  */
-export async function checkIfNewTransaction(orderModel, paypalTransactionId) {
+export async function checkIfNewTransaction(orderModel, payPalTransactionId) {
   try {
-    // Find all documents where Order.paymentResult.id is the same as the id passed paypalTransactionId
+    // Find all documents where Order.paymentResult.id is the same as the id passed payPalTransactionId
     const orders = await orderModel.find({
-      'paymentResult.id': paypalTransactionId,
+      'paymentResult.id': payPalTransactionId,
     });
 
     // If there are no such orders, then it's a new transaction.
