@@ -89,6 +89,9 @@ CLOUDINARY_API_SECRET = <cloudinary api secret>
 PRODUCTS_PER_PAGE = <max number of products per page>
 DEFAULT_RESET_PASSWORD= <default password which is set during reset pasword function>
 
+VAT_PERCENTAGE=<VAT percentage in whole numbers, e.g. 21 for 21%>
+SHIPPING_FEE=<shipping price in euros>
+
 ```
 
 ### Install Dependencies (frontend & backend)

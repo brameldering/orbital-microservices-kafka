@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
@@ -7,19 +8,34 @@ import Loader from '../components/general/Loader';
 import ErrorMessage from '../components/general/ErrorMessage';
 import Paginate from '../components/general/Paginate';
 import Product from '../components/product/Product';
+import { setConfig } from '../slices/configSlice';
 import { useGetProductsQuery } from '../slices/productsApiSlice';
+import { useGetVATandShippingFeeQuery } from '../slices/ordersApiSlice';
 
 const HomeScreen = () => {
+  const dispatch = useDispatch();
   const { pageNumber, keyword } = useParams();
 
   const {
-    data,
-    isLoading,
-    error: errorLoading,
+    data: catalogData,
+    isLoading: isLoadingCatalog,
+    error: errorLoadingCatalog,
   } = useGetProductsQuery({
     keyword,
     pageNumber,
   });
+
+  const {
+    data: VATandShippingFee,
+    isLoading: loadingVATandShippingFee,
+    error: errorLoadingVATandShippingFee,
+  } = useGetVATandShippingFeeQuery();
+
+  useEffect(() => {
+    if (VATandShippingFee) {
+      dispatch(setConfig(VATandShippingFee));
+    }
+  }, [VATandShippingFee]);
 
   return (
     <>
@@ -28,29 +44,35 @@ const HomeScreen = () => {
           Go Back
         </Link>
       )}
-      {isLoading ? (
+      {isLoadingCatalog || loadingVATandShippingFee ? (
         <Loader />
-      ) : errorLoading ? (
-        <ErrorMessage error={errorLoading} />
+      ) : errorLoadingCatalog ? (
+        <ErrorMessage error={errorLoadingCatalog} />
+      ) : errorLoadingVATandShippingFee ? (
+        <ErrorMessage error={errorLoadingVATandShippingFee} />
       ) : (
         <>
           <Meta title='Products' />
           <h1>Products</h1>
+          <p>VATPercentage: {VATandShippingFee?.VATPercentage}</p>
+          <p>shippingFee: {VATandShippingFee?.ShippingFee}</p>
           <Row>
-            {data &&
-              data.products.length > 0 &&
-              data.products.map((product) => (
+            {catalogData &&
+              catalogData.products.length > 0 &&
+              catalogData.products.map((product) => (
                 <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
                   <Product product={product} />
                 </Col>
               ))}
-            {!data ||
-              (data.products.length === 0 && <p>There are no products</p>)}
+            {!catalogData ||
+              (catalogData.products.length === 0 && (
+                <p>There are no products</p>
+              ))}
           </Row>
-          {data && (
+          {catalogData && (
             <Paginate
-              pages={data.pages}
-              page={data.page}
+              pages={catalogData.pages}
+              page={catalogData.page}
               keyword={keyword ? keyword : ''}
             />
           )}

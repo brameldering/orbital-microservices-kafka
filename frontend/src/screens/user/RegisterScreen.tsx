@@ -24,11 +24,10 @@ import type { RootState } from '../../store';
 function RegisterScreen() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { userInfo } = useSelector((state: RootState) => state.auth);
 
   const [register, { isLoading: registering, error: errorRegistering }] =
     useRegisterMutation();
-
-  const { userInfo } = useSelector((state: RootState) => state.auth);
 
   const { search } = useLocation();
   const sp = new URLSearchParams(search);

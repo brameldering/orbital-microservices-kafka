@@ -1,6 +1,13 @@
 import { apiSlice } from './apiSlice';
-import { ORDERS_URL, PAYPAL_URL } from '../constantsFrontend';
+import {
+  ORDERS_URL,
+  GET_VAT_AND_SHIPPING_FEE_URL,
+  GET_PAYPAL_CLIENT_ID_URL,
+} from '../constantsFrontend';
+import { IFeesConfig } from '../types/configTypes';
 import { IOrder, IPaymentResult, IPayPalClientId } from '../types/orderTypes';
+import { ICartItem } from '../types/cartTypes';
+import { ITotalAmounts } from '../types/commonTypes';
 
 // Define an API slice for orders
 export const orderApiSlice = apiSlice.injectEndpoints({
@@ -82,10 +89,25 @@ export const orderApiSlice = apiSlice.injectEndpoints({
         return [{ type: 'Order', id: orderId }];
       },
     }),
+    // Get total prices for items array
+    calcTotalAmounts: builder.mutation<ITotalAmounts, ICartItem[]>({
+      query: (order) => ({
+        url: `${ORDERS_URL}/totals`,
+        method: 'POST',
+        body: order,
+      }),
+    }),
+    // Get the VAT Percentage and Shipping Fee from .env
+    getVATandShippingFee: builder.query<IFeesConfig, void>({
+      query: () => ({
+        url: GET_VAT_AND_SHIPPING_FEE_URL,
+      }),
+      keepUnusedDataFor: 60 * 60 * 24,
+    }),
     // Get the PayPal client ID
     getPaypalClientId: builder.query<IPayPalClientId, void>({
       query: () => ({
-        url: PAYPAL_URL,
+        url: GET_PAYPAL_CLIENT_ID_URL,
       }),
       keepUnusedDataFor: 60 * 60 * 24,
     }),
@@ -100,5 +122,7 @@ export const {
   useGetOrderDetailsQuery,
   usePayOrderMutation,
   useDeliverOrderMutation,
+  useCalcTotalAmountsMutation,
+  useGetVATandShippingFeeQuery,
   useGetPaypalClientIdQuery,
 } = orderApiSlice;

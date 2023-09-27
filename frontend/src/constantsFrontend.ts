@@ -4,7 +4,9 @@ export const BASE_URL: string =
 export const PRODUCTS_URL: string = '/api/products/v1';
 export const USERS_URL: string = '/api/users/v1';
 export const ORDERS_URL: string = '/api/orders/v1';
-export const PAYPAL_URL: string = '/api/config/v1/paypalclientid';
+export const GET_VAT_AND_SHIPPING_FEE_URL: string =
+  '/api/config/v1/vatshippingfee';
+export const GET_PAYPAL_CLIENT_ID_URL: string = '/api/config/v1/paypalclientid';
 export const UPLOAD_URL: string = `/api/upload/v1/`;
 
 export const CURRENCY_SYMBOL: string = '€';

@@ -55,8 +55,10 @@ const createOrder = asyncHandler(async (req, res) => {
       };
     });
     // calculate prices
-    const { itemsPrice, taxPrice, shippingPrice, totalPrice } =
+    const { itemsPrice, shippingPrice, taxPrice, totalPrice } =
       calcPrices(dbOrderItems);
+    console.log('= createOrder.calcPrices ================');
+    console.log(itemsPrice, shippingPrice, taxPrice, totalPrice);
     // console.time('TimeNeededToSaveOrder');
     // Determine next orderId
     const seqNumberOrderId = await IdSequence.findOneAndUpdate(
@@ -73,8 +75,8 @@ const createOrder = asyncHandler(async (req, res) => {
       shippingAddress,
       paymentMethod,
       itemsPrice,
-      taxPrice,
       shippingPrice,
+      taxPrice,
       totalPrice,
     });
     const createdOrder = await order.save();
@@ -173,6 +175,30 @@ const updateOrderToDelivered = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Calculate total prices for cart or order items
+// @route   POST /api/orders/v1/totals
+// @access  Public
+// @req     body {items}
+// @res     status(200).json(itemsPrice, taxPrice, shippingPrice, totalPrice)
+//       or status(404).message:'Order not found'
+const calcTotalAmounts = asyncHandler(async (req, res) => {
+  const { cartItems } = req.body;
+  console.log('= calcTotalPrices ==============================');
+  console.log(cartItems);
+
+  const { itemsPrice, shippingPrice, taxPrice, totalPrice } =
+    calcPrices(cartItems);
+  console.log(itemsPrice, shippingPrice, taxPrice, totalPrice);
+  console.log('================================================');
+
+  res.status(200).json({
+    itemsPrice,
+    shippingPrice,
+    taxPrice,
+    totalPrice,
+  });
+});
+
 export {
   getOrders,
   createOrder,
@@ -180,4 +206,5 @@ export {
   getOrderById,
   updateOrderToPaid,
   updateOrderToDelivered,
+  calcTotalAmounts,
 };

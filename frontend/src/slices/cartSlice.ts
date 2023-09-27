@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { updateCart } from '../utils/cartUtils';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import type { ICart, ICartItem, IShippingAddress } from '../types/cartTypes';
+import type { ICart, ICartItem } from '../types/cartTypes';
+import type { IShippingAddress } from '../types/commonTypes';
 
 // Define the initial state
 const cartInfoLocalStorage: string | null = localStorage.getItem('cart');
@@ -29,15 +30,15 @@ const cartSlice = createSlice({
       } else {
         state.cartItems = [...state.cartItems, cartItem];
       }
-
-      // Assuming updateCart modifies the cart in some way
+      localStorage.setItem('cart', JSON.stringify(state));
       return updateCart(state);
     },
     removeFromCart: (state, action: PayloadAction<string>) => {
       state.cartItems = state.cartItems.filter(
         (x) => x.productId !== action.payload
       );
-      // Assuming updateCart modifies the cart in some way
+
+      localStorage.setItem('cart', JSON.stringify(state));
       return updateCart(state);
     },
     saveShippingAddress: (state, action: PayloadAction<IShippingAddress>) => {
@@ -52,7 +53,7 @@ const cartSlice = createSlice({
       state.cartItems = [];
       localStorage.setItem('cart', JSON.stringify(state));
     },
-    resetCart: (state) => {
+    resetCart: () => {
       // Reset the state to the initial state
       return initialState;
     },

@@ -1,4 +1,4 @@
-import { IShippingAddress } from './cartTypes';
+import { IShippingAddress } from './commonTypes';
 import { IUser } from './userTypes';
 
 export interface IOrder {

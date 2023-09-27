@@ -1,3 +1,5 @@
+import { IShippingAddress } from './commonTypes';
+
 export interface ICart {
   cartItems: Array<ICartItem>;
   shippingAddress: IShippingAddress;
@@ -15,11 +17,4 @@ export interface ICartItem {
   price: number;
   countInStock: number;
   qty: number;
-}
-
-export interface IShippingAddress {
-  address: string;
-  city: string;
-  postalCode: string;
-  country: string;
 }

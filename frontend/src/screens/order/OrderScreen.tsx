@@ -59,8 +59,9 @@ const OrderScreen = () => {
   const [{ isPending, isRejected }, payPalDispatch] = usePayPalScriptReducer();
 
   const loadPayPalScript = async () => {
-    console.log('== loadPayPalScript.payPalDispatch - resetOptions ===');
+    console.log('== loadPayPalScript');
     if (payPalClientId && payPalClientId.clientId) {
+      console.log('=======> payPalDispatch resetOptions');
       payPalDispatch({
         type: 'resetOptions',
         value: {
@@ -68,7 +69,7 @@ const OrderScreen = () => {
           currency: CURRENCY_PAYPAL,
         },
       });
-      console.log('== loadPayPalScript.payPalDispatch - setLoadingStatus ===');
+      console.log('=======> payPalDispatch setLoadingStatus');
       payPalDispatch({
         type: 'setLoadingStatus',
         value: SCRIPT_LOADING_STATE['PENDING'],
@@ -129,9 +130,9 @@ const OrderScreen = () => {
     // if (actions.order) {
     try {
       return actions.order.capture().then(async function (details: any) {
-        console.log('== payOrder ===');
-        console.log('== orderId ===', orderId);
-        console.log('== details ===', details);
+        console.log('== actions.order.capture ===');
+        console.log('== PayPal orderId ===', orderId);
+        console.log('== PayPal details ===', details);
         await payOrder({ orderId, details }).unwrap();
         refetch();
         if (errorPayingOrder) {

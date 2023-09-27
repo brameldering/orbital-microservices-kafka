@@ -1,21 +1,16 @@
-function addDecimals(num) {
-  return (Math.round(num * 100) / 100).toFixed(2);
-}
+const roundTo2Decimals = (num) => {
+  return Math.round(num * 100) / 100;
+};
 
-export function calcPrices(orderItems) {
-  // Calculate the items price
-  const itemsPrice = addDecimals(
-    orderItems.reduce((acc, item) => acc + item.price * item.qty, 0)
+export const calcPrices = (items) => {
+  const VAT_FRACTION = process.env.VAT_PERCENTAGE / 100;
+  const SHIPPING_FEE = process.env.SHIPPING_FEE;
+  // Calculate the total items price
+  const itemsPrice = roundTo2Decimals(
+    items.reduce((acc, item) => acc + item.price * item.qty, 0)
   );
-  // Calculate the shipping price
-  const shippingPrice = addDecimals(itemsPrice > 100 ? 0 : 10);
-  // Calculate the tax price
-  const taxPrice = addDecimals(Number((0.15 * itemsPrice).toFixed(2)));
-  // Calculate the total price
-  const totalPrice = (
-    Number(itemsPrice) +
-    Number(shippingPrice) +
-    Number(taxPrice)
-  ).toFixed(2);
+  const shippingPrice = roundTo2Decimals(itemsPrice > 100 ? 0 : SHIPPING_FEE);
+  const taxPrice = roundTo2Decimals(VAT_FRACTION * itemsPrice);
+  const totalPrice = roundTo2Decimals(itemsPrice + shippingPrice + taxPrice);
   return { itemsPrice, shippingPrice, taxPrice, totalPrice };
-}
+};

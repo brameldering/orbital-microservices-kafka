@@ -42,14 +42,14 @@ const ProductScreen = () => {
   const [rating, setRating] = useState('');
   const [comment, setComment] = useState('');
 
+  const { userInfo } = useSelector((state: RootState) => state.auth);
+
   const {
     data: product,
     isLoading,
     refetch,
     error: errorLoading,
   } = useGetProductDetailsQuery(productId);
-
-  const { userInfo } = useSelector((state: RootState) => state.auth);
 
   const addToCartHandler = () => {
     if (product) {

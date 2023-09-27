@@ -1,27 +1,35 @@
 import { ICart } from '../types/cartTypes';
+import { IFeesConfig } from '../types/configTypes';
 
-export const addDecimals = (num: number): number => {
-  return Number((Math.round(num * 100) / 100).toFixed(2));
+const roundTo2Decimals = (num: number): number => {
+  return Math.round(num * 100) / 100;
 };
 
 export const updateCart = (state: ICart) => {
-  // Calculate the items price
-  state.itemsPrice = addDecimals(
+  const configInfoLocalStorage: string | null =
+    localStorage.getItem('configInfo');
+
+  if (!configInfoLocalStorage) {
+    throw new Error('TO DO === HANDLE THIS ERROR');
+  }
+
+  const feesConfig: IFeesConfig = JSON.parse(configInfoLocalStorage);
+
+  state.itemsPrice = roundTo2Decimals(
     state.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0)
   );
-
-  // Calculate the shipping price: if order is over 100 then 0 otherwise 10
-  state.shippingPrice = addDecimals(state.itemsPrice > 100 ? 0 : 10);
-
-  // Calculate the tax price
-  state.taxPrice = addDecimals(0.21 * state.itemsPrice);
-
-  // Calculate the total price
-  state.totalPrice = Number(
-    (state.itemsPrice + state.shippingPrice + state.taxPrice).toFixed(2)
+  state.shippingPrice = roundTo2Decimals(
+    state.cartItems.length === 0 || state.itemsPrice > 100
+      ? 0
+      : feesConfig.ShippingFee
+  );
+  state.taxPrice = roundTo2Decimals(
+    (roundTo2Decimals(feesConfig.VATPercentage) / 100) * state.itemsPrice
+  );
+  state.totalPrice = roundTo2Decimals(
+    state.itemsPrice + state.shippingPrice + state.taxPrice
   );
 
-  // Save the cart to localStorage
   localStorage.setItem('cart', JSON.stringify(state));
 
   return state;
