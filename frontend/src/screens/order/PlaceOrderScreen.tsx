@@ -34,10 +34,10 @@ const PlaceOrderScreen = () => {
     const orderItems = cart.cartItems.map((item) => {
       return {
         productId: item.productId,
-        name: item.name,
-        qty: item.qty,
+        productName: item.productName,
         imageURL: item.imageURL,
         price: item.price,
+        qty: item.qty,
       };
     });
     try {

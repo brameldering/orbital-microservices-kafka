@@ -2,15 +2,15 @@ import mongoose from 'mongoose';
 
 const orderItemsSchema = mongoose.Schema(
   {
-    name: { type: String, required: true },
-    qty: { type: Number, required: true },
-    imageURL: { type: String, required: true },
-    price: { type: Number, required: true },
     productId: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: 'Product',
     },
+    productName: { type: String, required: true },
+    imageURL: { type: String, required: true },
+    price: { type: Number, required: true },
+    qty: { type: Number, required: true },
   },
   {
     timestamps: true,

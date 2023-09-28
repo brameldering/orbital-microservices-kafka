@@ -55,7 +55,7 @@ const ProductScreen = () => {
     if (product) {
       const cartItem: ICartItem = {
         productId: product._id,
-        name: product.name,
+        productName: product.name,
         imageURL: product.imageURL,
         price: product.price,
         countInStock: product.countInStock,
@@ -197,7 +197,7 @@ const ProductScreen = () => {
               <ListGroup variant='flush'>
                 {product.reviews.map((review) => (
                   <ListGroup.Item key={review._id}>
-                    <strong>{review.name}</strong>
+                    <strong>{review.userName}</strong>
                     <Rating value={review.rating} />
                     <p>{review.createdAt.substring(0, 10)}</p>
                     <p>{review.comment}</p>

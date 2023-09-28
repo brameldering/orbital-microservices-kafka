@@ -33,7 +33,7 @@ const OrderListScreen = () => {
           </thead>
           <tbody>
             {orders && orders.length === 0 ? (
-              <p>You have no orders</p>
+              <p>There are no orders</p>
             ) : (
               orders &&
               orders.map((order) => (

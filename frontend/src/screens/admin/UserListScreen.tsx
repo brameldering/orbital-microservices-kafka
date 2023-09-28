@@ -74,7 +74,10 @@ const UserListScreen = () => {
             </tr>
           </thead>
           <tbody>
-            {users &&
+            {users && users.length === 0 ? (
+              <p>There are no users</p>
+            ) : (
+              users &&
               users.map((user) => (
                 <tr key={user._id}>
                   <td>{user._id}</td>
@@ -105,7 +108,8 @@ const UserListScreen = () => {
                     </Button>
                   </td>
                 </tr>
-              ))}
+              ))
+            )}
           </tbody>
         </Table>
       )}

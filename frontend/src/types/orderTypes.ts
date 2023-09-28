@@ -24,10 +24,10 @@ export interface IOrder {
 export interface IOrderItem {
   _id?: string;
   productId: string;
-  name: string;
-  qty: number;
+  productName: string;
   imageURL: string;
   price: number;
+  qty: number;
   createdAt?: string;
   updatedAt?: string;
 }

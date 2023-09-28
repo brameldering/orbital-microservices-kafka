@@ -27,10 +27,10 @@ export interface IProduct extends IBaseProduct {
 
 export interface IReview {
   _id: string;
-  name: string;
+  user: string;
+  userName: string;
   rating: number;
   comment: string;
-  user: string;
   createdAt: string;
   updatedAt: string;
 }

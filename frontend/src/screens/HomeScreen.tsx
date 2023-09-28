@@ -54,8 +54,6 @@ const HomeScreen = () => {
         <>
           <Meta title='Products' />
           <h1>Products</h1>
-          <p>VATPercentage: {VATandShippingFee?.VATPercentage}</p>
-          <p>shippingFee: {VATandShippingFee?.ShippingFee}</p>
           <Row>
             {catalogData &&
               catalogData.products.length > 0 &&

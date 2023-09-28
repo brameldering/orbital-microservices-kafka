@@ -62,12 +62,12 @@ const CartScreen = () => {
                 <ListGroup.Item key={item.productId}>
                   <Row>
                     <Col md={2}>
-                      <Image src={item.imageURL} alt={item.name} fluid />
+                      <Image src={item.imageURL} alt={item.productName} fluid />
                     </Col>
                     <Col md={4}>
                       <Link
                         to={`/product/${item.productId}?goBackPath=${currentPath}`}>
-                        {item.name}
+                        {item.productName}
                       </Link>
                     </Col>
                     <Col md={2}>

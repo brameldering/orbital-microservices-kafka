@@ -12,7 +12,7 @@ export interface ICart {
 
 export interface ICartItem {
   productId: string;
-  name: string;
+  productName: string;
   imageURL: string;
   price: number;
   countInStock: number;

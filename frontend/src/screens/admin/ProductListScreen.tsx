@@ -129,7 +129,10 @@ const ProductListScreen = () => {
               </tr>
             </thead>
             <tbody>
-              {data &&
+              {data && (!data.products || data.products.length === 0) ? (
+                <p>There are no products</p>
+              ) : (
+                data &&
                 data.products.map((product) => (
                   <tr key={product._id}>
                     <td>{product.sequenceProductId}</td>
@@ -154,7 +157,8 @@ const ProductListScreen = () => {
                       </Button>
                     </td>
                   </tr>
-                ))}
+                ))
+              )}
             </tbody>
           </Table>
           {data && (
