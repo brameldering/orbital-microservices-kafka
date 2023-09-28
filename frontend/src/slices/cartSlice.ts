@@ -2,14 +2,26 @@ import { createSlice } from '@reduxjs/toolkit';
 import { updateCart } from '../utils/cartUtils';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { ICart, ICartItem } from '../types/cartTypes';
-import type { IShippingAddress } from '../types/commonTypes';
+import type { IShippingAddress, ITotalAmounts } from '../types/commonTypes';
 
 // Define the initial state
 const cartInfoLocalStorage: string | null = localStorage.getItem('cart');
 
+const initialTotalAmounts: ITotalAmounts = {
+  itemsPrice: 0,
+  shippingPrice: 0,
+  taxPrice: 0,
+  totalPrice: 0,
+};
+
 const initialState: ICart = cartInfoLocalStorage
   ? JSON.parse(cartInfoLocalStorage)
-  : { cartItems: [], shippingAddress: {}, paymentMethod: 'PayPal' };
+  : {
+      cartItems: [],
+      shippingAddress: {},
+      paymentMethod: 'PayPal',
+      totalAmounts: initialTotalAmounts,
+    };
 
 // Create the cart slice
 const cartSlice = createSlice({

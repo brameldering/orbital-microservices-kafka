@@ -1,4 +1,4 @@
-import { IShippingAddress } from './commonTypes';
+import { IShippingAddress, ITotalAmounts } from './commonTypes';
 import { IUser } from './userTypes';
 
 export interface IOrder {
@@ -9,10 +9,7 @@ export interface IOrder {
   shippingAddress: IShippingAddress;
   paymentMethod: string;
   paymentResult?: IPaymentResult;
-  itemsPrice: number;
-  taxPrice: number;
-  shippingPrice: number;
-  totalPrice: number;
+  totalAmounts: ITotalAmounts;
   isPaid?: boolean;
   paidAt?: string;
   isDelivered?: boolean;
@@ -28,8 +25,6 @@ export interface IOrderItem {
   imageURL: string;
   price: number;
   qty: number;
-  createdAt?: string;
-  updatedAt?: string;
 }
 
 export interface IPaymentResult {

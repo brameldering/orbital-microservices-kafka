@@ -45,10 +45,7 @@ const PlaceOrderScreen = () => {
         orderItems: orderItems,
         shippingAddress: cart.shippingAddress,
         paymentMethod: cart.paymentMethod,
-        itemsPrice: cart.itemsPrice,
-        shippingPrice: cart.shippingPrice,
-        taxPrice: cart.taxPrice,
-        totalPrice: cart.totalPrice,
+        totalAmounts: cart.totalAmounts,
       }).unwrap();
       dispatch(clearCartItems());
       navigate(`/order/${res._id}`);
@@ -97,12 +94,7 @@ const PlaceOrderScreen = () => {
         <Col md={4}>
           <Card>
             <ListGroup variant='flush'>
-              <OrderSummaryBlock
-                itemsPrice={cart.itemsPrice}
-                shippingPrice={cart.shippingPrice}
-                taxPrice={cart.taxPrice}
-                totalPrice={cart.totalPrice}
-              />
+              <OrderSummaryBlock totalAmounts={cart.totalAmounts} />
               <ListGroup.Item>
                 {errorCreatingOrder && (
                   <ErrorMessage error={errorCreatingOrder} />

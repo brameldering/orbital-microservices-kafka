@@ -1,5 +1,6 @@
 import React from 'react';
 import { Row, Col, ListGroup } from 'react-bootstrap';
+import { ITotalAmounts } from '../../types/commonTypes';
 import { CURRENCY_SYMBOL } from '../../constantsFrontend';
 
 interface CurrencyFieldProps {
@@ -8,10 +9,7 @@ interface CurrencyFieldProps {
 }
 
 interface OrderSummaryBlockProps {
-  itemsPrice: number;
-  shippingPrice: number;
-  taxPrice: number;
-  totalPrice: number;
+  totalAmounts: ITotalAmounts;
 }
 
 const CurrencyField: React.FunctionComponent<CurrencyFieldProps> = ({
@@ -32,20 +30,18 @@ const CurrencyField: React.FunctionComponent<CurrencyFieldProps> = ({
 };
 
 const OrderSummaryBlock: React.FunctionComponent<OrderSummaryBlockProps> = ({
-  itemsPrice,
-  shippingPrice,
-  taxPrice,
-  totalPrice,
+  totalAmounts,
 }) => {
+  console.log('OrderSummaryBlock', totalAmounts);
   return (
     <>
       <ListGroup.Item>
         <h2>Order Summary</h2>
       </ListGroup.Item>
-      <CurrencyField label='Items' amount={itemsPrice} />
-      <CurrencyField label='Shipping' amount={shippingPrice} />
-      <CurrencyField label='Tax' amount={taxPrice} />
-      <CurrencyField label='Total' amount={totalPrice} />
+      <CurrencyField label='Items' amount={totalAmounts.itemsPrice} />
+      <CurrencyField label='Shipping' amount={totalAmounts.shippingPrice} />
+      <CurrencyField label='Tax' amount={totalAmounts.taxPrice} />
+      <CurrencyField label='Total' amount={totalAmounts.totalPrice} />
     </>
   );
 };

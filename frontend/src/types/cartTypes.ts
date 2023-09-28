@@ -1,13 +1,10 @@
-import { IShippingAddress } from './commonTypes';
+import { IShippingAddress, ITotalAmounts } from './commonTypes';
 
 export interface ICart {
   cartItems: Array<ICartItem>;
   shippingAddress: IShippingAddress;
   paymentMethod: string;
-  itemsPrice: number;
-  shippingPrice: number;
-  taxPrice: number;
-  totalPrice: number;
+  totalAmounts: ITotalAmounts;
 }
 
 export interface ICartItem {

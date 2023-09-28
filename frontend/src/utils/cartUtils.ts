@@ -6,6 +6,9 @@ const roundTo2Decimals = (num: number): number => {
 };
 
 export const updateCart = (state: ICart) => {
+  console.log('updateCart state');
+  console.log(state);
+
   const configInfoLocalStorage: string | null =
     localStorage.getItem('configInfo');
 
@@ -15,20 +18,23 @@ export const updateCart = (state: ICart) => {
 
   const feesConfig: IFeesConfig = JSON.parse(configInfoLocalStorage);
 
-  state.itemsPrice = roundTo2Decimals(
+  state.totalAmounts.itemsPrice = roundTo2Decimals(
     state.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0)
   );
-  state.shippingPrice = roundTo2Decimals(
+  state.totalAmounts.shippingPrice = roundTo2Decimals(
     state.cartItems.length === 0 ||
-      state.itemsPrice > feesConfig.ThresholdFreeShipping
+      state.totalAmounts.itemsPrice > feesConfig.ThresholdFreeShipping
       ? 0
       : feesConfig.ShippingFee
   );
-  state.taxPrice = roundTo2Decimals(
-    (roundTo2Decimals(feesConfig.VATPercentage) / 100) * state.itemsPrice
+  state.totalAmounts.taxPrice = roundTo2Decimals(
+    (roundTo2Decimals(feesConfig.VATPercentage) / 100) *
+      state.totalAmounts.itemsPrice
   );
-  state.totalPrice = roundTo2Decimals(
-    state.itemsPrice + state.shippingPrice + state.taxPrice
+  state.totalAmounts.totalPrice = roundTo2Decimals(
+    state.totalAmounts.itemsPrice +
+      state.totalAmounts.shippingPrice +
+      state.totalAmounts.taxPrice
   );
 
   localStorage.setItem('cart', JSON.stringify(state));

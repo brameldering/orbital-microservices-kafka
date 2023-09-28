@@ -13,7 +13,35 @@ const orderItemsSchema = mongoose.Schema(
     qty: { type: Number, required: true },
   },
   {
-    timestamps: true,
+    timestamps: false,
+  }
+);
+
+const orderTotalAmountsSchema = mongoose.Schema(
+  {
+    itemsPrice: {
+      type: Number,
+      required: true,
+      default: 0.0,
+    },
+    shippingPrice: {
+      type: Number,
+      required: true,
+      default: 0.0,
+    },
+    taxPrice: {
+      type: Number,
+      required: true,
+      default: 0.0,
+    },
+    totalPrice: {
+      type: Number,
+      required: true,
+      default: 0.0,
+    },
+  },
+  {
+    timestamps: false,
   }
 );
 
@@ -42,26 +70,7 @@ const orderSchema = mongoose.Schema(
       update_time: { type: String },
       email_address: { type: String },
     },
-    itemsPrice: {
-      type: Number,
-      required: true,
-      default: 0.0,
-    },
-    shippingPrice: {
-      type: Number,
-      required: true,
-      default: 0.0,
-    },
-    taxPrice: {
-      type: Number,
-      required: true,
-      default: 0.0,
-    },
-    totalPrice: {
-      type: Number,
-      required: true,
-      default: 0.0,
-    },
+    totalAmounts: orderTotalAmountsSchema,
     isPaid: {
       type: Boolean,
       required: true,

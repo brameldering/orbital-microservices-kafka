@@ -100,7 +100,7 @@ const OrderScreen = () => {
   }, [errorLoadingPayPalClientId, loadingPayPalClientId, order]);
 
   function createOrder(data: any, actions: any) {
-    if (!order || !order.totalPrice)
+    if (!order || !order.totalAmounts.totalPrice)
       throw new Error('Error: order does not exist');
     try {
       console.log('=== createOrder');
@@ -110,7 +110,7 @@ const OrderScreen = () => {
             {
               description: 'Orbital order',
               reference_id: order.sequenceOrderId,
-              amount: { value: order.totalPrice },
+              amount: { value: order.totalAmounts.totalPrice },
             },
           ],
         })
@@ -173,6 +173,9 @@ const OrderScreen = () => {
       setDeliverError(err);
     }
   };
+
+  console.log('Before Render: Order');
+  console.log(order);
 
   return isLoading ? (
     <Loader />
@@ -252,12 +255,7 @@ const OrderScreen = () => {
           <Col md={4}>
             <Card>
               <ListGroup variant='flush'>
-                <OrderSummaryBlock
-                  itemsPrice={order.itemsPrice}
-                  shippingPrice={order.shippingPrice}
-                  taxPrice={order.taxPrice}
-                  totalPrice={order.totalPrice}
-                />
+                <OrderSummaryBlock totalAmounts={order.totalAmounts} />
                 {!order.isPaid && (
                   <ListGroup.Item>
                     {payingOrder && <Loader />}
