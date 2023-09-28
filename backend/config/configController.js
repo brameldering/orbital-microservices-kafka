@@ -9,6 +9,7 @@ const getVATandShippingFee = asyncHandler(async (req, res) => {
   res.status(200).json({
     VATPercentage: process.env.VAT_PERCENTAGE,
     ShippingFee: process.env.SHIPPING_FEE,
+    ThresholdFreeShipping: process.env.THRESHOLD_FREE_SHIPPING,
   });
 });
 

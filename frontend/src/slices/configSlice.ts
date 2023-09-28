@@ -16,6 +16,7 @@ const configSlice = createSlice({
     setConfig: (state, action: PayloadAction<IFeesConfig>) => {
       state.VATPercentage = action.payload.VATPercentage;
       state.ShippingFee = action.payload.ShippingFee;
+      state.ThresholdFreeShipping = action.payload.ThresholdFreeShipping;
 
       localStorage.setItem('configInfo', JSON.stringify(state));
     },

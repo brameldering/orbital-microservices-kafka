@@ -24,8 +24,8 @@ const CartScreen = () => {
   const navigate = useNavigate();
   const currentPath = useLocation().pathname;
 
-  const { cartItems } = useSelector((state: RootState) => state.cart);
   const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { cartItems } = useSelector((state: RootState) => state.cart);
 
   const addToCartHandler = (product: ICartItem, qty: number) => {
     dispatch(addToCart({ ...product, qty }));

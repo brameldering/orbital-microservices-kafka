@@ -91,6 +91,7 @@ DEFAULT_RESET_PASSWORD= <default password which is set during reset pasword func
 
 VAT_PERCENTAGE=<VAT percentage in whole numbers, e.g. 21 for 21%>
 SHIPPING_FEE=<shipping price in euros>
+THRESHOLD_FREE_SHIPPING=<threshold amount of (pre-tax) total prices from which shipping is free>
 
 ```
 

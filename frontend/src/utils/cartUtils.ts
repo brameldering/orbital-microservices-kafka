@@ -19,7 +19,8 @@ export const updateCart = (state: ICart) => {
     state.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0)
   );
   state.shippingPrice = roundTo2Decimals(
-    state.cartItems.length === 0 || state.itemsPrice > 100
+    state.cartItems.length === 0 ||
+      state.itemsPrice > feesConfig.ThresholdFreeShipping
       ? 0
       : feesConfig.ShippingFee
   );
