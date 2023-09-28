@@ -38,9 +38,9 @@ const ProductScreen = () => {
   const queryParams = new URLSearchParams(window.location.search);
   const goBackPath = queryParams.get('goBackPath') || '/';
 
-  const [qty, setQty] = useState(1);
-  const [rating, setRating] = useState('');
-  const [comment, setComment] = useState('');
+  const [qty, setQty] = useState<number>(1);
+  const [rating, setRating] = useState<number>(0);
+  const [comment, setComment] = useState<string>('');
 
   const { userInfo } = useSelector((state: RootState) => state.auth);
 
@@ -74,11 +74,10 @@ const ProductScreen = () => {
   const submitReviewHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const ratingNr = Number(rating);
     try {
       await createReview({
         productId,
-        rating: ratingNr,
+        rating,
         comment,
       }).unwrap();
       refetch();
@@ -120,7 +119,7 @@ const ProductScreen = () => {
                 </ListGroup.Item>
                 <ListGroup.Item>
                   Price: {CURRENCY_SYMBOL}
-                  {Number(product.price).toFixed(2)}
+                  {product.price.toFixed(2)}
                 </ListGroup.Item>
                 <ListGroup.Item>
                   Description: {product.description}
@@ -139,7 +138,7 @@ const ProductScreen = () => {
                       <Col>
                         <strong>
                           {CURRENCY_SYMBOL}
-                          {Number(product.price).toFixed(2)}
+                          {product.price.toFixed(2)}
                         </strong>
                       </Col>
                     </Row>
@@ -214,7 +213,7 @@ const ProductScreen = () => {
                           as='select'
                           required
                           value={rating}
-                          onChange={(e) => setRating(e.target.value)}>
+                          onChange={(e) => setRating(Number(e.target.value))}>
                           <option value=''>Select...</option>
                           <option value='1'>1 - Poor</option>
                           <option value='2'>2 - Fair</option>

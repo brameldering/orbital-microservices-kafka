@@ -40,7 +40,7 @@ const Product: React.FunctionComponent<ProductComponentProps> = ({
 
         <Card.Text as='h3'>
           {CURRENCY_SYMBOL}
-          {Number(product.price).toFixed(2)}
+          {product.price.toFixed(2)}
         </Card.Text>
       </Card.Body>
     </Card>

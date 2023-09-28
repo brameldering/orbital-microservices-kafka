@@ -72,7 +72,7 @@ const CartScreen = () => {
                     </Col>
                     <Col md={2}>
                       {CURRENCY_SYMBOL}
-                      {Number(item.price).toFixed(2)}
+                      {item.price.toFixed(2)}
                     </Col>
                     <Col md={2}>
                       <Form.Control

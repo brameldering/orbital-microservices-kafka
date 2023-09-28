@@ -139,7 +139,7 @@ const ProductListScreen = () => {
                     <td>{product.name}</td>
                     <td>
                       {CURRENCY_SYMBOL}
-                      {Number(product.price).toFixed(2)}
+                      {product.price.toFixed(2)}
                     </td>
                     <td>{product.category}</td>
                     <td>{product.brand}</td>

@@ -24,7 +24,7 @@ const CurrencyField: React.FunctionComponent<CurrencyFieldProps> = ({
         <Col>{label}</Col>
         <Col>
           {CURRENCY_SYMBOL}
-          {Number(amount).toFixed(2)}
+          {amount.toFixed(2)}
         </Col>
       </Row>
     </ListGroup.Item>
