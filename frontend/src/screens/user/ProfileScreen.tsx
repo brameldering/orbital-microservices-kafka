@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Row, Col, Form, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
@@ -11,10 +11,12 @@ import { TextField, EmailField } from '../../components/form/FormComponents';
 import Meta from '../../components/general/Meta';
 import Loader from '../../components/general/Loader';
 import ErrorMessage from '../../components/general/ErrorMessage';
+import { setUserInfo } from '../../slices/authSlice';
 import { useUpdateProfileMutation } from '../../slices/usersApiSlice';
 import type { RootState } from '../../store';
 
 const ProfileScreen = () => {
+  const dispatch = useDispatch();
   const { userInfo } = useSelector((state: RootState) => state.auth);
 
   const [updateProfile, { isLoading: updatingProfile, error: errorUpdating }] =
@@ -33,11 +35,12 @@ const ProfileScreen = () => {
       const name = values.name;
       const email = values.email;
       try {
-        await updateProfile({
+        const res = await updateProfile({
           _id: userInfo!._id,
           name,
           email,
         }).unwrap();
+        dispatch(setUserInfo({ ...res }));
         toast.success('Profile updated');
       } catch (err) {
         // Do nothing because useUpdateProfileMutation will set errorUpdating in case of an error

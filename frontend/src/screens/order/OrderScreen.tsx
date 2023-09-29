@@ -131,14 +131,14 @@ const OrderScreen = () => {
     try {
       return actions.order.capture().then(async function (details: any) {
         console.log('== actions.order.capture ===');
-        console.log('== PayPal orderId ===', orderId);
+        console.log('== Orbital orderId ===', orderId);
         console.log('== PayPal details ===', details);
         await payOrder({ orderId, details }).unwrap();
         refetch();
         if (errorPayingOrder) {
           setPayPalError(errorPayingOrder);
         } else {
-          toast.success('Order is paid with orderId: ' + orderId);
+          toast.success('Payment succesful');
         }
       });
     } catch (err: any) {
@@ -217,7 +217,7 @@ const OrderScreen = () => {
                 </p>
                 {order.isDelivered ? (
                   <Alert variant='success'>
-                    Delivered on {order.deliveredAt}
+                    Delivered on: {order.deliveredAt}
                   </Alert>
                 ) : (
                   <Alert variant='info'>Not Delivered</Alert>
@@ -230,7 +230,11 @@ const OrderScreen = () => {
                   {order.paymentMethod}
                 </p>
                 {order.isPaid ? (
-                  <Alert variant='success'>Paid on {order.paidAt}</Alert>
+                  <Alert variant='success'>
+                    Paid on: {order.paidAt}{' '}
+                    {order.paymentResult &&
+                      `, Payment Id: ${order.paymentResult.id}`}
+                  </Alert>
                 ) : (
                   <Alert variant='info'>Not Paid</Alert>
                 )}

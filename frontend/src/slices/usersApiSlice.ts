@@ -14,13 +14,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
       query: () => ({
         url: USERS_URL,
       }),
-      providesTags: (result) =>
-        result
-          ? [
-              ...result.map(({ _id }) => ({ type: 'User' as const, id: _id })),
-              { type: 'User', id: 'LIST' },
-            ]
-          : [{ type: 'User', id: 'LIST' }],
+      providesTags: ['User'],
     }),
     register: builder.mutation<IUser, IRegistration>({
       query: (data) => ({
@@ -50,13 +44,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
         method: 'PUT',
         body: data,
       }),
-      invalidatesTags: (result, error, { _id }) => {
-        if (error) {
-          return [];
-        }
-        // Invalidate the cache for the specific user
-        return [{ type: 'User', id: _id }];
-      },
+      invalidatesTags: ['User'],
     }),
     updatePassword: builder.mutation<IUser, IPasswordUpdate>({
       query: (data) => ({
@@ -64,6 +52,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
         method: 'PUT',
         body: data,
       }),
+      invalidatesTags: ['User'],
     }),
     resetPassword: builder.mutation<void, IPasswordReset>({
       query: (data) => ({
@@ -71,6 +60,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
         method: 'PUT',
         body: data,
       }),
+      invalidatesTags: ['User'],
     }),
     getUserDetails: builder.query<IUser, string>({
       query: (id) => ({
@@ -84,13 +74,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
         method: 'PUT',
         body: data,
       }),
-      invalidatesTags: (result, error, { _id }) => {
-        if (error) {
-          return [];
-        }
-        // Invalidate the cache for the specific user
-        return [{ type: 'User', id: _id }];
-      },
+      invalidatesTags: ['User'],
     }),
     deleteUser: builder.mutation<void, string>({
       query: (id) => ({

@@ -16,14 +16,7 @@ import {
 // @req
 // @res     status(200).json(orders)
 const getOrders = asyncHandler(async (req, res) => {
-  // const orders = await Order.find({}).populate({
-  //   path: 'userId',
-  //   select: '_id name email',
-  // });
   const orders = await Order.find({}).populate('user', 'name email').exec();
-  console.log('= getOrders ==============================');
-  console.log(orders);
-  console.log('==========================================');
   res.status(200).json(orders);
 });
 
@@ -43,9 +36,6 @@ const createOrder = asyncHandler(async (req, res) => {
     const itemsFromDB = await Product.find({
       _id: { $in: orderItems.map((x) => x.productId) },
     });
-    console.log('= createOrder ==============================');
-    console.log(itemsFromDB);
-    console.log('============================================');
     // map over the order items and get the price from our items from database
     const dbOrderItems = orderItems.map((itemFromClient) => {
       const matchingItemFromDB = itemsFromDB.find(
@@ -103,17 +93,13 @@ const getMyOrders = asyncHandler(async (req, res) => {
 // @res     status(200).json(order)
 //       or status(404).message:'Order not found'
 const getOrderById = asyncHandler(async (req, res) => {
-  // const order = await Order.findById(req.params.id).populate({
-  //   path: 'userId',
-  //   select: '_id name email',
-  // });
   const order = await Order.findById(req.params.id)
     .populate('user', 'name email')
     .exec();
 
-  console.log('= getOrderById ==============================');
-  console.log(order);
-  console.log('=============================================');
+  // console.log('= getOrderById ==============================');
+  // console.log(order);
+  // console.log('=============================================');
   if (order) {
     res.status(200).json(order);
   } else {
@@ -188,12 +174,12 @@ const updateOrderToDelivered = asyncHandler(async (req, res) => {
 //       or status(404).message:'Order not found'
 const calcTotalAmounts = asyncHandler(async (req, res) => {
   const { cartItems } = req.body;
-  console.log('= calcTotalPrices ==============================');
-  console.log(cartItems);
+  // console.log('= calcTotalPrices ==============================');
+  // console.log(cartItems);
 
   const totalAmounts = calcPrices(cartItems);
-  console.log(totalAmounts);
-  console.log('================================================');
+  // console.log(totalAmounts);
+  // console.log('================================================');
 
   res.status(200).json({
     totalAmounts,

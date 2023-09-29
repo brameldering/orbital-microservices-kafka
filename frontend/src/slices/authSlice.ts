@@ -15,12 +15,19 @@ const authSlice = createSlice({
   reducers: {
     setCredentials: (state, action: PayloadAction<IUser>) => {
       state.userInfo = action.payload;
-
       localStorage.setItem('userInfo', JSON.stringify(action.payload));
 
       const expirationTime: number =
         new Date().getTime() + 30 * 24 * 60 * 60 * 1000; // 30 days
       localStorage.setItem('expirationTime', expirationTime.toString());
+    },
+    setUserInfo: (state, action: PayloadAction<IUser>) => {
+      // Update userInfo state and localstorage in case of
+      // MyProfile Update or when an admin user changes it's info using the user admin
+      if (state.userInfo?._id === action.payload._id) {
+        state.userInfo = action.payload;
+        localStorage.setItem('userInfo', JSON.stringify(action.payload));
+      }
     },
     logout: (state, action) => {
       state.userInfo = null;
@@ -32,7 +39,7 @@ const authSlice = createSlice({
 // Use createAction to define the logout action without payload
 const logout = createAction('auth/logout');
 
-export const { setCredentials } = authSlice.actions;
+export const { setCredentials, setUserInfo } = authSlice.actions;
 export { logout };
 
 export default authSlice.reducer;

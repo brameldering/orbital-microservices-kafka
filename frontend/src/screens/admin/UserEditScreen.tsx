@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
@@ -19,9 +20,11 @@ import {
   useGetUserDetailsQuery,
   useUpdateUserMutation,
 } from '../../slices/usersApiSlice';
+import { setUserInfo } from '../../slices/authSlice';
 
 const UserEditScreen = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const { id } = useParams();
   let userId: string = '';
@@ -55,7 +58,13 @@ const UserEditScreen = () => {
       const email = values.email;
       const isAdmin = values.isAdmin;
       try {
-        await updateUser({ _id: userId, name, email, isAdmin }).unwrap();
+        const res = await updateUser({
+          _id: userId,
+          name,
+          email,
+          isAdmin,
+        }).unwrap();
+        dispatch(setUserInfo({ ...res }));
         toast.success('User updated');
         refetch();
         navigate('/admin/userlist');

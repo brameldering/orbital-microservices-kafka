@@ -11,6 +11,7 @@ import { PasswordField } from '../../components/form/FormComponents';
 import Meta from '../../components/general/Meta';
 import Loader from '../../components/general/Loader';
 import ErrorMessage from '../../components/general/ErrorMessage';
+import { IStandardError } from '../../types/errorTypes';
 import ModalConfirmBox from '../../components/general/ModalConfirmBox';
 import { setCredentials } from '../../slices/authSlice';
 import { useUpdatePasswordMutation } from '../../slices/usersApiSlice';
@@ -19,6 +20,7 @@ import type { RootState } from '../../store';
 const ChangePasswordScreen = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [error, setError] = useState<IStandardError>({ message: '' });
   const { userInfo } = useSelector((state: RootState) => state.auth);
 
   const [
@@ -49,11 +51,10 @@ const ChangePasswordScreen = () => {
           toast.success('Password updated');
           navigate('/profile');
         } else {
-          // TO FIX
-          throw Error('Problem!');
+          throw Error('Error changing password!');
         }
       } catch (err) {
-        // Do nothing because useUpdateProfileMutation will set errorUpdating in case of an error
+        setError({ message: 'Error changing password' });
       }
     },
   });
@@ -92,6 +93,7 @@ const ChangePasswordScreen = () => {
       </Button>
       <FormContainer>
         <h1>Change Password</h1>
+        {error && <ErrorMessage error={error} />}
         {errorUpdating && <ErrorMessage error={errorUpdating} />}
         <Form onSubmit={formik.handleSubmit}>
           <PasswordField

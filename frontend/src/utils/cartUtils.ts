@@ -6,16 +6,14 @@ const roundTo2Decimals = (num: number): number => {
 };
 
 export const updateCart = (state: ICart) => {
-  console.log('updateCart state');
-  console.log(state);
-
   const configInfoLocalStorage: string | null =
     localStorage.getItem('configInfo');
 
   if (!configInfoLocalStorage) {
-    throw new Error('TO DO === HANDLE THIS ERROR');
+    throw new Error(
+      'Error, cannot update cart because of a problem with the local browser storage'
+    );
   }
-
   const feesConfig: IFeesConfig = JSON.parse(configInfoLocalStorage);
 
   state.totalAmounts.itemsPrice = roundTo2Decimals(
