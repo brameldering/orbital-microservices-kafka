@@ -20,14 +20,14 @@ export interface IProduct extends IBaseProduct {
   numReviews: number;
   reviews: Array<IReview>;
   rating: number;
-  user?: string;
+  userId?: string;
   createdAt?: string;
   updatedAt?: string;
 }
 
 export interface IReview {
   _id: string;
-  user: string;
+  userId: string;
   userName: string;
   rating: number;
   comment: string;

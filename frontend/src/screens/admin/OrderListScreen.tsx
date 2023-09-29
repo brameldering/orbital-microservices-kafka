@@ -41,7 +41,7 @@ const OrderListScreen = () => {
                   <td>{order.sequenceOrderId}</td>
                   <td>{order.user && order.user.name}</td>
                   <td>{order.createdAt && order.createdAt.substring(0, 10)}</td>
-                  <td>${order.totalPrice}</td>
+                  <td>${order.totalAmounts.totalPrice}</td>
                   <td>
                     {order.isPaid && order.paidAt ? (
                       order.paidAt.substring(0, 10)

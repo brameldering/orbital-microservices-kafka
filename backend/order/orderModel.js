@@ -38,7 +38,7 @@ const orderTotalAmountsSchema = mongoose.Schema({
 const orderSchema = mongoose.Schema(
   {
     sequenceOrderId: { type: String, required: true, unique: true },
-    user: {
+    userId: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: 'User',
@@ -82,6 +82,16 @@ const orderSchema = mongoose.Schema(
     timestamps: true,
   }
 );
+
+orderSchema.virtual('user', {
+  ref: 'User',
+  localField: 'userId',
+  foreignField: '_id',
+  justOne: true,
+});
+
+orderSchema.set('toObject', { virtuals: true });
+orderSchema.set('toJSON', { virtuals: true });
 
 const Order = mongoose.model('Order', orderSchema);
 

@@ -16,7 +16,11 @@ import {
 // @req
 // @res     status(200).json(orders)
 const getOrders = asyncHandler(async (req, res) => {
-  const orders = await Order.find({}).populate('user', 'name');
+  // const orders = await Order.find({}).populate({
+  //   path: 'userId',
+  //   select: '_id name email',
+  // });
+  const orders = await Order.find({}).populate('user', 'name email').exec();
   console.log('= getOrders ==============================');
   console.log(orders);
   console.log('==========================================');
@@ -70,7 +74,7 @@ const createOrder = asyncHandler(async (req, res) => {
     const order = new Order({
       sequenceOrderId: sequenceOrderId,
       orderItems: dbOrderItems,
-      user: req.user._id,
+      userId: req.user._id,
       shippingAddress,
       paymentMethod,
       totalAmounts,
@@ -88,7 +92,7 @@ const createOrder = asyncHandler(async (req, res) => {
 // @res     status(200).json(orders)
 const getMyOrders = asyncHandler(async (req, res) => {
   const userId = new mongoose.Types.ObjectId(req.params.id);
-  const orders = await Order.find({ user: userId });
+  const orders = await Order.find({ userId: userId });
   res.status(200).json(orders);
 });
 
@@ -99,10 +103,14 @@ const getMyOrders = asyncHandler(async (req, res) => {
 // @res     status(200).json(order)
 //       or status(404).message:'Order not found'
 const getOrderById = asyncHandler(async (req, res) => {
-  const order = await Order.findById(req.params.id).populate(
-    'user',
-    'name email'
-  );
+  // const order = await Order.findById(req.params.id).populate({
+  //   path: 'userId',
+  //   select: '_id name email',
+  // });
+  const order = await Order.findById(req.params.id)
+    .populate('user', 'name email')
+    .exec();
+
   console.log('= getOrderById ==============================');
   console.log(order);
   console.log('=============================================');

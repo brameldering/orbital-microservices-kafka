@@ -61,7 +61,7 @@ const createProduct = asyncHandler(async (req, res) => {
     numReviews: 0,
     price: 0,
     countInStock: 0,
-    user: req.user._id,
+    userId: req.user._id,
   });
   const createdProduct = await product.save();
   res.status(201).json(createdProduct);
@@ -155,13 +155,13 @@ const createProductReview = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
   if (product) {
     const alreadyReviewed = product.reviews.find(
-      (review) => review.user.toString() === req.user._id.toString()
+      (review) => review.userId.toString() === req.user._id.toString()
     );
     if (alreadyReviewed) {
       throw new ExtendedError('You have already reviewed this product', 400);
     }
     const review = {
-      user: req.user._id,
+      userId: req.user._id,
       userName: req.user.name,
       rating,
       comment,
