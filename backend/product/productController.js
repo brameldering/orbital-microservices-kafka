@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import asyncHandler from '../middleware/asyncHandler.js';
 import { ExtendedError } from '../middleware/errorMiddleware.js';
 import IdSequence from '../general/models/idSequenceModel.js';
@@ -65,6 +66,22 @@ const createProduct = asyncHandler(async (req, res) => {
   });
   const createdProduct = await product.save();
   res.status(201).json(createdProduct);
+});
+
+// @desc    Fetch products corresponding to array of Ids
+// @route   GET /api/products/v1/productsforids
+// @access  Public
+// @req     query.productids (string of comma seperated product id's)
+// @res     status(200).json({ products })
+const getProductsForIds = asyncHandler(async (req, res) => {
+  const productIds = req.query.productids;
+  const productIdsArray = productIds.trim().split(',');
+  const productObjectIds = productIdsArray.map(
+    (s) => new mongoose.Types.ObjectId(s)
+  );
+  // get the product info for the orderItems from the database
+  const products = await Product.find({ _id: { $in: productObjectIds } });
+  res.status(200).json({ products });
 });
 
 // @desc    Fetch single product
@@ -165,6 +182,7 @@ const createProductReview = asyncHandler(async (req, res) => {
 export {
   getProducts,
   createProduct,
+  getProductsForIds,
   getProductById,
   updateProduct,
   deleteProduct,

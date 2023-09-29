@@ -16,7 +16,7 @@ import Loader from '../../components/general/Loader';
 import ErrorMessage from '../../components/general/ErrorMessage';
 import ModalConfirmBox from '../../components/general/ModalConfirmBox';
 import {
-  useGetProductDetailsQuery,
+  useGetProductByIdQuery,
   useUpdateProductMutation,
   useUploadImageMutation,
 } from '../../slices/productsApiSlice';
@@ -34,7 +34,7 @@ const ProductEditScreen = () => {
     isLoading,
     refetch,
     error: errorLoading,
-  } = useGetProductDetailsQuery(productId);
+  } = useGetProductByIdQuery(productId);
 
   const [updateProduct, { isLoading: performingUpdate, error: errorUpdating }] =
     useUpdateProductMutation();

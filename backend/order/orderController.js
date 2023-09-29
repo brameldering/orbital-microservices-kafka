@@ -35,14 +35,14 @@ const createOrder = asyncHandler(async (req, res) => {
   if (orderItems && orderItems.length === 0) {
     throw new ExtendedError('No order items', 400);
   } else {
-    // get the ordered items from our database
+    // get the product info for the orderItems from the database
     const itemsFromDB = await Product.find({
       _id: { $in: orderItems.map((x) => x.productId) },
     });
     console.log('= createOrder ==============================');
     console.log(itemsFromDB);
     console.log('============================================');
-    // map over the order items and use the price from our items from database
+    // map over the order items and get the price from our items from database
     const dbOrderItems = orderItems.map((itemFromClient) => {
       const matchingItemFromDB = itemsFromDB.find(
         (itemFromDB) => itemFromDB._id.toString() === itemFromClient.productId

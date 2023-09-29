@@ -17,7 +17,7 @@ import Loader from '../../components/general/Loader';
 import ErrorMessage from '../../components/general/ErrorMessage';
 import Rating from '../../components/product/Rating';
 import {
-  useGetProductDetailsQuery,
+  useGetProductByIdQuery,
   useCreateReviewMutation,
 } from '../../slices/productsApiSlice';
 import { addToCart } from '../../slices/cartSlice';
@@ -49,7 +49,7 @@ const ProductScreen = () => {
     isLoading,
     refetch,
     error: errorLoading,
-  } = useGetProductDetailsQuery(productId);
+  } = useGetProductByIdQuery(productId);
 
   const addToCartHandler = () => {
     if (product) {

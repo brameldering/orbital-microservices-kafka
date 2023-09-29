@@ -3,8 +3,9 @@ import checkObjectId from '../middleware/checkObjectId.js';
 import { protect, admin } from '../middleware/authMiddleware.js';
 import {
   getProducts,
-  getProductById,
   createProduct,
+  getProductsForIds,
+  getProductById,
   updateProduct,
   deleteProduct,
   createProductReview,
@@ -12,6 +13,7 @@ import {
 
 const router = express.Router();
 router.route('/').get(getProducts).post(protect, admin, createProduct);
+router.route('/productsforids').get(getProductsForIds);
 router
   .route('/:id')
   .get(checkObjectId, getProductById)
