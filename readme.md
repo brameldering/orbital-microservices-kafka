@@ -85,13 +85,14 @@ PAYPAL_API_URL = https://api-m.sandbox.paypal.com
 CLOUDINARY_CLOUD_NAME = <cloudinary cloud name>
 CLOUDINARY_API_KEY =  <cloudinary api key>
 CLOUDINARY_API_SECRET = <cloudinary api secret>
+CLOUDINARY_SAMPLE_IMAGE_URL = <URL to default sample image on Cloudinary>
 
 PRODUCTS_PER_PAGE = <max number of products per page>
-DEFAULT_RESET_PASSWORD= <default password which is set during reset pasword function>
+DEFAULT_RESET_PASSWORD = <default password which is set during reset pasword function>
 
-VAT_PERCENTAGE=<VAT percentage in whole numbers, e.g. 21 for 21%>
-SHIPPING_FEE=<shipping price in euros>
-THRESHOLD_FREE_SHIPPING=<threshold amount of (pre-tax) total prices from which shipping is free>
+VAT_PERCENTAGE = <VAT percentage in whole numbers, e.g. 21 for 21%>
+SHIPPING_FEE = <shipping price in euros>
+THRESHOLD_FREE_SHIPPING = <threshold amount of (pre-tax) total prices from which shipping is free>
 
 ```
 

@@ -3,7 +3,6 @@ import asyncHandler from '../middleware/asyncHandler.js';
 import { ExtendedError } from '../middleware/errorMiddleware.js';
 import IdSequence from '../general/models/idSequenceModel.js';
 import Product from './productModel.js';
-import { CLOUDINARY_SAMPLE_IMAGE_URL } from '../constantsBackend.js';
 
 // @desc    Fetch all products
 // @route   GET /api/products/v1
@@ -55,7 +54,7 @@ const createProduct = asyncHandler(async (req, res) => {
   const product = new Product({
     sequenceProductId,
     name: 'Sample name',
-    imageURL: CLOUDINARY_SAMPLE_IMAGE_URL,
+    imageURL: process.env.CLOUDINARY_SAMPLE_IMAGE_URL,
     brand: 'Sample brand',
     category: 'Sample category',
     description: 'Sample description',
