@@ -199,7 +199,7 @@ reach the line of code where we throw our own error.
 #### Original code
 
 ```js
-const getProductById = asyncHandler(async (req, res) => {
+const getProductById = asyncHandler(async (req: Request, res: Response) => {
   const product = await Product.findById(req.params.id);
   if (product) {
     return res.json(product);
@@ -218,7 +218,7 @@ and drop it in to any route handler that needs it.
 This also removes the need to check for a cast error in our errorMiddleware and
 is a little more explicit in checking fo such an error.
 
-> Changes can be seen in [errorMiddleware.js](./backend/middleware/errorMiddleware.js), [productRoutes.js](./backend/routes/productRoutes.js), [productController.js]('./backend/controllers/productController.js') and [checkObjectId.js](./backend/middleware/checkObjectId.js)
+> Changes can be seen in [errorMiddleware](./backend/middleware/errorMiddleware), [productRoutes.js](./backend/routes/productRoutes.js), [productController.js]('./backend/controllers/productController.js') and [checkObjectId](./backend/middleware/checkObjectId)
 
 ### BUG: After switching users, our new user gets the previous users cart
 

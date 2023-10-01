@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const idSequenceSchema = mongoose.Schema({
+const idSequenceSchema = new mongoose.Schema({
   sequenceName: {
     type: String,
     required: true,

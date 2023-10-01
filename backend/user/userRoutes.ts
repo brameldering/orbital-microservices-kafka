@@ -1,6 +1,6 @@
 import express from 'express';
-import { protect, admin } from '../middleware/authMiddleware.js';
-import checkObjectId from '../middleware/checkObjectId.js';
+import { protect, admin } from '../middleware/authMiddleware';
+import checkObjectId from '../middleware/checkObjectId';
 import {
   authUser,
   registerUser,
@@ -13,7 +13,7 @@ import {
   deleteUser,
   getUserById,
   updateUser,
-} from './userController.js';
+} from './userController';
 
 const router = express.Router();
 router.route('/').get(protect, admin, getUsers).post(registerUser);

@@ -1,5 +1,5 @@
 import express from 'express';
-import { getVATandShippingFee, getPayPalClientId } from './configController.js';
+import { getVATandShippingFee, getPayPalClientId } from './configController';
 
 const router = express.Router();
 router.route('/vatshippingfee').get(getVATandShippingFee);

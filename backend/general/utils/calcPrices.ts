@@ -1,14 +1,18 @@
-const roundTo2Decimals = (num) => {
+const roundTo2Decimals = (num: number) => {
   return Math.round(num * 100) / 100;
 };
 
-export const calcPrices = (items) => {
-  const VAT_FRACTION = process.env.VAT_PERCENTAGE / 100;
-  const SHIPPING_FEE = process.env.SHIPPING_FEE;
-  const THRESHOLD_FREE_SHIPPING = process.env.THRESHOLD_FREE_SHIPPING;
+export const calcPrices = (items: any) => {
+  const VAT_FRACTION: number = Number(
+    process.env.VAT_PERCENTAGE && Number(process.env.VAT_PERCENTAGE) / 100
+  );
+  const SHIPPING_FEE: number = Number(process.env.SHIPPING_FEE);
+  const THRESHOLD_FREE_SHIPPING: number = Number(
+    process.env.THRESHOLD_FREE_SHIPPING
+  );
   // Calculate the total items price
   const itemsPrice = roundTo2Decimals(
-    items.reduce((acc, item) => acc + item.price * item.qty, 0)
+    items.reduce((acc: number, item: any) => acc + item.price * item.qty, 0)
   );
   const shippingPrice = roundTo2Decimals(
     items.length === 0 || itemsPrice > THRESHOLD_FREE_SHIPPING

@@ -1,17 +1,15 @@
-import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import colors from 'colors';
 
-import connectDB from './general/db/db.js';
+import connectDB from './general/db/db';
 
-import IdSequence from './general/models/idSequenceModel.js';
-import Product from './product/productModel.js';
-import User from './user/userModel.js';
-import Order from './order/orderModel.js';
+import IdSequence from './general/models/idSequenceModel';
+import Product from './product/productModel';
+import User from './user/userModel';
+import Order from './order/orderModel';
 
-import idSequences from './general/seederdata/idSequences.js';
-import users from './general/seederdata/users.js';
-import products from './general/seederdata/products.js';
+import idSequences from './general/seederdata/idSequences';
+import users from './general/seederdata/users';
+import products from './general/seederdata/products';
 
 dotenv.config();
 
@@ -36,10 +34,10 @@ const importData = async () => {
 
     await Product.insertMany(sampleProducts);
 
-    console.log('Data Imported!'.green.inverse);
+    console.log('Data Imported!');
     process.exit();
   } catch (error) {
-    console.error(`${error}`.red.inverse);
+    console.error(error);
     process.exit(1);
   }
 };
@@ -51,10 +49,10 @@ const destroyData = async () => {
     await User.deleteMany();
     await IdSequence.deleteMany();
 
-    console.log('Data Destroyed!'.red.inverse);
+    console.log('Data Destroyed!');
     process.exit();
   } catch (error) {
-    console.error(`${error}`.red.inverse);
+    console.error(error);
     process.exit(1);
   }
 };

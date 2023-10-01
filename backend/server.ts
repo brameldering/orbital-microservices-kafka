@@ -1,16 +1,16 @@
 import path from 'path';
-import express from 'express';
+import express, { Request, Response } from 'express';
 // import compression from 'compression';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
-import connectDB from './general/db/db.js';
-import configureCORS from './middleware/configureCORS.js';
-import { notFound, errorHandler } from './middleware/errorMiddleware.js';
-import configRoutes from './config/configRoutes.js';
-import productRoutes from './product/productRoutes.js';
-import uploadRoutes from './product/uploadImageRoutes.js';
-import userRoutes from './user/userRoutes.js';
-import orderRoutes from './order/orderRoutes.js';
+import connectDB from './general/db/db';
+import configureCORS from './middleware/configureCORS';
+import { notFound, errorHandler } from './middleware/errorMiddleware';
+import configRoutes from './config/configRoutes';
+import productRoutes from './product/productRoutes';
+import uploadRoutes from './product/uploadImageRoutes';
+import userRoutes from './user/userRoutes';
+import orderRoutes from './order/orderRoutes';
 
 dotenv.config();
 const port = process.env.PORT || 5000;
@@ -46,11 +46,11 @@ if (process.env.NODE_ENV === 'production') {
   //   res.set('Content-Encoding', 'gzip');
   //   next();
   // });
-  app.get('*', (req, res) =>
+  app.get('*', (req: Request, res: Response) =>
     res.sendFile(path.resolve(__dirname, 'frontend', 'dist', 'index.html'))
   );
 } else {
-  app.get('/', (req, res) => {
+  app.get('/', (req: Request, res: Response) => {
     res.send('API is running....');
   });
 }
@@ -60,19 +60,17 @@ app.use(notFound);
 app.use(errorHandler);
 
 // Handle Uncaught exceptions
-process.on('uncaughtException', (err) => {
+process.on('uncaughtException', (err: any) => {
   console.error(`ERROR: ${err.stack}`);
   console.error('Shutting down due to uncaught exception');
   process.exit(1);
 });
 
 // Handle Unhandled Promise rejections
-process.on('unhandledRejection', (err) => {
+process.on('unhandledRejection', (err: any) => {
   console.error(`ERROR: ${err.stack}`);
   console.error('Shutting down the server due to Unhandled Promise rejection');
-  server.close(() => {
-    process.exit(1);
-  });
+  process.exit(1);
 });
 
 app.listen(port, () =>

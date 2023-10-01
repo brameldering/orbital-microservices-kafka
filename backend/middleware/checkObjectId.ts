@@ -1,6 +1,7 @@
 // @ts-check
 import { isValidObjectId } from 'mongoose';
-import { ExtendedError } from './errorMiddleware.js';
+import { ExtendedError } from './errorMiddleware';
+import { Request, Response, NextFunction } from 'express';
 
 /**
  * Checks if the req.params.id is a valid Mongoose ObjectId.
@@ -11,7 +12,7 @@ import { ExtendedError } from './errorMiddleware.js';
  * @throws {ExtendedError} Throws an error if the ObjectId is invalid.
  */
 
-function checkObjectId(req, res, next) {
+function checkObjectId(req: Request, res: Response, next: NextFunction) {
   if (!isValidObjectId(req.params.id)) {
     throw new ExtendedError(`Invalid ObjectId of:  ${req.params.id}`, 404);
   }

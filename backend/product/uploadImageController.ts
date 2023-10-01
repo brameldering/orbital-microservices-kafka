@@ -1,6 +1,6 @@
-import asyncHandler from '../middleware/asyncHandler.js';
-import { ExtendedError } from '../middleware/errorMiddleware.js';
-import { uploadImageToCloudinary } from './fileUploadHelpers/uploadImageToCloudinary.js';
+import asyncHandler from '../middleware/asyncHandler';
+import { ExtendedError } from '../middleware/errorMiddleware';
+import { uploadImageToCloudinary } from './fileUploadHelpers/uploadImageToCloudinary';
 
 // ================ Upload image ================
 // @desc    Upload image to cloudinary
@@ -9,14 +9,14 @@ import { uploadImageToCloudinary } from './fileUploadHelpers/uploadImageToCloudi
 // @req     body: FormData.image
 // @res     status(200).send(result)
 //       or status(415).message:'Image NOT uploaded'
-const uploadImage = asyncHandler(async (req, res) => {
+const uploadImage = asyncHandler(async (req, res, next) => {
   try {
-    const imageURL = await uploadImageToCloudinary(req, res);
+    const imageURL = await uploadImageToCloudinary(req, res, next);
     res.status(201).json({
       message: 'Image uploaded',
       imageURL: imageURL,
     });
-  } catch (error) {
+  } catch (error: any) {
     console.log(error);
     throw new ExtendedError('Image NOT uploaded: ' + error.message, 415);
   }

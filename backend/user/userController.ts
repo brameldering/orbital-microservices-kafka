@@ -1,14 +1,17 @@
-import asyncHandler from '../middleware/asyncHandler.js';
-import { ExtendedError } from '../middleware/errorMiddleware.js';
-import User from './userModel.js';
-import generateToken from '../general/utils/generateToken.js';
+import { Request, Response } from 'express';
+import { IExtendedRequest } from 'types/commonTypes';
+import { UserDocument } from 'src/interfaces/mongoose.gen';
+import asyncHandler from '../middleware/asyncHandler';
+import { ExtendedError } from '../middleware/errorMiddleware';
+import User from './userModel';
+import generateToken from '../general/utils/generateToken';
 
 // @desc    Get all users
 // @route   GET /api/users/v1
 // @access  Private/Admin
 // @req
 // @res     status(200).json(users)
-const getUsers = asyncHandler(async (req, res) => {
+const getUsers = asyncHandler(async (req: Request, res: Response) => {
   const users = await User.find({});
   res.status(200).json(users);
 });
@@ -19,7 +22,7 @@ const getUsers = asyncHandler(async (req, res) => {
 // @req     body {name, email, password}
 // @res     status(201).json({_id, name, email, isAdmin}
 //       or status(400).message:'Invalid user data'
-const registerUser = asyncHandler(async (req, res) => {
+const registerUser = asyncHandler(async (req: Request, res: Response) => {
   const { name, email, password } = req.body;
   // No need to check if user already exists since there is an unique check on the data model
   // The errorMiddleware now returns user friendly error messages
@@ -29,8 +32,9 @@ const registerUser = asyncHandler(async (req, res) => {
     email,
     password,
   });
-  if (user) {
-    generateToken(res, user._id);
+
+  if (user && user._id) {
+    generateToken(res, user._id.toString());
     res.status(201).json({
       _id: user._id,
       name: user.name,
@@ -49,11 +53,11 @@ const registerUser = asyncHandler(async (req, res) => {
 // @res     cookie('jwt', token, {httpOnly, secure, sameSite, maxAge});
 //      and status(200).json({_id, name, email, isAdmin}
 //       or status(401).message:'Invalid email or password'
-const authUser = asyncHandler(async (req, res) => {
+const authUser = asyncHandler(async (req: Request, res: Response) => {
   const { email, password } = req.body;
-  const user = await User.findOne({ email });
-  if (user && (await user.matchPassword(password))) {
-    generateToken(res, user._id);
+  const user: UserDocument | null = await User.findOne({ email });
+  if (user && user._id && (await user.matchPassword(password))) {
+    generateToken(res, user._id.toString());
     res.status(200).json({
       _id: user._id,
       name: user.name,
@@ -71,7 +75,7 @@ const authUser = asyncHandler(async (req, res) => {
 // @req
 // @res     cookie('jwt', '', {httpOnly, secure, sameSite, expires})
 //      and status(200).json({ message: 'Logged out' })
-const logoutUser = (req, res) => {
+const logoutUser = (req: Request, res: Response) => {
   res.cookie('jwt', '', {
     httpOnly: true,
     secure: true,
@@ -87,19 +91,24 @@ const logoutUser = (req, res) => {
 // @req     user._id
 // @res     status(200).json({_id, name, email, isAdmin})
 //       or status(404).message:'User not found'
-const getUserProfile = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.user._id);
-  if (user) {
-    res.status(200).json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      isAdmin: user.isAdmin,
-    });
-  } else {
-    throw new ExtendedError('User not found', 404);
+const getUserProfile = asyncHandler(
+  async (req: IExtendedRequest, res: Response) => {
+    if (!req.user || !req.user._id) {
+      throw new ExtendedError('Not logged in', 401);
+    }
+    const user = await User.findById(req.user._id);
+    if (user) {
+      res.status(200).json({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        isAdmin: user.isAdmin,
+      });
+    } else {
+      throw new ExtendedError('User not found', 404);
+    }
   }
-});
+);
 
 // @desc    Update user profile (name, email)
 // @route   PUT /api/users/v1/profile
@@ -108,8 +117,11 @@ const getUserProfile = asyncHandler(async (req, res) => {
 //          body {name, email, password}
 // @res     status(200).json({_id, name, email, isAdmin})
 //       or status(404).message:'User not found'
-const updateUserProfile = asyncHandler(async (req, res) => {
-  if (req.user && req.user._id) {
+const updateUserProfile = asyncHandler(
+  async (req: IExtendedRequest, res: Response) => {
+    if (!req.user || !req.user._id) {
+      throw new ExtendedError('Not logged in', 401);
+    }
     const user = await User.findById(req.user._id);
     if (user) {
       user.name = req.body.name || user.name;
@@ -124,10 +136,8 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     } else {
       throw new ExtendedError('User not found', 404);
     }
-  } else {
-    throw new ExtendedError('Not logged in', 401);
   }
-});
+);
 
 // @desc    Update user password
 // @route   PUT /api/users/v1/password
@@ -136,9 +146,13 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 //          body {currentPassword, newPassword}
 // @res     status(200).json({_id, name, email, isAdmin})
 //       or status(404).message:'User not found'
-const updatePassword = asyncHandler(async (req, res) => {
-  if (req.user && req.user._id) {
-    const user = await User.findById(req.user._id);
+const updatePassword = asyncHandler(
+  async (req: IExtendedRequest, res: Response) => {
+    if (!req.user || !req.user._id) {
+      throw new ExtendedError('Not logged in', 401);
+    }
+
+    const user: UserDocument | null = await User.findById(req.user._id);
     if (user) {
       const { currentPassword, newPassword } = req.body;
       if (currentPassword !== newPassword) {
@@ -163,10 +177,8 @@ const updatePassword = asyncHandler(async (req, res) => {
     } else {
       throw new ExtendedError('User not found', 404);
     }
-  } else {
-    throw new ExtendedError('Not logged in', 401);
   }
-});
+);
 
 // @desc    Reset user password
 // @route   PUT /api/users/v1/resetpassword
@@ -174,7 +186,12 @@ const updatePassword = asyncHandler(async (req, res) => {
 // @req     body {email}
 // @res     status(200).message:'Password has been reset'
 //       or status(404).message:'User not found'
-const resetPassword = asyncHandler(async (req, res) => {
+const resetPassword = asyncHandler(async (req: Request, res: Response) => {
+  if (!process.env.DEFAULT_RESET_PASSWORD) {
+    throw new ExtendedError(
+      'DEFAULT_RESET_PASSWORD setting is missing from .env file.'
+    );
+  }
   const { email } = req.body;
   const user = await User.findOne({ email });
   if (user) {
@@ -194,7 +211,7 @@ const resetPassword = asyncHandler(async (req, res) => {
 // @req     params.id
 // @res     status(200).json(user)
 //       or status(404).message:'User not found'
-const getUserById = asyncHandler(async (req, res) => {
+const getUserById = asyncHandler(async (req: Request, res: Response) => {
   const user = await User.findById(req.params.id).select('-password');
   if (user) {
     res.status(200).json(user);
@@ -210,7 +227,7 @@ const getUserById = asyncHandler(async (req, res) => {
 //          body {name, email, isAdmin}
 // @res     status(200).json({_id, name, email, isAdmin}
 //       or status(404).message:'User not found'
-const updateUser = asyncHandler(async (req, res) => {
+const updateUser = asyncHandler(async (req: Request, res: Response) => {
   const user = await User.findById(req.params.id);
   if (user) {
     user.name = req.body.name || user.name;
@@ -234,7 +251,7 @@ const updateUser = asyncHandler(async (req, res) => {
 // @req     params.id
 // @res     status(200).json({message})
 //       or status(404).message:'User not found'
-const deleteUser = asyncHandler(async (req, res) => {
+const deleteUser = asyncHandler(async (req: Request, res: Response) => {
   const user = await User.findById(req.params.id);
   if (user) {
     await User.deleteOne({ _id: user._id });

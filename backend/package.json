@@ -1,15 +1,16 @@
 {
   "name": "orbital-backend",
   "version": "0.1.0",
-  "type": "module",
+  "type": "commonjs",
   "description": "eCommerce application built with the MERN stack",
-  "main": "server.js",
+  "main": "server.ts",
   "private": true,
   "scripts": {
-    "start": "node server.js",
-    "server": "nodemon server.js",
-    "data:import": "node seeder",
-    "data:destroy": "node seeder -d"
+    "build": "npx tsc",
+    "start": "node dist/server.js",
+    "server": "concurrently \"npx tsc --watch\" \"nodemon -q dist/server.js\"",
+    "data:import": "node dist/seeder",
+    "data:destroy": "node dist/seeder -d"
   },
   "author": "Bram Eldering",
   "license": "MIT",
@@ -26,9 +27,18 @@
     "multer": "^1.4.5-lts.1"
   },
   "devDependencies": {
-    "@types/express": "^4.17.17",
+    "@types/bcryptjs": "^2.4.4",
+    "@types/cookie-parser": "^1.4.4",
+    "@types/cors": "^2.8.14",
+    "@types/express": "^4.17.18",
+    "@types/jsonwebtoken": "^9.0.3",
+    "@types/multer": "^1.4.8",
+    "@types/node": "^20.7.2",
     "concurrently": "^8.2.0",
     "markdown-toc": "^1.2.0",
-    "nodemon": "^3.0.1"
+    "mongoose-tsgen": "^9.2.7",
+    "nodemon": "^3.0.1",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.2.2"
   }
 }

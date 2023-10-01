@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import { ExtendedError } from '../../middleware/errorMiddleware.js';
+import { ExtendedError } from '../../middleware/errorMiddleware';
 dotenv.config();
 const { PAYPAL_CLIENT_ID, PAYPAL_APP_SECRET, PAYPAL_API_URL } = process.env;
 
@@ -48,7 +48,7 @@ async function getPayPalAccessToken() {
  * @throws {ExtendedError} If the request is not successful.
  *
  */
-export async function verifyPayPalPayment(payPalTransactionId) {
+export async function verifyPayPalPayment(payPalTransactionId: string) {
   const accessToken = await getPayPalAccessToken();
   const payPalResponse = await fetch(
     `${PAYPAL_API_URL}/v2/checkout/orders/${payPalTransactionId}`,
@@ -77,7 +77,10 @@ export async function verifyPayPalPayment(payPalTransactionId) {
  * @throws {ExtendedError} If there's an error in querying the database.
  *
  */
-export async function checkIfNewTransaction(orderModel, payPalTransactionId) {
+export async function checkIfNewTransaction(
+  orderModel: any,
+  payPalTransactionId: string
+) {
   try {
     // Find all documents where Order.paymentResult.id is the same as the id passed payPalTransactionId
     const orders = await orderModel.find({
@@ -86,7 +89,7 @@ export async function checkIfNewTransaction(orderModel, payPalTransactionId) {
 
     // If there are no such orders, then it's a new transaction.
     return orders.length === 0;
-  } catch (err) {
+  } catch (err: any) {
     throw new ExtendedError(err.message);
   }
 }

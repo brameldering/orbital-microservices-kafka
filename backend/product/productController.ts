@@ -1,8 +1,10 @@
+import { Request, Response } from 'express';
 import mongoose from 'mongoose';
-import asyncHandler from '../middleware/asyncHandler.js';
-import { ExtendedError } from '../middleware/errorMiddleware.js';
-import IdSequence from '../general/models/idSequenceModel.js';
-import Product from './productModel.js';
+import asyncHandler from '../middleware/asyncHandler';
+import { ExtendedError } from '../middleware/errorMiddleware';
+import IdSequence from '../general/models/idSequenceModel';
+import Product from './productModel';
+import { IExtendedRequest } from 'types/commonTypes';
 
 // @desc    Fetch all products
 // @route   GET /api/products/v1
@@ -10,8 +12,16 @@ import Product from './productModel.js';
 // @req     query.pageNumber (optional)
 //          query.keyword (optional)
 // @res     status(200).json({ products, page, pages })
-const getProducts = asyncHandler(async (req, res) => {
-  const pageSize = process.env.PRODUCTS_PER_PAGE;
+const getProducts = asyncHandler(async (req: Request, res: Response) => {
+  if (
+    !process.env.PRODUCTS_PER_PAGE ||
+    Number.isNaN(process.env.PRODUCTS_PER_PAGE)
+  ) {
+    throw new ExtendedError(
+      'PRODUCTS_PER_PAGE setting is missing from .env file.'
+    );
+  }
+  const pageSize = Number(process.env.PRODUCTS_PER_PAGE);
   let page = Number(req.query.pageNumber) || 1;
   const keyword = req.query.keyword
     ? {
@@ -43,37 +53,47 @@ const getProducts = asyncHandler(async (req, res) => {
 // @req     user._id
 //          body {product}
 // @res     status(201).json(createdProduct)
-const createProduct = asyncHandler(async (req, res) => {
-  const seqProductId = await IdSequence.findOneAndUpdate(
-    { sequenceName: 'sequenceProductId' },
-    { $inc: { sequenceCounter: 1 } },
-    { returnOriginal: false, upsert: true }
-  );
-  const sequenceProductId =
-    'PRD-' + seqProductId.sequenceCounter.toString().padStart(8, '0');
-  const product = new Product({
-    sequenceProductId,
-    name: 'Sample name',
-    imageURL: process.env.CLOUDINARY_SAMPLE_IMAGE_URL,
-    brand: 'Sample brand',
-    category: 'Sample category',
-    description: 'Sample description',
-    numReviews: 0,
-    price: 0,
-    countInStock: 0,
-    userId: req.user._id,
-  });
-  const createdProduct = await product.save();
-  res.status(201).json(createdProduct);
-});
+const createProduct = asyncHandler(
+  async (req: IExtendedRequest, res: Response) => {
+    const seqProductId = await IdSequence.findOneAndUpdate(
+      { sequenceName: 'sequenceProductId' },
+      { $inc: { sequenceCounter: 1 } },
+      { returnOriginal: false, upsert: true }
+    );
+    const sequenceProductId =
+      'PRD-' + seqProductId.sequenceCounter.toString().padStart(8, '0');
+    if (!(req.user && req.user._id)) {
+      throw new ExtendedError('No user has been passed to this request.');
+    }
+    const product = new Product({
+      sequenceProductId,
+      name: 'Sample name',
+      imageURL: process.env.CLOUDINARY_SAMPLE_IMAGE_URL,
+      brand: 'Sample brand',
+      category: 'Sample category',
+      description: 'Sample description',
+      numReviews: 0,
+      price: 0,
+      countInStock: 0,
+      userId: req.user._id,
+    });
+    const createdProduct = await product.save();
+    res.status(201).json(createdProduct);
+  }
+);
 
 // @desc    Fetch products corresponding to array of Ids
 // @route   GET /api/products/v1/productsforids
 // @access  Public
 // @req     query.productids (string of comma seperated product id's)
 // @res     status(200).json({ products })
-const getProductsForIds = asyncHandler(async (req, res) => {
-  const productIds = req.query.productids;
+const getProductsForIds = asyncHandler(async (req: Request, res: Response) => {
+  const productIds: string | undefined = req.query.productids?.toString();
+  if (!productIds) {
+    throw new ExtendedError(
+      'No productIds string has been passed as a query param to this request.'
+    );
+  }
   const productIdsArray = productIds.trim().split(',');
   const productObjectIds = productIdsArray.map(
     (s) => new mongoose.Types.ObjectId(s)
@@ -89,7 +109,7 @@ const getProductsForIds = asyncHandler(async (req, res) => {
 // @req     params.id
 // @res     status(200).json(product)
 //       or status(404).message:'Product ' + req.params.id + ' not found'
-const getProductById = asyncHandler(async (req, res) => {
+const getProductById = asyncHandler(async (req: Request, res: Response) => {
   const product = await Product.findById(req.params.id);
   if (product) {
     return res.status(200).json(product);
@@ -105,7 +125,7 @@ const getProductById = asyncHandler(async (req, res) => {
 //          body {Product}
 // @res     status(200).json(updatedProduct)
 //       or status(404).message:'Product not found'
-const updateProduct = asyncHandler(async (req, res) => {
+const updateProduct = asyncHandler(async (req: Request, res: Response) => {
   const { name, price, description, imageURL, brand, category, countInStock } =
     req.body;
   const product = await Product.findById(req.params.id);
@@ -130,7 +150,7 @@ const updateProduct = asyncHandler(async (req, res) => {
 // @req     params.id
 // @res     status(200).json({ message: 'Product removed' })
 //       or status(404).message:'Product not found'
-const deleteProduct = asyncHandler(async (req, res) => {
+const deleteProduct = asyncHandler(async (req: Request, res: Response) => {
   const product = await Product.findById(req.params.id);
   if (product) {
     await Product.deleteOne({ _id: product._id });
@@ -150,33 +170,38 @@ const deleteProduct = asyncHandler(async (req, res) => {
 // @res     status(201).json({ message: 'Review added' })
 //       or status(400).message:'You have already reviewed this product'
 //       or status(404).message:'Product not found'
-const createProductReview = asyncHandler(async (req, res) => {
-  const { rating, comment } = req.body;
-  const product = await Product.findById(req.params.id);
-  if (product) {
-    const alreadyReviewed = product.reviews.find(
-      (review) => review.userId.toString() === req.user._id.toString()
-    );
-    if (alreadyReviewed) {
-      throw new ExtendedError('You have already reviewed this product', 400);
+const createProductReview = asyncHandler(
+  async (req: IExtendedRequest, res: Response) => {
+    const { rating, comment } = req.body;
+    const product = await Product.findById(req.params.id);
+    if (product) {
+      if (!(req.user && req.user._id)) {
+        throw new ExtendedError('No user has been passed to this request.');
+      }
+      const alreadyReviewed = product.reviews.find(
+        (review) => review.userId.toString() === req.user!._id!.toString()
+      );
+      if (alreadyReviewed) {
+        throw new ExtendedError('You have already reviewed this product', 400);
+      }
+      const review = {
+        userId: req.user._id,
+        userName: req.user.name,
+        rating,
+        comment,
+      };
+      product.reviews.push(review);
+      product.numReviews = product.reviews.length;
+      product.rating =
+        product.reviews.reduce((acc, item) => item.rating + acc, 0) /
+        product.reviews.length;
+      await product.save();
+      res.status(201).json({ message: 'Review added' });
+    } else {
+      throw new ExtendedError('Product not found', 404);
     }
-    const review = {
-      userId: req.user._id,
-      userName: req.user.name,
-      rating,
-      comment,
-    };
-    product.reviews.push(review);
-    product.numReviews = product.reviews.length;
-    product.rating =
-      product.reviews.reduce((acc, item) => item.rating + acc, 0) /
-      product.reviews.length;
-    await product.save();
-    res.status(201).json({ message: 'Review added' });
-  } else {
-    throw new ExtendedError('Product not found', 404);
   }
-});
+);
 
 export {
   getProducts,

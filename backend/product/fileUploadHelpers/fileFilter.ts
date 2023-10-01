@@ -1,7 +1,15 @@
+import { Request } from 'express';
+import { FileFilterCallback } from 'multer';
 import path from 'path';
 
+type CBType = (error: Error | null, acceptFile: boolean) => void;
+
 // Function to check for image file types
-const fileFilter = (req, file, cb) => {
+const fileFilter = (
+  req: Request,
+  file: Express.Multer.File,
+  cb: FileFilterCallback
+) => {
   const filetypes = /jpe?g|png|webp/;
   const mimetypes = /image\/jpe?g|image\/png|image\/webp/;
   const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
@@ -9,7 +17,8 @@ const fileFilter = (req, file, cb) => {
   if (extname && mimetype) {
     cb(null, true);
   } else {
-    cb(new Error('Images only!'), false);
+    // Reject file because format is not an image
+    cb(null, false);
   }
 };
 
