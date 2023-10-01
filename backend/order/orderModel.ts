@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { OrderModel, OrderSchema, OrderDocument } from 'types/mongoose.gen';
 
 const orderItemsSchema = new mongoose.Schema({
   productId: {
@@ -35,7 +36,7 @@ const orderTotalAmountsSchema = new mongoose.Schema({
   },
 });
 
-const orderSchema = new mongoose.Schema(
+const orderSchema: OrderSchema = new mongoose.Schema(
   {
     sequenceOrderId: { type: String, required: true, unique: true },
     userId: {
@@ -93,6 +94,6 @@ orderSchema.virtual('user', {
 orderSchema.set('toObject', { virtuals: true });
 orderSchema.set('toJSON', { virtuals: true });
 
-const Order = mongoose.model('Order', orderSchema);
+const Order = mongoose.model<OrderDocument, OrderModel>('Order', orderSchema);
 
 export default Order;

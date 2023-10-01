@@ -19,17 +19,11 @@ const protect = asyncHandler(
     token = req.cookies.jwt;
     if (token) {
       try {
-        const decoded: any = jwt.verify(token, process.env.JWT_SECRET);
+        const decoded: any | string = jwt.verify(token, process.env.JWT_SECRET);
 
-        console.log('=== authMiddleware.protect == decoded');
-        console.log(decoded);
-        console.log(decoded.userId);
         // Retrieve user object from DB minus the password field
         // and assign user object to req so it is available to all routes
         req.user = await User.findById(decoded.userId).select('-password');
-        console.log('=== req.user');
-        console.log(req.user);
-
         next();
       } catch (error) {
         console.error(error);

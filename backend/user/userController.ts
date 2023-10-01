@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { IExtendedRequest } from 'types/commonTypes';
-import { UserDocument } from 'src/interfaces/mongoose.gen';
+import { UserDocument } from 'types/mongoose.gen';
 import asyncHandler from '../middleware/asyncHandler';
 import { ExtendedError } from '../middleware/errorMiddleware';
 import User from './userModel';

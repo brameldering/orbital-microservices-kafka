@@ -1,6 +1,19 @@
 import { Request } from 'express';
 import mongoose from 'mongoose';
 
+export interface IExtendedRequest extends Request {
+  user?: IReqUser;
+}
+
+export interface IReqUser {
+  _id?: mongoose.Types.ObjectId;
+  name?: string;
+  email?: string;
+  isAdmin?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 export interface IShippingAddress {
   address: string;
   city: string;
@@ -15,15 +28,8 @@ export interface ITotalAmounts {
   totalPrice: number;
 }
 
-export interface IReqUser {
-  _id?: mongoose.Types.ObjectId;
-  name?: string;
-  email?: string;
-  isAdmin?: boolean;
-  createdAt?: string;
-  updatedAt?: string;
-}
-
-export interface IExtendedRequest extends Request {
-  user?: IReqUser;
+export interface IDecodedJWTVerify {
+  userId: string;
+  iat: string;
+  exp: string;
 }

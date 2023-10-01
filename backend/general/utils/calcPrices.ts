@@ -1,8 +1,10 @@
+import { OrderOrderItem } from 'types/mongoose.gen';
+
 const roundTo2Decimals = (num: number) => {
   return Math.round(num * 100) / 100;
 };
 
-export const calcPrices = (items: any) => {
+export const calcPrices = (items: OrderOrderItem[]) => {
   const VAT_FRACTION: number = Number(
     process.env.VAT_PERCENTAGE && Number(process.env.VAT_PERCENTAGE) / 100
   );
@@ -12,7 +14,10 @@ export const calcPrices = (items: any) => {
   );
   // Calculate the total items price
   const itemsPrice = roundTo2Decimals(
-    items.reduce((acc: number, item: any) => acc + item.price * item.qty, 0)
+    items.reduce(
+      (acc: number, item: OrderOrderItem) => acc + item.price * item.qty,
+      0
+    )
   );
   const shippingPrice = roundTo2Decimals(
     items.length === 0 || itemsPrice > THRESHOLD_FREE_SHIPPING

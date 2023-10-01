@@ -1,6 +1,11 @@
 import mongoose from 'mongoose';
+import {
+  IdSequenceModel,
+  IdSequenceSchema,
+  IdSequenceDocument,
+} from 'types/mongoose.gen';
 
-const idSequenceSchema = new mongoose.Schema({
+const idSequenceSchema: IdSequenceSchema = new mongoose.Schema({
   sequenceName: {
     type: String,
     required: true,
@@ -13,6 +18,9 @@ const idSequenceSchema = new mongoose.Schema({
   },
 });
 
-const IdSequence = mongoose.model('IdSequence', idSequenceSchema);
+const IdSequence = mongoose.model<IdSequenceDocument, IdSequenceModel>(
+  'IdSequence',
+  idSequenceSchema
+);
 
 export default IdSequence;

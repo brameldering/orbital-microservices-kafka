@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 import { ExtendedError } from '../../middleware/errorMiddleware';
 dotenv.config();
 const { PAYPAL_CLIENT_ID, PAYPAL_APP_SECRET, PAYPAL_API_URL } = process.env;
+import { OrderModel } from 'types/mongoose.gen';
 
 /**
  * Fetches an access token from the PayPal API.
@@ -78,7 +79,7 @@ export async function verifyPayPalPayment(payPalTransactionId: string) {
  *
  */
 export async function checkIfNewTransaction(
-  orderModel: any,
+  orderModel: OrderModel,
   payPalTransactionId: string
 ) {
   try {

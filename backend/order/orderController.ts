@@ -11,6 +11,12 @@ import {
   checkIfNewTransaction,
 } from '../general/utils/paypal';
 import { IExtendedRequest } from 'types/commonTypes';
+import {
+  IdSequenceObject,
+  ProductObject,
+  OrderDocument,
+  OrderOrderItem,
+} from 'types/mongoose.gen';
 
 // @desc    Get all orders
 // @route   GET /api/orders/v1
@@ -32,42 +38,53 @@ const getOrders = asyncHandler(async (req: Request, res: Response) => {
 const createOrder = asyncHandler(
   async (req: IExtendedRequest, res: Response) => {
     const { orderItems, shippingAddress, paymentMethod } = req.body;
+    console.log('=== createOrder');
     if (orderItems && orderItems.length === 0) {
       throw new ExtendedError('No order items', 400);
     } else {
       // get the product info for the orderItems from the database
-      const itemsFromDB = await Product.find({
-        _id: { $in: orderItems.map((x: any) => x.productId) },
+      const itemsFromDB: ProductObject[] = await Product.find({
+        _id: { $in: orderItems.map((x: OrderOrderItem) => x.productId) },
       });
+      console.log('itemsFromDB');
+      console.log(itemsFromDB);
       // map over the order items and get the price from our items from database
-      const dbOrderItems = orderItems.map((itemFromClient: any) => {
-        const matchingItemFromDB: any = itemsFromDB.find(
-          (itemFromDB) => itemFromDB._id.toString() === itemFromClient.productId
-        );
-        return {
-          ...itemFromClient,
-          productId: itemFromClient.productId,
-          price: matchingItemFromDB.price,
-          _id: undefined,
-        };
-      });
+      const dbOrderItems: OrderOrderItem[] = orderItems.map(
+        (itemFromClient: OrderOrderItem) => {
+          const matchingItemFromDB: ProductObject | undefined =
+            itemsFromDB.find(
+              (itemFromDB) =>
+                itemFromDB._id.toString() ===
+                itemFromClient.productId.toString()
+            );
+          return {
+            ...itemFromClient,
+            productId: itemFromClient.productId,
+            price: matchingItemFromDB!.price,
+            _id: undefined,
+          };
+        }
+      );
+      console.log('dbOrderItems');
+      console.log(dbOrderItems);
       // calculate prices
       const totalAmounts = calcPrices(dbOrderItems);
       console.log('= createOrder.calcPrices ================');
       console.log(totalAmounts);
       // console.time('TimeNeededToSaveOrder');
       // Determine next orderId
-      const seqNumberOrderId = await IdSequence.findOneAndUpdate(
-        { sequenceName: 'sequenceOrderId' },
-        { $inc: { sequenceCounter: 1 } },
-        { returnOriginal: false, upsert: true }
-      );
-      const sequenceOrderId =
+      const seqNumberOrderId: IdSequenceObject =
+        await IdSequence.findOneAndUpdate(
+          { sequenceName: 'sequenceOrderId' },
+          { $inc: { sequenceCounter: 1 } },
+          { returnOriginal: false, upsert: true }
+        );
+      const sequenceOrderId: string =
         'ORD-' + seqNumberOrderId.sequenceCounter.toString().padStart(10, '0');
       if (!(req.user && req.user._id)) {
         throw new ExtendedError('No user has been passed to this request.');
       }
-      const order = new Order({
+      const order: OrderDocument = new Order({
         sequenceOrderId: sequenceOrderId,
         orderItems: dbOrderItems,
         userId: req.user._id,
