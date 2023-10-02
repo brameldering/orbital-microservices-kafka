@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import { ExtendedError } from '../../middleware/errorMiddleware';
 import { Response } from 'express';
 
-const generateToken = (res: Response, userId: string) => {
+const generateToken = (res: Response, jwtUserId: string) => {
   if (
     !(
       process.env.JWT_SECRET &&
@@ -18,10 +18,10 @@ const generateToken = (res: Response, userId: string) => {
 
   const token =
     process.env.JWT_SECRET &&
-    jwt.sign({ userId }, process.env.JWT_SECRET, {
+    jwt.sign({ jwtUserId }, process.env.JWT_SECRET, {
       expiresIn: process.env.EXPIRES_IN,
     });
-
+  console.log('token', token);
   // Set JWT as an HTTP-Only cookie
   if (process.env.COOKIE_EXPIRES_TIME) {
     const cookieExpiresTime = Number(process.env.COOKIE_EXPIRES_TIME);
