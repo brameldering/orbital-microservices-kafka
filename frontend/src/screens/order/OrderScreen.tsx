@@ -13,6 +13,10 @@ import { toast } from 'react-toastify';
 import Meta from '../../components/general/Meta';
 import Loader from '../../components/general/Loader';
 import ErrorMessage from '../../components/general/ErrorMessage';
+import {
+  dateTimeToLocaleDateString,
+  dateTimeToLocaleTimeString,
+} from '../../utils/dateUtils';
 import OrderItemLine from '../../components/order/OrderItemLine';
 import OrderSummaryBlock from '../../components/order/OrderSummaryBlock';
 import {
@@ -195,7 +199,8 @@ const OrderScreen = () => {
                 </p>
                 <p>
                   <strong>Order Date: </strong>{' '}
-                  {order.createdAt && order.createdAt.substring(0, 10)}
+                  {order.createdAt &&
+                    dateTimeToLocaleDateString(order.createdAt)}
                 </p>
               </ListGroup.Item>
               <ListGroup.Item>
@@ -215,9 +220,10 @@ const OrderScreen = () => {
                   {order.shippingAddress.postalCode},{' '}
                   {order.shippingAddress.country}
                 </p>
-                {order.isDelivered ? (
+                {order.isDelivered && order.deliveredAt ? (
                   <Alert variant='success'>
-                    Delivered on: {order.deliveredAt}
+                    Delivered on:{' '}
+                    {dateTimeToLocaleDateString(order.deliveredAt)}
                   </Alert>
                 ) : (
                   <Alert variant='info'>Not Delivered</Alert>
@@ -229,11 +235,13 @@ const OrderScreen = () => {
                   <strong>Method: </strong>
                   {order.paymentMethod}
                 </p>
-                {order.isPaid ? (
+                {order.isPaid && order.paidAt ? (
                   <Alert variant='success'>
-                    Paid on: {order.paidAt}{' '}
+                    Paid on: {dateTimeToLocaleDateString(order.paidAt)} at{' '}
+                    {dateTimeToLocaleTimeString(order.paidAt)}
+                    <br />
                     {order.paymentResult &&
-                      `, Payment Id: ${order.paymentResult.id}`}
+                      `Payment Id: ${order.paymentResult.id}`}
                   </Alert>
                 ) : (
                   <Alert variant='info'>Not Paid</Alert>

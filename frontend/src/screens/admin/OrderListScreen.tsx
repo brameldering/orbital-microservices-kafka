@@ -5,6 +5,7 @@ import { FaTimes } from 'react-icons/fa';
 import Meta from '../../components/general/Meta';
 import Loader from '../../components/general/Loader';
 import ErrorMessage from '../../components/general/ErrorMessage';
+import { dateTimeToLocaleDateString } from '../../utils/dateUtils';
 import { useGetOrdersQuery } from '../../slices/ordersApiSlice';
 
 const OrderListScreen = () => {
@@ -40,18 +41,21 @@ const OrderListScreen = () => {
                 <tr key={order._id}>
                   <td>{order.sequenceOrderId}</td>
                   <td>{order.user && order.user.name}</td>
-                  <td>{order.createdAt && order.createdAt.substring(0, 10)}</td>
+                  <td>
+                    {order.createdAt &&
+                      dateTimeToLocaleDateString(order.createdAt)}
+                  </td>
                   <td>${order.totalAmounts.totalPrice}</td>
                   <td>
                     {order.isPaid && order.paidAt ? (
-                      order.paidAt.substring(0, 10)
+                      dateTimeToLocaleDateString(order.paidAt)
                     ) : (
                       <FaTimes style={{ color: 'red' }} />
                     )}
                   </td>
                   <td>
                     {order.isDelivered && order.deliveredAt ? (
-                      order.deliveredAt.substring(0, 10)
+                      dateTimeToLocaleDateString(order.deliveredAt)
                     ) : (
                       <FaTimes style={{ color: 'red' }} />
                     )}

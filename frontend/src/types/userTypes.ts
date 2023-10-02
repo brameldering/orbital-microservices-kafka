@@ -4,8 +4,8 @@ export interface IUser {
   email: string;
   password?: string;
   isAdmin?: boolean;
-  createdAt?: string;
-  updatedAt?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface IRegistration {

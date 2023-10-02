@@ -11,11 +11,11 @@ export interface IOrder {
   paymentResult?: IPaymentResult;
   totalAmounts: ITotalAmounts;
   isPaid?: boolean;
-  paidAt?: string;
+  paidAt?: Date;
   isDelivered?: boolean;
-  deliveredAt?: string;
-  createdAt?: string;
-  updatedAt?: string;
+  deliveredAt?: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface IOrderItem {

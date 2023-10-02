@@ -15,6 +15,7 @@ import { toast } from 'react-toastify';
 import Meta from '../../components/general/Meta';
 import Loader from '../../components/general/Loader';
 import ErrorMessage from '../../components/general/ErrorMessage';
+import { dateTimeToLocaleDateString } from '../../utils/dateUtils';
 import Rating from '../../components/product/Rating';
 import {
   useGetProductByIdQuery,
@@ -198,7 +199,7 @@ const ProductScreen = () => {
                   <ListGroup.Item key={review._id}>
                     <strong>{review.userName}</strong>
                     <Rating value={review.rating} />
-                    <p>{review.createdAt.substring(0, 10)}</p>
+                    <p>{dateTimeToLocaleDateString(review.createdAt)}</p>
                     <p>{review.comment}</p>
                   </ListGroup.Item>
                 ))}

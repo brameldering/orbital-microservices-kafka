@@ -10,8 +10,8 @@ export interface IReqUser {
   name?: string;
   email?: string;
   isAdmin?: boolean;
-  createdAt?: string;
-  updatedAt?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface IShippingAddress {

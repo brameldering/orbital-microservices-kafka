@@ -21,8 +21,8 @@ export interface IProduct extends IBaseProduct {
   reviews: Array<IReview>;
   rating: number;
   userId?: string;
-  createdAt?: string;
-  updatedAt?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface IReview {
@@ -31,8 +31,8 @@ export interface IReview {
   userName: string;
   rating: number;
   comment: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface IReviewInput {
