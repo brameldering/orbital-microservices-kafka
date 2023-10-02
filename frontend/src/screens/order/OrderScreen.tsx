@@ -178,8 +178,12 @@ const OrderScreen = () => {
     }
   };
 
-  console.log('Before Render: Order');
-  console.log(order);
+  const disableButtons =
+    isLoading ||
+    loadingPayPalClientId ||
+    payingOrder ||
+    settingDeliverOrder ||
+    isPending;
 
   return isLoading ? (
     <Loader />
@@ -270,9 +274,9 @@ const OrderScreen = () => {
                 <OrderSummaryBlock totalAmounts={order.totalAmounts} />
                 {!order.isPaid && (
                   <ListGroup.Item>
-                    {payingOrder && <Loader />}
-                    {isPending && <Loader />}
-                    {errorPayingOrder ? (
+                    {disableButtons ? (
+                      <Loader />
+                    ) : errorPayingOrder ? (
                       <ErrorMessage error={errorPayingOrder} />
                     ) : errorSettingDeliverOrder ? (
                       <ErrorMessage error={errorSettingDeliverOrder} />
@@ -297,9 +301,12 @@ const OrderScreen = () => {
                     )}
                   </ListGroup.Item>
                 )}
-                {settingDeliverOrder && <Loader />}
-                {deliverError && <ErrorMessage error={deliverError} />}
-                {userInfo &&
+                {deliverError ? (
+                  <ErrorMessage error={deliverError} />
+                ) : disableButtons ? (
+                  <Loader />
+                ) : (
+                  userInfo &&
                   userInfo.isAdmin &&
                   order &&
                   order.isPaid &&
@@ -312,7 +319,8 @@ const OrderScreen = () => {
                         Mark As Delivered
                       </Button>
                     </ListGroup.Item>
-                  )}
+                  )
+                )}
               </ListGroup>
             </Card>
           </Col>
