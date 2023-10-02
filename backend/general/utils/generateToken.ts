@@ -5,13 +5,14 @@ import { Response } from 'express';
 const generateToken = (res: Response, userId: string) => {
   if (
     !(
-      process.env.JWT_SECRET ||
-      process.env.EXPIRES_IN ||
-      process.env.COOKIE_EXPIRES_TIME
+      process.env.JWT_SECRET &&
+      process.env.EXPIRES_IN &&
+      process.env.COOKIE_EXPIRES_TIME &&
+      !isNaN(Number(process.env.COOKIE_EXPIRES_TIME))
     )
   ) {
     throw new ExtendedError(
-      'Error: missing settings in .env for JWT_SECRET or EXPIRES_IN or COOKIE_EXPIRES_TIME'
+      'Missing settings in .env for JWT_SECRET or EXPIRES_IN or COOKIE_EXPIRES_TIME'
     );
   }
 

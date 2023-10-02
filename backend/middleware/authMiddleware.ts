@@ -12,7 +12,7 @@ const protect = asyncHandler(
     let token;
 
     if (!process.env.JWT_SECRET) {
-      throw new ExtendedError('Error: missing setting in .env for JWT_SECRET');
+      throw new ExtendedError('Missing setting in .env for JWT_SECRET');
     }
 
     // Read JWT from the 'jwt' cookie

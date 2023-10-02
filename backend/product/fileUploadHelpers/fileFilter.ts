@@ -2,8 +2,6 @@ import { Request } from 'express';
 import { FileFilterCallback } from 'multer';
 import path from 'path';
 
-type CBType = (error: Error | null, acceptFile: boolean) => void;
-
 // Function to check for image file types
 const fileFilter = (
   req: Request,
@@ -18,7 +16,7 @@ const fileFilter = (
     cb(null, true);
   } else {
     // Reject file because format is not an image
-    cb(null, false);
+    cb(new Error('Only image files are allowed'));
   }
 };
 

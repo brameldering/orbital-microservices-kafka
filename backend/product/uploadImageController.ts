@@ -11,13 +11,12 @@ import { uploadImageToCloudinary } from './fileUploadHelpers/uploadImageToCloudi
 //       or status(415).message:'Image NOT uploaded'
 const uploadImage = asyncHandler(async (req, res, next) => {
   try {
-    const imageURL = await uploadImageToCloudinary(req, res, next);
+    const imageURL = await uploadImageToCloudinary(req, res);
     res.status(201).json({
       message: 'Image uploaded',
       imageURL: imageURL,
     });
   } catch (error: any) {
-    console.log(error);
     throw new ExtendedError('Image NOT uploaded: ' + error.message, 415);
   }
 });

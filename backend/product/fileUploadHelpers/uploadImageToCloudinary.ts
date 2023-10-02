@@ -1,7 +1,6 @@
 import { Request, Response, RequestHandler } from 'express';
 import multer from 'multer';
 import { v2 as cloudinary } from 'cloudinary';
-import asyncHandler from '../../middleware/asyncHandler';
 import { ExtendedError } from '../../middleware/errorMiddleware';
 import fileFilter from './fileFilter';
 import { MAX_IMAGE_FILE_SIZE } from '../../constantsBackend';
@@ -38,21 +37,19 @@ const uploadDefault = async (dataURI: string) => {
   });
 };
 
-const uploadImageToCloudinary = asyncHandler(
-  async (req: Request, res: Response) => {
+const uploadImageToCloudinary = async (req: Request, res: Response) => {
+  try {
+    await runMiddleware(uploadMiddleware, req, res);
     if (!req.file || !req.file.buffer || !req.file.mimetype) {
-      throw new ExtendedError('File is missing from request');
+      throw new ExtendedError('File data is missing');
     }
-    try {
-      await runMiddleware(uploadMiddleware, req, res);
-      const b64 = Buffer.from(req.file.buffer).toString('base64');
-      let dataURI = 'data:' + req.file.mimetype + ';base64,' + b64;
-      const cldRes = await uploadDefault(dataURI);
-      return cldRes.secure_url;
-    } catch (err: any) {
-      throw new ExtendedError(err.message || err, 500);
-    }
+    const b64 = Buffer.from(req.file.buffer).toString('base64');
+    let dataURI = 'data:' + req.file.mimetype + ';base64,' + b64;
+    const cldRes = await uploadDefault(dataURI);
+    return cldRes.secure_url;
+  } catch (err: any) {
+    throw new ExtendedError(err.message || err, 500);
   }
-);
+};
 
 export { uploadImageToCloudinary };

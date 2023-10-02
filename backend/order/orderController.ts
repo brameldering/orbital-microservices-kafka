@@ -143,8 +143,6 @@ const updateOrderToPaid = asyncHandler(async (req: Request, res: Response) => {
   // the order as paid
   console.log('= updateOrderToPaid ==============================');
   const { verified, value } = await verifyPayPalPayment(req.body.id);
-  console.log('verified', verified);
-  console.log('value', value);
   if (!verified) throw new ExtendedError('Payment not verified');
   // check if this transaction has been used before
   const isNewTransaction = await checkIfNewTransaction(Order, req.body.id);
@@ -154,8 +152,7 @@ const updateOrderToPaid = asyncHandler(async (req: Request, res: Response) => {
   const order = await Order.findById(req.params.id);
   if (order && order.totalAmounts) {
     // check the correct amount was paid
-    const paidCorrectAmount =
-      order.totalAmounts.totalPrice.toString() === value;
+    const paidCorrectAmount = order.totalAmounts.totalPrice === Number(value);
     if (!paidCorrectAmount) throw new ExtendedError('Incorrect amount paid');
     order.isPaid = true;
     order.paidAt = new Date(Date.now());

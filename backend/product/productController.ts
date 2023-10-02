@@ -15,10 +15,10 @@ import { IExtendedRequest } from 'types/commonTypes';
 const getProducts = asyncHandler(async (req: Request, res: Response) => {
   if (
     !process.env.PRODUCTS_PER_PAGE ||
-    Number.isNaN(process.env.PRODUCTS_PER_PAGE)
+    isNaN(Number(process.env.PRODUCTS_PER_PAGE))
   ) {
     throw new ExtendedError(
-      'PRODUCTS_PER_PAGE setting is missing from .env file.'
+      'PRODUCTS_PER_PAGE setting is missing from .env file or not a number.'
     );
   }
   const pageSize = Number(process.env.PRODUCTS_PER_PAGE);
