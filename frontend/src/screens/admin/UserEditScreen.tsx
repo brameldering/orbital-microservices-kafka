@@ -1,26 +1,27 @@
+import { useFormik } from 'formik';
 import React, { useState } from 'react';
+import { Form, Button } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Form, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
-import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { textField } from '../../components/form/ValidationSpecs';
-import FormContainer from '../../components/form/FormContainer';
+
 import {
   TextField,
   EmailField,
   CheckBoxField,
 } from '../../components/form/FormComponents';
-import Meta from '../../components/general/Meta';
-import Loader from '../../components/general/Loader';
+import FormContainer from '../../components/form/FormContainer';
+import { textField } from '../../components/form/ValidationSpecs';
 import ErrorMessage from '../../components/general/ErrorMessage';
+import Loader from '../../components/general/Loader';
+import Meta from '../../components/general/Meta';
 import ModalConfirmBox from '../../components/general/ModalConfirmBox';
+import { setUserInfo } from '../../slices/authSlice';
 import {
   useGetUserDetailsQuery,
   useUpdateUserMutation,
 } from '../../slices/usersApiSlice';
-import { setUserInfo } from '../../slices/authSlice';
 
 const UserEditScreen = () => {
   const navigate = useNavigate();

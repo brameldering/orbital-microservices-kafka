@@ -1,16 +1,17 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { Button, Row, Col, ListGroup, Alert } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
-import Meta from '../../components/general/Meta';
-import Loader from '../../components/general/Loader';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
 import ErrorMessage from '../../components/general/ErrorMessage';
+import Loader from '../../components/general/Loader';
+import Meta from '../../components/general/Meta';
 import CheckoutSteps from '../../components/order/CheckoutSteps';
 import OrderItemLine from '../../components/order/OrderItemLine';
 import OrderSummaryBlock from '../../components/order/OrderSummaryBlock';
-import { useCreateOrderMutation } from '../../slices/ordersApiSlice';
 import { clearCartItems } from '../../slices/cartSlice';
+import { useCreateOrderMutation } from '../../slices/ordersApiSlice';
 import type { RootState } from '../../store';
 
 const PlaceOrderScreen = () => {

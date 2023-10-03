@@ -1,6 +1,7 @@
+import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { createRoot } from 'react-dom/client';
+import { HelmetProvider } from 'react-helmet-async';
 import { Provider } from 'react-redux';
 import {
   createBrowserRouter,
@@ -8,36 +9,32 @@ import {
   Route,
   RouterProvider,
 } from 'react-router-dom';
-import { HelmetProvider } from 'react-helmet-async';
-import { PayPalScriptProvider } from '@paypal/react-paypal-js';
-import reportWebVitals from './reportWebVitals';
 
-import store from './store';
 import App from './App';
-import PrivateRoute from './components/authorization/PrivateRoute';
 import AdminRoute from './components/authorization/AdminRoute';
+import PrivateRoute from './components/authorization/PrivateRoute';
 import NotFound from './components/general/NotFound';
-
+import reportWebVitals from './reportWebVitals';
+import OrderListScreen from './screens/admin/OrderListScreen';
+import ProductEditScreen from './screens/admin/ProductEditScreen';
+import ProductListScreen from './screens/admin/ProductListScreen';
+import UserEditScreen from './screens/admin/UserEditScreen';
+import UserListScreen from './screens/admin/UserListScreen';
 import HomeScreen from './screens/HomeScreen';
-import ProductScreen from './screens/product/ProductScreen';
-import LoginScreen from './screens/user/LoginScreen';
-import RegisterScreen from './screens/user/RegisterScreen';
-import PasswordResetScreen from './screens/user/PasswordResetScreen';
-import ProfileScreen from './screens/user/ProfileScreen';
-import MyOrdersScreen from './screens/user/MyOrdersScreen';
-import ChangePasswordScreen from './screens/user/ChangePasswordScreen';
-import PasswordResetConfirmation from './screens/user/PasswordResetConfirmation';
 import CartScreen from './screens/order/CartScreen';
-import ShippingScreen from './screens/order/ShippingScreen';
+import OrderScreen from './screens/order/OrderScreen';
 import PaymentScreen from './screens/order/PaymentScreen';
 import PlaceOrderScreen from './screens/order/PlaceOrderScreen';
-import OrderScreen from './screens/order/OrderScreen';
-
-import OrderListScreen from './screens/admin/OrderListScreen';
-import ProductListScreen from './screens/admin/ProductListScreen';
-import ProductEditScreen from './screens/admin/ProductEditScreen';
-import UserListScreen from './screens/admin/UserListScreen';
-import UserEditScreen from './screens/admin/UserEditScreen';
+import ShippingScreen from './screens/order/ShippingScreen';
+import ProductScreen from './screens/product/ProductScreen';
+import ChangePasswordScreen from './screens/user/ChangePasswordScreen';
+import LoginScreen from './screens/user/LoginScreen';
+import MyOrdersScreen from './screens/user/MyOrdersScreen';
+import PasswordResetConfirmation from './screens/user/PasswordResetConfirmation';
+import PasswordResetScreen from './screens/user/PasswordResetScreen';
+import ProfileScreen from './screens/user/ProfileScreen';
+import RegisterScreen from './screens/user/RegisterScreen';
+import store from './store';
 
 import './assets/styles/bootstrap.custom.css';
 import './assets/styles/index.css';

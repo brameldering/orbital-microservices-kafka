@@ -1,16 +1,17 @@
 import React, { useEffect } from 'react';
+import { Row, Col } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import Meta from '../components/general/Meta';
-import Loader from '../components/general/Loader';
+
 import ErrorMessage from '../components/general/ErrorMessage';
+import Loader from '../components/general/Loader';
+import Meta from '../components/general/Meta';
 import Paginate from '../components/general/Paginate';
 import Product from '../components/product/Product';
 import { setConfig } from '../slices/configSlice';
-import { useGetProductsQuery } from '../slices/productsApiSlice';
 import { useGetVATandShippingFeeQuery } from '../slices/ordersApiSlice';
+import { useGetProductsQuery } from '../slices/productsApiSlice';
 
 const HomeScreen = () => {
   const dispatch = useDispatch();

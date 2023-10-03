@@ -1,11 +1,13 @@
 import React from 'react';
 import { Alert } from 'react-bootstrap';
-import ErrorBlock from './ErrorBlock';
+
 import {
   IError,
   IStandardError,
   IErrorWithStatusAndData,
 } from '../../types/errorTypes';
+
+import ErrorBlock from './ErrorBlock';
 
 // Check if the error object is a 'standard' error (IStandardError) with error.message
 const isStandardError = (error: unknown): error is IStandardError => {
@@ -37,7 +39,7 @@ const isErrorWithStatusAndData = (
 
 // Create IError object from either IStandardError or IErrorWithStatusAndData
 const deriveErrorData = (error: unknown): IError => {
-  let errorObject: IError = { status: 0, message: '', stack: '' };
+  const errorObject: IError = { status: 0, message: '', stack: '' };
   try {
     if (isErrorWithStatusAndData(error)) {
       errorObject.status = error.status;

@@ -1,21 +1,22 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { Form, Button } from 'react-bootstrap';
-import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
+import React, { useState } from 'react';
+import { Form, Button } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import * as Yup from 'yup';
-import { passwordField } from '../../components/form/ValidationSpecs';
-import FormContainer from '../../components/form/FormContainer';
+
 import { PasswordField } from '../../components/form/FormComponents';
-import Meta from '../../components/general/Meta';
-import Loader from '../../components/general/Loader';
+import FormContainer from '../../components/form/FormContainer';
+import { passwordField } from '../../components/form/ValidationSpecs';
 import ErrorMessage from '../../components/general/ErrorMessage';
-import { IStandardError } from '../../types/errorTypes';
+import Loader from '../../components/general/Loader';
+import Meta from '../../components/general/Meta';
 import ModalConfirmBox from '../../components/general/ModalConfirmBox';
 import { setCredentials } from '../../slices/authSlice';
 import { useUpdatePasswordMutation } from '../../slices/usersApiSlice';
 import type { RootState } from '../../store';
+import { IStandardError } from '../../types/errorTypes';
 
 const ChangePasswordScreen = () => {
   const navigate = useNavigate();

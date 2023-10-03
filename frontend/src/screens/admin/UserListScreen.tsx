@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { LinkContainer } from 'react-router-bootstrap';
 import { Table, Button } from 'react-bootstrap';
 import { FaTrash, FaEdit, FaCheck, FaTimes } from 'react-icons/fa';
-import Meta from '../../components/general/Meta';
-import Loader from '../../components/general/Loader';
+import { LinkContainer } from 'react-router-bootstrap';
+
 import ErrorMessage from '../../components/general/ErrorMessage';
+import Loader from '../../components/general/Loader';
+import Meta from '../../components/general/Meta';
 import ModalConfirmBox from '../../components/general/ModalConfirmBox';
 import {
   useGetUsersQuery,

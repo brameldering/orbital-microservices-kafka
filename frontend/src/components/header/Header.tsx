@@ -1,16 +1,18 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { LinkContainer } from 'react-router-bootstrap';
 import { Navbar, Nav, NavDropdown, Badge } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import { FaShoppingCart, FaUser } from 'react-icons/fa';
+import { useSelector, useDispatch } from 'react-redux';
+import { LinkContainer } from 'react-router-bootstrap';
+import { useNavigate } from 'react-router-dom';
+
 import LogoSVG from '../../assets/LogoSVG';
-import SearchBox from './SearchBox';
-import { useLogoutMutation } from '../../slices/usersApiSlice';
 import { logout } from '../../slices/authSlice';
 import { resetCart } from '../../slices/cartSlice';
+import { useLogoutMutation } from '../../slices/usersApiSlice';
 import type { RootState } from '../../store';
+
+import SearchBox from './SearchBox';
 
 const Header = () => {
   const dispatch = useDispatch();

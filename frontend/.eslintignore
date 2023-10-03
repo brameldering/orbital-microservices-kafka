@@ -1,0 +1,19 @@
+# dependencies
+/node_modules
+
+# dist
+/dist
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# others
+/code-stages
+/scripts

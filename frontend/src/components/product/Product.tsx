@@ -1,10 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
+import { Link } from 'react-router-dom';
 
 import { CURRENCY_SYMBOL } from '../../constantsFrontend';
-import Rating from './Rating';
 import { IProduct } from '../../types/productTypes';
+
+import Rating from './Rating';
 
 interface ProductComponentProps {
   product: IProduct;

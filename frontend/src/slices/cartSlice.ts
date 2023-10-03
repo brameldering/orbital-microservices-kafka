@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { updateCart } from '../utils/cartUtils';
 import type { PayloadAction } from '@reduxjs/toolkit';
+
 import type { ICart, ICartItem } from '../types/cartTypes';
 import type { IShippingAddress, ITotalAmounts } from '../types/commonTypes';
+import { updateCart } from '../utils/cartUtils';
 
 // Define the initial state
 const cartInfoLocalStorage: string | null = localStorage.getItem('cart');

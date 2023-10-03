@@ -14,6 +14,7 @@ import orderRoutes from './order/orderRoutes';
 
 dotenv.config();
 const port = process.env.PORT || 5000;
+const nodeEnv = process.env.NODE_ENV;
 
 connectDB();
 
@@ -38,7 +39,7 @@ app.use('/api/users/v1', userRoutes);
 app.use('/api/orders/v1', orderRoutes);
 
 // Set build folder and default route for production or development
-if (process.env.NODE_ENV === 'production') {
+if (nodeEnv === 'production') {
   const __dirname = path.resolve();
   app.use(express.static(path.join(__dirname, '/frontend/dist')));
   // app.get('*.js', function (req, res, next) {
@@ -74,5 +75,5 @@ process.on('unhandledRejection', (err: any) => {
 });
 
 app.listen(port, () =>
-  console.info(`Server running in ${process.env.NODE_ENV} mode on port ${port}`)
+  console.info(`Server running in ${nodeEnv} mode on port ${port}`)
 );

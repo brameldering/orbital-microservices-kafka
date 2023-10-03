@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate, useParams } from 'react-router-dom';
 import {
   Row,
   Col,
@@ -11,20 +9,23 @@ import {
   Alert,
 } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import Meta from '../../components/general/Meta';
-import Loader from '../../components/general/Loader';
+
 import ErrorMessage from '../../components/general/ErrorMessage';
-import { dateTimeToLocaleDateString } from '../../utils/dateUtils';
+import Loader from '../../components/general/Loader';
+import Meta from '../../components/general/Meta';
 import Rating from '../../components/product/Rating';
+import { CURRENCY_SYMBOL } from '../../constantsFrontend';
+import { addToCart } from '../../slices/cartSlice';
 import {
   useGetProductByIdQuery,
   useCreateReviewMutation,
 } from '../../slices/productsApiSlice';
-import { addToCart } from '../../slices/cartSlice';
-import { CURRENCY_SYMBOL } from '../../constantsFrontend';
 import type { RootState } from '../../store';
 import { ICartItem } from '../../types/cartTypes';
+import { dateTimeToLocaleDateString } from '../../utils/dateUtils';
 
 const ProductScreen = () => {
   const dispatch = useDispatch();

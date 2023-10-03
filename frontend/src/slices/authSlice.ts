@@ -1,5 +1,6 @@
 import { createSlice, createAction } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
+
 import type { IUserInfo } from '../types/authTypes';
 import { IUser } from '../types/userTypes';
 
@@ -29,7 +30,7 @@ const authSlice = createSlice({
         localStorage.setItem('userInfo', JSON.stringify(action.payload));
       }
     },
-    logout: (state, action) => {
+    logout: (state) => {
       state.userInfo = null;
       localStorage.clear();
     },

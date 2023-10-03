@@ -1,4 +1,3 @@
-import { apiSlice } from './apiSlice';
 import { PRODUCTS_URL, UPLOAD_URL } from '../constantsFrontend';
 import {
   IBaseProduct,
@@ -7,6 +6,8 @@ import {
   IReviewInput,
   IUploadImageResponse,
 } from '../types/productTypes';
+
+import { apiSlice } from './apiSlice';
 
 export const productsApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({

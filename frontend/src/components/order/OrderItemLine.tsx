@@ -1,6 +1,7 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
 import { Row, Col, Image } from 'react-bootstrap';
+import { Link, useLocation } from 'react-router-dom';
+
 import { CURRENCY_SYMBOL } from '../../constantsFrontend';
 import { IOrderItem } from '../../types/orderTypes';
 

@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { IFeesConfig } from '../types/configTypes';
+
+import type { IFeesConfig } from '../types/configTypes';
 
 const configInfoLocalStorage: string | null =
   localStorage.getItem('configInfo');

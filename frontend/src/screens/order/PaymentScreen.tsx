@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { Form, Button, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Form, Button, Col } from 'react-bootstrap';
+
 import FormContainer from '../../components/form/FormContainer';
 import Meta from '../../components/general/Meta';
 import CheckoutSteps from '../../components/order/CheckoutSteps';

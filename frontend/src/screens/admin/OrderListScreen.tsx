@@ -1,12 +1,13 @@
 import React from 'react';
-import { LinkContainer } from 'react-router-bootstrap';
 import { Table, Button } from 'react-bootstrap';
 import { FaTimes } from 'react-icons/fa';
-import Meta from '../../components/general/Meta';
-import Loader from '../../components/general/Loader';
+import { LinkContainer } from 'react-router-bootstrap';
+
 import ErrorMessage from '../../components/general/ErrorMessage';
-import { dateTimeToLocaleDateString } from '../../utils/dateUtils';
+import Loader from '../../components/general/Loader';
+import Meta from '../../components/general/Meta';
 import { useGetOrdersQuery } from '../../slices/ordersApiSlice';
+import { dateTimeToLocaleDateString } from '../../utils/dateUtils';
 
 const OrderListScreen = () => {
   const { data: orders, isLoading, error: errorLoading } = useGetOrdersQuery();

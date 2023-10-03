@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
+import Container from 'react-bootstrap/Container';
 import { useDispatch } from 'react-redux';
 import { Outlet } from 'react-router-dom';
-import Container from 'react-bootstrap/Container';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
+import Header from './components/header/Header';
 import { logout } from './slices/authSlice';
 
 const App: React.FunctionComponent = () => {

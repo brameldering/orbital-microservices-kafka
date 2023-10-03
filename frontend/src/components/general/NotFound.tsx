@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import Meta from './Meta';
+
 import FormContainer from '../form/FormContainer';
+
+import Meta from './Meta';
 
 const NotFound: React.FunctionComponent = () => {
   const location = useLocation();

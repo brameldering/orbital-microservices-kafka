@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { Row, Col } from 'react-bootstrap';
-import Container from 'react-bootstrap/Container';
 import Card from 'react-bootstrap/Card';
+import Container from 'react-bootstrap/Container';
 
 interface FormContainerProps {
   children: ReactNode;

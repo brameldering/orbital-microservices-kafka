@@ -1,4 +1,3 @@
-import { apiSlice } from './apiSlice';
 import { USERS_URL } from '../constantsFrontend';
 import {
   IUser,
@@ -7,6 +6,8 @@ import {
   IPasswordUpdate,
   IPasswordReset,
 } from '../types/userTypes';
+
+import { apiSlice } from './apiSlice';
 
 export const userApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({

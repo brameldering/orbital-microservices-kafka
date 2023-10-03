@@ -1,7 +1,8 @@
 import React from 'react';
 import { Row, Col, ListGroup } from 'react-bootstrap';
-import { ITotalAmounts } from '../../types/commonTypes';
+
 import { CURRENCY_SYMBOL } from '../../constantsFrontend';
+import { ITotalAmounts } from '../../types/commonTypes';
 
 interface CurrencyFieldProps {
   label: string;

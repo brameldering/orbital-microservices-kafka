@@ -1,24 +1,25 @@
+import { useFormik } from 'formik';
 import React, { useEffect } from 'react';
+import { Form, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Form, Button, Row, Col } from 'react-bootstrap';
-import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import {
-  textField,
-  passwordField,
-} from '../../components/form/ValidationSpecs';
-import FormContainer from '../../components/form/FormContainer';
+
 import {
   TextField,
   EmailField,
   PasswordField,
 } from '../../components/form/FormComponents';
-import Meta from '../../components/general/Meta';
-import Loader from '../../components/general/Loader';
+import FormContainer from '../../components/form/FormContainer';
+import {
+  textField,
+  passwordField,
+} from '../../components/form/ValidationSpecs';
 import ErrorMessage from '../../components/general/ErrorMessage';
-import { useRegisterMutation } from '../../slices/usersApiSlice';
+import Loader from '../../components/general/Loader';
+import Meta from '../../components/general/Meta';
 import { setCredentials } from '../../slices/authSlice';
+import { useRegisterMutation } from '../../slices/usersApiSlice';
 import type { RootState } from '../../store';
 
 function RegisterScreen() {

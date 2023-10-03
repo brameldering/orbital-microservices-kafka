@@ -20,7 +20,6 @@ const protect = asyncHandler(
     if (token) {
       try {
         const decoded: any | string = jwt.verify(token, process.env.JWT_SECRET);
-        console.log('decoded', decoded);
         // Retrieve user object from DB minus the password field
         // and assign user object to req so it is available to all routes
         req.user = await User.findById(decoded.jwtUserId).select('-password');

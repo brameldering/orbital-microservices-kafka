@@ -1,21 +1,22 @@
+import { useFormik } from 'formik';
 import React from 'react';
+import { Form, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Form, Button, Row, Col } from 'react-bootstrap';
-import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import {
-  textField,
-  passwordField,
-} from '../../components/form/ValidationSpecs';
-import FormContainer from '../../components/form/FormContainer';
+
 import {
   EmailField,
   PasswordField,
 } from '../../components/form/FormComponents';
-import Meta from '../../components/general/Meta';
-import Loader from '../../components/general/Loader';
+import FormContainer from '../../components/form/FormContainer';
+import {
+  textField,
+  passwordField,
+} from '../../components/form/ValidationSpecs';
 import ErrorMessage from '../../components/general/ErrorMessage';
+import Loader from '../../components/general/Loader';
+import Meta from '../../components/general/Meta';
 import { setCredentials } from '../../slices/authSlice';
 import { useLoginMutation } from '../../slices/usersApiSlice';
 

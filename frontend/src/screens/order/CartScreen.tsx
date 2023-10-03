@@ -1,6 +1,4 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
 import {
   Row,
   Col,
@@ -12,10 +10,13 @@ import {
 } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
 import { FaTrash } from 'react-icons/fa';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+
 import Meta from '../../components/general/Meta';
 import CheckoutSteps from '../../components/order/CheckoutSteps';
-import { addToCart, removeFromCart } from '../../slices/cartSlice';
 import { CURRENCY_SYMBOL } from '../../constantsFrontend';
+import { addToCart, removeFromCart } from '../../slices/cartSlice';
 import type { RootState } from '../../store';
 import { ICartItem } from '../../types/cartTypes';
 

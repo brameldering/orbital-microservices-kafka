@@ -8,7 +8,8 @@
     "dev": "concurrently \"cd backend && npm run server\" \"cd frontend && npm start\"",
     "build": "concurrently \"cd backend && npm install\" \"cd frontend && npm install && npm run build\"",
     "generate-toc": "markdown-toc -i readme.md",
-    "data_import": "cd backend && node dist/seeder"
+    "data_import": "cd backend && node dist/seeder",
+    "lint": "cd frontend && eslint --ext .ts,.tsx ./frontend/**"
   },
   "author": "Bram Eldering",
   "license": "MIT",

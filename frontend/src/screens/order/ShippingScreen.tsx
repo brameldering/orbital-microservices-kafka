@@ -1,12 +1,13 @@
+import { useFormik } from 'formik';
 import React from 'react';
+import { Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Form, Button } from 'react-bootstrap';
-import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { textField } from '../../components/form/ValidationSpecs';
-import FormContainer from '../../components/form/FormContainer';
+
 import { TextField } from '../../components/form/FormComponents';
+import FormContainer from '../../components/form/FormContainer';
+import { textField } from '../../components/form/ValidationSpecs';
 import Meta from '../../components/general/Meta';
 import CheckoutSteps from '../../components/order/CheckoutSteps';
 import { saveShippingAddress } from '../../slices/cartSlice';

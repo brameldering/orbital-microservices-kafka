@@ -1,13 +1,14 @@
-import { apiSlice } from './apiSlice';
 import {
   ORDERS_URL,
   GET_VAT_AND_SHIPPING_FEE_URL,
   GET_PAYPAL_CLIENT_ID_URL,
 } from '../constantsFrontend';
-import { IFeesConfig } from '../types/configTypes';
-import { IOrder, IPaymentResult, IPayPalClientId } from '../types/orderTypes';
 import { ICartItem } from '../types/cartTypes';
 import { ITotalAmounts } from '../types/commonTypes';
+import { IFeesConfig } from '../types/configTypes';
+import { IOrder, IPaymentResult, IPayPalClientId } from '../types/orderTypes';
+
+import { apiSlice } from './apiSlice';
 
 // Define an API slice for orders
 export const orderApiSlice = apiSlice.injectEndpoints({

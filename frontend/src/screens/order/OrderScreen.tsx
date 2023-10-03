@@ -1,32 +1,33 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { Row, Col, ListGroup, Button, Alert } from 'react-bootstrap';
-import Card from 'react-bootstrap/Card';
 import {
   PayPalButtons,
   usePayPalScriptReducer,
   SCRIPT_LOADING_STATE,
 } from '@paypal/react-paypal-js';
+import React, { useEffect, useState } from 'react';
+import { Row, Col, ListGroup, Button, Alert } from 'react-bootstrap';
+import Card from 'react-bootstrap/Card';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 // import { OnApproveActions } from '@paypal/paypal-js/types/components/buttons';
 import { toast } from 'react-toastify';
-import Meta from '../../components/general/Meta';
-import Loader from '../../components/general/Loader';
+
 import ErrorMessage from '../../components/general/ErrorMessage';
-import {
-  dateTimeToLocaleDateString,
-  dateTimeToLocaleTimeString,
-} from '../../utils/dateUtils';
+import Loader from '../../components/general/Loader';
+import Meta from '../../components/general/Meta';
 import OrderItemLine from '../../components/order/OrderItemLine';
 import OrderSummaryBlock from '../../components/order/OrderSummaryBlock';
+import { CURRENCY_PAYPAL } from '../../constantsFrontend';
 import {
   useGetOrderDetailsQuery,
   useGetPaypalClientIdQuery,
   usePayOrderMutation,
   useDeliverOrderMutation,
 } from '../../slices/ordersApiSlice';
-import { CURRENCY_PAYPAL } from '../../constantsFrontend';
 import type { RootState } from '../../store';
+import {
+  dateTimeToLocaleDateString,
+  dateTimeToLocaleTimeString,
+} from '../../utils/dateUtils';
 
 const OrderScreen = () => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
