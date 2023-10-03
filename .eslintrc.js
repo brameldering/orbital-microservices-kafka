@@ -55,7 +55,14 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['*.test.{ts,tsx}', 'src/testing/**/*.{ts,tsx}'],
+      files: [
+        '*.test.{ts,tsx}',
+        'src/testing/**/*.{ts,tsx}',
+        'frontend/*.test.{ts,tsx}',
+        'frontend/src/testing/**/*.{ts,tsx}',
+        'backend/*.test.{ts,tsx}',
+        'backend/src/testing/**/*.{ts,tsx}',
+      ],
       rules: {
         '@typescript-eslint/no-explicit-any': 'off',
         '@typescript-eslint/ban-ts-comment': 'off',

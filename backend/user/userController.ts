@@ -1,10 +1,12 @@
 import { Request, Response } from 'express';
 import { IExtendedRequest } from 'types/commonTypes';
 import { UserDocument } from 'types/mongoose.gen';
+
+import generateToken from '../general/utils/generateToken';
 import asyncHandler from '../middleware/asyncHandler';
 import { ExtendedError } from '../middleware/errorMiddleware';
+
 import User from './userModel';
-import generateToken from '../general/utils/generateToken';
 
 // @desc    Get all users
 // @route   GET /api/users/v1

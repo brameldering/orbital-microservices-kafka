@@ -32,11 +32,13 @@ const HomeScreen = () => {
     error: errorLoadingVATandShippingFee,
   } = useGetVATandShippingFeeQuery();
 
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     if (VATandShippingFee) {
       dispatch(setConfig(VATandShippingFee));
     }
   }, [VATandShippingFee]);
+  /* eslint-enable react-hooks/exhaustive-deps */
 
   return (
     <>

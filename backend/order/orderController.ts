@@ -1,15 +1,5 @@
 import { Request, Response } from 'express';
 import mongoose from 'mongoose';
-import asyncHandler from '../middleware/asyncHandler';
-import { ExtendedError } from '../middleware/errorMiddleware';
-import IdSequence from '../general/models/idSequenceModel';
-import Order from './orderModel';
-import Product from '../product/productModel';
-import { calcPrices } from '../general/utils/calcPrices';
-import {
-  verifyPayPalPayment,
-  checkIfNewTransaction,
-} from '../general/utils/paypal';
 import { IExtendedRequest } from 'types/commonTypes';
 import {
   IdSequenceObject,
@@ -17,6 +7,20 @@ import {
   OrderDocument,
   OrderOrderItem,
 } from 'types/mongoose.gen';
+
+import IdSequence from '../general/models/idSequenceModel';
+import { calcPrices } from '../general/utils/calcPrices';
+import {
+  verifyPayPalPayment,
+  checkIfNewTransaction,
+} from '../general/utils/paypal';
+import asyncHandler from '../middleware/asyncHandler';
+import { ExtendedError } from '../middleware/errorMiddleware';
+import Product from '../product/productModel';
+
+import Order from './orderModel';
+
+
 
 // @desc    Get all orders
 // @route   GET /api/orders/v1

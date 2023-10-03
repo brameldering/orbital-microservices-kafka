@@ -1,6 +1,7 @@
+import path from 'path';
+
 import { Request } from 'express';
 import { FileFilterCallback } from 'multer';
-import path from 'path';
 
 // Function to check for image file types
 const fileFilter = (

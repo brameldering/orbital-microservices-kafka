@@ -1,9 +1,12 @@
+import { v2 as cloudinary } from 'cloudinary';
 import { Request, Response, RequestHandler } from 'express';
 import multer from 'multer';
-import { v2 as cloudinary } from 'cloudinary';
-import { ExtendedError } from '../../middleware/errorMiddleware';
-import fileFilter from './fileFilter';
+
 import { MAX_IMAGE_FILE_SIZE } from '../../constantsBackend';
+import { ExtendedError } from '../../middleware/errorMiddleware';
+
+import fileFilter from './fileFilter';
+
 
 const storage = multer.memoryStorage();
 const upload = multer({
@@ -44,7 +47,7 @@ const uploadImageToCloudinary = async (req: Request, res: Response) => {
       throw new ExtendedError('File data is missing');
     }
     const b64 = Buffer.from(req.file.buffer).toString('base64');
-    let dataURI = 'data:' + req.file.mimetype + ';base64,' + b64;
+    const dataURI = 'data:' + req.file.mimetype + ';base64,' + b64;
     const cldRes = await uploadDefault(dataURI);
     return cldRes.secure_url;
   } catch (err: any) {

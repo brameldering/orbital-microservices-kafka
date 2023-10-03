@@ -1,16 +1,18 @@
 import path from 'path';
+
+import cookieParser from 'cookie-parser';
+import dotenv from 'dotenv';
 import express, { Request, Response } from 'express';
 // import compression from 'compression';
-import dotenv from 'dotenv';
-import cookieParser from 'cookie-parser';
+
+import configRoutes from './config/configRoutes';
 import connectDB from './general/db/db';
 import configureCORS from './middleware/configureCORS';
 import { notFound, errorHandler } from './middleware/errorMiddleware';
-import configRoutes from './config/configRoutes';
+import orderRoutes from './order/orderRoutes';
 import productRoutes from './product/productRoutes';
 import uploadRoutes from './product/uploadImageRoutes';
 import userRoutes from './user/userRoutes';
-import orderRoutes from './order/orderRoutes';
 
 dotenv.config();
 const port = process.env.PORT || 5000;

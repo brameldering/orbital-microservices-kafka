@@ -1,7 +1,7 @@
 {
   "name": "orbital-shop",
   "version": "0.1.0",
-  "type": "module",
+  "type": "commonjs",
   "description": "eCommerce application built with the MERN stack",
   "private": true,
   "scripts": {
@@ -9,7 +9,7 @@
     "build": "concurrently \"cd backend && npm install\" \"cd frontend && npm install && npm run build\"",
     "generate-toc": "markdown-toc -i readme.md",
     "data_import": "cd backend && node dist/seeder",
-    "lint": "cd frontend && eslint --ext .ts,.tsx ./frontend/**"
+    "lint": "eslint --ext .ts,.tsx ./frontend/src/ && eslint --ext .ts ./backend/"
   },
   "author": "Bram Eldering",
   "license": "MIT",
@@ -17,6 +17,15 @@
     "@babel/preset-env": "^7.22.20",
     "@babel/preset-react": "^7.22.15",
     "@babel/preset-typescript": "^7.22.15",
-    "@types/react-bootstrap": "^0.32.32"
+    "@types/react-bootstrap": "^0.32.32",
+    "@typescript-eslint/eslint-plugin": "^6.7.4",
+    "eslint": "^8.50.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-config-react-app": "^7.0.1",
+    "eslint-plugin-import": "^2.28.1",
+    "eslint-plugin-jest": "^27.4.2",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-storybook": "^0.6.14"
   }
 }

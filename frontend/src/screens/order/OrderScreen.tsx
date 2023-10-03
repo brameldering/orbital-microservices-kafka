@@ -84,6 +84,7 @@ const OrderScreen = () => {
     }
   };
 
+  /* eslint-disable react-hooks/exhaustive-deps */
   // Perform loadPayPalScript when order info has been loaded
   useEffect(() => {
     console.log('== orderScreen == useEffect ===');
@@ -103,6 +104,7 @@ const OrderScreen = () => {
       }
     }
   }, [errorLoadingPayPalClientId, loadingPayPalClientId, order]);
+  /* eslint-enable react-hooks/exhaustive-deps */
 
   function createOrder(data: any, actions: any) {
     if (!order || !order.totalAmounts.totalPrice)

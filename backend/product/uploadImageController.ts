@@ -1,5 +1,6 @@
 import asyncHandler from '../middleware/asyncHandler';
 import { ExtendedError } from '../middleware/errorMiddleware';
+
 import { uploadImageToCloudinary } from './fileUploadHelpers/uploadImageToCloudinary';
 
 // ================ Upload image ================
@@ -9,7 +10,7 @@ import { uploadImageToCloudinary } from './fileUploadHelpers/uploadImageToCloudi
 // @req     body: FormData.image
 // @res     status(200).send(result)
 //       or status(415).message:'Image NOT uploaded'
-const uploadImage = asyncHandler(async (req, res, next) => {
+const uploadImage = asyncHandler(async (req, res) => {
   try {
     const imageURL = await uploadImageToCloudinary(req, res);
     res.status(201).json({

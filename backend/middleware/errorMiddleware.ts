@@ -15,12 +15,7 @@ const notFound = (req: Request, res: Response, next: NextFunction) => {
   next(error);
 };
 
-const errorHandler = (
-  err: any,
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+const errorHandler = (err: any, req: Request, res: Response) => {
   // if no status provided then set to internal server error
   let status = err.status || 500;
   // if status is still success (2xx) then set status to 500

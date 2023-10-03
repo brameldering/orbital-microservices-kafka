@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+
 import { ExtendedError } from './errorMiddleware';
 
 const configureCORS = (req: Request, res: Response, next: NextFunction) => {

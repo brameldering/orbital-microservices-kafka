@@ -1,6 +1,8 @@
 import express from 'express';
-import checkObjectId from '../middleware/checkObjectId';
+
 import { protect, admin } from '../middleware/authMiddleware';
+import checkObjectId from '../middleware/checkObjectId';
+
 import {
   getProducts,
   createProduct,

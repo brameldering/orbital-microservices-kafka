@@ -1,22 +1,21 @@
-import jwt from 'jsonwebtoken';
-import asyncHandler from './asyncHandler';
-import { ExtendedError } from './errorMiddleware';
 import { Response, NextFunction } from 'express';
+import jwt from 'jsonwebtoken';
 import { IExtendedRequest } from 'types/commonTypes';
 
 import User from '../user/userModel';
 
+import asyncHandler from './asyncHandler';
+import { ExtendedError } from './errorMiddleware';
+
 // User must be authenticated
 const protect = asyncHandler(
   async (req: IExtendedRequest, res: Response, next: NextFunction) => {
-    let token;
-
     if (!process.env.JWT_SECRET) {
       throw new ExtendedError('Missing setting in .env for JWT_SECRET');
     }
 
     // Read JWT from the 'jwt' cookie
-    token = req.cookies.jwt;
+    const token = req.cookies.jwt;
     if (token) {
       try {
         const decoded: any | string = jwt.verify(token, process.env.JWT_SECRET);

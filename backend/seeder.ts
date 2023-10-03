@@ -1,15 +1,14 @@
 import dotenv from 'dotenv';
 
 import connectDB from './general/db/db';
-
 import IdSequence from './general/models/idSequenceModel';
+import idSequences from './general/seederdata/idSequences';
+import products from './general/seederdata/products';
+import users from './general/seederdata/users';
+import Order from './order/orderModel';
 import Product from './product/productModel';
 import User from './user/userModel';
-import Order from './order/orderModel';
 
-import idSequences from './general/seederdata/idSequences';
-import users from './general/seederdata/users';
-import products from './general/seederdata/products';
 
 dotenv.config();
 

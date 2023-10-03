@@ -1,6 +1,7 @@
-import jwt from 'jsonwebtoken';
-import { ExtendedError } from '../../middleware/errorMiddleware';
 import { Response } from 'express';
+import jwt from 'jsonwebtoken';
+
+import { ExtendedError } from '../../middleware/errorMiddleware';
 
 const generateToken = (res: Response, jwtUserId: string) => {
   if (

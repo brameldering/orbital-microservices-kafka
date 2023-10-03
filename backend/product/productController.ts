@@ -1,10 +1,13 @@
 import { Request, Response } from 'express';
 import mongoose from 'mongoose';
+import { IExtendedRequest } from 'types/commonTypes';
+
+import IdSequence from '../general/models/idSequenceModel';
 import asyncHandler from '../middleware/asyncHandler';
 import { ExtendedError } from '../middleware/errorMiddleware';
-import IdSequence from '../general/models/idSequenceModel';
+
 import Product from './productModel';
-import { IExtendedRequest } from 'types/commonTypes';
+
 
 // @desc    Fetch all products
 // @route   GET /api/products/v1
