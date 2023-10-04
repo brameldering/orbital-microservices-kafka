@@ -9,7 +9,9 @@
     "build": "concurrently \"cd backend && npm install\" \"cd frontend && npm install && npm run build\"",
     "generate-toc": "markdown-toc -i readme.md",
     "data_import": "cd backend && node dist/seeder",
-    "lint": "eslint --ext .ts,.tsx ./frontend/src/ && eslint --ext .ts ./backend/"
+    "lint": "eslint --ext .ts,.tsx ./frontend/src/ && eslint --ext .ts ./backend/",
+    "lint:fix": "eslint --ext .ts,.tsx ./frontend/src/ --no-error-on-unmatched-pattern --fix && eslint --ext .ts ./backend/ --no-error-on-unmatched-pattern --fix",
+    "types:check": "tsc --noEmit --pretty -p ./frontend && tsc --noEmit --pretty -p ./backend"
   },
   "author": "Bram Eldering",
   "license": "MIT",

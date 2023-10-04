@@ -8,7 +8,6 @@ import { ExtendedError } from '../middleware/errorMiddleware';
 
 import Product from './productModel';
 
-
 // @desc    Fetch all products
 // @route   GET /api/products/v1
 // @access  Public
