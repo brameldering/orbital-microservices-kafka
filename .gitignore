@@ -12,6 +12,9 @@ frontend/node_modules
 # testing
 /coverage
 
+# storybook
+/storybook-static
+
 # misc
 .DS_Store
 backend/.env
