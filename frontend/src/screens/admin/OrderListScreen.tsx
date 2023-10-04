@@ -16,6 +16,7 @@ const OrderListScreen = () => {
     <>
       <Meta title='Manage Orders' />
       <h1>Orders</h1>
+      <p>test</p>
       {isLoading ? (
         <Loader />
       ) : errorLoading ? (
