@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 const CompressionPlugin = require('compression-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
@@ -10,8 +11,9 @@ module.exports = {
   mode: 'development',
   entry: path.resolve(__dirname, './src/index.tsx'),
   output: {
-    path: path.join(__dirname, '/dist'),
     filename: 'bundle.js',
+    path: path.resolve(__dirname, '/dist'),
+    clean: true,
     // the following fixes the error in Chrome DevTools Javascript source map
     devtoolModuleFilenameTemplate: (info) =>
       'file:///' + path.resolve(info.absoluteResourcePath).replace(/\\/g, '/'),
@@ -25,12 +27,14 @@ module.exports = {
    * for browser (client side). Default is "web"
    */
   target: 'web',
+  devtool: 'inline-source-map',
   devServer: {
     port: 3000,
     /** "static"
      * This property tells Webpack what static file it should serve
      */
-    static: ['./dist'],
+    static: './dist',
+
     /** "open"
      * opens the browser after server is successfully started
      */
@@ -44,7 +48,7 @@ module.exports = {
     /** "liveReload"
      * disable live reload on the browser. "hot" must be set to false for this to work
      */
-    liveReload: true,
+    //liveReload: true,
     historyApiFallback: true,
   },
   resolveLoader: {
@@ -100,6 +104,7 @@ module.exports = {
     }),
     new WebpackManifestPlugin(),
     // new BundleAnalyzerPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
   ],
   optimization: {
     minimize: true,
