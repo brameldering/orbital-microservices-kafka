@@ -28,7 +28,7 @@ const MyOrdersScreen = () => {
       ) : errorLoading ? (
         <ErrorMessage error={errorLoading} />
       ) : orders && orders.length === 0 ? (
-        <p>You have no orders</p>
+        <p id='you-have-no-orders-message'>You have no orders</p>
       ) : (
         <Table striped hover responsive className='table-sm'>
           <thead>

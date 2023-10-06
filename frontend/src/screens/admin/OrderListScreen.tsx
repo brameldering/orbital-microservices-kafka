@@ -16,11 +16,12 @@ const OrderListScreen = () => {
     <>
       <Meta title='Manage Orders' />
       <h1>Orders</h1>
-      <p>test</p>
       {isLoading ? (
         <Loader />
       ) : errorLoading ? (
         <ErrorMessage error={errorLoading} />
+      ) : orders && orders.length === 0 ? (
+        <p>There are no orders</p>
       ) : (
         <Table striped hover responsive className='table-sm'>
           <thead>
@@ -35,10 +36,7 @@ const OrderListScreen = () => {
             </tr>
           </thead>
           <tbody>
-            {orders && orders.length === 0 ? (
-              <p>There are no orders</p>
-            ) : (
-              orders &&
+            {orders &&
               orders.map((order) => (
                 <tr key={order._id}>
                   <td>{order.sequenceOrderId}</td>
@@ -70,8 +68,7 @@ const OrderListScreen = () => {
                     </LinkContainer>
                   </td>
                 </tr>
-              ))
-            )}
+              ))}
           </tbody>
         </Table>
       )}

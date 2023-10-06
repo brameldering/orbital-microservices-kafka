@@ -25,7 +25,7 @@ const PasswordResetScreen = () => {
       email: '',
     },
     validationSchema: Yup.object({
-      email: textField().required('required').email('Invalid email address'),
+      email: textField().required('Required').email('Invalid email address'),
     }),
     onSubmit: async (values) => {
       const email = values.email;
@@ -52,6 +52,7 @@ const PasswordResetScreen = () => {
           formik={formik}
         />
         <Button
+          id='PasswordResetScreen-reset-password-button'
           disabled={resettingPassword}
           type='submit'
           variant='primary mt-2'>

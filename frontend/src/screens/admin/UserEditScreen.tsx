@@ -51,8 +51,8 @@ const UserEditScreen = () => {
     },
     enableReinitialize: true,
     validationSchema: Yup.object({
-      name: textField().required('required'),
-      email: textField().required('required').email('Invalid email address'),
+      name: textField().required('Required'),
+      email: textField().required('Required').email('Invalid email address'),
     }),
     onSubmit: async (values) => {
       const name = values.name;
@@ -124,6 +124,7 @@ const UserEditScreen = () => {
               formik={formik}
             />
             <Button
+              id='UserEditScreen-update-button'
               type='submit'
               variant='primary'
               className='mt-2'

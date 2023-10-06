@@ -16,12 +16,11 @@ import ModalConfirmBox from '../../components/general/ModalConfirmBox';
 import { setCredentials } from '../../slices/authSlice';
 import { useUpdatePasswordMutation } from '../../slices/usersApiSlice';
 import type { RootState } from '../../store';
-import { IStandardError } from '../../types/errorTypes';
 
 const ChangePasswordScreen = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [error, setError] = useState<IStandardError>({ message: '' });
+  const [error, setError] = useState<any>();
   const { userInfo } = useSelector((state: RootState) => state.auth);
 
   const [
@@ -108,6 +107,7 @@ const ChangePasswordScreen = () => {
             formik={formik}
           />
           <Button
+            id='ChangePasswordScreen-update-button'
             disabled={buttonDisabled}
             type='submit'
             variant='primary mt-2'>

@@ -28,10 +28,10 @@ const ShippingScreen = () => {
       country: shippingAddress?.country || '',
     },
     validationSchema: Yup.object({
-      address: textField().required('required'),
-      postalCode: textField().required('required'),
-      city: textField().required('required'),
-      country: textField().required('required'),
+      address: textField().required('Required'),
+      postalCode: textField().required('Required'),
+      city: textField().required('Required'),
+      country: textField().required('Required'),
     }),
     onSubmit: async (values) => {
       const address = values.address;

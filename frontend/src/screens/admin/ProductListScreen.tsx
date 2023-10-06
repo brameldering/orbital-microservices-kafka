@@ -116,6 +116,8 @@ const ProductListScreen = () => {
         <Loader />
       ) : errorLoading ? (
         <ErrorMessage error={errorLoading} />
+      ) : data && (!data.products || data.products.length === 0) ? (
+        <p>There are no products</p>
       ) : (
         <>
           <Table striped hover responsive className='table-sm'>
@@ -130,10 +132,7 @@ const ProductListScreen = () => {
               </tr>
             </thead>
             <tbody>
-              {data && (!data.products || data.products.length === 0) ? (
-                <p>There are no products</p>
-              ) : (
-                data &&
+              {data &&
                 data.products.map((product) => (
                   <tr key={product._id}>
                     <td>{product.sequenceProductId}</td>
@@ -158,8 +157,7 @@ const ProductListScreen = () => {
                       </Button>
                     </td>
                   </tr>
-                ))
-              )}
+                ))}
             </tbody>
           </Table>
           {data && (

@@ -37,8 +37,8 @@ const LoginScreen = () => {
       password: '',
     },
     validationSchema: Yup.object({
-      email: textField().required('required').email('Invalid email address'),
-      password: passwordField().required('required'),
+      email: textField().required('Required').email('Invalid email address'),
+      password: passwordField().required('Required'),
     }),
     onSubmit: async (values) => {
       const email = values.email;
@@ -75,7 +75,7 @@ const LoginScreen = () => {
         <Col>
           New Customer?<span> </span>
           <Link
-            id='register_new_customer'
+            id='Login-screen-register_new_customer'
             to={redirect ? `/register?redirect=${redirect}` : '/register'}>
             Register
           </Link>
@@ -84,7 +84,7 @@ const LoginScreen = () => {
       <Row>
         <Col>
           Password forgotten?<span> </span>
-          <Link id='reset_password' to={'/passwordreset'}>
+          <Link id='Login-screen-reset_password' to={'/passwordreset'}>
             Reset password
           </Link>
         </Col>

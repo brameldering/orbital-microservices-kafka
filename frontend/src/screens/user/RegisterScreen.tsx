@@ -47,9 +47,9 @@ function RegisterScreen() {
       password: '',
     },
     validationSchema: Yup.object({
-      name: textField().required('required'),
-      email: textField().required('required').email('Invalid email address'),
-      password: passwordField().required('required'),
+      name: textField().required('Required'),
+      email: textField().required('Required').email('Invalid email address'),
+      password: passwordField().required('Required'),
     }),
     onSubmit: async (values) => {
       const name = values.name;
@@ -75,14 +75,20 @@ function RegisterScreen() {
         <TextField controlId='name' label='Full name' formik={formik} />
         <EmailField controlId='email' label='Email' formik={formik} />
         <PasswordField controlId='password' label='Password' formik={formik} />
-        <Button disabled={registering} type='submit' variant='primary mt-2'>
+        <Button
+          id='RegisterScreen-register-button'
+          disabled={registering}
+          type='submit'
+          variant='primary mt-2'>
           Register
         </Button>
       </Form>
       <Row className='py-3'>
         <Col>
           Already have an account?{' '}
-          <Link to={redirect ? `/login?redirect=${redirect}` : '/login'}>
+          <Link
+            id='Register-screen-already_have_account'
+            to={redirect ? `/login?redirect=${redirect}` : '/login'}>
             Login
           </Link>
         </Col>

@@ -29,8 +29,8 @@ const ProfileScreen = () => {
       email: userInfo?.email || '',
     },
     validationSchema: Yup.object({
-      name: textField().required('required'),
-      email: textField().required('required').email('Invalid email address'),
+      name: textField().required('Required'),
+      email: textField().required('Required').email('Invalid email address'),
     }),
     onSubmit: async (values) => {
       const name = values.name;
@@ -62,6 +62,7 @@ const ProfileScreen = () => {
         <Row className='align-items-center'>
           <Col>
             <Button
+              id='ProfileScreen-update-button'
               disabled={buttonDisabled}
               type='submit'
               variant='primary mt-2'>
@@ -69,7 +70,9 @@ const ProfileScreen = () => {
             </Button>
           </Col>
           <Col className='text-end'>
-            <Link to='/password'>Change Password</Link>
+            <Link id='ProfileScreen-change-password' to='/password'>
+              Change Password
+            </Link>
           </Col>
         </Row>
         {updatingProfile && <Loader />}

@@ -58,12 +58,12 @@ const ProductEditScreen = () => {
     },
     enableReinitialize: true,
     validationSchema: Yup.object({
-      name: textField().required('required'),
-      price: numField().required('required'),
+      name: textField().required('Required'),
+      price: numField().required('Required'),
       imageURL: textField(),
       brand: textField(),
       category: textField(),
-      countInStock: numField().required('required'),
+      countInStock: numField().required('Required'),
       description: textField(),
     }),
     onSubmit: async (values) => {

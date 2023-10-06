@@ -26,7 +26,6 @@ const errorHandler = (
   // if status is still success (2xx) then set status to 500
   status = status >= 200 && status < 300 ? 500 : status;
   let message = err.message || '';
-  console.log('message', message);
 
   // MongoDB provides err.code. This is 11000 to indicate dublicate unique field error.
   // Which happens when registering or updating profile to an already existing email address

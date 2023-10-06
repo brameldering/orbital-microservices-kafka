@@ -63,6 +63,8 @@ const UserListScreen = () => {
         <Loader />
       ) : errorLoading ? (
         <ErrorMessage error={errorLoading} />
+      ) : users && users.length === 0 ? (
+        <p>There are no users</p>
       ) : (
         <Table striped hover responsive className='table-sm'>
           <thead>
@@ -75,18 +77,15 @@ const UserListScreen = () => {
             </tr>
           </thead>
           <tbody>
-            {users && users.length === 0 ? (
-              <p>There are no users</p>
-            ) : (
-              users &&
+            {users &&
               users.map((user) => (
                 <tr key={user._id}>
-                  <td>{user._id}</td>
-                  <td>{user.name}</td>
-                  <td>
+                  <td id={`id-${user.email}`}>{user._id}</td>
+                  <td id={`name-${user.email}`}>{user.name}</td>
+                  <td id={`email-${user.email}`}>
                     <a href={`mailto:${user.email}`}>{user.email}</a>
                   </td>
-                  <td>
+                  <td id={`admin-${user.email}`}>
                     {user.isAdmin ? (
                       <FaCheck style={{ color: 'green' }} />
                     ) : (
@@ -97,11 +96,15 @@ const UserListScreen = () => {
                     <LinkContainer
                       to={`/admin/user/${user._id}/edit`}
                       style={{ marginRight: '10px' }}>
-                      <Button variant='light' className='btn-sm'>
+                      <Button
+                        id={`edit-${user.email}`}
+                        variant='light'
+                        className='btn-sm'>
                         <FaEdit />
                       </Button>
                     </LinkContainer>
                     <Button
+                      id={`delete-${user.email}`}
                       variant='danger'
                       className='btn-sm'
                       onClick={() => confirmDeleteUser(user._id)}>
@@ -109,8 +112,7 @@ const UserListScreen = () => {
                     </Button>
                   </td>
                 </tr>
-              ))
-            )}
+              ))}
           </tbody>
         </Table>
       )}

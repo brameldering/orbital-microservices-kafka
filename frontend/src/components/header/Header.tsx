@@ -39,7 +39,7 @@ const Header = () => {
       <Navbar bg='primary' variant='dark' expand='lg' collapseOnSelect>
         <Container>
           <LinkContainer to='/'>
-            <Navbar.Brand>
+            <Navbar.Brand id='header-orbital-shop'>
               <LogoSVG />
               <span style={{ marginLeft: '10px' }}>Orbital Shop</span>
             </Navbar.Brand>
@@ -50,7 +50,7 @@ const Header = () => {
             <Nav className='ms-auto'>
               <SearchBox />
               <LinkContainer to='/cart'>
-                <Nav.Link>
+                <Nav.Link id='header-cart'>
                   <FaShoppingCart /> Cart
                   {cartItems.length > 0 && (
                     <Badge pill bg='success' style={{ marginLeft: '5px' }}>
@@ -61,14 +61,20 @@ const Header = () => {
               </LinkContainer>
               {userInfo ? (
                 <>
-                  <NavDropdown title={userInfo.name} id='username'>
+                  <NavDropdown title={userInfo.name} id='header-username'>
                     <LinkContainer to='/profile'>
-                      <NavDropdown.Item>My Profile</NavDropdown.Item>
+                      <NavDropdown.Item id='header-my-profile'>
+                        My Profile
+                      </NavDropdown.Item>
                     </LinkContainer>
                     <LinkContainer to='/myorders'>
-                      <NavDropdown.Item>My Orders</NavDropdown.Item>
+                      <NavDropdown.Item id='header-my-orders'>
+                        My Orders
+                      </NavDropdown.Item>
                     </LinkContainer>
-                    <NavDropdown.Item onClick={logoutHandler}>
+                    <NavDropdown.Item
+                      id='header-logout'
+                      onClick={logoutHandler}>
                       Logout
                     </NavDropdown.Item>
                   </NavDropdown>
@@ -83,15 +89,19 @@ const Header = () => {
 
               {/* Admin Links */}
               {userInfo && userInfo.isAdmin && (
-                <NavDropdown title='Admin' id='adminmenu'>
+                <NavDropdown title='Admin' id='header-adminmenu'>
                   <LinkContainer to='/admin/productlist'>
-                    <NavDropdown.Item>Products</NavDropdown.Item>
+                    <NavDropdown.Item id='header-products'>
+                      Products
+                    </NavDropdown.Item>
                   </LinkContainer>
                   <LinkContainer to='/admin/userlist'>
-                    <NavDropdown.Item>Users</NavDropdown.Item>
+                    <NavDropdown.Item id='header-users'>Users</NavDropdown.Item>
                   </LinkContainer>
                   <LinkContainer to='/admin/orderlist'>
-                    <NavDropdown.Item>Orders</NavDropdown.Item>
+                    <NavDropdown.Item id='header-orders'>
+                      Orders
+                    </NavDropdown.Item>
                   </LinkContainer>
                 </NavDropdown>
               )}
