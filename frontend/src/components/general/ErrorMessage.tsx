@@ -71,7 +71,9 @@ const ErrorMessage: React.FunctionComponent<ErrorMessageProps> = ({
   return (
     <>
       {!isNaN(errorObject.status) && errorObject.status < 500 ? (
-        <Alert variant='danger'>{errorObject.message}</Alert>
+        <Alert id='alert-error' variant='danger'>
+          {errorObject.message}
+        </Alert>
       ) : (
         <ErrorBlock errorMessage={errorObject.message} />
       )}

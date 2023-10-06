@@ -48,6 +48,7 @@ const LoginScreen = () => {
         dispatch(setCredentials({ ...res }));
         navigate(redirect);
       } catch (err) {
+        console.log(err);
         // Do nothing because useLoginMutation will set errorLogin in case of an error
       }
     },
@@ -61,7 +62,11 @@ const LoginScreen = () => {
       <Form onSubmit={formik.handleSubmit}>
         <EmailField controlId='email' label='Email' formik={formik} />
         <PasswordField controlId='password' label='Password' formik={formik} />
-        <Button disabled={loggingIn} type='submit' variant='primary mt-2'>
+        <Button
+          id='LoginScreen-login-button'
+          disabled={loggingIn}
+          type='submit'
+          variant='primary mt-2'>
           Sign In
         </Button>
         {loggingIn && <Loader />}
@@ -69,7 +74,9 @@ const LoginScreen = () => {
       <Row className='py-3'>
         <Col>
           New Customer?<span> </span>
-          <Link to={redirect ? `/register?redirect=${redirect}` : '/register'}>
+          <Link
+            id='register_new_customer'
+            to={redirect ? `/register?redirect=${redirect}` : '/register'}>
             Register
           </Link>
         </Col>
@@ -77,7 +84,9 @@ const LoginScreen = () => {
       <Row>
         <Col>
           Password forgotten?<span> </span>
-          <Link to={'/passwordreset'}>Reset password</Link>
+          <Link id='reset_password' to={'/passwordreset'}>
+            Reset password
+          </Link>
         </Col>
       </Row>
     </FormContainer>

@@ -26,6 +26,7 @@ const FormComponent: React.FunctionComponent<FormikComponentProps> = ({
   type,
   formik,
 }) => {
+  const errorDivId = 'error-text-' + controlId;
   return (
     <Form.Group className='my-2' controlId={controlId}>
       <Form.Label className='my-1'>{label}</Form.Label>
@@ -38,7 +39,9 @@ const FormComponent: React.FunctionComponent<FormikComponentProps> = ({
       />
       <Form.Text className='text-danger'>
         {formik.touched[controlId] && formik.errors[controlId] ? (
-          <div className='text-danger'>{formik.errors[controlId]}</div>
+          <div id={errorDivId} className='text-danger'>
+            {formik.errors[controlId]}
+          </div>
         ) : null}
       </Form.Text>
     </Form.Group>
@@ -132,6 +135,8 @@ const PasswordField: React.FunctionComponent<FormikFieldProps> = ({
     setContentVisible(false);
   };
 
+  const errorDivId = 'error-text-' + controlId;
+
   return (
     <>
       <Form.Group className='my-2' controlId={controlId}>
@@ -156,7 +161,9 @@ const PasswordField: React.FunctionComponent<FormikFieldProps> = ({
         </InputGroup>
         <Form.Text className='text-danger'>
           {formik.touched[controlId] && formik.errors[controlId] ? (
-            <div className='text-danger'>{formik.errors[controlId]}</div>
+            <div id={errorDivId} className='text-danger'>
+              {formik.errors[controlId]}
+            </div>
           ) : null}
         </Form.Text>
       </Form.Group>
