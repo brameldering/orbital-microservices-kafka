@@ -11,7 +11,8 @@
     "data_import": "cd backend && node dist/seeder",
     "lint": "eslint --ext .ts,.tsx ./frontend/src/ && eslint --ext .ts ./backend/",
     "lint:fix": "eslint --ext .ts,.tsx ./frontend/src/ --no-error-on-unmatched-pattern --fix && eslint --ext .ts ./backend/ --no-error-on-unmatched-pattern --fix",
-    "types:check": "tsc --noEmit --pretty -p ./frontend && tsc --noEmit --pretty -p ./backend"
+    "types:check": "tsc --noEmit --pretty -p ./frontend && tsc --noEmit --pretty -p ./backend",
+    "cypress": "cd backend && node dist/seeder && cd .. && cd frontend && npm run cypress"
   },
   "author": "Bram Eldering",
   "license": "MIT",
