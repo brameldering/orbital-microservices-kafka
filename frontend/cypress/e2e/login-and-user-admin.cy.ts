@@ -127,6 +127,7 @@ describe('Test profile and password update', () => {
     cy.get('[id="name"]').clear().type(UPDATED_USER_NAME);
     cy.get('[id="email"]').clear().type(UPDATED_EMAIL);
     cy.get('[id="BUTTON_update"]').click();
+    cy.get('h1').invoke('text').should('equal', H1_MY_PROFILE);
     // Check there are no errors
     cy.get('alert_error').should('not.exist');
     cy.get('error_message').should('not.exist');
@@ -143,6 +144,7 @@ describe('Test profile and password update', () => {
     cy.get('[id="currentPassword"]').type(NEW_USER_PASSWORD);
     cy.get('[id="newPassword"]').type(UPDATED_PASSWORD);
     cy.get('[id="BUTTON_update"]').click();
+    cy.get('h1').invoke('text').should('equal', H1_MY_PROFILE);
     // Check there are no errors
     cy.get('alert_error').should('not.exist');
     cy.get('error_message').should('not.exist');
