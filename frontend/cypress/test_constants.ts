@@ -26,8 +26,6 @@ export const H1_RESET_PASSWORD_CONFIRMATION = 'Reset Password Confirmation';
 export const H1_USERS = 'Users';
 export const H1_EDIT_USER = 'Edit User';
 
-export const H2_MY_ORDERS = 'My Orders';
-
 // Messages
 export const THAT_EMAIL_ALREADY_EXISTS = 'That email already exists';
 export const INVALID_EMAIL_OR_PASSWORD = 'Invalid email or password';

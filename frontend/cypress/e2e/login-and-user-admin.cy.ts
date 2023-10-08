@@ -22,7 +22,7 @@ import {
   H1_RESET_PASSWORD_CONFIRMATION,
   H1_USERS,
   H1_EDIT_USER,
-  H2_MY_ORDERS,
+  H1_MY_ORDERS,
   THAT_EMAIL_ALREADY_EXISTS,
   INVALID_EMAIL_OR_PASSWORD,
   INVALID_EMAIL_ADDRESS,
@@ -198,7 +198,7 @@ describe('Test my orders', () => {
     cy.get('[id="BUTTON_login"]').click();
     cy.get('[id="LINK_header_username"]').click();
     cy.get('[id="LINK_my_orders"]').click();
-    cy.get('h2').invoke('text').should('equal', H2_MY_ORDERS);
+    cy.get('h1').invoke('text').should('equal', H1_MY_ORDERS);
     cy.contains(YOU_HAVE_NO_ORDERS);
   });
 });
