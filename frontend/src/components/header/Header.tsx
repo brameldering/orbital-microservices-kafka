@@ -39,18 +39,18 @@ const Header = () => {
       <Navbar bg='primary' variant='dark' expand='lg' collapseOnSelect>
         <Container>
           <LinkContainer to='/'>
-            <Navbar.Brand id='header-orbital-shop'>
+            <Navbar.Brand id='LINK_orbital_shop'>
               <LogoSVG />
               <span style={{ marginLeft: '10px' }}>Orbital Shop</span>
             </Navbar.Brand>
           </LinkContainer>
 
-          <Navbar.Toggle aria-controls='basic-navbar-nav' />
-          <Navbar.Collapse id='basic-navbar-nav'>
+          <Navbar.Toggle aria-controls='basic_navbar_nav' />
+          <Navbar.Collapse id='basic_navbar_nav'>
             <Nav className='ms-auto'>
               <SearchBox />
               <LinkContainer to='/cart'>
-                <Nav.Link id='header-cart'>
+                <Nav.Link id='LINK_header_cart'>
                   <FaShoppingCart /> Cart
                   {cartItems.length > 0 && (
                     <Badge pill bg='success' style={{ marginLeft: '5px' }}>
@@ -61,19 +61,19 @@ const Header = () => {
               </LinkContainer>
               {userInfo ? (
                 <>
-                  <NavDropdown title={userInfo.name} id='header-username'>
+                  <NavDropdown title={userInfo.name} id='LINK_header_username'>
                     <LinkContainer to='/profile'>
-                      <NavDropdown.Item id='header-my-profile'>
+                      <NavDropdown.Item id='LINK_my_profile'>
                         My Profile
                       </NavDropdown.Item>
                     </LinkContainer>
                     <LinkContainer to='/myorders'>
-                      <NavDropdown.Item id='header-my-orders'>
+                      <NavDropdown.Item id='LINK_my_orders'>
                         My Orders
                       </NavDropdown.Item>
                     </LinkContainer>
                     <NavDropdown.Item
-                      id='header-logout'
+                      id='LINK_header_logout'
                       onClick={logoutHandler}>
                       Logout
                     </NavDropdown.Item>
@@ -81,7 +81,7 @@ const Header = () => {
                 </>
               ) : (
                 <LinkContainer to='/login'>
-                  <Nav.Link>
+                  <Nav.Link id='LINK_header_sign_in'>
                     <FaUser /> Sign In
                   </Nav.Link>
                 </LinkContainer>
@@ -89,17 +89,19 @@ const Header = () => {
 
               {/* Admin Links */}
               {userInfo && userInfo.isAdmin && (
-                <NavDropdown title='Admin' id='header-adminmenu'>
+                <NavDropdown title='Admin' id='LINK_header_adminmenu'>
                   <LinkContainer to='/admin/productlist'>
-                    <NavDropdown.Item id='header-products'>
+                    <NavDropdown.Item id='LINK_header_products'>
                       Products
                     </NavDropdown.Item>
                   </LinkContainer>
                   <LinkContainer to='/admin/userlist'>
-                    <NavDropdown.Item id='header-users'>Users</NavDropdown.Item>
+                    <NavDropdown.Item id='LINK_header_users'>
+                      Users
+                    </NavDropdown.Item>
                   </LinkContainer>
                   <LinkContainer to='/admin/orderlist'>
-                    <NavDropdown.Item id='header-orders'>
+                    <NavDropdown.Item id='LINK_header_orders'>
                       Orders
                     </NavDropdown.Item>
                   </LinkContainer>

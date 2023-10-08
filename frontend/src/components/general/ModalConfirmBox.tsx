@@ -23,16 +23,10 @@ const ModalConfirmBox: React.FunctionComponent<ModalConfirmBoxProps> = ({
       </Modal.Header>
       <Modal.Body>{body}</Modal.Body>
       <Modal.Footer>
-        <Button
-          id='modal-confirm-button-no'
-          variant='secondary'
-          onClick={handleClose}>
+        <Button id='BUTTON_no' variant='secondary' onClick={handleClose}>
           No
         </Button>
-        <Button
-          id='modal-confirm-button-yes'
-          variant='primary'
-          onClick={handleConfirm}>
+        <Button id='BUTTON_yes' variant='primary' onClick={handleConfirm}>
           Yes
         </Button>
       </Modal.Footer>

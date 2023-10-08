@@ -6,6 +6,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 import ErrorMessage from '../../components/general/ErrorMessage';
 import Loader from '../../components/general/Loader';
 import Meta from '../../components/general/Meta';
+import { CURRENCY_SYMBOL } from '../../constantsFrontend';
 import { useGetOrdersQuery } from '../../slices/ordersApiSlice';
 import { dateTimeToLocaleDateString } from '../../utils/dateUtils';
 
@@ -45,7 +46,10 @@ const OrderListScreen = () => {
                     {order.createdAt &&
                       dateTimeToLocaleDateString(order.createdAt)}
                   </td>
-                  <td>${order.totalAmounts.totalPrice}</td>
+                  <td>
+                    {CURRENCY_SYMBOL}
+                    {order.totalAmounts.totalPrice.toFixed(2)}
+                  </td>
                   <td>
                     {order.isPaid && order.paidAt ? (
                       dateTimeToLocaleDateString(order.paidAt)

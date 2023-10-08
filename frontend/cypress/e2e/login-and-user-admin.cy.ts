@@ -1,8 +1,10 @@
 import {
   LOGIN_URL,
-  TEST_USER_NAME,
   TEST_USER_EMAIL,
   TEST_USER_PASSWORD,
+  NEW_USER_NAME,
+  NEW_USER_EMAIL,
+  NEW_USER_PASSWORD,
   UNKNOWN_EMAIL,
   WRONG_PASSWORD,
   UPDATED_USER_NAME,
@@ -29,7 +31,17 @@ import {
   YOU_HAVE_NO_ORDERS,
   COLOR_GREEN,
   ARE_YOU_SURE_YOU_WANT_TO_DELETE_THIS_USER,
-} from '../constants';
+} from '../test_constants';
+
+describe('Initialize', () => {
+  it('Clears cookies and localStorage', () => {
+    cy.clearCookies();
+    cy.clearLocalStorage();
+  });
+  it('Seeds test database', () => {
+    cy.exec('cd .. && cd backend && npm run data:import');
+  });
+});
 
 describe('Test registration of new account', () => {
   beforeEach(() => cy.visit(LOGIN_URL));
@@ -37,29 +49,29 @@ describe('Test registration of new account', () => {
     cy.get('h1').invoke('text').should('equal', H1_SIGN_IN);
   });
   it('Opens register screen and enters new account', () => {
-    cy.get('[id="Login-screen-register_new_customer"]').click();
+    cy.get('[id="LINK_register_new_customer"]').click();
     cy.get('h1').invoke('text').should('equal', H1_REGISTER_ACCOUNT);
-    cy.get('[id="name"]').type(TEST_USER_NAME);
-    cy.get('[id="email"]').type(TEST_USER_EMAIL);
-    cy.get('[id="password"]').type(TEST_USER_PASSWORD);
-    cy.get('[id="RegisterScreen-register-button"]').click();
+    cy.get('[id="name"]').type(NEW_USER_NAME);
+    cy.get('[id="email"]').type(NEW_USER_EMAIL);
+    cy.get('[id="password"]').type(NEW_USER_PASSWORD);
+    cy.get('[id="BUTTON_register"]').click();
     cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
   });
   it('Opens register screen enters already existing account', () => {
-    cy.get('[id="Login-screen-register_new_customer"]').click();
+    cy.get('[id="LINK_register_new_customer"]').click();
     cy.get('h1').invoke('text').should('equal', H1_REGISTER_ACCOUNT);
-    cy.get('[id="name"]').type(TEST_USER_NAME);
-    cy.get('[id="email"]').type(TEST_USER_EMAIL);
-    cy.get('[id="password"]').type(TEST_USER_PASSWORD);
-    cy.get('[id="RegisterScreen-register-button"]').click();
-    cy.get('[id="alert-error"]')
+    cy.get('[id="name"]').type(NEW_USER_NAME);
+    cy.get('[id="email"]').type(NEW_USER_EMAIL);
+    cy.get('[id="password"]').type(NEW_USER_PASSWORD);
+    cy.get('[id="BUTTON_register"]').click();
+    cy.get('[id="alert_error"]')
       .invoke('text')
       .should('equal', THAT_EMAIL_ALREADY_EXISTS);
   });
   it('Opens register screen and clicks Login (Already have an account)', () => {
-    cy.get('[id="Login-screen-register_new_customer"]').click();
+    cy.get('[id="LINK_register_new_customer"]').click();
     cy.get('h1').invoke('text').should('equal', H1_REGISTER_ACCOUNT);
-    cy.get('[id="Register-screen-already_have_account"]').click();
+    cy.get('[id="LINK_already_have_an_account"]').click();
     cy.get('h1').invoke('text').should('equal', H1_SIGN_IN);
   });
 });
@@ -71,98 +83,99 @@ describe('Test logging in', () => {
   it('Signs in correctly with test account', () => {
     cy.get('[id="email"]').type(TEST_USER_EMAIL);
     cy.get('[id="password"]').type(TEST_USER_PASSWORD);
-    cy.get('[id="LoginScreen-login-button"]').click();
+    cy.get('[id="BUTTON_login"]').click();
     cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
   });
   it('Signs in with unknown account', () => {
     cy.get('[id="email"]').type(UNKNOWN_EMAIL);
     cy.get('[id="password"]').type(TEST_USER_PASSWORD);
-    cy.get('[id="LoginScreen-login-button"]').click();
-    cy.get('[id="alert-error"]')
+    cy.get('[id="BUTTON_login"]').click();
+    cy.get('[id="alert_error"]')
       .invoke('text')
       .should('equal', INVALID_EMAIL_OR_PASSWORD);
   });
   it('Signs in with incorrect password', () => {
     cy.get('[id="email"]').type(TEST_USER_EMAIL);
     cy.get('[id="password"]').type(WRONG_PASSWORD);
-    cy.get('[id="LoginScreen-login-button"]').click();
-    cy.get('[id="alert-error"]')
+    cy.get('[id="BUTTON_login"]').click();
+    cy.get('[id="alert_error"]')
       .invoke('text')
       .should('equal', INVALID_EMAIL_OR_PASSWORD);
   });
   it('Enters invalid email address and leaves password field empty', () => {
     cy.get('[id="email"]').type('test');
     cy.get('[id="password"]').focus();
-    cy.get('[id="error-text-email"]')
+    cy.get('[id="error_text_email"]')
       .invoke('text')
       .should('equal', INVALID_EMAIL_ADDRESS);
     cy.get('[id="email"]').focus();
-    cy.get('[id="error-text-password"]')
+    cy.get('[id="error_text_password"]')
       .invoke('text')
       .should('equal', REQUIRED);
   });
 });
 describe('Test profile and password update', () => {
   beforeEach(() => cy.visit(LOGIN_URL));
-  it('Change username and email and password', () => {
-    cy.get('[id="email"]').type(TEST_USER_EMAIL);
-    cy.get('[id="password"]').type(TEST_USER_PASSWORD);
-    cy.get('[id="LoginScreen-login-button"]').click();
+  it('Change username and email', () => {
+    cy.get('[id="email"]').type(NEW_USER_EMAIL);
+    cy.get('[id="password"]').type(NEW_USER_PASSWORD);
+    cy.get('[id="BUTTON_login"]').click();
     cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
-    // cy.visit('http://localhost:3000/profile');
-    cy.get('[id="header-username"]').click();
-    cy.get('[id="header-my-profile"]').click();
+    cy.get('[id="LINK_header_username"]').click();
+    cy.get('[id="LINK_my_profile"]').click();
     cy.get('h1').invoke('text').should('equal', H1_MY_PROFILE);
     cy.get('[id="name"]').clear().type(UPDATED_USER_NAME);
     cy.get('[id="email"]').clear().type(UPDATED_EMAIL);
-    cy.get('[id="ProfileScreen-update-button"]').click();
-    cy.get('alert-error').should('not.exist');
-    cy.get('error-message').should('not.exist');
+    cy.get('[id="BUTTON_update"]').click();
+    // Check there are no errors
+    cy.get('alert_error').should('not.exist');
+    cy.get('error_message').should('not.exist');
   });
   it('Change password', () => {
     cy.get('[id="email"]').type(UPDATED_EMAIL);
-    cy.get('[id="password"]').type(TEST_USER_PASSWORD);
-    cy.get('[id="LoginScreen-login-button"]').click();
+    cy.get('[id="password"]').type(NEW_USER_PASSWORD);
+    cy.get('[id="BUTTON_login"]').click();
     cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
-    cy.get('[id="header-username"]').click();
-    cy.get('[id="header-my-profile"]').click();
-    cy.get('[id="ProfileScreen-change-password"]').click();
+    cy.get('[id="LINK_header_username"]').click();
+    cy.get('[id="LINK_my_profile"]').click();
+    cy.get('[id="LINK_change_password"]').click();
     cy.get('h1').invoke('text').should('equal', H1_CHANGE_PASSWORD);
-    cy.get('[id="currentPassword"]').type(TEST_USER_PASSWORD);
+    cy.get('[id="currentPassword"]').type(NEW_USER_PASSWORD);
     cy.get('[id="newPassword"]').type(UPDATED_PASSWORD);
-    cy.get('[id="ChangePasswordScreen-update-button"]').click();
-    cy.get('alert-error').should('not.exist');
-    cy.get('error-message').should('not.exist');
+    cy.get('[id="BUTTON_update"]').click();
+    // Check there are no errors
+    cy.get('alert_error').should('not.exist');
+    cy.get('error_message').should('not.exist');
   });
   it('Login in with new email and password', () => {
     cy.get('[id="email"]').type(UPDATED_EMAIL);
     cy.get('[id="password"]').type(UPDATED_PASSWORD);
-    cy.get('[id="LoginScreen-login-button"]').click();
+    cy.get('[id="BUTTON_login"]').click();
     cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
   });
   it('Opens Reset Password page from login screen', () => {
-    cy.get('[id="Login-screen-reset_password"]').click();
+    cy.get('[id="LINK_reset_password"]').click();
     cy.get('h1').invoke('text').should('equal', H1_RESET_PASSWORD);
   });
   it('Tries to reset password with unknown email address', () => {
-    cy.get('[id="Login-screen-reset_password"]').click();
-    cy.get('[id="email"]').type('unknown@test.com');
-    cy.get('[id="PasswordResetScreen-reset-password-button"]').click();
+    cy.get('[id="LINK_reset_password"]').click();
+    cy.get('[id="email"]').type(UNKNOWN_EMAIL);
+    cy.get('[id="BUTTON_reset_password"]').click();
     cy.get('h1').invoke('text').should('equal', H1_RESET_PASSWORD);
-    cy.get('[id="alert-error"]')
+    cy.get('[id="alert_error"]')
       .invoke('text')
       .should('equal', THIS_EMAIL_ADDRESS_IS_NOT_KNOWN_TO_US);
   });
   it('Reset password with correct email address', () => {
-    cy.get('[id="Login-screen-reset_password"]').click();
+    cy.get('[id="LINK_reset_password"]').click();
     cy.get('[id="email"]').type(UPDATED_EMAIL);
-    cy.get('[id="PasswordResetScreen-reset-password-button"]').click();
+    cy.get('[id="BUTTON_reset_password"]').click();
     cy.get('h1').invoke('text').should('equal', H1_RESET_PASSWORD_CONFIRMATION);
   });
   it('Login in with new email and password', () => {
     cy.get('[id="email"]').type(UPDATED_EMAIL);
     cy.get('[id="password"]').type(RESET_PASSWORD);
-    cy.get('[id="LoginScreen-login-button"]').click();
+    cy.get('[id="BUTTON_login"]').click();
     cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
   });
 });
@@ -171,9 +184,9 @@ describe('Test logout', () => {
   it('Logout', () => {
     cy.get('[id="email"]').type(UPDATED_EMAIL);
     cy.get('[id="password"]').type(RESET_PASSWORD);
-    cy.get('[id="LoginScreen-login-button"]').click();
-    cy.get('[id="header-username"]').click();
-    cy.get('[id="header-logout"]').click();
+    cy.get('[id="BUTTON_login"]').click();
+    cy.get('[id="LINK_header_username"]').click();
+    cy.get('[id="LINK_header_logout"]').click();
     cy.get('h1').invoke('text').should('equal', H1_SIGN_IN);
   });
 });
@@ -182,9 +195,9 @@ describe('Test my orders', () => {
   it('Test there are no orders', () => {
     cy.get('[id="email"]').type(UPDATED_EMAIL);
     cy.get('[id="password"]').type(RESET_PASSWORD);
-    cy.get('[id="LoginScreen-login-button"]').click();
-    cy.get('[id="header-username"]').click();
-    cy.get('[id="header-my-orders"]').click();
+    cy.get('[id="BUTTON_login"]').click();
+    cy.get('[id="LINK_header_username"]').click();
+    cy.get('[id="LINK_my_orders"]').click();
     cy.get('h2').invoke('text').should('equal', H2_MY_ORDERS);
     cy.contains(YOU_HAVE_NO_ORDERS);
   });
@@ -195,32 +208,37 @@ describe('Test Administration of Users', () => {
     cy.get('h1').invoke('text').should('equal', H1_SIGN_IN);
     cy.get('[id="email"]').type(ADMIN_EMAIL);
     cy.get('[id="password"]').type(ADMIN_PASSWORD);
-    cy.get('[id="LoginScreen-login-button"]').click();
+    cy.get('[id="BUTTON_login"]').click();
     cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
-    cy.get('[id="header-adminmenu"]').click();
-    cy.get('[id="header-users"]').click();
+    cy.get('[id="LINK_header_adminmenu"]').click();
+    cy.get('[id="LINK_header_users"]').click();
     cy.get('h1').invoke('text').should('equal', H1_USERS);
-    cy.get('alert-error').should('not.exist');
-    cy.get('error-message').should('not.exist');
-    cy.get('[id="edit-test.user.updated.name@test.com"]').click();
+    // Check there are no errors
+    cy.get('alert_error').should('not.exist');
+    cy.get('error_message').should('not.exist');
+    // Select user to administrate
+    let queryId: string = `[id="edit_` + UPDATED_EMAIL + `"]`;
+    cy.get(queryId).click();
     cy.get('h1').invoke('text').should('equal', H1_EDIT_USER);
-    cy.get('[id="name"]').clear().type(TEST_USER_NAME);
-    cy.get('[id="email"]').clear().type(TEST_USER_EMAIL);
+    // Change user name and email
+    cy.get('[id="name"]').clear().type(NEW_USER_NAME);
+    cy.get('[id="email"]').clear().type(NEW_USER_EMAIL);
     cy.get('[type="checkbox"]').check();
-    cy.get('[id="UserEditScreen-update-button"]').click();
+    cy.get('[id="BUTTON_update"]').click();
+    // Check updated name and email are shown in users list
     cy.get('h1').invoke('text').should('equal', H1_USERS);
-    cy.get('[id="name-test.user@test.com"]')
-      .invoke('text')
-      .should('equal', TEST_USER_NAME);
-    cy.get('[id="email-test.user@test.com"]')
-      .invoke('text')
-      .should('equal', TEST_USER_EMAIL);
-    cy.get('[id="admin-test.user@test.com"]')
-      .find('svg')
-      .should('have.css', 'color', COLOR_GREEN);
-    cy.get('[id="delete-test.user@test.com"]').click();
+    queryId = `[id="name_` + NEW_USER_EMAIL + `"]`;
+    cy.get(queryId).invoke('text').should('equal', NEW_USER_NAME);
+    queryId = `[id="email_` + NEW_USER_EMAIL + `"]`;
+    cy.get(queryId).invoke('text').should('equal', NEW_USER_EMAIL);
+    queryId = `[id="admin_` + NEW_USER_EMAIL + `"]`;
+    cy.get(queryId).find('svg').should('have.css', 'color', COLOR_GREEN);
+    // Test deleting a user
+    queryId = `[id="delete_` + NEW_USER_EMAIL + `"]`;
+    cy.get(queryId).click();
     cy.contains(ARE_YOU_SURE_YOU_WANT_TO_DELETE_THIS_USER);
-    cy.get('[id="modal-confirm-button-yes"]').click();
-    cy.get('[id="email-test.user@test.com"]').should('not.exist');
+    cy.get('[id="BUTTON_yes"]').click();
+    queryId = `[id="email_` + NEW_USER_EMAIL + `"]`;
+    cy.get(queryId).should('not.exist');
   });
 });

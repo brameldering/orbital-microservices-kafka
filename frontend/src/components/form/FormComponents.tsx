@@ -26,7 +26,7 @@ const FormComponent: React.FunctionComponent<FormikComponentProps> = ({
   type,
   formik,
 }) => {
-  const errorDivId = 'error-text-' + controlId;
+  const errorDivId = 'error_text_' + controlId;
   return (
     <Form.Group className='my-2' controlId={controlId}>
       <Form.Label className='my-1'>{label}</Form.Label>
@@ -135,7 +135,7 @@ const PasswordField: React.FunctionComponent<FormikFieldProps> = ({
     setContentVisible(false);
   };
 
-  const errorDivId = 'error-text-' + controlId;
+  const errorDivId = 'error_text_' + controlId;
 
   return (
     <>

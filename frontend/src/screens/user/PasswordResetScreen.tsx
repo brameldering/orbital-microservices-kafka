@@ -52,7 +52,7 @@ const PasswordResetScreen = () => {
           formik={formik}
         />
         <Button
-          id='PasswordResetScreen-reset-password-button'
+          id='BUTTON_reset_password'
           disabled={resettingPassword}
           type='submit'
           variant='primary mt-2'>

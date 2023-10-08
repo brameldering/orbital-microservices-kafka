@@ -7,6 +7,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 import ErrorMessage from '../../components/general/ErrorMessage';
 import Loader from '../../components/general/Loader';
 import Meta from '../../components/general/Meta';
+import { CURRENCY_SYMBOL } from '../../constantsFrontend';
 import { useGetMyOrdersQuery } from '../../slices/ordersApiSlice';
 import type { RootState } from '../../store';
 import { dateTimeToLocaleDateString } from '../../utils/dateUtils';
@@ -22,13 +23,13 @@ const MyOrdersScreen = () => {
   return (
     <>
       <Meta title='My Orders' />
-      <h2>My Orders</h2>
+      <h1>My Orders</h1>
       {isLoading ? (
         <Loader />
       ) : errorLoading ? (
         <ErrorMessage error={errorLoading} />
       ) : orders && orders.length === 0 ? (
-        <p id='you-have-no-orders-message'>You have no orders</p>
+        <p>You have no orders</p>
       ) : (
         <Table striped hover responsive className='table-sm'>
           <thead>
@@ -50,7 +51,10 @@ const MyOrdersScreen = () => {
                     {order.createdAt &&
                       dateTimeToLocaleDateString(order.createdAt)}
                   </td>
-                  <td>{order.totalAmounts.totalPrice}</td>
+                  <td>
+                    {CURRENCY_SYMBOL}
+                    {order.totalAmounts.totalPrice.toFixed(2)}
+                  </td>
                   <td>
                     {order.isPaid && order.paidAt ? (
                       dateTimeToLocaleDateString(order.paidAt)

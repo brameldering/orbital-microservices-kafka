@@ -58,7 +58,7 @@ const ShippingScreen = () => {
           />
           <TextField controlId='city' label='City' formik={formik} />
           <TextField controlId='country' label='Country' formik={formik} />
-          <Button type='submit' variant='primary mt-2'>
+          <Button id='BUTTON_continue' type='submit' variant='primary mt-2'>
             Continue
           </Button>
         </Form>

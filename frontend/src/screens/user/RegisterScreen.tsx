@@ -76,7 +76,7 @@ function RegisterScreen() {
         <EmailField controlId='email' label='Email' formik={formik} />
         <PasswordField controlId='password' label='Password' formik={formik} />
         <Button
-          id='RegisterScreen-register-button'
+          id='BUTTON_register'
           disabled={registering}
           type='submit'
           variant='primary mt-2'>
@@ -87,7 +87,7 @@ function RegisterScreen() {
         <Col>
           Already have an account?{' '}
           <Link
-            id='Register-screen-already_have_account'
+            id='LINK_already_have_an_account'
             to={redirect ? `/login?redirect=${redirect}` : '/login'}>
             Login
           </Link>

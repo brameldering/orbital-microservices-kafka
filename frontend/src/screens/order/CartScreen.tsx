@@ -55,18 +55,22 @@ const CartScreen = () => {
           <h1 style={{ marginBottom: '20px' }}>Shopping Cart</h1>
           {cartItems.length === 0 ? (
             <Alert variant='info'>
-              Your cart is empty <Link to='/'>Go to shop</Link>
+              Your cart is empty{' '}
+              <Link id='LINK_go_to_shop' to='/'>
+                Go to shop
+              </Link>
             </Alert>
           ) : (
             <ListGroup variant='flush'>
               {cartItems.map((item) => (
-                <ListGroup.Item key={item.productId}>
+                <ListGroup.Item id='product_item' key={item.productId}>
                   <Row>
                     <Col md={2}>
                       <Image src={item.imageURL} alt={item.productName} fluid />
                     </Col>
                     <Col md={4}>
                       <Link
+                        id={`product_name_${item.productName}`}
                         to={`/product/${item.productId}?goBackPath=${currentPath}`}>
                         {item.productName}
                       </Link>
@@ -77,6 +81,7 @@ const CartScreen = () => {
                     </Col>
                     <Col md={2}>
                       <Form.Control
+                        id={`select_quantity_${item.productName}`}
                         as='select'
                         value={item.qty}
                         onChange={(e) =>
@@ -91,6 +96,7 @@ const CartScreen = () => {
                     </Col>
                     <Col md={2}>
                       <Button
+                        id={`remove_from_cart_${item.productName}`}
                         type='button'
                         variant='light'
                         onClick={() => removeFromCartHandler(item.productId)}>
@@ -118,6 +124,7 @@ const CartScreen = () => {
               </ListGroup.Item>
               <ListGroup.Item>
                 <Button
+                  id='BUTTON_checkout'
                   type='button'
                   className='btn-block mt-2'
                   disabled={cartItems.length === 0}

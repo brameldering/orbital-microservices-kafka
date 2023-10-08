@@ -24,7 +24,7 @@ const ErrorBlock: React.FunctionComponent<FormContainerErrorProps> = ({
             <p>
               <strong>An Error occured on our side</strong>
             </p>
-            <span id='error-message'>{errorMessage}</span>
+            <span id='error_message'>{errorMessage}</span>
           </Card>
         </Col>
       </Row>

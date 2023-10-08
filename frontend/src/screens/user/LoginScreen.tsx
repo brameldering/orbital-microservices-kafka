@@ -63,7 +63,7 @@ const LoginScreen = () => {
         <EmailField controlId='email' label='Email' formik={formik} />
         <PasswordField controlId='password' label='Password' formik={formik} />
         <Button
-          id='LoginScreen-login-button'
+          id='BUTTON_login'
           disabled={loggingIn}
           type='submit'
           variant='primary mt-2'>
@@ -75,7 +75,7 @@ const LoginScreen = () => {
         <Col>
           New Customer?<span> </span>
           <Link
-            id='Login-screen-register_new_customer'
+            id='LINK_register_new_customer'
             to={redirect ? `/register?redirect=${redirect}` : '/register'}>
             Register
           </Link>
@@ -84,7 +84,7 @@ const LoginScreen = () => {
       <Row>
         <Col>
           Password forgotten?<span> </span>
-          <Link id='Login-screen-reset_password' to={'/passwordreset'}>
+          <Link id='LINK_reset_password' to={'/passwordreset'}>
             Reset password
           </Link>
         </Col>

@@ -66,8 +66,8 @@ const PlaceOrderScreen = () => {
               <h2>Shipping</h2>
               <p>
                 <strong>Address: </strong>
-                {cart.shippingAddress.address}, {cart.shippingAddress.city}{' '}
-                {cart.shippingAddress.postalCode},{' '}
+                {cart.shippingAddress.address},{' '}
+                {cart.shippingAddress.postalCode} {cart.shippingAddress.city},{' '}
                 {cart.shippingAddress.country}
               </p>
             </ListGroup.Item>
@@ -103,6 +103,7 @@ const PlaceOrderScreen = () => {
               </ListGroup.Item>
               <ListGroup.Item>
                 <Button
+                  id='BUTTON_place_order'
                   type='button'
                   className='btn-block mt-2'
                   disabled={cart.cartItems.length === 0 || creatingOrder}

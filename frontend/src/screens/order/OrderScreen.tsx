@@ -223,9 +223,9 @@ const OrderScreen = () => {
                 </p>
                 <p>
                   <strong>Address: </strong>
-                  {order.shippingAddress.address}, {order.shippingAddress.city}{' '}
-                  {order.shippingAddress.postalCode},{' '}
-                  {order.shippingAddress.country}
+                  {order.shippingAddress.address},{' '}
+                  {order.shippingAddress.postalCode}{' '}
+                  {order.shippingAddress.city}, {order.shippingAddress.country}
                 </p>
                 {order.isDelivered && order.deliveredAt ? (
                   <Alert variant='success'>
@@ -275,11 +275,10 @@ const OrderScreen = () => {
             <Card>
               <ListGroup variant='flush'>
                 <OrderSummaryBlock totalAmounts={order.totalAmounts} />
+                {disableButtons && <Loader />}
                 {!order.isPaid && (
                   <ListGroup.Item>
-                    {disableButtons ? (
-                      <Loader />
-                    ) : errorPayingOrder ? (
+                    {errorPayingOrder ? (
                       <ErrorMessage error={errorPayingOrder} />
                     ) : errorSettingDeliverOrder ? (
                       <ErrorMessage error={errorSettingDeliverOrder} />
@@ -306,8 +305,6 @@ const OrderScreen = () => {
                 )}
                 {deliverError ? (
                   <ErrorMessage error={deliverError} />
-                ) : disableButtons ? (
-                  <Loader />
                 ) : (
                   userInfo &&
                   userInfo.isAdmin &&

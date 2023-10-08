@@ -124,7 +124,7 @@ const UserEditScreen = () => {
               formik={formik}
             />
             <Button
-              id='UserEditScreen-update-button'
+              id='BUTTON_update'
               type='submit'
               variant='primary'
               className='mt-2'

@@ -80,12 +80,12 @@ const UserListScreen = () => {
             {users &&
               users.map((user) => (
                 <tr key={user._id}>
-                  <td id={`id-${user.email}`}>{user._id}</td>
-                  <td id={`name-${user.email}`}>{user.name}</td>
-                  <td id={`email-${user.email}`}>
+                  <td id={`id_${user.email}`}>{user._id}</td>
+                  <td id={`name_${user.email}`}>{user.name}</td>
+                  <td id={`email_${user.email}`}>
                     <a href={`mailto:${user.email}`}>{user.email}</a>
                   </td>
-                  <td id={`admin-${user.email}`}>
+                  <td id={`admin_${user.email}`}>
                     {user.isAdmin ? (
                       <FaCheck style={{ color: 'green' }} />
                     ) : (
@@ -97,14 +97,14 @@ const UserListScreen = () => {
                       to={`/admin/user/${user._id}/edit`}
                       style={{ marginRight: '10px' }}>
                       <Button
-                        id={`edit-${user.email}`}
+                        id={`edit_${user.email}`}
                         variant='light'
                         className='btn-sm'>
                         <FaEdit />
                       </Button>
                     </LinkContainer>
                     <Button
-                      id={`delete-${user.email}`}
+                      id={`delete_${user.email}`}
                       variant='danger'
                       className='btn-sm'
                       onClick={() => confirmDeleteUser(user._id)}>

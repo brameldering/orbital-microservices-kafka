@@ -9,7 +9,8 @@
     "build": "Webpack .",
     "test": "test",
     "lint": "eslint --ext .ts,.tsx ./src",
-    "cypress": "cypress open"
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
   },
   "dependencies": {
     "@babel/cli": "^7.22.15",

@@ -62,7 +62,7 @@ const ProfileScreen = () => {
         <Row className='align-items-center'>
           <Col>
             <Button
-              id='ProfileScreen-update-button'
+              id='BUTTON_update'
               disabled={buttonDisabled}
               type='submit'
               variant='primary mt-2'>
@@ -70,7 +70,7 @@ const ProfileScreen = () => {
             </Button>
           </Col>
           <Col className='text-end'>
-            <Link id='ProfileScreen-change-password' to='/password'>
+            <Link id='LINK_change_password' to='/password'>
               Change Password
             </Link>
           </Col>

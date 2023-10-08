@@ -83,6 +83,8 @@ const ProductScreen = () => {
         comment,
       }).unwrap();
       refetch();
+      setRating(0);
+      setComment('');
       toast.success('Review created');
     } catch (err) {
       // Do nothing because useCreateReviewMutation will set errorCreatingReview in case of an error
@@ -93,7 +95,7 @@ const ProductScreen = () => {
 
   return (
     <>
-      <Link className='btn btn-light my-3' to={goBackPath}>
+      <Link id='BUTTON_go_back' className='btn btn-light my-3' to={goBackPath}>
         Go Back
       </Link>
       {errorCreatingReview && <ErrorMessage error={errorCreatingReview} />}
@@ -159,6 +161,7 @@ const ProductScreen = () => {
                         <Col>Qty</Col>
                         <Col>
                           <Form.Control
+                            id='select_quantity'
                             as='select'
                             value={qty}
                             onChange={(e) => setQty(Number(e.target.value))}>
@@ -178,6 +181,7 @@ const ProductScreen = () => {
                   )}
                   <ListGroup.Item>
                     <Button
+                      id='BUTTON_add_to_cart'
                       className='btn-block mt-2'
                       type='button'
                       disabled={product.countInStock === 0 || buttonDisabled}
@@ -236,6 +240,7 @@ const ProductScreen = () => {
                           }></Form.Control>
                       </Form.Group>
                       <Button
+                        id='BUTTON_review_submit'
                         disabled={buttonDisabled}
                         type='submit'
                         variant='primary mt-2'>
@@ -244,7 +249,11 @@ const ProductScreen = () => {
                     </Form>
                   ) : (
                     <Alert variant='info'>
-                      Please <Link to='/login'>sign in</Link> to write a review
+                      Please{' '}
+                      <Link id='LINK_sign_in' to='/login'>
+                        sign in
+                      </Link>{' '}
+                      to write a review
                     </Alert>
                   )}
                 </ListGroup.Item>

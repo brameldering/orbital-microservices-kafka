@@ -107,7 +107,7 @@ const ChangePasswordScreen = () => {
             formik={formik}
           />
           <Button
-            id='ChangePasswordScreen-update-button'
+            id='BUTTON_update'
             disabled={buttonDisabled}
             type='submit'
             variant='primary mt-2'>

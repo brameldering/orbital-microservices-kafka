@@ -15,7 +15,7 @@ const Product: React.FunctionComponent<ProductComponentProps> = ({
   product,
 }) => {
   return (
-    <Card className='my-3 p-3 rounded'>
+    <Card id='product_card' className='my-3 p-3 rounded'>
       <Link to={`/product/${product._id}`}>
         <Card.Img
           src={product.imageURL}

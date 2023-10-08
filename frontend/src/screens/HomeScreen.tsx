@@ -43,7 +43,7 @@ const HomeScreen = () => {
   return (
     <>
       {keyword && (
-        <Link to='/' className='btn btn-light mb-4'>
+        <Link id='BUTTON_back' to='/' className='btn btn-light mb-4'>
           Go Back
         </Link>
       )}
@@ -67,7 +67,7 @@ const HomeScreen = () => {
               ))}
             {!catalogData ||
               (catalogData.products.length === 0 && (
-                <p>There are no products</p>
+                <p>No products match your search</p>
               ))}
           </Row>
           {catalogData && (
