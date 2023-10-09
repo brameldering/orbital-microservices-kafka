@@ -1,3 +1,5 @@
+import { CURRENCY_SYMBOL } from 'src/constantsFrontend';
+
 import {
   ADMIN_EMAIL,
   ADMIN_PASSWORD,
@@ -32,8 +34,6 @@ import {
   TEST_USER_PASSWORD,
   YOUR_CART_IS_EMPTY,
 } from '../test_constants';
-
-import { CURRENCY_SYMBOL } from 'src/constantsFrontend';
 
 describe('Initialize', () => {
   it('Clears cookies and localStorage', () => {
@@ -196,7 +196,7 @@ describe('Shopping tests', () => {
     cy.get('h2').invoke('text').should('equal', SUBTOTAL_2_ITEMS);
     cy.get('[id="product_item"]').should('have.length', 2);
     cy.contains(CURRENCY_SYMBOL + '450.00');
-    let queryId: string = `[id="select_quantity_` + PRODUCT_2.name + `"]`;
+    const queryId: string = `[id="select_quantity_` + PRODUCT_2.name + `"]`;
     cy.get(queryId).select('2');
     // Check out
     cy.get('[id="BUTTON_checkout"]').click();

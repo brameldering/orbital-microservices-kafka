@@ -2,7 +2,7 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
-    node: true,
+    node: false,
   },
   parser: '@typescript-eslint/parser',
   extends: [
@@ -19,10 +19,12 @@ module.exports = {
     },
   },
   plugins: [
-    // ...other plugins
+    'react-hooks',
     'import', // Make sure 'import' is listed as a plugin
   ],
   rules: {
+    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/exhaustive-deps': 'warn',
     'no-restricted-imports': [
       'error',
       {
@@ -55,14 +57,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: [
-        '*.test.{ts,tsx}',
-        'src/testing/**/*.{ts,tsx}',
-        'frontend/*.test.{ts,tsx}',
-        'frontend/src/testing/**/*.{ts,tsx}',
-        'backend/*.test.{ts,tsx}',
-        'backend/src/testing/**/*.{ts,tsx}',
-      ],
+      files: ['*.test.{ts,tsx}', 'src/testing/**/*.{ts,tsx}'],
       rules: {
         '@typescript-eslint/no-explicit-any': 'off',
         '@typescript-eslint/ban-ts-comment': 'off',

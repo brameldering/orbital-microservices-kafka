@@ -58,6 +58,10 @@ This is version 2.0 of the app, which uses Redux Toolkit. The first version can 
 - Create a MongoDB database and obtain your `MongoDB URI` - [MongoDB Atlas](https://www.mongodb.com/cloud/atlas/register)
 - Create a PayPal account and obtain your `Client ID` - [PayPal Developer](https://developer.paypal.com/)
 
+## Development
+
+This project uses EditorConfig to standardize text editor configuration. Visit https://editorconfig.org for details.
+
 ### Env Variables
 
 Rename the `.env.example` file to `.env` and define settings accordingly
