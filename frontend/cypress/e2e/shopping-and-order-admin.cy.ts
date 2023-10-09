@@ -12,8 +12,9 @@ import {
   NO_RESULTS_MESSAGE,
   ORDER_ID_1,
   ORDER_ID_2,
-  PRODUCT_MOUSE,
-  PRODUCT_PLAYSTATION,
+  PRODUCT_1,
+  PRODUCT_2,
+  SHIPPING_FEE,
   REQUIRED,
   SEARCH_KEYWORD,
   SEARCH_KEYWORD_NO_RESULTS,
@@ -75,23 +76,23 @@ describe('Shopping tests', () => {
     cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
     cy.get('[id="product_card"]').should('have.length', 6);
     // Select mousde product and check we go to product page
-    cy.contains(PRODUCT_MOUSE).click();
-    cy.get('h3').invoke('text').should('equal', PRODUCT_MOUSE);
+    cy.contains(PRODUCT_1.name).click();
+    cy.get('h3').invoke('text').should('equal', PRODUCT_1.name);
     // select 2 items and add to cart
     cy.get('[id="select_quantity"]').select('2');
     cy.get('[id="BUTTON_add_to_cart"]').click();
     cy.get('h1').invoke('text').should('equal', SHOPPING_CART);
     cy.get('h2').invoke('text').should('equal', SUBTOTAL_2_ITEMS);
     // Check that clicking the product name takes us to the product page
-    let queryId: string = `[id="product_name_` + PRODUCT_MOUSE + `"]`;
+    let queryId: string = `[id="product_name_` + PRODUCT_1.name + `"]`;
     cy.get(queryId).click();
-    cy.get('h3').invoke('text').should('equal', PRODUCT_MOUSE);
+    cy.get('h3').invoke('text').should('equal', PRODUCT_1.name);
     // Check that [go back] takes us back to the cart again
     cy.get('[id="BUTTON_go_back"]').click();
     cy.get('h1').invoke('text').should('equal', SHOPPING_CART);
     cy.get('h2').invoke('text').should('equal', SUBTOTAL_2_ITEMS);
     // Remove item from cart
-    queryId = `[id="remove_from_cart_` + PRODUCT_MOUSE + `"]`;
+    queryId = `[id="remove_from_cart_` + PRODUCT_1.name + `"]`;
     cy.get(queryId).click();
     cy.contains(YOUR_CART_IS_EMPTY);
     cy.get('[id="LINK_go_to_shop"]').click();
@@ -102,8 +103,8 @@ describe('Shopping tests', () => {
     cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
     cy.get('[id="product_card"]').should('have.length', 6);
     // Select Mouse Product
-    cy.contains(PRODUCT_MOUSE).click();
-    cy.get('h3').invoke('text').should('equal', PRODUCT_MOUSE);
+    cy.contains(PRODUCT_1.name).click();
+    cy.get('h3').invoke('text').should('equal', PRODUCT_1.name);
     // Add to cart
     cy.get('[id="BUTTON_add_to_cart"]').click();
     cy.get('h1').invoke('text').should('equal', SHOPPING_CART);
@@ -149,10 +150,10 @@ describe('Shopping tests', () => {
     cy.contains('Order Items');
     cy.contains('1 x €50.00 = €50.00');
     cy.contains(H2_ORDER_SUMMARY);
-    cy.contains('€50.00');
-    cy.contains('€4.50');
-    cy.contains('€10.50');
-    cy.contains('€65.00');
+    cy.contains(CURRENCY_SYMBOL + PRODUCT_1.price.toFixed(2));
+    cy.contains(CURRENCY_SYMBOL + SHIPPING_FEE.toFixed(2));
+    cy.contains(CURRENCY_SYMBOL + PRODUCT_1.vat.toFixed(2));
+    cy.contains(CURRENCY_SYMBOL + '65.00'); // Total
     // Click [place order] and check we are on order screen
     cy.get('[id="BUTTON_place_order"]').click();
     cy.contains('Order Details');
@@ -168,18 +169,18 @@ describe('Shopping tests', () => {
     cy.contains('Order Items');
     cy.contains('1 x €50.00 = €50.00');
     cy.contains(H2_ORDER_SUMMARY);
-    cy.contains('€50.00');
-    cy.contains('€4.50');
-    cy.contains('€10.50');
-    cy.contains('€65.00');
+    cy.contains(CURRENCY_SYMBOL + PRODUCT_1.price.toFixed(2));
+    cy.contains(CURRENCY_SYMBOL + SHIPPING_FEE.toFixed(2));
+    cy.contains(CURRENCY_SYMBOL + PRODUCT_1.vat.toFixed(2));
+    cy.contains(CURRENCY_SYMBOL + '65.00'); // Total
   });
   it('Full order flow of 2 products with 3 items in total', () => {
     // Check that we are on Products page and all 6 products are shown
     cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
     cy.get('[id="product_card"]').should('have.length', 6);
     // Select Mouse Product
-    cy.contains(PRODUCT_MOUSE).click();
-    cy.get('h3').invoke('text').should('equal', PRODUCT_MOUSE);
+    cy.contains(PRODUCT_1.name).click();
+    cy.get('h3').invoke('text').should('equal', PRODUCT_1.name);
     // Add to cart
     cy.get('[id="BUTTON_add_to_cart"]').click();
     cy.get('h1').invoke('text').should('equal', SHOPPING_CART);
@@ -187,15 +188,15 @@ describe('Shopping tests', () => {
     // Back to home page and select playstation
     cy.get('[id="LINK_orbital_shop"]').click();
     cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
-    cy.contains(PRODUCT_PLAYSTATION).click();
-    cy.get('h3').invoke('text').should('equal', PRODUCT_PLAYSTATION);
+    cy.contains(PRODUCT_2.name).click();
+    cy.get('h3').invoke('text').should('equal', PRODUCT_2.name);
     // Add to cart
     cy.get('[id="BUTTON_add_to_cart"]').click();
     cy.get('h1').invoke('text').should('equal', SHOPPING_CART);
     cy.get('h2').invoke('text').should('equal', SUBTOTAL_2_ITEMS);
     cy.get('[id="product_item"]').should('have.length', 2);
-    cy.contains('€450.00');
-    let queryId: string = `[id="select_quantity_` + PRODUCT_PLAYSTATION + `"]`;
+    cy.contains(CURRENCY_SYMBOL + '450.00');
+    let queryId: string = `[id="select_quantity_` + PRODUCT_2.name + `"]`;
     cy.get(queryId).select('2');
     // Check out
     cy.get('[id="BUTTON_checkout"]').click();
@@ -232,10 +233,10 @@ describe('Shopping tests', () => {
     cy.contains('1 x €50.00 = €50.00');
     cy.contains('2 x €400.00 = €800.00');
     cy.contains(H2_ORDER_SUMMARY);
-    cy.contains('€850.00');
-    cy.contains('€0.00');
-    cy.contains('€178.50');
-    cy.contains('€1028.50');
+    cy.contains(CURRENCY_SYMBOL + '850.00');
+    cy.contains(CURRENCY_SYMBOL + '0.00');
+    cy.contains(CURRENCY_SYMBOL + '178.50');
+    cy.contains(CURRENCY_SYMBOL + '1028.50');
     // Click [place order] and check we are on order screen
     cy.get('[id="BUTTON_place_order"]').click();
     cy.contains('Order Details');
@@ -252,10 +253,10 @@ describe('Shopping tests', () => {
     cy.contains('1 x €50.00 = €50.00');
     cy.contains('2 x €400.00 = €800.00');
     cy.contains(H2_ORDER_SUMMARY);
-    cy.contains('€850.00');
-    cy.contains('€0.00');
-    cy.contains('€178.50');
-    cy.contains('€1028.50');
+    cy.contains(CURRENCY_SYMBOL + '850.00');
+    cy.contains(CURRENCY_SYMBOL + '0.00');
+    cy.contains(CURRENCY_SYMBOL + '178.50');
+    cy.contains(CURRENCY_SYMBOL + '1028.50');
     // Check My Orders now contains 2 orders
     cy.get('[id="LINK_header_username"]').click();
     cy.get('[id="LINK_my_orders"]').click();
@@ -277,8 +278,8 @@ describe('Review write tests', () => {
     cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
     cy.get('[id="product_card"]').should('have.length', 6);
     // Select Mouse Product and check review block
-    cy.contains(PRODUCT_MOUSE).click();
-    cy.get('h3').invoke('text').should('equal', PRODUCT_MOUSE);
+    cy.contains(PRODUCT_1.name).click();
+    cy.get('h3').invoke('text').should('equal', PRODUCT_1.name);
     cy.contains('Please sign in to write a review');
     cy.get('[id="LINK_sign_in"]').click();
     // Sign in
@@ -287,8 +288,8 @@ describe('Review write tests', () => {
     cy.get('[id="password"]').type(TEST_USER_PASSWORD);
     cy.get('[id="BUTTON_login"]').click();
     cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
-    cy.contains(PRODUCT_MOUSE).click();
-    cy.get('h3').invoke('text').should('equal', PRODUCT_MOUSE);
+    cy.contains(PRODUCT_1.name).click();
+    cy.get('h3').invoke('text').should('equal', PRODUCT_1.name);
     cy.contains('No Reviews');
     cy.get('[id="rating"]').select('5 - Excellent');
     cy.get('[id="comment"]').type('Test comment');
@@ -308,8 +309,8 @@ describe('Review write tests', () => {
     cy.get('[id="BUTTON_login"]').click();
     // Try to do another review and check that message appears
     cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
-    cy.contains(PRODUCT_MOUSE).click();
-    cy.get('h3').invoke('text').should('equal', PRODUCT_MOUSE);
+    cy.contains(PRODUCT_1.name).click();
+    cy.get('h3').invoke('text').should('equal', PRODUCT_1.name);
     // Select product which has already been reviewed by test user
     cy.get('[id="rating"]').select('3 - Good');
     cy.get('[id="comment"]').type('Another test comment');

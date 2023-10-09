@@ -26,6 +26,9 @@ export const H1_RESET_PASSWORD_CONFIRMATION = 'Reset Password Confirmation';
 export const H1_USERS = 'Users';
 export const H1_EDIT_USER = 'Edit User';
 
+// Color of admin status
+export const COLOR_GREEN = 'rgb(0, 128, 0)';
+
 // Messages
 export const THAT_EMAIL_ALREADY_EXISTS = 'That email already exists';
 export const INVALID_EMAIL_OR_PASSWORD = 'Invalid email or password';
@@ -48,8 +51,17 @@ export const H1_ORDERS = 'Orders';
 export const SEARCH_KEYWORD = 'phone';
 export const SEARCH_KEYWORD_NO_RESULTS = 'no results';
 export const NO_RESULTS_MESSAGE = 'No products match your search';
-export const PRODUCT_MOUSE = 'Logitech G-Series Gaming Mouse';
-export const PRODUCT_PLAYSTATION = 'Sony Playstation 5';
+export const PRODUCT_1 = {
+  name: 'Logitech G-Series Gaming Mouse',
+  price: 50,
+  vat: 50 * 0.21,
+};
+export const PRODUCT_2 = {
+  name: 'Sony Playstation 5',
+  price: 400,
+  vat: 400 * 0.21,
+};
+export const SHIPPING_FEE = 4.5;
 
 export const SHOPPING_CART = 'Shopping Cart';
 export const SUBTOTAL_1_ITEMS = 'Subtotal (1) items';
@@ -66,5 +78,18 @@ export const TEST_ADDRESS_LINE = `${TEST_STREET}, ${TEST_POSTALCODE} ${TEST_CITY
 export const ORDER_ID_1 = 'ORD-0000000001';
 export const ORDER_ID_2 = 'ORD-0000000002';
 
-// Others
-export const COLOR_GREEN = 'rgb(0, 128, 0)';
+// Product Management
+export const ARE_YOU_SURE_YOU_WANT_TO_CREATE_A_NEW_PRODUCT =
+  'Are you sure you want to create a new product?';
+export const ARE_YOU_SURE_YOU_WANT_TO_DELETE_THIS_PRODUCT =
+  'Are you sure you want to delete this product?';
+
+export const PRODUCT_7_SEQ_ID = 'PRD-00000007';
+export const SAMPLE_PRODUCT_NAME = 'Sample name';
+export const SAMPLE_PRODUCT_CATEGORY = 'Sample category';
+export const SAMPLE_PRODUCT_BRAND = 'Sample brand';
+export const NEW_PRODUCT_NAME = 'New product name';
+export const NEW_PRODUCT_CATEGORY = 'New product category';
+export const NEW_PRODUCT_BRAND = 'New product brand';
+
+export const H1_EDIT_PRODUCT = 'Edit Product';

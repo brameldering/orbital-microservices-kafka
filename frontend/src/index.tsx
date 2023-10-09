@@ -30,7 +30,7 @@ import ProductScreen from './screens/product/ProductScreen';
 import ChangePasswordScreen from './screens/user/ChangePasswordScreen';
 import LoginScreen from './screens/user/LoginScreen';
 import MyOrdersScreen from './screens/user/MyOrdersScreen';
-import PasswordResetConfirmation from './screens/user/PasswordResetConfirmation';
+import PasswordResetConfirmationScreen from './screens/user/PasswordResetConfirmationScreen';
 import PasswordResetScreen from './screens/user/PasswordResetScreen';
 import ProfileScreen from './screens/user/ProfileScreen';
 import RegisterScreen from './screens/user/RegisterScreen';
@@ -57,7 +57,7 @@ const router = createBrowserRouter(
       <Route path='/passwordreset' element={<PasswordResetScreen />} />
       <Route
         path='/passwordresetconfirmation'
-        element={<PasswordResetConfirmation />}
+        element={<PasswordResetConfirmationScreen />}
       />
 
       {/* Registered users */}

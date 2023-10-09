@@ -103,6 +103,7 @@ const ProductListScreen = () => {
         </Col>
         <Col className='text-end'>
           <Button
+            id='BUTTON_create_product'
             className='my-3'
             onClick={confirmCreateProduct}
             disabled={disableSubmit}>
@@ -126,8 +127,8 @@ const ProductListScreen = () => {
                 <th>ID</th>
                 <th>NAME</th>
                 <th>PRICE</th>
-                <th>CATEGORY</th>
                 <th>BRAND</th>
+                <th>CATEGORY</th>
                 <th></th>
               </tr>
             </thead>
@@ -136,20 +137,30 @@ const ProductListScreen = () => {
                 data.products.map((product) => (
                   <tr key={product._id}>
                     <td>{product.sequenceProductId}</td>
-                    <td>{product.name}</td>
+                    <td id={`name_${product.sequenceProductId}`}>
+                      {product.name}
+                    </td>
                     <td>
                       {CURRENCY_SYMBOL}
                       {product.price.toFixed(2)}
                     </td>
-                    <td>{product.category}</td>
-                    <td>{product.brand}</td>
+                    <td id={`brand_${product.sequenceProductId}`}>
+                      {product.brand}
+                    </td>
+                    <td id={`category_${product.sequenceProductId}`}>
+                      {product.category}
+                    </td>
                     <td>
                       <LinkContainer to={`/admin/product/${product._id}/edit`}>
-                        <Button variant='light' className='btn-sm mx-2'>
+                        <Button
+                          id={`edit_${product.sequenceProductId}`}
+                          variant='light'
+                          className='btn-sm mx-2'>
                           <FaEdit />
                         </Button>
                       </LinkContainer>
                       <Button
+                        id={`delete_${product.sequenceProductId}`}
                         variant='danger'
                         className='btn-sm'
                         onClick={() => confirmDeleteProduct(product._id)}>
