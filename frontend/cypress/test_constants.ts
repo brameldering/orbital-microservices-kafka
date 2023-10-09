@@ -1,5 +1,6 @@
-export const LOGIN_URL = 'http://localhost:3000/login';
 export const HOME_PAGE_URL = 'http://localhost:3000';
+export const LOGIN_URL = 'http://localhost:3000/login';
+export const PRODUCT_LIST_URL = 'http://localhost:3000/admin/productlist';
 
 export const TEST_USER_NAME = 'John Doe';
 export const TEST_USER_EMAIL: string = 'john@email.com';
@@ -23,7 +24,7 @@ export const H1_MY_PROFILE = 'My Profile';
 export const H1_CHANGE_PASSWORD = 'Change Password';
 export const H1_RESET_PASSWORD = 'Reset Password';
 export const H1_RESET_PASSWORD_CONFIRMATION = 'Reset Password Confirmation';
-export const H1_USERS = 'Users';
+export const H1_USER_ADMIN = 'User Admin';
 export const H1_EDIT_USER = 'Edit User';
 
 // Color of admin status
@@ -46,7 +47,7 @@ export const H1_ADDRESS = 'Address';
 export const H1_PAYMENT_METHOD = 'Payment Method';
 export const H2_ORDER_SUMMARY = 'Order Summary';
 export const H1_MY_ORDERS = 'My Orders';
-export const H1_ORDERS = 'Orders';
+export const H1_ORDER_ADMIN = 'Order Admin';
 
 export const SEARCH_KEYWORD = 'phone';
 export const SEARCH_KEYWORD_NO_RESULTS = 'no results';
@@ -79,6 +80,7 @@ export const ORDER_ID_1 = 'ORD-0000000001';
 export const ORDER_ID_2 = 'ORD-0000000002';
 
 // Product Management
+export const H1_PRODUCT_ADMIN = 'Product Admin';
 export const ARE_YOU_SURE_YOU_WANT_TO_CREATE_A_NEW_PRODUCT =
   'Are you sure you want to create a new product?';
 export const ARE_YOU_SURE_YOU_WANT_TO_DELETE_THIS_PRODUCT =

@@ -16,7 +16,7 @@ const OrderListScreen = () => {
   return (
     <>
       <Meta title='Manage Orders' />
-      <h1>Orders</h1>
+      <h1>Order Admin</h1>
       {isLoading ? (
         <Loader />
       ) : errorLoading ? (

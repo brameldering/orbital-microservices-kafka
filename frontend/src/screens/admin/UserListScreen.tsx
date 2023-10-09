@@ -57,7 +57,7 @@ const UserListScreen = () => {
         handleClose={cancelDeleteUser}
         handleConfirm={deleteUserHandler.bind(this)}
       />
-      <h1>Users</h1>
+      <h1>User Admin</h1>
       {errorDeleting && <ErrorMessage error={errorDeleting} />}
       {isLoading ? (
         <Loader />

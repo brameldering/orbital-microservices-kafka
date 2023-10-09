@@ -4,7 +4,7 @@ import {
   HOME_PAGE_URL,
   H1_ADDRESS,
   H1_MY_ORDERS,
-  H1_ORDERS,
+  H1_ORDER_ADMIN,
   H1_PRODUCTS,
   H1_SIGN_IN,
   H1_PAYMENT_METHOD,
@@ -47,7 +47,7 @@ describe('Initialize', () => {
 
 describe('Shopping tests', () => {
   beforeEach(() => cy.visit(HOME_PAGE_URL));
-  it('Search for products and test back and home links', () => {
+  it('E2E_SHOP_OM_1: Search for products and test back and home links', () => {
     // Check that we are on Products page and all 6 products are shown
     cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
     cy.get('[id="product_card"]').should('have.length', 6);
@@ -71,7 +71,7 @@ describe('Shopping tests', () => {
     cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
     cy.get('[id="product_card"]').should('have.length', 6);
   });
-  it('Select one product, change to 2 items in Cart and then empty cart', () => {
+  it('E2E_SHOP_OM_2: Select one product, change to 2 items and empty cart', () => {
     // Check that we are on Products page and all 6 products are shown
     cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
     cy.get('[id="product_card"]').should('have.length', 6);
@@ -98,7 +98,7 @@ describe('Shopping tests', () => {
     cy.get('[id="LINK_go_to_shop"]').click();
     cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
   });
-  it('Full order flow of 1 product with shipping fee', () => {
+  it('E2E_SHOP_OM_3: Full order flow of 1 product with shipping fee', () => {
     // Check that we are on Products page and all 6 products are shown
     cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
     cy.get('[id="product_card"]').should('have.length', 6);
@@ -174,7 +174,7 @@ describe('Shopping tests', () => {
     cy.contains(CURRENCY_SYMBOL + PRODUCT_1.vat.toFixed(2));
     cy.contains(CURRENCY_SYMBOL + '65.00'); // Total
   });
-  it('Full order flow of 2 products with 3 items in total', () => {
+  it('E2E_SHOP_OM_4: Full order flow of 2 products with 3 items in total', () => {
     // Check that we are on Products page and all 6 products are shown
     cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
     cy.get('[id="product_card"]').should('have.length', 6);
@@ -271,9 +271,9 @@ describe('Shopping tests', () => {
     cy.contains(CURRENCY_SYMBOL + '1028.50');
   });
 });
-describe('Review write tests', () => {
+describe('Test Reviews', () => {
   beforeEach(() => cy.visit(HOME_PAGE_URL));
-  it('Write succesful review', () => {
+  it('E2E_SHOP_OM_5: Write succesful review', () => {
     // Check that we are on Products page and all 6 products are shown
     cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
     cy.get('[id="product_card"]').should('have.length', 6);
@@ -297,7 +297,7 @@ describe('Review write tests', () => {
     cy.contains('John Doe');
     cy.contains('Test comment');
   });
-  it('Write another review which should give error message', () => {
+  it('E2E_SHOP_OM_6: Write another review which should give error message', () => {
     // Check that we are on Products page and all 6 products are shown
     cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
     cy.get('[id="product_card"]').should('have.length', 6);
@@ -322,7 +322,7 @@ describe('Review write tests', () => {
 });
 describe('Test Order Admin', () => {
   beforeEach(() => cy.visit(HOME_PAGE_URL));
-  it('Log in as admin user', () => {
+  it('E2E_SHOP_OM_7: There are 2 orders in Order Admin screen', () => {
     // Sign in using sign in link
     cy.get('[id="LINK_header_sign_in"]').click();
     cy.get('h1').invoke('text').should('equal', H1_SIGN_IN);
@@ -332,7 +332,7 @@ describe('Test Order Admin', () => {
     cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
     cy.get('[id="LINK_header_adminmenu"]').click();
     cy.get('[id="LINK_header_orders"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_ORDERS);
+    cy.get('h1').invoke('text').should('equal', H1_ORDER_ADMIN);
     // Check there are no errors
     cy.get('alert_error').should('not.exist');
     cy.get('error_message').should('not.exist');
