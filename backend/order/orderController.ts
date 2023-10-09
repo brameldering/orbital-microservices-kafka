@@ -20,8 +20,6 @@ import Product from '../product/productModel';
 
 import Order from './orderModel';
 
-
-
 // @desc    Get all orders
 // @route   GET /api/orders/v1
 // @access  Private/Admin

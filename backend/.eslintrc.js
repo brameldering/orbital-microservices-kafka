@@ -6,6 +6,7 @@ module.exports = {
   },
   parser: '@typescript-eslint/parser',
   extends: [
+    'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
     // 'plugin:storybook/recommended',
     //'next/core-web-vitals',
@@ -52,6 +53,9 @@ module.exports = {
     ],
     '@typescript-eslint/no-var-requires': 'off',
     '@typescript-eslint/no-explicit-any': 'warn',
+    'no-multiple-empty-lines': 'warn',
+    'no-var': 'error',
+    'prefer-const': 'error',
   },
   overrides: [
     {
