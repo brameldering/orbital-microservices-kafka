@@ -7,7 +7,7 @@ import {
   IPasswordReset,
 } from '../types/userTypes';
 
-import { apiSlice } from './apiSlice';
+import apiSlice from './apiSlice';
 
 export const userApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({

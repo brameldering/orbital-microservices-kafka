@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
+import { IProduct } from 'src/types/productTypes';
 
 import ErrorMessage from '../components/general/ErrorMessage';
 import Loader from '../components/general/Loader';
@@ -60,7 +60,7 @@ const HomeScreen = () => {
           <Row>
             {catalogData &&
               catalogData.products.length > 0 &&
-              catalogData.products.map((product) => (
+              catalogData.products.map((product: IProduct) => (
                 <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
                   <Product product={product} />
                 </Col>

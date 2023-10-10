@@ -1,9 +1,7 @@
 import { ICart } from '../types/cartTypes';
 import { IFeesConfig } from '../types/configTypes';
 
-const roundTo2Decimals = (num: number): number => {
-  return Math.round(num * 100) / 100;
-};
+const roundTo2Decimals = (num: number): number => Math.round(num * 100) / 100;
 
 export const updateCart = (state: ICart) => {
   const configInfoLocalStorage: string | null =

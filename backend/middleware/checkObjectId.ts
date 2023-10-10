@@ -4,7 +4,6 @@ import { isValidObjectId } from 'mongoose';
 
 import { ExtendedError } from './errorMiddleware';
 
-
 /**
  * Checks if the req.params.id is a valid Mongoose ObjectId.
  *

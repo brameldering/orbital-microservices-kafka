@@ -7,7 +7,6 @@ import { ExtendedError } from '../../middleware/errorMiddleware';
 
 import fileFilter from './fileFilter';
 
-
 const storage = multer.memoryStorage();
 const upload = multer({
   storage: storage,

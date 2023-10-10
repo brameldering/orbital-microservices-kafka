@@ -7,22 +7,10 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   extends: [
     'eslint:recommended',
+    'plugin:prettier/recommended',
     'plugin:@typescript-eslint/recommended',
-    // 'plugin:storybook/recommended',
-    //'next/core-web-vitals',
-    // 'plugin:react/jsx-runtime',
-    // 'plugin:react/recommended',
-    'prettier',
   ],
-  // settings: {
-  //   react: {
-  //     version: 'detect', // Specify the React version here
-  //   },
-  // },
-  plugins: [
-    // ...other plugins
-    'import', // Make sure 'import' is listed as a plugin
-  ],
+  plugins: ['jest', 'import', 'prettier'],
   rules: {
     'no-restricted-imports': [
       'error',

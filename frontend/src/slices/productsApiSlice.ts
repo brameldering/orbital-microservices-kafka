@@ -7,7 +7,7 @@ import {
   IUploadImageResponse,
 } from '../types/productTypes';
 
-import { apiSlice } from './apiSlice';
+import apiSlice from './apiSlice';
 
 export const productsApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({

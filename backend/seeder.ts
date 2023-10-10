@@ -9,7 +9,6 @@ import Order from './order/orderModel';
 import Product from './product/productModel';
 import User from './user/userModel';
 
-
 dotenv.config();
 
 connectDB();
