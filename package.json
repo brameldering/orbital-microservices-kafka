@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "concurrently \"cd backend && npm run server\" \"cd frontend && npm start\"",
     "build": "concurrently \"cd backend && npm install\" \"cd frontend && npm install && npm run build\"",
+    "test": "concurrently \"cd backend && npm run test\" \"cd frontend && npm run test\"",
     "generate-toc": "markdown-toc -i readme.md",
     "data_import": "cd backend && node dist/seeder",
     "lint": "eslint --ext .ts,.tsx ./frontend/src/ && eslint --ext .ts ./backend/",
@@ -18,13 +19,18 @@
   "author": "Bram Eldering",
   "license": "MIT",
   "devDependencies": {
+    "@babel/preset-typescript": "^7.23.0",
+    "@types/jest": "^29.5.5",
     "concurrently": "^8.2.1",
+    "cross-env": "^7.0.3",
     "eslint": "^8.51.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
     "eslint-staged": "^1.0.1",
     "husky": "^8.0.3",
+    "jest": "^29.7.0",
     "prettier": "^3.0.3",
+    "ts-jest": "^29.1.1",
     "typescript": "^5.2.2"
   }
 }
