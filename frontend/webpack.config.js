@@ -1,11 +1,12 @@
 const path = require('path');
-const webpack = require('webpack');
+
 const CompressionPlugin = require('compression-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 // const BundleAnalyzerPlugin =
 //   require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const TerserPlugin = require('terser-webpack-plugin');
+const webpack = require('webpack');
+const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 
 module.exports = {
   mode: 'development',
