@@ -86,7 +86,6 @@ interface ErrorMessageProps {
 const ErrorMessage: React.FunctionComponent<ErrorMessageProps> = ({
   error,
 }) => {
-  console.log('============= ErrorMessage', error);
   const errorObject = deriveErrorData(error);
   // TO DO: Log Frontend Error using an API to the backend
   return (
