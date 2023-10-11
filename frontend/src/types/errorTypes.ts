@@ -1,5 +1,5 @@
 export interface IError {
-  status: number;
+  status: string | number;
   message: string;
   stack?: string;
 }
@@ -7,6 +7,11 @@ export interface IError {
 export type IStandardError = {
   message: string;
   stack?: string;
+};
+
+export type IErrorWithStatusAndErrorString = {
+  status: string | number;
+  error: string;
 };
 
 export type IErrorWithStatusAndData = {

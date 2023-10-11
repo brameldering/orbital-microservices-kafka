@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
-import {
-  ProductModel,
-  ProductSchema,
-  ProductDocument,
-} from 'types/mongoose.gen';
+// import {
+//   ProductModel,
+//   ProductSchema,
+//   ProductDocument,
+// } from 'types/mongoose.gen';
 
 const reviewSchema = new mongoose.Schema(
   {
@@ -21,7 +21,7 @@ const reviewSchema = new mongoose.Schema(
   }
 );
 
-const productSchema: ProductSchema = new mongoose.Schema(
+const productSchema = new mongoose.Schema(
   {
     sequenceProductId: {
       type: String,
@@ -81,9 +81,6 @@ const productSchema: ProductSchema = new mongoose.Schema(
   }
 );
 
-const Product = mongoose.model<ProductDocument, ProductModel>(
-  'Product',
-  productSchema
-);
+const Product = mongoose.model('Product', productSchema);
 
 export default Product;

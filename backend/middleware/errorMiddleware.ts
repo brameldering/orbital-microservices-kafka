@@ -35,6 +35,7 @@ const errorHandler = (
   }
 
   // TO DO: Log error to Winston
+  console.log('=== errorMiddleware' + message);
 
   res.status(status).json({
     message: message,

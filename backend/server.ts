@@ -1,19 +1,15 @@
 import path from 'path';
 
 import cookieParser from 'cookie-parser';
-import cors from 'cors';
+// import cors from 'cors';
 import dotenv from 'dotenv';
-import express, { Request, Response } from 'express';
+import express, { Express, Request, Response } from 'express';
 // import compression from 'compression';
 
 import configRoutes from './config/configRoutes';
 import connectDB from './general/db/db';
-// import configureCORS from './middleware/configureCORS';
-import {
-  ExtendedError,
-  notFound,
-  errorHandler,
-} from './middleware/errorMiddleware';
+import configureCORS from './middleware/configureCORS';
+import { notFound, errorHandler } from './middleware/errorMiddleware';
 import orderRoutes from './order/orderRoutes';
 import productRoutes from './product/productRoutes';
 import uploadRoutes from './product/uploadImageRoutes';
@@ -25,7 +21,7 @@ const nodeEnv = process.env.NODE_ENV;
 
 connectDB();
 
-const app = express();
+const app: Express = express();
 
 // add compression middleware
 // app.use(compression());
@@ -35,28 +31,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// Custom middleware
-// app.use(configureCORS);
-const allowedOrigins = process.env.CORS_ALLOWED_ORIGINS;
-if (!allowedOrigins) {
-  throw new ExtendedError('Missing setting in .env for CORS_ALLOWED_ORIGINS');
-}
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      // allow requests with no origin (like mobile apps or curl requests)
-      if (!origin) return callback(null, true);
-      if (allowedOrigins.indexOf(origin) === -1) {
-        const msg =
-          'The CORS policy for this site does not allow access from the specified Origin.';
-        return callback(new Error(msg), false);
-      }
-      return callback(null, true);
-    },
-    exposedHeaders: ['Content-Length', 'Origin', 'Accept'],
-    credentials: true,
-  })
-);
+// Custom configure CORS middleware
+configureCORS(app);
 
 // Controllers
 app.use('/api/config/v1', configRoutes);

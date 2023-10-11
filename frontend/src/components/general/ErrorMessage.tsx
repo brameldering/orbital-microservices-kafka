@@ -4,6 +4,7 @@ import { Alert } from 'react-bootstrap';
 import {
   IError,
   IStandardError,
+  IErrorWithStatusAndErrorString,
   IErrorWithStatusAndData,
 } from '../../types/errorTypes';
 
@@ -37,10 +38,29 @@ const isErrorWithStatusAndData = (
   );
 };
 
+const isErrorWithStatusAndErrorString = (
+  error: unknown
+): error is IErrorWithStatusAndErrorString => {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'status' in error &&
+    typeof (error as Record<string, unknown>).status === 'string' &&
+    error.status !== null &&
+    'error' in error &&
+    error.error !== null &&
+    typeof (error as Record<string, unknown>).error === 'string'
+  );
+};
+
 // Create IError object from either IStandardError or IErrorWithStatusAndData
 const deriveErrorData = (error: unknown): IError => {
   const errorObject: IError = { status: 0, message: '', stack: '' };
   try {
+    if (isErrorWithStatusAndErrorString(error)) {
+      errorObject.status = error.status;
+      errorObject.message = error.error;
+    }
     if (isErrorWithStatusAndData(error)) {
       errorObject.status = error.status;
       errorObject.message = error.data.message;
@@ -66,11 +86,18 @@ interface ErrorMessageProps {
 const ErrorMessage: React.FunctionComponent<ErrorMessageProps> = ({
   error,
 }) => {
+  console.log('============= ErrorMessage', error);
   const errorObject = deriveErrorData(error);
   // TO DO: Log Frontend Error using an API to the backend
   return (
     <>
-      {!isNaN(errorObject.status) && errorObject.status < 500 ? (
+      {typeof errorObject.status === 'string' ? (
+        <Alert id='alert_error' variant='danger'>
+          {errorObject.message}
+        </Alert>
+      ) : typeof errorObject.status === 'number' &&
+        !isNaN(errorObject.status) &&
+        errorObject.status < 500 ? (
         <Alert id='alert_error' variant='danger'>
           {errorObject.message}
         </Alert>
