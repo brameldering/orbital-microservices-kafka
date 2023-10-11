@@ -78,7 +78,7 @@ const ProductListScreen = () => {
 
   // --------------------------------------------
 
-  const disableSubmit = isLoading || creating || deleting;
+  const loadingOrProcessing = isLoading || creating || deleting;
 
   return (
     <>
@@ -106,7 +106,7 @@ const ProductListScreen = () => {
             id='BUTTON_create_product'
             className='my-3'
             onClick={confirmCreateProduct}
-            disabled={disableSubmit}>
+            disabled={loadingOrProcessing}>
             <FaPlus /> Create Product
           </Button>
         </Col>

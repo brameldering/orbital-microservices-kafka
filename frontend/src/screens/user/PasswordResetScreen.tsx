@@ -38,6 +38,8 @@ const PasswordResetScreen = () => {
     },
   });
 
+  const loadingOrProcessing = resettingPassword;
+
   return (
     <FormContainer>
       <Meta title='Reset Password' />
@@ -53,12 +55,12 @@ const PasswordResetScreen = () => {
         />
         <Button
           id='BUTTON_reset_password'
-          disabled={resettingPassword}
+          disabled={loadingOrProcessing || !formik.dirty}
           type='submit'
           variant='primary mt-2'>
           Reset Password
         </Button>
-        {resettingPassword && <Loader />}
+        {loadingOrProcessing && <Loader />}
       </Form>
     </FormContainer>
   );

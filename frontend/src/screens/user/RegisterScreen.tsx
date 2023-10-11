@@ -65,11 +65,13 @@ function RegisterScreen() {
     },
   });
 
+  const loadingOrProcessing = registering;
+
   return (
     <FormContainer>
       <Meta title='Registration' />
       <h1>Register account</h1>
-      {registering && <Loader />}
+      {loadingOrProcessing && <Loader />}
       {errorRegistering && <ErrorMessage error={errorRegistering} />}
       <Form onSubmit={formik.handleSubmit}>
         <TextField controlId='name' label='Full name' formik={formik} />
@@ -77,7 +79,7 @@ function RegisterScreen() {
         <PasswordField controlId='password' label='Password' formik={formik} />
         <Button
           id='BUTTON_register'
-          disabled={registering}
+          disabled={loadingOrProcessing || !formik.dirty}
           type='submit'
           variant='primary mt-2'>
           Register

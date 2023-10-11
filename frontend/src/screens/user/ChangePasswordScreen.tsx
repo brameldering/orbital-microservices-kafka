@@ -73,7 +73,7 @@ const ChangePasswordScreen = () => {
     }
   };
 
-  const buttonDisabled = updatingPassword;
+  const loadingOrProcessing = updatingPassword;
 
   return (
     <>
@@ -88,7 +88,7 @@ const ChangePasswordScreen = () => {
       <Button
         className='btn btn-light my-3'
         onClick={goBackHandler}
-        disabled={buttonDisabled}>
+        disabled={loadingOrProcessing}>
         Go Back
       </Button>
       <FormContainer>
@@ -108,7 +108,7 @@ const ChangePasswordScreen = () => {
           />
           <Button
             id='BUTTON_update'
-            disabled={buttonDisabled}
+            disabled={loadingOrProcessing || !formik.dirty}
             type='submit'
             variant='primary mt-2'>
             Update

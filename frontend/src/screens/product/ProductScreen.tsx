@@ -91,7 +91,7 @@ const ProductScreen = () => {
     }
   };
 
-  const buttonDisabled = isLoading || creatingProductReview;
+  const loadingOrProcessing = isLoading || creatingProductReview;
 
   return (
     <>
@@ -184,7 +184,9 @@ const ProductScreen = () => {
                       id='BUTTON_add_to_cart'
                       className='btn-block mt-2'
                       type='button'
-                      disabled={product.countInStock === 0 || buttonDisabled}
+                      disabled={
+                        product.countInStock === 0 || loadingOrProcessing
+                      }
                       onClick={addToCartHandler}>
                       Add To Cart
                     </Button>
@@ -241,7 +243,11 @@ const ProductScreen = () => {
                       </Form.Group>
                       <Button
                         id='BUTTON_review_submit'
-                        disabled={buttonDisabled}
+                        disabled={
+                          loadingOrProcessing ||
+                          comment.trim().length === 0 ||
+                          rating === 0
+                        }
                         type='submit'
                         variant='primary mt-2'>
                         Submit

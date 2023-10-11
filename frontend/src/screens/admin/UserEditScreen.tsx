@@ -89,7 +89,7 @@ const UserEditScreen = () => {
     }
   };
 
-  const disableSubmit = isLoading || updating;
+  const loadingOrProcessing = isLoading || updating;
 
   return (
     <>
@@ -104,7 +104,7 @@ const UserEditScreen = () => {
       <Button
         className='btn btn-light my-3'
         onClick={goBackHandler}
-        disabled={disableSubmit}>
+        disabled={loadingOrProcessing}>
         Go Back
       </Button>
       <FormContainer>
@@ -128,7 +128,7 @@ const UserEditScreen = () => {
               type='submit'
               variant='primary'
               className='mt-2'
-              disabled={disableSubmit}>
+              disabled={loadingOrProcessing || !formik.dirty}>
               Update
             </Button>
             {updating && <Loader />}

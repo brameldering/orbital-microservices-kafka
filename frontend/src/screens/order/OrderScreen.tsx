@@ -275,7 +275,12 @@ const OrderScreen = () => {
             <Card>
               <ListGroup variant='flush'>
                 <OrderSummaryBlock totalAmounts={order.totalAmounts} />
-                {disableButtons && <Loader />}
+                {disableButtons && (
+                  <>
+                    <br />
+                    <Loader />
+                  </>
+                )}
                 {!order.isPaid && (
                   <ListGroup.Item>
                     {errorPayingOrder ? (

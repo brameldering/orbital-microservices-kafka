@@ -124,7 +124,8 @@ const ProductEditScreen = () => {
     }
   };
 
-  const disableSubmit = isLoading || performingUpdate || performinUploadImage;
+  const loadingOrProcessing =
+    isLoading || performingUpdate || performinUploadImage;
 
   return (
     <>
@@ -139,7 +140,7 @@ const ProductEditScreen = () => {
       <Button
         className='btn btn-light my-3'
         onClick={goBackHandler}
-        disabled={disableSubmit}>
+        disabled={loadingOrProcessing}>
         Go Back
       </Button>
       <FormContainer>
@@ -202,7 +203,7 @@ const ProductEditScreen = () => {
               type='submit'
               variant='primary'
               className='mt-2'
-              disabled={disableSubmit}>
+              disabled={loadingOrProcessing || !formik.dirty}>
               Save
             </Button>
             {performingUpdate && <Loader />}

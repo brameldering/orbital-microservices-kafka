@@ -49,7 +49,7 @@ const ProfileScreen = () => {
     },
   });
 
-  const buttonDisabled = updatingProfile;
+  const loadingOrProcessing = updatingProfile;
 
   return (
     <FormContainer>
@@ -63,7 +63,7 @@ const ProfileScreen = () => {
           <Col>
             <Button
               id='BUTTON_update'
-              disabled={buttonDisabled}
+              disabled={loadingOrProcessing || !formik.dirty}
               type='submit'
               variant='primary mt-2'>
               Update

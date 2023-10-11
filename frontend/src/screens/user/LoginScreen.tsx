@@ -54,6 +54,8 @@ const LoginScreen = () => {
     },
   });
 
+  const loadingOrProcessing = loggingIn;
+
   return (
     <FormContainer>
       <Meta title='Sign In' />
@@ -64,12 +66,12 @@ const LoginScreen = () => {
         <PasswordField controlId='password' label='Password' formik={formik} />
         <Button
           id='BUTTON_login'
-          disabled={loggingIn}
+          disabled={loadingOrProcessing || !formik.dirty}
           type='submit'
           variant='primary mt-2'>
           Sign In
         </Button>
-        {loggingIn && <Loader />}
+        {loadingOrProcessing && <Loader />}
       </Form>
       <Row className='py-3'>
         <Col>
