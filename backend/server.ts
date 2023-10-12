@@ -6,14 +6,14 @@ import dotenv from 'dotenv';
 import express, { Express, Request, Response } from 'express';
 // import compression from 'compression';
 
-import configRoutes from './config/configRoutes';
 import connectDB from './general/db/db';
 import configureCORS from './middleware/configureCORS';
 import { notFound, errorHandler } from './middleware/errorMiddleware';
-import orderRoutes from './order/orderRoutes';
+import configRoutes from './config/configRoutes';
 import productRoutes from './product/productRoutes';
 import uploadRoutes from './product/uploadImageRoutes';
 import userRoutes from './user/userRoutes';
+import orderRoutes from './order/orderRoutes';
 
 dotenv.config();
 const port = process.env.PORT || 5000;

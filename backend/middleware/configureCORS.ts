@@ -1,6 +1,5 @@
 import cors from 'cors';
-import { Request, Response, NextFunction } from 'express';
-import { Express } from 'express';
+import { Express, Request, Response, NextFunction } from 'express';
 
 import { ExtendedError } from './errorMiddleware';
 

@@ -20,35 +20,10 @@ module.exports = {
   rules: {
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
-    'no-restricted-imports': [
-      'error',
-      {
-        patterns: ['@/features/*/*'],
-      },
-    ],
     'import/no-cycle': 'error',
     'import/no-duplicates': 'error',
     'import/extensions': 'off',
     'linebreak-style': ['error', 'unix'],
-    'import/order': [
-      'error',
-      {
-        groups: [
-          'builtin',
-          'external',
-          'internal',
-          'parent',
-          'sibling',
-          'index',
-          'object',
-        ],
-        'newlines-between': 'always',
-        alphabetize: {
-          order: 'asc',
-          caseInsensitive: true,
-        },
-      },
-    ],
     '@typescript-eslint/no-var-requires': 'off',
     '@typescript-eslint/no-explicit-any': 'warn',
     'no-multiple-empty-lines': 'warn',
