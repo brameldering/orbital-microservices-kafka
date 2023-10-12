@@ -1,68 +1,75 @@
-
 <!doctype html>
 <html lang="en">
-
-<head>
+  <head>
     <title>Code coverage report for product/productController.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../prettify.css" />
     <link rel="stylesheet" href="../base.css" />
     <link rel="shortcut icon" type="image/x-icon" href="../favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <style type='text/css'>
-        .coverage-summary .sorter {
-            background-image: url(../sort-arrow-sprite.png);
-        }
+    <style type="text/css">
+      .coverage-summary .sorter {
+        background-image: url(../sort-arrow-sprite.png);
+      }
     </style>
-</head>
-    
-<body>
-<div class='wrapper'>
-    <div class='pad1'>
-        <h1><a href="../index.html">All files</a> / <a href="index.html">product</a> productController.ts</h1>
-        <div class='clearfix'>
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">20.65% </span>
-                <span class="quiet">Statements</span>
-                <span class='fraction'>19/92</span>
-            </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
-                <span class="quiet">Branches</span>
-                <span class='fraction'>0/30</span>
-            </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
-                <span class="quiet">Functions</span>
-                <span class='fraction'>0/17</span>
-            </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">21.83% </span>
-                <span class="quiet">Lines</span>
-                <span class='fraction'>19/87</span>
-            </div>
-        
-            
+  </head>
+
+  <body>
+    <div class="wrapper">
+      <div class="pad1">
+        <h1>
+          <a href="../index.html">All files</a>
+          /
+          <a href="index.html">product</a>
+          productController.ts
+        </h1>
+        <div class="clearfix">
+          <div class="fl pad1y space-right2">
+            <span class="strong">20.65%</span>
+            <span class="quiet">Statements</span>
+            <span class="fraction">19/92</span>
+          </div>
+
+          <div class="fl pad1y space-right2">
+            <span class="strong">0%</span>
+            <span class="quiet">Branches</span>
+            <span class="fraction">0/30</span>
+          </div>
+
+          <div class="fl pad1y space-right2">
+            <span class="strong">0%</span>
+            <span class="quiet">Functions</span>
+            <span class="fraction">0/17</span>
+          </div>
+
+          <div class="fl pad1y space-right2">
+            <span class="strong">21.83%</span>
+            <span class="quiet">Lines</span>
+            <span class="fraction">19/87</span>
+          </div>
         </div>
         <p class="quiet">
-            Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
+          Press
+          <em>n</em>
+          or
+          <em>j</em>
+          to go to the next uncovered block,
+          <em>b</em>
+          ,
+          <em>p</em>
+          or
+          <em>k</em>
+          for the previous block.
         </p>
         <template id="filterTemplate">
-            <div class="quiet">
-                Filter:
-                <input oninput="onInput()" type="search" id="fileSearch">
-            </div>
+          <div class="quiet">
+            Filter:
+            <input oninput="onInput()" type="search" id="fileSearch" />
+          </div>
         </template>
-    </div>
-    <div class='status-line low'></div>
-    <pre><table class="coverage">
+      </div>
+      <div class="status-line low"></div>
+      <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
 <a name='L3'></a><a href='#L3'>3</a>
@@ -562,7 +569,7 @@ const createProduct = asyncHandler(
     const sequenceProductId =
 <span class="cstat-no" title="statement not covered" >      'PRD-' + seqProductId.sequenceCounter.toString().padStart(8, '0');</span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!(req.user &amp;&amp; req.user._id)) {</span>
-<span class="cstat-no" title="statement not covered" >      throw new ExtendedError('No user has been passed to this request.');</span>
+<span class="cstat-no" title="statement not covered" >      throw new ExtendedError('No user JWT has been passed to this request.');</span>
     }
     const product = <span class="cstat-no" title="statement not covered" >new Product({</span>
       sequenceProductId,
@@ -584,7 +591,7 @@ const createProduct = asyncHandler(
 // @desc    Fetch products corresponding to array of Ids
 // @route   GET /api/products/v1/productsforids
 // @access  Public
-// @req     query.productids (string of comma seperated product id's)
+// @req     query.productids (string of comma separated product id's)
 // @res     status(200).json({ products })
 const getProductsForIds = asyncHandler(<span class="fstat-no" title="function not covered" >async (r</span>eq: Request, res: Response) =&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span>
   const productIds: string | undefined = <span class="cstat-no" title="statement not covered" >req.query.productids?.toString();</span>
@@ -675,7 +682,7 @@ const createProductReview = asyncHandler(
     const product = <span class="cstat-no" title="statement not covered" >await Product.findById(req.params.id);</span>
 <span class="cstat-no" title="statement not covered" >    if (product) {</span>
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!(req.user &amp;&amp; req.user._id)) {</span>
-<span class="cstat-no" title="statement not covered" >        throw new ExtendedError('No user has been passed to this request.');</span>
+<span class="cstat-no" title="statement not covered" >        throw new ExtendedError('No user JWT has been passed to this request.');</span>
       }
       const alreadyReviewed = <span class="cstat-no" title="statement not covered" >product.reviews.find(</span>
 <span class="fstat-no" title="function not covered" >        (r</span>eview) =&gt; <span class="cstat-no" title="statement not covered" >review.userId.toString() === req.user!._id!.toString()</span>
@@ -713,21 +720,27 @@ export {
 };
 &nbsp;</pre></td></tr></table></pre>
 
-                <div class='push'></div><!-- for sticky footer -->
-            </div><!-- /wrapper -->
-            <div class='footer quiet pad2 space-top1 center small'>
-                Code coverage generated by
-                <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-10-10T17:09:00.816Z
-            </div>
-        <script src="../prettify.js"></script>
-        <script>
-            window.onload = function () {
-                prettyPrint();
-            };
-        </script>
-        <script src="../sorter.js"></script>
-        <script src="../block-navigation.js"></script>
-    </body>
+      <div class="push"></div>
+      <!-- for sticky footer -->
+    </div>
+    <!-- /wrapper -->
+    <div class="footer quiet pad2 space-top1 center small">
+      Code coverage generated by
+      <a
+        href="https://istanbul.js.org/"
+        target="_blank"
+        rel="noopener noreferrer">
+        istanbul
+      </a>
+      at 2023-10-10T17:09:00.816Z
+    </div>
+    <script src="../prettify.js"></script>
+    <script>
+      window.onload = function () {
+        prettyPrint();
+      };
+    </script>
+    <script src="../sorter.js"></script>
+    <script src="../block-navigation.js"></script>
+  </body>
 </html>
-    

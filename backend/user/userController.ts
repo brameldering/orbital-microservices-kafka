@@ -14,6 +14,12 @@ import User from './userModel';
 // @req
 // @res     status(200).json(users)
 const getUsers = asyncHandler(async (req: Request, res: Response) => {
+  /*  #swagger.tags = ['Users']
+      #swagger.description = 'Fetch all users'
+      #swagger.parameters[]
+      #swagger.responses[200] = {
+          description: 'json(users)',
+} */
   const users = await User.find({});
   res.status(200).json(users);
 });
@@ -23,8 +29,22 @@ const getUsers = asyncHandler(async (req: Request, res: Response) => {
 // @access  Public
 // @req     body {name, email, password}
 // @res     status(201).json({_id, name, email, isAdmin}
-//       or status(400).message:'Invalid user data'
+//       or status(400).json({ message: 'Invalid user data' })
 const registerUser = asyncHandler(async (req: Request, res: Response) => {
+  /*  #swagger.tags = ['Users']
+      #swagger.description = 'Register a new user'
+      #swagger.parameters['name, email, password'] = {
+          in: 'body',
+          description: '{name, email, password} info of user',
+          required: 'true',
+          type: 'object',
+      }
+      #swagger.responses[201] = {
+          description: 'json({ _id, name, email, isAdmin })',
+      }
+      #swagger.responses[400] = {
+          description: 'json({ message: Invalid user data })',
+     } */
   const { name, email, password } = req.body;
   // No need to check if user already exists since there is an unique check on the data model
   // The errorMiddleware now returns user friendly error messages
@@ -54,8 +74,22 @@ const registerUser = asyncHandler(async (req: Request, res: Response) => {
 // @req     body {email, password}
 // @res     cookie('jwt', token, {httpOnly, secure, sameSite, maxAge});
 //      and status(200).json({_id, name, email, isAdmin}
-//       or status(401).message:'Invalid email or password'
+//       or status(401).json({ message: 'Invalid email or password' })
 const authUser = asyncHandler(async (req: Request, res: Response) => {
+  /*  #swagger.tags = ['Users']
+      #swagger.description = 'Auth user & get token using JSON Web Token.  On succesful authentication sets an HTTP Only Cookie with the encrypted jwt token'
+      #swagger.parameters['email, password'] = {
+          in: 'body',
+          description: '{email, password} info of user',
+          required: 'true',
+          type: 'object',
+      }
+      #swagger.responses[200] = {
+          description: 'json({ _id, name, email, isAdmin })',
+      }
+      #swagger.responses[401] = {
+          description: 'json({ message: Invalid email or password })',
+     } */
   const { email, password } = req.body;
   const user: UserDocument | null = await User.findOne({ email });
   if (user && user._id && (await user.matchPassword(password))) {
@@ -78,6 +112,11 @@ const authUser = asyncHandler(async (req: Request, res: Response) => {
 // @res     cookie('jwt', '', {httpOnly, secure, sameSite, expires})
 //      and status(200).json({ message: 'Logged out' })
 const logoutUser = (req: Request, res: Response) => {
+  /*  #swagger.tags = ['Users']
+      #swagger.description = 'Clears the jwt HTTP Only Cookie'
+      #swagger.responses[200] = {
+          description: 'json({ message: Logged out })',
+      } */
   res.cookie('jwt', '', {
     httpOnly: true,
     secure: true,
@@ -92,9 +131,27 @@ const logoutUser = (req: Request, res: Response) => {
 // @access  Private
 // @req     user._id
 // @res     status(200).json({_id, name, email, isAdmin})
-//       or status(404).message:'User not found'
+//       or status(401).json({ message: 'Not logged in' })
+//       or status(404).json({ message: 'User not found'})
 const getUserProfile = asyncHandler(
   async (req: IExtendedRequest, res: Response) => {
+    /*  #swagger.tags = ['Users']
+      #swagger.description = 'Get user profile'
+      #swagger.parameters['user._id'] = {
+              in: 'request',
+              description: 'user._id, will automatically be in the request object if the user is logged in',
+              required: 'true',
+              type: 'string',
+      }
+      #swagger.responses[201] = {
+          description: 'json({ _id, name, email, isAdmin })',
+      }
+      #swagger.responses[401] = {
+          description: 'json({ message: Not logged in })',
+      }
+      #swagger.responses[404] = {
+          description: 'json({ message: User not found })',
+     } */
     if (!req.user || !req.user._id) {
       throw new ExtendedError('Not logged in', 401);
     }
@@ -116,11 +173,35 @@ const getUserProfile = asyncHandler(
 // @route   PUT /api/users/v1/profile
 // @access  Private
 // @req     user._id
-//          body {name, email, password}
+//          body {name, email}
 // @res     status(200).json({_id, name, email, isAdmin})
-//       or status(404).message:'User not found'
+//       or status(401).json({ message: 'Not logged in' })
+//       or status(404).json({ message: 'User not found'})
 const updateUserProfile = asyncHandler(
   async (req: IExtendedRequest, res: Response) => {
+    /*  #swagger.tags = ['Users']
+      #swagger.description = 'Update user profile (name, email)'
+      #swagger.parameters['user._id'] = {
+              in: 'request',
+              description: 'user._id, will automatically be in the request object if the user is logged in',
+              required: 'true',
+              type: 'string',
+      }
+      #swagger.parameters['name, email'] = {
+          in: 'body',
+          description: '{name, email} info of user',
+          required: 'true',
+          type: 'object',
+      }
+      #swagger.responses[200] = {
+          description: 'json({ _id, name, email, isAdmin })',
+      }
+      #swagger.responses[401] = {
+          description: 'json({ message: Not logged in })',
+      }
+      #swagger.responses[404] = {
+          description: 'json({ message: User not found })',
+     } */
     if (!req.user || !req.user._id) {
       throw new ExtendedError('Not logged in', 401);
     }
@@ -147,9 +228,36 @@ const updateUserProfile = asyncHandler(
 // @req     user._id
 //          body {currentPassword, newPassword}
 // @res     status(200).json({_id, name, email, isAdmin})
-//       or status(404).message:'User not found'
+//       or status(401).json({ message: 'Not logged in' })
+//       or status(404).json({ message: 'User not found'})
 const updatePassword = asyncHandler(
   async (req: IExtendedRequest, res: Response) => {
+    /*  #swagger.tags = ['Users']
+      #swagger.description = 'Update user password'
+      #swagger.parameters['user._id'] = {
+              in: 'request',
+              description: 'user._id, will automatically be in the request object if the user is logged in',
+              required: 'true',
+              type: 'string',
+      }
+      #swagger.parameters['currentPassword, newPassword'] = {
+          in: 'body',
+          description: '{currentPassword, newPassword} info of user',
+          required: 'true',
+          type: 'object',
+      }
+      #swagger.responses[200] = {
+          description: 'json({ _id, name, email, isAdmin })',
+      }
+      #swagger.responses[400] = {
+          description: 'json({ message: New password is the same as current password })',
+      }
+      #swagger.responses[401] = {
+          description: 'json({ message: Current password is not correct })',
+      }
+      #swagger.responses[404] = {
+          description: 'json({ message: User not found })',
+     } */
     if (!req.user || !req.user._id) {
       throw new ExtendedError('Not logged in', 401);
     }
@@ -187,8 +295,22 @@ const updatePassword = asyncHandler(
 // @access  Private
 // @req     body {email}
 // @res     status(200).message:'Password has been reset'
-//       or status(404).message:'User not found'
+//       or status(404).json({ message: 'User not found'})
 const resetPassword = asyncHandler(async (req: Request, res: Response) => {
+  /*  #swagger.tags = ['Users']
+      #swagger.description = 'Reset user password'
+      #swagger.parameters['email'] = {
+          in: 'body',
+          description: '{email} info of user',
+          required: 'true',
+          type: 'object',
+      }
+      #swagger.responses[200] = {
+          description: 'json({ _id, name, email, isAdmin })',
+      }
+      #swagger.responses[404] = {
+          description: 'json({ message: User not found })',
+     } */
   if (!process.env.DEFAULT_RESET_PASSWORD) {
     throw new ExtendedError(
       'DEFAULT_RESET_PASSWORD setting is missing from .env file.'
@@ -212,8 +334,22 @@ const resetPassword = asyncHandler(async (req: Request, res: Response) => {
 // @access  Private/Admin
 // @req     params.id
 // @res     status(200).json(user)
-//       or status(404).message:'User not found'
+//       or status(404).json({ message: 'User not found'})
 const getUserById = asyncHandler(async (req: Request, res: Response) => {
+  /*  #swagger.tags = ['Users']
+      #swagger.description = 'Get user by ID'
+      #swagger.parameters['id'] = {
+            in: 'path',
+            description: 'user id',
+            required: 'true',
+            type: 'string'
+      }
+      #swagger.responses[200] = {
+          description: 'json(user)',
+      }
+      #swagger.responses[404] = {
+          description: 'json({ message: User not found })',
+     } */
   const user = await User.findById(req.params.id).select('-password');
   if (user) {
     res.status(200).json(user);
@@ -228,8 +364,28 @@ const getUserById = asyncHandler(async (req: Request, res: Response) => {
 // @req     params.id
 //          body {name, email, isAdmin}
 // @res     status(200).json({_id, name, email, isAdmin}
-//       or status(404).message:'User not found'
+//       or status(404).json({ message: 'User not found'})
 const updateUser = asyncHandler(async (req: Request, res: Response) => {
+  /*  #swagger.tags = ['Users']
+      #swagger.description = 'Update user'
+      #swagger.parameters['id'] = {
+            in: 'path',
+            description: 'user id',
+            required: 'true',
+            type: 'string'
+      }
+      #swagger.parameters['name, email, isAdmin'] = {
+          in: 'body',
+          description: '{name, email, isAdmin} info of user',
+          required: 'true',
+          type: 'object',
+      }
+      #swagger.responses[200] = {
+          description: 'json({ _id, name, email, isAdmin })',
+      }
+      #swagger.responses[404] = {
+          description: 'json({ message: User not found })',
+     } */
   const user = await User.findById(req.params.id);
   if (user) {
     user.name = req.body.name || user.name;
@@ -251,9 +407,23 @@ const updateUser = asyncHandler(async (req: Request, res: Response) => {
 // @route   DELETE /api/users/v1/:id
 // @access  Private/Admin
 // @req     params.id
-// @res     status(200).json({message})
-//       or status(404).message:'User not found'
+// @res     status(200).json({ message: User removed })
+//       or status(404).json({ message: User not found })
 const deleteUser = asyncHandler(async (req: Request, res: Response) => {
+  /*  #swagger.tags = ['Users']
+      #swagger.description = 'Delete user'
+      #swagger.parameters['id'] = {
+            in: 'path',
+            description: 'user id',
+            required: 'true',
+            type: 'string'
+      }
+      #swagger.responses[200] = {
+          description: 'json({ message: User removed })',
+      }
+      #swagger.responses[404] = {
+          description: 'json({ message: User not found })',
+     } */
   const user = await User.findById(req.params.id);
   if (user) {
     await User.deleteOne({ _id: user._id });

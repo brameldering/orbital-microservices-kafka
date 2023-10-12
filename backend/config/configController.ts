@@ -9,6 +9,11 @@ import asyncHandler from '../middleware/asyncHandler';
 // @res     status(200).json({ VATPercentage, ShippingFee })
 const getVATandShippingFee = asyncHandler(
   async (req: Request, res: Response) => {
+    /*  #swagger.tags = ['Config']
+        #swagger.description = 'Get VAT Percentage and Shipping Fee from .env'
+        #swagger.responses[200] = {
+            description: 'json({ VATPercentage, ShippingFee })',
+} */
     res.status(200).json({
       VATPercentage: process.env.VAT_PERCENTAGE,
       ShippingFee: process.env.SHIPPING_FEE,
@@ -23,6 +28,11 @@ const getVATandShippingFee = asyncHandler(
 // @req
 // @res     status(200).json({ clientId })
 const getPayPalClientId = asyncHandler(async (req: Request, res: Response) => {
+  /*  #swagger.tags = ['Config']
+      #swagger.description = 'Get PayPal client id from .env'
+      #swagger.responses[200] = {
+          description: 'json({ clientId })',
+} */
   res.status(200).json({ clientId: process.env.PAYPAL_CLIENT_ID });
 });
 

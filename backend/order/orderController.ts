@@ -26,6 +26,12 @@ import Order from './orderModel';
 // @req
 // @res     status(200).json(orders)
 const getOrders = asyncHandler(async (req: Request, res: Response) => {
+  /*  #swagger.tags = ['Orders']
+      #swagger.description = ' Get all orders'
+      #swagger.responses[200] = {
+          description: 'json(orders)',
+      }
+   */
   const orders = await Order.find({}).populate('user', 'name email').exec();
   res.status(200).json(orders);
 });
@@ -36,9 +42,29 @@ const getOrders = asyncHandler(async (req: Request, res: Response) => {
 // @req     user._id
 //          body {orderItems, shippingAddress, paymentMethod}
 // @res     status(201).json(createdOrder)
-//       or status(400).message:'No order items'
+//       or status(400).json({ message:'No order items' })
 const createOrder = asyncHandler(
   async (req: IExtendedRequest, res: Response) => {
+    /*  #swagger.tags = ['Orders']
+      #swagger.description = 'Create new order'
+      #swagger.parameters['user._id'] = {
+              in: 'request',
+              description: 'user._id, will automatically be in the request object if the user is logged in',
+              required: 'true',
+              type: 'string',
+      }
+      #swagger.parameters['orderItems, shippingAddress, paymentMethod'] = {
+          in: 'body',
+          description: '{orderItems, shippingAddress, paymentMethod} info of order',
+          required: 'true',
+          type: 'object',
+      }
+      #swagger.responses[201] = {
+          description: 'json(createdOrder)',
+      }
+      #swagger.responses[400] = {
+          description: 'json({ message: No order items })',
+     } */
     const { orderItems, shippingAddress, paymentMethod } = req.body;
     console.log('=== createOrder');
     if (orderItems && orderItems.length === 0) {
@@ -84,7 +110,7 @@ const createOrder = asyncHandler(
       const sequenceOrderId: string =
         'ORD-' + seqNumberOrderId.sequenceCounter.toString().padStart(10, '0');
       if (!(req.user && req.user._id)) {
-        throw new ExtendedError('No user has been passed to this request.');
+        throw new ExtendedError('No user JWT has been passed to this request.');
       }
       const order: OrderDocument = new Order({
         sequenceOrderId: sequenceOrderId,
@@ -107,6 +133,18 @@ const createOrder = asyncHandler(
 // @req     params.id
 // @res     status(200).json(orders)
 const getMyOrders = asyncHandler(async (req: Request, res: Response) => {
+  /*  #swagger.tags = ['Orders']
+      #swagger.description = 'Create new order'
+      #swagger.parameters['id'] = {
+            in: 'path',
+            description: 'user id, for which to get the orders for',
+            required: 'true',
+            type: 'string'
+      }
+      #swagger.responses[201] = {
+          description: 'json(orders)',
+      }
+   */
   const userId = new mongoose.Types.ObjectId(req.params.id);
   const orders = await Order.find({ userId: userId });
   res.status(200).json(orders);
@@ -117,15 +155,25 @@ const getMyOrders = asyncHandler(async (req: Request, res: Response) => {
 // @access  Private
 // @req     params.id
 // @res     status(200).json(order)
-//       or status(404).message:'Order not found'
+//       or status(404).json({ message: 'Order not found' })
 const getOrderById = asyncHandler(async (req: Request, res: Response) => {
+  /*  #swagger.tags = ['Orders']
+      #swagger.description = 'Create new order'
+      #swagger.parameters['id'] = {
+            in: 'path',
+            description: 'user id, for which to get the orders for',
+            required: 'true',
+            type: 'string'
+      }
+      #swagger.responses[200] = {
+          description: 'json(order)',
+      }
+      #swagger.responses[404] = {
+          description: 'json({ message: Order not found })',
+      } */
   const order = await Order.findById(req.params.id)
     .populate('user', 'name email')
     .exec();
-
-  // console.log('= getOrderById ==============================');
-  // console.log(order);
-  // console.log('=============================================');
   if (order) {
     res.status(200).json(order);
   } else {
@@ -139,10 +187,29 @@ const getOrderById = asyncHandler(async (req: Request, res: Response) => {
 // @req     params.id
 //          body {id, status, update_time, payer.email_address}
 // @res     status(200).json(updatedOrder)
-//       or status(404).message:'Order not found'
+//       or status(404).json({ message: 'Order not found' })
 const updateOrderToPaid = asyncHandler(async (req: Request, res: Response) => {
-  // NOTE: here we need to verify the payment was made to PayPal before marking
-  // the order as paid
+  /*  #swagger.tags = ['Orders']
+      #swagger.description = 'Update order to paid.  Verifies that correct payment has been made using PayPal'
+      #swagger.parameters['id'] = {
+            in: 'path',
+            description: 'order id',
+            required: 'true',
+            type: 'string'
+      }
+      #swagger.parameters['Product'] = {
+            in: 'body',
+            description: 'Payment Result object: {id, status, update_time, payer.email_address}',
+            required: 'true',
+            type: 'object',
+      }
+      #swagger.responses[200] = {
+          description: 'json(updatedOrder)',
+      }
+      #swagger.responses[404] = {
+          description: 'json({ message: Order not found })',
+      } */
+  // Verify the payment was made to PayPal before marking the order as paid
   console.log('= updateOrderToPaid ==============================');
   const { verified, value } = await verifyPayPalPayment(req.body.id);
   if (!verified) throw new ExtendedError('Payment not verified');
@@ -179,6 +246,20 @@ const updateOrderToPaid = asyncHandler(async (req: Request, res: Response) => {
 //       or status(404).message:'Order not found'
 const updateOrderToDelivered = asyncHandler(
   async (req: Request, res: Response) => {
+    /*  #swagger.tags = ['Orders']
+      #swagger.description = 'Update order to delivered'
+      #swagger.parameters['id'] = {
+            in: 'path',
+            description: 'order id',
+            required: 'true',
+            type: 'string'
+      }
+      #swagger.responses[200] = {
+          description: 'json(updatedOrder)',
+      }
+      #swagger.responses[404] = {
+          description: 'json({ message: Order not found })',
+      } */
     const order = await Order.findById(req.params.id);
     if (order) {
       order.isDelivered = true;
@@ -198,17 +279,20 @@ const updateOrderToDelivered = asyncHandler(
 // @res     status(200).json(totalAmounts)
 //       or status(404).message:'Order not found'
 const calcTotalAmounts = asyncHandler(async (req: Request, res: Response) => {
+  /*  #swagger.tags = ['Orders']
+      #swagger.description = 'Calculate total prices for cart or order items'
+      #swagger.parameters['items'] = {
+            in: 'body',
+            description: 'cartItems',
+            required: 'true',
+            type: 'object',
+      }
+      #swagger.responses[200] = {
+          description: 'json(totalAmounts)',
+      } */
   const { cartItems } = req.body;
-  // console.log('= calcTotalPrices ==============================');
-  // console.log(cartItems);
-
   const totalAmounts = calcPrices(cartItems);
-  // console.log(totalAmounts);
-  // console.log('================================================');
-
-  res.status(200).json({
-    totalAmounts,
-  });
+  res.status(200).json({ totalAmounts });
 });
 
 export {

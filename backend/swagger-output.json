@@ -1,0 +1,869 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "0.0.1",
+    "title": "Orbital API",
+    "description": "Specification of APIs belonging to the Orbital Backend"
+  },
+  "host": "localhost:5000",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/config/v1/vatshippingfee": {
+      "get": {
+        "tags": [
+          "Config"
+        ],
+        "description": "Get VAT Percentage and Shipping Fee from .env",
+        "responses": {
+          "200": {
+            "description": "json({ VATPercentage, ShippingFee })"
+          }
+        }
+      }
+    },
+    "/api/config/v1/paypalclientid": {
+      "get": {
+        "tags": [
+          "Config"
+        ],
+        "description": "Get PayPal client id from .env",
+        "responses": {
+          "200": {
+            "description": "json({ clientId })"
+          }
+        }
+      }
+    },
+    "/api/products/v1": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "description": "Fetch all products",
+        "parameters": [
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "description": "PageNumber in case of pagination",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "description": "Keyword in case of searching for products",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Object containing products array, pagenumber and total number of pages"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Products"
+        ],
+        "description": "Create a product",
+        "parameters": [
+          {
+            "name": "user._id",
+            "in": "request",
+            "description": "user._id, will automatically be in the request object if the user is logged in",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Returns the created product"
+          }
+        }
+      }
+    },
+    "/api/products/v1/productsforids": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "description": "Fetch products corresponding to array of Ids",
+        "parameters": [
+          {
+            "name": "productids",
+            "in": "query",
+            "description": "String of comma separated product ids",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns array of corresponding products"
+          }
+        }
+      }
+    },
+    "/api/products/v1/{id}/reviews": {
+      "post": {
+        "tags": [
+          "Products"
+        ],
+        "description": "Create new review",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Product id of product to review"
+          },
+          {
+            "name": "user._id",
+            "in": "request",
+            "description": "user._id, will automatically be in the request object if the user is logged in",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "user.name",
+            "in": "request",
+            "description": "user.name, will automatically be in the request object if the user is logged in",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "rating, comment",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "rating": {
+                  "example": "any"
+                },
+                "comment": {
+                  "example": "any"
+                }
+              }
+            },
+            "description": "rating, comment object corresponding to review",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "json({ message: Review added })"
+          },
+          "400": {
+            "description": "json({ message: You have already reviewed this product })"
+          },
+          "404": {
+            "description": "json({ message: Product not found })"
+          }
+        }
+      }
+    },
+    "/api/products/v1/{id}": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "description": "Fetch single product",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "product id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Corresponding product"
+          },
+          "404": {
+            "description": "json({ message: Product not found })"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Products"
+        ],
+        "description": "Update a product",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Product id of product to update"
+          },
+          {
+            "name": "Product",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "any"
+                },
+                "price": {
+                  "example": "any"
+                },
+                "description": {
+                  "example": "any"
+                },
+                "imageURL": {
+                  "example": "any"
+                },
+                "brand": {
+                  "example": "any"
+                },
+                "category": {
+                  "example": "any"
+                },
+                "countInStock": {
+                  "example": "any"
+                }
+              }
+            },
+            "description": "Product object",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updated product"
+          },
+          "404": {
+            "description": "json({ message: Product not found })"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Products"
+        ],
+        "description": "Delete a product",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Product id of product to delete"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "json({ message: Product removed })"
+          },
+          "404": {
+            "description": "json({ message: Product not found })"
+          }
+        }
+      }
+    },
+    "/api/upload/v1/": {
+      "post": {
+        "tags": [
+          "Upload"
+        ],
+        "description": "Upload image to cloudinary",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "name": "singleFile",
+            "in": "formData",
+            "type": "file",
+            "required": true,
+            "description": "Binary data corresponding to file"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "result"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "415": {
+            "description": "json({ message: Image NOT uploaded })"
+          }
+        }
+      }
+    },
+    "/api/users/v1/": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Fetch all users",
+        "parameters": [
+          {
+            "name": "",
+            "description": "json(users)",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "json(users)"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Register a new user",
+        "parameters": [
+          {
+            "name": "name, email, password",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "any"
+                },
+                "email": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                }
+              }
+            },
+            "description": "{name, email, password} info of user",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "json({ _id, name, email, isAdmin })"
+          },
+          "400": {
+            "description": "json({ message: Invalid user data })"
+          }
+        }
+      }
+    },
+    "/api/users/v1/auth": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Auth user & get token using JSON Web Token. On succesful authentication sets an HTTP Only Cookie with the encrypted jwt token",
+        "parameters": [
+          {
+            "name": "email, password",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                }
+              }
+            },
+            "description": "{email, password} info of user",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "json({ _id, name, email, isAdmin })"
+          },
+          "401": {
+            "description": "json({ message: Invalid email or password })"
+          }
+        }
+      }
+    },
+    "/api/users/v1/logout": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Clears the jwt HTTP Only Cookie",
+        "responses": {
+          "200": {
+            "description": "json({ message: Logged out })"
+          }
+        }
+      }
+    },
+    "/api/users/v1/profile": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Get user profile",
+        "parameters": [
+          {
+            "name": "user._id",
+            "in": "request",
+            "description": "user._id, will automatically be in the request object if the user is logged in",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "json({ _id, name, email, isAdmin })"
+          },
+          "401": {
+            "description": "json({ message: Not logged in })"
+          },
+          "404": {
+            "description": "json({ message: User not found })"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Update user profile (name, email)",
+        "parameters": [
+          {
+            "name": "user._id",
+            "in": "request",
+            "description": "user._id, will automatically be in the request object if the user is logged in",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name, email",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "any"
+                },
+                "email": {
+                  "example": "any"
+                }
+              }
+            },
+            "description": "{name, email} info of user",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "json({ _id, name, email, isAdmin })"
+          },
+          "401": {
+            "description": "json({ message: Not logged in })"
+          },
+          "404": {
+            "description": "json({ message: User not found })"
+          }
+        }
+      }
+    },
+    "/api/users/v1/updatepassword": {
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Update user password",
+        "parameters": [
+          {
+            "name": "user._id",
+            "in": "request",
+            "description": "user._id, will automatically be in the request object if the user is logged in",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "currentPassword, newPassword",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "currentPassword": {
+                  "example": "any"
+                },
+                "newPassword": {
+                  "example": "any"
+                }
+              }
+            },
+            "description": "{currentPassword, newPassword} info of user",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "json({ _id, name, email, isAdmin })"
+          },
+          "400": {
+            "description": "json({ message: New password is the same as current password })"
+          },
+          "401": {
+            "description": "json({ message: Current password is not correct })"
+          },
+          "404": {
+            "description": "json({ message: User not found })"
+          }
+        }
+      }
+    },
+    "/api/users/v1/resetpassword": {
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Reset user password",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "any"
+                }
+              }
+            },
+            "description": "{email} info of user",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "json({ _id, name, email, isAdmin })"
+          },
+          "404": {
+            "description": "json({ message: User not found })"
+          }
+        }
+      }
+    },
+    "/api/users/v1/{id}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Get user by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "user id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "json(user)"
+          },
+          "404": {
+            "description": "json({ message: User not found })"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Update user",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "user id"
+          },
+          {
+            "name": "name, email, isAdmin",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "any"
+                },
+                "email": {
+                  "example": "any"
+                },
+                "isAdmin": {
+                  "example": "any"
+                }
+              }
+            },
+            "description": "{name, email, isAdmin} info of user",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "json({ _id, name, email, isAdmin })"
+          },
+          "404": {
+            "description": "json({ message: User not found })"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Delete user",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "user id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "json({ message: User removed })"
+          },
+          "404": {
+            "description": "json({ message: User not found })"
+          }
+        }
+      }
+    },
+    "/api/orders/v1/": {
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "description": " Get all orders",
+        "responses": {
+          "200": {
+            "description": "json(orders)"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Orders"
+        ],
+        "description": "Create new order",
+        "parameters": [
+          {
+            "name": "user._id",
+            "in": "request",
+            "description": "user._id, will automatically be in the request object if the user is logged in",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "orderItems, shippingAddress, paymentMethod",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "orderItems": {
+                  "example": "any"
+                },
+                "shippingAddress": {
+                  "example": "any"
+                },
+                "paymentMethod": {
+                  "example": "any"
+                }
+              }
+            },
+            "description": "{orderItems, shippingAddress, paymentMethod} info of order",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "json(createdOrder)"
+          },
+          "400": {
+            "description": "json({ message: No order items })"
+          }
+        }
+      }
+    },
+    "/api/orders/v1/totals": {
+      "post": {
+        "tags": [
+          "Orders"
+        ],
+        "description": "Calculate total prices for cart or order items",
+        "parameters": [
+          {
+            "name": "items",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "cartItems": {
+                  "example": "any"
+                }
+              }
+            },
+            "description": "cartItems",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "json(totalAmounts)"
+          }
+        }
+      }
+    },
+    "/api/orders/v1/mine/{id}": {
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "description": "Create new order",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "user id, for which to get the orders for"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "json(orders)"
+          }
+        }
+      }
+    },
+    "/api/orders/v1/{id}": {
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "description": "Create new order",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "user id, for which to get the orders for"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "json(order)"
+          },
+          "404": {
+            "description": "json({ message: Order not found })"
+          }
+        }
+      }
+    },
+    "/api/orders/v1/{id}/pay": {
+      "put": {
+        "tags": [
+          "Orders"
+        ],
+        "description": "Update order to paid. Verifies that correct payment has been made using PayPal",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "order id"
+          },
+          {
+            "name": "Product",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "example": "any"
+                },
+                "status": {
+                  "example": "any"
+                },
+                "update_time": {
+                  "example": "any"
+                },
+                "payer": {
+                  "example": "any"
+                }
+              }
+            },
+            "description": "Payment Result object: {id, status, update_time, payer.email_address}",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "json(updatedOrder)"
+          },
+          "404": {
+            "description": "json({ message: Order not found })"
+          }
+        }
+      }
+    },
+    "/api/orders/v1/{id}/deliver": {
+      "put": {
+        "tags": [
+          "Orders"
+        ],
+        "description": "Update order to delivered",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "order id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "json(updatedOrder)"
+          },
+          "404": {
+            "description": "json({ message: Order not found })"
+          }
+        }
+      }
+    }
+  }
+}

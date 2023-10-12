@@ -9,8 +9,23 @@ import { uploadImageToCloudinary } from './fileUploadHelpers/uploadImageToCloudi
 // @access  Private/Admin
 // @req     body: FormData.image
 // @res     status(200).send(result)
-//       or status(415).message:'Image NOT uploaded'
+//       or status(415).json({ message: 'Image NOT uploaded' })
 const uploadImage = asyncHandler(async (req, res) => {
+  /* #swagger.tags = ['Upload']
+     #swagger.description = 'Upload image to cloudinary'
+     #swagger.consumes = ['multipart/form-data']
+     #swagger.parameters['singleFile'] = {
+        in: 'formData',
+        type: 'file',
+        required: 'true',
+        description: 'Binary data corresponding to file',
+     }
+     #swagger.responses[200] = {
+        description: 'result',
+     }
+     #swagger.responses[415] = {
+        description: 'json({ message: Image NOT uploaded })',
+} */
   try {
     const imageURL = await uploadImageToCloudinary(req, res);
     res.status(201).json({

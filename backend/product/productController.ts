@@ -15,6 +15,23 @@ import Product from './productModel';
 //          query.keyword (optional)
 // @res     status(200).json({ products, page, pages })
 const getProducts = asyncHandler(async (req: Request, res: Response) => {
+  /*  #swagger.tags = ['Products']
+      #swagger.description = 'Fetch all products'
+      #swagger.parameters['pageNumber'] = {
+          in: 'query',
+          description: 'PageNumber in case of pagination',
+          required: 'false',
+          type: 'number',
+      }
+      #swagger.parameters['keyword'] = {
+          in: 'query',
+          description: 'Keyword in case of searching for products',
+          required: 'false',
+          type: 'string',
+      }
+      #swagger.responses[200] = {
+          description: 'Object containing products array, pagenumber and total number of pages',
+} */
   if (
     !process.env.PRODUCTS_PER_PAGE ||
     isNaN(Number(process.env.PRODUCTS_PER_PAGE))
@@ -53,10 +70,20 @@ const getProducts = asyncHandler(async (req: Request, res: Response) => {
 // @route   POST /api/products/v1
 // @access  Private/Admin
 // @req     user._id
-//          body {product}
 // @res     status(201).json(createdProduct)
 const createProduct = asyncHandler(
   async (req: IExtendedRequest, res: Response) => {
+    /*  #swagger.tags = ['Products']
+        #swagger.description = 'Create a product'
+        #swagger.parameters['user._id'] = {
+            in: 'request',
+            description: 'user._id, will automatically be in the request object if the user is logged in',
+            required: 'true',
+            type: 'string',
+        }
+        #swagger.responses[201] = {
+            description: 'Returns the created product',
+} */
     const seqProductId = await IdSequence.findOneAndUpdate(
       { sequenceName: 'sequenceProductId' },
       { $inc: { sequenceCounter: 1 } },
@@ -65,7 +92,7 @@ const createProduct = asyncHandler(
     const sequenceProductId =
       'PRD-' + seqProductId.sequenceCounter.toString().padStart(8, '0');
     if (!(req.user && req.user._id)) {
-      throw new ExtendedError('No user has been passed to this request.');
+      throw new ExtendedError('No user JWT has been passed to this request.');
     }
     const product = new Product({
       sequenceProductId,
@@ -87,9 +114,20 @@ const createProduct = asyncHandler(
 // @desc    Fetch products corresponding to array of Ids
 // @route   GET /api/products/v1/productsforids
 // @access  Public
-// @req     query.productids (string of comma seperated product id's)
+// @req     query.productids (string of comma separated product id's)
 // @res     status(200).json({ products })
 const getProductsForIds = asyncHandler(async (req: Request, res: Response) => {
+  /*  #swagger.tags = ['Products']
+      #swagger.description = 'Fetch products corresponding to array of Ids'
+      #swagger.parameters['productids'] = {
+              in: 'query',
+              description: 'String of comma separated product ids',
+              required: 'true',
+              type: 'string',
+      }
+      #swagger.responses[200] = {
+              description: 'Returns array of corresponding products',
+} */
   const productIds: string | undefined = req.query.productids?.toString();
   if (!productIds) {
     throw new ExtendedError(
@@ -110,8 +148,23 @@ const getProductsForIds = asyncHandler(async (req: Request, res: Response) => {
 // @access  Public
 // @req     params.id
 // @res     status(200).json(product)
-//       or status(404).message:'Product ' + req.params.id + ' not found'
+//       or status(404).json({ message: 'Product not found' })
 const getProductById = asyncHandler(async (req: Request, res: Response) => {
+  /*  #swagger.tags = ['Products']
+      #swagger.description = 'Fetch single product'
+      #swagger.parameters['id'] = {
+            in: 'path',
+            description: 'product id',
+            required: 'true',
+            type: 'string'
+      }
+      #swagger.responses[200] = {
+            description: 'Corresponding product'
+      }
+      #swagger.responses[404] = {
+            description: 'json({ message: Product not found })'
+      }
+} */
   const product = await Product.findById(req.params.id);
   if (product) {
     return res.status(200).json(product);
@@ -126,8 +179,28 @@ const getProductById = asyncHandler(async (req: Request, res: Response) => {
 // @req     params.id
 //          body {Product}
 // @res     status(200).json(updatedProduct)
-//       or status(404).message:'Product not found'
+//       or status(404).json({ message: 'Product not found' })
 const updateProduct = asyncHandler(async (req: Request, res: Response) => {
+  /*  #swagger.tags = ['Products']
+      #swagger.description = 'Update a product'
+      #swagger.parameters['id'] = {
+              in: 'path',
+              description: 'Product id of product to update',
+              required: 'true',
+              type: 'string',
+      }
+      #swagger.parameters['Product'] = {
+              in: 'body',
+              description: 'Product object',
+              required: 'true',
+              type: 'object',
+      }
+      #swagger.responses[200] = {
+              description: 'Updated product',
+      }
+      #swagger.responses[404] = {
+              description: 'json({ message: Product not found })',
+} */
   const { name, price, description, imageURL, brand, category, countInStock } =
     req.body;
   const product = await Product.findById(req.params.id);
@@ -151,8 +224,22 @@ const updateProduct = asyncHandler(async (req: Request, res: Response) => {
 // @access  Private/Admin
 // @req     params.id
 // @res     status(200).json({ message: 'Product removed' })
-//       or status(404).message:'Product not found'
+//       or status(404).json({ message: 'Product not found' })
 const deleteProduct = asyncHandler(async (req: Request, res: Response) => {
+  /*  #swagger.tags = ['Products']
+      #swagger.description = 'Delete a product'
+      #swagger.parameters['id'] = {
+              in: 'path',
+              description: 'Product id of product to delete',
+              required: 'true',
+              type: 'string',
+      }
+      #swagger.responses[200] = {
+              description: 'json({ message: Product removed })',
+      }
+      #swagger.responses[404] = {
+              description: 'json({ message: Product not found })',
+} */
   const product = await Product.findById(req.params.id);
   if (product) {
     await Product.deleteOne({ _id: product._id });
@@ -170,10 +257,45 @@ const deleteProduct = asyncHandler(async (req: Request, res: Response) => {
 //          user.name
 //          body {rating, comment}
 // @res     status(201).json({ message: 'Review added' })
-//       or status(400).message:'You have already reviewed this product'
-//       or status(404).message:'Product not found'
+//       or status(400).json({ message: 'You have already reviewed this product' })
+//       or status(404).json({ message: 'Product not found' })
 const createProductReview = asyncHandler(
   async (req: IExtendedRequest, res: Response) => {
+    /* #swagger.tags = ['Products']
+      #swagger.description = 'Create new review'
+      #swagger.parameters['id'] = {
+              in: 'path',
+              description: 'Product id of product to review',
+              required: 'true',
+              type: 'string',
+      }
+      #swagger.parameters['user._id'] = {
+              in: 'request',
+              description: 'user._id, will automatically be in the request object if the user is logged in',
+              required: 'true',
+              type: 'string',
+      }
+      #swagger.parameters['user.name'] = {
+              in: 'request',
+              description: 'user.name, will automatically be in the request object if the user is logged in',
+              required: 'true',
+              type: 'string',
+      }
+      #swagger.parameters['rating, comment'] = {
+              in: 'body',
+              description: 'rating, comment object corresponding to review',
+              required: 'true',
+              type: 'object',
+      }
+      #swagger.responses[201] = {
+              description: 'json({ message: Review added })',
+      }
+      #swagger.responses[400] = {
+              description: 'json({ message: You have already reviewed this product })',
+      }
+      #swagger.responses[404] = {
+              description: 'json({ message: Product not found })',
+} */
     const { rating, comment } = req.body;
     const product = await Product.findById(req.params.id);
     if (product) {

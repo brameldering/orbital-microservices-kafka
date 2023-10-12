@@ -6,6 +6,9 @@ import dotenv from 'dotenv';
 import express, { Express, Request, Response } from 'express';
 // import compression from 'compression';
 
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger-output.json');
+
 import connectDB from './general/db/db';
 import configureCORS from './middleware/configureCORS';
 import { notFound, errorHandler } from './middleware/errorMiddleware';
@@ -35,11 +38,15 @@ app.use(cookieParser());
 configureCORS(app);
 
 // Controllers
-app.use('/api/config/v1', configRoutes);
-app.use('/api/products/v1', productRoutes);
-app.use('/api/upload/v1', uploadRoutes);
-app.use('/api/users/v1', userRoutes);
-app.use('/api/orders/v1', orderRoutes);
+app.use('', configRoutes);
+app.use('', productRoutes);
+app.use('', uploadRoutes);
+app.use('', userRoutes);
+app.use('', orderRoutes);
+
+// Swagger server
+// const swaggerJSON = JSON.parse(swaggerJSONstring);
+app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Set build folder and default route for production or development
 if (nodeEnv === 'production') {
