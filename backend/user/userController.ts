@@ -10,13 +10,16 @@ import User from './userModel';
 
 // @desc    Get all users
 // @route   GET /api/users/v1
-// @access  Private/Admin
+// @access  Admin
 // @req
 // @res     status(200).json(users)
 const getUsers = asyncHandler(async (req: Request, res: Response) => {
   /*  #swagger.tags = ['Users']
       #swagger.description = 'Fetch all users'
-      #swagger.parameters[]
+      #swagger.security = [{
+        bearerAuth: ['admin']
+      }]
+      #swagger.parameters[] = {},
       #swagger.responses[200] = {
           description: 'json(users)',
 } */
@@ -137,6 +140,9 @@ const getUserProfile = asyncHandler(
   async (req: IExtendedRequest, res: Response) => {
     /*  #swagger.tags = ['Users']
       #swagger.description = 'Get user profile'
+      #swagger.security = [{
+        bearerAuth: ['user']
+      }]
       #swagger.parameters['user._id'] = {
               in: 'request',
               description: 'user._id, will automatically be in the request object if the user is logged in',
@@ -181,6 +187,9 @@ const updateUserProfile = asyncHandler(
   async (req: IExtendedRequest, res: Response) => {
     /*  #swagger.tags = ['Users']
       #swagger.description = 'Update user profile (name, email)'
+      #swagger.security = [{
+        bearerAuth: ['user']
+      }]
       #swagger.parameters['user._id'] = {
               in: 'request',
               description: 'user._id, will automatically be in the request object if the user is logged in',
@@ -234,6 +243,9 @@ const updatePassword = asyncHandler(
   async (req: IExtendedRequest, res: Response) => {
     /*  #swagger.tags = ['Users']
       #swagger.description = 'Update user password'
+      #swagger.security = [{
+        bearerAuth: ['user']
+      }]
       #swagger.parameters['user._id'] = {
               in: 'request',
               description: 'user._id, will automatically be in the request object if the user is logged in',
@@ -299,6 +311,9 @@ const updatePassword = asyncHandler(
 const resetPassword = asyncHandler(async (req: Request, res: Response) => {
   /*  #swagger.tags = ['Users']
       #swagger.description = 'Reset user password'
+      #swagger.security = [{
+        bearerAuth: ['user']
+      }]
       #swagger.parameters['email'] = {
           in: 'body',
           description: '{email} info of user',
@@ -331,13 +346,16 @@ const resetPassword = asyncHandler(async (req: Request, res: Response) => {
 
 // @desc    Get user by ID
 // @route   GET /api/users/v1/:id
-// @access  Private/Admin
+// @access  Admin
 // @req     params.id
 // @res     status(200).json(user)
 //       or status(404).json({ message: 'User not found'})
 const getUserById = asyncHandler(async (req: Request, res: Response) => {
   /*  #swagger.tags = ['Users']
       #swagger.description = 'Get user by ID'
+      #swagger.security = [{
+        bearerAuth: ['admin']
+      }]
       #swagger.parameters['id'] = {
             in: 'path',
             description: 'user id',
@@ -360,7 +378,7 @@ const getUserById = asyncHandler(async (req: Request, res: Response) => {
 
 // @desc    Update user
 // @route   PUT /api/users/v1/:id
-// @access  Private/Admin
+// @access  Admin
 // @req     params.id
 //          body {name, email, isAdmin}
 // @res     status(200).json({_id, name, email, isAdmin}
@@ -368,6 +386,9 @@ const getUserById = asyncHandler(async (req: Request, res: Response) => {
 const updateUser = asyncHandler(async (req: Request, res: Response) => {
   /*  #swagger.tags = ['Users']
       #swagger.description = 'Update user'
+      #swagger.security = [{
+        bearerAuth: ['admin']
+      }]
       #swagger.parameters['id'] = {
             in: 'path',
             description: 'user id',
@@ -405,13 +426,16 @@ const updateUser = asyncHandler(async (req: Request, res: Response) => {
 
 // @desc    Delete user
 // @route   DELETE /api/users/v1/:id
-// @access  Private/Admin
+// @access  Admin
 // @req     params.id
 // @res     status(200).json({ message: User removed })
 //       or status(404).json({ message: User not found })
 const deleteUser = asyncHandler(async (req: Request, res: Response) => {
   /*  #swagger.tags = ['Users']
       #swagger.description = 'Delete user'
+      #swagger.security = [{
+        bearerAuth: ['admin']
+      }]
       #swagger.parameters['id'] = {
             in: 'path',
             description: 'user id',

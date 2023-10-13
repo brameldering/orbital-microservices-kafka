@@ -6,13 +6,16 @@ import { uploadImageToCloudinary } from './fileUploadHelpers/uploadImageToCloudi
 // ================ Upload image ================
 // @desc    Upload image to cloudinary
 // @route   POST /api/upload/v1/
-// @access  Private/Admin
+// @access  Admin
 // @req     body: FormData.image
 // @res     status(200).send(result)
 //       or status(415).json({ message: 'Image NOT uploaded' })
 const uploadImage = asyncHandler(async (req, res) => {
   /* #swagger.tags = ['Upload']
      #swagger.description = 'Upload image to cloudinary'
+     #swagger.security = [{
+        bearerAuth: ['admin']
+      }]
      #swagger.consumes = ['multipart/form-data']
      #swagger.parameters['singleFile'] = {
         in: 'formData',

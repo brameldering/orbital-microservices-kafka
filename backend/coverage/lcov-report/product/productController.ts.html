@@ -555,7 +555,7 @@ const getProducts = asyncHandler(<span class="fstat-no" title="function not cove
 &nbsp;
 // @desc    Create a product
 // @route   POST /api/products/v1
-// @access  Private/Admin
+// @access  Admin
 // @req     user._id
 //          body {product}
 // @res     status(201).json(createdProduct)
@@ -626,7 +626,7 @@ const getProductById = asyncHandler(<span class="fstat-no" title="function not c
 &nbsp;
 // @desc    Update a product
 // @route   PUT /api/products/v1/:id
-// @access  Private/Admin
+// @access  Admin
 // @req     params.id
 //          body {Product}
 // @res     status(200).json(updatedProduct)
@@ -652,7 +652,7 @@ const updateProduct = asyncHandler(<span class="fstat-no" title="function not co
 &nbsp;
 // @desc    Delete a product
 // @route   DELETE /api/products/v1/:id
-// @access  Private/Admin
+// @access  Admin
 // @req     params.id
 // @res     status(200).json({ message: 'Product removed' })
 //       or status(404).message:'Product not found'

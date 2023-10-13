@@ -68,13 +68,16 @@ const getProducts = asyncHandler(async (req: Request, res: Response) => {
 
 // @desc    Create a product
 // @route   POST /api/products/v1
-// @access  Private/Admin
+// @access  Admin
 // @req     user._id
 // @res     status(201).json(createdProduct)
 const createProduct = asyncHandler(
   async (req: IExtendedRequest, res: Response) => {
     /*  #swagger.tags = ['Products']
         #swagger.description = 'Create a product'
+        #swagger.security = [{
+        bearerAuth: ['admin']
+      }]
         #swagger.parameters['user._id'] = {
             in: 'request',
             description: 'user._id, will automatically be in the request object if the user is logged in',
@@ -175,7 +178,7 @@ const getProductById = asyncHandler(async (req: Request, res: Response) => {
 
 // @desc    Update a product
 // @route   PUT /api/products/v1/:id
-// @access  Private/Admin
+// @access  Admin
 // @req     params.id
 //          body {Product}
 // @res     status(200).json(updatedProduct)
@@ -183,6 +186,9 @@ const getProductById = asyncHandler(async (req: Request, res: Response) => {
 const updateProduct = asyncHandler(async (req: Request, res: Response) => {
   /*  #swagger.tags = ['Products']
       #swagger.description = 'Update a product'
+      #swagger.security = [{
+        bearerAuth: ['admin']
+      }]
       #swagger.parameters['id'] = {
               in: 'path',
               description: 'Product id of product to update',
@@ -221,13 +227,16 @@ const updateProduct = asyncHandler(async (req: Request, res: Response) => {
 
 // @desc    Delete a product
 // @route   DELETE /api/products/v1/:id
-// @access  Private/Admin
+// @access  Admin
 // @req     params.id
 // @res     status(200).json({ message: 'Product removed' })
 //       or status(404).json({ message: 'Product not found' })
 const deleteProduct = asyncHandler(async (req: Request, res: Response) => {
   /*  #swagger.tags = ['Products']
       #swagger.description = 'Delete a product'
+      #swagger.security = [{
+        bearerAuth: ['admin']
+      }]
       #swagger.parameters['id'] = {
               in: 'path',
               description: 'Product id of product to delete',
@@ -263,6 +272,9 @@ const createProductReview = asyncHandler(
   async (req: IExtendedRequest, res: Response) => {
     /* #swagger.tags = ['Products']
       #swagger.description = 'Create new review'
+      #swagger.security = [{
+        bearerAuth: ['user']
+      }]
       #swagger.parameters['id'] = {
               in: 'path',
               description: 'Product id of product to review',

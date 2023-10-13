@@ -3,13 +3,22 @@
   "info": {
     "version": "0.0.1",
     "title": "Orbital API",
-    "description": "Specification of APIs belonging to the Orbital Backend"
+    "description": "Specification of APIs belonging to the Orbital Backend.  Use /api/users/v1/auth to login and get access to the secure APIs"
   },
   "host": "localhost:5000",
   "basePath": "/",
   "schemes": [
     "http"
   ],
+  "securityDefinitions": {
+    "bearerAuth": {
+      "type": "apiKey",
+      "in": "cookie",
+      "description": "JWT authorization header using HTTP-Only cookies.",
+      "scheme": "bearer",
+      "bearerFormat": "JWT"
+    }
+  },
   "consumes": [
     "application/json"
   ],
@@ -89,7 +98,14 @@
           "201": {
             "description": "Returns the created product"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "admin"
+            ]
+          }
+        ]
       }
     },
     "/api/products/v1/productsforids": {
@@ -110,65 +126,6 @@
         "responses": {
           "200": {
             "description": "Returns array of corresponding products"
-          }
-        }
-      }
-    },
-    "/api/products/v1/{id}/reviews": {
-      "post": {
-        "tags": [
-          "Products"
-        ],
-        "description": "Create new review",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "Product id of product to review"
-          },
-          {
-            "name": "user._id",
-            "in": "request",
-            "description": "user._id, will automatically be in the request object if the user is logged in",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "user.name",
-            "in": "request",
-            "description": "user.name, will automatically be in the request object if the user is logged in",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "rating, comment",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "rating": {
-                  "example": "any"
-                },
-                "comment": {
-                  "example": "any"
-                }
-              }
-            },
-            "description": "rating, comment object corresponding to review",
-            "required": true
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "json({ message: Review added })"
-          },
-          "400": {
-            "description": "json({ message: You have already reviewed this product })"
-          },
-          "404": {
-            "description": "json({ message: Product not found })"
           }
         }
       }
@@ -250,7 +207,14 @@
           "404": {
             "description": "json({ message: Product not found })"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "admin"
+            ]
+          }
+        ]
       },
       "delete": {
         "tags": [
@@ -273,7 +237,80 @@
           "404": {
             "description": "json({ message: Product not found })"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "admin"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/products/v1/{id}/reviews": {
+      "post": {
+        "tags": [
+          "Products"
+        ],
+        "description": "Create new review",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Product id of product to review"
+          },
+          {
+            "name": "user._id",
+            "in": "request",
+            "description": "user._id, will automatically be in the request object if the user is logged in",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "user.name",
+            "in": "request",
+            "description": "user.name, will automatically be in the request object if the user is logged in",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "rating, comment",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "rating": {
+                  "example": "any"
+                },
+                "comment": {
+                  "example": "any"
+                }
+              }
+            },
+            "description": "rating, comment object corresponding to review",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "json({ message: Review added })"
+          },
+          "400": {
+            "description": "json({ message: You have already reviewed this product })"
+          },
+          "404": {
+            "description": "json({ message: Product not found })"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "user"
+            ]
+          }
+        ]
       }
     },
     "/api/upload/v1/": {
@@ -304,7 +341,14 @@
           "415": {
             "description": "json({ message: Image NOT uploaded })"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "admin"
+            ]
+          }
+        ]
       }
     },
     "/api/users/v1/": {
@@ -316,7 +360,6 @@
         "parameters": [
           {
             "name": "",
-            "description": "json(users)",
             "in": "query",
             "type": "string"
           }
@@ -325,7 +368,14 @@
           "200": {
             "description": "json(users)"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "admin"
+            ]
+          }
+        ]
       },
       "post": {
         "tags": [
@@ -440,7 +490,14 @@
           "404": {
             "description": "json({ message: User not found })"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "user"
+            ]
+          }
+        ]
       },
       "put": {
         "tags": [
@@ -483,7 +540,14 @@
           "404": {
             "description": "json({ message: User not found })"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "user"
+            ]
+          }
+        ]
       }
     },
     "/api/users/v1/updatepassword": {
@@ -531,7 +595,14 @@
           "404": {
             "description": "json({ message: User not found })"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "user"
+            ]
+          }
+        ]
       }
     },
     "/api/users/v1/resetpassword": {
@@ -563,7 +634,14 @@
           "404": {
             "description": "json({ message: User not found })"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "user"
+            ]
+          }
+        ]
       }
     },
     "/api/users/v1/{id}": {
@@ -588,7 +666,14 @@
           "404": {
             "description": "json({ message: User not found })"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "admin"
+            ]
+          }
+        ]
       },
       "put": {
         "tags": [
@@ -631,7 +716,14 @@
           "404": {
             "description": "json({ message: User not found })"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "admin"
+            ]
+          }
+        ]
       },
       "delete": {
         "tags": [
@@ -654,7 +746,14 @@
           "404": {
             "description": "json({ message: User not found })"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "admin"
+            ]
+          }
+        ]
       }
     },
     "/api/orders/v1/": {
@@ -667,7 +766,14 @@
           "200": {
             "description": "json(orders)"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "admin"
+            ]
+          }
+        ]
       },
       "post": {
         "tags": [
@@ -710,7 +816,14 @@
           "400": {
             "description": "json({ message: No order items })"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "user"
+            ]
+          }
+        ]
       }
     },
     "/api/orders/v1/totals": {
@@ -764,7 +877,14 @@
           "201": {
             "description": "json(orders)"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "user"
+            ]
+          }
+        ]
       }
     },
     "/api/orders/v1/{id}": {
@@ -789,7 +909,14 @@
           "404": {
             "description": "json({ message: Order not found })"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "user"
+            ]
+          }
+        ]
       }
     },
     "/api/orders/v1/{id}/pay": {
@@ -837,7 +964,14 @@
           "404": {
             "description": "json({ message: Order not found })"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "user"
+            ]
+          }
+        ]
       }
     },
     "/api/orders/v1/{id}/deliver": {
@@ -862,7 +996,14 @@
           "404": {
             "description": "json({ message: Order not found })"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "admin"
+            ]
+          }
+        ]
       }
     }
   }

@@ -22,12 +22,15 @@ import Order from './orderModel';
 
 // @desc    Get all orders
 // @route   GET /api/orders/v1
-// @access  Private/Admin
+// @access  Admin
 // @req
 // @res     status(200).json(orders)
 const getOrders = asyncHandler(async (req: Request, res: Response) => {
   /*  #swagger.tags = ['Orders']
       #swagger.description = ' Get all orders'
+      #swagger.security = [{
+        bearerAuth: ['admin']
+      }]
       #swagger.responses[200] = {
           description: 'json(orders)',
       }
@@ -47,6 +50,9 @@ const createOrder = asyncHandler(
   async (req: IExtendedRequest, res: Response) => {
     /*  #swagger.tags = ['Orders']
       #swagger.description = 'Create new order'
+      #swagger.security = [{
+        bearerAuth: ['user']
+      }]
       #swagger.parameters['user._id'] = {
               in: 'request',
               description: 'user._id, will automatically be in the request object if the user is logged in',
@@ -135,6 +141,9 @@ const createOrder = asyncHandler(
 const getMyOrders = asyncHandler(async (req: Request, res: Response) => {
   /*  #swagger.tags = ['Orders']
       #swagger.description = 'Create new order'
+      #swagger.security = [{
+        bearerAuth: ['user']
+      }]
       #swagger.parameters['id'] = {
             in: 'path',
             description: 'user id, for which to get the orders for',
@@ -159,6 +168,9 @@ const getMyOrders = asyncHandler(async (req: Request, res: Response) => {
 const getOrderById = asyncHandler(async (req: Request, res: Response) => {
   /*  #swagger.tags = ['Orders']
       #swagger.description = 'Create new order'
+      #swagger.security = [{
+        bearerAuth: ['user']
+      }]
       #swagger.parameters['id'] = {
             in: 'path',
             description: 'user id, for which to get the orders for',
@@ -191,6 +203,9 @@ const getOrderById = asyncHandler(async (req: Request, res: Response) => {
 const updateOrderToPaid = asyncHandler(async (req: Request, res: Response) => {
   /*  #swagger.tags = ['Orders']
       #swagger.description = 'Update order to paid.  Verifies that correct payment has been made using PayPal'
+      #swagger.security = [{
+        bearerAuth: ['user']
+      }]
       #swagger.parameters['id'] = {
             in: 'path',
             description: 'order id',
@@ -240,7 +255,7 @@ const updateOrderToPaid = asyncHandler(async (req: Request, res: Response) => {
 
 // @desc    Update order to delivered
 // @route   PUT /api/orders/v1/:id/deliver
-// @access  Private/Admin
+// @access  Admin
 // @req     params.id
 // @res     status(200).json(updatedOrder)
 //       or status(404).message:'Order not found'
@@ -248,6 +263,9 @@ const updateOrderToDelivered = asyncHandler(
   async (req: Request, res: Response) => {
     /*  #swagger.tags = ['Orders']
       #swagger.description = 'Update order to delivered'
+      #swagger.security = [{
+        bearerAuth: ['admin']
+      }]
       #swagger.parameters['id'] = {
             in: 'path',
             description: 'order id',

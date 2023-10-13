@@ -46,7 +46,13 @@ app.use('', orderRoutes);
 
 // Swagger server
 // const swaggerJSON = JSON.parse(swaggerJSONstring);
-app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use(
+  '/doc',
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerDocument, {
+    swaggerOptions: { persistAuthorization: true },
+  })
+);
 
 // Set build folder and default route for production or development
 if (nodeEnv === 'production') {

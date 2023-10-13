@@ -20,12 +20,12 @@ router
   .post(protect, admin, createProduct);
 router.route('/api/products/v1/productsforids').get(getProductsForIds);
 router
-  .route('/api/products/v1/:id/reviews')
-  .post(protect, checkObjectId, createProductReview);
-router
   .route('/api/products/v1/:id')
   .get(checkObjectId, getProductById)
   .put(protect, admin, checkObjectId, updateProduct)
   .delete(protect, admin, checkObjectId, deleteProduct);
+router
+  .route('/api/products/v1/:id/reviews')
+  .post(protect, checkObjectId, createProductReview);
 
 export default router;
