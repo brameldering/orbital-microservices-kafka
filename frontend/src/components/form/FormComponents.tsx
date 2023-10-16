@@ -171,6 +171,38 @@ const PasswordField: React.FunctionComponent<FormikFieldProps> = ({
   );
 };
 
+const TextAreaField: React.FunctionComponent<FormikFieldProps> = ({
+  controlId,
+  label,
+  formik,
+}) => {
+  const errorDivId = 'error_text_' + controlId;
+
+  return (
+    <>
+      <Form.Group className='my-2' controlId={controlId}>
+        <Form.Label className='mt-1 mb-0'>{label}</Form.Label>
+        <Form.Control
+          as='textarea'
+          rows={3}
+          style={{ lineHeight: '1.5' }}
+          name={controlId}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values[controlId]}
+        />
+        <Form.Text className='text-danger'>
+          {formik.touched[controlId] && formik.errors[controlId] ? (
+            <div id={errorDivId} className='text-danger'>
+              {formik.errors[controlId]}
+            </div>
+          ) : null}
+        </Form.Text>
+      </Form.Group>
+    </>
+  );
+};
+
 export {
   TextField,
   EmailField,
@@ -178,4 +210,5 @@ export {
   CheckBoxField,
   HiddenTextField,
   PasswordField,
+  TextAreaField,
 };

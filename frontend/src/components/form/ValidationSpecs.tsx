@@ -3,6 +3,7 @@ import YupPassword from 'yup-password';
 
 YupPassword(Yup);
 const textField = () => Yup.string().max(255);
+const textAreaField = () => Yup.string().max(1024);
 
 const numField = () =>
   Yup.number()
@@ -22,4 +23,4 @@ const passwordField = () =>
 // .minNumbers(1, 'password must contain at least 1 number')
 // .minSymbols(1, 'password must contain at least 1 special character');
 
-export { textField, numField, passwordField };
+export { textField, textAreaField, numField, passwordField };

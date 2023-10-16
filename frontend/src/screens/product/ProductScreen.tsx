@@ -235,6 +235,7 @@ const ProductScreen = () => {
                         <Form.Control
                           as='textarea'
                           rows={3}
+                          style={{ lineHeight: '1.5' }}
                           required
                           value={comment}
                           onChange={(e) =>

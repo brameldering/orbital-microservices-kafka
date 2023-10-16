@@ -8,10 +8,15 @@ import * as Yup from 'yup';
 import {
   TextField,
   NumberField,
+  TextAreaField,
   // HiddenTextField,
 } from '../../components/form/FormComponents';
 import FormContainer from '../../components/form/FormContainer';
-import { textField, numField } from '../../components/form/ValidationSpecs';
+import {
+  textField,
+  textAreaField,
+  numField,
+} from '../../components/form/ValidationSpecs';
 import ErrorMessage from '../../components/general/ErrorMessage';
 import Loader from '../../components/general/Loader';
 import Meta from '../../components/general/Meta';
@@ -64,7 +69,7 @@ const ProductEditScreen = () => {
       brand: textField(),
       category: textField(),
       countInStock: numField().required('Required'),
-      description: textField(),
+      description: textAreaField(),
     }),
     onSubmit: async (values) => {
       const sequenceProductId = values.sequenceProductId;
@@ -193,7 +198,7 @@ const ProductEditScreen = () => {
               formik={formik}
             />
             <TextField controlId='category' label='Category' formik={formik} />
-            <TextField
+            <TextAreaField
               controlId='description'
               label='Description'
               formik={formik}
