@@ -80,8 +80,8 @@ const ChangePasswordScreen = () => {
       <Meta title='Change Password' />{' '}
       <ModalConfirmBox
         showModal={showChangesModal}
-        title='Discard Changes'
-        body='You have made changes that have not yet been saved.  Do you want to go back and discard these changes?'
+        title='Are you sure you want to go back?'
+        body='All the new and changed info will be lost.'
         handleClose={cancelGoBack}
         handleConfirm={goBackWithoutSaving}
       />
