@@ -29,7 +29,7 @@ const FormComponent: React.FunctionComponent<FormikComponentProps> = ({
   const errorDivId = 'error_text_' + controlId;
   return (
     <Form.Group className='my-2' controlId={controlId}>
-      <Form.Label className='my-1'>{label}</Form.Label>
+      <Form.Label className='mt-1 mb-0'>{label}</Form.Label>
       <Form.Control
         name={controlId}
         type={type}
@@ -140,7 +140,7 @@ const PasswordField: React.FunctionComponent<FormikFieldProps> = ({
   return (
     <>
       <Form.Group className='my-2' controlId={controlId}>
-        <Form.Label className='my-1'>{label}</Form.Label>
+        <Form.Label className='mt-1 mb-0'>{label}</Form.Label>
         <InputGroup>
           <Form.Control
             name={controlId}
