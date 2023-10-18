@@ -7,6 +7,8 @@ class ExtendedError extends Error {
     super(message);
     this.name = this.constructor.name;
     this.status = status;
+    // Because we are extending a built in class
+    Object.setPrototypeOf(this, ExtendedError.prototype);
   }
 }
 

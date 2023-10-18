@@ -16,4 +16,4 @@ spec:
               service:
                 name: auth-srv
                 port:
-                  number: 5010
+                  number: 5001

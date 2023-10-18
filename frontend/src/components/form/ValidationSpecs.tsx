@@ -15,9 +15,9 @@ const passwordField = () =>
     .required()
     .min(
       6,
-      'password must contain 6 or more characters with at least one of each: uppercase, lowercase, number and special'
+      'The password must contain 6 or more characters with at least one of each: uppercase, lowercase, number and special'
     )
-    .max(80);
+    .max(40, 'The maximum length of a password is 40 characters');
 // .minLowercase(1, 'password must contain at least 1 lower case letter')
 // .minUppercase(1, 'password must contain at least 1 upper case letter')
 // .minNumbers(1, 'password must contain at least 1 number')
