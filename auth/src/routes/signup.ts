@@ -13,7 +13,7 @@ router.post(
       .isLength({ min: 6, max: 40 })
       .withMessage('THe password must be between 6 and 40 characters'),
   ],
-  (req: Request, res: Response) => {
+  async (req: Request, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       throw new RequestValidationError(errors.array());

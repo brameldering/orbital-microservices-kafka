@@ -47,3 +47,18 @@ export class DatabaseError extends CustomError {
     return [{ message: this.reason }];
   }
 }
+
+export class RouteNoteFoundError extends CustomError {
+  statusCode = 404;
+  reason = 'Route for this API not found';
+
+  constructor() {
+    super('Route for this API not found');
+    // Because we are extending a built in class
+    Object.setPrototypeOf(this, RouteNoteFoundError.prototype);
+  }
+
+  serializeErrors() {
+    return [{ message: this.reason }];
+  }
+}
