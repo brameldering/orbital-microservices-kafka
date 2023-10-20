@@ -10,11 +10,12 @@ const router = express.Router();
 router.post(
   '/api/users/signup',
   [
+    body('name').trim().notEmpty().withMessage('Name can not be empty'),
     body('email').isEmail().withMessage('Email must be valid'),
     body('password')
       .trim()
       .isLength({ min: 6, max: 40 })
-      .withMessage('THe password must be between 6 and 40 characters'),
+      .withMessage('Password must be between 6 and 40 characters'),
   ],
   async (req: Request, res: Response) => {
     const errors = validationResult(req);
