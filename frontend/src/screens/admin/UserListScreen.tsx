@@ -63,7 +63,7 @@ const UserListScreen = () => {
         <Loader />
       ) : errorLoading ? (
         <ErrorMessage error={errorLoading} />
-      ) : users && users.length === 0 ? (
+      ) : users?.length === 0 ? (
         <p>There are no users</p>
       ) : (
         <Table striped hover responsive className='table-sm'>

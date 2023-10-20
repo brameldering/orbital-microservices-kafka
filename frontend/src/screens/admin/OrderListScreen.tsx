@@ -21,7 +21,7 @@ const OrderListScreen = () => {
         <Loader />
       ) : errorLoading ? (
         <ErrorMessage error={errorLoading} />
-      ) : orders && orders.length === 0 ? (
+      ) : orders?.length === 0 ? (
         <p>There are no orders</p>
       ) : (
         <Table striped hover responsive className='table-sm'>
@@ -37,42 +37,41 @@ const OrderListScreen = () => {
             </tr>
           </thead>
           <tbody>
-            {orders &&
-              orders.map((order) => (
-                <tr key={order._id}>
-                  <td>{order.sequenceOrderId}</td>
-                  <td>{order.user && order.user.name}</td>
-                  <td>
-                    {order.createdAt &&
-                      dateTimeToLocaleDateString(order.createdAt)}
-                  </td>
-                  <td>
-                    {CURRENCY_SYMBOL}
-                    {order.totalAmounts.totalPrice.toFixed(2)}
-                  </td>
-                  <td>
-                    {order.isPaid && order.paidAt ? (
-                      dateTimeToLocaleDateString(order.paidAt)
-                    ) : (
-                      <FaTimes style={{ color: 'red' }} />
-                    )}
-                  </td>
-                  <td>
-                    {order.isDelivered && order.deliveredAt ? (
-                      dateTimeToLocaleDateString(order.deliveredAt)
-                    ) : (
-                      <FaTimes style={{ color: 'red' }} />
-                    )}
-                  </td>
-                  <td>
-                    <LinkContainer to={`/order/${order._id}`}>
-                      <Button variant='light' className='btn-sm'>
-                        Details
-                      </Button>
-                    </LinkContainer>
-                  </td>
-                </tr>
-              ))}
+            {orders?.map((order) => (
+              <tr key={order._id}>
+                <td>{order.sequenceOrderId}</td>
+                <td>{order.user && order.user.name}</td>
+                <td>
+                  {order.createdAt &&
+                    dateTimeToLocaleDateString(order.createdAt)}
+                </td>
+                <td>
+                  {CURRENCY_SYMBOL}
+                  {order.totalAmounts.totalPrice.toFixed(2)}
+                </td>
+                <td>
+                  {order.isPaid && order.paidAt ? (
+                    dateTimeToLocaleDateString(order.paidAt)
+                  ) : (
+                    <FaTimes style={{ color: 'red' }} />
+                  )}
+                </td>
+                <td>
+                  {order.isDelivered && order.deliveredAt ? (
+                    dateTimeToLocaleDateString(order.deliveredAt)
+                  ) : (
+                    <FaTimes style={{ color: 'red' }} />
+                  )}
+                </td>
+                <td>
+                  <LinkContainer to={`/order/${order._id}`}>
+                    <Button variant='light' className='btn-sm'>
+                      Details
+                    </Button>
+                  </LinkContainer>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </Table>
       )}

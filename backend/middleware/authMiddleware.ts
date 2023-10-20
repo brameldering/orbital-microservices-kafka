@@ -35,7 +35,7 @@ const protect = asyncHandler(
 
 // User must be an admin
 const admin = (req: IExtendedRequest, res: Response, next: NextFunction) => {
-  if (req.user && req.user.isAdmin) {
+  if (req.user?.isAdmin) {
     next();
   } else {
     throw new ExtendedError('Not authorized, you must be an admin', 401);

@@ -115,7 +115,7 @@ const createOrder = asyncHandler(
         );
       const sequenceOrderId: string =
         'ORD-' + seqNumberOrderId.sequenceCounter.toString().padStart(10, '0');
-      if (!(req.user && req.user._id)) {
+      if (!req?.user) {
         throw new ExtendedError('No user JWT has been passed to this request.');
       }
       const order: OrderDocument = new Order({
@@ -234,7 +234,7 @@ const updateOrderToPaid = asyncHandler(async (req: Request, res: Response) => {
     throw new ExtendedError('Transaction has been used before');
   }
   const order = await Order.findById(req.params.id);
-  if (order && order.totalAmounts) {
+  if (order?.totalAmounts) {
     // check the correct amount was paid
     const paidCorrectAmount = order.totalAmounts.totalPrice === Number(value);
     if (!paidCorrectAmount) throw new ExtendedError('Incorrect amount paid');

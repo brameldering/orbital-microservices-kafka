@@ -6,10 +6,6 @@ import type { RootState } from '../../store';
 
 const AdminRoute: React.FunctionComponent = () => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
-  return userInfo && userInfo.isAdmin ? (
-    <Outlet />
-  ) : (
-    <Navigate to='/login' replace />
-  );
+  return userInfo?.isAdmin ? <Outlet /> : <Navigate to='/login' replace />;
 };
 export default AdminRoute;

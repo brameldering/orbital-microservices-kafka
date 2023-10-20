@@ -25,7 +25,7 @@ router.post(
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
-    if (user && user.id && (await bcrypt.compare(password, user.password))) {
+    if (user?.id && (await bcrypt.compare(password, user.password))) {
       generateToken(res, user.id.toString(), user.email);
       res.status(200).json({ user });
     } else {

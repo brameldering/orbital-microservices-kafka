@@ -42,7 +42,7 @@ const uploadDefault = async (dataURI: string) => {
 const uploadImageToCloudinary = async (req: Request, res: Response) => {
   try {
     await runMiddleware(uploadMiddleware, req, res);
-    if (!req.file || !req.file.buffer || !req.file.mimetype) {
+    if (!(req.file?.buffer && req.file?.mimetype)) {
       throw new ExtendedError('File data is missing');
     }
     const b64 = Buffer.from(req.file.buffer).toString('base64');

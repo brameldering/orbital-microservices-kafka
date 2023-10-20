@@ -94,7 +94,7 @@ const createProduct = asyncHandler(
     );
     const sequenceProductId =
       'PRD-' + seqProductId.sequenceCounter.toString().padStart(8, '0');
-    if (!(req.user && req.user._id)) {
+    if (!req.user?._id) {
       throw new ExtendedError('No user JWT has been passed to this request.');
     }
     const product = new Product({
@@ -311,7 +311,7 @@ const createProductReview = asyncHandler(
     const { rating, comment } = req.body;
     const product = await Product.findById(req.params.id);
     if (product) {
-      if (!(req.user && req.user._id)) {
+      if (!req.user?._id) {
         throw new ExtendedError('No user has been passed to this request.');
       }
       const alreadyReviewed = product.reviews.find(

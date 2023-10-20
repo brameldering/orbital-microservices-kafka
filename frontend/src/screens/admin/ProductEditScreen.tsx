@@ -31,7 +31,7 @@ const ProductEditScreen = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   let productId: string = '';
-  if (id && id.length > 0) {
+  if (id && id?.length > 0) {
     productId = id;
   }
 

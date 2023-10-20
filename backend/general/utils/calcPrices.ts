@@ -6,12 +6,10 @@ export const roundTo2Decimals = (num: number) => {
 };
 
 export const calcPrices = (items: OrderOrderItem[]): ITotalAmounts => {
-  const VAT_FRACTION: number = Number(
-    process.env.VAT_PERCENTAGE && Number(process.env.VAT_PERCENTAGE) / 100
-  );
-  const SHIPPING_FEE: number = Number(process.env.SHIPPING_FEE);
+  const VAT_FRACTION: number = Number(process.env?.VAT_PERCENTAGE) / 100;
+  const SHIPPING_FEE: number = Number(process.env?.SHIPPING_FEE);
   const THRESHOLD_FREE_SHIPPING: number = Number(
-    process.env.THRESHOLD_FREE_SHIPPING
+    process.env?.THRESHOLD_FREE_SHIPPING
   );
   // Calculate the total items price
   const itemsPrice = roundTo2Decimals(

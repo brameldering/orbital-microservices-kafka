@@ -58,7 +58,7 @@ const registerUser = asyncHandler(async (req: Request, res: Response) => {
     password,
   });
 
-  if (user && user._id) {
+  if (user?._id) {
     generateToken(res, user._id.toString());
     res.status(201).json({
       _id: user._id,
@@ -95,7 +95,7 @@ const authUser = asyncHandler(async (req: Request, res: Response) => {
      } */
   const { email, password } = req.body;
   const user: UserDocument | null = await User.findOne({ email });
-  if (user && user._id && (await user.matchPassword(password))) {
+  if (user?._id && (await user.matchPassword(password))) {
     generateToken(res, user._id.toString());
     res.status(200).json({
       _id: user._id,
@@ -158,7 +158,7 @@ const getUserProfile = asyncHandler(
       #swagger.responses[404] = {
           description: 'json({ message: User not found })',
      } */
-    if (!req.user || !req.user._id) {
+    if (!req.user?._id) {
       throw new ExtendedError('Not logged in', 401);
     }
     const user = await User.findById(req.user._id);
@@ -211,7 +211,7 @@ const updateUserProfile = asyncHandler(
       #swagger.responses[404] = {
           description: 'json({ message: User not found })',
      } */
-    if (!req.user || !req.user._id) {
+    if (!req.user?._id) {
       throw new ExtendedError('Not logged in', 401);
     }
     const user = await User.findById(req.user._id);
@@ -270,7 +270,7 @@ const updatePassword = asyncHandler(
       #swagger.responses[404] = {
           description: 'json({ message: User not found })',
      } */
-    if (!req.user || !req.user._id) {
+    if (!req.user?._id) {
       throw new ExtendedError('Not logged in', 401);
     }
 

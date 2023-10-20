@@ -14,7 +14,7 @@ export const errorHandler = (
   }
 
   // MongoDB provides err.code which is 11000 to indicate dublicate unique field error.
-  if (err.code && err.code === 11000) {
+  if (err?.code === 11000) {
     console.log('Error code 11000');
     const message = err.keyValue
       ? `That ${Object.keys(err.keyValue)} already exists`

@@ -65,7 +65,7 @@ const OrderScreen = () => {
 
   const loadPayPalScript = async () => {
     console.log('== loadPayPalScript');
-    if (payPalClientId && payPalClientId.clientId) {
+    if (payPalClientId?.clientId) {
       console.log('=======> payPalDispatch resetOptions');
       payPalDispatch({
         type: 'resetOptions',
@@ -213,12 +213,12 @@ const OrderScreen = () => {
               <ListGroup.Item>
                 <h2>Shipping</h2>
                 <p>
-                  <strong>Name: </strong> {order.user && order.user.name}
+                  <strong>Name: </strong> {order.user?.name}
                 </p>
                 <p>
                   <strong>Email: </strong>{' '}
                   <a href={`mailto:${order.user && order.user.email}`}>
-                    {order.user && order.user.email}
+                    {order.user?.email}
                   </a>
                 </p>
                 <p>
@@ -247,8 +247,7 @@ const OrderScreen = () => {
                     Paid on: {dateTimeToLocaleDateString(order.paidAt)} at{' '}
                     {dateTimeToLocaleTimeString(order.paidAt)}
                     <br />
-                    {order.paymentResult &&
-                      `Payment Id: ${order.paymentResult.id}`}
+                    {`Payment Id: ${order.paymentResult?.id}`}
                   </Alert>
                 ) : (
                   <Alert variant='info'>Not Paid</Alert>
@@ -311,8 +310,7 @@ const OrderScreen = () => {
                 {deliverError ? (
                   <ErrorMessage error={deliverError} />
                 ) : (
-                  userInfo &&
-                  userInfo.isAdmin &&
+                  userInfo?.isAdmin &&
                   order &&
                   order.isPaid &&
                   !order.isDelivered && (

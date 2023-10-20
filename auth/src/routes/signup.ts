@@ -28,7 +28,7 @@ router.post(
 
     const userRes = await user.save();
 
-    if (userRes && userRes._id && userRes.email) {
+    if (userRes?._id && userRes.email) {
       generateToken(res, userRes._id.toString(), userRes.email);
       res.status(201).json(userRes);
     } else {
