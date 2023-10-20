@@ -1,15 +1,21 @@
 import express from 'express';
 import 'express-async-errors';
 import { json } from 'body-parser';
+import cookieParser from 'cookie-parser';
+import mongoose from 'mongoose';
 import { currentUserRouter } from './routes/current-user';
 import { signinRouter } from './routes/signin';
 import { signoutRouter } from './routes/signout';
 import { signupRouter } from './routes/signup';
 import { errorHandler } from './middleware/error-handler';
-import { RouteNoteFoundError } from './types/error-types';
+import {
+  RouteNoteFoundError,
+  EnvConfigurationError,
+} from './types/error-types';
 
 const app = express();
 app.use(json());
+app.use(cookieParser());
 
 app.use(currentUserRouter);
 app.use(signinRouter);
@@ -24,6 +30,31 @@ app.all('*', async () => {
 
 app.use(errorHandler);
 
-app.listen(5001, () => {
-  console.log('Listening on port 5001');
-});
+const start = async () => {
+  // Check for existence of ENV variables set in depl files
+  if (
+    !(
+      process.env.JWT_SECRET &&
+      process.env.EXPIRES_IN &&
+      process.env.COOKIE_EXPIRES_TIME &&
+      !isNaN(Number(process.env.COOKIE_EXPIRES_TIME))
+    )
+  ) {
+    throw new EnvConfigurationError(
+      'Missing ENV variables for JWT_SECRET or EXPIRES_IN or COOKIE_EXPIRES_TIME'
+    );
+  }
+
+  try {
+    await mongoose.connect('mongodb://auth-mongo-srv:27017/auth');
+    console.log('Connected to MongoDB');
+  } catch (err) {
+    console.log(err);
+  }
+
+  app.listen(5001, () => {
+    console.log('Listening on port 5001');
+  });
+};
+
+start();

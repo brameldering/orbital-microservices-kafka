@@ -15,6 +15,16 @@ spec:
       containers:
         - name: auth
           image: orbital/auth
+          env:
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
+            - name: EXPIRES_IN
+              value: '1h'
+            - name: COOKIE_EXPIRES_TIME
+              value: '3600000'
 ---
 apiVersion: v1
 kind: Service

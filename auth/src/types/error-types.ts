@@ -35,16 +35,29 @@ export class RequestValidationError extends CustomError {
 
 export class DatabaseError extends CustomError {
   statusCode = 500;
-  reason = 'Error related to database';
 
-  constructor() {
-    super('Error related to database');
+  constructor(public message: string) {
+    super(message);
     // Because we are extending a built in class
     Object.setPrototypeOf(this, DatabaseError.prototype);
   }
 
   serializeErrors() {
-    return [{ message: this.reason }];
+    return [{ message: this.message }];
+  }
+}
+
+export class EnvConfigurationError extends CustomError {
+  statusCode = 500;
+
+  constructor(public message: string) {
+    super(message);
+    // Because we are extending a built in class
+    Object.setPrototypeOf(this, EnvConfigurationError.prototype);
+  }
+
+  serializeErrors() {
+    return [{ message: this.message }];
   }
 }
 

@@ -22,7 +22,7 @@ const generateToken = (res: Response, jwtUserId: string) => {
     jwt.sign({ jwtUserId }, process.env.JWT_SECRET, {
       expiresIn: process.env.EXPIRES_IN,
     });
-  // Set JWT as an HTTP-Only cookie
+  // Store JWT in an HTTP-Only and secure cookie, which is the most secure option
   if (process.env.COOKIE_EXPIRES_TIME) {
     const cookieExpiresTime = Number(process.env.COOKIE_EXPIRES_TIME);
     res.cookie('jwt', token, {

@@ -2,6 +2,9 @@ import express, { Request, Response } from 'express';
 import { body, validationResult } from 'express-validator';
 import { RequestValidationError, DatabaseError } from '../types/error-types';
 
+import generateToken from '../utils/generateToken';
+import { User } from '../models/userModel';
+
 const router = express.Router();
 
 router.post(
@@ -18,10 +21,18 @@ router.post(
     if (!errors.isEmpty()) {
       throw new RequestValidationError(errors.array());
     }
-    const { email, password } = req.body;
+    const { name, email, password } = req.body;
 
-    throw new DatabaseError();
-    res.send('Hello Juno - signup ' + email + ' ' + password);
+    const user = User.build({ name, email, password });
+
+    const userRes = await user.save();
+
+    if (userRes && userRes._id && userRes.email) {
+      generateToken(res, userRes._id.toString(), userRes.email);
+      res.status(201).json(userRes);
+    } else {
+      throw new DatabaseError('Error in database while creating new user');
+    }
   }
 );
 
