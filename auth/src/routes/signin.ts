@@ -1,10 +1,8 @@
 import express, { Request, Response } from 'express';
-import { body, validationResult } from 'express-validator';
+import { body } from 'express-validator';
+import { validateRequest } from '../middleware/validate-request';
 import bcrypt from 'bcryptjs';
-import {
-  RequestValidationError,
-  AuthorizationError,
-} from '../types/error-types';
+import { AuthorizationError } from '../types/error-types';
 
 import generateToken from '../utils/generateToken';
 import { User } from '../models/userModel';
@@ -17,17 +15,14 @@ router.post(
     body('email').isEmail().withMessage('Email must be valid'),
     body('password').trim().notEmpty().withMessage('Password can not be empty'),
   ],
+  validateRequest,
   async (req: Request, res: Response) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      throw new RequestValidationError(errors.array());
-    }
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
     if (user?.id && (await bcrypt.compare(password, user.password))) {
-      generateToken(res, user.id.toString(), user.email);
-      res.status(200).json({ user });
+      generateToken(req, user.id.toString(), user.name, user.email);
+      res.status(200).send({ user });
     } else {
       throw new AuthorizationError('Invalid credentials');
     }
