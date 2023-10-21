@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
 import { validateRequest } from '../middleware/validate-request';
 import bcrypt from 'bcryptjs';
-import { AuthorizationError } from '../types/error-types';
+import { NotAuthorizedError } from '../types/error-types';
 
 import generateToken from '../utils/generateToken';
 import { User } from '../models/userModel';
@@ -24,7 +24,7 @@ router.post(
       generateToken(req, user.id.toString(), user.name, user.email);
       res.status(200).send({ user });
     } else {
-      throw new AuthorizationError('Invalid credentials');
+      throw new NotAuthorizedError();
     }
   }
 );

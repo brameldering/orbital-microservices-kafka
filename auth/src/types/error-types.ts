@@ -30,14 +30,14 @@ export class RequestValidationError extends CustomError {
   }
 }
 
-export class AuthorizationError extends CustomError {
+export class NotAuthorizedError extends CustomError {
   statusCode = 401;
-  constructor(public message: string) {
-    super(message);
-    Object.setPrototypeOf(this, DatabaseError.prototype);
+  constructor() {
+    super('Not authorized');
+    Object.setPrototypeOf(this, NotAuthorizedError.prototype);
   }
   serializeErrors() {
-    return [{ message: this.message }];
+    return [{ message: 'Not authorized' }];
   }
 }
 

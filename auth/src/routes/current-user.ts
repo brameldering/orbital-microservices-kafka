@@ -1,22 +1,16 @@
-import express, { Request, Response } from 'express';
-import jwt from 'jsonwebtoken';
+import express, { Response } from 'express';
+import { IExtendedRequest } from '../types/request-types';
+
+import { currentUser } from '../middleware/current-user';
 
 const router = express.Router();
 
-router.get('/api/users/currentuser', (req: Request, res: Response) => {
-  if (!req.session?.jwt) {
-    console.log('no jwt in req session');
-    console.log(req.session);
-    return res.send({ currentUser: null });
+router.get(
+  '/api/users/currentuser',
+  currentUser,
+  (req: IExtendedRequest, res: Response) => {
+    res.send({ currentUser: req.currentUser || null });
   }
-
-  try {
-    console.log('trying to verify');
-    const payload = jwt.verify(req.session.jwt, process.env.JWT_SECRET!);
-    res.send({ currentUser: payload });
-  } catch (err) {
-    res.send({ currentUser: null });
-  }
-});
+);
 
 export { router as currentUserRouter };

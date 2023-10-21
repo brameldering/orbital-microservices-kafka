@@ -1,16 +1,13 @@
 import { Request } from 'express';
-import mongoose from 'mongoose';
 
 export interface IExtendedRequest extends Request {
-  user?: IReqUser;
+  currentUser?: IReqUser;
 }
 
 export interface IReqUser {
-  id?: mongoose.Types.ObjectId;
-  name?: string;
-  email?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  id: string;
+  name: string;
+  email: string;
 }
 
 export interface IDecodedJWTVerify {
