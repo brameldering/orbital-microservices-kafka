@@ -22,7 +22,7 @@ spec:
                   name: jwt-secret
                   key: JWT_KEY
             - name: EXPIRES_IN
-              value: '1h'
+              value: '1d'
             # - name: COOKIE_EXPIRES_TIME
             #   value: '3600000'
 ---

@@ -24,7 +24,6 @@ router.post(
     const user = User.build({ name, email, password });
 
     await user.save();
-
     generateToken(req, user.id.toString(), user.name, user.email);
     res.status(201).send(user);
   }
