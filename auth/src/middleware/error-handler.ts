@@ -8,14 +8,14 @@ export const errorHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  console.log('errorHandler:', err);
+  // console.log('errorHandler:', err);
   if (err instanceof CustomError) {
     return res.status(err.statusCode).send({ errors: err.serializeErrors() });
   }
 
   // MongoDB provides err.code which is 11000 to indicate dublicate unique field error.
   if (err?.code === 11000) {
-    console.log('Error code 11000');
+    // console.log('Error code 11000');
     const message = err.keyValue
       ? `That ${Object.keys(err.keyValue)} already exists`
       : `That object already exists`;

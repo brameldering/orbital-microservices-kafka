@@ -17,6 +17,18 @@ import {
   ARE_YOU_SURE_YOU_WANT_TO_DELETE_THIS_PRODUCT,
 } from '../test_constants';
 
+const loginAsAdminAndGoToProductAdmin = () => {
+  cy.visit(LOGIN_URL);
+  cy.get('h1').invoke('text').should('equal', H1_SIGN_IN);
+  cy.get('[id="email"]').type(ADMIN_EMAIL);
+  cy.get('[id="password"]').type(ADMIN_PASSWORD);
+  cy.get('[id="BUTTON_login"]').click();
+  cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
+  cy.get('[id="LINK_header_adminmenu"]').click();
+  cy.get('[id="LINK_header_products"]').click();
+  cy.get('h1').invoke('text').should('equal', H1_PRODUCT_ADMIN);
+};
+
 describe('Initialize', () => {
   it('Clears cookies and localStorage', () => {
     cy.clearCookies();
@@ -28,30 +40,15 @@ describe('Initialize', () => {
 });
 
 describe('Create new product, update product and delete product', () => {
-  beforeEach(() => cy.visit(LOGIN_URL));
   it('Opens Product Admin page', () => {
-    cy.get('h1').invoke('text').should('equal', H1_SIGN_IN);
-    cy.get('[id="email"]').type(ADMIN_EMAIL);
-    cy.get('[id="password"]').type(ADMIN_PASSWORD);
-    cy.get('[id="BUTTON_login"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
-    cy.get('[id="LINK_header_adminmenu"]').click();
-    cy.get('[id="LINK_header_products"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_PRODUCT_ADMIN);
+    loginAsAdminAndGoToProductAdmin();
     cy.get('tr').should('have.length', 7); // 6 products and header
     // Check there are no errors
     cy.get('alert_error').should('not.exist');
     cy.get('error_message').should('not.exist');
   });
   it('E2E_PM_1: Create new product', () => {
-    cy.get('h1').invoke('text').should('equal', H1_SIGN_IN);
-    cy.get('[id="email"]').type(ADMIN_EMAIL);
-    cy.get('[id="password"]').type(ADMIN_PASSWORD);
-    cy.get('[id="BUTTON_login"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
-    cy.get('[id="LINK_header_adminmenu"]').click();
-    cy.get('[id="LINK_header_products"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_PRODUCT_ADMIN);
+    loginAsAdminAndGoToProductAdmin();
     cy.get('[id="BUTTON_create_product"]').click();
     cy.contains(ARE_YOU_SURE_YOU_WANT_TO_CREATE_A_NEW_PRODUCT);
     cy.get('[id="BUTTON_yes"]').click();
@@ -62,14 +59,7 @@ describe('Create new product, update product and delete product', () => {
     cy.get('tr').should('have.length', 8); // 7 products and header
   });
   it('E2E_PM_2: Edit product', () => {
-    cy.get('h1').invoke('text').should('equal', H1_SIGN_IN);
-    cy.get('[id="email"]').type(ADMIN_EMAIL);
-    cy.get('[id="password"]').type(ADMIN_PASSWORD);
-    cy.get('[id="BUTTON_login"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
-    cy.get('[id="LINK_header_adminmenu"]').click();
-    cy.get('[id="LINK_header_products"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_PRODUCT_ADMIN);
+    loginAsAdminAndGoToProductAdmin();
     // Select product to administrate
     let queryId: string = `[id="edit_` + PRODUCT_7_SEQ_ID + `"]`;
     cy.get(queryId).click();
@@ -92,14 +82,7 @@ describe('Create new product, update product and delete product', () => {
     cy.get(queryId).invoke('text').should('equal', NEW_PRODUCT_CATEGORY);
   });
   it('E2E_PM_3: Delete new product', () => {
-    cy.get('h1').invoke('text').should('equal', H1_SIGN_IN);
-    cy.get('[id="email"]').type(ADMIN_EMAIL);
-    cy.get('[id="password"]').type(ADMIN_PASSWORD);
-    cy.get('[id="BUTTON_login"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
-    cy.get('[id="LINK_header_adminmenu"]').click();
-    cy.get('[id="LINK_header_products"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_PRODUCT_ADMIN);
+    loginAsAdminAndGoToProductAdmin();
     // Test deleting a product
     let queryId = `[id="delete_` + PRODUCT_7_SEQ_ID + `"]`;
     cy.get(queryId).click();
