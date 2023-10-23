@@ -67,7 +67,7 @@ describe('Shopping tests', () => {
     cy.get('[id="product_card"]').should('have.length', 0);
     cy.contains(NO_RESULTS_MESSAGE);
     // Go back to main page by clicking brand logo and check there are 6 products
-    cy.get('[id="LINK_orbital_shop"]').click();
+    cy.get('[id="LINK_orbitelco_shop"]').click();
     cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
     cy.get('[id="product_card"]').should('have.length', 6);
   });
@@ -186,7 +186,7 @@ describe('Shopping tests', () => {
     cy.get('h1').invoke('text').should('equal', SHOPPING_CART);
     cy.get('h2').invoke('text').should('equal', SUBTOTAL_1_ITEMS);
     // Back to home page and select playstation
-    cy.get('[id="LINK_orbital_shop"]').click();
+    cy.get('[id="LINK_orbitelco_shop"]').click();
     cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
     cy.contains(PRODUCT_2.name).click();
     cy.get('h3').invoke('text').should('equal', PRODUCT_2.name);

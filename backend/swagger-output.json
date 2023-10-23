@@ -2,14 +2,12 @@
   "swagger": "2.0",
   "info": {
     "version": "0.0.1",
-    "title": "Orbital API",
-    "description": "Specification of APIs belonging to the Orbital Backend.  Use /api/users/v1/auth to login and get access to the secure APIs"
+    "title": "Orbitelco API",
+    "description": "Specification of APIs belonging to the Orbitelco Backend.  Use /api/users/v1/auth to login and get access to the secure APIs"
   },
   "host": "localhost:5000",
   "basePath": "/",
-  "schemes": [
-    "http"
-  ],
+  "schemes": ["http"],
   "securityDefinitions": {
     "bearerAuth": {
       "type": "apiKey",
@@ -19,18 +17,12 @@
       "bearerFormat": "JWT"
     }
   },
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
-  ],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
   "paths": {
     "/api/config/v1/vatshippingfee": {
       "get": {
-        "tags": [
-          "Config"
-        ],
+        "tags": ["Config"],
         "description": "Get VAT Percentage and Shipping Fee from .env",
         "responses": {
           "200": {
@@ -41,9 +33,7 @@
     },
     "/api/config/v1/paypalclientid": {
       "get": {
-        "tags": [
-          "Config"
-        ],
+        "tags": ["Config"],
         "description": "Get PayPal client id from .env",
         "responses": {
           "200": {
@@ -54,9 +44,7 @@
     },
     "/api/products/v1": {
       "get": {
-        "tags": [
-          "Products"
-        ],
+        "tags": ["Products"],
         "description": "Fetch all products",
         "parameters": [
           {
@@ -81,9 +69,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Products"
-        ],
+        "tags": ["Products"],
         "description": "Create a product",
         "parameters": [
           {
@@ -101,18 +87,14 @@
         },
         "security": [
           {
-            "bearerAuth": [
-              "admin"
-            ]
+            "bearerAuth": ["admin"]
           }
         ]
       }
     },
     "/api/products/v1/productsforids": {
       "get": {
-        "tags": [
-          "Products"
-        ],
+        "tags": ["Products"],
         "description": "Fetch products corresponding to array of Ids",
         "parameters": [
           {
@@ -132,9 +114,7 @@
     },
     "/api/products/v1/{id}": {
       "get": {
-        "tags": [
-          "Products"
-        ],
+        "tags": ["Products"],
         "description": "Fetch single product",
         "parameters": [
           {
@@ -155,9 +135,7 @@
         }
       },
       "put": {
-        "tags": [
-          "Products"
-        ],
+        "tags": ["Products"],
         "description": "Update a product",
         "parameters": [
           {
@@ -210,16 +188,12 @@
         },
         "security": [
           {
-            "bearerAuth": [
-              "admin"
-            ]
+            "bearerAuth": ["admin"]
           }
         ]
       },
       "delete": {
-        "tags": [
-          "Products"
-        ],
+        "tags": ["Products"],
         "description": "Delete a product",
         "parameters": [
           {
@@ -240,18 +214,14 @@
         },
         "security": [
           {
-            "bearerAuth": [
-              "admin"
-            ]
+            "bearerAuth": ["admin"]
           }
         ]
       }
     },
     "/api/products/v1/{id}/reviews": {
       "post": {
-        "tags": [
-          "Products"
-        ],
+        "tags": ["Products"],
         "description": "Create new review",
         "parameters": [
           {
@@ -306,22 +276,16 @@
         },
         "security": [
           {
-            "bearerAuth": [
-              "user"
-            ]
+            "bearerAuth": ["user"]
           }
         ]
       }
     },
     "/api/upload/v1/": {
       "post": {
-        "tags": [
-          "Upload"
-        ],
+        "tags": ["Upload"],
         "description": "Upload image to cloudinary",
-        "consumes": [
-          "multipart/form-data"
-        ],
+        "consumes": ["multipart/form-data"],
         "parameters": [
           {
             "name": "singleFile",
@@ -344,18 +308,14 @@
         },
         "security": [
           {
-            "bearerAuth": [
-              "admin"
-            ]
+            "bearerAuth": ["admin"]
           }
         ]
       }
     },
     "/api/users/v1/": {
       "get": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "description": "Fetch all users",
         "parameters": [
           {
@@ -371,16 +331,12 @@
         },
         "security": [
           {
-            "bearerAuth": [
-              "admin"
-            ]
+            "bearerAuth": ["admin"]
           }
         ]
       },
       "post": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "description": "Register a new user",
         "parameters": [
           {
@@ -416,9 +372,7 @@
     },
     "/api/users/v1/auth": {
       "post": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "description": "Auth user & get token using JSON Web Token. On succesful authentication sets an HTTP Only Cookie with the encrypted jwt token",
         "parameters": [
           {
@@ -451,9 +405,7 @@
     },
     "/api/users/v1/logout": {
       "post": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "description": "Clears the jwt HTTP Only Cookie",
         "responses": {
           "200": {
@@ -464,9 +416,7 @@
     },
     "/api/users/v1/profile": {
       "get": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "description": "Get user profile",
         "parameters": [
           {
@@ -493,16 +443,12 @@
         },
         "security": [
           {
-            "bearerAuth": [
-              "user"
-            ]
+            "bearerAuth": ["user"]
           }
         ]
       },
       "put": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "description": "Update user profile (name, email)",
         "parameters": [
           {
@@ -543,18 +489,14 @@
         },
         "security": [
           {
-            "bearerAuth": [
-              "user"
-            ]
+            "bearerAuth": ["user"]
           }
         ]
       }
     },
     "/api/users/v1/updatepassword": {
       "put": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "description": "Update user password",
         "parameters": [
           {
@@ -598,18 +540,14 @@
         },
         "security": [
           {
-            "bearerAuth": [
-              "user"
-            ]
+            "bearerAuth": ["user"]
           }
         ]
       }
     },
     "/api/users/v1/resetpassword": {
       "put": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "description": "Reset user password",
         "parameters": [
           {
@@ -637,18 +575,14 @@
         },
         "security": [
           {
-            "bearerAuth": [
-              "user"
-            ]
+            "bearerAuth": ["user"]
           }
         ]
       }
     },
     "/api/users/v1/{id}": {
       "get": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "description": "Get user by ID",
         "parameters": [
           {
@@ -669,16 +603,12 @@
         },
         "security": [
           {
-            "bearerAuth": [
-              "admin"
-            ]
+            "bearerAuth": ["admin"]
           }
         ]
       },
       "put": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "description": "Update user",
         "parameters": [
           {
@@ -719,16 +649,12 @@
         },
         "security": [
           {
-            "bearerAuth": [
-              "admin"
-            ]
+            "bearerAuth": ["admin"]
           }
         ]
       },
       "delete": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "description": "Delete user",
         "parameters": [
           {
@@ -749,18 +675,14 @@
         },
         "security": [
           {
-            "bearerAuth": [
-              "admin"
-            ]
+            "bearerAuth": ["admin"]
           }
         ]
       }
     },
     "/api/orders/v1/": {
       "get": {
-        "tags": [
-          "Orders"
-        ],
+        "tags": ["Orders"],
         "description": " Get all orders",
         "responses": {
           "200": {
@@ -769,16 +691,12 @@
         },
         "security": [
           {
-            "bearerAuth": [
-              "admin"
-            ]
+            "bearerAuth": ["admin"]
           }
         ]
       },
       "post": {
-        "tags": [
-          "Orders"
-        ],
+        "tags": ["Orders"],
         "description": "Create new order",
         "parameters": [
           {
@@ -819,18 +737,14 @@
         },
         "security": [
           {
-            "bearerAuth": [
-              "user"
-            ]
+            "bearerAuth": ["user"]
           }
         ]
       }
     },
     "/api/orders/v1/totals": {
       "post": {
-        "tags": [
-          "Orders"
-        ],
+        "tags": ["Orders"],
         "description": "Calculate total prices for cart or order items",
         "parameters": [
           {
@@ -857,9 +771,7 @@
     },
     "/api/orders/v1/mine/{id}": {
       "get": {
-        "tags": [
-          "Orders"
-        ],
+        "tags": ["Orders"],
         "description": "Create new order",
         "parameters": [
           {
@@ -880,18 +792,14 @@
         },
         "security": [
           {
-            "bearerAuth": [
-              "user"
-            ]
+            "bearerAuth": ["user"]
           }
         ]
       }
     },
     "/api/orders/v1/{id}": {
       "get": {
-        "tags": [
-          "Orders"
-        ],
+        "tags": ["Orders"],
         "description": "Create new order",
         "parameters": [
           {
@@ -912,18 +820,14 @@
         },
         "security": [
           {
-            "bearerAuth": [
-              "user"
-            ]
+            "bearerAuth": ["user"]
           }
         ]
       }
     },
     "/api/orders/v1/{id}/pay": {
       "put": {
-        "tags": [
-          "Orders"
-        ],
+        "tags": ["Orders"],
         "description": "Update order to paid. Verifies that correct payment has been made using PayPal",
         "parameters": [
           {
@@ -967,18 +871,14 @@
         },
         "security": [
           {
-            "bearerAuth": [
-              "user"
-            ]
+            "bearerAuth": ["user"]
           }
         ]
       }
     },
     "/api/orders/v1/{id}/deliver": {
       "put": {
-        "tags": [
-          "Orders"
-        ],
+        "tags": ["Orders"],
         "description": "Update order to delivered",
         "parameters": [
           {
@@ -999,9 +899,7 @@
         },
         "security": [
           {
-            "bearerAuth": [
-              "admin"
-            ]
+            "bearerAuth": ["admin"]
           }
         ]
       }

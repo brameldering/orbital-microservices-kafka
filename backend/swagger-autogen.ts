@@ -5,7 +5,7 @@ const endpointsFiles = ['./routes/*.js'];
 
 const config = {
   info: {
-    title: 'Orbital API Documentation',
+    title: 'Orbitelco API Documentation',
     description: '',
   },
   tags: [],

@@ -1,7 +1,7 @@
 {
-  "name": "orbital-frontend",
+  "name": "orbitelco-frontend",
   "version": "0.1.0",
-  "description": "The Orbital frontend react app without CRA (react-scripts), but explicitly using webpack and babel",
+  "description": "The Orbitelco frontend react app without CRA (react-scripts), but explicitly using webpack and babel",
   "private": true,
   "main": "./src/index.tsx",
   "scripts": {

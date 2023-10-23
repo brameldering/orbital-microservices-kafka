@@ -22,7 +22,7 @@ const Meta: React.FunctionComponent<MetaProps> = ({
 };
 
 Meta.defaultProps = {
-  title: 'Welcome To Orbital Shop',
+  title: 'Welcome To Orbitelco Shop',
   description: 'We sell the best products',
   keywords: 'electronics, buy electronics',
 };

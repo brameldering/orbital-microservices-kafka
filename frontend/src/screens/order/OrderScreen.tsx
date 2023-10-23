@@ -115,7 +115,7 @@ const OrderScreen = () => {
         .create({
           purchase_units: [
             {
-              description: 'Orbital order',
+              description: 'Orbitelco order',
               reference_id: order.sequenceOrderId,
               amount: { value: order.totalAmounts.totalPrice },
             },
@@ -138,7 +138,7 @@ const OrderScreen = () => {
     try {
       return actions.order.capture().then(async function (details: any) {
         console.log('== actions.order.capture ===');
-        console.log('== Orbital orderId ===', orderId);
+        console.log('== Orbitelco orderId ===', orderId);
         console.log('== PayPal details ===', details);
         await payOrder({ orderId, details }).unwrap();
         refetch();

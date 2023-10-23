@@ -2,7 +2,7 @@ apiVersion: skaffold/v4beta6
 kind: Config
 build:
   artifacts:
-    - image: orbital/auth
+    - image: orbitelco/auth
       context: auth
       sync:
         manual:

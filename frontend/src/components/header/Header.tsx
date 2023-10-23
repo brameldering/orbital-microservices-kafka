@@ -39,9 +39,9 @@ const Header = () => {
       <Navbar bg='primary' variant='dark' expand='lg' collapseOnSelect>
         <Container>
           <LinkContainer to='/'>
-            <Navbar.Brand id='LINK_orbital_shop'>
+            <Navbar.Brand id='LINK_orbitelco_shop'>
               <LogoSVG />
-              <span style={{ marginLeft: '10px' }}>Orbital Shop</span>
+              <span style={{ marginLeft: '10px' }}>Orbitelco Shop</span>
             </Navbar.Brand>
           </LinkContainer>
 

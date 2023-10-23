@@ -3,9 +3,9 @@ const swaggerAutogen = require('swagger-autogen')();
 const doc = {
   info: {
     version: '0.0.1',
-    title: 'Orbital API',
+    title: 'Orbitelco API',
     description:
-      'Specification of APIs belonging to the Orbital Backend.  Use /api/users/v1/auth to login and get access to the secure APIs',
+      'Specification of APIs belonging to the Orbitelco Backend.  Use /api/users/v1/auth to login and get access to the secure APIs',
   },
   host: 'localhost:5000',
   consumes: ['application/json'],

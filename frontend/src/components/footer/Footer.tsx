@@ -10,7 +10,7 @@ const Footer: React.FunctionComponent = () => {
       <Container>
         <Row>
           <Col className='text-center py-3'>
-            <p>Orbital Shop &copy; {currentYear}</p>
+            <p>Orbitelco Shop &copy; {currentYear}</p>
           </Col>
         </Row>
       </Container>
