@@ -16,6 +16,8 @@ spec:
         - name: auth
           image: orbitelco/auth
           env:
+            - name: NODE_ENV
+              value: 'development'
             - name: JWT_SECRET
               valueFrom:
                 secretKeyRef:

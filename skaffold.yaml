@@ -10,6 +10,14 @@ build:
             dest: .
       docker:
         dockerfile: Dockerfile
+    - image: orbitelco/client
+      context: client
+      sync:
+        manual:
+          - src: /**/*.js
+            dest: .
+      docker:
+        dockerfile: Dockerfile
   local:
     push: false
 manifests:

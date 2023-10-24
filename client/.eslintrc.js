@@ -1,9 +1,8 @@
+/*eslint no-undef: "off"*/
 module.exports = {
-  parser: '@typescript-eslint/parser',
   extends: [
     'eslint:recommended',
     'plugin:react/recommended',
-    'plugin:@typescript-eslint/recommended',
     'plugin:jsx-a11y/recommended',
     'prettier',
   ],
@@ -12,7 +11,7 @@ module.exports = {
       version: 'detect', // Specify the React version here
     },
   },
-  plugins: ['react', '@typescript-eslint', 'react-hooks', 'import', 'prettier'],
+  plugins: ['react', 'react-hooks', 'import', 'prettier'],
   parserOptions: {
     ecmaVersion: 2018,
     sourceType: 'module',
@@ -20,22 +19,18 @@ module.exports = {
       jsx: true,
     },
   },
-  settings: {
-    react: {
-      version: 'detect',
-    },
-  },
   rules: {
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
+    'react/display-name': 'off',
+    'react/prop-types': 'off',
     'import/no-cycle': 'error',
     'import/no-duplicates': 'error',
     'import/extensions': 'off',
     'linebreak-style': ['error', 'unix'],
-    '@typescript-eslint/no-var-requires': 'off',
-    '@typescript-eslint/no-explicit-any': 'warn',
     'no-multiple-empty-lines': 'warn',
     'no-var': 'error',
     'prefer-const': 'error',
+    'no-undef': 'off',
   },
 };
