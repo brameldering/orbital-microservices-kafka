@@ -1,30 +1,26 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import { Form, FloatingLabel, InputGroup, Button } from 'react-bootstrap';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
-// interface FormikComponentProps {
-//   controlId: string;
-//   label: string;
-//   type: string;
-//   formik: any;
-// }
+// =================== FormField ====================
+// = default form field used for text, number, etc. =
+// ==================================================
 
-// interface FormikFieldProps {
-//   controlId: string;
-//   label: string;
-//   formik: any;
-// }
+interface FormFieldProps {
+  controlId: string;
+  label: string;
+  type?: string;
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
+}
 
-// interface FormikHiddenFieldProps {
-//   controlId: string;
-//   formik: any;
-// }
-
-const FormField = ({
+const FormField: React.FunctionComponent<FormFieldProps> = ({
   controlId,
   label,
   type = 'text',
-  value,
+  value = '',
   onChange = () => {},
   onBlur = () => {},
 }) => {
@@ -42,7 +38,21 @@ const FormField = ({
   );
 };
 
-const CheckBoxField = ({ controlId, label, checked, onChange }) => {
+// ================== CheckBoxField ==================
+
+interface CheckBoxFieldProps {
+  controlId: string;
+  label: string;
+  checked: boolean;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const CheckBoxField: React.FunctionComponent<CheckBoxFieldProps> = ({
+  controlId,
+  label,
+  checked,
+  onChange = () => {},
+}) => {
   return (
     <Form.Group className='my-2' controlId={controlId}>
       <Form.Check
@@ -54,10 +64,20 @@ const CheckBoxField = ({ controlId, label, checked, onChange }) => {
   );
 };
 
-const PasswordField = ({
+// ================== PasswordField ==================
+
+interface PasswordFieldProps {
+  controlId: string;
+  label: string;
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
+}
+
+const PasswordField: React.FunctionComponent<PasswordFieldProps> = ({
   controlId,
   label,
-  value,
+  value = '',
   onChange = () => {},
   onBlur = () => {},
 }) => {
@@ -99,7 +119,23 @@ const PasswordField = ({
   );
 };
 
-const TextAreaField = ({ controlId, label, value, onChange, onBlur }) => {
+// ================== TextAreaField ==================
+
+interface TextAreaFieldProps {
+  controlId: string;
+  label: string;
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
+}
+
+const TextAreaField: React.FunctionComponent<TextAreaFieldProps> = ({
+  controlId,
+  label,
+  value = '',
+  onChange = () => {},
+  onBlur = () => {},
+}) => {
   return (
     <FloatingLabel controlId={controlId} label={label} className='mb-3'>
       <Form.Control

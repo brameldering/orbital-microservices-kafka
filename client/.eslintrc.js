@@ -1,4 +1,3 @@
-/*eslint no-undef: "off"*/
 module.exports = {
   extends: [
     'eslint:recommended',
@@ -12,6 +11,7 @@ module.exports = {
     },
   },
   plugins: ['react', 'react-hooks', 'import', 'prettier'],
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 2018,
     sourceType: 'module',

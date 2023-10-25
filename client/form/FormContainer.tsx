@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
 
-// interface FormContainerProps {
-//   children: ReactNode;
-// }
+interface FormContainerProps {
+  children: ReactNode;
+}
 
-const FormContainer = ({ children }) => {
+const FormContainer: React.FunctionComponent<FormContainerProps> = ({
+  children,
+}) => {
   return (
     <Container style={{ margin: '2rem' }}>
       <Row className='justify-content-md-center'>

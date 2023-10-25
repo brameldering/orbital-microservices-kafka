@@ -1,7 +1,8 @@
 import axios from 'axios';
 import https from 'https';
+import { NextPageContext } from 'next';
 
-export default ({ req }) => {
+export default ({ req }: NextPageContext) => {
   let baseURL = '';
   let headers = {};
   let httpsAgent = {};
