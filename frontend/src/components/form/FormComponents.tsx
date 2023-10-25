@@ -33,9 +33,9 @@ const FormComponent: React.FunctionComponent<FormikComponentProps> = ({
       <Form.Control
         name={controlId}
         type={type}
+        value={formik.values[controlId]}
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
-        value={formik.values[controlId]}
       />
       <Form.Text className='text-danger'>
         {formik.touched[controlId] && formik.errors[controlId] ? (
@@ -145,9 +145,9 @@ const PasswordField: React.FunctionComponent<FormikFieldProps> = ({
           <Form.Control
             name={controlId}
             type={contentVisible ? 'text' : 'password'}
+            value={formik.values[controlId]}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            value={formik.values[controlId]}
           />
           <Button
             className='btn-outline'
@@ -187,9 +187,9 @@ const TextAreaField: React.FunctionComponent<FormikFieldProps> = ({
           rows={3}
           style={{ lineHeight: '1.5' }}
           name={controlId}
+          value={formik.values[controlId]}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          value={formik.values[controlId]}
         />
         <Form.Text className='text-danger'>
           {formik.touched[controlId] && formik.errors[controlId] ? (

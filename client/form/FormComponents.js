@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, InputGroup, Button } from 'react-bootstrap';
+import { Form, FloatingLabel, InputGroup, Button } from 'react-bootstrap';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 // interface FormikComponentProps {
@@ -20,85 +20,47 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 //   formik: any;
 // }
 
-const FormComponent = ({ controlId, label, type, formik }) => {
-  const errorDivId = 'error_text_' + controlId;
+const FormField = ({
+  controlId,
+  label,
+  type = 'text',
+  value,
+  onChange = () => {},
+  onBlur = () => {},
+}) => {
   return (
-    <Form.Group className='my-2' controlId={controlId}>
-      <Form.Label className='mt-1 mb-0'>{label}</Form.Label>
+    <FloatingLabel controlId={controlId} label={label} className='my-3'>
       <Form.Control
-        name={controlId}
+        style={{ borderColor: '#606060' }}
         type={type}
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-        value={formik.values[controlId]}
+        placeholder={label}
+        value={value}
+        onChange={onChange}
+        onBlur={onBlur}
       />
-      <Form.Text className='text-danger'>
-        {formik.touched[controlId] && formik.errors[controlId] ? (
-          <div id={errorDivId} className='text-danger'>
-            {formik.errors[controlId]}
-          </div>
-        ) : null}
-      </Form.Text>
-    </Form.Group>
+    </FloatingLabel>
   );
 };
 
-const TextField = ({ controlId, label, formik }) => {
-  return (
-    <FormComponent
-      controlId={controlId}
-      label={label}
-      type='text'
-      formik={formik}
-    />
-  );
-};
-
-const EmailField = ({ controlId, label, formik }) => {
-  return (
-    <FormComponent
-      controlId={controlId}
-      label={label}
-      type='email'
-      formik={formik}
-    />
-  );
-};
-
-const NumberField = ({ controlId, label, formik }) => {
-  return (
-    <FormComponent
-      controlId={controlId}
-      label={label}
-      type='number'
-      formik={formik}
-    />
-  );
-};
-
-const CheckBoxField = ({ controlId, label, formik }) => {
+const CheckBoxField = ({ controlId, label, checked, onChange }) => {
   return (
     <Form.Group className='my-2' controlId={controlId}>
       <Form.Check
         name={controlId}
         label={label}
-        checked={formik.values[controlId]}
-        onChange={formik.handleChange}></Form.Check>
+        checked={checked}
+        onChange={onChange}></Form.Check>
     </Form.Group>
   );
 };
 
-const HiddenTextField = ({ controlId, formik }) => {
-  return (
-    <Form.Control
-      name={controlId}
-      type='hidden'
-      value={formik.values[controlId]}
-    />
-  );
-};
-
-const PasswordField = ({ controlId, label, formik }) => {
+const PasswordField = ({
+  controlId,
+  label,
+  value,
+  onChange = () => {},
+  onBlur = () => {},
+}) => {
   const [contentVisible, setContentVisible] = useState(false);
   const showPassword = () => {
     setContentVisible(true);
@@ -106,77 +68,51 @@ const PasswordField = ({ controlId, label, formik }) => {
   const hidePassword = () => {
     setContentVisible(false);
   };
-
-  const errorDivId = 'error_text_' + controlId;
-
   return (
     <>
-      <Form.Group className='my-2' controlId={controlId}>
-        <Form.Label className='mt-1 mb-0'>{label}</Form.Label>
-        <InputGroup>
+      <InputGroup>
+        <FloatingLabel controlId={controlId} label={label} className='mb-3'>
           <Form.Control
-            name={controlId}
             type={contentVisible ? 'text' : 'password'}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values[controlId]}
+            style={{ borderColor: '#606060' }}
+            placeholder={label}
+            value={value}
+            onChange={onChange}
+            onBlur={onBlur}
           />
-          <Button
-            className='btn-outline'
-            style={{ position: 'relative' }}
-            onMouseDown={showPassword}
-            onMouseUp={hidePassword}
-            onBlur={hidePassword}
-            type='button'>
-            {contentVisible ? <FaEye /> : <FaEyeSlash />}
-          </Button>
-        </InputGroup>
-        <Form.Text className='text-danger'>
-          {formik.touched[controlId] && formik.errors[controlId] ? (
-            <div id={errorDivId} className='text-danger'>
-              {formik.errors[controlId]}
-            </div>
-          ) : null}
-        </Form.Text>
-      </Form.Group>
+        </FloatingLabel>
+        <Button
+          type='button'
+          className='btn-outline'
+          style={{
+            position: 'relative',
+            height: '58px',
+            borderColor: '#606060',
+          }}
+          onMouseDown={showPassword}
+          onMouseUp={hidePassword}
+          onBlur={hidePassword}>
+          {contentVisible ? <FaEye /> : <FaEyeSlash />}
+        </Button>
+      </InputGroup>
     </>
   );
 };
 
-const TextAreaField = ({ controlId, label, formik }) => {
-  const errorDivId = 'error_text_' + controlId;
-
+const TextAreaField = ({ controlId, label, value, onChange, onBlur }) => {
   return (
-    <>
-      <Form.Group className='my-2' controlId={controlId}>
-        <Form.Label className='mt-1 mb-0'>{label}</Form.Label>
-        <Form.Control
-          as='textarea'
-          rows={3}
-          style={{ lineHeight: '1.5' }}
-          name={controlId}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values[controlId]}
-        />
-        <Form.Text className='text-danger'>
-          {formik.touched[controlId] && formik.errors[controlId] ? (
-            <div id={errorDivId} className='text-danger'>
-              {formik.errors[controlId]}
-            </div>
-          ) : null}
-        </Form.Text>
-      </Form.Group>
-    </>
+    <FloatingLabel controlId={controlId} label={label} className='mb-3'>
+      <Form.Control
+        as='textarea'
+        rows={3}
+        style={{ height: '100px', lineHeight: '1.5', borderColor: '#606060' }}
+        placeholder={label}
+        value={value}
+        onChange={onChange}
+        onBlur={onBlur}
+      />
+    </FloatingLabel>
   );
 };
 
-export {
-  TextField,
-  EmailField,
-  NumberField,
-  CheckBoxField,
-  HiddenTextField,
-  PasswordField,
-  TextAreaField,
-};
+export { FormField, CheckBoxField, PasswordField, TextAreaField };

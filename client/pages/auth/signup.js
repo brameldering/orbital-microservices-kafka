@@ -4,6 +4,7 @@ import { Form, Button } from 'react-bootstrap';
 import Router from 'next/router';
 import useRequest from '../../hooks/use-request';
 import FormContainer from '../../form/FormContainer';
+import { FormField, PasswordField } from '../../form/FormComponents';
 
 const SignupScreen = () => {
   const [name, setName] = useState('');
@@ -25,32 +26,25 @@ const SignupScreen = () => {
   return (
     <FormContainer>
       <Form onSubmit={handleSubmit}>
-        <h1>Sign Up</h1>
-        <Form.Group className='my-2' controlId='name'>
-          <Form.Label className='mt-1 mb-0'>Name</Form.Label>
-          <Form.Control
-            name='name'
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </Form.Group>
-        <Form.Group className='my-2' controlId='email'>
-          <Form.Label className='mt-1 mb-0'>Email Address</Form.Label>
-          <Form.Control
-            name='email'
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </Form.Group>
-        <Form.Group className='my-2' controlId='password'>
-          <Form.Label className='mt-1 mb-0'>Password</Form.Label>
-          <Form.Control
-            type='password'
-            name='password'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </Form.Group>
+        <h1 className='mb-4'>Sign Up</h1>
+        <FormField
+          controlId='name'
+          label='Full Name'
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <FormField
+          controlId='email'
+          label='Email Address'
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <PasswordField
+          controlId='password'
+          label='Password'
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
         {errors}
         <Button type='submit' variant='primary mt-2'>
           Sign Up

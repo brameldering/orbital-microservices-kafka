@@ -9,10 +9,12 @@ import Container from 'react-bootstrap/Container';
 
 const FormContainer = ({ children }) => {
   return (
-    <Container>
+    <Container style={{ margin: '2rem' }}>
       <Row className='justify-content-md-center'>
-        <Col xs={12} md={6}>
-          <Card style={{ padding: '2rem 4rem' }}>{children}</Card>
+        <Col xs={12} sm={10} md={8} lg={6}>
+          <Card style={{ padding: '1rem 3rem', borderColor: '#606060' }}>
+            {children}
+          </Card>
         </Col>
       </Row>
     </Container>
