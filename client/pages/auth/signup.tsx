@@ -21,8 +21,7 @@ const SignupScreen: React.FC<ISignupScreenProps> = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    const data = await doRequest();
-    console.log(data);
+    await doRequest();
   };
 
   return (

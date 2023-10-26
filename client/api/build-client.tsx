@@ -8,7 +8,7 @@ export default ({ req }: NextPageContext) => {
   let httpsAgent = {};
   // Check for existence of Req which exists on the server but not on the browser
   if (req) {
-    console.log('getInitialProps on the server!');
+    console.log('== on the server!');
     // requests to be made to https://ingress-nginx.ingress-nginx-controller-admission.svc.cluster.local
     baseURL =
       'https://ingress-nginx-controller.ingress-nginx.svc.cluster.local';
@@ -16,7 +16,7 @@ export default ({ req }: NextPageContext) => {
     headers = req.headers;
   } else {
     // requests to be made to base url of "" (broweser will fill in current base url)
-    console.log('getInitialProps on the browser!');
+    console.log('== on the browser!');
   }
   // Set SSL Certifcate check to falso for dev and test and true otherwise
   if (

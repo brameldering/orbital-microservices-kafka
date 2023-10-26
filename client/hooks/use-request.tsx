@@ -43,7 +43,7 @@ const useRequest = ({
         if (error.response.data?.errors) {
           setErrors(
             <Alert variant='danger'>
-              <ul className='my-0'>
+              <ul className='my-0 list-unstyled'>
                 {error.response.data.errors.map((err: ISerializedError) => (
                   <li key={err.message}>{err.message}</li>
                 ))}

@@ -1,14 +1,46 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import 'bootstrap/dist/css/bootstrap.css';
+import { NextPageContext } from 'next';
+import { AppProps } from 'next/app';
+import buildClient from 'api/build-client';
+import Header from 'components/Header';
+// import 'bootstrap/dist/css/bootstrap.css';
+import '../assets/styles/bootstrap.custom.css';
 
-interface AppProps {
-  Component: React.ComponentType<any>;
-  pageProps: any;
+interface IUser {
+  name: string;
+  email: string;
 }
 
-const App: React.FC<AppProps> = ({ Component, pageProps }) => {
-  return <Component {...pageProps} />;
+const AppComponent = ({ Component, pageProps }: AppProps) => {
+  let currentUser: IUser = pageProps?.currentUser || { name: '', email: '' };
+  if (pageProps?.currentUser) {
+    currentUser = pageProps.currentUser;
+  }
+  console.log('currentUser', currentUser);
+  return (
+    <>
+      <Header currentUser={currentUser} />
+      <Component {...pageProps} />;
+    </>
+  );
 };
 
-export default App;
+// AppComponent.getInitialProps = async (appContext: AppContext) => {
+//   console.log('AppComponent.getInitialProps');
+//   const client = buildClient(appContext.ctx);
+//   const { data } = await client.get('/api/users/currentuser');
+//   console.log('currentuser data', data);
+//   return data;
+// };
+
+AppComponent.getServerSideProps = async (context: NextPageContext) => {
+  console.log('========================');
+  console.log('AppComponent.getServerSideProps');
+  const client = buildClient(context);
+  const { data } = await client.get('/api/users/currentuser');
+  console.log('currentuser data', data);
+  return data;
+};
+
+export default AppComponent;

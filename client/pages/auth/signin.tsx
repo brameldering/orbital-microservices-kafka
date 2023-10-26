@@ -45,9 +45,9 @@ const SigninScreen: React.FC<ISigninScreenProps> = () => {
           }
         />
         {errors}
-        <Button type='submit' variant='primary mt-2'>
+        <Button type='submit' variant='primary'>
           Sign In
-        </Button>{' '}
+        </Button>
       </Form>
     </FormContainer>
   );
