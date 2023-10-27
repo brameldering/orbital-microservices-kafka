@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Container from 'react-bootstrap/Container';
 import { FaUser } from 'react-icons/fa';
 import Router from 'next/router';
-import LogoSVG from '../assets/LogoSVG';
+import LogoSVG from '../logo/LogoSVG';
 import useRequest from 'hooks/use-request';
 
 interface THeaderProps {

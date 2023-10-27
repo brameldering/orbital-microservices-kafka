@@ -4,8 +4,7 @@ import { NextPageContext } from 'next';
 import { AppProps } from 'next/app';
 import buildClient from 'api/build-client';
 import Header from 'components/Header';
-// import 'bootstrap/dist/css/bootstrap.css';
-import '../assets/styles/bootstrap.custom.css';
+import '../styles/bootstrap.custom.css';
 
 interface IUser {
   name: string;
