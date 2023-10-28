@@ -13,7 +13,7 @@ const SignupScreen: React.FC<ISignupScreenProps> = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const { doRequest, errors } = useRequest({
-    url: 'https://orbitelco.dev/api/users/signup',
+    url: 'https://orbitelco.dev/api/users/v2/signup',
     method: 'post',
     body: { name, email, password },
     onSuccess: () => Router.push('/'),

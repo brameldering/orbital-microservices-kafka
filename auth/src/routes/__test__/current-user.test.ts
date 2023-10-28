@@ -6,7 +6,7 @@ describe('Test current-user', () => {
   it('responds with detail about the current user', async () => {
     const cookie = await signup();
     const res = await request(app)
-      .get('/api/users/currentuser')
+      .get('/api/users/v2/currentuser')
       .set('Cookie', cookie)
       .send({})
       .expect(200);
@@ -14,7 +14,7 @@ describe('Test current-user', () => {
   });
   it('responds with null when not authenticated', async () => {
     const res = await request(app)
-      .get('/api/users/currentuser')
+      .get('/api/users/v2/currentuser')
       .send({})
       .expect(200);
     expect(res.body.currentUser).toEqual(null);

@@ -13,7 +13,7 @@ describe('Test signup', () => {
   });
   it('returns a 400 with an invalid email', async () => {
     return request(app)
-      .post('/api/users/signup')
+      .post('/api/users/v2/signup')
       .send({
         name: TEST_NAME,
         email: 'incorrect-email',
@@ -23,7 +23,7 @@ describe('Test signup', () => {
   });
   it('returns a 400 with an invalid password]', async () => {
     return request(app)
-      .post('/api/users/signup')
+      .post('/api/users/v2/signup')
       .send({
         name: TEST_NAME,
         email: TEST_EMAIL,
@@ -33,7 +33,7 @@ describe('Test signup', () => {
   });
   it('returns a 400 with an empty name, email or empty password]', async () => {
     await request(app)
-      .post('/api/users/signup')
+      .post('/api/users/v2/signup')
       .send({
         name: '',
         email: TEST_EMAIL,
@@ -41,7 +41,7 @@ describe('Test signup', () => {
       })
       .expect(400);
     await request(app)
-      .post('/api/users/signup')
+      .post('/api/users/v2/signup')
       .send({
         name: TEST_NAME,
         email: '',
@@ -49,7 +49,7 @@ describe('Test signup', () => {
       })
       .expect(400);
     await request(app)
-      .post('/api/users/signup')
+      .post('/api/users/v2/signup')
       .send({
         name: TEST_NAME,
         email: TEST_EMAIL,
@@ -60,7 +60,7 @@ describe('Test signup', () => {
   it('returns a 422 when signing up twice with the same email', async () => {
     await signup();
     await request(app)
-      .post('/api/users/signup')
+      .post('/api/users/v2/signup')
       .send({
         name: TEST_NAME,
         email: TEST_EMAIL,
@@ -70,7 +70,7 @@ describe('Test signup', () => {
   });
   it('sets a cookie after successful signup', async () => {
     const res = await request(app)
-      .post('/api/users/signup')
+      .post('/api/users/v2/signup')
       .send({
         name: TEST_NAME,
         email: TEST_EMAIL,

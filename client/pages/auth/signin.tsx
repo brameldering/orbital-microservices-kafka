@@ -12,7 +12,7 @@ const SigninScreen: React.FC<ISigninScreenProps> = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const { doRequest, errors } = useRequest({
-    url: 'https://orbitelco.dev/api/users/signin',
+    url: 'https://orbitelco.dev/api/users/v2/signin',
     method: 'post',
     body: { email, password },
     onSuccess: () => Router.push('/'),

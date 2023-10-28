@@ -20,7 +20,7 @@ export const getServerSideProps = async (context: NextPageContext) => {
   console.log('========================');
   console.log('LandingPage.getServerSideProps');
   const client = buildClient(context);
-  const { data } = await client.get('/api/users/currentuser');
+  const { data } = await client.get('/api/users/v2/currentuser');
   console.log(data);
   console.log('========================');
   return { props: data };

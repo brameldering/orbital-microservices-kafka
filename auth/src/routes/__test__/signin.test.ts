@@ -6,7 +6,7 @@ describe('Test signin', () => {
   it('returns a 200 on succesful signin', async () => {
     await signup();
     const res = await request(app)
-      .post('/api/users/signin')
+      .post('/api/users/v2/signin')
       .send({
         email: TEST_EMAIL,
         password: TEST_PASSWORD,
@@ -16,7 +16,7 @@ describe('Test signin', () => {
   });
   it('returns a 401 when signing in with unknown email', async () => {
     await request(app)
-      .post('/api/users/signin')
+      .post('/api/users/v2/signin')
       .send({
         email: 'unknown@test.com',
         password: TEST_PASSWORD,
@@ -26,7 +26,7 @@ describe('Test signin', () => {
   it('returns a 401 when signing in with incorrect password', async () => {
     await signup();
     await request(app)
-      .post('/api/users/signin')
+      .post('/api/users/v2/signin')
       .send({
         email: TEST_EMAIL,
         password: 'incorrect-password',

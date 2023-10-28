@@ -16,7 +16,14 @@ spec:
               service:
                 name: auth-srv
                 port:
-                  number: 5001
+                  number: 3000
+          - path: /api/products/v2/?(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: products-srv
+                port:
+                  number: 3000
           - path: /?(.*)
             pathType: ImplementationSpecific
             backend:

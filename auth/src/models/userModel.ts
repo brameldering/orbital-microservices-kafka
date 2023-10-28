@@ -70,6 +70,7 @@ userSchema.pre('save', async function (done) {
 // userSchema.methods.matchPassword = async function (enteredPassword: string) {
 //   return await bcrypt.compare(enteredPassword, this.password);
 // };
+// Moved to signin controller
 
 const User = mongoose.model<IUserDoc, IUserModel>('User', userSchema);
 

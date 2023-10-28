@@ -6,7 +6,7 @@ describe('Test signout', () => {
   it('clears the cookie on succesful signout', async () => {
     await signup();
     const res = await request(app)
-      .post('/api/users/signin')
+      .post('/api/users/v2/signin')
       .send({
         email: TEST_EMAIL,
         password: TEST_PASSWORD,
@@ -14,7 +14,7 @@ describe('Test signout', () => {
       .expect(200);
     expect(res.get('Set-Cookie')).toBeDefined();
     const res2 = await request(app)
-      .post('/api/users/signout')
+      .post('/api/users/v2/signout')
       .send({})
       .expect(200);
     expect(res2.get('Set-Cookie')[0]).toEqual(

@@ -8,7 +8,7 @@ import { User } from '../models/userModel';
 const router = express.Router();
 
 router.post(
-  '/api/users/signup',
+  '/api/users/v2/signup',
   [
     body('name').trim().notEmpty().withMessage('Name can not be empty'),
     body('email').isEmail().withMessage('Email must be valid'),

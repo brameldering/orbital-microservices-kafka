@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { app } from '../app';
+import { app } from '../src/app';
 
 export const TEST_NAME = process.env.TEST_NAME || '';
 export const TEST_EMAIL = process.env.TEST_EMAIL || '';

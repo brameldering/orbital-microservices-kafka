@@ -28,7 +28,7 @@ const AppComponent = ({ Component, pageProps }: AppProps) => {
 // AppComponent.getInitialProps = async (appContext: AppContext) => {
 //   console.log('AppComponent.getInitialProps');
 //   const client = buildClient(appContext.ctx);
-//   const { data } = await client.get('/api/users/currentuser');
+//   const { data } = await client.get('/api/users/v2/currentuser');
 //   console.log('currentuser data', data);
 //   return data;
 // };
@@ -37,7 +37,7 @@ AppComponent.getServerSideProps = async (context: NextPageContext) => {
   console.log('========================');
   console.log('AppComponent.getServerSideProps');
   const client = buildClient(context);
-  const { data } = await client.get('/api/users/currentuser');
+  const { data } = await client.get('/api/users/v2/currentuser');
   console.log('currentuser data', data);
   return data;
 };

@@ -18,6 +18,8 @@ spec:
           env:
             - name: NODE_ENV
               value: 'development'
+            - name: MONGO_URI
+              value: 'mongodb://auth-mongo-srv:27017/auth'
             - name: JWT_SECRET
               valueFrom:
                 secretKeyRef:
@@ -39,5 +41,5 @@ spec:
   ports:
     - name: auth
       protocol: TCP
-      port: 5001
-      targetPort: 5001
+      port: 3000
+      targetPort: 3000

@@ -13,7 +13,7 @@ interface THeaderProps {
 
 const Header: React.FC<THeaderProps> = ({ currentUser }) => {
   const { doRequest, errors } = useRequest({
-    url: 'https://orbitelco.dev/api/users/signout',
+    url: 'https://orbitelco.dev/api/users/v2/signout',
     method: 'post',
     body: {},
     onSuccess: () => Router.push('/'),
