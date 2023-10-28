@@ -1,7 +1,5 @@
 import express, { Response } from 'express';
-import { IExtendedRequest } from '../types/request-types';
-
-import { currentUser } from '../middleware/current-user';
+import { IExtendedRequest, currentUser } from '@orbitelco/common';
 
 const router = express.Router();
 
