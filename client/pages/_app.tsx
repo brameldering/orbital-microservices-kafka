@@ -12,7 +12,10 @@ interface IUser {
 }
 
 const AppComponent = ({ Component, pageProps }: AppProps) => {
-  let currentUser: IUser = pageProps?.currentUser || { name: '', email: '' };
+  let currentUser: IUser = pageProps?.currentUser || {
+    name: '',
+    email: '',
+  };
   if (pageProps?.currentUser) {
     currentUser = pageProps.currentUser;
   }

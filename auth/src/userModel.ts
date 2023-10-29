@@ -1,28 +1,6 @@
 import bcrypt from 'bcryptjs';
 import mongoose from 'mongoose';
 
-// Interface describing the User object attributes
-interface IUserAttrs {
-  name: string;
-  email: string;
-  password: string;
-}
-
-// Interface describing the User Model
-interface IUserModel extends mongoose.Model<IUserDoc> {
-  build(attrs: IUserAttrs): IUserDoc;
-}
-
-// Interface describing the User Document
-interface IUserDoc extends mongoose.Document {
-  name: string;
-  email: string;
-  password: string;
-  _id: mongoose.Types.ObjectId;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
 const userSchema = new mongoose.Schema(
   {
     name: {
@@ -35,6 +13,10 @@ const userSchema = new mongoose.Schema(
       unique: true,
     },
     password: {
+      type: String,
+      required: true,
+    },
+    role: {
       type: String,
       required: true,
     },
@@ -52,7 +34,7 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-userSchema.statics.build = (attrs: IUserAttrs) => {
+userSchema.statics.build = (attrs: IUserObj) => {
   return new User(attrs);
 };
 

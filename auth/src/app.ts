@@ -6,6 +6,13 @@ import { currentUserRouter } from './routes/current-user';
 import { signinRouter } from './routes/signin';
 import { signoutRouter } from './routes/signout';
 import { signupRouter } from './routes/signup';
+import { getUsersRouter } from './routes/get-users';
+import { updateUserProfileRouter } from './routes/update-user-profile';
+import { updatePasswordRouter } from './routes/update-password';
+import { resetPasswordRouter } from './routes/reset-password';
+import { getUserByIdRouter } from './routes/get-user-by-id';
+import { updateUserRouter } from './routes/update-user';
+import { deleteUserRouter } from './routes/delete-user';
 import { errorHandler, RouteNotFoundError } from '@orbitelco/common';
 
 const app = express();
@@ -22,6 +29,13 @@ app.use(currentUserRouter);
 app.use(signinRouter);
 app.use(signoutRouter);
 app.use(signupRouter);
+app.use(getUsersRouter);
+app.use(updateUserProfileRouter);
+app.use(updatePasswordRouter);
+app.use(resetPasswordRouter);
+app.use(getUserByIdRouter);
+app.use(updateUserRouter);
+app.use(deleteUserRouter);
 
 // Handle any other (unknown) route API calls
 app.all('*', async () => {

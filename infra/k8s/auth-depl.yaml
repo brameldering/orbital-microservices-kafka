@@ -25,6 +25,11 @@ spec:
                 secretKeyRef:
                   name: jwt-secret
                   key: JWT_KEY
+            - name: DEFAULT_RESET_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: default-reset-password
+                  key: DEFAULT_RESET_PASSWORD_KEY
             - name: EXPIRES_IN
               value: '1d'
             # - name: COOKIE_EXPIRES_TIME

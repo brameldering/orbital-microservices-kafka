@@ -12,13 +12,14 @@ const generateToken = (
   req: Request,
   id: string,
   name: string,
-  email: string
+  email: string,
+  role: string
 ) => {
   const jwtSecret = process.env.JWT_SECRET!; // Exclamation mark to indicate we are sure this exists coz the check already happened in server.ts
   const expiresIn = process.env.EXPIRES_IN!;
   // const cookieExpiresTime = Number(process.env.COOKIE_EXPIRES_TIME!);
 
-  const token = jwt.sign({ id, name, email }, jwtSecret, {
+  const token = jwt.sign({ id, name, email, role }, jwtSecret, {
     expiresIn,
   });
   // Store it on session object

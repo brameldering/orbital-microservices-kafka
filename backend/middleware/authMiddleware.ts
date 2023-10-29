@@ -7,7 +7,7 @@ import User from '../user/userModel';
 import asyncHandler from './asyncHandler';
 import { ExtendedError } from './errorMiddleware';
 
-// User must be authenticated
+// Check if user is authenticated
 const protect = asyncHandler(
   async (req: IExtendedRequest, res: Response, next: NextFunction) => {
     if (!process.env.JWT_SECRET) {

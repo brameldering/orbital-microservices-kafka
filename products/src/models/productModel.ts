@@ -1,29 +1,5 @@
 import mongoose from 'mongoose';
 
-// Interface describing the Review object attributes
-interface IReviewAttrs {
-  userId: mongoose.Types.ObjectId;
-  userName: string;
-  rating: number;
-  comment: string;
-}
-
-// Interface describing the Review Model
-interface IReviewModel extends mongoose.Model<IReviewDoc> {
-  build(attrs: IReviewAttrs): IReviewDoc;
-}
-
-// Interface describing the Review Document
-interface IReviewDoc extends mongoose.Document {
-  userId: mongoose.Types.ObjectId;
-  userName: string;
-  rating: number;
-  comment: string;
-  _id: mongoose.Types.ObjectId;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
 const reviewSchema = new mongoose.Schema(
   {
     userId: {
@@ -47,53 +23,13 @@ const reviewSchema = new mongoose.Schema(
   }
 );
 
-reviewSchema.statics.build = (attrs: IReviewAttrs) => {
+reviewSchema.statics.build = (attrs: IReviewObj) => {
   return new Review(attrs);
 };
 
 const Review = mongoose.model<IReviewDoc, IReviewModel>('Review', reviewSchema);
 
-// =========================================================
-
-// Interface describing the Product object attributes
-export interface IProductAttrs {
-  // sequenceProductId: string;
-  name: string;
-  imageURL: string;
-  brand: string;
-  category: string;
-  description: string;
-  numReviews: number;
-  reviews?: [IReviewDoc];
-  rating?: number;
-  price: number;
-  countInStock: number;
-  // userId: mongoose.Types.ObjectId;
-}
-
-// Interface describing the Product Model
-interface IProductModel extends mongoose.Model<IProductDoc> {
-  build(attrs: IProductAttrs): IProductDoc;
-}
-
-// Interface describing the Product Document
-interface IProductDoc extends mongoose.Document {
-  // sequenceProductId: string;
-  name: string;
-  imageURL: string;
-  brand: string;
-  category: string;
-  description: string;
-  numReviews: number;
-  reviews?: [IReviewDoc];
-  rating?: number;
-  price: number;
-  countInStock: number;
-  // userId: mongoose.Types.ObjectId;
-  _id: mongoose.Types.ObjectId;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
+// ================================================================================
 
 const productSchema = new mongoose.Schema(
   {
@@ -162,11 +98,13 @@ const productSchema = new mongoose.Schema(
   }
 );
 
-productSchema.statics.build = (attrs: IProductAttrs) => {
+productSchema.statics.build = (attrs: IProductObj) => {
   return new Product(attrs);
 };
 
-export const Product = mongoose.model<IProductDoc, IProductModel>(
+const Product = mongoose.model<IProductDoc, IProductModel>(
   'Product',
   productSchema
 );
+
+export { Review, Product };

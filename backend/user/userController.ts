@@ -129,52 +129,6 @@ const logoutUser = (req: Request, res: Response) => {
   res.status(200).json({ message: 'Logged out' });
 };
 
-// @desc    Get user profile
-// @route   GET /api/users/v1/profile
-// @access  Private
-// @req     user._id
-// @res     status(200).json({_id, name, email, isAdmin})
-//       or status(401).json({ message: 'Not logged in' })
-//       or status(404).json({ message: 'User not found'})
-const getUserProfile = asyncHandler(
-  async (req: IExtendedRequest, res: Response) => {
-    /*  #swagger.tags = ['Users']
-      #swagger.description = 'Get user profile'
-      #swagger.security = [{
-        bearerAuth: ['user']
-      }]
-      #swagger.parameters['user._id'] = {
-              in: 'request',
-              description: 'user._id, will automatically be in the request object if the user is logged in',
-              required: 'true',
-              type: 'string',
-      }
-      #swagger.responses[201] = {
-          description: 'json({ _id, name, email, isAdmin })',
-      }
-      #swagger.responses[401] = {
-          description: 'json({ message: Not logged in })',
-      }
-      #swagger.responses[404] = {
-          description: 'json({ message: User not found })',
-     } */
-    if (!req.user?._id) {
-      throw new ExtendedError('Not logged in', 401);
-    }
-    const user = await User.findById(req.user._id);
-    if (user) {
-      res.status(200).json({
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        isAdmin: user.isAdmin,
-      });
-    } else {
-      throw new ExtendedError('User not found', 404);
-    }
-  }
-);
-
 // @desc    Update user profile (name, email)
 // @route   PUT /api/users/v1/profile
 // @access  Private
@@ -462,7 +416,6 @@ export {
   registerUser,
   authUser,
   logoutUser,
-  getUserProfile,
   updateUserProfile,
   updatePassword,
   resetPassword,

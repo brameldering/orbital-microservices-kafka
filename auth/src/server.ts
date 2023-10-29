@@ -11,7 +11,12 @@ const start = async () => {
     );
     process.exit(1);
   }
-
+  if (!process.env.DEFAULT_RESET_PASSWORD) {
+    console.error(
+      'DEFAULT_RESET_PASSWORD setting is missing from environment vars.'
+    );
+    process.exit(1);
+  }
   try {
     await mongoose.connect(process.env.MONGO_URI);
     console.log('Connected to MongoDB');

@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express';
 // import { body } from 'express-validator';
 // import { validateRequest } from '@orbitelco/common';
 
-import { Product, IProductAttrs } from '../models/productModel';
+import { Product, IProductObj } from '../models/productModel';
 
 const router = express.Router();
 
@@ -17,7 +17,7 @@ const router = express.Router();
 // @req     user._id
 // @res     status(201).json(createdProduct)
 router.post('/api/products/v2', async (req: Request, res: Response) => {
-  const productObject: IProductAttrs = {
+  const productObject: IProductObj = {
     name: 'Sample name',
     imageURL: process.env.CLOUDINARY_SAMPLE_IMAGE_URL!,
     brand: 'Sample brand',
