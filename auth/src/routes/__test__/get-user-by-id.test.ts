@@ -1,4 +1,5 @@
 import request from 'supertest';
+import mongoose from 'mongoose';
 import { app } from '../../app';
 import { signupCustomer, signupAdmin } from '../../test/helper-functions';
 
@@ -8,33 +9,33 @@ describe('Test getting user by id', () => {
     const custUserId = signUpResponse.body.id.toString();
     const signUpAdminResponse = await signupAdmin();
     const cookie = signUpAdminResponse.get('Set-Cookie');
-    console.log('custUserId:', custUserId);
-    // Try to delete user by Admin
+
     await request(app)
       .get('/api/users/v2/' + custUserId)
       .set('Cookie', cookie)
-      .expect(200)
-      .end((err) => {
-        if (err) {
-          console.log(err);
-        }
-      });
+      .send()
+      .expect(200);
   });
-  it('returns a 401 when trying to get with an invalid Object Id', async () => {
+  it('returns a 401 when trying to get user for a nonexisting but valid object Id', async () => {
     const signUpAdminResponse = await signupAdmin();
     const cookie = signUpAdminResponse.get('Set-Cookie');
-    console.log('invalid object id, cookie: ', cookie);
-    // Try to delete a user by a customer
+
+    const dummyUserId = new mongoose.Types.ObjectId().toHexString(); // Dummy but valid mongodb objectId
     await request(app)
-      .get('/api/users/v2/' + '653f91272bfe1605c137fe3')
+      .get('/api/users/v2/' + dummyUserId)
       .set('Cookie', cookie)
-      .expect(400)
-      .end((err) => {
-        if (err) {
-          console.log(err);
-        }
-      });
-    // Check that error message contains message "('Param id has to be a valid id')"
-    // console.log(res);
+      .expect(404);
+    // Check that error message contains message "('User not found')"
+  });
+  it('returns a 300 when trying to get with an invalid object Id', async () => {
+    const signUpAdminResponse = await signupAdmin();
+    const cookie = signUpAdminResponse.get('Set-Cookie');
+
+    const dummyUserId = 'invalid_object_id';
+    await request(app)
+      .get('/api/users/v2/' + dummyUserId)
+      .set('Cookie', cookie)
+      .expect(300);
+    // Check that error message contains message "('Invalid ObjectId:')"
   });
 });

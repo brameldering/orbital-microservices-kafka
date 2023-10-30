@@ -28,6 +28,23 @@ export const signupCustomer: any = async () => {
   return signUpResponse;
 };
 
+// Re-usable signup function for a second test customer
+export const signupCustomer2: any = async () => {
+  const signUpResponse = await request(app)
+    .post('/api/users/v2/signup')
+    .send({
+      name: CUST_TEST_NAME,
+      email: 'another.customer@test.com',
+      password: CUST_TEST_PASSWORD,
+      role: CUST_TEST_ROLE,
+    })
+    .expect(201);
+
+  // const id = signUpResponse.body.id;
+  // const cookie = signUpResponse.get('Set-Cookie');
+  return signUpResponse;
+};
+
 // Re-usable signup function for an admin account
 export const signupAdmin: any = async () => {
   const signUpResponse = await request(app)

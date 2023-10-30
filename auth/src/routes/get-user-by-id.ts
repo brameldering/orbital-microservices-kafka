@@ -38,11 +38,9 @@ router.get(
       #swagger.responses[404] = {
           description: 'ObjectNotFoundError(User not found)',
      } */
-    console.log('req.params.id: ', req.params.id);
     const user = await User.findById(req.params.id);
     if (user) {
-      console.log('get user by id, user', user);
-      res.status(200).json(user);
+      res.status(200).send(user);
     } else {
       throw new ObjectNotFoundError('User not found');
     }

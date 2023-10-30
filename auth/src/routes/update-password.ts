@@ -60,7 +60,7 @@ router.put(
           New password is the same as current password)',
       }
       #swagger.responses[300] = {
-          description: 'json({ message: Current password is not correct })',
+          description: 'UserInputError(Entered current password is incorrect)',
       }
       #swagger.responses[404] = {
           description: 'ObjectNotFoundError(User not found)',

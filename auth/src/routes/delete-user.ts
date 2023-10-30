@@ -38,9 +38,7 @@ router.delete(
       #swagger.responses[404] = {
           description: 'ObjectNotFoundError(User not found)',
      } */
-    console.log('Delete user, user id:', req.params.id);
     const user = await User.findById(req.params.id).select('-password');
-    console.log('Delete user, user:', user);
     if (user) {
       await User.deleteOne({ _id: user.id });
       res.status(200).send();

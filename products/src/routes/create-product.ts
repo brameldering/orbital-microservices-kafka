@@ -27,9 +27,7 @@ router.post(
   protect,
   admin,
   async (req: IExtendedRequest, res: Response) => {
-    console.log('req.currentuser.id: ', req.currentUser?.id);
     const userId = new mongoose.Types.ObjectId(req.currentUser!.id);
-    console.log(userId);
     const productObject: IProductObj = {
       name: 'Sample name',
       imageURL: process.env.CLOUDINARY_SAMPLE_IMAGE_URL!,
