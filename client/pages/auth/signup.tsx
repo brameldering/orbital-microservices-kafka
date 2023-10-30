@@ -12,10 +12,11 @@ const SignupScreen: React.FC<ISignupScreenProps> = () => {
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [role, setRole] = useState<string>('');
   const { doRequest, errors } = useRequest({
     url: 'https://orbitelco.dev/api/users/v2/signup',
     method: 'post',
-    body: { name, email, password },
+    body: { name, email, password, role },
     onSuccess: () => Router.push('/'),
   });
 
@@ -52,6 +53,15 @@ const SignupScreen: React.FC<ISignupScreenProps> = () => {
             setPassword(e.target.value)
           }
         />
+        <Form.Select
+          aria-label='Select Role'
+          className='my-3'
+          style={{ borderColor: '#606060' }}
+          onChange={(e) => setRole(e.target.value)}>
+          <option>Select role</option>
+          <option value='customer'>Customer</option>
+          <option value='admin'>Admin</option>
+        </Form.Select>
         {errors}
         <Button type='submit' variant='primary mt-2'>
           Sign Up

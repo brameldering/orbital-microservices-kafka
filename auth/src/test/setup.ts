@@ -1,6 +1,9 @@
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 
+// In test use .env file for environment variables
+require('dotenv').config();
+
 let mongo: MongoMemoryServer;
 
 beforeAll(async () => {

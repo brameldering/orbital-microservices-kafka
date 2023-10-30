@@ -1,5 +1,5 @@
 import express, { Response } from 'express';
-import { IExtendedRequest, currentUser } from '@orbitelco/common';
+import { IExtendedRequest } from '@orbitelco/common';
 
 const router = express.Router();
 
@@ -10,7 +10,6 @@ const router = express.Router();
 // @res     status(200).send({ currentUser: req.currentUser || null })
 router.get(
   '/api/users/v2/currentuser',
-  currentUser,
   (req: IExtendedRequest, res: Response) => {
     /*  #swagger.tags = ['Users']
       #swagger.description = 'Get current user from req.currentUser object'

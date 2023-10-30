@@ -1,11 +1,8 @@
 import express, { Request, Response } from 'express';
-import { isValidObjectId } from 'mongoose';
-import { param } from 'express-validator';
 import {
-  validateRequest,
-  currentUser,
   protect,
   admin,
+  checkObjectId,
   ObjectNotFoundError,
 } from '@orbitelco/common';
 import { User } from '../userModel';
@@ -20,15 +17,9 @@ const router = express.Router();
 //       or status(404).ObjectNotFoundError('User not found')
 router.get(
   '/api/users/v2/:id',
-  currentUser,
   protect,
   admin,
-  [
-    param('id')
-      .customSanitizer((value) => isValidObjectId(value))
-      .withMessage('Param id has to be a valid id'),
-  ],
-  validateRequest,
+  checkObjectId,
   async (req: Request, res: Response) => {
     /*  #swagger.tags = ['Users']
       #swagger.description = 'Get user by ID'
@@ -47,9 +38,11 @@ router.get(
       #swagger.responses[404] = {
           description: 'ObjectNotFoundError(User not found)',
      } */
-    const user = await User.findById(req.params.id).select('-password');
+    console.log('req.params.id: ', req.params.id);
+    const user = await User.findById(req.params.id);
     if (user) {
-      res.status(200).send(user);
+      console.log('get user by id, user', user);
+      res.status(200).json(user);
     } else {
       throw new ObjectNotFoundError('User not found');
     }

@@ -3,7 +3,6 @@ import { body } from 'express-validator';
 import {
   IExtendedRequest,
   validateRequest,
-  currentUser,
   protect,
   ObjectNotFoundError,
 } from '@orbitelco/common';
@@ -20,7 +19,6 @@ const router = express.Router();
 //       or status(404).ObjectNotFoundError('User not found')
 router.put(
   '/api/users/v2/resetpassword',
-  currentUser,
   protect,
   [body('email').isEmail().withMessage('Email must be valid')],
   validateRequest,

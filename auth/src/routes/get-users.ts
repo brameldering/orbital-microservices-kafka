@@ -5,12 +5,12 @@ import { User } from '../userModel';
 const router = express.Router();
 
 // @desc    Get all users
-// @route   GET /api/users/v2
+// @route   GET /api/users/v2/all
 // @access  Admin
 // @req
 // @res     send(users)
 router.get(
-  '/api/users/v2/',
+  '/api/users/v2/all',
   protect,
   admin,
   async (req: Request, res: Response) => {

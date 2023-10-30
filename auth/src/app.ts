@@ -13,7 +13,29 @@ import { resetPasswordRouter } from './routes/reset-password';
 import { getUserByIdRouter } from './routes/get-user-by-id';
 import { updateUserRouter } from './routes/update-user';
 import { deleteUserRouter } from './routes/delete-user';
-import { errorHandler, RouteNotFoundError } from '@orbitelco/common';
+import {
+  currentUser,
+  errorHandler,
+  RouteNotFoundError,
+} from '@orbitelco/common';
+
+// ======================================================
+// Check for existence of ENV variables set in depl files (dev/prod) or .env file for test
+if (
+  !(process.env.JWT_SECRET && process.env.EXPIRES_IN && process.env.MONGO_URI)
+) {
+  console.error(
+    'Missing ENV variables for JWT_SECRET or EXPIRES_IN or MONGO_URI'
+  );
+  process.exit(1);
+}
+if (!process.env.DEFAULT_RESET_PASSWORD) {
+  console.error(
+    'DEFAULT_RESET_PASSWORD setting is missing from environment vars.'
+  );
+  process.exit(1);
+}
+// ======================================================
 
 const app = express();
 app.set('trust proxy', true);
@@ -24,6 +46,8 @@ app.use(
     secure: process.env.NODE_ENV !== 'test',
   })
 );
+// set req.currentuser if a user is logged in
+app.use(currentUser);
 
 app.use(currentUserRouter);
 app.use(signinRouter);

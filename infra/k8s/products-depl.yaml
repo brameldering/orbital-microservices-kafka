@@ -25,6 +25,8 @@ spec:
                 secretKeyRef:
                   name: jwt-secret
                   key: JWT_KEY
+            - name: EXPIRES_IN
+              value: '1d'
             - name: CLOUDINARY_CLOUD_NAME
               value: 'dhhfmbqmx'
             - name: CLOUDINARY_SAMPLE_IMAGE_URL

@@ -3,7 +3,6 @@ import { body } from 'express-validator';
 import {
   IExtendedRequest,
   validateRequest,
-  currentUser,
   protect,
   ObjectNotFoundError,
 } from '@orbitelco/common';
@@ -22,7 +21,6 @@ const router = express.Router();
 //       or status(404).ObjectNotFoundError('User not found')
 router.put(
   '/api/users/v2/profile',
-  currentUser,
   protect,
   [
     body('name').trim().notEmpty().withMessage('Name can not be empty'),

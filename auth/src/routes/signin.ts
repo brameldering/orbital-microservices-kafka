@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
-import { validateRequest, NotAuthorizedError } from '@orbitelco/common';
 import bcrypt from 'bcryptjs';
+import { validateRequest, NotAuthorizedError } from '@orbitelco/common';
 
 import generateToken from '../utils/generateToken';
 import { User } from '../userModel';

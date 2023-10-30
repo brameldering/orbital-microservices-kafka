@@ -1,23 +1,25 @@
 import request from 'supertest';
 import { app } from '../../app';
+import { signupCustomer } from '../../test/helper-functions';
 import {
-  signup,
-  TEST_NAME,
-  TEST_EMAIL,
-  TEST_PASSWORD,
-} from '../../test/helper-functions';
+  CUST_TEST_NAME,
+  CUST_TEST_EMAIL,
+  CUST_TEST_PASSWORD,
+  CUST_TEST_ROLE,
+} from '@orbitelco/common';
 
 describe('Test signup', () => {
   it('returns a 201 on succesful signup', async () => {
-    await signup();
+    await signupCustomer();
   });
   it('returns a 400 with an invalid email', async () => {
     return request(app)
       .post('/api/users/v2/signup')
       .send({
-        name: TEST_NAME,
+        name: CUST_TEST_NAME,
         email: 'incorrect-email',
-        password: TEST_PASSWORD,
+        password: CUST_TEST_PASSWORD,
+        role: CUST_TEST_ROLE,
       })
       .expect(400);
   });
@@ -25,46 +27,60 @@ describe('Test signup', () => {
     return request(app)
       .post('/api/users/v2/signup')
       .send({
-        name: TEST_NAME,
-        email: TEST_EMAIL,
+        name: CUST_TEST_NAME,
+        email: CUST_TEST_EMAIL,
         password: '2shrt',
+        role: CUST_TEST_ROLE,
       })
       .expect(400);
   });
-  it('returns a 400 with an empty name, email or empty password]', async () => {
+  it('returns a 400 with an empty name, email, password or role]', async () => {
     await request(app)
       .post('/api/users/v2/signup')
       .send({
         name: '',
-        email: TEST_EMAIL,
-        password: TEST_PASSWORD,
+        email: CUST_TEST_EMAIL,
+        password: CUST_TEST_PASSWORD,
+        role: CUST_TEST_ROLE,
       })
       .expect(400);
     await request(app)
       .post('/api/users/v2/signup')
       .send({
-        name: TEST_NAME,
+        name: CUST_TEST_NAME,
         email: '',
-        password: TEST_PASSWORD,
+        password: CUST_TEST_PASSWORD,
+        role: CUST_TEST_ROLE,
       })
       .expect(400);
     await request(app)
       .post('/api/users/v2/signup')
       .send({
-        name: TEST_NAME,
-        email: TEST_EMAIL,
+        name: CUST_TEST_NAME,
+        email: CUST_TEST_EMAIL,
         password: '',
+        role: CUST_TEST_ROLE,
+      })
+      .expect(400);
+    await request(app)
+      .post('/api/users/v2/signup')
+      .send({
+        name: CUST_TEST_NAME,
+        email: CUST_TEST_EMAIL,
+        password: CUST_TEST_PASSWORD,
+        role: '',
       })
       .expect(400);
   });
   it('returns a 422 when signing up twice with the same email', async () => {
-    await signup();
+    await signupCustomer();
     await request(app)
       .post('/api/users/v2/signup')
       .send({
-        name: TEST_NAME,
-        email: TEST_EMAIL,
-        password: TEST_PASSWORD,
+        name: CUST_TEST_NAME,
+        email: CUST_TEST_EMAIL,
+        password: CUST_TEST_PASSWORD,
+        role: CUST_TEST_ROLE,
       })
       .expect(422);
   });
@@ -72,9 +88,10 @@ describe('Test signup', () => {
     const res = await request(app)
       .post('/api/users/v2/signup')
       .send({
-        name: TEST_NAME,
-        email: TEST_EMAIL,
-        password: TEST_PASSWORD,
+        name: CUST_TEST_NAME,
+        email: CUST_TEST_EMAIL,
+        password: CUST_TEST_PASSWORD,
+        role: CUST_TEST_ROLE,
       })
       .expect(201);
     expect(res.get('Set-Cookie')).toBeDefined();

@@ -1,9 +1,9 @@
 import express, { Response } from 'express';
 import { body } from 'express-validator';
+import bcrypt from 'bcryptjs';
 import {
   IExtendedRequest,
   validateRequest,
-  currentUser,
   protect,
   ObjectNotFoundError,
   UserInputError,
@@ -13,7 +13,7 @@ import { User } from '../userModel';
 const router = express.Router();
 
 // @desc    Update user password
-// @route   PUT /api/users/v2/password
+// @route   PUT /api/users/v2/updatepassword
 // @access  Private
 // @req     req.currentUser.id (set by currentUser)
 //          body {currentPassword, newPassword}
@@ -21,8 +21,7 @@ const router = express.Router();
 //       or status(400).RequestValidationError
 //       or status(404).ObjectNotFoundError('User not found')
 router.put(
-  '/api/users/v2/password',
-  currentUser,
+  '/api/users/v2/updatepassword',
   protect,
   [
     body('currentPassword')
@@ -70,7 +69,10 @@ router.put(
     const user = await User.findById(req?.currentUser?.id);
     if (user) {
       if (currentPassword !== newPassword) {
-        if (await user.matchPassword(currentPassword)) {
+        if (
+          user?.id &&
+          (await bcrypt.compare(currentPassword, user.password))
+        ) {
           user.password = newPassword;
           const updatedUser = await user.save();
           res.status(200).send({ updatedUser });

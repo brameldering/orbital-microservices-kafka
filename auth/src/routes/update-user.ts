@@ -1,11 +1,8 @@
 import express, { Request, Response } from 'express';
-import { isValidObjectId } from 'mongoose';
-import { param } from 'express-validator';
 import {
-  validateRequest,
-  currentUser,
   protect,
   admin,
+  checkObjectId,
   ObjectNotFoundError,
 } from '@orbitelco/common';
 import { User } from '../userModel';
@@ -21,15 +18,9 @@ const router = express.Router();
 //       or status(404).ObjectNotFoundError('User not found')
 router.put(
   '/api/users/v2/:id',
-  currentUser,
   protect,
   admin,
-  [
-    param('id')
-      .customSanitizer((value) => isValidObjectId(value))
-      .withMessage('Param id has to be a valid id'),
-  ],
-  validateRequest,
+  checkObjectId,
   async (req: Request, res: Response) => {
     /*  #swagger.tags = ['Users']
       #swagger.description = 'Update user'
@@ -58,7 +49,7 @@ router.put(
     if (user) {
       user.name = req.body.name || user.name;
       user.email = req.body.email || user.email;
-      user.isAdmin = req.body.role || user.role;
+      user.role = req.body.role || user.role;
       const updatedUser = await user.save();
       res.status(200).send(updatedUser);
     } else {

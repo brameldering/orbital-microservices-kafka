@@ -10,7 +10,7 @@ const router = express.Router();
 // @desc    Register a new user
 // @route   POST /api/users/v2/signup
 // @access  Public
-// @req     body {name, email, password}
+// @req     body {name, email, password, role}
 // @res     status(201).send(user)
 //       or status(400).RequestValidationError
 router.post(
@@ -22,14 +22,15 @@ router.post(
       .trim()
       .isLength({ min: 6, max: 40 })
       .withMessage('Password must be between 6 and 40 characters'),
+    body('role').trim().notEmpty().withMessage('Role can not be empty'),
   ],
   validateRequest,
   async (req: Request, res: Response) => {
     /*  #swagger.tags = ['Users']
       #swagger.description = 'Register a new user'
-      #swagger.parameters['name, email, password'] = {
+      #swagger.parameters['name, email, password, role'] = {
           in: 'body',
-          description: '{name, email, password} info of user',
+          description: '{name, email, password, role} info of user',
           required: 'true',
           type: 'object',
       }
@@ -39,10 +40,10 @@ router.post(
       #swagger.responses[400] = {
           description: 'RequestValidationError',
      } */
-    const { name, email, password } = req.body;
+    const { name, email, password, role } = req.body;
 
     // TO DO: role is set to admin by default
-    const user = User.build({ name, email, password, role: 'admin' });
+    const user = User.build({ name, email, password, role });
 
     await user.save();
     generateToken(req, user.id.toString(), user.name, user.email, user.role);

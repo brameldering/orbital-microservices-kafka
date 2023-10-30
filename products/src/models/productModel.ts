@@ -1,4 +1,12 @@
 import mongoose from 'mongoose';
+import {
+  IReviewObj,
+  IReviewDoc,
+  IReviewModel,
+  IProductObj,
+  IProductDoc,
+  IProductModel,
+} from '@orbitelco/common';
 
 const reviewSchema = new mongoose.Schema(
   {

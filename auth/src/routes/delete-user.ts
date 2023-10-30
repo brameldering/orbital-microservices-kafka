@@ -1,11 +1,8 @@
 import express, { Request, Response } from 'express';
-import { isValidObjectId } from 'mongoose';
-import { param } from 'express-validator';
 import {
-  validateRequest,
-  currentUser,
   protect,
   admin,
+  checkObjectId,
   ObjectNotFoundError,
 } from '@orbitelco/common';
 import { User } from '../userModel';
@@ -20,15 +17,9 @@ const router = express.Router();
 //       or status(404).ObjectNotFoundError('User not found')
 router.delete(
   '/api/users/v2/:id',
-  currentUser,
   protect,
   admin,
-  [
-    param('id')
-      .customSanitizer((value) => isValidObjectId(value))
-      .withMessage('Param id has to be a valid id'),
-  ],
-  validateRequest,
+  checkObjectId,
   async (req: Request, res: Response) => {
     /*  #swagger.tags = ['Users']
       #swagger.description = 'Delete user'
@@ -47,7 +38,9 @@ router.delete(
       #swagger.responses[404] = {
           description: 'ObjectNotFoundError(User not found)',
      } */
+    console.log('Delete user, user id:', req.params.id);
     const user = await User.findById(req.params.id).select('-password');
+    console.log('Delete user, user:', user);
     if (user) {
       await User.deleteOne({ _id: user.id });
       res.status(200).send();

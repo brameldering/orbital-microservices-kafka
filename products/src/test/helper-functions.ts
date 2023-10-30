@@ -1,16 +1,53 @@
-import request from 'supertest';
-import { app } from '../app';
+import jwt from 'jsonwebtoken';
+import {
+  CUST_TEST_NAME,
+  CUST_TEST_EMAIL,
+  CUST_TEST_ROLE,
+  ADMIN_TEST_NAME,
+  ADMIN_TEST_EMAIL,
+  ADMIN_TEST_ROLE,
+} from '@orbitelco/common';
 
-export const TEST_NAME = process.env.TEST_NAME || '';
-export const TEST_EMAIL = process.env.TEST_EMAIL || '';
-export const TEST_PASSWORD = process.env.TEST_PASSWORD || '';
+interface IPayload {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+}
 
-// Re-usable signup function
-export const signup: any = async () => {
-  const signUpResponse = await request(app)
-    .post('/api/users/v2/signup')
-    .send({ name: TEST_NAME, email: TEST_EMAIL, password: TEST_PASSWORD })
-    .expect(201);
-  const cookie = signUpResponse.get('Set-Cookie');
-  return cookie;
+const payloadTestCustomer: IPayload = {
+  id: 'dummy_cust_id',
+  name: CUST_TEST_NAME,
+  email: CUST_TEST_EMAIL,
+  role: CUST_TEST_ROLE,
+};
+
+const payloadTestAdmin: IPayload = {
+  id: 'dummy_admin_id',
+  name: ADMIN_TEST_NAME,
+  email: ADMIN_TEST_EMAIL,
+  role: ADMIN_TEST_ROLE,
+};
+
+// Function to fake login of a test customer
+const signup = (payload: IPayload): string => {
+  // Create the JWT
+  const token = jwt.sign(payload, process.env.JWT_SECRET!);
+  // Turn that session into JSON
+  const sessionJSON = JSON.stringify({
+    jwt: token,
+  });
+  // Take JSON and encode it as base64
+  const base64 = Buffer.from(sessionJSON).toString('base64');
+  // Return a string that represents the cookie with the encoded data
+  return `session=${base64}`;
+};
+
+export const signupCustomer = (): string => {
+  return signup(payloadTestCustomer);
+};
+
+// Function to fake login of a test admin user
+export const signupAdmin = (): string => {
+  return signup(payloadTestAdmin);
 };

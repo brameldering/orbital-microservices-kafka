@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs';
 import mongoose from 'mongoose';
+import { IUserObj, IUserDoc, IUserModel } from '@orbitelco/common';
 
 const userSchema = new mongoose.Schema(
   {
