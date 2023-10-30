@@ -1,5 +1,6 @@
 import request from 'supertest';
 import { app } from '../../app';
+import { Product } from '../../productModel';
 import { signupAdmin } from '../../test/helper-functions';
 
 describe('Test create product', () => {
@@ -23,6 +24,10 @@ describe('Test create product', () => {
   // it('returns an error if an invalid product name is provided', async () => {});
   // it('returns an error if an invalid product price is provided', async () => {});
   it('creates a product with valid inputs', async () => {
+    // Check that the Product database contains no records
+    let products = await Product.find({});
+    expect(products.length).toEqual(0);
+
     const response = await request(app)
       .post('/api/products/v2')
       .set('Cookie', signupAdmin())
@@ -31,6 +36,10 @@ describe('Test create product', () => {
     // console.log('Create product response.body', response.body);
     expect(response.status).toEqual(201);
     expect(response.body.name).toEqual('Sample name');
-    // expect(response.body)
+
+    // Check that the Product database contains one record
+    products = await Product.find({});
+    expect(products.length).toEqual(1);
+    expect(products[0].name).toEqual('Sample name');
   });
 });

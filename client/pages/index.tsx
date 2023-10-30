@@ -17,12 +17,9 @@ const LandingPage: React.FC<TLandingPageProps> = ({ currentUser }) => {
 // getInitialProps is executed on the server before the LandingPage component is send back.
 // However when navigating from one page to another while in the app then getInitialProps is executed on the client
 export const getServerSideProps = async (context: NextPageContext) => {
-  console.log('========================');
   console.log('LandingPage.getServerSideProps');
   const client = buildClient(context);
   const { data } = await client.get('/api/users/v2/currentuser');
-  console.log(data);
-  console.log('========================');
   return { props: data };
 };
 

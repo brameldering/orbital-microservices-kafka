@@ -16,14 +16,14 @@ interface IPayload {
 }
 
 const payloadTestCustomer: IPayload = {
-  id: 'dummy_cust_id',
+  id: '653fde3e3d8aa2dec2ee96d5', // Dummy but valid mongodb objectId
   name: CUST_TEST_NAME,
   email: CUST_TEST_EMAIL,
   role: CUST_TEST_ROLE,
 };
 
 const payloadTestAdmin: IPayload = {
-  id: 'dummy_admin_id',
+  id: '653fde3e3d8aa2dec2ee96d5', // Dummy but valid mongodb objectId
   name: ADMIN_TEST_NAME,
   email: ADMIN_TEST_EMAIL,
   role: ADMIN_TEST_ROLE,

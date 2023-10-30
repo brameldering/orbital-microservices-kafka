@@ -19,7 +19,7 @@ const AppComponent = ({ Component, pageProps }: AppProps) => {
   if (pageProps?.currentUser) {
     currentUser = pageProps.currentUser;
   }
-  console.log('currentUser', currentUser);
+  // console.log('currentUser', currentUser);
   return (
     <>
       <Header currentUser={currentUser} />
@@ -37,11 +37,9 @@ const AppComponent = ({ Component, pageProps }: AppProps) => {
 // };
 
 AppComponent.getServerSideProps = async (context: NextPageContext) => {
-  console.log('========================');
   console.log('AppComponent.getServerSideProps');
   const client = buildClient(context);
   const { data } = await client.get('/api/users/v2/currentuser');
-  console.log('currentuser data', data);
   return data;
 };
 

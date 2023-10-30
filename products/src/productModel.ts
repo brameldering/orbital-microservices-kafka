@@ -90,7 +90,7 @@ const productSchema = new mongoose.Schema(
     },
     userId: {
       type: mongoose.Schema.Types.ObjectId,
-      required: false, // true,
+      required: true,
       ref: 'User',
     },
   },

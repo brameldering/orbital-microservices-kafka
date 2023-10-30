@@ -1,8 +1,14 @@
-import express, { Request, Response } from 'express';
+import express, { Response } from 'express';
+import mongoose from 'mongoose';
 // import { body } from 'express-validator';
 // import { validateRequest } from '@orbitelco/common';
-import { Product } from '../models/productModel';
-import { IProductObj, protect, admin } from '@orbitelco/common';
+import { Product } from '../productModel';
+import {
+  IExtendedRequest,
+  IProductObj,
+  protect,
+  admin,
+} from '@orbitelco/common';
 
 const router = express.Router();
 
@@ -20,7 +26,10 @@ router.post(
   '/api/products/v2',
   protect,
   admin,
-  async (req: Request, res: Response) => {
+  async (req: IExtendedRequest, res: Response) => {
+    console.log('req.currentuser.id: ', req.currentUser?.id);
+    const userId = new mongoose.Types.ObjectId(req.currentUser!.id);
+    console.log(userId);
     const productObject: IProductObj = {
       name: 'Sample name',
       imageURL: process.env.CLOUDINARY_SAMPLE_IMAGE_URL!,
@@ -30,13 +39,10 @@ router.post(
       numReviews: 0,
       price: 0,
       countInStock: 0,
+      userId,
     };
     const product = Product.build(productObject);
-    try {
-      await product.save();
-    } catch (err) {
-      console.log(err);
-    }
+    await product.save();
     res.status(201).send(product);
   }
 );

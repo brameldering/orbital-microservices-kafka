@@ -16,6 +16,7 @@ router.get(
       #swagger.responses[200] = {
           description: '{ currentUser: req.currentUser || null }',
       } */
+    console.log(' req.currentUser', req.currentUser);
     res.send({ currentUser: req.currentUser || null });
   }
 );

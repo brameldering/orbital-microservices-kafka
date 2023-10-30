@@ -20,8 +20,7 @@ const SigninScreen: React.FC<ISigninScreenProps> = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    const data = await doRequest();
-    console.log(data);
+    await doRequest();
   };
 
   return (

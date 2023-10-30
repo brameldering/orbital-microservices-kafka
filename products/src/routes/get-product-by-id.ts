@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import { Product } from '../models/productModel';
+import { Product } from '../productModel';
 import { ObjectNotFoundError } from '@orbitelco/common';
 
 const router = express.Router();
