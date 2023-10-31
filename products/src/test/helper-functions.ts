@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import mongoose from 'mongoose';
 import {
   CUST_TEST_NAME,
   CUST_TEST_EMAIL,
@@ -16,21 +17,21 @@ interface IPayload {
 }
 
 const payloadTestCustomer: IPayload = {
-  id: '653fde3e3d8aa2dec2ee96d5', // Dummy but valid mongodb objectId
+  id: new mongoose.Types.ObjectId().toHexString(), // Dummy but valid mongodb objectId
   name: CUST_TEST_NAME,
   email: CUST_TEST_EMAIL,
   role: CUST_TEST_ROLE,
 };
 
 const payloadTestAdmin: IPayload = {
-  id: '653fde3e3d8aa2dec2ee96d5', // Dummy but valid mongodb objectId
+  id: new mongoose.Types.ObjectId().toHexString(), // Dummy but valid mongodb objectId
   name: ADMIN_TEST_NAME,
   email: ADMIN_TEST_EMAIL,
   role: ADMIN_TEST_ROLE,
 };
 
 // Function to fake login of a test customer
-const signup = (payload: IPayload): string => {
+const fakeSignup = (payload: IPayload): string => {
   // Create the JWT
   const token = jwt.sign(payload, process.env.JWT_SECRET!);
   // Turn that session into JSON
@@ -43,11 +44,11 @@ const signup = (payload: IPayload): string => {
   return `session=${base64}`;
 };
 
-export const signupCustomer = (): string => {
-  return signup(payloadTestCustomer);
+export const fakeSignupCustomer = (): string => {
+  return fakeSignup(payloadTestCustomer);
 };
 
 // Function to fake login of a test admin user
-export const signupAdmin = (): string => {
-  return signup(payloadTestAdmin);
+export const fakeSignupAdmin = (): string => {
+  return fakeSignup(payloadTestAdmin);
 };

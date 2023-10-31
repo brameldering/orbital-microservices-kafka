@@ -9,6 +9,7 @@ import {
   protect,
   admin,
 } from '@orbitelco/common';
+import { PRODUCTS_URL } from '../constants';
 
 const router = express.Router();
 
@@ -23,7 +24,7 @@ const router = express.Router();
 // @req     req.currentuser.id
 // @res     status(201).json(createdProduct)
 router.post(
-  '/api/products/v2',
+  PRODUCTS_URL,
   protect,
   admin,
   async (req: IExtendedRequest, res: Response) => {

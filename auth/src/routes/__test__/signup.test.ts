@@ -9,8 +9,20 @@ import {
 } from '@orbitelco/common';
 
 describe('Test signup', () => {
-  it('returns a 201 on succesful signup', async () => {
+  it('returns a status 201 on succesful signup', async () => {
     await signupCustomer();
+  });
+  it('sets a cookie after successful signup', async () => {
+    const res = await request(app)
+      .post('/api/users/v2/signup')
+      .send({
+        name: CUST_TEST_NAME,
+        email: CUST_TEST_EMAIL,
+        password: CUST_TEST_PASSWORD,
+        role: CUST_TEST_ROLE,
+      })
+      .expect(201);
+    expect(res.get('Set-Cookie')).toBeDefined();
   });
   it('returns a 400 with an invalid email', async () => {
     return request(app)
@@ -23,7 +35,7 @@ describe('Test signup', () => {
       })
       .expect(400);
   });
-  it('returns a 400 with an invalid password]', async () => {
+  it('returns a status 400 with an invalid password]', async () => {
     return request(app)
       .post('/api/users/v2/signup')
       .send({
@@ -34,7 +46,7 @@ describe('Test signup', () => {
       })
       .expect(400);
   });
-  it('returns a 400 with an empty name, email, password or role]', async () => {
+  it('returns a status 400 with an empty name, email, password or role]', async () => {
     await request(app)
       .post('/api/users/v2/signup')
       .send({
@@ -72,7 +84,7 @@ describe('Test signup', () => {
       })
       .expect(400);
   });
-  it('returns a 422 when signing up twice with the same email', async () => {
+  it('returns a status 422 when signing up twice with the same email', async () => {
     await signupCustomer();
     await request(app)
       .post('/api/users/v2/signup')
@@ -83,17 +95,5 @@ describe('Test signup', () => {
         role: CUST_TEST_ROLE,
       })
       .expect(422);
-  });
-  it('sets a cookie after successful signup', async () => {
-    const res = await request(app)
-      .post('/api/users/v2/signup')
-      .send({
-        name: CUST_TEST_NAME,
-        email: CUST_TEST_EMAIL,
-        password: CUST_TEST_PASSWORD,
-        role: CUST_TEST_ROLE,
-      })
-      .expect(201);
-    expect(res.get('Set-Cookie')).toBeDefined();
   });
 });
