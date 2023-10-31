@@ -2,6 +2,7 @@ import request from 'supertest';
 import { app } from '../../app';
 import { signupCustomer } from '../../test/helper-functions';
 import {
+  SIGN_UP_URL,
   CUST_TEST_NAME,
   CUST_TEST_EMAIL,
   CUST_TEST_PASSWORD,
@@ -14,7 +15,7 @@ describe('Test signup', () => {
   });
   it('sets a cookie after successful signup', async () => {
     const res = await request(app)
-      .post('/api/users/v2/signup')
+      .post(SIGN_UP_URL)
       .send({
         name: CUST_TEST_NAME,
         email: CUST_TEST_EMAIL,
@@ -26,7 +27,7 @@ describe('Test signup', () => {
   });
   it('returns a 400 with an invalid email', async () => {
     return request(app)
-      .post('/api/users/v2/signup')
+      .post(SIGN_UP_URL)
       .send({
         name: CUST_TEST_NAME,
         email: 'incorrect-email',
@@ -37,7 +38,7 @@ describe('Test signup', () => {
   });
   it('returns a status 400 with an invalid password]', async () => {
     return request(app)
-      .post('/api/users/v2/signup')
+      .post(SIGN_UP_URL)
       .send({
         name: CUST_TEST_NAME,
         email: CUST_TEST_EMAIL,
@@ -48,7 +49,7 @@ describe('Test signup', () => {
   });
   it('returns a status 400 with an empty name, email, password or role]', async () => {
     await request(app)
-      .post('/api/users/v2/signup')
+      .post(SIGN_UP_URL)
       .send({
         name: '',
         email: CUST_TEST_EMAIL,
@@ -57,7 +58,7 @@ describe('Test signup', () => {
       })
       .expect(400);
     await request(app)
-      .post('/api/users/v2/signup')
+      .post(SIGN_UP_URL)
       .send({
         name: CUST_TEST_NAME,
         email: '',
@@ -66,7 +67,7 @@ describe('Test signup', () => {
       })
       .expect(400);
     await request(app)
-      .post('/api/users/v2/signup')
+      .post(SIGN_UP_URL)
       .send({
         name: CUST_TEST_NAME,
         email: CUST_TEST_EMAIL,
@@ -75,7 +76,7 @@ describe('Test signup', () => {
       })
       .expect(400);
     await request(app)
-      .post('/api/users/v2/signup')
+      .post(SIGN_UP_URL)
       .send({
         name: CUST_TEST_NAME,
         email: CUST_TEST_EMAIL,
@@ -87,7 +88,7 @@ describe('Test signup', () => {
   it('returns a status 422 when signing up twice with the same email', async () => {
     await signupCustomer();
     await request(app)
-      .post('/api/users/v2/signup')
+      .post(SIGN_UP_URL)
       .send({
         name: CUST_TEST_NAME,
         email: CUST_TEST_EMAIL,

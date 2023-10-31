@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
-import { validateRequest } from '@orbitelco/common';
+import { SIGN_UP_URL, validateRequest } from '@orbitelco/common';
 
 import generateToken from '../utils/generateToken';
 import { User } from '../userModel';
@@ -14,7 +14,7 @@ const router = express.Router();
 // @res     status(201).send(user)
 //       or status(400).RequestValidationError
 router.post(
-  '/api/users/v2/signup',
+  SIGN_UP_URL,
   [
     body('name').trim().notEmpty().withMessage('Name can not be empty'),
     body('email').isEmail().withMessage('Email must be valid'),

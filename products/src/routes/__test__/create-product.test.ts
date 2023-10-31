@@ -5,7 +5,7 @@ import {
   fakeSignupAdmin,
   fakeSignupCustomer,
 } from '../../test/helper-functions';
-import { PRODUCTS_URL } from '../../constants';
+import { PRODUCTS_URL } from '@orbitelco/common';
 
 describe('Test create product', () => {
   it('creates a product with valid inputs and returns a status 201 with the created product', async () => {

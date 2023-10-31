@@ -1,8 +1,11 @@
 import request from 'supertest';
 import { app } from '../../app';
-import { CUST_TEST_EMAIL, CUST_TEST_ROLE } from '@orbitelco/common';
+import {
+  CURRENT_USER_URL,
+  CUST_TEST_EMAIL,
+  CUST_TEST_ROLE,
+} from '@orbitelco/common';
 import { signupCustomer } from '../../test/helper-functions';
-import { CURRENT_USER_URL } from '../../constants';
 
 describe('Test current-user', () => {
   it('responds with detail about the current user', async () => {

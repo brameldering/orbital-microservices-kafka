@@ -1,7 +1,10 @@
 import express, { Request, Response } from 'express';
 import { Product } from '../productModel';
-import { checkObjectId, ObjectNotFoundError } from '@orbitelco/common';
-import { PRODUCTS_URL } from '../constants';
+import {
+  PRODUCTS_URL,
+  checkObjectId,
+  ObjectNotFoundError,
+} from '@orbitelco/common';
 
 const router = express.Router();
 

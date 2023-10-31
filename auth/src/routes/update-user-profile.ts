@@ -1,6 +1,7 @@
 import express, { Response } from 'express';
 import { body } from 'express-validator';
 import {
+  UPDATE_PROFILE_URL,
   IExtendedRequest,
   validateRequest,
   protect,
@@ -20,7 +21,7 @@ const router = express.Router();
 //       or status(400).RequestValidationError
 //       or status(404).ObjectNotFoundError('User not found')
 router.put(
-  '/api/users/v2/profile',
+  UPDATE_PROFILE_URL,
   protect,
   [
     body('name').trim().notEmpty().withMessage('Name can not be empty'),

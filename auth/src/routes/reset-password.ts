@@ -1,6 +1,7 @@
 import express, { Response } from 'express';
 import { body } from 'express-validator';
 import {
+  RESET_PASSWORD_URL,
   IExtendedRequest,
   validateRequest,
   protect,
@@ -18,7 +19,7 @@ const router = express.Router();
 // @res     status(200).message:'Password has been reset'
 //       or status(404).ObjectNotFoundError('User not found')
 router.put(
-  '/api/users/v2/resetpassword',
+  RESET_PASSWORD_URL,
   protect,
   [body('email').isEmail().withMessage('Email must be valid')],
   validateRequest,

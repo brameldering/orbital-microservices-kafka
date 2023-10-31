@@ -5,8 +5,12 @@ import {
   signupCustomer2,
   signupAdmin,
 } from '../../test/helper-functions';
-import { CUST_TEST_EMAIL, CUST_TEST_PASSWORD } from '@orbitelco/common';
-import { USERS_URL, SIGN_IN_URL } from '../../constants';
+import {
+  USERS_URL,
+  SIGN_IN_URL,
+  CUST_TEST_EMAIL,
+  CUST_TEST_PASSWORD,
+} from '@orbitelco/common';
 
 describe('Test delete user', () => {
   it('returns a status 200 on succesfully deleting a user account', async () => {

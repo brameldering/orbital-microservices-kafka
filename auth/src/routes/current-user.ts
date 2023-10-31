@@ -1,6 +1,5 @@
 import express, { Response } from 'express';
-import { IExtendedRequest } from '@orbitelco/common';
-import { CURRENT_USER_URL } from '../constants';
+import { CURRENT_USER_URL, IExtendedRequest } from '@orbitelco/common';
 
 const router = express.Router();
 

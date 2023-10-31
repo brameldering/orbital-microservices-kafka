@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import {
+  USERS_URL,
   protect,
   admin,
   checkObjectId,
@@ -17,7 +18,7 @@ const router = express.Router();
 // @res     status(200).{user}
 //       or status(404).ObjectNotFoundError('User not found')
 router.put(
-  '/api/users/v2/:id',
+  USERS_URL + '/:id',
   protect,
   admin,
   checkObjectId,

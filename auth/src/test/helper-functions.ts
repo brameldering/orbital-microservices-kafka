@@ -1,6 +1,7 @@
 import request from 'supertest';
 import { app } from '../app';
 import {
+  SIGN_UP_URL,
   CUST_TEST_NAME,
   CUST_TEST_EMAIL,
   CUST_TEST_PASSWORD,
@@ -14,7 +15,7 @@ import {
 // Re-usable signup function for a test customer
 export const signupCustomer: any = async () => {
   const signUpResponse = await request(app)
-    .post('/api/users/v2/signup')
+    .post(SIGN_UP_URL)
     .send({
       name: CUST_TEST_NAME,
       email: CUST_TEST_EMAIL,
@@ -31,7 +32,7 @@ export const signupCustomer: any = async () => {
 // Re-usable signup function for a second test customer
 export const signupCustomer2: any = async () => {
   const signUpResponse = await request(app)
-    .post('/api/users/v2/signup')
+    .post(SIGN_UP_URL)
     .send({
       name: CUST_TEST_NAME,
       email: 'another.customer@test.com',
@@ -48,7 +49,7 @@ export const signupCustomer2: any = async () => {
 // Re-usable signup function for an admin account
 export const signupAdmin: any = async () => {
   const signUpResponse = await request(app)
-    .post('/api/users/v2/signup')
+    .post(SIGN_UP_URL)
     .send({
       name: ADMIN_TEST_NAME,
       email: ADMIN_TEST_EMAIL,

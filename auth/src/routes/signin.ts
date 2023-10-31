@@ -1,7 +1,11 @@
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
 import bcrypt from 'bcryptjs';
-import { validateRequest, NotAuthorizedError } from '@orbitelco/common';
+import {
+  SIGN_IN_URL,
+  validateRequest,
+  NotAuthorizedError,
+} from '@orbitelco/common';
 
 import generateToken from '../utils/generateToken';
 import { User } from '../userModel';
@@ -17,7 +21,7 @@ const router = express.Router();
 //       or status(400).RequestValidationError
 //       or status(401).NotAuthorizedError
 router.post(
-  '/api/users/v2/signin',
+  SIGN_IN_URL,
   [
     body('email').isEmail().withMessage('Email must be valid'),
     body('password').trim().notEmpty().withMessage('Password can not be empty'),

@@ -2,6 +2,7 @@ import express, { Response } from 'express';
 import { body } from 'express-validator';
 import bcrypt from 'bcryptjs';
 import {
+  UPDATE_PASSWORD_URL,
   IExtendedRequest,
   validateRequest,
   protect,
@@ -21,7 +22,7 @@ const router = express.Router();
 //       or status(400).RequestValidationError
 //       or status(404).ObjectNotFoundError('User not found')
 router.put(
-  '/api/users/v2/updatepassword',
+  UPDATE_PASSWORD_URL,
   protect,
   [
     body('currentPassword')

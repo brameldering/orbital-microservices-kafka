@@ -4,12 +4,12 @@ import mongoose from 'mongoose';
 // import { validateRequest } from '@orbitelco/common';
 import { Product } from '../productModel';
 import {
+  PRODUCTS_URL,
   IExtendedRequest,
   IProductObj,
   protect,
   admin,
 } from '@orbitelco/common';
-import { PRODUCTS_URL } from '../constants';
 
 const router = express.Router();
 

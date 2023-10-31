@@ -6,8 +6,7 @@ import {
   signupCustomer2,
   signupAdmin,
 } from '../../test/helper-functions';
-import { CUST_TEST_NAME } from '@orbitelco/common';
-import { USERS_URL } from '../../constants';
+import { USERS_URL, CUST_TEST_NAME } from '@orbitelco/common';
 
 describe('Test getting user by id', () => {
   it('returns a status 200 and the user on retrieving a user', async () => {

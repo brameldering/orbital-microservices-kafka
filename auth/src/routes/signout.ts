@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+import { SIGN_OUT_URL } from '@orbitelco/common';
 
 const router = express.Router();
 
@@ -8,7 +9,7 @@ const router = express.Router();
 // @req
 // @res     Clear session cookie
 //      and status(200)
-router.post('/api/users/v2/signout', async (req: Request, res: Response) => {
+router.post(SIGN_OUT_URL, async (req: Request, res: Response) => {
   /*  #swagger.tags = ['Users']
       #swagger.description = 'Clears the Session Cookie containing the JWT'
       #swagger.responses[200] = {
