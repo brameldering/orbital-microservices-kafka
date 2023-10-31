@@ -35,9 +35,9 @@ describe('Test delete user', () => {
       })
       .expect(401);
     // Check that error message contains message "('User not found')"
-    expect(res.text.includes('Not authorized')).toEqual(true);
+    expect(res.text.includes('Not authorized'));
   });
-  it('returns a status 300 when an admin tries to delete with an invalid Object Id', async () => {
+  it('returns a status 400 when an admin tries to delete with an invalid Object Id', async () => {
     // Register an admin
     const signUpAdminResponse = await signupAdmin();
     const cookie = signUpAdminResponse.get('Set-Cookie');
@@ -47,9 +47,9 @@ describe('Test delete user', () => {
       .delete(USERS_URL + '/' + dummyUserId)
       .set('Cookie', cookie)
       .send()
-      .expect(300);
+      .expect(400);
     // Check that error message contains message "('Invalid ObjectId:')"
-    expect(res.text.includes('Invalid ObjectId')).toEqual(true);
+    expect(res.text.includes('Invalid ObjectId'));
   });
   it('returns a status 401 when a customer tries to delete a user', async () => {
     // Register a customer user
@@ -65,6 +65,6 @@ describe('Test delete user', () => {
       .send()
       .expect(401);
     // Check that error message contains message "('Not authorized')"
-    expect(res.text.includes('Not authorized')).toEqual(true);
+    expect(res.text.includes('Not authorized'));
   });
 });

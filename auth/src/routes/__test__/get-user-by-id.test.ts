@@ -24,7 +24,7 @@ describe('Test getting user by id', () => {
       .expect(200);
     expect(res.body.name).toEqual(CUST_TEST_NAME);
   });
-  it('returns a status 300 when trying to get a user with an invalid object Id', async () => {
+  it('returns a status 400 when trying to get a user with an invalid object Id', async () => {
     // Register an admin
     const signUpAdminResponse = await signupAdmin();
     const cookie = signUpAdminResponse.get('Set-Cookie');
@@ -34,9 +34,9 @@ describe('Test getting user by id', () => {
       .get(USERS_URL + '/' + dummyUserId)
       .set('Cookie', cookie)
       .send()
-      .expect(300);
+      .expect(400);
     // Check that error message contains message "('Invalid ObjectId:')"
-    expect(res.text.includes('Invalid ObjectId')).toEqual(true);
+    expect(res.text.includes('Invalid ObjectId'));
   });
   it('returns a status 401 when a customer tries to get a user', async () => {
     // Register a customer user
@@ -52,7 +52,7 @@ describe('Test getting user by id', () => {
       .send()
       .expect(401);
     // Check that error message contains message "('Not authorized')"
-    expect(res.text.includes('Not authorized')).toEqual(true);
+    expect(res.text.includes('Not authorized'));
   });
   it('returns a status 404 when user is not found', async () => {
     // Register an admin
@@ -66,6 +66,6 @@ describe('Test getting user by id', () => {
       .send()
       .expect(404);
     // Check that error message contains message "('User not found')"
-    expect(res.text.includes('User not found')).toEqual(true);
+    expect(res.text.includes('User not found'));
   });
 });

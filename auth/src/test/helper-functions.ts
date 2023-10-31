@@ -34,7 +34,7 @@ export const signupCustomer2: any = async () => {
   const signUpResponse = await request(app)
     .post(SIGN_UP_URL)
     .send({
-      name: CUST_TEST_NAME,
+      name: 'Another Customer',
       email: 'another.customer@test.com',
       password: CUST_TEST_PASSWORD,
       role: CUST_TEST_ROLE,

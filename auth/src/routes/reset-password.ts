@@ -44,6 +44,9 @@ router.put(
       #swagger.responses[200] = {
           description: '{ message: Password has been reset }',
       }
+      #swagger.responses[400] = {
+          description: 'RequestValidationError',
+      }
       #swagger.responses[404] = {
           description: 'ObjectNotFoundError(User not found)',
      } */

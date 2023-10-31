@@ -56,12 +56,18 @@ router.put(
       #swagger.responses[200] = {
           description: '{ updatedUser }',
       }
-      #swagger.responses[300] = {
+      #swagger.responses[400] = {
           description: 'UserInputError(
           New password is the same as current password)',
       }
-      #swagger.responses[300] = {
+      #swagger.responses[400] = {
           description: 'UserInputError(Entered current password is incorrect)',
+      }
+      #swagger.responses[400] = {
+          description: 'RequestValidationError',
+      }
+      #swagger.responses[401] = {
+          description: 'Not authorized',
       }
       #swagger.responses[404] = {
           description: 'ObjectNotFoundError(User not found)',

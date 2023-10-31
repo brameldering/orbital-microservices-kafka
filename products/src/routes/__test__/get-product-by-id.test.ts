@@ -21,12 +21,12 @@ describe('Test get product by id', () => {
       .expect(200);
     expect(resProduct.body.name).toEqual('Sample name');
   });
-  it('returns a status 300 when trying to get a product with an invalid object Id', async () => {
+  it('returns a status 400 when trying to get a product with an invalid object Id', async () => {
     const dummyProductId = 'invalid_object_id';
     const res = await request(app)
       .get(PRODUCTS_URL + '/' + dummyProductId)
       .send()
-      .expect(300);
+      .expect(400);
     // Check that error message contains message "('Invalid ObjectId:')"
     expect(res.text.includes('Invalid ObjectId: ' + dummyProductId)).toEqual(
       true
