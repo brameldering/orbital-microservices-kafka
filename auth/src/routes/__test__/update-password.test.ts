@@ -49,7 +49,7 @@ describe('Test updating password', () => {
         newPassword: CUST_TEST_PASSWORD,
       })
       .expect(400);
-    expect(res.text.includes('New password is the same as current password'));
+    expect(res.text).toContain('New password is the same as current password');
   });
   it('returns a status 400 (UserInputError) when entered current password is incorrect', async () => {
     // Register a customer user
@@ -64,7 +64,7 @@ describe('Test updating password', () => {
         newPassword: CUST_TEST_PASSWORD,
       })
       .expect(400);
-    expect(res.text.includes('Entered current password is incorrect'));
+    expect(res.text).toContain('Entered current password is incorrect');
   });
   it('returns a status 400 (RequestValidationError) when passing incorrect new password', async () => {
     // Register a customer user
@@ -79,8 +79,8 @@ describe('Test updating password', () => {
         newPassword: invalidPassword,
       })
       .expect(400);
-    expect(
-      res.text.includes('New password must be between 6 and 40 characters')
+    expect(res.text).toContain(
+      'New password must be between 6 and 40 characters'
     );
   });
   it('returns a status 401 when not logged in', async () => {
@@ -93,6 +93,6 @@ describe('Test updating password', () => {
       })
       .expect(401);
     // Check that error message contains message "('Not authorized')"
-    expect(res.text.includes('Not authorized'));
+    expect(res.text).toContain('Not authorized');
   });
 });

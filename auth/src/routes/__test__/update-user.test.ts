@@ -90,7 +90,7 @@ describe('Test updating profile', () => {
       })
       .expect(401);
     // Check that error message contains message "('Not authorized')"
-    expect(res.text.includes('Not authorized'));
+    expect(res.text).toContain('Not authorized');
   });
   it('returns a status 401 when logged in as a customer', async () => {
     // Register a customer user
@@ -110,6 +110,6 @@ describe('Test updating profile', () => {
       })
       .expect(401);
     // Check that error message contains message "('Not authorized')"
-    expect(res.text.includes('Not authorized'));
+    expect(res.text).toContain('Not authorized');
   });
 });

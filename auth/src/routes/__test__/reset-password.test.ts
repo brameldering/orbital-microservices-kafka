@@ -45,7 +45,7 @@ describe('Test resetting password', () => {
         email: 'invalid.email',
       })
       .expect(400);
-    expect(res.text.includes('Email must be valid'));
+    expect(res.text).toContain('Email must be valid');
   });
   it('returns a status 401 when not logged in', async () => {
     // Get customer user by admin
@@ -56,7 +56,7 @@ describe('Test resetting password', () => {
       })
       .expect(401);
     // Check that error message contains message "('Not authorized')"
-    expect(res.text.includes('Not authorized'));
+    expect(res.text).toContain('Not authorized');
   });
   it('returns a status 404 when user is not found', async () => {
     // Register a customer user
@@ -71,6 +71,6 @@ describe('Test resetting password', () => {
       })
       .expect(404);
     // Check that error message contains message "('User not found')"
-    expect(res.text.includes('User not found'));
+    expect(res.text).toContain('User not found');
   });
 });

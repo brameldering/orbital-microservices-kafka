@@ -1,6 +1,8 @@
+import request from 'supertest';
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
 import {
+  PRODUCTS_URL,
   CUST_TEST_NAME,
   CUST_TEST_EMAIL,
   CUST_TEST_ROLE,
@@ -8,6 +10,7 @@ import {
   ADMIN_TEST_EMAIL,
   ADMIN_TEST_ROLE,
 } from '@orbitelco/common';
+import { app } from '../app';
 
 interface IPayload {
   id: string;
@@ -51,4 +54,13 @@ export const fakeSignupCustomer = (): string => {
 // Function to fake login of a test admin user
 export const fakeSignupAdmin = (): string => {
   return fakeSignup(payloadTestAdmin);
+};
+
+// Create Test Product
+export const createTestProduct = async () => {
+  const res = await request(app)
+    .post(PRODUCTS_URL)
+    .set('Cookie', fakeSignupAdmin())
+    .send({});
+  return res;
 };

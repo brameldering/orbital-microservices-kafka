@@ -7,8 +7,12 @@ import {
   errorHandler,
   RouteNotFoundError,
 } from '@orbitelco/common';
+import { getProductsRouter } from './routes/get-products';
 import { createProductRouter } from './routes/create-product';
 import { getProductByIdRouter } from './routes/get-product-by-id';
+import { updateProductRouter } from './routes/update-product';
+import { deleteProductRouter } from './routes/delete-product';
+import { createProductReviewRouter } from './routes/create-product-review';
 
 // ======================================================
 // Check for existence of ENV variables set in depl files (dev/prod) or .env file for test
@@ -31,6 +35,13 @@ if (
   );
   process.exit(1);
 }
+if (
+  !process.env.PRODUCTS_PER_PAGE ||
+  isNaN(Number(process.env.PRODUCTS_PER_PAGE))
+) {
+  console.error('ENV variable PRODUCTS_PER_PAGE is missing or not a number.');
+  process.exit(1);
+}
 // ======================================================
 
 const app = express();
@@ -45,12 +56,16 @@ app.use(
 // set req.currentuser if a user is logged in
 app.use(currentUser);
 
+app.use(getProductsRouter);
 app.use(createProductRouter);
 app.use(getProductByIdRouter);
+app.use(updateProductRouter);
+app.use(deleteProductRouter);
+app.use(createProductReviewRouter);
 
 // Handle any other (unknown) route API calls
 app.all('*', async () => {
-  console.log('app.all *');
+  console.log('no march for router -> app.all *');
   throw new RouteNotFoundError();
 });
 

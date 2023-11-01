@@ -29,7 +29,7 @@ describe('Test signin', () => {
       })
       .expect(401);
     // Check that error message contains message "('Not authorized')"
-    expect(res.text.includes('Not authorized'));
+    expect(res.text).toContain('Not authorized');
   });
   it('returns a status 401 when signing in with incorrect password', async () => {
     await signupCustomer();
@@ -41,6 +41,6 @@ describe('Test signin', () => {
       })
       .expect(401);
     // Check that error message contains message "('Not authorized')"
-    expect(res.text.includes('Not authorized'));
+    expect(res.text).toContain('Not authorized');
   });
 });

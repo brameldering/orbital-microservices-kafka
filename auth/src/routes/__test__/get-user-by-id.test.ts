@@ -36,7 +36,7 @@ describe('Test getting user by id', () => {
       .send()
       .expect(400);
     // Check that error message contains message "('Invalid ObjectId:')"
-    expect(res.text.includes('Invalid ObjectId'));
+    expect(res.text).toContain('Invalid ObjectId');
   });
   it('returns a status 401 when a customer tries to get a user', async () => {
     // Register a customer user
@@ -52,7 +52,7 @@ describe('Test getting user by id', () => {
       .send()
       .expect(401);
     // Check that error message contains message "('Not authorized')"
-    expect(res.text.includes('Not authorized'));
+    expect(res.text).toContain('Not authorized');
   });
   it('returns a status 404 when user is not found', async () => {
     // Register an admin
@@ -66,6 +66,6 @@ describe('Test getting user by id', () => {
       .send()
       .expect(404);
     // Check that error message contains message "('User not found')"
-    expect(res.text.includes('User not found'));
+    expect(res.text).toContain('User not found');
   });
 });

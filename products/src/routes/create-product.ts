@@ -19,15 +19,29 @@ const router = express.Router();
 //   validateRequest,
 
 // @desc    Create a product
-// @route   POST /api/products/v1
+// @route   POST /api/products/v2
 // @access  Admin
 // @req     req.currentuser.id
-// @res     status(201).json(createdProduct)
+// @res     status(201).(createdProduct)
 router.post(
   PRODUCTS_URL,
   protect,
   admin,
   async (req: IExtendedRequest, res: Response) => {
+    /*  #swagger.tags = ['Products']
+        #swagger.description = 'Create a product'
+        #swagger.security = [{
+        bearerAuth: ['admin']
+      }]
+        #swagger.parameters['req.currentUser!.id'] = {
+            in: 'request',
+            description: 'will automatically be in the request object if the user is logged in',
+            required: 'true',
+            type: 'string',
+        }
+        #swagger.responses[201] = {
+            description: 'Returns the created product',
+} */
     const userId = new mongoose.Types.ObjectId(req.currentUser!.id);
     const productObject: IProductObj = {
       name: 'Sample name',
@@ -36,6 +50,7 @@ router.post(
       category: 'Sample category',
       description: 'Sample description',
       numReviews: 0,
+      reviews: [],
       price: 0,
       countInStock: 0,
       userId,

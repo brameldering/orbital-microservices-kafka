@@ -2,49 +2,51 @@ import express, { Request, Response } from 'express';
 import { Product } from '../productModel';
 import {
   PRODUCTS_URL,
+  protect,
+  admin,
   checkObjectId,
   ObjectNotFoundError,
 } from '@orbitelco/common';
 
 const router = express.Router();
 
-// @desc    Fetch single product
-// @route   GET /api/products/v2/:id
-// @access  Public
+// @desc    Delete a product
+// @route   DELETE /api/products/v2/:id
+// @access  Admin
 // @req     params.id
-// @res     status(200).json(product)
+// @res     status(200).()
 //       or status(404).ObjectNotFoundError(Product not found)
-router.get(
+router.delete(
   PRODUCTS_URL + '/:id',
+  protect,
+  admin,
   checkObjectId,
   async (req: Request, res: Response) => {
     /*  #swagger.tags = ['Products']
-      #swagger.description = 'Fetch single product'
+      #swagger.description = 'Delete a product'
+      #swagger.security = [{
+        bearerAuth: ['admin']
+      }]
       #swagger.parameters['id'] = {
-            in: 'path',
-            description: 'product id',
-            required: 'true',
-            type: 'string'
+              in: 'path',
+              description: 'Product id of product to delete',
+              required: 'true',
+              type: 'string',
       }
       #swagger.responses[200] = {
-            description: 'Corresponding product'
+              description: 'Empty result',
       }
       #swagger.responses[404] = {
             description: 'ObjectNotFoundError(Product not found)'
       }
-} */
-    let product;
-    try {
-      product = await Product.findById(req.params.id);
-    } catch (err) {
-      console.log('==> get product by id error:', err);
-    }
+  } */
+    const product = await Product.findById(req.params.id);
     if (product) {
-      res.send(product);
+      await Product.deleteOne({ _id: product._id });
+      res.status(200).send();
     } else {
       throw new ObjectNotFoundError('Product not found');
     }
   }
 );
-
-export { router as getProductByIdRouter };
+export { router as deleteProductRouter };

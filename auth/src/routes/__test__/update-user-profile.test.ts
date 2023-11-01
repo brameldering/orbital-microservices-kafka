@@ -77,7 +77,7 @@ describe('Test updating profile', () => {
         email: CUST_TEST_EMAIL,
       })
       .expect(400);
-    expect(res.text.includes('Name can not be empty'));
+    expect(res.text).toContain('Name can not be empty');
   });
   it('returns a status 400 (RequestValidationError) when entered email is invalid', async () => {
     // Register a customer user
@@ -92,7 +92,7 @@ describe('Test updating profile', () => {
         email: invalidEmail,
       })
       .expect(400);
-    expect(res.text.includes('Email must be valid'));
+    expect(res.text).toContain('Email must be valid');
   });
   it('returns a status 401 when not logged in', async () => {
     // Get customer user when not logged in
@@ -104,6 +104,6 @@ describe('Test updating profile', () => {
       })
       .expect(401);
     // Check that error message contains message "('Not authorized')"
-    expect(res.text.includes('Not authorized'));
+    expect(res.text).toContain('Not authorized');
   });
 });

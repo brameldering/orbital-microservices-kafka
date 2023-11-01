@@ -45,6 +45,6 @@ describe('Test getting users', () => {
       .send()
       .expect(401);
     // Check that error message contains message "('Not authorized')"
-    expect(res.text.includes('Not authorized'));
+    expect(res.text).toContain('Not authorized');
   });
 });

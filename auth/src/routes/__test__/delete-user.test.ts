@@ -35,7 +35,7 @@ describe('Test delete user', () => {
       })
       .expect(401);
     // Check that error message contains message "('User not found')"
-    expect(res.text.includes('Not authorized'));
+    expect(res.text).toContain('Not authorized');
   });
   it('returns a status 400 when an admin tries to delete with an invalid Object Id', async () => {
     // Register an admin
@@ -49,7 +49,7 @@ describe('Test delete user', () => {
       .send()
       .expect(400);
     // Check that error message contains message "('Invalid ObjectId:')"
-    expect(res.text.includes('Invalid ObjectId'));
+    expect(res.text).toContain('Invalid ObjectId');
   });
   it('returns a status 401 when a customer tries to delete a user', async () => {
     // Register a customer user
@@ -65,6 +65,6 @@ describe('Test delete user', () => {
       .send()
       .expect(401);
     // Check that error message contains message "('Not authorized')"
-    expect(res.text.includes('Not authorized'));
+    expect(res.text).toContain('Not authorized');
   });
 });

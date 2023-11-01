@@ -41,6 +41,8 @@ spec:
                 secretKeyRef:
                   name: cloudinary-api-secret
                   key: CLOUDINARY_API_SECRET_KEY
+            - name: PRODUCTS_PER_PAGE
+              value: '12'
 ---
 apiVersion: v1
 kind: Service
