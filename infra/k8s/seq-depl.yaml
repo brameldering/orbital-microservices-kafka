@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: auth-depl
+  name: seq-depl
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: auth
+      app: seq
   template:
     metadata:
       labels:
-        app: auth
+        app: seq
     spec:
       containers:
-        - name: auth
-          image: orbitelco/auth
+        - name: seq
+          image: orbitelco/seq
           env:
             - name: NODE_ENV
               value: 'development'
             - name: MONGO_URI
-              value: 'mongodb://auth-mongo-srv:27017/auth'
+              value: 'mongodb://seq-mongo-srv:27017/seq'
             - name: JWT_SECRET
               valueFrom:
                 secretKeyRef:
@@ -27,22 +27,17 @@ spec:
                   key: JWT_KEY
             - name: EXPIRES_IN
               value: '1d'
-            - name: DEFAULT_RESET_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: default-reset-password
-                  key: DEFAULT_RESET_PASSWORD_KEY
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: auth-srv
+  name: seq-srv
 spec:
   type: ClusterIP
   selector:
-    app: auth
+    app: seq
   ports:
-    - name: auth
+    - name: seq
       protocol: TCP
       port: 3000
       targetPort: 3000

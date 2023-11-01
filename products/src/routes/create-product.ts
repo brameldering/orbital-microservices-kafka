@@ -41,6 +41,8 @@ router.post(
         }
         #swagger.responses[201] = {
             description: 'Returns the created product',
+        #swagger.responses[422] = {
+              description: 'That object already exists',
 } */
     const userId = new mongoose.Types.ObjectId(req.currentUser!.id);
     const productObject: IProductObj = {

@@ -65,7 +65,7 @@ app.use(createProductReviewRouter);
 
 // Handle any other (unknown) route API calls
 app.all('*', async () => {
-  console.log('no march for router -> app.all *');
+  console.log('no match found for this API route!');
   throw new RouteNotFoundError();
 });
 

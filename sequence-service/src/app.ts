@@ -2,37 +2,19 @@ import express from 'express';
 import 'express-async-errors';
 import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
-import { currentUserRouter } from './routes/current-user';
-import { signinRouter } from './routes/signin';
-import { signoutRouter } from './routes/signout';
-import { signupRouter } from './routes/signup';
-import { getUsersRouter } from './routes/get-users';
-import { updateUserProfileRouter } from './routes/update-user-profile';
-import { updatePasswordRouter } from './routes/update-password';
-import { resetPasswordRouter } from './routes/reset-password';
-import { getUserByIdRouter } from './routes/get-user-by-id';
-import { updateUserRouter } from './routes/update-user';
-import { deleteUserRouter } from './routes/delete-user';
 import {
   currentUser,
   errorHandler,
   RouteNotFoundError,
 } from '@orbitelco/common';
+import { createSequenceRecordRouter } from './routes/create-sequence-id';
+import { getProductSequenceIdRouter } from './routes/get-product-seq-id';
+import { getOrderSequenceIdRouter } from './routes/get-order-seq-id';
 
 // ======================================================
 // Check for existence of ENV variables set in depl files (dev/prod) or .env file for test
-if (
-  !(process.env.JWT_SECRET && process.env.EXPIRES_IN && process.env.MONGO_URI)
-) {
-  console.error(
-    'Missing ENV variables for JWT_SECRET or EXPIRES_IN or MONGO_URI'
-  );
-  process.exit(1);
-}
-if (!process.env.DEFAULT_RESET_PASSWORD) {
-  console.error(
-    'DEFAULT_RESET_PASSWORD setting is missing from environment vars.'
-  );
+if (!process.env.MONGO_URI) {
+  console.error('Missing ENV variable for MONGO_URI');
   process.exit(1);
 }
 // ======================================================
@@ -49,17 +31,9 @@ app.use(
 // set req.currentuser if a user is logged in
 app.use(currentUser);
 
-app.use(currentUserRouter);
-app.use(signinRouter);
-app.use(signoutRouter);
-app.use(signupRouter);
-app.use(getUsersRouter);
-app.use(updateUserProfileRouter);
-app.use(updatePasswordRouter);
-app.use(resetPasswordRouter);
-app.use(getUserByIdRouter);
-app.use(updateUserRouter);
-app.use(deleteUserRouter);
+app.use(createSequenceRecordRouter);
+app.use(getProductSequenceIdRouter);
+app.use(getOrderSequenceIdRouter);
 
 // Handle any other (unknown) route API calls
 app.all('*', async () => {

@@ -39,6 +39,9 @@ router.post(
       }
       #swagger.responses[400] = {
           description: 'RequestValidationError',
+      #swagger.responses[422] = {
+          description: 'That object already exists',
+      }
      } */
     const { name, email, password, role } = req.body;
 

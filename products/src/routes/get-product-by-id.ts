@@ -33,12 +33,7 @@ router.get(
             description: 'ObjectNotFoundError(Product not found)'
       }
 } */
-    let product;
-    try {
-      product = await Product.findById(req.params.id);
-    } catch (err) {
-      console.log('==> get product by id error:', err);
-    }
+    const product = await Product.findById(req.params.id);
     if (product) {
       res.send(product);
     } else {
