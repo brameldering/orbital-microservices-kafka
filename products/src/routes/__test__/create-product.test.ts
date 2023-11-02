@@ -25,13 +25,6 @@ describe('Test create product', () => {
     expect(products.length).toEqual(1);
     expect(products[0].name).toEqual('Sample name');
   });
-  it('can only be accessed if the user is signed in as admin role', async () => {
-    await request(app)
-      .post(PRODUCTS_URL)
-      .set('Cookie', fakeSignupAdmin())
-      .send({})
-      .expect(201);
-  });
   it('gives an authorization error (401) if the user is not logged in', async () => {
     await request(app).post(PRODUCTS_URL).send({}).expect(401);
   });

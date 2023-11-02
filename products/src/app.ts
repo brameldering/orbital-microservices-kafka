@@ -7,6 +7,7 @@ import {
   errorHandler,
   RouteNotFoundError,
 } from '@orbitelco/common';
+import { uploadFileRouter } from './routes/upload-file';
 import { getProductsRouter } from './routes/get-products';
 import { createProductRouter } from './routes/create-product';
 import { getProductByIdRouter } from './routes/get-product-by-id';
@@ -56,6 +57,7 @@ app.use(
 // set req.currentuser if a user is logged in
 app.use(currentUser);
 
+app.use(uploadFileRouter);
 app.use(getProductsRouter);
 app.use(createProductRouter);
 app.use(getProductByIdRouter);
