@@ -21,7 +21,7 @@ describe('Test signout', () => {
       .expect(200);
     expect(res.get('Set-Cookie')).toBeDefined();
     // Signout and check that cookie is empty
-    const res2 = await request(app).post(SIGN_OUT_URL).send({}).expect(200);
+    const res2 = await request(app).post(SIGN_OUT_URL).send().expect(200);
     expect(res2.get('Set-Cookie')[0]).toEqual(
       'session=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; httponly'
     );

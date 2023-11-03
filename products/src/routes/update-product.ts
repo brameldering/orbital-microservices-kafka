@@ -66,7 +66,7 @@ router.put(
       product.category = category;
       product.countInStock = countInStock;
       const updatedProduct = await product.save();
-      res.status(200).send(updatedProduct);
+      res.status(200).send(updatedProduct.toJSON());
     } else {
       throw new ObjectNotFoundError('Product not found');
     }

@@ -19,7 +19,11 @@ router.get(USERS_URL, protect, admin, async (req: Request, res: Response) => {
       #swagger.responses[200] = {
           description: 'users',
 } */
-  const users = await User.find({});
+  const usersOriginal = await User.find({});
+  // map users to json format as defined in user-types userSchema
+  const users = usersOriginal.map((user: { toJSON: () => any }) =>
+    user.toJSON()
+  );
   res.send(users);
 });
 

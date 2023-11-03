@@ -37,7 +37,7 @@ describe('Test updating profile', () => {
       .expect(200);
     // Check that user name has changed
     expect(res.get('Set-Cookie')).toBeDefined();
-    expect(res.body.user.name).toEqual(updatedName);
+    expect(res.body.name).toEqual(updatedName);
   });
   it('returns a status 200 when the email is updated and can login with new email', async () => {
     // Register a customer user
@@ -62,7 +62,7 @@ describe('Test updating profile', () => {
       .expect(200);
     // Check that the user's name has changed
     expect(res.get('Set-Cookie')).toBeDefined();
-    expect(res.body.user.name).toEqual(CUST_TEST_NAME);
+    expect(res.body.name).toEqual(CUST_TEST_NAME);
   });
   it('returns a status 400 (RequestValidationError) when name is empty', async () => {
     // Register a customer user

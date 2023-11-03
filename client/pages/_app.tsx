@@ -1,9 +1,12 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
+import { Provider } from 'react-redux';
 import { NextPageContext } from 'next';
 import { AppProps } from 'next/app';
 import buildClient from 'api/build-client';
 import Header from 'components/Header';
+import store from '../store';
+import { CURRENT_USER_URL } from '@orbitelco/common';
 import '../styles/bootstrap.custom.css';
 
 interface IUser {
@@ -19,27 +22,18 @@ const AppComponent = ({ Component, pageProps }: AppProps) => {
   if (pageProps?.currentUser) {
     currentUser = pageProps.currentUser;
   }
-  // console.log('currentUser', currentUser);
   return (
-    <>
+    <Provider store={store}>
       <Header currentUser={currentUser} />
       <Component {...pageProps} />;
-    </>
+    </Provider>
   );
 };
-
-// AppComponent.getInitialProps = async (appContext: AppContext) => {
-//   console.log('AppComponent.getInitialProps');
-//   const client = buildClient(appContext.ctx);
-//   const { data } = await client.get('/api/users/v2/currentuser');
-//   console.log('currentuser data', data);
-//   return data;
-// };
 
 AppComponent.getServerSideProps = async (context: NextPageContext) => {
   console.log('AppComponent.getServerSideProps');
   const client = buildClient(context);
-  const { data } = await client.get('/api/users/v2/currentuser');
+  const { data } = await client.get(CURRENT_USER_URL);
   return data;
 };
 

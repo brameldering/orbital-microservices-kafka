@@ -14,7 +14,6 @@ router.get(CURRENT_USER_URL, (req: IExtendedRequest, res: Response) => {
       #swagger.responses[200] = {
           description: '{ currentUser: req.currentUser || null }',
       } */
-  // console.log(' req.currentUser', req.currentUser);
   res.send({ currentUser: req.currentUser || null });
 });
 

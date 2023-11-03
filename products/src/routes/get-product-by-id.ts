@@ -35,7 +35,7 @@ router.get(
 } */
     const product = await Product.findById(req.params.id);
     if (product) {
-      res.send(product);
+      res.send(product.toJSON());
     } else {
       throw new ObjectNotFoundError('Product not found');
     }

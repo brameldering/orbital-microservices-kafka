@@ -62,7 +62,7 @@ router.put(
       user.name = name;
       user.email = email;
       const updatedUser = await user.save();
-      res.status(200).send({ updatedUser });
+      res.status(200).send(updatedUser.toJSON());
     } else {
       throw new ObjectNotFoundError('User not found');
     }

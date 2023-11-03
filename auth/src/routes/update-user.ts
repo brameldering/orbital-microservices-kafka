@@ -52,7 +52,7 @@ router.put(
       user.email = req.body.email || user.email;
       user.role = req.body.role || user.role;
       const updatedUser = await user.save();
-      res.status(200).send(updatedUser);
+      res.status(200).send(updatedUser.toJSON());
     } else {
       throw new ObjectNotFoundError('User not found');
     }

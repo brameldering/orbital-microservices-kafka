@@ -14,13 +14,13 @@ describe('Test current-user', () => {
     const res = await request(app)
       .get(CURRENT_USER_URL)
       .set('Cookie', cookie)
-      .send({})
+      .send()
       .expect(200);
     expect(res.body.currentUser.email).toEqual(CUST_TEST_EMAIL);
     expect(res.body.currentUser.role).toEqual(CUST_TEST_ROLE);
   });
   it('responds with null when not authenticated', async () => {
-    const res = await request(app).get(CURRENT_USER_URL).send({}).expect(200);
+    const res = await request(app).get(CURRENT_USER_URL).send().expect(200);
     expect(res.body.currentUser).toEqual(null);
   });
 });

@@ -39,18 +39,22 @@ router.get(PRODUCTS_URL, async (req: Request, res: Response) => {
       }
     : {};
   const count = await Product.countDocuments({ ...keyword });
-  let products = await Product.find({ ...keyword })
+  let productsOriginal = await Product.find({ ...keyword })
     .limit(pageSize)
     .skip(pageSize * (page - 1));
   // Check if page is empty after a delete refresh
-  if (page > 1 && products.length === 0) {
+  if (page > 1 && productsOriginal.length === 0) {
     // Current page is empty, set page - 1 and refetch
     page--;
-    products = await Product.find({ ...keyword })
+    productsOriginal = await Product.find({ ...keyword })
       .limit(pageSize)
       .skip(pageSize * (page - 1));
   }
   const pages = Math.ceil(count / pageSize);
+  // map products to json format as defined in product-types productSchema
+  const products = productsOriginal.map((product: { toJSON: () => any }) =>
+    product.toJSON()
+  );
   res.status(200).send({ products, page, pages });
 });
 

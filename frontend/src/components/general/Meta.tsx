@@ -23,8 +23,8 @@ const Meta: React.FunctionComponent<MetaProps> = ({
 
 Meta.defaultProps = {
   title: 'Welcome To Orbitelco Shop',
-  description: 'We sell the best products',
-  keywords: 'electronics, buy electronics',
+  description: 'Study project',
+  keywords: 'Telecom, Phones, Electronics',
 };
 
 export default Meta;

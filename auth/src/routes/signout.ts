@@ -16,7 +16,7 @@ router.post(SIGN_OUT_URL, async (req: Request, res: Response) => {
           description: 'Empty object',
       } */
   req.session = null;
-  res.send({});
+  res.send();
 });
 
 export { router as signoutRouter };

@@ -1,6 +1,7 @@
 import React from 'react';
 import { NextPageContext } from 'next';
 import buildClient from '../api/build-client';
+import { CURRENT_USER_URL } from '@orbitelco/common';
 
 interface TLandingPageProps {
   currentUser?: { name: string; email: string };
@@ -21,7 +22,7 @@ const LandingPage: React.FC<TLandingPageProps> = ({ currentUser }) => {
 export const getServerSideProps = async (context: NextPageContext) => {
   console.log('LandingPage.getServerSideProps');
   const client = buildClient(context);
-  const { data } = await client.get('/api/users/v2/currentuser');
+  const { data } = await client.get(CURRENT_USER_URL);
   return { props: data };
 };
 

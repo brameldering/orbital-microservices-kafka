@@ -59,7 +59,7 @@ router.post(
     };
     const product = Product.build(productObject);
     await product.save();
-    res.status(201).send(product);
+    res.status(201).send(product.toJSON());
   }
 );
 

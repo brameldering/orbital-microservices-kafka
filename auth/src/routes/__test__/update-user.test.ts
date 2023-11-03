@@ -43,9 +43,9 @@ describe('Test updating profile', () => {
       .expect(200);
     // Check that user's name and role have changed, email is unchanged
     expect(res.get('Set-Cookie')).toBeDefined();
-    expect(res.body.user.name).toEqual(updatedName);
-    expect(res.body.user.email).toEqual(CUST_TEST_EMAIL);
-    expect(res.body.user.role).toEqual('admin');
+    expect(res.body.name).toEqual(updatedName);
+    expect(res.body.email).toEqual(CUST_TEST_EMAIL);
+    expect(res.body.role).toEqual('admin');
   });
   it('returns a status 200 when the email is updated and user can login with new email', async () => {
     // Register a customer user
@@ -72,9 +72,9 @@ describe('Test updating profile', () => {
       .expect(200);
     // Check that user has logged in succesfully with new password
     expect(res.get('Set-Cookie')).toBeDefined();
-    expect(res.body.user.name).toEqual(CUST_TEST_NAME);
-    expect(res.body.user.email).toEqual(updatedEmail);
-    expect(res.body.user.role).toEqual('customer');
+    expect(res.body.name).toEqual(CUST_TEST_NAME);
+    expect(res.body.email).toEqual(updatedEmail);
+    expect(res.body.role).toEqual('customer');
   });
   it('returns a status 401 when not logged in', async () => {
     // Register a customer user

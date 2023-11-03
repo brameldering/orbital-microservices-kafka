@@ -82,7 +82,7 @@ router.put(
         ) {
           user.password = newPassword;
           const updatedUser = await user.save();
-          res.status(200).send({ updatedUser });
+          res.status(200).send(updatedUser.toJSON());
         } else {
           throw new UserInputError('Entered current password is incorrect');
         }

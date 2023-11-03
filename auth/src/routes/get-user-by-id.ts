@@ -41,7 +41,7 @@ router.get(
      } */
     const user = await User.findById(req.params.id);
     if (user) {
-      res.status(200).send(user);
+      res.status(200).send(user.toJSON());
     } else {
       throw new ObjectNotFoundError('User not found');
     }

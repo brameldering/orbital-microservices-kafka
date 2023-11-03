@@ -1,10 +1,11 @@
 import React from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Row, Col } from 'react-bootstrap';
 import Router from 'next/router';
+import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import useRequest from '../../hooks/use-request';
+// import useRequest from '../../hooks/use-request';
 import FormContainer from '../../form/FormContainer';
 import {
   FormField,
@@ -12,7 +13,12 @@ import {
   SelectField,
 } from '../../form/FormComponents';
 import { textField, passwordField } from 'form/ValidationSpecs';
-import { SIGN_UP_URL } from '@orbitelco/common';
+import Loader from 'components/Loader';
+import ErrorBlock from 'components/ErrorBlock';
+import { ISignUp } from 'types/user-types';
+// import { BASE_URL } from 'constants/constants-frontend';
+// import { SIGN_UP_URL } from '@orbitelco/common';
+import { useSignUpMutation } from 'slices/usersApiSlice';
 
 interface IFormInput {
   name: string;
@@ -31,6 +37,9 @@ const schema = yup.object().shape({
 });
 
 const SignupScreen: React.FC = () => {
+  const [signUp, { isLoading: signinUp, error: errorSigninUp }] =
+    useSignUpMutation();
+
   const {
     register,
     control,
@@ -47,22 +56,34 @@ const SignupScreen: React.FC = () => {
     resolver: yupResolver(schema),
   });
 
-  const { doRequest, errors: apiErrors } = useRequest({
-    url: 'https://orbitelco.dev' + SIGN_UP_URL,
-    method: 'post',
-    onSuccess: () => Router.push('/'),
-  });
-
   const onSubmit = async () => {
-    const formData = getValues();
-    console.log('getValues', formData);
-    await doRequest({ body: formData });
-    reset();
+    const user: ISignUp = {
+      name: getValues('name'),
+      email: getValues('email'),
+      password: getValues('password'),
+      role: getValues('role'),
+    };
+    await signUp(user).unwrap();
+    if (!errorSigninUp) {
+      reset();
+      Router.push('/');
+    }
   };
 
   const onError = (error: any) => {
     console.log('ERROR:::', error);
   };
+
+  // === Following to do in NextJS ===
+  // const { search } = useLocation();
+  // const sp = new URLSearchParams(search);
+  // const redirect = sp.get('redirect') || '/';
+
+  // useEffect(() => {
+  //   if (userInfo) {
+  //     navigate(redirect);
+  //   }
+  // }, [navigate, redirect, userInfo]);
 
   const roles = [
     { label: 'Select role', value: '' },
@@ -70,12 +91,14 @@ const SignupScreen: React.FC = () => {
     { label: 'Admin', value: 'admin' },
   ];
 
-  const loadingOrProcessing = false;
+  const loadingOrProcessing = signinUp;
 
   return (
     <FormContainer>
+      {/* <Meta title='Sign Up' /> */}
       <Form onSubmit={handleSubmit(onSubmit, onError)}>
         <h1 className='mb-4'>Sign Up</h1>
+        {loadingOrProcessing && <Loader />}
         <FormField
           controlId='name'
           label='Full Name'
@@ -100,16 +123,25 @@ const SignupScreen: React.FC = () => {
           control={control}
           error={errors.role}
         />
-        {apiErrors}
+        {errorSigninUp && <ErrorBlock error={errorSigninUp} />}
         <br />
         <Button
+          id='BUTTON_register'
           type='submit'
           variant='primary mt-2'
-          id='BUTTON_register'
           disabled={loadingOrProcessing || !isDirty}>
           Sign Up
         </Button>
       </Form>
+      <Row className='py-3'>
+        <Col>
+          Already have an account?
+          <Link id='LINK_already_have_an_account' href='/auth/signin'>
+            {/* to={redirect ? `/login?redirect=${redirect}` : '/login'}> */}{' '}
+            Login
+          </Link>
+        </Col>
+      </Row>
     </FormContainer>
   );
 };

@@ -50,7 +50,7 @@ router.post(
 
     await user.save();
     generateToken(req, user.id.toString(), user.name, user.email, user.role);
-    res.status(201).send(user);
+    res.status(201).send(user.toJSON());
   }
 );
 

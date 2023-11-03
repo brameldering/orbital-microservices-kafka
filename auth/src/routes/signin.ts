@@ -50,7 +50,7 @@ router.post(
     const user = await User.findOne({ email });
     if (user?.id && (await bcrypt.compare(password, user.password))) {
       generateToken(req, user.id.toString(), user.name, user.email, user.role);
-      res.status(200).send({ user });
+      res.status(200).send(user.toJSON());
     } else {
       throw new NotAuthorizedError();
     }

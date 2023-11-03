@@ -55,7 +55,7 @@ router.put(
     if (user) {
       user.password = process.env.DEFAULT_RESET_PASSWORD!;
       await user.save();
-      res.status(200).send({});
+      res.status(200).send();
     } else {
       throw new ObjectNotFoundError('User not found');
     }
