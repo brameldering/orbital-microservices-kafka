@@ -8,14 +8,23 @@
     "test": "jest --watchAll --no-cache"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.3.2",
+    "@orbitelco/common": "^1.0.38",
+    "@reduxjs/toolkit": "^1.9.7",
     "@types/node": "^20.8.8",
     "axios": "^1.5.1",
     "next": "latest",
     "react": "18.2.0",
     "react-bootstrap": "^2.9.1",
     "react-dom": "18.2.0",
+    "react-helmet-async": "^1.3.0",
+    "react-hook-form": "^7.47.0",
     "react-icons": "^4.11.0",
-    "typescript": "^5.2.2"
+    "react-redux": "^8.1.3",
+    "react-scroll": "^1.9.0",
+    "typescript": "^5.2.2",
+    "yup": "^1.3.2",
+    "yup-password": "^0.2.2"
   },
   "engines": {
     "node": ">=18"
@@ -23,6 +32,7 @@
   "devDependencies": {
     "@types/react": "^18.2.31",
     "@types/react-bootstrap": "^0.32.34",
+    "@types/react-redux": "^7.1.28",
     "@typescript-eslint/eslint-plugin": "^6.9.0",
     "@typescript-eslint/parser": "^6.9.0",
     "eslint": "^8.52.0",
@@ -31,6 +41,7 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "jest": "^29.7.0",
+    "redux-devtools-extension": "^2.13.9",
     "ts-jest": "^29.1.1"
   }
 }

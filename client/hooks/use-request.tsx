@@ -7,12 +7,12 @@ type THttpMethod = 'get' | 'post' | 'put' | 'delete' | 'patch';
 interface IUseRequestProps {
   url: string;
   method: THttpMethod;
-  body: {};
   onSuccess: any;
 }
 
 interface IUseRequestResponse {
-  doRequest: () => Promise<any>;
+  // eslint-disable-next-line no-unused-vars
+  doRequest: (props: { body: any }) => Promise<any>;
   errors: React.ReactNode | null;
 }
 
@@ -24,14 +24,14 @@ interface ISerializedError {
 const useRequest = ({
   url,
   method,
-  body,
   onSuccess,
 }: IUseRequestProps): IUseRequestResponse => {
   const [errors, setErrors] = useState<ReactNode | null>(null);
 
-  const doRequest = async () => {
+  const doRequest = async ({ body }: { body: any }) => {
     try {
       setErrors(null);
+      console.log('body', body);
       const res: AxiosResponse<any> = await axios[method](url, body);
       if (onSuccess) {
         onSuccess(res.data);

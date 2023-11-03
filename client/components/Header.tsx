@@ -15,11 +15,10 @@ const Header: React.FC<THeaderProps> = ({ currentUser }) => {
   const { doRequest, errors } = useRequest({
     url: 'https://orbitelco.dev/api/users/v2/signout',
     method: 'post',
-    body: {},
     onSuccess: () => Router.push('/'),
   });
   const logoutHandler = async () => {
-    await doRequest();
+    await doRequest({ body: {} });
   };
 
   return (
