@@ -13,6 +13,7 @@ import {
   SelectField,
 } from '../../form/FormComponents';
 import { textField, passwordField } from 'form/ValidationSpecs';
+import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
 import { ISignUp } from 'types/user-types';
@@ -95,7 +96,7 @@ const SignupScreen: React.FC = () => {
 
   return (
     <FormContainer>
-      {/* <Meta title='Sign Up' /> */}
+      <Meta title='Sign Up' />
       <Form onSubmit={handleSubmit(onSubmit, onError)}>
         <h1 className='mb-4'>Sign Up</h1>
         {loadingOrProcessing && <Loader />}
@@ -135,9 +136,9 @@ const SignupScreen: React.FC = () => {
       </Form>
       <Row className='py-3'>
         <Col>
-          Already have an account?
+          Already have an account?{' '}
           <Link id='LINK_already_have_an_account' href='/auth/signin'>
-            {/* to={redirect ? `/login?redirect=${redirect}` : '/login'}> */}{' '}
+            {/* to={redirect ? `/login?redirect=${redirect}` : '/login'}> */}
             Login
           </Link>
         </Col>

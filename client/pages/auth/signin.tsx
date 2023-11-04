@@ -8,6 +8,7 @@ import useRequest from '../../hooks/use-request';
 import FormContainer from '../../form/FormContainer';
 import { FormField, PasswordField } from '../../form/FormComponents';
 import { textField, passwordField } from 'form/ValidationSpecs';
+import Meta from 'components/Meta';
 import { SIGN_IN_URL } from '@orbitelco/common';
 
 interface IFormInput {
@@ -58,6 +59,7 @@ const SigninScreen: React.FC = () => {
 
   return (
     <FormContainer>
+      <Meta title='Sign In' />
       <Form onSubmit={handleSubmit(onSubmit, onError)}>
         <h1 className='mb-4'>Sign In</h1>
         <FormField

@@ -3,6 +3,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { NextPageContext } from 'next';
 import { AppProps } from 'next/app';
+import { HelmetProvider } from 'react-helmet-async';
 import buildClient from 'api/build-client';
 import Header from 'components/Header';
 import store from '../store';
@@ -24,8 +25,10 @@ const AppComponent = ({ Component, pageProps }: AppProps) => {
   }
   return (
     <Provider store={store}>
-      <Header currentUser={currentUser} />
-      <Component {...pageProps} />;
+      <HelmetProvider>
+        <Header currentUser={currentUser} />
+        <Component {...pageProps} />;
+      </HelmetProvider>
     </Provider>
   );
 };

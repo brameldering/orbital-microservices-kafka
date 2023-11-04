@@ -1,6 +1,7 @@
 import React from 'react';
 import { NextPageContext } from 'next';
 import buildClient from '../api/build-client';
+import Meta from 'components/Meta';
 import { CURRENT_USER_URL } from '@orbitelco/common';
 
 interface TLandingPageProps {
@@ -10,10 +11,14 @@ interface TLandingPageProps {
 const LandingPage: React.FC<TLandingPageProps> = ({ currentUser }) => {
   return currentUser ? (
     <>
+      <Meta title='Home' />
       <h1>You are signed in as {currentUser.email}</h1>
     </>
   ) : (
-    <h1>You are not signed in</h1>
+    <>
+      <Meta title='Home' />
+      <h1>You are not signed in</h1>
+    </>
   );
 };
 
