@@ -4,7 +4,6 @@ import {
   RESET_PASSWORD_URL,
   IExtendedRequest,
   validateRequest,
-  protect,
   ObjectNotFoundError,
 } from '@orbitelco/common';
 import { User } from '../userModel';
@@ -20,7 +19,6 @@ const router = express.Router();
 //       or status(404).ObjectNotFoundError('User not found')
 router.put(
   RESET_PASSWORD_URL,
-  protect,
   [body('email').isEmail().withMessage('Email must be valid')],
   validateRequest,
   async (req: IExtendedRequest, res: Response) => {

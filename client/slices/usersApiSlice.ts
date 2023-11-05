@@ -14,16 +14,16 @@ import {
   IUser,
   ISignUp,
   ISignIn,
-  IUserProfileUpdate,
-  IPasswordUpdate,
-  IPasswordReset,
+  IChangeUserProfile,
+  IChangePassword,
+  IResetPassword,
 } from '../types/user-types';
 
 import apiSlice from './apiSlice';
 
 export const userApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    currentUser: builder.query<ICurrentUser, void>({
+    getCurrentUser: builder.query<ICurrentUser, void>({
       query: () => ({
         url: CURRENT_USER_URL,
       }),
@@ -56,7 +56,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
       providesTags: ['User'],
     }),
-    updateUserProfile: builder.mutation<IUser, IUserProfileUpdate>({
+    changeUserProfile: builder.mutation<IUser, IChangeUserProfile>({
       query: (data) => ({
         url: UPDATE_PROFILE_URL,
         method: 'PUT',
@@ -64,7 +64,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['User'],
     }),
-    updatePassword: builder.mutation<IUser, IPasswordUpdate>({
+    changePassword: builder.mutation<IUser, IChangePassword>({
       query: (data) => ({
         url: UPDATE_PASSWORD_URL,
         method: 'PUT',
@@ -72,7 +72,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['User'],
     }),
-    resetPassword: builder.mutation<void, IPasswordReset>({
+    resetPassword: builder.mutation<void, IResetPassword>({
       query: (data) => ({
         url: RESET_PASSWORD_URL,
         method: 'PUT',
@@ -105,13 +105,13 @@ export const userApiSlice = apiSlice.injectEndpoints({
 });
 
 export const {
-  useCurrentUserQuery,
+  useGetCurrentUserQuery,
   useSignInMutation,
   useSignOutMutation,
   useSignUpMutation,
   useGetUsersQuery,
-  useUpdateUserProfileMutation,
-  useUpdatePasswordMutation,
+  useChangeUserProfileMutation,
+  useChangePasswordMutation,
   useResetPasswordMutation,
   useGetUserByIdQuery,
   useUpdateUserMutation,

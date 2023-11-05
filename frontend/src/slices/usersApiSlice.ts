@@ -3,8 +3,8 @@ import {
   IUser,
   IRegistration,
   ILogin,
-  IPasswordUpdate,
-  IPasswordReset,
+  IChangePassword,
+  IResetPassword,
 } from '../types/userTypes';
 
 import apiSlice from './apiSlice';
@@ -47,7 +47,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['User'],
     }),
-    updatePassword: builder.mutation<IUser, IPasswordUpdate>({
+    updatePassword: builder.mutation<IUser, IChangePassword>({
       query: (data) => ({
         url: `${USERS_URL}/updatepassword`,
         method: 'PUT',
@@ -55,7 +55,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['User'],
     }),
-    resetPassword: builder.mutation<void, IPasswordReset>({
+    resetPassword: builder.mutation<void, IResetPassword>({
       query: (data) => ({
         url: `${USERS_URL}/resetpassword`,
         method: 'PUT',

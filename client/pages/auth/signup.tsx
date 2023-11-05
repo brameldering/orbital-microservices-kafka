@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap';
-import Router from 'next/router';
+import { NextPageContext } from 'next';
+import Router, { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-// import useRequest from '../../hooks/use-request';
 import FormContainer from '../../form/FormContainer';
 import {
   FormField,
@@ -16,10 +16,9 @@ import { textField, passwordField } from 'form/ValidationSpecs';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
-import { ISignUp } from 'types/user-types';
-// import { BASE_URL } from 'constants/constants-frontend';
-// import { SIGN_UP_URL } from '@orbitelco/common';
+import { ISignUp, ICurrentUser } from 'types/user-types';
 import { useSignUpMutation } from 'slices/usersApiSlice';
+import { getCurrentUser } from 'api/get-current-user';
 
 interface IFormInput {
   name: string;
@@ -37,10 +36,11 @@ const schema = yup.object().shape({
   role: yup.string().required('Role is required'),
 });
 
-const SignupScreen: React.FC = () => {
-  const [signUp, { isLoading: signinUp, error: errorSigninUp }] =
-    useSignUpMutation();
+interface TPageProps {
+  currentUser?: ICurrentUser;
+}
 
+const SignupScreen: React.FC<TPageProps> = ({ currentUser }) => {
   const {
     register,
     control,
@@ -56,6 +56,14 @@ const SignupScreen: React.FC = () => {
     reValidateMode: 'onSubmit',
     resolver: yupResolver(schema),
   });
+
+  const [signUp, { isLoading: signinUp, error: errorSigninUp }] =
+    useSignUpMutation();
+
+  // Extract the 'redirect' query parameter with a default value of '/'
+  const router = useRouter();
+  const { query } = router;
+  const redirect = query.redirect || '/';
 
   const onSubmit = async () => {
     const user: ISignUp = {
@@ -75,16 +83,11 @@ const SignupScreen: React.FC = () => {
     console.log('ERROR:::', error);
   };
 
-  // === Following to do in NextJS ===
-  // const { search } = useLocation();
-  // const sp = new URLSearchParams(search);
-  // const redirect = sp.get('redirect') || '/';
-
-  // useEffect(() => {
-  //   if (userInfo) {
-  //     navigate(redirect);
-  //   }
-  // }, [navigate, redirect, userInfo]);
+  useEffect(() => {
+    if (currentUser) {
+      router.push(redirect.toString());
+    }
+  }, [router, redirect, currentUser]);
 
   const roles = [
     { label: 'Select role', value: '' },
@@ -133,18 +136,31 @@ const SignupScreen: React.FC = () => {
           disabled={loadingOrProcessing || !isDirty}>
           Sign Up
         </Button>
+        <p>Currentuser:</p>
+        <p>id: {currentUser?.id}</p>
+        <p>email: {currentUser?.email}</p>
+        <p>name: {currentUser?.name}</p>
+        <p>role: {currentUser?.role}</p>
       </Form>
       <Row className='py-3'>
         <Col>
           Already have an account?{' '}
-          <Link id='LINK_already_have_an_account' href='/auth/signin'>
-            {/* to={redirect ? `/login?redirect=${redirect}` : '/login'}> */}
+          <Link
+            id='LINK_already_have_an_account'
+            href={
+              redirect ? `/auth/signin?redirect=${redirect}` : '/auth/signin'
+            }>
             Login
           </Link>
         </Col>
       </Row>
     </FormContainer>
   );
+};
+
+export const getServerSideProps = async (context: NextPageContext) => {
+  const { data } = await getCurrentUser(context);
+  return { props: data };
 };
 
 export default SignupScreen;

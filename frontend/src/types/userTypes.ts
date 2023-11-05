@@ -19,12 +19,12 @@ export interface ILogin {
   password: string;
 }
 
-export interface IPasswordUpdate {
+export interface IChangePassword {
   _id: string;
   currentPassword: string;
   newPassword: string;
 }
 
-export interface IPasswordReset {
+export interface IResetPassword {
   email: string;
 }

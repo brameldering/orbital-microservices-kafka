@@ -29,17 +29,16 @@ export interface ISignIn {
   password: string;
 }
 
-export interface IUserProfileUpdate {
+export interface IChangeUserProfile {
   name: string;
   email: string;
 }
 
-export interface IPasswordUpdate {
-  // id: string;
+export interface IChangePassword {
   currentPassword: string;
   newPassword: string;
 }
 
-export interface IPasswordReset {
+export interface IResetPassword {
   email: string;
 }

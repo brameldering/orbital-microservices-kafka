@@ -18,7 +18,7 @@ export default ({ req }: NextPageContext) => {
     // requests to be made to base url of "" (broweser will fill in current base url)
     console.log('== on the browser!');
   }
-  // Set SSL Certifcate check to falso for dev and test and true otherwise
+  // Set SSL Certifcate check to false for dev and test and true otherwise
   if (
     process.env.NODE_ENV === 'development' ||
     process.env.NODE_ENV === 'test'
