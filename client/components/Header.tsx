@@ -1,11 +1,13 @@
 import React from 'react';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
-import Link from 'next/link';
 import Container from 'react-bootstrap/Container';
 import { FaUser } from 'react-icons/fa';
+import Link from 'next/link';
 import Router from 'next/router';
-import LogoSVG from '../logo/LogoSVG';
 import useRequest from 'hooks/use-request';
+import { BASE_URL } from 'constants/constants-frontend';
+import { SIGN_OUT_URL } from '@orbitelco/common';
+import LogoSVG from '../logo/LogoSVG';
 
 interface THeaderProps {
   currentUser?: { name: string; email: string };
@@ -13,7 +15,7 @@ interface THeaderProps {
 
 const Header: React.FC<THeaderProps> = ({ currentUser }) => {
   const { doRequest, errors } = useRequest({
-    url: 'https://orbitelco.dev/api/users/v2/signout',
+    url: BASE_URL + SIGN_OUT_URL,
     method: 'post',
     onSuccess: () => Router.push('/'),
   });
@@ -42,16 +44,12 @@ const Header: React.FC<THeaderProps> = ({ currentUser }) => {
                   <NavDropdown
                     title={currentUser.name}
                     id='LINK_header_username'>
-                    <Link href='/'>
-                      <NavDropdown.Item id='LINK_my_profile'>
-                        My Profile
-                      </NavDropdown.Item>
-                    </Link>
-                    <Link href='/'>
-                      <NavDropdown.Item id='LINK_my_orders'>
-                        My Orders
-                      </NavDropdown.Item>
-                    </Link>
+                    <NavDropdown.Item id='LINK_my_profile'>
+                      <Link href='/auth/myprofile'>My Profile</Link>
+                    </NavDropdown.Item>
+                    <NavDropdown.Item id='LINK_my_orders'>
+                      <Link href='/'>My Orders </Link>
+                    </NavDropdown.Item>
                   </NavDropdown>
                   <Nav.Link id='LINK_header_logout' onClick={logoutHandler}>
                     Sign Out

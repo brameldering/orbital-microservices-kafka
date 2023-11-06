@@ -136,11 +136,6 @@ const SignupScreen: React.FC<TPageProps> = ({ currentUser }) => {
           disabled={loadingOrProcessing || !isDirty}>
           Sign Up
         </Button>
-        <p>Currentuser:</p>
-        <p>id: {currentUser?.id}</p>
-        <p>email: {currentUser?.email}</p>
-        <p>name: {currentUser?.name}</p>
-        <p>role: {currentUser?.role}</p>
       </Form>
       <Row className='py-3'>
         <Col>

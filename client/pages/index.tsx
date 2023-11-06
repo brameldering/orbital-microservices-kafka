@@ -1,36 +1,70 @@
 import React from 'react';
-import { NextPageContext } from 'next';
+import { Row, Col } from 'react-bootstrap';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import Meta from 'components/Meta';
-import { getCurrentUser } from 'api/get-current-user';
+import Loader from 'components/Loader';
+import ErrorBlock from 'components/ErrorBlock';
+import Paginate from 'components/Paginate';
+import Product from 'components/Product';
+import { IProduct } from '../types/product-types';
+import { useGetProductsQuery } from 'slices/productsApiSlice';
 
-interface TLandingPageProps {
-  currentUser?: { name: string; email: string };
-}
+const LandingPage: React.FC = () => {
+  const router = useRouter();
+  const pageNumber = router.query.pageNumber as string | undefined;
+  const keyword = router.query.keyword as string | undefined;
 
-const LandingPage: React.FC<TLandingPageProps> = ({ currentUser }) => {
-  return currentUser ? (
+  const {
+    data: catalogData,
+    isLoading: isLoadingCatalog,
+    error: errorLoadingCatalog,
+  } = useGetProductsQuery({
+    keyword: keyword || '',
+    pageNumber: pageNumber || '',
+  });
+
+  const loadingOrProcessing = isLoadingCatalog;
+
+  return (
     <>
-      <Meta title='Home' />
-      <h1>
-        You are signed in as {currentUser.email}, {currentUser.name}
-      </h1>
-    </>
-  ) : (
-    <>
-      <Meta title='Home' />
-      <h1>You are not signed in</h1>
+      <Meta title='Products' />
+      <h1>Products</h1>
+      {keyword && (
+        <Link id='BUTTON_back' href='/' className='btn btn-light mb-4'>
+          Go Back
+        </Link>
+      )}
+      {loadingOrProcessing ? (
+        <Loader />
+      ) : errorLoadingCatalog ? (
+        <ErrorBlock error={errorLoadingCatalog} />
+      ) : (
+        <>
+          <Row>
+            {catalogData &&
+              catalogData.products.length > 0 &&
+              catalogData.products.map((product: IProduct) => (
+                <Col key={product.id} sm={12} md={6} lg={4} xl={3}>
+                  <Product product={product} />
+                </Col>
+              ))}
+            {!catalogData ||
+              (catalogData.products.length === 0 && (
+                <p>No products match your search</p>
+              ))}
+          </Row>
+          {catalogData && (
+            <Paginate
+              pages={catalogData.pages}
+              page={catalogData.page}
+              keyword={keyword ? keyword : ''}
+            />
+          )}
+        </>
+      )}
     </>
   );
 };
-
-// getInitialProps is executed on the server before the LandingPage component is send back.
-// However when navigating from one page to another while in the app then getInitialProps is executed on the client
-export const getServerSideProps = async (context: NextPageContext) => {
-  const { data } = await getCurrentUser(context);
-  return { props: data };
-};
-
-// export const getStaticProps = async (context: NextPageContext) => {
-// };
 
 export default LandingPage;

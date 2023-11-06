@@ -6,9 +6,11 @@ import { AppProps } from 'next/app';
 import { HelmetProvider } from 'react-helmet-async';
 import buildClient from 'api/build-client';
 import Header from 'components/Header';
+import Footer from 'components/Footer';
 import store from '../store';
 import { CURRENT_USER_URL } from '@orbitelco/common';
 import '../styles/bootstrap.custom.css';
+import '../styles/index.css';
 
 interface IUser {
   name: string;
@@ -28,6 +30,7 @@ const AppComponent = ({ Component, pageProps }: AppProps) => {
       <HelmetProvider>
         <Header currentUser={currentUser} />
         <Component {...pageProps} />;
+        <Footer />
       </HelmetProvider>
     </Provider>
   );

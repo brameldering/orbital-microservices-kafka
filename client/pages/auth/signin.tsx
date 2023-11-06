@@ -1,6 +1,5 @@
 import React from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap';
-import { NextPageContext } from 'next';
 import Router, { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
@@ -12,9 +11,8 @@ import { textField, passwordField } from 'form/ValidationSpecs';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
-import { ICurrentUser, ISignIn } from 'types/user-types';
+import { ISignIn } from 'types/user-types';
 import { useSignInMutation } from 'slices/usersApiSlice';
-import { getCurrentUser } from 'api/get-current-user';
 
 interface IFormInput {
   email: string;
@@ -27,11 +25,7 @@ const schema = yup.object().shape({
   password: passwordField(),
 });
 
-interface TPageProps {
-  currentUser?: ICurrentUser;
-}
-
-const SigninScreen: React.FC<TPageProps> = ({ currentUser }) => {
+const SigninScreen: React.FC = () => {
   const {
     register,
     handleSubmit,
@@ -119,18 +113,8 @@ const SigninScreen: React.FC<TPageProps> = ({ currentUser }) => {
           </Link>
         </Col>
       </Row>
-      <p>Currentuser:</p>
-      <p>id: {currentUser?.id}</p>
-      <p>email: {currentUser?.email}</p>
-      <p>name: {currentUser?.name}</p>
-      <p>role: {currentUser?.role}</p>
     </FormContainer>
   );
-};
-
-export const getServerSideProps = async (context: NextPageContext) => {
-  const { data } = await getCurrentUser(context);
-  return { props: data };
 };
 
 export default SigninScreen;

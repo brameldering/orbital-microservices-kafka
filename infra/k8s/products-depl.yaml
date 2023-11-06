@@ -43,6 +43,22 @@ spec:
                   key: CLOUDINARY_API_SECRET_KEY
             - name: PRODUCTS_PER_PAGE
               value: '12'
+            - name: VAT_PERCENTAGE
+              value: '21'
+            - name: SHIPPING_FEE
+              value: '4.5'
+            - name: THRESHOLD_FREE_SHIPPING
+              value: '100'
+            - name: PAYPAL_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: paypal-client-id
+                  key: PAYPAL_CLIENT_ID_KEY
+            - name: PAYPAL_APP_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: paypal-app-secret
+                  key: PAYPAL_APP_SECRET_KEY
 ---
 apiVersion: v1
 kind: Service

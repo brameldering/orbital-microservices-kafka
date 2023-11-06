@@ -1,0 +1,91 @@
+main {
+  min-height: 80vh;
+}
+
+.rating span {
+  margin: 0.1rem;
+}
+
+.rating svg {
+  color: #f8e825;
+}
+
+.rating-text {
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding-left: 0.5rem;
+}
+
+.product-title {
+  height: 2.5em; /* Set a fixed height */
+  overflow: hidden; /* Hide overflow content */
+  text-overflow: ellipsis; /* Add ellipsis for long text */
+  white-space: nowrap; /* Prevent wrapping */
+}
+
+table td,
+table th {
+  text-align: center;
+}
+
+.review {
+  margin-top: 30px;
+}
+
+.review h2 {
+  font-size: 24px;
+  background: #f4f4f4;
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+.review button {
+  margin-top: 10px;
+}
+
+/* Process flow - block arrow CSS */
+.processFlow {
+  color: white;
+  text-align: center;
+}
+
+.processFlow li {
+  display: inline-block;
+  position: relative;
+  margin: 10px;
+  width: 100px; /* width of block */
+  height: 30px;
+  line-height: 30px;
+}
+
+.processFlow li:after {
+  border-left: 15px solid;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+  display: inline-block;
+  content: '';
+  position: absolute;
+  right: -20px;
+  top: 0;
+}
+
+.processFlow li.completed {
+  background-color: #77a942;
+}
+.processFlow li.completed:after {
+  border-left: 20px solid #77a942;
+}
+
+.processFlow li.current {
+  background-color: #4d81bf;
+}
+.processFlow li.current:after {
+  border-left: 20px solid #4d81bf;
+}
+
+.processFlow li.todo {
+  background-color: #909090;
+}
+.processFlow li.todo:after {
+  border-left: 20px solid #909090;
+}

@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 
 import apiSlice from './slices/apiSlice';
 // import authSliceReducer from './slices/authSlice';
-// import cartSliceReducer from './slices/cartSlice';
+import cartSliceReducer from './slices/cartSlice';
 // import configSliceReducer from './slices/configSlice';
 
 const store = configureStore({
@@ -10,7 +10,7 @@ const store = configureStore({
     [apiSlice.reducerPath]: apiSlice.reducer,
     // config: configSliceReducer,
     // auth: authSliceReducer,
-    // cart: cartSliceReducer,
+    cart: cartSliceReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(apiSlice.middleware),
