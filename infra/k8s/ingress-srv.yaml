@@ -31,6 +31,13 @@ spec:
                 name: seq-srv
                 port:
                   number: 3000
+          - path: /api/seeddata/v2/?(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: seed-srv
+                port:
+                  number: 3000
           - path: /?(.*)
             pathType: ImplementationSpecific
             backend:

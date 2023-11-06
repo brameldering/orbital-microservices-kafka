@@ -476,7 +476,7 @@ export type User = {
  *
  * Use this type alias to avoid conflicts with model names:
  * ```
- * import { User } from "../models"
+ * import User  from "../models"
  * import { UserObject } from "../interfaces/mongoose.gen.ts"
  *
  * const userObject: UserObject = user.toObject();

@@ -10,7 +10,7 @@ interface ProductComponentProps {
   product: IProduct;
 }
 
-const Product: React.FunctionComponent<ProductComponentProps> = ({
+const ProductComponent: React.FunctionComponent<ProductComponentProps> = ({
   product,
 }) => {
   return (
@@ -47,4 +47,4 @@ const Product: React.FunctionComponent<ProductComponentProps> = ({
   );
 };
 
-export default Product;
+export default ProductComponent;

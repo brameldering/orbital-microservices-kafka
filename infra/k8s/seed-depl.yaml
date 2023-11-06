@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: seed-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: seed
+  template:
+    metadata:
+      labels:
+        app: seed
+    spec:
+      containers:
+        - name: seed
+          image: orbitelco/seed
+          env:
+            - name: NODE_ENV
+              value: 'development'
+            - name: MONGO_URI_SEQ
+              value: 'mongodb://seq-mongo-srv:27017/seq'
+            - name: MONGO_URI_PRODUCTS
+              value: 'mongodb://products-mongo-srv:27017/products'
+            - name: MONGO_URI_AUTH
+              value: 'mongodb://auth-mongo-srv:27017/auth'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: seed-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: seed
+  ports:
+    - name: seed
+      protocol: TCP
+      port: 3000
+      targetPort: 3000

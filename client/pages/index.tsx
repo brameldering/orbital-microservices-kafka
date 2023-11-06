@@ -6,7 +6,7 @@ import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
 import Paginate from 'components/Paginate';
-import Product from 'components/Product';
+import ProductComponent from '../components/ProductComponent';
 import { IProduct } from '../types/product-types';
 import { useGetProductsQuery } from 'slices/productsApiSlice';
 
@@ -46,7 +46,7 @@ const LandingPage: React.FC = () => {
               catalogData.products.length > 0 &&
               catalogData.products.map((product: IProduct) => (
                 <Col key={product.id} sm={12} md={6} lg={4} xl={3}>
-                  <Product product={product} />
+                  <ProductComponent product={product} />
                 </Col>
               ))}
             {!catalogData ||
