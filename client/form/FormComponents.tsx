@@ -62,7 +62,7 @@ const FormField: React.FunctionComponent<FormFieldProps> = ({
     <>
       <FloatingLabel controlId={controlId} label={label} className='mt-3'>
         <Form.Control
-          style={{ borderColor: '#606060' }}
+          style={{ borderColor: '#606060', fontSize: 12, padding: 3 }}
           type={type}
           placeholder={label}
           // name={controlId}
