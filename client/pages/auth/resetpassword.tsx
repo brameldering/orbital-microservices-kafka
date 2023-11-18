@@ -9,8 +9,11 @@ import { FormField } from '../../form/FormComponents';
 import { textField } from 'form/ValidationSpecs';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
-import ErrorBlock from 'components/ErrorBlock';
-import { useResetPasswordMutation } from 'slices/usersApiSlice';
+// import ErrorBlock from 'components/ErrorBlock';
+// import { useResetPasswordMutation } from 'slices/usersApiSlice';
+import useRequest from 'hooks/use-request';
+import { BASE_URL } from 'constants/constants-frontend';
+import { RESET_PASSWORD_URL } from '@orbitelco/common';
 
 interface IFormInput {
   email: string;
@@ -35,33 +38,43 @@ const PasswordResetScreen = () => {
     resolver: yupResolver(schema),
   });
 
-  const [
-    resetPassword,
-    { isLoading: resettingPassword, error: errorResettingPassword },
-  ] = useResetPasswordMutation();
+  // const [
+  //   resetPassword,
+  //   { isLoading: resettingPassword, error: errorResettingPassword },
+  // ] = useResetPasswordMutation();
 
+  const { doRequest, errors: errorResettingPassword } = useRequest({
+    url: BASE_URL + RESET_PASSWORD_URL,
+    method: 'put',
+    onSuccess: () => Router.push('/auth/resetpasswordconfirm'),
+  });
   const onSubmit = async () => {
-    try {
-      const email = getValues('email');
-      await resetPassword({ email }).unwrap();
-      console.log('errorResettingPassword', errorResettingPassword);
-      if (!errorResettingPassword) {
-        Router.push('/auth/resetpasswordconfirm');
-      }
-    } catch (err: any) {
-      console.log(
-        'in catch can resetpassword on submit: errorResettingPassword',
-        errorResettingPassword
-      );
-      // Do nothing because error will be handled as an ErrorBlock with errorResettingPassword
-    }
+    const email = getValues('email');
+    await doRequest({ body: { email } });
   };
+
+  // const onSubmit = async () => {
+  //   try {
+  //     const email = getValues('email');
+  //     await resetPassword({ email }).unwrap();
+  //     console.log('errorResettingPassword', errorResettingPassword);
+  //     if (!errorResettingPassword) {
+  //       Router.push('/auth/resetpasswordconfirm');
+  //     }
+  //   } catch (err: any) {
+  //     console.log(
+  //       'in catch can resetpassword on submit: errorResettingPassword',
+  //       errorResettingPassword
+  //     );
+  //     // Do nothing because error will be handled as an ErrorBlock with errorResettingPassword
+  //   }
+  // };
 
   const onError = (error: any) => {
     console.log('ERROR:::', error);
   };
 
-  const loadingOrProcessing = resettingPassword;
+  const loadingOrProcessing = false; // resettingPassword;
 
   return (
     <FormContainer>
@@ -75,9 +88,10 @@ const PasswordResetScreen = () => {
           register={register}
           error={errors.email}
         />
-        {errorResettingPassword && (
+        {errorResettingPassword}
+        {/* {errorResettingPassword && (
           <ErrorBlock error={errorResettingPassword} />
-        )}
+         )} */}
         <br />
         <Button
           id='BUTTON_reset_password'

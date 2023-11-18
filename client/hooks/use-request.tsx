@@ -31,7 +31,7 @@ const useRequest = ({
   const doRequest = async ({ body }: { body: any }) => {
     try {
       setErrors(null);
-      console.log('body', body);
+      console.log('doRequest: body: ', body);
       const res: AxiosResponse<any> = await axios[method](url, body);
       if (onSuccess) {
         onSuccess(res.data);
