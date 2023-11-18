@@ -41,10 +41,19 @@ const PasswordResetScreen = () => {
   ] = useResetPasswordMutation();
 
   const onSubmit = async () => {
-    const email = getValues('email');
-    await resetPassword({ email }).unwrap();
-    if (!errorResettingPassword) {
-      Router.push('/auth/resetpasswordconfirm');
+    try {
+      const email = getValues('email');
+      await resetPassword({ email }).unwrap();
+      console.log('errorResettingPassword', errorResettingPassword);
+      if (!errorResettingPassword) {
+        Router.push('/auth/resetpasswordconfirm');
+      }
+    } catch (err: any) {
+      console.log(
+        'in catch can resetpassword on submit: errorResettingPassword',
+        errorResettingPassword
+      );
+      // Do nothing because error will be handled as an ErrorBlock with errorResettingPassword
     }
   };
 

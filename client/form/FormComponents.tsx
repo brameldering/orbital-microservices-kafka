@@ -22,21 +22,19 @@ const CheckBoxField: React.FunctionComponent<CheckBoxFieldProps> = ({
 }) => {
   const errorTextId = 'error_text_' + controlId;
   return (
-    <>
-      <Form.Group className='mt-3' controlId={controlId}>
-        <Form.Check
-          name={controlId}
-          label={label}
-          checked={checked}
-          {...register(controlId)}
-        />
-      </Form.Group>
+    <Form.Group className='mt-3' controlId={controlId}>
+      <Form.Check
+        name={controlId}
+        label={label}
+        checked={checked}
+        {...register(controlId)}
+      />
       {error && (
         <Form.Text id={errorTextId} className='text-danger'>
           {error.message}
         </Form.Text>
       )}
-    </>
+    </Form.Group>
   );
 };
 
@@ -59,23 +57,22 @@ const FormField: React.FunctionComponent<FormFieldProps> = ({
 }) => {
   const errorTextId = 'error_text_' + controlId;
   return (
-    <>
+    <Form.Group>
       <FloatingLabel controlId={controlId} label={label} className='mt-3'>
         <Form.Control
-          style={{ borderColor: '#606060', fontSize: 12, padding: 3 }}
+          style={{ borderColor: '#606060' }}
           type={type}
           placeholder={label}
           // name={controlId}
           {...register(controlId)}
         />
       </FloatingLabel>
-      {/*  {formik.touched[controlId] && formik.errors[controlId] ? (  */}
       {error && (
         <Form.Text id={errorTextId} className='text-danger'>
           {error.message}
         </Form.Text>
       )}
-    </>
+    </Form.Group>
   );
 };
 
@@ -127,7 +124,6 @@ const PasswordField: React.FunctionComponent<PasswordFieldProps> = ({
           {contentVisible ? <FaEye /> : <FaEyeSlash />}
         </Button>
       </InputGroup>
-      {/*  {formik.touched[controlId] && formik.errors[controlId] ? (  */}
       {error && (
         <Form.Text id={errorTextId} className='text-danger'>
           {error.message}
@@ -199,12 +195,16 @@ const TextAreaField: React.FunctionComponent<TextAreaFieldProps> = ({
 }) => {
   const errorTextId = 'error_text_' + controlId;
   return (
-    <>
+    <Form.Group>
       <FloatingLabel controlId={controlId} label={label} className='mt-3'>
         <Form.Control
           as='textarea'
           rows={3}
-          style={{ height: '100px', lineHeight: '1.5', borderColor: '#606060' }}
+          style={{
+            height: '100px',
+            lineHeight: '1.5',
+            borderColor: '#606060',
+          }}
           placeholder={label}
           value={value}
           {...register(controlId)}
@@ -215,7 +215,7 @@ const TextAreaField: React.FunctionComponent<TextAreaFieldProps> = ({
           {error.message}
         </Form.Text>
       )}
-    </>
+    </Form.Group>
   );
 };
 

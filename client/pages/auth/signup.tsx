@@ -73,6 +73,7 @@ const SignupScreen: React.FC<TPageProps> = ({ currentUser }) => {
       role: getValues('role'),
     };
     await signUp(user).unwrap();
+    // console.log('errorsignup', errorSigninUp);
     if (!errorSigninUp) {
       reset();
       Router.push('/');

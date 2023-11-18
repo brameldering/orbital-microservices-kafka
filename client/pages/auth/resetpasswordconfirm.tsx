@@ -18,7 +18,7 @@ const ResetPasswordConfirmation = () => {
         This email will then be send to the email entered in the previous screen
         (and only if that email is already known in our system)
       </p>
-      <Link href='auth/signin'>Go to Login screen</Link>
+      <Link href='/auth/signin'>Go to Login screen</Link>
     </FormContainer>
   );
 };
