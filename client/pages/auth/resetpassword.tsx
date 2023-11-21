@@ -9,8 +9,7 @@ import { FormField } from '../../form/FormComponents';
 import { textField } from 'form/ValidationSpecs';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
-// import ErrorBlock from 'components/ErrorBlock';
-// import { useResetPasswordMutation } from 'slices/usersApiSlice';
+import ErrorBlock from 'components/ErrorBlock';
 import useRequest from 'hooks/use-request';
 import { BASE_URL } from 'constants/constants-frontend';
 import { RESET_PASSWORD_URL } from '@orbitelco/common';
@@ -38,12 +37,11 @@ const PasswordResetScreen = () => {
     resolver: yupResolver(schema),
   });
 
-  // const [
-  //   resetPassword,
-  //   { isLoading: resettingPassword, error: errorResettingPassword },
-  // ] = useResetPasswordMutation();
-
-  const { doRequest, errors: errorResettingPassword } = useRequest({
+  const {
+    doRequest,
+    isProcessing,
+    error: errorResettingPassword,
+  } = useRequest({
     url: BASE_URL + RESET_PASSWORD_URL,
     method: 'put',
     onSuccess: () => Router.push('/auth/resetpasswordconfirm'),
@@ -53,51 +51,30 @@ const PasswordResetScreen = () => {
     await doRequest({ body: { email } });
   };
 
-  // const onSubmit = async () => {
-  //   try {
-  //     const email = getValues('email');
-  //     await resetPassword({ email }).unwrap();
-  //     console.log('errorResettingPassword', errorResettingPassword);
-  //     if (!errorResettingPassword) {
-  //       Router.push('/auth/resetpasswordconfirm');
-  //     }
-  //   } catch (err: any) {
-  //     console.log(
-  //       'in catch can resetpassword on submit: errorResettingPassword',
-  //       errorResettingPassword
-  //     );
-  //     // Do nothing because error will be handled as an ErrorBlock with errorResettingPassword
-  //   }
-  // };
-
   const onError = (error: any) => {
     console.log('ERROR:::', error);
   };
-
-  const loadingOrProcessing = false; // resettingPassword;
 
   return (
     <FormContainer>
       <Meta title='Reset Password' />
       <Form onSubmit={handleSubmit(onSubmit, onError)}>
         <h1>Reset Password</h1>
-        {loadingOrProcessing && <Loader />}
+        {isProcessing && <Loader />}
         <FormField
           controlId='email'
           label='Your email address as known to us'
           register={register}
           error={errors.email}
         />
-        {errorResettingPassword}
-        {/* {errorResettingPassword && (
+        {errorResettingPassword && (
           <ErrorBlock error={errorResettingPassword} />
-         )} */}
-        <br />
+        )}
         <Button
           id='BUTTON_reset_password'
           type='submit'
           variant='primary mt-2'
-          disabled={loadingOrProcessing || !isDirty}>
+          disabled={isProcessing || !isDirty}>
           Reset Password
         </Button>
       </Form>

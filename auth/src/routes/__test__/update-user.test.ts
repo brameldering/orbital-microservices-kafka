@@ -11,6 +11,8 @@ import {
   CUST_TEST_EMAIL,
   CUST_TEST_PASSWORD,
   CUST_TEST_NAME,
+  CUSTOMER_ROLE,
+  ADMIN_ROLE,
 } from '@orbitelco/common';
 
 const updatedName = 'Updated Name';
@@ -30,7 +32,7 @@ describe('Test updating profile', () => {
       .set('Cookie', cookie)
       .send({
         name: updatedName,
-        role: 'admin',
+        role: ADMIN_ROLE,
       })
       .expect(200);
     // user signs in with existing email and password
@@ -45,7 +47,7 @@ describe('Test updating profile', () => {
     expect(res.get('Set-Cookie')).toBeDefined();
     expect(res.body.name).toEqual(updatedName);
     expect(res.body.email).toEqual(CUST_TEST_EMAIL);
-    expect(res.body.role).toEqual('admin');
+    expect(res.body.role).toEqual(ADMIN_ROLE);
   });
   it('returns a status 200 when the email is updated and user can login with new email', async () => {
     // Register a customer user
@@ -74,7 +76,7 @@ describe('Test updating profile', () => {
     expect(res.get('Set-Cookie')).toBeDefined();
     expect(res.body.name).toEqual(CUST_TEST_NAME);
     expect(res.body.email).toEqual(updatedEmail);
-    expect(res.body.role).toEqual('customer');
+    expect(res.body.role).toEqual(CUSTOMER_ROLE);
   });
   it('returns a status 401 when not logged in', async () => {
     // Register a customer user
@@ -86,7 +88,7 @@ describe('Test updating profile', () => {
       .send({
         name: updatedName,
         email: updatedEmail,
-        role: 'admin',
+        role: ADMIN_ROLE,
       })
       .expect(401);
     // Check that error message contains message "('Not authorized')"
@@ -106,7 +108,7 @@ describe('Test updating profile', () => {
       .send({
         name: updatedName,
         email: updatedEmail,
-        role: 'admin',
+        role: ADMIN_ROLE,
       })
       .expect(401);
     // Check that error message contains message "('Not authorized')"

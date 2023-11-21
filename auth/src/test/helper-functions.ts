@@ -5,11 +5,11 @@ import {
   CUST_TEST_NAME,
   CUST_TEST_EMAIL,
   CUST_TEST_PASSWORD,
-  CUST_TEST_ROLE,
+  CUSTOMER_ROLE,
   ADMIN_TEST_NAME,
   ADMIN_TEST_EMAIL,
   ADMIN_TEST_PASSWORD,
-  ADMIN_TEST_ROLE,
+  ADMIN_ROLE,
 } from '@orbitelco/common';
 
 // Re-usable signup function for a test customer
@@ -20,7 +20,7 @@ export const signupCustomer: any = async () => {
       name: CUST_TEST_NAME,
       email: CUST_TEST_EMAIL,
       password: CUST_TEST_PASSWORD,
-      role: CUST_TEST_ROLE,
+      role: CUSTOMER_ROLE,
     })
     .expect(201);
 
@@ -37,7 +37,7 @@ export const signupCustomer2: any = async () => {
       name: 'Another Customer',
       email: 'another.customer@test.com',
       password: CUST_TEST_PASSWORD,
-      role: CUST_TEST_ROLE,
+      role: CUSTOMER_ROLE,
     })
     .expect(201);
 
@@ -54,7 +54,7 @@ export const signupAdmin: any = async () => {
       name: ADMIN_TEST_NAME,
       email: ADMIN_TEST_EMAIL,
       password: ADMIN_TEST_PASSWORD,
-      role: ADMIN_TEST_ROLE,
+      role: ADMIN_ROLE,
     })
     .expect(201);
 

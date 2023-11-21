@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { NextPageContext } from 'next';
 import { AppProps } from 'next/app';
 import { HelmetProvider } from 'react-helmet-async';
-import buildClient from 'api/build-client';
+import configureAxios from 'api/configure-axios';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
 import store from '../store';
@@ -43,24 +43,9 @@ const AppComponent = ({ Component, pageProps }: AppProps) => {
 
 AppComponent.getServerSideProps = async (context: NextPageContext) => {
   console.log('AppComponent.getServerSideProps');
-  const client = buildClient(context);
+  const client = configureAxios(context);
   const { data } = await client.get(CURRENT_USER_URL);
   return data;
 };
-
-// AppComponent.getInitialProps = async (appContext: any) => {
-//   const client = buildClient(appContext.ctx);
-//   const { data } = await client.get(CURRENT_USER_URL);
-
-//   let pageProps = {};
-//   if (appContext.Component.getInitialProps) {
-//     pageProps = await appContext.Component.getInitialProps(appContext.ctx);
-//   }
-
-//   return {
-//     pageProps,
-//     ...data,
-//   };
-// };
 
 export default AppComponent;

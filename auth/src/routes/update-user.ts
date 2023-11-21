@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+// import generateToken from '../utils/generateToken';
 import {
   USERS_URL,
   protect,

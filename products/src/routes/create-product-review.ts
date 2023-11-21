@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 // import { validateRequest } from '@orbitelco/common';
 import { Product, Review } from '../productModel';
 import {
-  PRODUCTS_URL,
+  PRODUCT_REVIEW_URL,
   IExtendedRequest,
   IReviewDoc,
   protect,
@@ -16,7 +16,7 @@ import {
 const router = express.Router();
 
 // @desc    Create new review
-// @route   POST /api/products/v2/:id/reviews
+// @route   POST /api/products/v2/reviews/:id
 // @access  Private
 // @req     params.id
 //          req.currentuser.id
@@ -26,7 +26,7 @@ const router = express.Router();
 //       or status(400).UserInputError('You have already reviewed this product')
 //       or status(404).ObjectNotFoundError(Product not found)
 router.post(
-  PRODUCTS_URL + '/:id/reviews',
+  PRODUCT_REVIEW_URL + '/:id',
   protect,
   checkObjectId,
   async (req: IExtendedRequest, res: Response) => {

@@ -4,6 +4,7 @@ import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
 import {
   currentUser,
+  authorizeProduct,
   errorHandler,
   RouteNotFoundError,
 } from '@orbitelco/common';
@@ -56,14 +57,16 @@ app.use(
 );
 // set req.currentuser if a user is logged in
 app.use(currentUser);
+// validate if user (role) is authorized to access API
+app.use(authorizeProduct);
 
 app.use(uploadFileRouter);
+app.use(createProductReviewRouter);
 app.use(getProductsRouter);
-app.use(createProductRouter);
 app.use(getProductByIdRouter);
+app.use(createProductRouter);
 app.use(updateProductRouter);
 app.use(deleteProductRouter);
-app.use(createProductReviewRouter);
 
 // Handle any other (unknown) route API calls
 app.all('*', async () => {

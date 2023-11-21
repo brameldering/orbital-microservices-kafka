@@ -4,11 +4,10 @@ import Container from 'react-bootstrap/Container';
 import { FaUser } from 'react-icons/fa';
 import Link from 'next/link';
 import Router from 'next/router';
-// import useRequest from 'hooks/use-request';
-// import { BASE_URL } from 'constants/constants-frontend';
-// import { SIGN_OUT_URL } from '@orbitelco/common';
+import useRequest from 'hooks/use-request';
+import { BASE_URL } from 'constants/constants-frontend';
+import { SIGN_OUT_URL } from '@orbitelco/common';
 import LogoSVG from '../logo/LogoSVG';
-import { useSignOutMutation } from 'slices/usersApiSlice';
 import ErrorBlock from './ErrorBlock';
 
 interface THeaderProps {
@@ -16,22 +15,13 @@ interface THeaderProps {
 }
 
 const Header: React.FC<THeaderProps> = ({ currentUser }) => {
-  // const { doRequest, errors } = useRequest({
-  //   url: BASE_URL + SIGN_OUT_URL,
-  //   method: 'post',
-  //   onSuccess: () => Router.push('/'),
-  // });
-  // const logoutHandler = async () => {
-  //   await doRequest({ body: {} });
-  // };
-  const [signOut, { error: errorSigninOut }] = useSignOutMutation();
-
+  const { doRequest, error: errorSigninOut } = useRequest({
+    url: BASE_URL + SIGN_OUT_URL,
+    method: 'post',
+    onSuccess: () => Router.push('/'),
+  });
   const logoutHandler = async () => {
-    await signOut().unwrap();
-    // console.log('errorsignup', errorSigninUp);
-    if (!errorSigninOut) {
-      Router.push('/');
-    }
+    await doRequest({ body: {} });
   };
 
   return (
@@ -55,11 +45,14 @@ const Header: React.FC<THeaderProps> = ({ currentUser }) => {
                     <NavDropdown
                       title={currentUser.name}
                       id='LINK_header_username'>
-                      <NavDropdown.Item id='LINK_my_profile'>
-                        <Link href='/auth/myprofile'>My Profile</Link>
+                      <NavDropdown.Item
+                        as={Link}
+                        href='/auth/myprofile'
+                        id='LINK_my_profile'>
+                        My Profile
                       </NavDropdown.Item>
-                      <NavDropdown.Item id='LINK_my_orders'>
-                        <Link href='/'>My Orders </Link>
+                      <NavDropdown.Item as={Link} href='/' id='LINK_my_orders'>
+                        My Orders
                       </NavDropdown.Item>
                     </NavDropdown>
                     <Nav.Link id='LINK_header_logout' onClick={logoutHandler}>

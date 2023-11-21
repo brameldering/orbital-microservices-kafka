@@ -13,9 +13,12 @@ import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ModalConfirmBox from 'components/ModalConfirmBox';
 import ErrorBlock from 'components/ErrorBlock';
-import { IChangePassword, ICurrentUser } from 'types/user-types';
-import { useChangePasswordMutation } from 'slices/usersApiSlice';
+import { ICurrentUser } from 'types/user-types';
+// import { useChangePasswordMutation } from 'slices/usersApiSlice';
 // import { getCurrentUser } from 'api/get-current-user';
+import useRequest from 'hooks/use-request';
+import { BASE_URL } from 'constants/constants-frontend';
+import { UPDATE_PASSWORD_URL } from '@orbitelco/common';
 
 interface IFormInput {
   currentPassword: string;
@@ -45,22 +48,24 @@ const ChangePasswordScreen: React.FC<TPageProps> = () => {
     resolver: yupResolver(schema),
   });
 
-  const [
-    changePassword,
-    { isLoading: changingPassword, error: errorChanging },
-  ] = useChangePasswordMutation();
-
-  const onSubmit = async () => {
-    const changePasswordData: IChangePassword = {
-      currentPassword: getValues('currentPassword'),
-      newPassword: getValues('newPassword'),
-    };
-    await changePassword(changePasswordData).unwrap();
-    if (!errorChanging) {
+  const {
+    doRequest,
+    isProcessing,
+    error: errorChanging,
+  } = useRequest({
+    url: BASE_URL + UPDATE_PASSWORD_URL,
+    method: 'put',
+    onSuccess: () => {
       toast.success('Password updated');
       reset();
       Router.push('/auth/profilescreen');
-    }
+    },
+  });
+
+  const onSubmit = async () => {
+    const currentPassword = getValues('currentPassword');
+    const newPassword = getValues('newPassword');
+    await doRequest({ body: { currentPassword, newPassword } });
   };
 
   const onError = (error: any) => {
@@ -81,8 +86,6 @@ const ChangePasswordScreen: React.FC<TPageProps> = () => {
     }
   };
 
-  const loadingOrProcessing = changingPassword;
-
   return (
     <>
       <Meta title='Change Password' />{' '}
@@ -96,12 +99,12 @@ const ChangePasswordScreen: React.FC<TPageProps> = () => {
       <Button
         className='btn btn-light my-3'
         onClick={goBackHandler}
-        disabled={loadingOrProcessing}>
+        disabled={isProcessing}>
         Go Back
       </Button>
       <FormContainer>
         <h1 className='mb-4'>Change Password</h1>
-        {loadingOrProcessing && <Loader />}
+        {isProcessing && <Loader />}
         <Form onSubmit={handleSubmit(onSubmit, onError)}>
           <PasswordField
             controlId='currentPassword'
@@ -116,12 +119,11 @@ const ChangePasswordScreen: React.FC<TPageProps> = () => {
             error={errors.newPassword}
           />
           {errorChanging && <ErrorBlock error={errorChanging} />}
-          <br />
           <Button
             id='BUTTON_update'
             type='submit'
             variant='primary mt-2'
-            disabled={loadingOrProcessing || !isDirty}>
+            disabled={isProcessing || !isDirty}>
             Update
           </Button>
         </Form>

@@ -28,9 +28,9 @@ describe('Test getting users', () => {
     // Check that response contains 3 records
     const result = res.body;
     expect(result.length).toEqual(3);
-    expect(result.some((obj: any) => obj.name === custUserName1));
-    expect(result.some((obj: any) => obj.name === custUserName2));
-    expect(result.some((obj: any) => obj.name === adminName));
+    expect(result.some((obj: any) => obj.name === custUserName1)).toBe(true);
+    expect(result.some((obj: any) => obj.name === custUserName2)).toBe(true);
+    expect(result.some((obj: any) => obj.name === adminName)).toBe(true);
   });
   it('returns a status 401 when a customer tries to get user list', async () => {
     // Register a customer user

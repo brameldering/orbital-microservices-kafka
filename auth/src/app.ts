@@ -2,6 +2,7 @@ import express from 'express';
 import 'express-async-errors';
 import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
+import { getUserRolesRouter } from './routes/get-user-roles';
 import { currentUserRouter } from './routes/current-user';
 import { signinRouter } from './routes/signin';
 import { signoutRouter } from './routes/signout';
@@ -15,6 +16,7 @@ import { updateUserRouter } from './routes/update-user';
 import { deleteUserRouter } from './routes/delete-user';
 import {
   currentUser,
+  authorizeAuth,
   errorHandler,
   RouteNotFoundError,
 } from '@orbitelco/common';
@@ -46,17 +48,21 @@ app.use(
     secure: process.env.NODE_ENV !== 'test',
   })
 );
+
 // set req.currentuser if a user is logged in
 app.use(currentUser);
+// validate if user (role) is authorized to access API
+app.use(authorizeAuth);
 
+app.use(getUserRolesRouter);
 app.use(currentUserRouter);
+app.use(signupRouter);
 app.use(signinRouter);
 app.use(signoutRouter);
-app.use(signupRouter);
-app.use(getUsersRouter);
-app.use(updateUserProfileRouter);
-app.use(updatePasswordRouter);
 app.use(resetPasswordRouter);
+app.use(updatePasswordRouter);
+app.use(updateUserProfileRouter);
+app.use(getUsersRouter);
 app.use(getUserByIdRouter);
 app.use(updateUserRouter);
 app.use(deleteUserRouter);

@@ -3,7 +3,7 @@ import { app } from '../../app';
 import {
   CURRENT_USER_URL,
   CUST_TEST_EMAIL,
-  CUST_TEST_ROLE,
+  CUSTOMER_ROLE,
 } from '@orbitelco/common';
 import { signupCustomer } from '../../test/helper-functions';
 
@@ -17,7 +17,7 @@ describe('Test current-user', () => {
       .send()
       .expect(200);
     expect(res.body.currentUser.email).toEqual(CUST_TEST_EMAIL);
-    expect(res.body.currentUser.role).toEqual(CUST_TEST_ROLE);
+    expect(res.body.currentUser.role).toEqual(CUSTOMER_ROLE);
   });
   it('responds with null when not authenticated', async () => {
     const res = await request(app).get(CURRENT_USER_URL).send().expect(200);

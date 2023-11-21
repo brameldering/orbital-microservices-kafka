@@ -1,8 +1,8 @@
 import React from 'react';
 import { Row, Col, Form, Button } from 'react-bootstrap';
-import { toast } from 'react-toastify';
+// import { toast } from 'react-toastify';
 import { NextPageContext } from 'next';
-// import Router, { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -13,9 +13,12 @@ import { textField } from 'form/ValidationSpecs';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
-import { IChangeUserProfile, ICurrentUser } from 'types/user-types';
-import { useChangeUserProfileMutation } from 'slices/usersApiSlice';
+import { ICurrentUser } from 'types/user-types';
+// import { useChangeUserProfileMutation } from 'slices/usersApiSlice';
 import { getCurrentUser } from 'api/get-current-user';
+import useRequest from 'hooks/use-request';
+import { BASE_URL } from 'constants/constants-frontend';
+import { UPDATE_PROFILE_URL } from '@orbitelco/common';
 
 interface IFormInput {
   name: string;
@@ -46,32 +49,38 @@ const ProfileScreen: React.FC<TPageProps> = ({ currentUser }) => {
     resolver: yupResolver(schema),
   });
 
-  const [changeProfile, { isLoading: changingProfile, error: errorChanging }] =
-    useChangeUserProfileMutation();
+  // const router = useRouter();
+
+  const {
+    doRequest,
+    isProcessing,
+    error: errorChanging,
+  } = useRequest({
+    url: BASE_URL + UPDATE_PROFILE_URL,
+    method: 'put',
+    onSuccess: () => {
+      // toast.success('Profile updated');
+      // router.reload();
+      // Update cookie with new data
+    },
+  });
 
   const onSubmit = async () => {
-    const user: IChangeUserProfile = {
-      name: getValues('name'),
-      email: getValues('email'),
-    };
-    await changeProfile(user).unwrap();
-    if (!errorChanging) {
-      toast.success('Profile updated');
-    }
+    const name = getValues('name');
+    const email = getValues('email');
+    await doRequest({ body: { name, email } });
   };
 
   const onError = (error: any) => {
     console.log('ERROR:::', error);
   };
 
-  const loadingOrProcessing = changingProfile;
-
   return (
     <FormContainer>
       <Meta title='My Profile' />
       <Form onSubmit={handleSubmit(onSubmit, onError)}>
         <h1>My Profile</h1>
-        {loadingOrProcessing && <Loader />}
+        {isProcessing && <Loader />}
         <FormField
           controlId='name'
           label='Full name'
@@ -85,14 +94,13 @@ const ProfileScreen: React.FC<TPageProps> = ({ currentUser }) => {
           error={errors.email}
         />
         {errorChanging && <ErrorBlock error={errorChanging} />}
-        <br />
         <Row className='align-items-center'>
           <Col>
             <Button
               id='BUTTON_update'
               type='submit'
               variant='primary mt-2'
-              disabled={loadingOrProcessing || !isDirty}>
+              disabled={isProcessing || !isDirty}>
               Update
             </Button>
           </Col>

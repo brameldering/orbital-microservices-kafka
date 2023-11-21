@@ -8,12 +8,12 @@ interface ISerializedError {
 
 const ErrorBlock = ({ error }: { error: any }): ReactNode => {
   let errorBlock: ReactNode;
-  if (error.data?.errors) {
+  if (error.response?.data?.errors) {
     // Our custom error
     errorBlock = (
       <Alert className='mt-3' variant='danger'>
         <ul className='my-0 list-unstyled'>
-          {error.data.errors.map((err: ISerializedError) => (
+          {error.response.data.errors.map((err: ISerializedError) => (
             <li key={err.message}>{err.message}</li>
           ))}
         </ul>
@@ -37,7 +37,7 @@ const ErrorBlock = ({ error }: { error: any }): ReactNode => {
     );
   } else {
     // Other errors
-    const errorMessage = error.message | error.toString();
+    const errorMessage = error.toString();
     errorBlock = (
       <Alert className='mt-3' variant='danger'>
         {errorMessage}

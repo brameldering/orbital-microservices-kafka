@@ -4,6 +4,7 @@ import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
 import {
   currentUser,
+  authorizeSeqService,
   errorHandler,
   RouteNotFoundError,
 } from '@orbitelco/common';
@@ -30,6 +31,8 @@ app.use(
 );
 // set req.currentuser if a user is logged in
 app.use(currentUser);
+// validate if user (role) is authorized to access API
+app.use(authorizeSeqService);
 
 app.use(createSequenceRecordRouter);
 app.use(getProductSequenceIdRouter);

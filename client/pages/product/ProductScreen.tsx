@@ -28,6 +28,9 @@ import { ICartItem } from '../../types/cart-types';
 import { ICurrentUser } from 'types/user-types';
 import { dateTimeToLocaleDateString } from '../../utils/dateUtils';
 import { getCurrentUser } from 'api/get-current-user';
+// import useRequest from 'hooks/use-request';
+// import { BASE_URL } from 'constants/constants-frontend';
+// import { UPDATE_PASSWORD_URL } from '@orbitelco/common';
 
 interface TPageProps {
   currentUser?: ICurrentUser;

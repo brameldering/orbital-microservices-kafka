@@ -16,9 +16,13 @@ import { textField, passwordField } from 'form/ValidationSpecs';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
-import { ISignUp, ICurrentUser } from 'types/user-types';
-import { useSignUpMutation } from 'slices/usersApiSlice';
+import { ICurrentUser } from 'types/user-types';
+// import { useSignUpMutation } from 'slices/usersApiSlice';
 import { getCurrentUser } from 'api/get-current-user';
+import { getUserRoles } from 'api/get-user-roles';
+import useRequest from 'hooks/use-request';
+import { BASE_URL } from 'constants/constants-frontend';
+import { SIGN_UP_URL } from '@orbitelco/common';
 
 interface IFormInput {
   name: string;
@@ -38,9 +42,10 @@ const schema = yup.object().shape({
 
 interface TPageProps {
   currentUser?: ICurrentUser;
+  roles: Array<{ role: string; desc: string }>;
 }
 
-const SignupScreen: React.FC<TPageProps> = ({ currentUser }) => {
+const SignupScreen: React.FC<TPageProps> = ({ currentUser, roles }) => {
   const {
     register,
     control,
@@ -57,27 +62,30 @@ const SignupScreen: React.FC<TPageProps> = ({ currentUser }) => {
     resolver: yupResolver(schema),
   });
 
-  const [signUp, { isLoading: signinUp, error: errorSigninUp }] =
-    useSignUpMutation();
-
   // Extract the 'redirect' query parameter with a default value of '/'
   const router = useRouter();
   const { query } = router;
   const redirect = query.redirect || '/';
 
-  const onSubmit = async () => {
-    const user: ISignUp = {
-      name: getValues('name'),
-      email: getValues('email'),
-      password: getValues('password'),
-      role: getValues('role'),
-    };
-    await signUp(user).unwrap();
-    // console.log('errorsignup', errorSigninUp);
-    if (!errorSigninUp) {
+  const {
+    doRequest,
+    isProcessing,
+    error: errorSigninUp,
+  } = useRequest({
+    url: BASE_URL + SIGN_UP_URL,
+    method: 'post',
+    onSuccess: () => {
       reset();
       Router.push('/');
-    }
+    },
+  });
+
+  const onSubmit = async () => {
+    const name = getValues('name');
+    const email = getValues('email');
+    const password = getValues('password');
+    const role = getValues('role');
+    await doRequest({ body: { name, email, password, role } });
   };
 
   const onError = (error: any) => {
@@ -90,20 +98,17 @@ const SignupScreen: React.FC<TPageProps> = ({ currentUser }) => {
     }
   }, [router, redirect, currentUser]);
 
-  const roles = [
+  const selectRoles = [
     { label: 'Select role', value: '' },
-    { label: 'Customer', value: 'customer' },
-    { label: 'Admin', value: 'admin' },
+    ...roles.map((role) => ({ label: role.desc, value: role.role })),
   ];
-
-  const loadingOrProcessing = signinUp;
 
   return (
     <FormContainer>
       <Meta title='Sign Up' />
       <Form onSubmit={handleSubmit(onSubmit, onError)}>
         <h1 className='mb-4'>Sign Up</h1>
-        {loadingOrProcessing && <Loader />}
+        {isProcessing && <Loader />}
         <FormField
           controlId='name'
           label='Full Name'
@@ -124,17 +129,16 @@ const SignupScreen: React.FC<TPageProps> = ({ currentUser }) => {
         />
         <SelectField
           controlId='role'
-          options={roles}
+          options={selectRoles}
           control={control}
           error={errors.role}
         />
         {errorSigninUp && <ErrorBlock error={errorSigninUp} />}
-        <br />
         <Button
           id='BUTTON_register'
           type='submit'
           variant='primary mt-2'
-          disabled={loadingOrProcessing || !isDirty}>
+          disabled={isProcessing || !isDirty}>
           Sign Up
         </Button>
       </Form>
@@ -154,9 +158,27 @@ const SignupScreen: React.FC<TPageProps> = ({ currentUser }) => {
   );
 };
 
+// Fetch User Roles (to fill dropdown box) and CurrentUser
 export const getServerSideProps = async (context: NextPageContext) => {
-  const { data } = await getCurrentUser(context);
-  return { props: data };
+  try {
+    const { data } = await getCurrentUser(context);
+    const roles = await getUserRoles(context);
+    return {
+      props: {
+        currentUser: data.currentUser,
+        roles: roles,
+      },
+    };
+  } catch (error) {
+    // Handle errors if any
+    console.error('Error fetching data:', error);
+    return {
+      props: {
+        currentUser: null,
+        roles: [],
+      },
+    };
+  }
 };
 
 export default SignupScreen;

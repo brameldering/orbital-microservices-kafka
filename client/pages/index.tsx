@@ -1,7 +1,6 @@
 import React from 'react';
 import { ICurrentUser } from '../types/user-types';
 import { NextPageContext } from 'next';
-// import buildClient from '../api/build-client';
 import { getCurrentUser } from '../api/get-current-user';
 
 interface TPageProps {
@@ -16,20 +15,12 @@ const LandingPage: React.FC<TPageProps> = ({ currentUser }) => {
   );
 };
 
-// LandingPage.getInitialProps = async (context) => {
-//   console.log('LANDING PAGE!');
-//   const client = buildClient(context);
-//   const { data } = await client.get('/api/users/currentuser');
-
-//   return data;
-// };
-
 export const getServerSideProps = async (context: NextPageContext) => {
   const { data } = await getCurrentUser(context);
-  console.log(
-    'index.tsx getServerSideProps {data}.currentUser',
-    data.currentUser
-  );
+  // console.log(
+  //   'index.tsx getServerSideProps {data}.currentUser',
+  //   data.currentUser
+  // );
   return { props: data };
 };
 

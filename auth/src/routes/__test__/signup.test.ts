@@ -6,7 +6,7 @@ import {
   CUST_TEST_NAME,
   CUST_TEST_EMAIL,
   CUST_TEST_PASSWORD,
-  CUST_TEST_ROLE,
+  CUSTOMER_ROLE,
 } from '@orbitelco/common';
 
 describe('Test signup', () => {
@@ -20,7 +20,7 @@ describe('Test signup', () => {
         name: CUST_TEST_NAME,
         email: CUST_TEST_EMAIL,
         password: CUST_TEST_PASSWORD,
-        role: CUST_TEST_ROLE,
+        role: CUSTOMER_ROLE,
       })
       .expect(201);
     expect(res.get('Set-Cookie')).toBeDefined();
@@ -32,7 +32,7 @@ describe('Test signup', () => {
         name: CUST_TEST_NAME,
         email: 'incorrect-email',
         password: CUST_TEST_PASSWORD,
-        role: CUST_TEST_ROLE,
+        role: CUSTOMER_ROLE,
       })
       .expect(400);
   });
@@ -43,7 +43,7 @@ describe('Test signup', () => {
         name: CUST_TEST_NAME,
         email: CUST_TEST_EMAIL,
         password: '2shrt',
-        role: CUST_TEST_ROLE,
+        role: CUSTOMER_ROLE,
       })
       .expect(400);
   });
@@ -54,7 +54,7 @@ describe('Test signup', () => {
         name: '',
         email: CUST_TEST_EMAIL,
         password: CUST_TEST_PASSWORD,
-        role: CUST_TEST_ROLE,
+        role: CUSTOMER_ROLE,
       })
       .expect(400);
     await request(app)
@@ -63,7 +63,7 @@ describe('Test signup', () => {
         name: CUST_TEST_NAME,
         email: '',
         password: CUST_TEST_PASSWORD,
-        role: CUST_TEST_ROLE,
+        role: CUSTOMER_ROLE,
       })
       .expect(400);
     await request(app)
@@ -72,7 +72,7 @@ describe('Test signup', () => {
         name: CUST_TEST_NAME,
         email: CUST_TEST_EMAIL,
         password: '',
-        role: CUST_TEST_ROLE,
+        role: CUSTOMER_ROLE,
       })
       .expect(400);
     await request(app)
@@ -93,7 +93,7 @@ describe('Test signup', () => {
         name: CUST_TEST_NAME,
         email: CUST_TEST_EMAIL,
         password: CUST_TEST_PASSWORD,
-        role: CUST_TEST_ROLE,
+        role: CUSTOMER_ROLE,
       })
       .expect(422);
   });

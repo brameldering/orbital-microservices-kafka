@@ -5,7 +5,7 @@ import { User } from '../userModel';
 const router = express.Router();
 
 // @desc    Get all users
-// @route   GET /api/users/v2/all
+// @route   GET /api/users/v2
 // @access  Admin
 // @req
 // @res     send(users)

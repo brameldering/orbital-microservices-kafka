@@ -5,10 +5,10 @@ import {
   PRODUCTS_URL,
   CUST_TEST_NAME,
   CUST_TEST_EMAIL,
-  CUST_TEST_ROLE,
+  CUSTOMER_ROLE,
   ADMIN_TEST_NAME,
   ADMIN_TEST_EMAIL,
-  ADMIN_TEST_ROLE,
+  ADMIN_ROLE,
 } from '@orbitelco/common';
 import { app } from '../app';
 
@@ -23,14 +23,14 @@ const payloadTestCustomer: IPayload = {
   id: new mongoose.Types.ObjectId().toHexString(), // Dummy but valid mongodb objectId
   name: CUST_TEST_NAME,
   email: CUST_TEST_EMAIL,
-  role: CUST_TEST_ROLE,
+  role: CUSTOMER_ROLE,
 };
 
 const payloadTestAdmin: IPayload = {
   id: new mongoose.Types.ObjectId().toHexString(), // Dummy but valid mongodb objectId
   name: ADMIN_TEST_NAME,
   email: ADMIN_TEST_EMAIL,
-  role: ADMIN_TEST_ROLE,
+  role: ADMIN_ROLE,
 };
 
 // Function to fake login of a test customer

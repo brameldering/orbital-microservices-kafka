@@ -1,4 +1,8 @@
-import { PRODUCTS_URL, UPLOAD_URL } from '@orbitelco/common';
+import {
+  PRODUCTS_URL,
+  PRODUCT_REVIEW_URL,
+  UPLOAD_URL,
+} from '@orbitelco/common';
 import {
   IBaseProduct,
   IProduct,
@@ -51,7 +55,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
     }),
     createReview: builder.mutation<void, IReviewInput>({
       query: (data) => ({
-        url: `${PRODUCTS_URL}/${data.productId}/reviews`,
+        url: `${PRODUCT_REVIEW_URL}/${data.productId}`,
         method: 'POST',
         body: data,
       }),

@@ -1,23 +1,24 @@
 import bcrypt from 'bcryptjs';
+import { ADMIN_ROLE, CUSTOMER_ROLE } from '@orbitelco/common';
 
 const users = [
   {
     name: 'Admin User',
     email: 'admin@email.com',
     password: bcrypt.hashSync('123456', 10),
-    role: 'admin',
+    role: ADMIN_ROLE,
   },
   {
     name: 'John Doe',
     email: 'john@email.com',
     password: bcrypt.hashSync('123456', 10),
-    role: 'customer',
+    role: CUSTOMER_ROLE,
   },
   {
     name: 'Jane Doe',
     email: 'jane@email.com',
     password: bcrypt.hashSync('123456', 10),
-    role: 'customer',
+    role: CUSTOMER_ROLE,
   },
 ];
 

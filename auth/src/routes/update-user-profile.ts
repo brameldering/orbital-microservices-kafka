@@ -1,5 +1,6 @@
 import express, { Response } from 'express';
 import { body } from 'express-validator';
+import generateToken from '../utils/generateToken';
 import {
   UPDATE_PROFILE_URL,
   IExtendedRequest,
@@ -62,6 +63,8 @@ router.put(
       user.name = name;
       user.email = email;
       const updatedUser = await user.save();
+      // generate token and store in cookie for new user name and email
+      generateToken(req, user.id.toString(), user.name, user.email, user.role);
       res.status(200).send(updatedUser.toJSON());
     } else {
       throw new ObjectNotFoundError('User not found');

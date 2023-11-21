@@ -11,8 +11,10 @@ import { textField, passwordField } from 'form/ValidationSpecs';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
-import { ISignIn } from 'types/user-types';
-import { useSignInMutation } from 'slices/usersApiSlice';
+// import { useSignInMutation } from 'slices/usersApiSlice';
+import useRequest from 'hooks/use-request';
+import { BASE_URL } from 'constants/constants-frontend';
+import { SIGN_IN_URL } from '@orbitelco/common';
 
 interface IFormInput {
   email: string;
@@ -39,38 +41,40 @@ const SigninScreen: React.FC = () => {
     resolver: yupResolver(schema),
   });
 
-  const [signIn, { isLoading: signinIn, error: errorSigninIn }] =
-    useSignInMutation();
-
   // Extract the 'redirect' query parameter with a default value of '/'
   const router = useRouter();
   const { query } = router;
   const redirect = query.redirect || '/';
 
-  const onSubmit = async () => {
-    const user: ISignIn = {
-      email: getValues('email'),
-      password: getValues('password'),
-    };
-    await signIn(user).unwrap();
-    if (!errorSigninIn) {
+  const {
+    doRequest,
+    isProcessing,
+    error: errorSigninIn,
+  } = useRequest({
+    url: BASE_URL + SIGN_IN_URL,
+    method: 'post',
+    onSuccess: () => {
       reset();
       Router.push(redirect.toString());
-    }
+    },
+  });
+
+  const onSubmit = async () => {
+    const email = getValues('email');
+    const password = getValues('password');
+    await doRequest({ body: { email, password } });
   };
 
   const onError = (error: any) => {
     console.log('ERROR:::', error);
   };
 
-  const loadingOrProcessing = signinIn;
-
   return (
     <FormContainer>
       <Meta title='Sign In' />
       <Form onSubmit={handleSubmit(onSubmit, onError)}>
         <h1 className='mb-4'>Sign In</h1>
-        {loadingOrProcessing && <Loader />}
+        {isProcessing && <Loader />}
         <FormField
           controlId='email'
           label='Email'
@@ -84,12 +88,11 @@ const SigninScreen: React.FC = () => {
           error={errors.password}
         />
         {errorSigninIn && <ErrorBlock error={errorSigninIn} />}
-        <br />
         <Button
           id='BUTTON_login'
           type='submit'
           variant='primary mt-2'
-          disabled={loadingOrProcessing || !isDirty}>
+          disabled={isProcessing || !isDirty}>
           Sign In
         </Button>
       </Form>

@@ -5,7 +5,7 @@ import {
   fakeSignupCustomer,
   createTestProduct,
 } from '../../test/helper-functions';
-import { PRODUCTS_URL } from '@orbitelco/common';
+import { PRODUCTS_URL, PRODUCT_REVIEW_URL } from '@orbitelco/common';
 
 describe('Test create product review', () => {
   it('returns a status 201 when a product review has been succesfully created', async () => {
@@ -15,7 +15,7 @@ describe('Test create product review', () => {
 
     // Create review for product
     await request(app)
-      .post(PRODUCTS_URL + '/' + id + '/reviews')
+      .post(PRODUCT_REVIEW_URL + '/' + id)
       .set('Cookie', fakeSignupCustomer())
       .send({
         rating: 5,
@@ -37,7 +37,7 @@ describe('Test create product review', () => {
 
     // Create review for product
     await request(app)
-      .post(PRODUCTS_URL + '/' + id + '/reviews')
+      .post(PRODUCT_REVIEW_URL + '/' + id)
       .set('Cookie', fakeSignupCustomer())
       .send({
         rating: 5,
@@ -47,7 +47,7 @@ describe('Test create product review', () => {
 
     // Create another review for product
     const reviewedProduct = await request(app)
-      .post(PRODUCTS_URL + '/' + id + '/reviews')
+      .post(PRODUCT_REVIEW_URL + '/' + id)
       .set('Cookie', fakeSignupCustomer())
       .send({
         rating: 5,
@@ -63,7 +63,7 @@ describe('Test create product review', () => {
     const dummyProductId = 'invalid_object_id';
     // try to update product with invalid object id
     const reviewedProduct = await request(app)
-      .post(PRODUCTS_URL + '/' + dummyProductId + '/reviews')
+      .post(PRODUCT_REVIEW_URL + '/' + dummyProductId)
       .set('Cookie', fakeSignupCustomer())
       .send({
         rating: 5,
@@ -82,7 +82,7 @@ describe('Test create product review', () => {
 
     // try to create review when not logged in
     await request(app)
-      .post(PRODUCTS_URL + '/' + id + '/reviews')
+      .post(PRODUCT_REVIEW_URL + '/' + id)
       .send({
         rating: 5,
         comment: 'Test Rating',
@@ -93,7 +93,7 @@ describe('Test create product review', () => {
     const dummyProductId = new mongoose.Types.ObjectId().toHexString(); // Dummy but valid mongodb objectId
     // try to update non-existing product
     const res = await request(app)
-      .post(PRODUCTS_URL + '/' + dummyProductId + '/reviews')
+      .post(PRODUCT_REVIEW_URL + '/' + dummyProductId)
       .set('Cookie', fakeSignupCustomer())
       .send({
         rating: 5,
