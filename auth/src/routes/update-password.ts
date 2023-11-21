@@ -5,7 +5,6 @@ import {
   UPDATE_PASSWORD_URL,
   IExtendedRequest,
   validateRequest,
-  protect,
   ObjectNotFoundError,
   UserInputError,
 } from '@orbitelco/common';
@@ -23,7 +22,6 @@ const router = express.Router();
 //       or status(404).ObjectNotFoundError('User not found')
 router.put(
   UPDATE_PASSWORD_URL,
-  protect,
   [
     body('currentPassword')
       .trim()

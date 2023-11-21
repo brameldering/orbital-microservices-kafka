@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import { USERS_URL, protect, admin } from '@orbitelco/common';
+import { USERS_URL } from '@orbitelco/common';
 import { User } from '../userModel';
 
 const router = express.Router();
@@ -9,7 +9,7 @@ const router = express.Router();
 // @access  Admin
 // @req
 // @res     send(users)
-router.get(USERS_URL, protect, admin, async (req: Request, res: Response) => {
+router.get(USERS_URL, async (req: Request, res: Response) => {
   /*  #swagger.tags = ['Users']
       #swagger.description = 'Fetch all users'
       #swagger.security = [{

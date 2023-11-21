@@ -3,8 +3,9 @@ import 'express-async-errors';
 import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
 import {
+  PRODUCTS_MICROSERVICE,
   currentUser,
-  authorizeProduct,
+  authorize,
   errorHandler,
   RouteNotFoundError,
 } from '@orbitelco/common';
@@ -58,7 +59,7 @@ app.use(
 // set req.currentuser if a user is logged in
 app.use(currentUser);
 // validate if user (role) is authorized to access API
-app.use(authorizeProduct);
+app.use(authorize(PRODUCTS_MICROSERVICE));
 
 app.use(uploadFileRouter);
 app.use(createProductReviewRouter);

@@ -2,8 +2,6 @@ import express, { Request, Response } from 'express';
 // import generateToken from '../utils/generateToken';
 import {
   USERS_URL,
-  protect,
-  admin,
   checkObjectId,
   ObjectNotFoundError,
 } from '@orbitelco/common';
@@ -20,8 +18,6 @@ const router = express.Router();
 //       or status(404).ObjectNotFoundError('User not found')
 router.put(
   USERS_URL + '/:id',
-  protect,
-  admin,
   checkObjectId,
   async (req: Request, res: Response) => {
     /*  #swagger.tags = ['Users']

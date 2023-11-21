@@ -5,7 +5,6 @@ import {
   UPDATE_PROFILE_URL,
   IExtendedRequest,
   validateRequest,
-  protect,
   ObjectNotFoundError,
 } from '@orbitelco/common';
 
@@ -23,7 +22,6 @@ const router = express.Router();
 //       or status(404).ObjectNotFoundError('User not found')
 router.put(
   UPDATE_PROFILE_URL,
-  protect,
   [
     body('name').trim().notEmpty().withMessage('Name can not be empty'),
     body('email').isEmail().withMessage('Email must be valid'),

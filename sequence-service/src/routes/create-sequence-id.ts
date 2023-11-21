@@ -5,8 +5,6 @@ import {
   ID_SEQUENCE_URL,
   validateRequest,
   ISequenceIdObj,
-  protect,
-  admin,
 } from '@orbitelco/common';
 
 const router = express.Router();
@@ -19,8 +17,6 @@ const router = express.Router();
 //       or status(400).RequestValidationError
 router.post(
   ID_SEQUENCE_URL,
-  protect,
-  admin,
   [
     body('sequenceName')
       .trim()

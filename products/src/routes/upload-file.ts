@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import { uploadImageToCloudinary } from './fileUploadHelpers/uploadImageToCloudinary';
-import { UPLOAD_URL, protect, admin, FileUploadError } from '@orbitelco/common';
+import { UPLOAD_URL, FileUploadError } from '@orbitelco/common';
 
 const router = express.Router();
 
@@ -10,7 +10,7 @@ const router = express.Router();
 // @req     body: FormData.image
 // @res     status(200).send({ imageURL: string })
 //       or status(415).FileUploadError(message)
-router.post(UPLOAD_URL, protect, admin, async (req: Request, res: Response) => {
+router.post(UPLOAD_URL, async (req: Request, res: Response) => {
   /*  #swagger.tags = ['Products']
      #swagger.description = 'Upload image to cloudinary'
      #swagger.security = [{

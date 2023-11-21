@@ -15,8 +15,9 @@ import { getUserByIdRouter } from './routes/get-user-by-id';
 import { updateUserRouter } from './routes/update-user';
 import { deleteUserRouter } from './routes/delete-user';
 import {
+  AUTH_MICROSERVICE,
   currentUser,
-  authorizeAuth,
+  authorize,
   errorHandler,
   RouteNotFoundError,
 } from '@orbitelco/common';
@@ -52,7 +53,7 @@ app.use(
 // set req.currentuser if a user is logged in
 app.use(currentUser);
 // validate if user (role) is authorized to access API
-app.use(authorizeAuth);
+app.use(authorize(AUTH_MICROSERVICE));
 
 app.use(getUserRolesRouter);
 app.use(currentUserRouter);

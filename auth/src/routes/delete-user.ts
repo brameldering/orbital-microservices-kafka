@@ -1,8 +1,6 @@
 import express, { Request, Response } from 'express';
 import {
   USERS_URL,
-  protect,
-  admin,
   checkObjectId,
   ObjectNotFoundError,
 } from '@orbitelco/common';
@@ -18,8 +16,6 @@ const router = express.Router();
 //       or status(404).ObjectNotFoundError('User not found')
 router.delete(
   USERS_URL + '/:id',
-  protect,
-  admin,
   checkObjectId,
   async (req: Request, res: Response) => {
     /*  #swagger.tags = ['Users']

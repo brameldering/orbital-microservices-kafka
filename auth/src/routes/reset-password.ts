@@ -12,7 +12,7 @@ const router = express.Router();
 
 // @desc    Reset user password
 // @route   PUT /api/users/v2/resetpassword
-// @access  Private
+// @access  Public
 // @req     req.currentUser.id (set by currentUser)
 //          body {email}
 // @res     status(200).message:'Password has been reset'

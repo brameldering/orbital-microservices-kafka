@@ -7,7 +7,6 @@ import {
   PRODUCT_REVIEW_URL,
   IExtendedRequest,
   IReviewDoc,
-  protect,
   checkObjectId,
   ObjectNotFoundError,
   UserInputError,
@@ -27,7 +26,6 @@ const router = express.Router();
 //       or status(404).ObjectNotFoundError(Product not found)
 router.post(
   PRODUCT_REVIEW_URL + '/:id',
-  protect,
   checkObjectId,
   async (req: IExtendedRequest, res: Response) => {
     /* #swagger.tags = ['Products']

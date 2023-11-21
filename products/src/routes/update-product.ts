@@ -2,8 +2,6 @@ import express, { Request, Response } from 'express';
 import { Product } from '../productModel';
 import {
   PRODUCTS_URL,
-  protect,
-  admin,
   checkObjectId,
   ObjectNotFoundError,
 } from '@orbitelco/common';
@@ -19,8 +17,6 @@ const router = express.Router();
 //       or status(404).ObjectNotFoundError(Product not found)
 router.put(
   PRODUCTS_URL + '/:id',
-  protect,
-  admin,
   checkObjectId,
   async (req: Request, res: Response) => {
     /*  #swagger.tags = ['Products']
