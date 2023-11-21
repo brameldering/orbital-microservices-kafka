@@ -15,7 +15,7 @@ import { getUserByIdRouter } from './routes/get-user-by-id';
 import { updateUserRouter } from './routes/update-user';
 import { deleteUserRouter } from './routes/delete-user';
 import {
-  AUTH_MICROSERVICE,
+  MICROSERVICE_AUTH,
   currentUser,
   authorize,
   errorHandler,
@@ -53,7 +53,7 @@ app.use(
 // set req.currentuser if a user is logged in
 app.use(currentUser);
 // validate if user (role) is authorized to access API
-app.use(authorize(AUTH_MICROSERVICE));
+app.use(authorize(MICROSERVICE_AUTH));
 
 app.use(getUserRolesRouter);
 app.use(currentUserRouter);

@@ -3,7 +3,7 @@ import 'express-async-errors';
 import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
 import {
-  SEQ_SERVICE_MICROSERVICE,
+  MICROSERVICE_SEQUENCES,
   currentUser,
   authorize,
   errorHandler,
@@ -33,7 +33,7 @@ app.use(
 // set req.currentuser if a user is logged in
 app.use(currentUser);
 // validate if user (role) is authorized to access API
-app.use(authorize(SEQ_SERVICE_MICROSERVICE));
+app.use(authorize(MICROSERVICE_SEQUENCES));
 
 app.use(createSequenceRecordRouter);
 app.use(getProductSequenceIdRouter);

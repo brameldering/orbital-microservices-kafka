@@ -3,7 +3,7 @@ import 'express-async-errors';
 import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
 import {
-  PRODUCTS_MICROSERVICE,
+  MICROSERVICE_PRODUCTS,
   currentUser,
   authorize,
   errorHandler,
@@ -59,7 +59,7 @@ app.use(
 // set req.currentuser if a user is logged in
 app.use(currentUser);
 // validate if user (role) is authorized to access API
-app.use(authorize(PRODUCTS_MICROSERVICE));
+app.use(authorize(MICROSERVICE_PRODUCTS));
 
 app.use(uploadFileRouter);
 app.use(createProductReviewRouter);
