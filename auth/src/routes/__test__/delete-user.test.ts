@@ -34,7 +34,7 @@ describe('Test delete user', () => {
         password: CUST_TEST_PASSWORD,
       })
       .expect(401);
-    // Check that error message contains message "('User not found')"
+    // Check that error message contains message "('Not authorized')"
     expect(res.text).toContain('Not authorized');
   });
   it('returns a status 400 when an admin tries to delete with an invalid Object Id', async () => {

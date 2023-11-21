@@ -33,6 +33,7 @@ const SigninScreen: React.FC = () => {
     handleSubmit,
     getValues,
     reset,
+    setError,
     formState: { isDirty, errors },
   } = useForm<IFormInput>({
     defaultValues: { email: '', password: '' },
@@ -80,18 +81,21 @@ const SigninScreen: React.FC = () => {
           label='Email'
           register={register}
           error={errors.email}
+          setError={setError}
         />
         <PasswordField
           controlId='password'
           label='Password'
           register={register}
           error={errors.password}
+          setError={setError}
         />
         {errorSigninIn && <ErrorBlock error={errorSigninIn} />}
+        <br />
         <Button
           id='BUTTON_login'
           type='submit'
-          variant='primary mt-2'
+          variant='primary mt-0'
           disabled={isProcessing || !isDirty}>
           Sign In
         </Button>

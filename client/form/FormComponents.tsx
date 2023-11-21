@@ -11,6 +11,7 @@ interface CheckBoxFieldProps {
   checked: boolean;
   register: any;
   error: any;
+  setError: any;
 }
 
 const CheckBoxField: React.FunctionComponent<CheckBoxFieldProps> = ({
@@ -19,6 +20,7 @@ const CheckBoxField: React.FunctionComponent<CheckBoxFieldProps> = ({
   checked,
   register,
   error,
+  setError,
 }) => {
   const errorTextId = 'error_text_' + controlId;
   return (
@@ -28,6 +30,10 @@ const CheckBoxField: React.FunctionComponent<CheckBoxFieldProps> = ({
         label={label}
         checked={checked}
         {...register(controlId)}
+        onChange={(e) => {
+          setError(controlId, { message: '' });
+          register(controlId).onChange(e);
+        }}
       />
       {error && (
         <Form.Text id={errorTextId} className='text-danger'>
@@ -46,6 +52,7 @@ interface FormFieldProps {
   type?: string;
   register: any;
   error: any;
+  setError: any;
 }
 
 const FormField: React.FunctionComponent<FormFieldProps> = ({
@@ -54,6 +61,7 @@ const FormField: React.FunctionComponent<FormFieldProps> = ({
   type = 'text',
   register,
   error,
+  setError,
 }) => {
   const errorTextId = 'error_text_' + controlId;
   return (
@@ -65,6 +73,10 @@ const FormField: React.FunctionComponent<FormFieldProps> = ({
           placeholder={label}
           // name={controlId}
           {...register(controlId)}
+          onChange={(e) => {
+            setError(controlId, { message: '' });
+            register(controlId).onChange(e);
+          }}
         />
       </FloatingLabel>
       {error && (
@@ -82,6 +94,7 @@ interface PasswordFieldProps {
   label: string;
   register: any;
   error: any;
+  setError: any;
 }
 
 const PasswordField: React.FunctionComponent<PasswordFieldProps> = ({
@@ -89,6 +102,7 @@ const PasswordField: React.FunctionComponent<PasswordFieldProps> = ({
   label,
   register,
   error,
+  setError,
 }) => {
   const [contentVisible, setContentVisible] = useState(false);
   const showPassword = () => {
@@ -108,6 +122,10 @@ const PasswordField: React.FunctionComponent<PasswordFieldProps> = ({
             placeholder={label}
             // name={controlId}
             {...register(controlId)}
+            onChange={(e) => {
+              setError(controlId, { message: '' });
+              register(controlId).onChange(e);
+            }}
           />
         </FloatingLabel>
         <Button
@@ -136,9 +154,10 @@ const PasswordField: React.FunctionComponent<PasswordFieldProps> = ({
 // ================== SelectField ==================
 interface SelectFieldProps {
   controlId: string;
-  options: any;
+  options: any[];
   control: any;
   error: any;
+  setError: any;
 }
 
 const SelectField: React.FunctionComponent<SelectFieldProps> = ({
@@ -146,6 +165,7 @@ const SelectField: React.FunctionComponent<SelectFieldProps> = ({
   options,
   control,
   error,
+  setError,
 }) => {
   const errorTextId = 'error_text_' + controlId;
   return (
@@ -159,7 +179,11 @@ const SelectField: React.FunctionComponent<SelectFieldProps> = ({
             aria-label='Select Role'
             className='mt-3'
             style={{ borderColor: '#606060' }}
-            {...field}>
+            {...field}
+            onChange={(e) => {
+              setError(controlId, { message: '' });
+              field.onChange(e);
+            }}>
             {options.map((option: any) => (
               <option key={option.value} value={option.value}>
                 {option.label}
@@ -184,6 +208,7 @@ interface TextAreaFieldProps {
   value?: string;
   register: any;
   error: any;
+  setError: any;
 }
 
 const TextAreaField: React.FunctionComponent<TextAreaFieldProps> = ({
@@ -192,6 +217,7 @@ const TextAreaField: React.FunctionComponent<TextAreaFieldProps> = ({
   value = '',
   register,
   error,
+  setError,
 }) => {
   const errorTextId = 'error_text_' + controlId;
   return (
@@ -208,6 +234,10 @@ const TextAreaField: React.FunctionComponent<TextAreaFieldProps> = ({
           placeholder={label}
           value={value}
           {...register(controlId)}
+          onChange={(e) => {
+            setError(controlId, { message: '' });
+            register(controlId).onChange(e);
+          }}
         />
       </FloatingLabel>
       {error && (

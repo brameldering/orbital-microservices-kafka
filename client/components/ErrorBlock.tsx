@@ -11,7 +11,7 @@ const ErrorBlock = ({ error }: { error: any }): ReactNode => {
   if (error.response?.data?.errors) {
     // Our custom error
     errorBlock = (
-      <Alert className='mt-3' variant='danger'>
+      <Alert className='my-2' variant='danger'>
         <ul className='my-0 list-unstyled'>
           {error.response.data.errors.map((err: ISerializedError) => (
             <li key={err.message}>{err.message}</li>
@@ -23,7 +23,7 @@ const ErrorBlock = ({ error }: { error: any }): ReactNode => {
     // Axios error
     console.log('error: ', error.message);
     errorBlock = (
-      <Alert className='mt-3' variant='danger'>
+      <Alert className='my-2' variant='danger'>
         {error.message}
       </Alert>
     );
@@ -31,7 +31,7 @@ const ErrorBlock = ({ error }: { error: any }): ReactNode => {
     // Axios error
     console.log('error: ', error.request.toString());
     errorBlock = (
-      <Alert className='mt-3' variant='danger'>
+      <Alert className='my-2' variant='danger'>
         Network Error
       </Alert>
     );
@@ -39,7 +39,7 @@ const ErrorBlock = ({ error }: { error: any }): ReactNode => {
     // Other errors
     const errorMessage = error.toString();
     errorBlock = (
-      <Alert className='mt-3' variant='danger'>
+      <Alert className='my-2' variant='danger'>
         {errorMessage}
       </Alert>
     );

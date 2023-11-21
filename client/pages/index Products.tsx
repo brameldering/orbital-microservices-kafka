@@ -51,7 +51,7 @@ const LandingPage: React.FC = () => {
               ))}
             {!catalogData ||
               (catalogData.products.length === 0 && (
-                <p>No products match your search</p>
+                <p>No products match the search keyword</p>
               ))}
           </Row>
           {catalogData && (

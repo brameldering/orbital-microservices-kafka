@@ -6,6 +6,7 @@ import {
   MICROSERVICE_PRODUCTS,
   currentUser,
   authorize,
+  validateURL,
   errorHandler,
   RouteNotFoundError,
 } from '@orbitelco/common';
@@ -56,6 +57,9 @@ app.use(
     secure: process.env.NODE_ENV !== 'test',
   })
 );
+
+// Validate URL
+app.use(validateURL);
 // set req.currentuser if a user is logged in
 app.use(currentUser);
 // validate if user (role) is authorized to access API

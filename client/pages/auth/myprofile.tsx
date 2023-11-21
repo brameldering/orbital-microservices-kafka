@@ -41,6 +41,7 @@ const ProfileScreen: React.FC<TPageProps> = ({ currentUser }) => {
     register,
     handleSubmit,
     getValues,
+    setError,
     formState: { isDirty, errors },
   } = useForm<IFormInput>({
     defaultValues: { name: currentUser?.name, email: currentUser?.email },
@@ -75,6 +76,10 @@ const ProfileScreen: React.FC<TPageProps> = ({ currentUser }) => {
     console.log('ERROR:::', error);
   };
 
+  console.log('isDirty', isDirty);
+  console.log('errors', errors);
+  console.log('isProcessing', isProcessing);
+
   return (
     <FormContainer>
       <Meta title='My Profile' />
@@ -86,20 +91,23 @@ const ProfileScreen: React.FC<TPageProps> = ({ currentUser }) => {
           label='Full name'
           register={register}
           error={errors.name}
+          setError={setError}
         />
         <FormField
           controlId='email'
           label='Email'
           register={register}
           error={errors.email}
+          setError={setError}
         />
         {errorChanging && <ErrorBlock error={errorChanging} />}
+        <br />
         <Row className='align-items-center'>
           <Col>
             <Button
               id='BUTTON_update'
               type='submit'
-              variant='primary mt-2'
+              variant='primary mt-0'
               disabled={isProcessing || !isDirty}>
               Update
             </Button>

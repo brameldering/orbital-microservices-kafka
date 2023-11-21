@@ -53,6 +53,7 @@ const SignupScreen: React.FC<TPageProps> = ({ currentUser, roles }) => {
     // setValue,
     getValues,
     reset,
+    setError,
     // watch,
     formState: { isDirty, errors },
   } = useForm<IFormInput>({
@@ -114,30 +115,35 @@ const SignupScreen: React.FC<TPageProps> = ({ currentUser, roles }) => {
           label='Full Name'
           register={register}
           error={errors.name}
+          setError={setError}
         />
         <FormField
           controlId='email'
           label='Email'
           register={register}
           error={errors.email}
+          setError={setError}
         />
         <PasswordField
           controlId='password'
           label='Password'
           register={register}
           error={errors.password}
+          setError={setError}
         />
         <SelectField
           controlId='role'
           options={selectRoles}
           control={control}
           error={errors.role}
+          setError={setError}
         />
         {errorSigninUp && <ErrorBlock error={errorSigninUp} />}
+        <br />
         <Button
           id='BUTTON_register'
           type='submit'
-          variant='primary mt-2'
+          variant='primary mt-0'
           disabled={isProcessing || !isDirty}>
           Sign Up
         </Button>

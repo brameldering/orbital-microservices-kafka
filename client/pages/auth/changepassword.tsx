@@ -40,6 +40,7 @@ const ChangePasswordScreen: React.FC<TPageProps> = () => {
     handleSubmit,
     getValues,
     reset,
+    setError,
     formState: { isDirty, errors },
   } = useForm<IFormInput>({
     defaultValues: { currentPassword: '', newPassword: '' },
@@ -111,18 +112,21 @@ const ChangePasswordScreen: React.FC<TPageProps> = () => {
             label='Current Password'
             register={register}
             error={errors.currentPassword}
+            setError={setError}
           />
           <PasswordField
             controlId='newPassword'
             label='New Password'
             register={register}
             error={errors.newPassword}
+            setError={setError}
           />
           {errorChanging && <ErrorBlock error={errorChanging} />}
+          <br />
           <Button
             id='BUTTON_update'
             type='submit'
-            variant='primary mt-2'
+            variant='primary mt-0'
             disabled={isProcessing || !isDirty}>
             Update
           </Button>

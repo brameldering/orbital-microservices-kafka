@@ -29,6 +29,7 @@ const PasswordResetScreen = () => {
     register,
     handleSubmit,
     getValues,
+    setError,
     formState: { isDirty, errors },
   } = useForm<IFormInput>({
     defaultValues: { email: '' },
@@ -66,14 +67,16 @@ const PasswordResetScreen = () => {
           label='Your email address as known to us'
           register={register}
           error={errors.email}
+          setError={setError}
         />
         {errorResettingPassword && (
           <ErrorBlock error={errorResettingPassword} />
         )}
+        <br />
         <Button
           id='BUTTON_reset_password'
           type='submit'
-          variant='primary mt-2'
+          variant='primary mt-0'
           disabled={isProcessing || !isDirty}>
           Reset Password
         </Button>
