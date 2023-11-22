@@ -12,9 +12,10 @@ import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
 // import { useSignInMutation } from 'slices/usersApiSlice';
+import { useUserContext } from 'context/user-context';
 import useRequest from 'hooks/use-request';
 import { BASE_URL } from 'constants/constants-frontend';
-import { SIGN_IN_URL } from '@orbitelco/common';
+import { CURRENT_USER_URL, SIGN_IN_URL } from '@orbitelco/common';
 
 interface IFormInput {
   email: string;
@@ -28,6 +29,7 @@ const schema = yup.object().shape({
 });
 
 const SigninScreen: React.FC = () => {
+  const { setUserContext } = useUserContext();
   const {
     register,
     handleSubmit,
@@ -60,10 +62,23 @@ const SigninScreen: React.FC = () => {
     },
   });
 
+  const { doRequest: loadCurrentUser, error: errorLoading } = useRequest({
+    url: BASE_URL + CURRENT_USER_URL,
+    method: 'get',
+    onSuccess: () => {},
+  });
+
   const onSubmit = async () => {
     const email = getValues('email');
     const password = getValues('password');
     await doRequest({ body: { email, password } });
+    const { currentUser } = await loadCurrentUser({ body: {} });
+    // console.log('currentUser', currentUser);
+    setUserContext({
+      name: currentUser.name,
+      email: currentUser.email,
+      role: currentUser.role,
+    });
   };
 
   const onError = (error: any) => {
@@ -91,6 +106,7 @@ const SigninScreen: React.FC = () => {
           setError={setError}
         />
         {errorSigninIn && <ErrorBlock error={errorSigninIn} />}
+        {errorLoading && <ErrorBlock error={errorLoading} />}
         <br />
         <Button
           id='BUTTON_login'

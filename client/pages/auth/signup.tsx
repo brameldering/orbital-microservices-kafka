@@ -24,6 +24,7 @@ import useRequest from 'hooks/use-request';
 // import { setUserInfo } from 'slices/authSlice';
 import { BASE_URL } from 'constants/constants-frontend';
 import { SIGN_UP_URL, ICurrentUser } from '@orbitelco/common';
+import { useUserContext } from 'context/user-context';
 
 interface IFormInput {
   name: string;
@@ -48,6 +49,7 @@ interface TPageProps {
 
 const SignupScreen: React.FC<TPageProps> = ({ currentUser, roles }) => {
   // const dispatch = useDispatch();
+  const { setUserContext } = useUserContext();
   const {
     register,
     control,
@@ -94,6 +96,7 @@ const SignupScreen: React.FC<TPageProps> = ({ currentUser, roles }) => {
     // console.log(
     //   'signup.tsx After dispatch(setUserInfo({ name, email, role }));'
     // );
+    setUserContext({ name, email, role });
   };
 
   const onError = (error: any) => {

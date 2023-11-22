@@ -9,12 +9,15 @@ import { BASE_URL } from 'constants/constants-frontend';
 import { SIGN_OUT_URL } from '@orbitelco/common';
 import LogoSVG from '../logo/LogoSVG';
 import ErrorBlock from './ErrorBlock';
+import { useUserContext } from '../context/user-context';
 
 interface THeaderProps {
   currentUser?: { name: string; email: string };
 }
 
 const Header: React.FC<THeaderProps> = ({ currentUser }) => {
+  const { userContext, setUserContext } = useUserContext();
+
   const { doRequest, error: errorSigninOut } = useRequest({
     url: BASE_URL + SIGN_OUT_URL,
     method: 'post',
@@ -22,6 +25,7 @@ const Header: React.FC<THeaderProps> = ({ currentUser }) => {
   });
   const logoutHandler = async () => {
     await doRequest({ body: {} });
+    setUserContext(null);
   };
 
   return (
@@ -43,7 +47,7 @@ const Header: React.FC<THeaderProps> = ({ currentUser }) => {
                 {currentUser?.name ? (
                   <>
                     <NavDropdown
-                      title={currentUser.name}
+                      title={userContext?.name || 'Unknown'}
                       id='LINK_header_username'>
                       <NavDropdown.Item
                         as={Link}

@@ -28,7 +28,6 @@ const useRequest = ({
     try {
       setIsProcessing(true);
       setError(null);
-      console.log('doRequest: body: ', body);
       const res: AxiosResponse<any> = await axios[method](url, body);
       if (onSuccess) {
         onSuccess(res.data);

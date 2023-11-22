@@ -14,6 +14,7 @@ import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
 // import { useChangeUserProfileMutation } from 'slices/usersApiSlice';
+import { useUserContext } from 'context/user-context';
 import { getCurrentUser } from 'api/get-current-user';
 import useRequest from 'hooks/use-request';
 import { BASE_URL } from 'constants/constants-frontend';
@@ -36,6 +37,8 @@ interface TPageProps {
 }
 
 const ProfileScreen: React.FC<TPageProps> = ({ currentUser }) => {
+  const { setUserContext } = useUserContext();
+
   const {
     register,
     handleSubmit,
@@ -60,8 +63,6 @@ const ProfileScreen: React.FC<TPageProps> = ({ currentUser }) => {
     method: 'put',
     onSuccess: () => {
       toast.success('Profile updated');
-      // router.reload();
-      // Update cookie with new data
     },
   });
 
@@ -69,15 +70,13 @@ const ProfileScreen: React.FC<TPageProps> = ({ currentUser }) => {
     const name = getValues('name');
     const email = getValues('email');
     await doRequest({ body: { name, email } });
+    const role = currentUser?.role || '';
+    setUserContext({ name, email, role });
   };
 
   const onError = (error: any) => {
     console.log('ERROR:::', error);
   };
-
-  console.log('isDirty', isDirty);
-  console.log('errors', errors);
-  console.log('isProcessing', isProcessing);
 
   return (
     <FormContainer>

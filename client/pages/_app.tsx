@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { Container } from 'react-bootstrap';
-import { Provider } from 'react-redux';
+// import { Provider } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { NextPageContext } from 'next';
@@ -10,7 +10,8 @@ import { HelmetProvider } from 'react-helmet-async';
 import configureAxios from 'api/configure-axios';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
-import store from '../store';
+// import store from '../store';
+import { UserProvider } from 'context/user-context';
 import { CURRENT_USER_URL, IUser } from '@orbitelco/common';
 import '../styles/bootstrap.custom.css';
 import '../styles/index.css';
@@ -24,7 +25,8 @@ const AppComponent = ({ Component, pageProps }: AppProps) => {
     console.log('_app.tsx currentuser destructured', currentUser.email);
   }
   return (
-    <Provider store={store}>
+    // <Provider store={store}>
+    <UserProvider>
       <HelmetProvider>
         <ToastContainer autoClose={3000} />
         <Header currentUser={currentUser} />
@@ -33,7 +35,8 @@ const AppComponent = ({ Component, pageProps }: AppProps) => {
         </Container>
         <Footer />
       </HelmetProvider>
-    </Provider>
+    </UserProvider>
+    // </Provider>
   );
 };
 
