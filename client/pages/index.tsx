@@ -1,5 +1,5 @@
 import React from 'react';
-import { ICurrentUser } from '../types/user-types';
+import { ICurrentUser } from '@orbitelco/common';
 import { NextPageContext } from 'next';
 import { getCurrentUser } from '../api/get-current-user';
 

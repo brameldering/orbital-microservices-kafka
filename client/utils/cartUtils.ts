@@ -1,6 +1,6 @@
 'use client';
-import { ICart } from '../types/cart-types';
-// import { IFeesConfig } from '../types/config-types';
+import { ICart } from '@orbitelco/common';
+// import { IFeesConfig } from '@orbitelco/common';
 import {
   VAT_PERCENTAGE,
   SHIPPING_FEE,

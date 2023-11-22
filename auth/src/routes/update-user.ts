@@ -1,6 +1,7 @@
-import express, { Request, Response } from 'express';
-// import generateToken from '../utils/generateToken';
+import express, { Response } from 'express';
+import generateToken from '../utils/generateToken';
 import {
+  IExtendedRequest,
   USERS_URL,
   checkObjectId,
   ObjectNotFoundError,
@@ -19,7 +20,7 @@ const router = express.Router();
 router.put(
   USERS_URL + '/:id',
   checkObjectId,
-  async (req: Request, res: Response) => {
+  async (req: IExtendedRequest, res: Response) => {
     /*  #swagger.tags = ['Users']
       #swagger.description = 'Update user'
       #swagger.security = [{
@@ -43,12 +44,22 @@ router.put(
       #swagger.responses[404] = {
           description: 'ObjectNotFoundError(User not found)',
      } */
-    const user = await User.findById(req.params.id).select('-password');
+    const userId = req.params.id;
+    const user = await User.findById(userId).select('-password');
     if (user) {
       user.name = req.body.name || user.name;
       user.email = req.body.email || user.email;
       user.role = req.body.role || user.role;
       const updatedUser = await user.save();
+      if (req.currentUser!.id === userId) {
+        generateToken(
+          req,
+          user.id.toString(),
+          updatedUser.name,
+          updatedUser.email,
+          updatedUser.role
+        );
+      }
       res.status(200).send(updatedUser.toJSON());
     } else {
       throw new ObjectNotFoundError('User not found');

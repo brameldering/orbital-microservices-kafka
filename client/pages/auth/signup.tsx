@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+// import { useDispatch } from 'react-redux';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { NextPageContext } from 'next';
 import Router, { useRouter } from 'next/router';
@@ -16,13 +17,13 @@ import { textField, passwordField } from 'form/ValidationSpecs';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
-import { ICurrentUser } from 'types/user-types';
 // import { useSignUpMutation } from 'slices/usersApiSlice';
 import { getCurrentUser } from 'api/get-current-user';
 import { getUserRoles } from 'api/get-user-roles';
 import useRequest from 'hooks/use-request';
+// import { setUserInfo } from 'slices/authSlice';
 import { BASE_URL } from 'constants/constants-frontend';
-import { SIGN_UP_URL } from '@orbitelco/common';
+import { SIGN_UP_URL, ICurrentUser } from '@orbitelco/common';
 
 interface IFormInput {
   name: string;
@@ -46,6 +47,7 @@ interface TPageProps {
 }
 
 const SignupScreen: React.FC<TPageProps> = ({ currentUser, roles }) => {
+  // const dispatch = useDispatch();
   const {
     register,
     control,
@@ -67,6 +69,7 @@ const SignupScreen: React.FC<TPageProps> = ({ currentUser, roles }) => {
   const router = useRouter();
   const { query } = router;
   const redirect = query.redirect || '/';
+  const redirectString = Array.isArray(redirect) ? redirect[0] : redirect;
 
   const {
     doRequest,
@@ -77,7 +80,7 @@ const SignupScreen: React.FC<TPageProps> = ({ currentUser, roles }) => {
     method: 'post',
     onSuccess: () => {
       reset();
-      Router.push('/');
+      Router.push(redirectString);
     },
   });
 
@@ -87,6 +90,10 @@ const SignupScreen: React.FC<TPageProps> = ({ currentUser, roles }) => {
     const password = getValues('password');
     const role = getValues('role');
     await doRequest({ body: { name, email, password, role } });
+    // dispatch(setUserInfo({ name, email, role }));
+    // console.log(
+    //   'signup.tsx After dispatch(setUserInfo({ name, email, role }));'
+    // );
   };
 
   const onError = (error: any) => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Row, Col, Form, Button } from 'react-bootstrap';
-// import { toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { NextPageContext } from 'next';
 // import { useRouter } from 'next/router';
 import Link from 'next/link';
@@ -13,12 +13,11 @@ import { textField } from 'form/ValidationSpecs';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
-import { ICurrentUser } from 'types/user-types';
 // import { useChangeUserProfileMutation } from 'slices/usersApiSlice';
 import { getCurrentUser } from 'api/get-current-user';
 import useRequest from 'hooks/use-request';
 import { BASE_URL } from 'constants/constants-frontend';
-import { UPDATE_PROFILE_URL } from '@orbitelco/common';
+import { UPDATE_PROFILE_URL, ICurrentUser } from '@orbitelco/common';
 
 interface IFormInput {
   name: string;
@@ -60,7 +59,7 @@ const ProfileScreen: React.FC<TPageProps> = ({ currentUser }) => {
     url: BASE_URL + UPDATE_PROFILE_URL,
     method: 'put',
     onSuccess: () => {
-      // toast.success('Profile updated');
+      toast.success('Profile updated');
       // router.reload();
       // Update cookie with new data
     },

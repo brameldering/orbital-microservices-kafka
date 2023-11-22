@@ -7,9 +7,6 @@ import {
   RESET_PASSWORD_URL,
   UPDATE_PASSWORD_URL,
   UPDATE_PROFILE_URL,
-} from '@orbitelco/common';
-
-import {
   ICurrentUser,
   IUser,
   ISignUp,
@@ -17,7 +14,7 @@ import {
   IChangeUserProfile,
   IChangePassword,
   IResetPassword,
-} from '../types/user-types';
+} from '@orbitelco/common';
 
 import apiSlice from './apiSlice';
 

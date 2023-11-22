@@ -1,8 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-
-import type { ICart, ICartItem } from '../types/cart-types';
-import type { IShippingAddress, ITotalAmounts } from '../types/common-types';
+import type {
+  ICart,
+  ICartItem,
+  IShippingAddress,
+  ITotalAmounts,
+} from '@orbitelco/common';
 import { updateCart } from '../utils/cartUtils';
 
 // Define the initial state

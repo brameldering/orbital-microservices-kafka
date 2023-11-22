@@ -13,12 +13,11 @@ import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ModalConfirmBox from 'components/ModalConfirmBox';
 import ErrorBlock from 'components/ErrorBlock';
-import { ICurrentUser } from 'types/user-types';
 // import { useChangePasswordMutation } from 'slices/usersApiSlice';
 // import { getCurrentUser } from 'api/get-current-user';
 import useRequest from 'hooks/use-request';
 import { BASE_URL } from 'constants/constants-frontend';
-import { UPDATE_PASSWORD_URL } from '@orbitelco/common';
+import { UPDATE_PASSWORD_URL, ICurrentUser } from '@orbitelco/common';
 
 interface IFormInput {
   currentPassword: string;

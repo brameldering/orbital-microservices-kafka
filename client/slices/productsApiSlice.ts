@@ -2,14 +2,12 @@ import {
   PRODUCTS_URL,
   PRODUCT_REVIEW_URL,
   UPLOAD_URL,
-} from '@orbitelco/common';
-import {
   IBaseProduct,
   IProduct,
   IGetProductsPaginated,
   IReviewInput,
   IUploadImageResponse,
-} from '../types/product-types';
+} from '@orbitelco/common';
 
 import apiSlice from './apiSlice';
 

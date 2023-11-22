@@ -24,8 +24,8 @@ import {
   useGetProductByIdQuery,
   useCreateReviewMutation,
 } from '../../slices/productsApiSlice';
-import { ICartItem } from '../../types/cart-types';
-import { ICurrentUser } from 'types/user-types';
+import { ICartItem } from '../../../common/src/types/cart-types';
+import { ICurrentUser } from '@orbitelco/common';
 import { dateTimeToLocaleDateString } from '../../utils/dateUtils';
 import { getCurrentUser } from 'api/get-current-user';
 // import useRequest from 'hooks/use-request';

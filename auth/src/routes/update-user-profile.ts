@@ -62,7 +62,13 @@ router.put(
       user.email = email;
       const updatedUser = await user.save();
       // generate token and store in cookie for new user name and email
-      generateToken(req, user.id.toString(), user.name, user.email, user.role);
+      generateToken(
+        req,
+        user.id.toString(),
+        updatedUser.name,
+        updatedUser.email,
+        updatedUser.role
+      );
       res.status(200).send(updatedUser.toJSON());
     } else {
       throw new ObjectNotFoundError('User not found');

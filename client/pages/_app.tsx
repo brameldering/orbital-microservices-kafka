@@ -2,6 +2,8 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
 import { Provider } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { NextPageContext } from 'next';
 import { AppProps } from 'next/app';
 import { HelmetProvider } from 'react-helmet-async';
@@ -9,20 +11,13 @@ import configureAxios from 'api/configure-axios';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
 import store from '../store';
-import { CURRENT_USER_URL } from '@orbitelco/common';
+import { CURRENT_USER_URL, IUser } from '@orbitelco/common';
 import '../styles/bootstrap.custom.css';
 import '../styles/index.css';
 
-interface IUser {
-  name: string;
-  email: string;
-}
-
 const AppComponent = ({ Component, pageProps }: AppProps) => {
-  let currentUser: IUser = pageProps?.currentUser || {
-    name: '',
-    email: '',
-  };
+  let currentUser: IUser = pageProps?.currentUser || undefined;
+
   if (pageProps?.currentUser) {
     console.log('_app.tsx currentuser', pageProps.currentUser.name);
     currentUser = pageProps.currentUser;
@@ -31,6 +26,7 @@ const AppComponent = ({ Component, pageProps }: AppProps) => {
   return (
     <Provider store={store}>
       <HelmetProvider>
+        <ToastContainer autoClose={3000} />
         <Header currentUser={currentUser} />
         <Container className='mx-2 my-2'>
           <Component {...pageProps} />

@@ -2,7 +2,7 @@ import React from 'react';
 import { Row, Col, ListGroup } from 'react-bootstrap';
 
 import { CURRENCY_SYMBOL } from '../constants/constants-frontend';
-import { ITotalAmounts } from '../types/common-types';
+import { ITotalAmounts } from '@orbitelco/common';
 
 interface CurrencyFieldProps {
   label: string;

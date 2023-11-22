@@ -3,7 +3,7 @@ import { Row, Col, Image } from 'react-bootstrap';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { CURRENCY_SYMBOL } from '../constants/constants-frontend';
-import { IOrderItem } from '../types/order-types';
+import { IOrderItem } from '@orbitelco/common';
 
 interface OrderItemLineProps {
   item: IOrderItem;

@@ -104,6 +104,16 @@
     "resolveJsonModule": true,
     "isolatedModules": true
   },
-  "include": ["**/*.ts", "**/*.tsx", "src/reportWebVitals.js"],
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "src/reportWebVitals.js",
+    "../common/src/types/cart-types.ts",
+    "../common/src/types/common-types.ts",
+    "../common/src/types/config-types.ts",
+    "../common/src/types/order-types.ts",
+    "../common/src/types/product-types.ts",
+    "../common/src/types/user-types.ts"
+  ],
   "exclude": ["node_modules"]
 }

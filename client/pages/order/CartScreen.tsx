@@ -19,8 +19,8 @@ import CheckoutSteps from 'components/CheckoutSteps';
 import { CURRENCY_SYMBOL } from '../../constants/constants-frontend';
 import { addToCart, removeFromCart } from '../../slices/cartSlice';
 import type { RootState } from '../../store';
-import { ICartItem } from '../../types/cart-types';
-import { ICurrentUser } from 'types/user-types';
+import { ICartItem } from '../../../common/src/types/cart-types';
+import { ICurrentUser } from '@orbitelco/common';
 import { getCurrentUser } from 'api/get-current-user';
 
 interface TPageProps {

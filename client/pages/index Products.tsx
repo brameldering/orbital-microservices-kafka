@@ -7,7 +7,7 @@ import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
 import Paginate from 'components/Paginate';
 import ProductComponent from '../components/ProductComponent';
-import { IProduct } from '../types/product-types';
+import { IProduct } from '@orbitelco/common';
 import { useGetProductsQuery } from 'slices/productsApiSlice';
 
 const LandingPage: React.FC = () => {
