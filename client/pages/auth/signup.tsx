@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-// import { useDispatch } from 'react-redux';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { NextPageContext } from 'next';
 import Router, { useRouter } from 'next/router';
@@ -17,11 +16,9 @@ import { textField, passwordField } from 'form/ValidationSpecs';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
-// import { useSignUpMutation } from 'slices/usersApiSlice';
 import { getCurrentUser } from 'api/get-current-user';
 import { getUserRoles } from 'api/get-user-roles';
 import useRequest from 'hooks/use-request';
-// import { setUserInfo } from 'slices/authSlice';
 import { BASE_URL } from 'constants/constants-frontend';
 import { SIGN_UP_URL, ICurrentUser } from '@orbitelco/common';
 import { useUserContext } from 'context/user-context';
@@ -48,7 +45,6 @@ interface TPageProps {
 }
 
 const SignupScreen: React.FC<TPageProps> = ({ currentUser, roles }) => {
-  // const dispatch = useDispatch();
   const { setUserContext } = useUserContext();
   const {
     register,
@@ -92,10 +88,6 @@ const SignupScreen: React.FC<TPageProps> = ({ currentUser, roles }) => {
     const password = getValues('password');
     const role = getValues('role');
     await doRequest({ body: { name, email, password, role } });
-    // dispatch(setUserInfo({ name, email, role }));
-    // console.log(
-    //   'signup.tsx After dispatch(setUserInfo({ name, email, role }));'
-    // );
     setUserContext({ name, email, role });
   };
 

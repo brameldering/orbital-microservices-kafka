@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
-// import { NextPageContext } from 'next';
 import Router from 'next/router';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -13,8 +12,6 @@ import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ModalConfirmBox from 'components/ModalConfirmBox';
 import ErrorBlock from 'components/ErrorBlock';
-// import { useChangePasswordMutation } from 'slices/usersApiSlice';
-// import { getCurrentUser } from 'api/get-current-user';
 import useRequest from 'hooks/use-request';
 import { BASE_URL } from 'constants/constants-frontend';
 import { UPDATE_PASSWORD_URL, ICurrentUser } from '@orbitelco/common';
@@ -75,14 +72,14 @@ const ChangePasswordScreen: React.FC<TPageProps> = () => {
   const [showChangesModal, setShowChangesModal] = useState(false);
   const goBackWithoutSaving = () => {
     setShowChangesModal(false);
-    Router.push('/auth/profilescreen');
+    Router.push('/auth/myprofile');
   };
   const cancelGoBack = () => setShowChangesModal(false);
   const goBackHandler = async () => {
     if (isDirty) {
       setShowChangesModal(true);
     } else {
-      Router.push('/auth/profilescreen');
+      Router.push('/auth/myprofile');
     }
   };
 
@@ -134,10 +131,5 @@ const ChangePasswordScreen: React.FC<TPageProps> = () => {
     </>
   );
 };
-
-// export const getServerSideProps = async (context: NextPageContext) => {
-//   const { data } = await getCurrentUser(context);
-//   return { props: data };
-// };
 
 export default ChangePasswordScreen;

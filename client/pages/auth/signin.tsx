@@ -73,12 +73,13 @@ const SigninScreen: React.FC = () => {
     const password = getValues('password');
     await doRequest({ body: { email, password } });
     const { currentUser } = await loadCurrentUser({ body: {} });
-    // console.log('currentUser', currentUser);
-    setUserContext({
-      name: currentUser.name,
-      email: currentUser.email,
-      role: currentUser.role,
-    });
+    if (currentUser) {
+      setUserContext({
+        name: currentUser.name,
+        email: currentUser.email,
+        role: currentUser.role,
+      });
+    }
   };
 
   const onError = (error: any) => {

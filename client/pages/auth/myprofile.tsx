@@ -2,7 +2,6 @@ import React from 'react';
 import { Row, Col, Form, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { NextPageContext } from 'next';
-// import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -13,7 +12,6 @@ import { textField } from 'form/ValidationSpecs';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
-// import { useChangeUserProfileMutation } from 'slices/usersApiSlice';
 import { useUserContext } from 'context/user-context';
 import { getCurrentUser } from 'api/get-current-user';
 import useRequest from 'hooks/use-request';
@@ -51,8 +49,6 @@ const ProfileScreen: React.FC<TPageProps> = ({ currentUser }) => {
     reValidateMode: 'onSubmit',
     resolver: yupResolver(schema),
   });
-
-  // const router = useRouter();
 
   const {
     doRequest,
