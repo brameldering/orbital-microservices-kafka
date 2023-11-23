@@ -31,7 +31,7 @@ const Header: React.FC = () => {
     <header>
       <Navbar bg='primary' variant='dark' expand='sm' collapseOnSelect>
         <Container style={{ marginLeft: '5px' }}>
-          <Link href='/'>
+          <Link href='/' passHref>
             <Navbar.Brand id='LINK_orbitelco_shop'>
               <LogoSVG />
               <Navbar.Text style={{ marginLeft: '10px', color: '#6aa0cb' }}>

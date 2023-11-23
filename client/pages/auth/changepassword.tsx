@@ -14,7 +14,7 @@ import ModalConfirmBox from 'components/ModalConfirmBox';
 import ErrorBlock from 'components/ErrorBlock';
 import useRequest from 'hooks/use-request';
 import { BASE_URL } from 'constants/constants-frontend';
-import { UPDATE_PASSWORD_URL, ICurrentUser } from '@orbitelco/common';
+import { UPDATE_PASSWORD_URL } from '@orbitelco/common';
 
 interface IFormInput {
   currentPassword: string;
@@ -26,11 +26,7 @@ const schema = yup.object().shape({
   newPassword: passwordField(),
 });
 
-interface TPageProps {
-  currentUser?: ICurrentUser;
-}
-
-const ChangePasswordScreen: React.FC<TPageProps> = () => {
+const ChangePasswordScreen: React.FC = () => {
   const {
     register,
     handleSubmit,
@@ -63,6 +59,9 @@ const ChangePasswordScreen: React.FC<TPageProps> = () => {
     const currentPassword = getValues('currentPassword');
     const newPassword = getValues('newPassword');
     await doRequest({ body: { currentPassword, newPassword } });
+    toast.success('Password updated');
+    reset();
+    Router.push('/auth/profilescreen');
   };
 
   const onError = (error: any) => {

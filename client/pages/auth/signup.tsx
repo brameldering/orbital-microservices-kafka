@@ -171,7 +171,7 @@ const SignupScreen: React.FC<TPageProps> = ({ roles }) => {
   );
 };
 
-// Fetch User Roles (to fill dropdown box) and CurrentUser
+// Fetch User Roles (to fill dropdown box)
 export const getServerSideProps = async (context: NextPageContext) => {
   try {
     const roles = await getUserRoles(context);

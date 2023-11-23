@@ -1,4 +1,6 @@
+'use client';
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Row,
   Col,
@@ -9,9 +11,7 @@ import {
   Alert,
 } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
-import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
-import { NextPageContext } from 'next';
 import Link from 'next/link';
 import Router, { useRouter } from 'next/router';
 import Meta from '../../components/Meta';
@@ -24,26 +24,25 @@ import {
   useGetProductByIdQuery,
   useCreateReviewMutation,
 } from '../../slices/productsApiSlice';
-import { ICartItem } from '../../../common/src/types/cart-types';
-import { ICurrentUser } from '@orbitelco/common';
+import { ICartItem } from '@orbitelco/common';
 import { dateTimeToLocaleDateString } from '../../utils/dateUtils';
-import { getCurrentUser } from 'api/get-current-user';
-// import useRequest from 'hooks/use-request';
-// import { BASE_URL } from 'constants/constants-frontend';
-// import { UPDATE_PASSWORD_URL } from '@orbitelco/common';
+import type { RootState } from '../../slices/store';
 
-interface TPageProps {
-  currentUser?: ICurrentUser;
-}
-
-const ProductScreen: React.FC<TPageProps> = ({ currentUser }) => {
+const ProductDetailScreen: React.FC = () => {
   const dispatch = useDispatch();
-  const router = useRouter();
-  const id = router.query.id as string | undefined;
+  const { userInfo } = useSelector((state: RootState) => state.auth);
 
-  let productId: string = '';
-  if (id && id.length > 0) {
-    productId = id;
+  const router = useRouter();
+  // The name productdetail should match the name of [productdetail].tsx
+  const productdetail = router.query.productdetail as
+    | string
+    | string[]
+    | undefined;
+  let productId = Array.isArray(productdetail)
+    ? productdetail[0]
+    : productdetail;
+  if (!productId) {
+    productId = '';
   }
 
   const goBackPath = router.query.goBackPath || '/';
@@ -81,11 +80,13 @@ const ProductScreen: React.FC<TPageProps> = ({ currentUser }) => {
 
   const submitReviewHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await createReview({
-      productId,
-      rating,
-      comment,
-    }).unwrap();
+    if (productId) {
+      await createReview({
+        productId,
+        rating,
+        comment,
+      }).unwrap();
+    }
     if (!errorCreatingReview) {
       refetch();
       setRating(0);
@@ -219,7 +220,7 @@ const ProductScreen: React.FC<TPageProps> = ({ currentUser }) => {
                 <ListGroup.Item>
                   <h2>Write a Customer Review</h2>
                   {creatingProductReview && <Loader />}
-                  {currentUser?.name ? (
+                  {userInfo ? (
                     <Form onSubmit={submitReviewHandler}>
                       <Form.Group className='my-2' controlId='rating'>
                         <Form.Label>Rating</Form.Label>
@@ -281,9 +282,4 @@ const ProductScreen: React.FC<TPageProps> = ({ currentUser }) => {
   );
 };
 
-export const getServerSideProps = async (context: NextPageContext) => {
-  const { data } = await getCurrentUser(context);
-  return { props: data };
-};
-
-export default ProductScreen;
+export default ProductDetailScreen;

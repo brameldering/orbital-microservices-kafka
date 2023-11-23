@@ -25,6 +25,14 @@ export const userApiSlice = apiSlice.injectEndpoints({
         url: CURRENT_USER_URL,
       }),
     }),
+    signUp: builder.mutation<IUser, ISignUp>({
+      query: (data) => ({
+        url: SIGN_UP_URL,
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: ['User'],
+    }),
     signIn: builder.mutation<IUser, ISignIn>({
       query: (data) => ({
         url: SIGN_IN_URL,
@@ -38,14 +46,6 @@ export const userApiSlice = apiSlice.injectEndpoints({
         method: 'POST',
       }),
       invalidatesTags: ['User', 'Order'],
-    }),
-    signUp: builder.mutation<IUser, ISignUp>({
-      query: (data) => ({
-        url: SIGN_UP_URL,
-        method: 'POST',
-        body: data,
-      }),
-      invalidatesTags: ['User'],
     }),
     getUsers: builder.query<IUser[], void>({
       query: () => ({
