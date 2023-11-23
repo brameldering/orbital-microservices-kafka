@@ -12,9 +12,7 @@ import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ModalConfirmBox from 'components/ModalConfirmBox';
 import ErrorBlock from 'components/ErrorBlock';
-import useRequest from 'hooks/use-request';
-import { BASE_URL } from 'constants/constants-frontend';
-import { UPDATE_PASSWORD_URL } from '@orbitelco/common';
+import { useChangePasswordMutation } from 'slices/usersApiSlice';
 
 interface IFormInput {
   currentPassword: string;
@@ -27,6 +25,8 @@ const schema = yup.object().shape({
 });
 
 const ChangePasswordScreen: React.FC = () => {
+  const [changePassword, { isLoading: isProcessing, error: errorChanging }] =
+    useChangePasswordMutation();
   const {
     register,
     handleSubmit,
@@ -41,27 +41,20 @@ const ChangePasswordScreen: React.FC = () => {
     resolver: yupResolver(schema),
   });
 
-  const {
-    doRequest,
-    isProcessing,
-    error: errorChanging,
-  } = useRequest({
-    url: BASE_URL + UPDATE_PASSWORD_URL,
-    method: 'put',
-    onSuccess: () => {
-      toast.success('Password updated');
-      reset();
-      Router.push('/auth/profilescreen');
-    },
-  });
-
   const onSubmit = async () => {
     const currentPassword = getValues('currentPassword');
     const newPassword = getValues('newPassword');
-    await doRequest({ body: { currentPassword, newPassword } });
-    toast.success('Password updated');
-    reset();
-    Router.push('/auth/profilescreen');
+    try {
+      await changePassword({
+        currentPassword,
+        newPassword,
+      }).unwrap();
+      toast.success('Password updated');
+      reset();
+      Router.push('/auth/myprofile');
+    } catch (err: any) {
+      // To avoid "Uncaught in promise" errors
+    }
   };
 
   const onError = (error: any) => {
