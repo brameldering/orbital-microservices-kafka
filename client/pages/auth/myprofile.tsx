@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Row, Col, Form, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { NextPageContext } from 'next';
@@ -36,6 +36,18 @@ interface TPageProps {
 
 const ProfileScreen: React.FC<TPageProps> = ({ currentUser }) => {
   const { setUserContext } = useUserContext();
+  useEffect(() => {
+    const setUserContextEffect = () => {
+      if (currentUser) {
+        setUserContext({
+          name: currentUser.name,
+          email: currentUser.email,
+          role: currentUser.role,
+        });
+      }
+    };
+    setUserContextEffect();
+  }, [currentUser, setUserContext]);
 
   const {
     register,

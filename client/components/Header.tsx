@@ -11,11 +11,7 @@ import LogoSVG from '../logo/LogoSVG';
 import ErrorBlock from './ErrorBlock';
 import { useUserContext } from '../context/user-context';
 
-interface THeaderProps {
-  currentUser?: { name: string; email: string };
-}
-
-const Header: React.FC<THeaderProps> = ({ currentUser }) => {
+const Header: React.FC = () => {
   const { userContext, setUserContext } = useUserContext();
 
   const { doRequest, error: errorSigninOut } = useRequest({
@@ -44,10 +40,10 @@ const Header: React.FC<THeaderProps> = ({ currentUser }) => {
             <Navbar.Toggle aria-controls='basic-navbar-nav' />
             <Navbar.Collapse id='basic-navbar-nav'>
               <Nav>
-                {currentUser?.name ? (
+                {userContext?.name ? (
                   <>
                     <NavDropdown
-                      title={userContext?.name || 'Unknown'}
+                      title={userContext.name}
                       id='LINK_header_username'>
                       <NavDropdown.Item
                         as={Link}
