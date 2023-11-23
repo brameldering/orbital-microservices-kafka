@@ -1,4 +1,5 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import { FaUser } from 'react-icons/fa';
@@ -9,10 +10,12 @@ import { BASE_URL } from 'constants/constants-frontend';
 import { SIGN_OUT_URL } from '@orbitelco/common';
 import LogoSVG from '../logo/LogoSVG';
 import ErrorBlock from './ErrorBlock';
-import { useUserContext } from '../context/user-context';
+import type { RootState } from '../slices/store';
+import { logout } from '../slices/authSlice';
 
 const Header: React.FC = () => {
-  const { userContext, setUserContext } = useUserContext();
+  const dispatch = useDispatch();
+  const { userInfo } = useSelector((state: RootState) => state.auth);
 
   const { doRequest, error: errorSigninOut } = useRequest({
     url: BASE_URL + SIGN_OUT_URL,
@@ -21,7 +24,7 @@ const Header: React.FC = () => {
   });
   const logoutHandler = async () => {
     await doRequest({ body: {} });
-    setUserContext(null);
+    dispatch(logout());
   };
 
   return (
@@ -40,10 +43,10 @@ const Header: React.FC = () => {
             <Navbar.Toggle aria-controls='basic-navbar-nav' />
             <Navbar.Collapse id='basic-navbar-nav'>
               <Nav>
-                {userContext?.name ? (
+                {userInfo ? (
                   <>
                     <NavDropdown
-                      title={userContext.name}
+                      title={userInfo.name}
                       id='LINK_header_username'>
                       <NavDropdown.Item
                         as={Link}

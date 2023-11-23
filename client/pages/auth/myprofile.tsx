@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col, Form, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
-import { NextPageContext } from 'next';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -12,11 +12,11 @@ import { textField } from 'form/ValidationSpecs';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
-import { useUserContext } from 'context/user-context';
-import { getCurrentUser } from 'api/get-current-user';
+import type { RootState } from '../../slices/store';
 import useRequest from 'hooks/use-request';
 import { BASE_URL } from 'constants/constants-frontend';
-import { UPDATE_PROFILE_URL, ICurrentUser } from '@orbitelco/common';
+import { UPDATE_PROFILE_URL } from '@orbitelco/common';
+import { updUserState } from '../../slices/authSlice';
 
 interface IFormInput {
   name: string;
@@ -30,24 +30,9 @@ const schema = yup.object().shape({
     .email('Invalid email address'),
 });
 
-interface TPageProps {
-  currentUser?: ICurrentUser;
-}
-
-const ProfileScreen: React.FC<TPageProps> = ({ currentUser }) => {
-  const { setUserContext } = useUserContext();
-  useEffect(() => {
-    const setUserContextEffect = () => {
-      if (currentUser) {
-        setUserContext({
-          name: currentUser.name,
-          email: currentUser.email,
-          role: currentUser.role,
-        });
-      }
-    };
-    setUserContextEffect();
-  }, [currentUser, setUserContext]);
+const ProfileScreen: React.FC = () => {
+  const dispatch = useDispatch();
+  const { userInfo } = useSelector((state: RootState) => state.auth);
 
   const {
     register,
@@ -56,7 +41,7 @@ const ProfileScreen: React.FC<TPageProps> = ({ currentUser }) => {
     setError,
     formState: { isDirty, errors },
   } = useForm<IFormInput>({
-    defaultValues: { name: currentUser?.name, email: currentUser?.email },
+    defaultValues: { name: userInfo?.name, email: userInfo?.email },
     mode: 'onBlur',
     reValidateMode: 'onSubmit',
     resolver: yupResolver(schema),
@@ -77,9 +62,8 @@ const ProfileScreen: React.FC<TPageProps> = ({ currentUser }) => {
   const onSubmit = async () => {
     const name = getValues('name');
     const email = getValues('email');
-    await doRequest({ body: { name, email } });
-    const role = currentUser?.role || '';
-    setUserContext({ name, email, role });
+    const updatedUser = await doRequest({ body: { name, email } });
+    dispatch(updUserState(updatedUser));
   };
 
   const onError = (error: any) => {
@@ -127,11 +111,6 @@ const ProfileScreen: React.FC<TPageProps> = ({ currentUser }) => {
       </Form>
     </FormContainer>
   );
-};
-
-export const getServerSideProps = async (context: NextPageContext) => {
-  const { data } = await getCurrentUser(context);
-  return { props: data };
 };
 
 export default ProfileScreen;

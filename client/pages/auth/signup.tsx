@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { NextPageContext } from 'next';
 import Router, { useRouter } from 'next/router';
@@ -16,12 +17,12 @@ import { textField, passwordField } from 'form/ValidationSpecs';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
-import { getCurrentUser } from 'api/get-current-user';
 import { getUserRoles } from 'api/get-user-roles';
 import useRequest from 'hooks/use-request';
 import { BASE_URL } from 'constants/constants-frontend';
 import { SIGN_UP_URL, ICurrentUser } from '@orbitelco/common';
-import { useUserContext } from 'context/user-context';
+import type { RootState } from '../../slices/store';
+import { setUserState } from '../../slices/authSlice';
 
 interface IFormInput {
   name: string;
@@ -44,8 +45,10 @@ interface TPageProps {
   roles: Array<{ role: string; desc: string }>;
 }
 
-const SignupScreen: React.FC<TPageProps> = ({ currentUser, roles }) => {
-  const { setUserContext } = useUserContext();
+const SignupScreen: React.FC<TPageProps> = ({ roles }) => {
+  const dispatch = useDispatch();
+  const { userInfo } = useSelector((state: RootState) => state.auth);
+
   const {
     register,
     control,
@@ -69,6 +72,12 @@ const SignupScreen: React.FC<TPageProps> = ({ currentUser, roles }) => {
   const redirect = query.redirect || '/';
   const redirectString = Array.isArray(redirect) ? redirect[0] : redirect;
 
+  useEffect(() => {
+    if (userInfo) {
+      router.push(redirect.toString());
+    }
+  }, [router, redirect, userInfo]);
+
   const {
     doRequest,
     isProcessing,
@@ -87,19 +96,15 @@ const SignupScreen: React.FC<TPageProps> = ({ currentUser, roles }) => {
     const email = getValues('email');
     const password = getValues('password');
     const role = getValues('role');
-    await doRequest({ body: { name, email, password, role } });
-    setUserContext({ name, email, role });
+    const createdUser = await doRequest({
+      body: { name, email, password, role },
+    });
+    dispatch(setUserState(createdUser));
   };
 
   const onError = (error: any) => {
     console.log('ERROR:::', error);
   };
-
-  useEffect(() => {
-    if (currentUser) {
-      router.push(redirect.toString());
-    }
-  }, [router, redirect, currentUser]);
 
   const selectRoles = [
     { label: 'Select role', value: '' },
@@ -169,22 +174,15 @@ const SignupScreen: React.FC<TPageProps> = ({ currentUser, roles }) => {
 // Fetch User Roles (to fill dropdown box) and CurrentUser
 export const getServerSideProps = async (context: NextPageContext) => {
   try {
-    const { data } = await getCurrentUser(context);
     const roles = await getUserRoles(context);
     return {
-      props: {
-        currentUser: data.currentUser,
-        roles: roles,
-      },
+      props: { roles },
     };
   } catch (error) {
     // Handle errors if any
     console.error('Error fetching data:', error);
     return {
-      props: {
-        currentUser: null,
-        roles: [],
-      },
+      props: { roles: [] },
     };
   }
 };
