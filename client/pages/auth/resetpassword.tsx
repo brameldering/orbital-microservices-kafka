@@ -4,15 +4,13 @@ import Router from 'next/router';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import FormContainer from '../../form/FormContainer';
-import { FormField } from '../../form/FormComponents';
+import FormContainer from 'form/FormContainer';
+import { FormField } from 'form/FormComponents';
 import { textField } from 'form/ValidationSpecs';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
-import useRequest from 'hooks/use-request';
-import { BASE_URL } from 'constants/constants-frontend';
-import { RESET_PASSWORD_URL } from '@orbitelco/common';
+import { useResetPasswordMutation } from 'slices/usersApiSlice';
 
 interface IFormInput {
   email: string;
@@ -38,18 +36,18 @@ const PasswordResetScreen = () => {
     resolver: yupResolver(schema),
   });
 
-  const {
-    doRequest,
-    isProcessing,
-    error: errorResettingPassword,
-  } = useRequest({
-    url: BASE_URL + RESET_PASSWORD_URL,
-    method: 'put',
-    onSuccess: () => Router.push('/auth/resetpasswordconfirm'),
-  });
+  const [
+    resetPassword,
+    { isLoading: isProcessing, error: errorResettingPassword },
+  ] = useResetPasswordMutation();
   const onSubmit = async () => {
     const email = getValues('email');
-    await doRequest({ body: { email } });
+    try {
+      await resetPassword({ email }).unwrap();
+      Router.push('/auth/resetpasswordconfirm');
+    } catch (err: any) {
+      // To avoid "Uncaught in promise" errors in console, errors are handled by RTK mutation
+    }
   };
 
   const onError = (error: any) => {

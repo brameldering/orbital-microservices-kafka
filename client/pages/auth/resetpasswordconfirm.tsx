@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 
-import FormContainer from '../../form/FormContainer';
+import FormContainer from 'form/FormContainer';
 import Meta from 'components/Meta';
 
 const ResetPasswordConfirmation = () => {

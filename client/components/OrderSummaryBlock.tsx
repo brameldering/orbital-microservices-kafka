@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col, ListGroup } from 'react-bootstrap';
 
-import { CURRENCY_SYMBOL } from '../constants/constants-frontend';
+import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
 import { ITotalAmounts } from '@orbitelco/common';
 
 interface CurrencyFieldProps {

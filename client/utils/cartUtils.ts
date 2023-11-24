@@ -5,7 +5,7 @@ import {
   VAT_PERCENTAGE,
   SHIPPING_FEE,
   THRESHOLD_FREE_SHIPPING,
-} from '../constants/constants-frontend';
+} from 'constants/constants-frontend';
 
 const roundTo2Decimals = (num: number): number => Math.round(num * 100) / 100;
 

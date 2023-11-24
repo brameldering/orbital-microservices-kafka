@@ -6,17 +6,15 @@ import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import FormContainer from '../../form/FormContainer';
-import { FormField } from '../../form/FormComponents';
+import FormContainer from 'form/FormContainer';
+import { FormField } from 'form/FormComponents';
 import { textField } from 'form/ValidationSpecs';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
-import type { RootState } from '../../slices/store';
-import useRequest from 'hooks/use-request';
-import { BASE_URL } from 'constants/constants-frontend';
-import { UPDATE_PROFILE_URL } from '@orbitelco/common';
-import { updUserState } from '../../slices/authSlice';
+import type { RootState } from 'slices/store';
+import { updUserState } from 'slices/authSlice';
+import { useChangeUserProfileMutation } from 'slices/usersApiSlice';
 
 interface IFormInput {
   name: string;
@@ -47,23 +45,21 @@ const ProfileScreen: React.FC = () => {
     resolver: yupResolver(schema),
   });
 
-  const {
-    doRequest,
-    isProcessing,
-    error: errorChanging,
-  } = useRequest({
-    url: BASE_URL + UPDATE_PROFILE_URL,
-    method: 'put',
-    onSuccess: () => {
-      toast.success('Profile updated');
-    },
-  });
-
+  const [changeUserProfile, { isLoading: isProcessing, error: errorChanging }] =
+    useChangeUserProfileMutation();
   const onSubmit = async () => {
     const name = getValues('name');
     const email = getValues('email');
-    const updatedUser = await doRequest({ body: { name, email } });
-    dispatch(updUserState(updatedUser));
+    try {
+      const updatedUser = await changeUserProfile({
+        name,
+        email,
+      }).unwrap();
+      dispatch(updUserState(updatedUser));
+      toast.success('Profile updated');
+    } catch (err: any) {
+      // To avoid "Uncaught in promise" errors in console, errors are handled by RTK mutation
+    }
   };
 
   const onError = (error: any) => {

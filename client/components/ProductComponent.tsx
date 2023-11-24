@@ -2,7 +2,7 @@
 import React from 'react';
 import Card from 'react-bootstrap/Card';
 import Link from 'next/link';
-import { CURRENCY_SYMBOL } from '../constants/constants-frontend';
+import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
 import { IProduct } from '@orbitelco/common';
 
 import Rating from './Rating';

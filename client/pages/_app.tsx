@@ -8,7 +8,7 @@ import { AppProps } from 'next/app';
 import { HelmetProvider } from 'react-helmet-async';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
-import store from '../slices/store';
+import store from 'slices/store';
 import '../styles/bootstrap.custom.css';
 import '../styles/index.css';
 

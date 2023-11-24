@@ -6,7 +6,7 @@ import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
 import Paginate from 'components/Paginate';
-import ProductComponent from '../components/ProductComponent';
+import ProductComponent from 'components/ProductComponent';
 import { IProduct } from '@orbitelco/common';
 import { useGetProductsQuery } from 'slices/productsApiSlice';
 

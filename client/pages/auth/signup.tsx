@@ -7,22 +7,16 @@ import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import FormContainer from '../../form/FormContainer';
-import {
-  FormField,
-  PasswordField,
-  SelectField,
-} from '../../form/FormComponents';
+import FormContainer from 'form/FormContainer';
+import { FormField, PasswordField, SelectField } from 'form/FormComponents';
 import { textField, passwordField } from 'form/ValidationSpecs';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
 import { getUserRoles } from 'api/get-user-roles';
-import useRequest from 'hooks/use-request';
-import { BASE_URL } from 'constants/constants-frontend';
-import { SIGN_UP_URL, ICurrentUser } from '@orbitelco/common';
-import type { RootState } from '../../slices/store';
-import { setUserState } from '../../slices/authSlice';
+import type { RootState } from 'slices/store';
+import { setUserState } from 'slices/authSlice';
+import { useSignUpMutation } from 'slices/usersApiSlice';
 
 interface IFormInput {
   name: string;
@@ -41,11 +35,10 @@ const schema = yup.object().shape({
 });
 
 interface TPageProps {
-  currentUser?: ICurrentUser;
   roles: Array<{ role: string; desc: string }>;
 }
 
-const SignupScreen: React.FC<TPageProps> = ({ roles }) => {
+const SignUpScreen: React.FC<TPageProps> = ({ roles }) => {
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state: RootState) => state.auth);
 
@@ -78,28 +71,26 @@ const SignupScreen: React.FC<TPageProps> = ({ roles }) => {
     }
   }, [router, redirect, userInfo]);
 
-  const {
-    doRequest,
-    isProcessing,
-    error: errorSigninUp,
-  } = useRequest({
-    url: BASE_URL + SIGN_UP_URL,
-    method: 'post',
-    onSuccess: () => {
-      reset();
-      Router.push(redirectString);
-    },
-  });
-
+  const [doSignUp, { isLoading: isProcessing, error: errorSigninUp }] =
+    useSignUpMutation();
   const onSubmit = async () => {
     const name = getValues('name');
     const email = getValues('email');
     const password = getValues('password');
     const role = getValues('role');
-    const createdUser = await doRequest({
-      body: { name, email, password, role },
-    });
-    dispatch(setUserState(createdUser));
+    try {
+      const createdUser = await doSignUp({
+        name,
+        email,
+        password,
+        role,
+      }).unwrap();
+      reset();
+      dispatch(setUserState(createdUser));
+      Router.push(redirectString);
+    } catch (err: any) {
+      // To avoid "Uncaught in promise" errors in console, errors are handled by RTK mutation
+    }
   };
 
   const onError = (error: any) => {
@@ -187,4 +178,4 @@ export const getServerSideProps = async (context: NextPageContext) => {
   }
 };
 
-export default SignupScreen;
+export default SignUpScreen;

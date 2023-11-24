@@ -14,19 +14,19 @@ import Card from 'react-bootstrap/Card';
 import { toast } from 'react-toastify';
 import Link from 'next/link';
 import Router, { useRouter } from 'next/router';
-import Meta from '../../components/Meta';
-import Loader from '../../components/Loader';
-import ErrorBlock from '../../components/ErrorBlock';
-import Rating from '../../components/Rating';
-import { CURRENCY_SYMBOL } from '../../constants/constants-frontend';
-import { addToCart } from '../../slices/cartSlice';
+import Meta from 'components/Meta';
+import Loader from 'components/Loader';
+import ErrorBlock from 'components/ErrorBlock';
+import Rating from 'components/Rating';
+import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
+import { ICartItem } from '@orbitelco/common';
+import { dateTimeToLocaleDateString } from 'utils/dateUtils';
+import type { RootState } from 'slices/store';
+import { addToCart } from 'slices/cartSlice';
 import {
   useGetProductByIdQuery,
   useCreateReviewMutation,
-} from '../../slices/productsApiSlice';
-import { ICartItem } from '@orbitelco/common';
-import { dateTimeToLocaleDateString } from '../../utils/dateUtils';
-import type { RootState } from '../../slices/store';
+} from 'slices/productsApiSlice';
 
 const ProductDetailScreen: React.FC = () => {
   const dispatch = useDispatch();
@@ -79,7 +79,6 @@ const ProductDetailScreen: React.FC = () => {
     createReview,
     { isLoading: creatingProductReview, error: errorCreatingReview },
   ] = useCreateReviewMutation();
-
   const submitReviewHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (productId) {

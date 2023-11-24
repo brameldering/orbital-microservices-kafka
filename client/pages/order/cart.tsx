@@ -11,27 +11,21 @@ import {
 import Card from 'react-bootstrap/Card';
 import { FaTrash } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
-import { NextPageContext } from 'next';
 import Link from 'next/link';
 import Router, { useRouter } from 'next/router';
-import Meta from '../../components/Meta';
+import Meta from 'components/Meta';
 import CheckoutSteps from 'components/CheckoutSteps';
-import { CURRENCY_SYMBOL } from '../../constants/constants-frontend';
-import { addToCart, removeFromCart } from '../../slices/cartSlice';
-import type { RootState } from '../../store';
-import { ICartItem } from '../../../common/src/types/cart-types';
-import { ICurrentUser } from '@orbitelco/common';
-import { getCurrentUser } from 'api/get-current-user';
+import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
+import { ICartItem } from '@orbitelco/common';
+import type { RootState } from 'slices/store';
+import { addToCart, removeFromCart } from 'slices/cartSlice';
 
-interface TPageProps {
-  currentUser?: ICurrentUser;
-}
-
-const CartScreen: React.FC<TPageProps> = ({ currentUser }) => {
+const CartScreen: React.FC = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const currentPath = router.pathname;
 
+  const { userInfo } = useSelector((state: RootState) => state.auth);
   const { cartItems } = useSelector((state: RootState) => state.cart);
 
   const addToCartHandler = (product: ICartItem, qty: number) => {
@@ -42,13 +36,14 @@ const CartScreen: React.FC<TPageProps> = ({ currentUser }) => {
     dispatch(removeFromCart(id));
   };
 
+  const nextPage = '/order/shipping';
   const checkoutHandler = () => {
-    if (currentUser?.name) {
+    if (userInfo?.name) {
       // user already logged in
-      Router.push('/order/shipping');
+      Router.push(nextPage);
     } else {
       // user not yet logged in, log in first then redirect to shipping
-      Router.push('/auth/signin?redirect=/shipping');
+      Router.push(`/auth/signin?redirect=${nextPage}`);
     }
   };
 
@@ -144,11 +139,6 @@ const CartScreen: React.FC<TPageProps> = ({ currentUser }) => {
       </Row>
     </>
   );
-};
-
-export const getServerSideProps = async (context: NextPageContext) => {
-  const { data } = await getCurrentUser(context);
-  return { props: data };
 };
 
 export default CartScreen;

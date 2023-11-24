@@ -5,8 +5,8 @@ import Router from 'next/router';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import FormContainer from '../../form/FormContainer';
-import { PasswordField } from '../../form/FormComponents';
+import FormContainer from 'form/FormContainer';
+import { PasswordField } from 'form/FormComponents';
 import { passwordField } from 'form/ValidationSpecs';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
@@ -25,8 +25,6 @@ const schema = yup.object().shape({
 });
 
 const ChangePasswordScreen: React.FC = () => {
-  const [changePassword, { isLoading: isProcessing, error: errorChanging }] =
-    useChangePasswordMutation();
   const {
     register,
     handleSubmit,
@@ -41,6 +39,8 @@ const ChangePasswordScreen: React.FC = () => {
     resolver: yupResolver(schema),
   });
 
+  const [changePassword, { isLoading: isProcessing, error: errorChanging }] =
+    useChangePasswordMutation();
   const onSubmit = async () => {
     const currentPassword = getValues('currentPassword');
     const newPassword = getValues('newPassword');
@@ -53,7 +53,7 @@ const ChangePasswordScreen: React.FC = () => {
       reset();
       Router.push('/auth/myprofile');
     } catch (err: any) {
-      // To avoid "Uncaught in promise" errors
+      // To avoid "Uncaught in promise" errors in console, errors are handled by RTK mutation
     }
   };
 

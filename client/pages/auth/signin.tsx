@@ -6,16 +6,14 @@ import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import FormContainer from '../../form/FormContainer';
-import { FormField, PasswordField } from '../../form/FormComponents';
+import FormContainer from 'form/FormContainer';
+import { FormField, PasswordField } from 'form/FormComponents';
 import { textField, passwordField } from 'form/ValidationSpecs';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
-import useRequest from 'hooks/use-request';
-import { BASE_URL } from 'constants/constants-frontend';
-import { SIGN_IN_URL } from '@orbitelco/common';
-import { setUserState } from '../../slices/authSlice';
+import { setUserState } from 'slices/authSlice';
+import { useSignInMutation } from 'slices/usersApiSlice';
 
 interface IFormInput {
   email: string;
@@ -28,7 +26,7 @@ const schema = yup.object().shape({
   password: passwordField(),
 });
 
-const SigninScreen: React.FC = () => {
+const SignInScreen: React.FC = () => {
   const dispatch = useDispatch();
   const {
     register,
@@ -49,24 +47,19 @@ const SigninScreen: React.FC = () => {
   const { query } = router;
   const redirect = query.redirect || '/';
 
-  const {
-    doRequest,
-    isProcessing,
-    error: errorSigninIn,
-  } = useRequest({
-    url: BASE_URL + SIGN_IN_URL,
-    method: 'post',
-    onSuccess: () => {
-      reset();
-      Router.push(redirect.toString());
-    },
-  });
-
+  const [doSignIn, { isLoading: isProcessing, error: errorSigninIn }] =
+    useSignInMutation();
   const onSubmit = async () => {
     const email = getValues('email');
     const password = getValues('password');
-    const createdUser = await doRequest({ body: { email, password } });
-    dispatch(setUserState(createdUser));
+    try {
+      const signedInUser = await doSignIn({ email, password }).unwrap();
+      reset();
+      dispatch(setUserState(signedInUser));
+      Router.push(redirect.toString());
+    } catch (err: any) {
+      // To avoid "Uncaught in promise" errors in console, errors are handled by RTK mutation
+    }
   };
 
   const onError = (error: any) => {
@@ -127,4 +120,4 @@ const SigninScreen: React.FC = () => {
   );
 };
 
-export default SigninScreen;
+export default SignInScreen;

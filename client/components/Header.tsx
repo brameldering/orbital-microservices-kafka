@@ -5,26 +5,25 @@ import Container from 'react-bootstrap/Container';
 import { FaUser } from 'react-icons/fa';
 import Link from 'next/link';
 import Router from 'next/router';
-import useRequest from 'hooks/use-request';
-import { BASE_URL } from 'constants/constants-frontend';
-import { SIGN_OUT_URL } from '@orbitelco/common';
-import LogoSVG from '../logo/LogoSVG';
+import LogoSVG from 'logo/LogoSVG';
 import ErrorBlock from './ErrorBlock';
-import type { RootState } from '../slices/store';
-import { logout } from '../slices/authSlice';
+import type { RootState } from 'slices/store';
+import { logout } from 'slices/authSlice';
+import { useSignOutMutation } from 'slices/usersApiSlice';
 
 const Header: React.FC = () => {
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state: RootState) => state.auth);
 
-  const { doRequest, error: errorSigninOut } = useRequest({
-    url: BASE_URL + SIGN_OUT_URL,
-    method: 'post',
-    onSuccess: () => Router.push('/'),
-  });
+  const [doSignOut, { error: errorSigninOut }] = useSignOutMutation();
   const logoutHandler = async () => {
-    await doRequest({ body: {} });
-    dispatch(logout());
+    try {
+      await doSignOut().unwrap();
+      dispatch(logout());
+      Router.push('/');
+    } catch (err: any) {
+      // To avoid "Uncaught in promise" errors in console, errors are handled by RTK mutation
+    }
   };
 
   return (
