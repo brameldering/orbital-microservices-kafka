@@ -33,6 +33,8 @@ const ProductDetailScreen: React.FC = () => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
 
   const router = useRouter();
+  // Get current path to pass to login page for review
+  const { asPath } = router;
   // The name productdetail should match the name of [productdetail].tsx
   const productdetail = router.query.productdetail as
     | string
@@ -105,7 +107,6 @@ const ProductDetailScreen: React.FC = () => {
         href={goBackPath.toString()}>
         Go Back
       </Link>
-      {errorCreatingReview && <ErrorBlock error={errorCreatingReview} />}
       {isLoading ? (
         <Loader />
       ) : errorLoading ? (
@@ -114,10 +115,8 @@ const ProductDetailScreen: React.FC = () => {
         <>
           <Meta title={product.name} description={product.description} />
           <Row>
-            <Col md={6}>
+            <Col md={8}>
               <Image src={product.imageURL} alt={product.name} fluid />
-            </Col>
-            <Col md={3}>
               <ListGroup variant='flush'>
                 <ListGroup.Item>
                   <h3>{product.name}</h3>
@@ -140,7 +139,8 @@ const ProductDetailScreen: React.FC = () => {
                 </ListGroup.Item>
               </ListGroup>
             </Col>
-            <Col md={3}>
+            {/* <Col md={1}></Col> */}
+            <Col md={4}>
               <Card>
                 <ListGroup variant='flush'>
                   <ListGroup.Item>
@@ -203,7 +203,7 @@ const ProductDetailScreen: React.FC = () => {
             </Col>
           </Row>
           <Row className='review'>
-            <Col md={6}>
+            <Col md={8}>
               <h2>Reviews</h2>
               {product.reviews.length === 0 && (
                 <Alert variant='info'>No Reviews</Alert>
@@ -249,6 +249,9 @@ const ProductDetailScreen: React.FC = () => {
                             setComment(e.target.value)
                           }></Form.Control>
                       </Form.Group>
+                      {errorCreatingReview && (
+                        <ErrorBlock error={errorCreatingReview} />
+                      )}
                       <Button
                         id='BUTTON_review_submit'
                         disabled={
@@ -264,7 +267,9 @@ const ProductDetailScreen: React.FC = () => {
                   ) : (
                     <Alert variant='info'>
                       Please{' '}
-                      <Link id='LINK_sign_in' href='/auth/signin'>
+                      <Link
+                        id='LINK_sign_in'
+                        href={`/auth/signin?redirect=${asPath}`}>
                         sign in
                       </Link>{' '}
                       to write a review
