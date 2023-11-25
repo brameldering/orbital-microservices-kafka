@@ -7,7 +7,7 @@ const router = express.Router();
 // @route   GET /api/users/v2/currentuser
 // @access  Public
 // @req     currentUser object
-// @res     status(200).send({ currentUser: req.currentUser || null })
+// @res     send({ currentUser: req.currentUser || null })
 router.get(CURRENT_USER_URL, (req: IExtendedRequest, res: Response) => {
   /*  #swagger.tags = ['Users']
       #swagger.description = 'Get current user from req.currentUser object'

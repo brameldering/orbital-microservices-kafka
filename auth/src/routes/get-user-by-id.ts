@@ -1,8 +1,8 @@
 import express, { Request, Response } from 'express';
 import {
   USERS_URL,
-  checkObjectId,
   ObjectNotFoundError,
+  checkObjectId,
 } from '@orbitelco/common';
 import { User } from '../userModel';
 
@@ -12,7 +12,7 @@ const router = express.Router();
 // @route   GET /api/users/v2/:id
 // @access  Admin
 // @req     params.id
-// @res     status(200).{user}
+// @res     {user}
 //       or status(404).ObjectNotFoundError('User not found')
 router.get(
   USERS_URL + '/:id',
@@ -37,7 +37,7 @@ router.get(
      } */
     const user = await User.findById(req.params.id);
     if (user) {
-      res.status(200).send(user.toJSON());
+      res.send(user.toJSON());
     } else {
       throw new ObjectNotFoundError('User not found');
     }

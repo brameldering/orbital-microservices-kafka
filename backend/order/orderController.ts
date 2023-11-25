@@ -173,7 +173,7 @@ const getOrderById = asyncHandler(async (req: Request, res: Response) => {
       }]
       #swagger.parameters['id'] = {
             in: 'path',
-            description: 'user id, for which to get the orders for',
+            description: 'Order id of the order to get',
             required: 'true',
             type: 'string'
       }
@@ -212,7 +212,7 @@ const updateOrderToPaid = asyncHandler(async (req: Request, res: Response) => {
             required: 'true',
             type: 'string'
       }
-      #swagger.parameters['Product'] = {
+      #swagger.parameters['Payment'] = {
             in: 'body',
             description: 'Payment Result object: {id, status, update_time, payer.email_address}',
             required: 'true',

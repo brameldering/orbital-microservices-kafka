@@ -8,7 +8,7 @@ const router = express.Router();
 // @route   POST /api/products/v2/upload
 // @access  Admin
 // @req     body: FormData.image
-// @res     status(200).send({ imageURL: string })
+// @res     send({ imageURL: string })
 //       or status(415).FileUploadError(message)
 router.post(UPLOAD_URL, async (req: Request, res: Response) => {
   /*  #swagger.tags = ['Products']

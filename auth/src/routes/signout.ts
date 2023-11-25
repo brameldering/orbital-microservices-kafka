@@ -8,7 +8,6 @@ const router = express.Router();
 // @access  Public
 // @req
 // @res     Clear session cookie
-//      and status(200)
 router.post(SIGN_OUT_URL, async (req: Request, res: Response) => {
   /*  #swagger.tags = ['Users']
       #swagger.description = 'Clears the Session Cookie containing the JWT'

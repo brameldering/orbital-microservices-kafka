@@ -17,7 +17,7 @@ const router = express.Router();
 // @access  Public
 // @req     body {email, password}
 // @res     stores jwt in httpOnly session cookie;
-//      and status(200).send({ user })
+//      and send({ user })
 //       or status(400).RequestValidationError
 //       or status(401).NotAuthorizedError
 router.post(
@@ -50,7 +50,7 @@ router.post(
     const user = await User.findOne({ email });
     if (user?.id && (await bcrypt.compare(password, user.password))) {
       generateToken(req, user.id.toString(), user.name, user.email, user.role);
-      res.status(200).send(user.toJSON());
+      res.send(user.toJSON());
     } else {
       throw new NotAuthorizedError();
     }

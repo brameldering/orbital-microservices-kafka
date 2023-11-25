@@ -17,7 +17,7 @@ const router = express.Router();
 // @access  Private
 // @req     req.currentUser.id (set by currentUser)
 //          body {currentPassword, newPassword}
-// @res     status(200).send({updatedUser})
+// @res     send({updatedUser})
 //       or status(400).RequestValidationError
 //       or status(404).ObjectNotFoundError('User not found')
 router.put(
@@ -80,7 +80,7 @@ router.put(
         ) {
           user.password = newPassword;
           const updatedUser = await user.save();
-          res.status(200).send(updatedUser.toJSON());
+          res.send(updatedUser.toJSON());
         } else {
           throw new UserInputError('Entered current password is incorrect');
         }

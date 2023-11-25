@@ -12,7 +12,7 @@ const router = express.Router();
 // @route   DELETE /api/products/v2/:id
 // @access  Admin
 // @req     params.id
-// @res     status(200).()
+// @res     ()
 //       or status(404).ObjectNotFoundError(Product not found)
 router.delete(
   PRODUCTS_URL + '/:id',
@@ -39,7 +39,7 @@ router.delete(
     const product = await Product.findById(req.params.id);
     if (product) {
       await Product.deleteOne({ _id: product._id });
-      res.status(200).send();
+      res.send();
     } else {
       throw new ObjectNotFoundError('Product not found');
     }

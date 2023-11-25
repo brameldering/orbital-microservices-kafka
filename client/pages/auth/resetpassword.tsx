@@ -2,10 +2,10 @@ import React from 'react';
 import { Form, Button } from 'react-bootstrap';
 import Router from 'next/router';
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 import FormContainer from 'form/FormContainer';
-import { FormField } from 'form/FormComponents';
+import { TextNumField } from 'form/FormComponents';
 import { textField } from 'form/ValidationSpecs';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
@@ -60,7 +60,7 @@ const PasswordResetScreen = () => {
       <Form onSubmit={handleSubmit(onSubmit, onError)}>
         <h1>Reset Password</h1>
         {isProcessing && <Loader />}
-        <FormField
+        <TextNumField
           controlId='email'
           label='Your email address as known to us'
           register={register}

@@ -44,9 +44,9 @@ const CheckBoxField: React.FunctionComponent<CheckBoxFieldProps> = ({
   );
 };
 
-// =================== FormField ====================
-// = default form field used for text, number, etc. =
-interface FormFieldProps {
+// =================== TextNumField ====================
+// = form field used for text and number               =
+interface TextNumFieldProps {
   controlId: string;
   label: string;
   type?: string;
@@ -55,7 +55,7 @@ interface FormFieldProps {
   setError: any;
 }
 
-const FormField: React.FunctionComponent<FormFieldProps> = ({
+const TextNumField: React.FunctionComponent<TextNumFieldProps> = ({
   controlId,
   label,
   type = 'text',
@@ -249,4 +249,10 @@ const TextAreaField: React.FunctionComponent<TextAreaFieldProps> = ({
   );
 };
 
-export { CheckBoxField, FormField, PasswordField, SelectField, TextAreaField };
+export {
+  CheckBoxField,
+  TextNumField,
+  PasswordField,
+  SelectField,
+  TextAreaField,
+};

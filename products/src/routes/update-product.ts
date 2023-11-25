@@ -13,7 +13,7 @@ const router = express.Router();
 // @access  Admin
 // @req     params.id
 //          body {Product}
-// @res     status(200).(updatedProduct)
+// @res     (updatedProduct)
 //       or status(404).ObjectNotFoundError(Product not found)
 router.put(
   PRODUCTS_URL + '/:id',
@@ -62,7 +62,7 @@ router.put(
       product.category = category;
       product.countInStock = countInStock;
       const updatedProduct = await product.save();
-      res.status(200).send(updatedProduct.toJSON());
+      res.send(updatedProduct.toJSON());
     } else {
       throw new ObjectNotFoundError('Product not found');
     }

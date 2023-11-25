@@ -4,10 +4,10 @@ import { Row, Col, Form, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 import FormContainer from 'form/FormContainer';
-import { FormField } from 'form/FormComponents';
+import { TextNumField } from 'form/FormComponents';
 import { textField } from 'form/ValidationSpecs';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
@@ -72,14 +72,14 @@ const ProfileScreen: React.FC = () => {
       <Form onSubmit={handleSubmit(onSubmit, onError)}>
         <h1>My Profile</h1>
         {isProcessing && <Loader />}
-        <FormField
+        <TextNumField
           controlId='name'
           label='Full name'
           register={register}
           error={errors.name}
           setError={setError}
         />
-        <FormField
+        <TextNumField
           controlId='email'
           label='Email'
           register={register}

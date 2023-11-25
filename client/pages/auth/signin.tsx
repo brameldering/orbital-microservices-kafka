@@ -4,10 +4,10 @@ import { Form, Button, Row, Col } from 'react-bootstrap';
 import Router, { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 import FormContainer from 'form/FormContainer';
-import { FormField, PasswordField } from 'form/FormComponents';
+import { TextNumField, PasswordField } from 'form/FormComponents';
 import { textField, passwordField } from 'form/ValidationSpecs';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
@@ -72,7 +72,7 @@ const SignInScreen: React.FC = () => {
       <Form onSubmit={handleSubmit(onSubmit, onError)}>
         <h1 className='mb-4'>Sign In</h1>
         {isProcessing && <Loader />}
-        <FormField
+        <TextNumField
           controlId='email'
           label='Email'
           register={register}

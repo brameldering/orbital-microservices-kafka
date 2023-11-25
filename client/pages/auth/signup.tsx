@@ -5,10 +5,10 @@ import { NextPageContext } from 'next';
 import Router, { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 import FormContainer from 'form/FormContainer';
-import { FormField, PasswordField, SelectField } from 'form/FormComponents';
+import { TextNumField, PasswordField, SelectField } from 'form/FormComponents';
 import { textField, passwordField } from 'form/ValidationSpecs';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
@@ -108,14 +108,14 @@ const SignUpScreen: React.FC<TPageProps> = ({ roles }) => {
       <Form onSubmit={handleSubmit(onSubmit, onError)}>
         <h1 className='mb-4'>Sign Up</h1>
         {isProcessing && <Loader />}
-        <FormField
+        <TextNumField
           controlId='name'
           label='Full Name'
           register={register}
           error={errors.name}
           setError={setError}
         />
-        <FormField
+        <TextNumField
           controlId='email'
           label='Email'
           register={register}

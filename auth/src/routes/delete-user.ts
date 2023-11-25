@@ -12,7 +12,7 @@ const router = express.Router();
 // @route   DELETE /api/users/v2/:id
 // @access  Admin
 // @req     params.id
-// @res     status(200).{}
+// @res     {}
 //       or status(404).ObjectNotFoundError('User not found')
 router.delete(
   USERS_URL + '/:id',
@@ -38,7 +38,7 @@ router.delete(
     const user = await User.findById(req.params.id).select('-password');
     if (user) {
       await User.deleteOne({ _id: user.id });
-      res.status(200).send();
+      res.send();
     } else {
       throw new ObjectNotFoundError('User not found');
     }

@@ -17,7 +17,7 @@ const router = express.Router();
 // @access  Private
 // @req     req.currentUser.id (set by currentUser)
 //          body {name, email}
-// @res     status(200).user
+// @res     user
 //       or status(400).RequestValidationError
 //       or status(404).ObjectNotFoundError('User not found')
 router.put(
@@ -69,7 +69,7 @@ router.put(
         updatedUser.email,
         updatedUser.role
       );
-      res.status(200).send(updatedUser.toJSON());
+      res.send(updatedUser.toJSON());
     } else {
       throw new ObjectNotFoundError('User not found');
     }

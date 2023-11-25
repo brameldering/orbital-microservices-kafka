@@ -15,7 +15,7 @@ const router = express.Router();
 // @access  Public
 // @req     req.currentUser.id (set by currentUser)
 //          body {email}
-// @res     status(200).message:'Password has been reset'
+// @res     message:'Password has been reset'
 //       or status(404).ObjectNotFoundError('User not found')
 router.put(
   RESET_PASSWORD_URL,
@@ -53,7 +53,7 @@ router.put(
     if (user) {
       user.password = process.env.DEFAULT_RESET_PASSWORD!;
       await user.save();
-      res.status(200).send();
+      res.send();
     } else {
       throw new ObjectNotFoundError('User not found');
     }

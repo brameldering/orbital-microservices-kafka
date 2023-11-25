@@ -8,7 +8,7 @@ const router = express.Router();
 // @route   GET /api/idsequence/v2/products
 // @access  Admin
 // @req     <none>
-// @res     status(200).send(seqId: string)
+// @res     send(seqId: string)
 router.get(ID_SEQUENCE_PRODUCTS_URL, async (req: Request, res: Response) => {
   /*  #swagger.tags = ['Sequence']
       #swagger.description = 'Get sequential Product Id'

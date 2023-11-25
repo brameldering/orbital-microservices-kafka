@@ -12,7 +12,7 @@ const router = express.Router();
 // @route   GET /api/products/v2/:id
 // @access  Public
 // @req     params.id
-// @res     status(200).json(product)
+// @res     json(product)
 //       or status(404).ObjectNotFoundError(Product not found)
 router.get(
   PRODUCTS_URL + '/:id',

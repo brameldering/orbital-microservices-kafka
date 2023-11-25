@@ -9,7 +9,7 @@ const router = express.Router();
 // @access  Public
 // @req     query.pageNumber (optional)
 //          query.keyword (optional)
-// @res     status(200).json({ products, page, pages })
+// @res     json({ products, page, pages })
 router.get(PRODUCTS_URL, async (req: Request, res: Response) => {
   /*  #swagger.tags = ['Products']
       #swagger.description = 'Fetch all products'
@@ -55,7 +55,7 @@ router.get(PRODUCTS_URL, async (req: Request, res: Response) => {
   const products = productsOriginal.map((product: { toJSON: () => any }) =>
     product.toJSON()
   );
-  res.status(200).send({ products, page, pages });
+  res.send({ products, page, pages });
 });
 
 export { router as getProductsRouter };

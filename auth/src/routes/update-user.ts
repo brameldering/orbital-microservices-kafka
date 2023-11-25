@@ -1,9 +1,9 @@
 import express, { Response } from 'express';
 import generateToken from '../utils/generateToken';
 import {
-  IExtendedRequest,
   USERS_URL,
   checkObjectId,
+  IExtendedRequest,
   ObjectNotFoundError,
 } from '@orbitelco/common';
 import { User } from '../userModel';
@@ -15,7 +15,7 @@ const router = express.Router();
 // @access  Admin
 // @req     params.id
 //          body {name, email, role}
-// @res     status(200).{user}
+// @res     {user}
 //       or status(404).ObjectNotFoundError('User not found')
 router.put(
   USERS_URL + '/:id',
@@ -60,7 +60,7 @@ router.put(
           updatedUser.role
         );
       }
-      res.status(200).send(updatedUser.toJSON());
+      res.send(updatedUser.toJSON());
     } else {
       throw new ObjectNotFoundError('User not found');
     }
