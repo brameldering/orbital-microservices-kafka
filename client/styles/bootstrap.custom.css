@@ -4058,7 +4058,7 @@ fieldset:disabled .btn {
 
 .navbar {
   --bs-navbar-padding-x: 0;
-  --bs-navbar-padding-y: 0.84rem;
+  --bs-navbar-padding-y: 0.1rem; /* Updated for Orbitelco original: 0.84rem */
   --bs-navbar-color: rgba(var(--bs-emphasis-color-rgb), 0.65);
   --bs-navbar-hover-color: rgba(var(--bs-emphasis-color-rgb), 0.8);
   --bs-navbar-disabled-color: rgba(var(--bs-emphasis-color-rgb), 0.3);
