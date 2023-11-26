@@ -17,6 +17,9 @@ const payPalOptions = {
   clientId: 'DUMMY',
 };
 
+// Potentially add automatic logout based on expiration time
+// See useEffect in frontend App.tsx
+
 const AppComponent = ({ Component, pageProps }: AppProps) => {
   return (
     <Provider store={store}>
