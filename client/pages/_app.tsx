@@ -6,11 +6,16 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AppProps } from 'next/app';
 import { HelmetProvider } from 'react-helmet-async';
+import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
 import store from 'slices/store';
 import '../styles/bootstrap.custom.css';
 import '../styles/index.css';
+
+const payPalOptions = {
+  clientId: 'DUMMY',
+};
 
 const AppComponent = ({ Component, pageProps }: AppProps) => {
   return (
@@ -18,9 +23,11 @@ const AppComponent = ({ Component, pageProps }: AppProps) => {
       <HelmetProvider>
         <ToastContainer autoClose={3000} />
         <Header />
-        <Container className='mx-2 my-2'>
-          <Component {...pageProps} />
-        </Container>
+        <PayPalScriptProvider deferLoading={true} options={payPalOptions}>
+          <Container className='mx-2 my-2'>
+            <Component {...pageProps} />
+          </Container>
+        </PayPalScriptProvider>
         <Footer />
       </HelmetProvider>
     </Provider>

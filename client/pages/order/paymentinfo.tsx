@@ -34,31 +34,32 @@ const PaymentScreen = () => {
   };
 
   return (
-    <FormContainer>
-      {' '}
+    <>
       <Meta title='Payment Method' />
       <CheckoutSteps currentStep={2} />
-      <h1>Payment Method</h1>
-      <Form onSubmit={handleSubmit(onSubmit)}>
-        <Form.Group>
-          <Form.Label as='legend'>Select Method</Form.Label>
-          <Col>
-            <Form.Check
-              className='my-2'
-              type='radio'
-              label='PayPal or Credit Card'
-              id={PAYMENT_METHOD_PAYPAL}
-              name='paymentMethod'
-              value={PAYMENT_METHOD_PAYPAL}
-              checked
-              onChange={(e) => setPaymentMethod(e.target.value)}></Form.Check>
-          </Col>
-        </Form.Group>
-        <Button id='BUTTON_continue' type='submit' variant='primary mt-2'>
-          Continue
-        </Button>
-      </Form>
-    </FormContainer>
+      <FormContainer>
+        <h1>Payment Method</h1>
+        <Form onSubmit={handleSubmit(onSubmit)}>
+          <Form.Group>
+            <Form.Label as='legend'>Select Method</Form.Label>
+            <Col>
+              <Form.Check
+                className='my-2'
+                type='radio'
+                label='PayPal or Credit Card'
+                id={PAYMENT_METHOD_PAYPAL}
+                name='paymentMethod'
+                value={PAYMENT_METHOD_PAYPAL}
+                checked
+                onChange={(e) => setPaymentMethod(e.target.value)}></Form.Check>
+            </Col>
+          </Form.Group>
+          <Button id='BUTTON_continue' type='submit' variant='primary mt-2'>
+            Continue
+          </Button>
+        </Form>
+      </FormContainer>
+    </>
   );
 };
 

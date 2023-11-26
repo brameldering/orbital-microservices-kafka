@@ -12,6 +12,7 @@ import OrderSummaryBlock from 'components/OrderSummaryBlock';
 import {
   SHIPPING_PAGE,
   PAYMENT_INFO_PAGE,
+  PLACE_ORDER_PAGE,
   ORDER_DETAIL_PAGE,
 } from 'constants/client-pages';
 import { clearCartItems } from 'slices/cartSlice';
@@ -87,7 +88,10 @@ const PlaceOrderScreen = () => {
                 <ListGroup variant='flush'>
                   {cart.cartItems.map((item, index) => (
                     <ListGroup.Item key={index}>
-                      <OrderItemLine item={item} />
+                      <OrderItemLine
+                        item={item}
+                        goBackPath={PLACE_ORDER_PAGE}
+                      />
                     </ListGroup.Item>
                   ))}
                 </ListGroup>

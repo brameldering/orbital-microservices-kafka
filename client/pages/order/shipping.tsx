@@ -62,44 +62,46 @@ const ShippingScreen = () => {
   };
 
   return (
-    <FormContainer>
+    <>
       <Meta title='Shipping Address' />
       <CheckoutSteps currentStep={1} />
-      <h1>Address</h1>
-      <Form onSubmit={handleSubmit(onSubmit)}>
-        <TextNumField
-          controlId='address'
-          label='Address'
-          register={register}
-          error={errors.address}
-          setError={setError}
-        />
-        <TextNumField
-          controlId='postalCode'
-          label='Postal Code'
-          register={register}
-          error={errors.postalCode}
-          setError={setError}
-        />
-        <TextNumField
-          controlId='city'
-          label='City'
-          register={register}
-          error={errors.city}
-          setError={setError}
-        />
-        <TextNumField
-          controlId='country'
-          label='Country'
-          register={register}
-          error={errors.country}
-          setError={setError}
-        />
-        <Button id='BUTTON_continue' type='submit' variant='primary mt-2'>
-          Continue
-        </Button>
-      </Form>
-    </FormContainer>
+      <FormContainer>
+        <h1>Address</h1>
+        <Form onSubmit={handleSubmit(onSubmit)}>
+          <TextNumField
+            controlId='address'
+            label='Address'
+            register={register}
+            error={errors.address}
+            setError={setError}
+          />
+          <TextNumField
+            controlId='postalCode'
+            label='Postal Code'
+            register={register}
+            error={errors.postalCode}
+            setError={setError}
+          />
+          <TextNumField
+            controlId='city'
+            label='City'
+            register={register}
+            error={errors.city}
+            setError={setError}
+          />
+          <TextNumField
+            controlId='country'
+            label='Country'
+            register={register}
+            error={errors.country}
+            setError={setError}
+          />
+          <Button id='BUTTON_continue' type='submit' variant='primary mt-2'>
+            Continue
+          </Button>
+        </Form>
+      </FormContainer>
+    </>
   );
 };
 

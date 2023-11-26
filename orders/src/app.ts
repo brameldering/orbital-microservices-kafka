@@ -16,6 +16,7 @@ import { getMyOrdersRouter } from './routes/get-my-orders';
 import { updateOrderToPaidRouter } from './routes/update-order-to-paid';
 import { updateOrderToDeliveredRouter } from './routes/update-order-to-delivered';
 import { getOrderByIdRouter } from './routes/get-order-by-id';
+import { getPayPalClientIdRouter } from './routes/get-paypalclientid';
 
 // ======================================================
 // Check for existence of ENV variables set in depl files (dev/prod) or .env file for test
@@ -68,6 +69,7 @@ app.use(currentUser);
 // validate if user (role) is authorized to access API
 app.use(authorize(MICROSERVICE_ORDERS));
 
+app.use(getPayPalClientIdRouter);
 app.use(getOrdersRouter);
 app.use(createOrderRouter);
 app.use(getMyOrdersRouter);

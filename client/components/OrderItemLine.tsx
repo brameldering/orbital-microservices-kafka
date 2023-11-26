@@ -1,18 +1,16 @@
 import React from 'react';
 import { Row, Col, Image } from 'react-bootstrap';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
 import { PRODUCT_DETAIL_PAGE } from 'constants/client-pages';
 import { IOrderItem } from '@orbitelco/common';
 
 interface OrderItemLineProps {
   item: IOrderItem;
+  goBackPath: string;
 }
 
 const OrderItemLine = (itemProps: OrderItemLineProps) => {
-  const router = useRouter();
-  const currentPath = router.pathname;
   const item = itemProps.item;
   return (
     <Row>
@@ -21,7 +19,7 @@ const OrderItemLine = (itemProps: OrderItemLineProps) => {
       </Col>
       <Col>
         <Link
-          href={`${PRODUCT_DETAIL_PAGE}/${item.productId}?goBackPath=${currentPath}`}>
+          href={`${PRODUCT_DETAIL_PAGE}/${item.productId}?goBackPath=${itemProps.goBackPath}`}>
           {item.productName}
         </Link>
       </Col>

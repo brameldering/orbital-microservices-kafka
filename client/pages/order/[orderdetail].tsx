@@ -20,6 +20,7 @@ import ErrorBlock from 'components/ErrorBlock';
 import OrderItemLine from 'components/OrderItemLine';
 import OrderSummaryBlock from 'components/OrderSummaryBlock';
 import { CURRENCY_PAYPAL } from 'constants/constants-frontend';
+import { ORDER_DETAIL_PAGE } from 'constants/client-pages';
 import {
   useGetOrderByIdQuery,
   useGetPaypalClientIdQuery,
@@ -272,7 +273,10 @@ const OrderScreen = () => {
                     {order &&
                       order.orderItems.map((item, index) => (
                         <ListGroup.Item key={index}>
-                          <OrderItemLine item={item} />
+                          <OrderItemLine
+                            item={item}
+                            goBackPath={`${ORDER_DETAIL_PAGE}/${order.id}`}
+                          />
                         </ListGroup.Item>
                       ))}
                   </ListGroup>
