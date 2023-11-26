@@ -7,6 +7,13 @@ import Link from 'next/link';
 import Router from 'next/router';
 import LogoSVG from 'logo/LogoSVG';
 import ErrorBlock from './ErrorBlock';
+import {
+  INDEX_PAGE,
+  MY_PROFILE_PAGE,
+  MY_ORDERS_PAGE,
+  SIGNUP_PAGE,
+  SIGNIN_PAGE,
+} from 'constants/client-pages';
 import type { RootState } from 'slices/store';
 import { logout } from 'slices/authSlice';
 import { useSignOutMutation } from 'slices/usersApiSlice';
@@ -20,7 +27,7 @@ const Header: React.FC = () => {
     try {
       await doSignOut().unwrap();
       dispatch(logout());
-      Router.push('/');
+      Router.push(INDEX_PAGE);
     } catch (err: any) {
       // To avoid "Uncaught in promise" errors in console, errors are handled by RTK mutation
     }
@@ -30,7 +37,7 @@ const Header: React.FC = () => {
     <header>
       <Navbar bg='primary' variant='dark' expand='sm' collapseOnSelect>
         <Container style={{ marginLeft: '5px' }}>
-          <Link href='/' passHref>
+          <Link href={INDEX_PAGE} passHref>
             <Navbar.Brand id='LINK_orbitelco_shop'>
               <LogoSVG />
               <Navbar.Text style={{ marginLeft: '10px', color: '#6aa0cb' }}>
@@ -49,11 +56,14 @@ const Header: React.FC = () => {
                       id='LINK_header_username'>
                       <NavDropdown.Item
                         as={Link}
-                        href='/auth/myprofile'
+                        href={MY_PROFILE_PAGE}
                         id='LINK_my_profile'>
                         My Profile
                       </NavDropdown.Item>
-                      <NavDropdown.Item as={Link} href='/' id='LINK_my_orders'>
+                      <NavDropdown.Item
+                        as={Link}
+                        href={MY_ORDERS_PAGE}
+                        id='LINK_my_orders'>
                         My Orders
                       </NavDropdown.Item>
                     </NavDropdown>
@@ -66,13 +76,13 @@ const Header: React.FC = () => {
                   <>
                     <Nav.Link
                       as={Link}
-                      href='/auth/signin'
+                      href={SIGNIN_PAGE}
                       id='LINK_header_sign_in'>
                       <FaUser /> Sign In
                     </Nav.Link>
                     <Nav.Link
                       as={Link}
-                      href='/auth/signup'
+                      href={SIGNUP_PAGE}
                       id='LINK_header_sign_up'>
                       <FaUser /> Sign Up
                     </Nav.Link>

@@ -9,6 +9,11 @@ import Meta from 'components/Meta';
 import CheckoutSteps from 'components/CheckoutSteps';
 import OrderItemLine from 'components/OrderItemLine';
 import OrderSummaryBlock from 'components/OrderSummaryBlock';
+import {
+  SHIPPING_PAGE,
+  PAYMENT_INFO_PAGE,
+  ORDER_DETAIL_PAGE,
+} from 'constants/client-pages';
 import { clearCartItems } from 'slices/cartSlice';
 import { useCreateOrderMutation } from 'slices/ordersApiSlice';
 import type { RootState } from 'slices/store';
@@ -20,9 +25,9 @@ const PlaceOrderScreen = () => {
 
   useEffect(() => {
     if (!cart.shippingAddress.address) {
-      Router.push('/shipping');
+      Router.push(SHIPPING_PAGE);
     } else if (!cart.paymentMethod) {
-      Router.push('/paymentinfo');
+      Router.push(PAYMENT_INFO_PAGE);
     }
   }, [cart.paymentMethod, cart.shippingAddress.address]);
 
@@ -47,7 +52,7 @@ const PlaceOrderScreen = () => {
         totalAmounts: cart.totalAmounts,
       }).unwrap();
       dispatch(clearCartItems());
-      Router.push(`/order/${res.id}`);
+      Router.push(`${ORDER_DETAIL_PAGE}/${res.id}`);
     } catch (err) {
       // Do nothing because useCreateOrderMutation will set errorCreatingOrder in case of an error
     }

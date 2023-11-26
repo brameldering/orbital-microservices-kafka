@@ -1,8 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
-
 import FormContainer from 'form/FormContainer';
 import Meta from 'components/Meta';
+import { SIGNIN_PAGE } from 'constants/client-pages';
 
 const ResetPasswordConfirmation = () => {
   return (
@@ -18,7 +18,7 @@ const ResetPasswordConfirmation = () => {
         This email will then be send to the email entered in the previous screen
         (and only if that email is already known in our system)
       </p>
-      <Link href='/auth/signin'>Go to Login screen</Link>
+      <Link href={SIGNIN_PAGE}>Go to Login screen</Link>
     </FormContainer>
   );
 };

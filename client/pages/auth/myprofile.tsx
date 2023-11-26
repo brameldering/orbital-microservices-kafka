@@ -12,6 +12,7 @@ import { textField } from 'form/ValidationSpecs';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
+import { CHANGE_PASSWORD_PAGE } from 'constants/client-pages';
 import type { RootState } from 'slices/store';
 import { updUserState } from 'slices/authSlice';
 import { useChangeUserProfileMutation } from 'slices/usersApiSlice';
@@ -99,7 +100,7 @@ const ProfileScreen: React.FC = () => {
             </Button>
           </Col>
           <Col className='text-end'>
-            <Link id='LINK_change_password' href='/auth/changepassword'>
+            <Link id='LINK_change_password' href={CHANGE_PASSWORD_PAGE}>
               Change Password
             </Link>
           </Col>

@@ -21,6 +21,7 @@ import Rating from 'components/Rating';
 import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
 import { ICartItem } from '@orbitelco/common';
 import { dateTimeToLocaleDateString } from 'utils/dateUtils';
+import { INDEX_PAGE, CART_PAGE, SIGNIN_PAGE } from 'constants/client-pages';
 import type { RootState } from 'slices/store';
 import { addToCart } from 'slices/cartSlice';
 import {
@@ -47,7 +48,7 @@ const ProductDetailScreen: React.FC = () => {
     productId = '';
   }
 
-  const goBackPath = router.query.goBackPath || '/';
+  const goBackPath = router.query.goBackPath || INDEX_PAGE;
 
   const [qty, setQty] = useState<number>(1);
   const [rating, setRating] = useState<number>(0);
@@ -71,7 +72,7 @@ const ProductDetailScreen: React.FC = () => {
         qty: 0,
       };
       dispatch(addToCart({ ...cartItem, qty }));
-      Router.push('/order/cart');
+      Router.push(CART_PAGE);
     }
   };
 
@@ -268,7 +269,7 @@ const ProductDetailScreen: React.FC = () => {
                       Please{' '}
                       <Link
                         id='LINK_sign_in'
-                        href={`/auth/signin?redirect=${asPath}`}>
+                        href={`${SIGNIN_PAGE}?redirect=${asPath}`}>
                         sign in
                       </Link>{' '}
                       to write a review

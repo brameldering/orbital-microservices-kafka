@@ -12,6 +12,7 @@ import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ModalConfirmBox from 'components/ModalConfirmBox';
 import ErrorBlock from 'components/ErrorBlock';
+import { MY_PROFILE_PAGE } from 'constants/client-pages';
 import { useChangePasswordMutation } from 'slices/usersApiSlice';
 
 interface IFormInput {
@@ -51,7 +52,7 @@ const ChangePasswordScreen: React.FC = () => {
       }).unwrap();
       toast.success('Password updated');
       reset();
-      Router.push('/auth/myprofile');
+      Router.push(MY_PROFILE_PAGE);
     } catch (err: any) {
       // To avoid "Uncaught in promise" errors in console, errors are handled by RTK mutation
     }
@@ -64,14 +65,14 @@ const ChangePasswordScreen: React.FC = () => {
   const [showChangesModal, setShowChangesModal] = useState(false);
   const goBackWithoutSaving = () => {
     setShowChangesModal(false);
-    Router.push('/auth/myprofile');
+    Router.push(MY_PROFILE_PAGE);
   };
   const cancelGoBack = () => setShowChangesModal(false);
   const goBackHandler = async () => {
     if (isDirty) {
       setShowChangesModal(true);
     } else {
-      Router.push('/auth/myprofile');
+      Router.push(MY_PROFILE_PAGE);
     }
   };
 

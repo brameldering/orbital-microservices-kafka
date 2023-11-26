@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import FormContainer from 'form/FormContainer';
 import Meta from 'components/Meta';
 import CheckoutSteps from 'components/CheckoutSteps';
+import { SHIPPING_PAGE, PLACE_ORDER_PAGE } from 'constants/client-pages';
 import { savePaymentMethod } from 'slices/cartSlice';
 import type { RootState } from 'slices/store';
 import { PAYMENT_METHOD_PAYPAL } from '@orbitelco/common';
@@ -19,7 +20,7 @@ const PaymentScreen = () => {
   /* If shippingAddress has not yet been filled then redirect */
   useEffect(() => {
     if (!shippingAddress.address) {
-      Router.push('/shipping');
+      Router.push(SHIPPING_PAGE);
     }
   }, [shippingAddress]);
 
@@ -29,7 +30,7 @@ const PaymentScreen = () => {
 
   const onSubmit = async () => {
     dispatch(savePaymentMethod(paymentMethod));
-    Router.push('/placeorder');
+    Router.push(PLACE_ORDER_PAGE);
   };
 
   return (

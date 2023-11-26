@@ -3,6 +3,7 @@ import React from 'react';
 import Card from 'react-bootstrap/Card';
 import Link from 'next/link';
 import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
+import { PRODUCT_DETAIL_PAGE } from 'constants/client-pages';
 import { IProduct } from '@orbitelco/common';
 
 import Rating from './Rating';
@@ -16,7 +17,7 @@ const ProductComponent: React.FunctionComponent<ProductComponentProps> = ({
 }) => {
   return (
     <Card id='product_card' className='my-3 p-3 rounded'>
-      <Link href={`/product/${product.id}`}>
+      <Link href={`${PRODUCT_DETAIL_PAGE}/${product.id}`}>
         <Card.Img
           src={product.imageURL}
           alt={product.name}

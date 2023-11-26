@@ -8,6 +8,7 @@ import ErrorBlock from 'components/ErrorBlock';
 import Paginate from 'components/Paginate';
 import ProductComponent from 'components/ProductComponent';
 import { IProduct } from '@orbitelco/common';
+import { INDEX_PAGE } from 'constants/client-pages';
 import { useGetProductsQuery } from 'slices/productsApiSlice';
 
 const LandingPage: React.FC = () => {
@@ -31,7 +32,7 @@ const LandingPage: React.FC = () => {
       <Meta title='Products' />
       <h1>Products</h1>
       {keyword && (
-        <Link id='BUTTON_back' href='/' className='btn btn-light mb-4'>
+        <Link id='BUTTON_back' href={INDEX_PAGE} className='btn btn-light mb-4'>
           Go Back
         </Link>
       )}

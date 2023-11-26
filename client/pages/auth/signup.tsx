@@ -13,6 +13,7 @@ import { textField, passwordField } from 'form/ValidationSpecs';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
+import { INDEX_PAGE, SIGNIN_PAGE } from 'constants/client-pages';
 import { getUserRoles } from 'api/get-user-roles';
 import type { RootState } from 'slices/store';
 import { setUserState } from 'slices/authSlice';
@@ -59,10 +60,10 @@ const SignUpScreen: React.FC<TPageProps> = ({ roles }) => {
     resolver: yupResolver(schema),
   });
 
-  // Extract the 'redirect' query parameter with a default value of '/'
+  // Extract the 'redirect' query parameter with a default value of INDEX_PAGE
   const router = useRouter();
   const { query } = router;
-  const redirect = query.redirect || '/';
+  const redirect = query.redirect || INDEX_PAGE;
   const redirectString = Array.isArray(redirect) ? redirect[0] : redirect;
 
   useEffect(() => {
@@ -152,7 +153,7 @@ const SignUpScreen: React.FC<TPageProps> = ({ roles }) => {
           <Link
             id='LINK_already_have_an_account'
             href={
-              redirect ? `/auth/signin?redirect=${redirect}` : '/auth/signin'
+              redirect ? `${SIGNIN_PAGE}?redirect=${redirect}` : SIGNIN_PAGE
             }>
             Login
           </Link>

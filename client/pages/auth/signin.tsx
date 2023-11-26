@@ -12,6 +12,11 @@ import { textField, passwordField } from 'form/ValidationSpecs';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
+import {
+  INDEX_PAGE,
+  SIGNUP_PAGE,
+  RESET_PASSWORD_PAGE,
+} from 'constants/client-pages';
 import { setUserState } from 'slices/authSlice';
 import { useSignInMutation } from 'slices/usersApiSlice';
 
@@ -42,10 +47,10 @@ const SignInScreen: React.FC = () => {
     resolver: yupResolver(schema),
   });
 
-  // Extract the 'redirect' query parameter with a default value of '/'
+  // Extract the 'redirect' query parameter with a default value of INDEX_PAGE
   const router = useRouter();
   const { query } = router;
-  const redirect = query.redirect || '/';
+  const redirect = query.redirect || INDEX_PAGE;
 
   const [doSignIn, { isLoading: isProcessing, error: errorSigninIn }] =
     useSignInMutation();
@@ -102,7 +107,7 @@ const SignInScreen: React.FC = () => {
           <Link
             id='LINK_register_new_customer'
             href={
-              redirect ? `/auth/signup?redirect=${redirect}` : '/auth/signup'
+              redirect ? `${SIGNUP_PAGE}?redirect=${redirect}` : SIGNUP_PAGE
             }>
             Register
           </Link>
@@ -111,7 +116,7 @@ const SignInScreen: React.FC = () => {
       <Row>
         <Col>
           Password forgotten?<span> </span>
-          <Link id='LINK_reset_password' href={'/auth/resetpassword'}>
+          <Link id='LINK_reset_password' href={RESET_PASSWORD_PAGE}>
             Reset password
           </Link>
         </Col>

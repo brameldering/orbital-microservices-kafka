@@ -10,6 +10,7 @@ import FormContainer from 'form/FormContainer';
 import { textField } from 'form/ValidationSpecs';
 import Meta from 'components/Meta';
 import CheckoutSteps from 'components/CheckoutSteps';
+import { PAYMENT_INFO_PAGE } from 'constants/client-pages';
 import { saveShippingAddress } from 'slices/cartSlice';
 import type { RootState } from 'slices/store';
 
@@ -57,7 +58,7 @@ const ShippingScreen = () => {
     const city = getValues('city');
     const country = getValues('country');
     dispatch(saveShippingAddress({ address, postalCode, city, country }));
-    Router.push('/paymentinfo');
+    Router.push(PAYMENT_INFO_PAGE);
   };
 
   return (

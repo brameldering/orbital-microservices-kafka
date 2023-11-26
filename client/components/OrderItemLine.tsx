@@ -3,6 +3,7 @@ import { Row, Col, Image } from 'react-bootstrap';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
+import { PRODUCT_DETAIL_PAGE } from 'constants/client-pages';
 import { IOrderItem } from '@orbitelco/common';
 
 interface OrderItemLineProps {
@@ -19,7 +20,8 @@ const OrderItemLine = (itemProps: OrderItemLineProps) => {
         <Image src={item.imageURL} alt={item.productName} fluid />
       </Col>
       <Col>
-        <Link href={`/product/${item.productId}?goBackPath=${currentPath}`}>
+        <Link
+          href={`${PRODUCT_DETAIL_PAGE}/${item.productId}?goBackPath=${currentPath}`}>
           {item.productName}
         </Link>
       </Col>

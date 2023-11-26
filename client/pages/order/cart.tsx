@@ -16,6 +16,12 @@ import Router, { useRouter } from 'next/router';
 import Meta from 'components/Meta';
 import CheckoutSteps from 'components/CheckoutSteps';
 import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
+import {
+  INDEX_PAGE,
+  SIGNIN_PAGE,
+  SHIPPING_PAGE,
+  PRODUCT_DETAIL_PAGE,
+} from 'constants/client-pages';
 import { ICartItem } from '@orbitelco/common';
 import type { RootState } from 'slices/store';
 import { addToCart, removeFromCart } from 'slices/cartSlice';
@@ -36,14 +42,14 @@ const CartScreen: React.FC = () => {
     dispatch(removeFromCart(id));
   };
 
-  const nextPage = '/order/shipping';
+  const nextPage = SHIPPING_PAGE;
   const checkoutHandler = () => {
     if (userInfo?.name) {
-      // user already logged in
+      // user logged in, proceed to next page
       Router.push(nextPage);
     } else {
-      // user not yet logged in, log in first then redirect to shipping
-      Router.push(`/auth/signin?redirect=${nextPage}`);
+      // user not yet logged in, log in first then redirect to next page
+      Router.push(`${SIGNIN_PAGE}?redirect=${nextPage}`);
     }
   };
 
@@ -57,7 +63,7 @@ const CartScreen: React.FC = () => {
           {cartItems.length === 0 ? (
             <Alert variant='info'>
               Your cart is empty{' '}
-              <Link id='LINK_go_to_shop' href='/'>
+              <Link id='LINK_go_to_shop' href={INDEX_PAGE}>
                 Go to shop
               </Link>
             </Alert>
@@ -72,7 +78,7 @@ const CartScreen: React.FC = () => {
                     <Col md={4}>
                       <Link
                         id={`product_name_${item.productName}`}
-                        href={`/product/${item.productId}?goBackPath=${currentPath}`}>
+                        href={`${PRODUCT_DETAIL_PAGE}/${item.productId}?goBackPath=${currentPath}`}>
                         {item.productName}
                       </Link>
                     </Col>

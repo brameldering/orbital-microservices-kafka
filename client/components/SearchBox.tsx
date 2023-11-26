@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useRouter } from 'next/router';
+import { INDEX_PAGE } from 'constants/client-pages';
 
 const SearchBox = () => {
   const router = useRouter();
@@ -13,7 +14,7 @@ const SearchBox = () => {
       router.push(`/search/${keyword.trim()}`);
       setKeyword('');
     } else {
-      router.push('/');
+      router.push(INDEX_PAGE);
     }
   };
 
