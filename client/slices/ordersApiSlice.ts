@@ -40,9 +40,9 @@ export const orderApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: ['Order'],
     }),
     // Get a list of orders for the current user
-    getMyOrders: builder.query<IOrder[], string>({
-      query: (id) => ({
-        url: `${MY_ORDERS_URL}/${id}`,
+    getMyOrders: builder.query<IOrder[], void>({
+      query: () => ({
+        url: `${MY_ORDERS_URL}`,
       }),
       providesTags: (result) =>
         result

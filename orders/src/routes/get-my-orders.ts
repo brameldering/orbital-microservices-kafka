@@ -24,9 +24,9 @@ router.get(MY_ORDERS_URL, async (req: IExtendedRequest, res: Response) => {
       }
 } */
   const userId = new mongoose.Types.ObjectId(req.currentUser!.id);
-  const ordersOriginal = await Order.find({ userId: userId })
-    .populate('user', 'name email')
-    .exec();
+  const ordersOriginal = await Order.find({ userId: userId });
+  // .populate('user', 'name email')
+  // .exec();
   // map products to json format as defined in product-types productSchema
   const orders = ordersOriginal.map((order: { toJSON: () => any }) =>
     order.toJSON()
