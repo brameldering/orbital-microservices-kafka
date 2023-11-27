@@ -9,7 +9,8 @@ export const RESET_PASSWORD_CONFIRM_PAGE = '/auth/resetpasswordconfirm';
 export const MY_PROFILE_PAGE = '/auth/myprofile';
 export const MY_ORDERS_PAGE = '/auth/myorders';
 
-// product
+// products
+export const PRODUCTS_PAGE = '/product';
 export const PRODUCT_DETAIL_PAGE = '/product';
 
 // order

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useRouter } from 'next/router';
-import { INDEX_PAGE } from 'constants/client-pages';
+import { PRODUCTS_PAGE } from 'constants/client-pages';
 
 const SearchBox = () => {
   const router = useRouter();
@@ -11,10 +11,10 @@ const SearchBox = () => {
   const submitHandler = (e: any) => {
     e.preventDefault();
     if (keyword.trim()) {
-      router.push(`/search/${keyword.trim()}`);
+      router.push(`${PRODUCTS_PAGE}?keyword=${keyword.trim()}`);
       setKeyword('');
     } else {
-      router.push(INDEX_PAGE);
+      router.push(PRODUCTS_PAGE);
     }
   };
 

@@ -7,13 +7,13 @@ const router = express.Router();
 // @desc    Fetch all products
 // @route   GET /api/products/v2
 // @access  Public
-// @req     query.pageNumber (optional)
+// @req     query.pagenumber (optional)
 //          query.keyword (optional)
 // @res     json({ products, page, pages })
 router.get(PRODUCTS_URL, async (req: Request, res: Response) => {
   /*  #swagger.tags = ['Products']
       #swagger.description = 'Fetch all products'
-      #swagger.parameters['pageNumber'] = {
+      #swagger.parameters['pagenumber'] = {
           in: 'query',
           description: 'PageNumber in case of pagination',
           required: 'false',
@@ -29,7 +29,7 @@ router.get(PRODUCTS_URL, async (req: Request, res: Response) => {
           description: 'Object containing products array, pagenumber and total number of pages',
 } */
   const pageSize = Number(process.env.PRODUCTS_PER_PAGE);
-  let page = Number(req.query.pageNumber) || 1;
+  let page = Number(req.query.pagenumber) || 1;
   const keyword = req.query.keyword
     ? {
         name: {

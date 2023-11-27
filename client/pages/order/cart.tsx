@@ -17,7 +17,7 @@ import Meta from 'components/Meta';
 import CheckoutSteps from 'components/CheckoutSteps';
 import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
 import {
-  INDEX_PAGE,
+  PRODUCTS_PAGE,
   SIGNIN_PAGE,
   SHIPPING_PAGE,
   PRODUCT_DETAIL_PAGE,
@@ -63,7 +63,7 @@ const CartScreen: React.FC = () => {
           {cartItems.length === 0 ? (
             <Alert variant='info'>
               Your cart is empty{' '}
-              <Link id='LINK_go_to_shop' href={INDEX_PAGE}>
+              <Link id='LINK_go_to_shop' href={PRODUCTS_PAGE}>
                 Go to shop
               </Link>
             </Alert>

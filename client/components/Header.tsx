@@ -1,14 +1,17 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown, Badge } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
-import { FaUser } from 'react-icons/fa';
+import { FaShoppingCart, FaUser } from 'react-icons/fa';
 import Link from 'next/link';
 import Router from 'next/router';
 import LogoSVG from 'logo/LogoSVG';
+import SearchBox from './SearchBox';
 import ErrorBlock from './ErrorBlock';
 import {
   INDEX_PAGE,
+  PRODUCTS_PAGE,
+  CART_PAGE,
   MY_PROFILE_PAGE,
   MY_ORDERS_PAGE,
   SIGNUP_PAGE,
@@ -21,6 +24,7 @@ import { useSignOutMutation } from 'slices/usersApiSlice';
 const Header: React.FC = () => {
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { cartItems } = useSelector((state: RootState) => state.cart);
 
   const [doSignOut, { error: errorSigninOut }] = useSignOutMutation();
   const logoutHandler = async () => {
@@ -37,7 +41,7 @@ const Header: React.FC = () => {
     <header>
       <Navbar bg='primary' variant='dark' expand='sm' collapseOnSelect>
         <Container style={{ marginLeft: '5px' }}>
-          <Link href={INDEX_PAGE} passHref>
+          <Link href={PRODUCTS_PAGE} passHref>
             <Navbar.Brand id='LINK_orbitelco_shop'>
               <LogoSVG />
               <Navbar.Text style={{ marginLeft: '10px', color: '#6aa0cb' }}>
@@ -48,7 +52,16 @@ const Header: React.FC = () => {
           <div className='d-flex justify-content-end'>
             <Navbar.Toggle aria-controls='basic-navbar-nav' />
             <Navbar.Collapse id='basic-navbar-nav'>
-              <Nav>
+              <Nav className='ms-auto'>
+                <SearchBox />
+                <Nav.Link as={Link} href={CART_PAGE} id='LINK_header_cart'>
+                  <FaShoppingCart /> Cart
+                  {cartItems.length > 0 && (
+                    <Badge pill bg='success' style={{ marginLeft: '5px' }}>
+                      {cartItems.reduce((a, c) => a + c.qty, 0)}
+                    </Badge>
+                  )}
+                </Nav.Link>
                 {userInfo ? (
                   <>
                     <NavDropdown
