@@ -16,10 +16,14 @@ import {
   MY_ORDERS_PAGE,
   SIGNUP_PAGE,
   SIGNIN_PAGE,
+  PRODUCT_LIST_PAGE,
+  USER_LIST_PAGE,
+  ORDER_LIST_PAGE,
 } from 'constants/client-pages';
 import type { RootState } from 'slices/store';
 import { logout } from 'slices/authSlice';
 import { useSignOutMutation } from 'slices/usersApiSlice';
+import { ADMIN_ROLE } from '@orbitelco/common';
 
 const Header: React.FC = () => {
   const dispatch = useDispatch();
@@ -100,6 +104,30 @@ const Header: React.FC = () => {
                       <FaUser /> Sign Up
                     </Nav.Link>
                   </>
+                )}
+
+                {/* Admin Links */}
+                {userInfo?.role === ADMIN_ROLE && (
+                  <NavDropdown title='Admin' id='LINK_header_adminmenu'>
+                    <NavDropdown.Item
+                      as={Link}
+                      href={PRODUCT_LIST_PAGE}
+                      id='LINK_header_products'>
+                      Products
+                    </NavDropdown.Item>
+                    <NavDropdown.Item
+                      as={Link}
+                      href={USER_LIST_PAGE}
+                      id='LINK_header_users'>
+                      Users
+                    </NavDropdown.Item>
+                    <NavDropdown.Item
+                      as={Link}
+                      href={ORDER_LIST_PAGE}
+                      id='LINK_header_orders'>
+                      Orders
+                    </NavDropdown.Item>
+                  </NavDropdown>
                 )}
               </Nav>
             </Navbar.Collapse>

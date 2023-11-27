@@ -1,19 +1,16 @@
 import React from 'react';
 import { Table, Button } from 'react-bootstrap';
 import { FaTimes } from 'react-icons/fa';
-// import { useSelector } from 'react-redux';
 import Link from 'next/link';
 import Loader from 'components/Loader';
 import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
 import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
 import { ORDER_DETAIL_PAGE } from 'constants/client-pages';
-import { dateTimeToLocaleDateString } from '../../utils/dateUtils';
-// import type { RootState } from 'slices/store';
+import { dateTimeToLocaleDateString } from 'utils/dateUtils';
 import { useGetMyOrdersQuery } from 'slices/ordersApiSlice';
 
 const MyOrdersScreen = () => {
-  // const { userInfo } = useSelector((state: RootState) => state.auth);
   const {
     data: myOrders,
     isLoading,
