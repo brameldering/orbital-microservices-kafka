@@ -1,27 +1,25 @@
 import React, { useState } from 'react';
 import { Row, Col, Form, Button } from 'react-bootstrap';
-import Router, { useRouter } from 'next/router';
+import { NextPageContext } from 'next';
+import Router from 'next/router';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  TextNumField,
-  TextAreaField,
-  // HiddenTextField,
-} from 'form/FormComponents';
+import { TextNumField, TextAreaField } from 'form/FormComponents';
 import FormContainer from 'form/FormContainer';
 import { textField, textAreaField, numField } from 'form/ValidationSpecs';
 import Loader from 'components/Loader';
 import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
 import ModalConfirmBox from 'components/ModalConfirmBox';
+import { PRODUCT_LIST_PAGE } from 'constants/client-pages';
+import { IProduct } from '@orbitelco/common';
+import { getProductById } from 'api/get-product-by-id';
 import {
-  useGetProductByIdQuery,
   useUpdateProductMutation,
   useUploadImageMutation,
 } from 'slices/productsApiSlice';
-import { PRODUCT_LIST_PAGE } from 'constants/client-pages';
 
 interface IFormInput {
   sequenceProductId?: string;
@@ -45,22 +43,11 @@ const schema = yup.object().shape({
   description: textAreaField(),
 });
 
-const ProductEditScreen = () => {
-  const router = useRouter();
-  // The name edit should match the name of [edit].tsx
-  const id = router.query.edit as string | string[] | undefined;
-  let productId = Array.isArray(id) ? id[0] : id;
-  if (!productId) {
-    productId = '';
-  }
+interface TPageProps {
+  product: IProduct;
+}
 
-  const {
-    data: product,
-    isLoading,
-    refetch,
-    error: errorLoading,
-  } = useGetProductByIdQuery(productId);
-
+const ProductEditScreen: React.FC<TPageProps> = ({ product }) => {
   const [updateProduct, { isLoading: performingUpdate, error: errorUpdating }] =
     useUpdateProductMutation();
 
@@ -103,7 +90,7 @@ const ProductEditScreen = () => {
     const countInStock = getValues('countInStock') || 0;
     try {
       await updateProduct({
-        id: productId!,
+        id: product.id,
         sequenceProductId,
         name,
         imageURL,
@@ -114,7 +101,6 @@ const ProductEditScreen = () => {
         countInStock,
       }).unwrap();
       toast.success('Product updated');
-      refetch();
       Router.push(PRODUCT_LIST_PAGE);
     } catch (err) {
       // Do nothing because useUploadImageMutation will set errorUploadImage in case of an error
@@ -149,8 +135,7 @@ const ProductEditScreen = () => {
     }
   };
 
-  const loadingOrProcessing =
-    isLoading || performingUpdate || performinUploadImage;
+  const loadingOrProcessing = performingUpdate || performinUploadImage;
 
   return (
     <>
@@ -172,101 +157,120 @@ const ProductEditScreen = () => {
         <h1>Edit Product</h1>
         {errorUpdating && <ErrorBlock error={errorUpdating} />}
         {errorUploadImage && <ErrorBlock error={errorUploadImage} />}
-        {isLoading ? (
-          <Loader />
-        ) : errorLoading ? (
-          <ErrorBlock error={errorLoading} />
-        ) : (
-          <Form onSubmit={handleSubmit(onSubmit)}>
-            <p>
-              <strong>Product Id: </strong> {product?.sequenceProductId}
-            </p>
-            <TextNumField
-              controlId='name'
-              label='Product name'
-              register={register}
-              error={errors.name}
-              setError={setError}
-            />
-            <Form.Group className='my-2' controlId='imageURL'>
-              <Form.Label className='my-1'>Image</Form.Label>
-              <Row className='align-items-center'>
-                <Col md={4}>
-                  <img
-                    src={getValues('imageURL')}
-                    alt={getValues('name')}
-                    width='80'
-                    height='80'
-                  />
-                </Col>
-                <Col md={8}>
-                  <Form.Control
-                    name='imageURL'
-                    type='text'
-                    value={getValues('imageURL')}
-                    disabled
-                  />
-                </Col>
-                {/* <HiddenTextField controlId='imageURL' formik={formik} /> */}
-              </Row>
-              <Form.Control
-                name='imageFile'
-                onChange={uploadFileHandler}
-                type='file'
-                className='my-1'></Form.Control>
-            </Form.Group>
-            {performinUploadImage && <Loader />}
-            <TextNumField
-              controlId='brand'
-              label='Brand'
-              register={register}
-              error={errors.brand}
-              setError={setError}
-            />
-            <TextNumField
-              controlId='price'
-              type='number'
-              label='Price'
-              register={register}
-              error={errors.price}
-              setError={setError}
-            />
-            <TextNumField
-              controlId='countInStock'
-              type='number'
-              label='Count In Stock'
-              register={register}
-              error={errors.countInStock}
-              setError={setError}
-            />
-            <TextNumField
-              controlId='category'
-              label='Category'
-              register={register}
-              error={errors.category}
-              setError={setError}
-            />
-            <TextAreaField
-              controlId='description'
-              label='Description'
-              register={register}
-              error={errors.description}
-              setError={setError}
-            />
-            <Button
-              id='BUTTON_save'
-              type='submit'
-              variant='primary'
-              className='mt-2'
-              disabled={loadingOrProcessing || !isDirty}>
-              Save
-            </Button>
-            {performingUpdate && <Loader />}
-          </Form>
-        )}
+        <Form onSubmit={handleSubmit(onSubmit)}>
+          <p>
+            <strong>Product Id: </strong> {product?.sequenceProductId}
+          </p>
+          <TextNumField
+            controlId='name'
+            label='Product name'
+            register={register}
+            error={errors.name}
+            setError={setError}
+          />
+          <Form.Group className='my-2' controlId='imageURL'>
+            <Form.Label className='my-1'>Image</Form.Label>
+            <Row className='align-items-center'>
+              <Col md={4}>
+                <img
+                  src={getValues('imageURL')}
+                  alt={getValues('name')}
+                  width='80'
+                  height='80'
+                />
+              </Col>
+              <Col md={8}>
+                <Form.Control
+                  name='imageURL'
+                  type='text'
+                  value={getValues('imageURL')}
+                  disabled
+                />
+              </Col>
+            </Row>
+            <Form.Control
+              name='imageFile'
+              onChange={uploadFileHandler}
+              type='file'
+              className='my-1'></Form.Control>
+          </Form.Group>
+          {performinUploadImage && <Loader />}
+          <TextNumField
+            controlId='brand'
+            label='Brand'
+            register={register}
+            error={errors.brand}
+            setError={setError}
+          />
+          <TextNumField
+            controlId='price'
+            type='number'
+            label='Price'
+            register={register}
+            error={errors.price}
+            setError={setError}
+          />
+          <TextNumField
+            controlId='countInStock'
+            type='number'
+            label='Count In Stock'
+            register={register}
+            error={errors.countInStock}
+            setError={setError}
+          />
+          <TextNumField
+            controlId='category'
+            label='Category'
+            register={register}
+            error={errors.category}
+            setError={setError}
+          />
+          <TextAreaField
+            controlId='description'
+            label='Description'
+            register={register}
+            error={errors.description}
+            setError={setError}
+          />
+          <Button
+            id='BUTTON_save'
+            type='submit'
+            variant='primary'
+            className='mt-2'
+            disabled={loadingOrProcessing || !isDirty}>
+            Save
+          </Button>
+          {performingUpdate && <Loader />}
+        </Form>
       </FormContainer>
     </>
   );
+};
+
+// Fetch product
+export const getServerSideProps = async (context: NextPageContext) => {
+  try {
+    // the name of the query parameter ('edit') should match the [filename].tsx
+    const id = context.query.edit as string | string[] | undefined;
+    let productId = Array.isArray(id) ? id[0] : id;
+    if (!productId) {
+      productId = '';
+    }
+    let product = null;
+    if (productId) {
+      // Call the corresponding API function to fetch product data
+      product = await getProductById(context, productId);
+    }
+    return {
+      props: { product },
+    };
+  } catch (error) {
+    // Handle errors if any
+    console.error('Error fetching data:', error);
+    return {
+      props: { product: {} },
+    };
+  }
 };
 
 export default ProductEditScreen;
