@@ -36,9 +36,9 @@ describe('Initialize', () => {
     cy.clearCookies();
     cy.clearLocalStorage();
   });
-  // it('Seeds test database', () => {
-  //   cy.exec('cd .. && cd backend && npm run data:import');
-  // });
+  it('Seeds test database', () => {
+    cy.exec('npm run seeddata');
+  });
 });
 
 describe('Create new product, update product and delete product', () => {
