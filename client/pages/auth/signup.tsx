@@ -14,7 +14,8 @@ import { textField, passwordField } from 'form/ValidationSpecs';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
-import { INDEX_PAGE, SIGNIN_PAGE } from 'constants/client-pages';
+import { H1_SIGN_UP } from 'constants/form-titles';
+import { PRODUCTS_PAGE, SIGNIN_PAGE } from 'constants/client-pages';
 import { getUserRoles } from 'api/get-user-roles';
 import type { RootState } from 'slices/store';
 import { setUserState } from 'slices/authSlice';
@@ -28,12 +29,10 @@ interface IFormInput {
 }
 
 const schema = yup.object().shape({
-  name: textField().required('Name is required'),
-  email: textField()
-    .required('Email is required')
-    .email('Invalid email address'),
+  name: textField().required('Required'),
+  email: textField().required('Required').email('Invalid email address'),
   password: passwordField(),
-  role: yup.string().required('Role is required'),
+  role: yup.string().required('Required'),
 });
 
 interface TPageProps {
@@ -61,10 +60,10 @@ const SignUpScreen: React.FC<TPageProps> = ({ roles }) => {
     resolver: yupResolver(schema),
   });
 
-  // Extract the 'redirect' query parameter with a default value of INDEX_PAGE
+  // Extract the 'redirect' query parameter with a default value of PRODUCTS_PAGE
   const router = useRouter();
   const { query } = router;
-  const redirect = query.redirect || INDEX_PAGE;
+  const redirect = query.redirect || PRODUCTS_PAGE;
   const redirectString = Array.isArray(redirect) ? redirect[0] : redirect;
 
   useEffect(() => {
@@ -107,10 +106,10 @@ const SignUpScreen: React.FC<TPageProps> = ({ roles }) => {
   return (
     <>
       {' '}
-      <Meta title='Sign Up' />
+      <Meta title={H1_SIGN_UP} />
       <FormContainer>
         <Form onSubmit={handleSubmit(onSubmit, onError)}>
-          <FormTitle>Sign Up</FormTitle>
+          <FormTitle>{H1_SIGN_UP}</FormTitle>
           {isProcessing && <Loader />}
           <TextNumField
             controlId='name'

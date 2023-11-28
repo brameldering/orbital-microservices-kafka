@@ -8,6 +8,7 @@ import Loader from 'components/Loader';
 import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
 import ModalConfirmBox from 'components//ModalConfirmBox';
+import { H1_USER_ADMIN } from 'constants/form-titles';
 import { ADMIN_ROLE, IUser } from '@orbitelco/common';
 import { USER_EDIT_PAGE, USER_LIST_PAGE } from 'constants/client-pages';
 import { getUsers } from 'api/get-users';
@@ -46,7 +47,7 @@ const UserListScreen: React.FC<TPageProps> = ({ users }) => {
   // --------------------------------------------------
   return (
     <>
-      <Meta title='Manage Users' />
+      <Meta title={H1_USER_ADMIN} />
       <ModalConfirmBox
         showModal={confirmDeleteUserModal}
         title='Delete User'
@@ -54,7 +55,7 @@ const UserListScreen: React.FC<TPageProps> = ({ users }) => {
         handleClose={cancelDeleteUser}
         handleConfirm={deleteUserHandler.bind(this)}
       />
-      <h1>User Admin</h1>
+      <h1>{H1_USER_ADMIN}</h1>
       {errorDeleting && <ErrorBlock error={errorDeleting} />}
       {/* {isLoading ? (
         <Loader />

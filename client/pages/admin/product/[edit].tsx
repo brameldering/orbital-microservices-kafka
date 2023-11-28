@@ -14,6 +14,7 @@ import Loader from 'components/Loader';
 import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
 import ModalConfirmBox from 'components/ModalConfirmBox';
+import { H1_EDIT_PRODUCT } from 'constants/form-titles';
 import { PRODUCT_LIST_PAGE } from 'constants/client-pages';
 import { IProduct } from '@orbitelco/common';
 import { getProductById } from 'api/get-product-by-id';
@@ -140,7 +141,7 @@ const ProductEditScreen: React.FC<TPageProps> = ({ product }) => {
 
   return (
     <>
-      <Meta title='Edit Product' />
+      <Meta title={H1_EDIT_PRODUCT} />
       <ModalConfirmBox
         showModal={showChangesModal}
         title='Are you sure you want to go back?'
@@ -150,7 +151,7 @@ const ProductEditScreen: React.FC<TPageProps> = ({ product }) => {
       />
       <FormContainer>
         <Form onSubmit={handleSubmit(onSubmit)}>
-          <FormTitle>Edit Product</FormTitle>
+          <FormTitle>{H1_EDIT_PRODUCT}</FormTitle>
           {errorUpdating && <ErrorBlock error={errorUpdating} />}
           {errorUploadImage && <ErrorBlock error={errorUploadImage} />}
           <p>

@@ -5,7 +5,9 @@
     "dev": "next dev",
     "start": "next start",
     "lint": "eslint --ext .tsx,.ts . --ignore-pattern '!**/node_modules/'",
-    "test": "jest --watchAll --no-cache"
+    "test": "jest --watchAll --no-cache",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",
@@ -37,6 +39,7 @@
     "@types/react-redux": "^7.1.28",
     "@typescript-eslint/eslint-plugin": "^6.9.0",
     "@typescript-eslint/parser": "^6.9.0",
+    "cypress": "^13.6.0",
     "eslint": "^8.52.0",
     "eslint-plugin-import": "^2.29.0",
     "eslint-plugin-jsx-a11y": "^6.7.1",

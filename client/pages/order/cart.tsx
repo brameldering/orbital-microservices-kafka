@@ -15,6 +15,7 @@ import Link from 'next/link';
 import Router, { useRouter } from 'next/router';
 import Meta from 'components/Meta';
 import CheckoutSteps from 'components/CheckoutSteps';
+import { H1_SHOPPING_CART } from 'constants/form-titles';
 import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
 import {
   PRODUCTS_PAGE,
@@ -55,11 +56,11 @@ const CartScreen: React.FC = () => {
 
   return (
     <>
-      <Meta title='Shopping Cart' />
+      <Meta title={H1_SHOPPING_CART} />
       <CheckoutSteps currentStep={0} />
       <Row>
         <Col md={8}>
-          <h1 style={{ marginBottom: '20px' }}>Shopping Cart</h1>
+          <h1 style={{ marginBottom: '20px' }}>{H1_SHOPPING_CART}</h1>
           {cartItems.length === 0 ? (
             <Alert variant='info'>
               Your cart is empty{' '}

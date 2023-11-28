@@ -9,7 +9,6 @@ import LogoSVG from 'logo/LogoSVG';
 import SearchBox from './SearchBox';
 import ErrorBlock from './ErrorBlock';
 import {
-  INDEX_PAGE,
   PRODUCTS_PAGE,
   CART_PAGE,
   MY_PROFILE_PAGE,
@@ -35,7 +34,7 @@ const Header: React.FC = () => {
     try {
       await doSignOut().unwrap();
       dispatch(logout());
-      Router.push(INDEX_PAGE);
+      Router.push(PRODUCTS_PAGE);
     } catch (err: any) {
       // To avoid "Uncaught in promise" errors in console, errors are handled by RTK mutation
     }
@@ -49,7 +48,7 @@ const Header: React.FC = () => {
             <Navbar.Brand id='LINK_orbitelco_shop'>
               <LogoSVG />
               <Navbar.Text style={{ marginLeft: '10px', color: '#6aa0cb' }}>
-                Orbitelco Shop
+                Orbitelco
               </Navbar.Text>
             </Navbar.Brand>{' '}
           </Link>

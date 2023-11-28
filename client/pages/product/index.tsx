@@ -8,6 +8,7 @@ import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
 import Paginate from 'components/Paginate';
 import ProductComponent from 'components/ProductComponent';
+import { H1_PRODUCTS } from 'constants/form-titles';
 import { IProduct, ADMIN_ROLE } from '@orbitelco/common';
 import { PRODUCTS_PAGE } from 'constants/client-pages';
 import type { RootState } from 'slices/store';
@@ -34,8 +35,8 @@ const ProductsPage: React.FC = () => {
 
   return (
     <>
-      <Meta title='Products' />
-      <h1>Products</h1>
+      <Meta title={H1_PRODUCTS} />
+      <h1>{H1_PRODUCTS}</h1>
       {keyword && (
         <Link
           id='BUTTON_back'

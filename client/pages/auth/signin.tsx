@@ -13,8 +13,9 @@ import { textField, passwordField } from 'form/ValidationSpecs';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
+import { H1_SIGN_IN } from 'constants/form-titles';
 import {
-  INDEX_PAGE,
+  PRODUCTS_PAGE,
   SIGNUP_PAGE,
   RESET_PASSWORD_PAGE,
 } from 'constants/client-pages';
@@ -26,9 +27,7 @@ interface IFormInput {
   password: string;
 }
 const schema = yup.object().shape({
-  email: textField()
-    .required('Email is required')
-    .email('Invalid email address'),
+  email: textField().required('Required').email('Invalid email address'),
   password: passwordField(),
 });
 
@@ -48,10 +47,10 @@ const SignInScreen: React.FC = () => {
     resolver: yupResolver(schema),
   });
 
-  // Extract the 'redirect' query parameter with a default value of INDEX_PAGE
+  // Extract the 'redirect' query parameter with a default value of PRODUCTS_PAGE
   const router = useRouter();
   const { query } = router;
-  const redirect = query.redirect || INDEX_PAGE;
+  const redirect = query.redirect || PRODUCTS_PAGE;
 
   const [doSignIn, { isLoading: isProcessing, error: errorSigninIn }] =
     useSignInMutation();
@@ -74,10 +73,10 @@ const SignInScreen: React.FC = () => {
 
   return (
     <>
-      <Meta title='Sign In' />
+      <Meta title={H1_SIGN_IN} />
       <FormContainer>
         <Form onSubmit={handleSubmit(onSubmit, onError)}>
-          <FormTitle>Sign In</FormTitle>
+          <FormTitle>{H1_SIGN_IN}</FormTitle>
           {isProcessing && <Loader />}
           <TextNumField
             controlId='email'

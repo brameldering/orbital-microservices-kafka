@@ -10,6 +10,7 @@ import FormContainer from 'form/FormContainer';
 import { textField } from 'form/ValidationSpecs';
 import Meta from 'components/Meta';
 import CheckoutSteps from 'components/CheckoutSteps';
+import { H1_SHIPPING } from 'constants/form-titles';
 import { PAYMENT_INFO_PAGE } from 'constants/client-pages';
 import { saveShippingAddress } from 'slices/cartSlice';
 import type { RootState } from 'slices/store';
@@ -63,10 +64,10 @@ const ShippingScreen = () => {
 
   return (
     <>
-      <Meta title='Shipping Address' />
+      <Meta title={H1_SHIPPING} />
       <CheckoutSteps currentStep={1} />
       <FormContainer>
-        <h1>Address</h1>
+        <h1>{H1_SHIPPING}</h1>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <TextNumField
             controlId='address'

@@ -33,4 +33,25 @@ module.exports = {
     'prefer-const': 'error',
     'no-undef': 'off',
   },
+  overrides: [
+    {
+      files: ['*.test.{ts,tsx}', 'src/testing/**/*.{ts,tsx}'],
+      rules: {
+        '@typescript-eslint/no-explicit-any': 'off',
+        '@typescript-eslint/ban-ts-comment': 'off',
+      },
+    },
+    {
+      files: ['cypress/support/component.ts'],
+      rules: {
+        '@typescript-eslint/no-namespace': 'off',
+      },
+    },
+    {
+      files: ['cypress.config.ts'],
+      rules: {
+        '@typescript-eslint/no-unused-vars': 'off',
+      },
+    },
+  ],
 };

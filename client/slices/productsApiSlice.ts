@@ -23,18 +23,18 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       }),
       providesTags: ['Product'],
     }),
+    getProductById: builder.query<IProduct, string>({
+      query: (productId) => ({
+        url: `${PRODUCTS_URL}/${productId}`,
+      }),
+      providesTags: (result, error, id) => [{ type: 'Product', id }],
+    }),
     createProduct: builder.mutation<IBaseProduct, void>({
       query: () => ({
         url: PRODUCTS_URL,
         method: 'POST',
       }),
       invalidatesTags: ['Product'],
-    }),
-    getProductById: builder.query<IProduct, string>({
-      query: (productId) => ({
-        url: `${PRODUCTS_URL}/${productId}`,
-      }),
-      providesTags: (result, error, id) => [{ type: 'Product', id }],
     }),
     updateProduct: builder.mutation<IProduct, IBaseProduct>({
       query: (data) => ({
@@ -77,8 +77,8 @@ export const productsApiSlice = apiSlice.injectEndpoints({
 
 export const {
   useGetProductsQuery,
-  useCreateProductMutation,
   useGetProductByIdQuery,
+  useCreateProductMutation,
   useUpdateProductMutation,
   useDeleteProductMutation,
   useCreateReviewMutation,

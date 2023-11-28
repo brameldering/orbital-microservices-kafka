@@ -15,6 +15,7 @@ import Loader from 'components/Loader';
 import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
 import ModalConfirmBox from 'components/ModalConfirmBox';
+import { H1_EDIT_USER } from 'constants/form-titles';
 import { USER_LIST_PAGE } from 'constants/client-pages';
 import { IUser } from '@orbitelco/common';
 import { getUserRoles } from 'api/get-user-roles';
@@ -29,11 +30,9 @@ interface IFormInput {
 }
 
 const schema = yup.object().shape({
-  name: textField().required('Name is required'),
-  email: textField()
-    .required('Email is required')
-    .email('Invalid email address'),
-  role: yup.string().required('Role is required'),
+  name: textField().required('Required'),
+  email: textField().required('Required').email('Invalid email address'),
+  role: yup.string().required('Required'),
 });
 
 interface TPageProps {
@@ -110,7 +109,7 @@ const UserEditScreen: React.FC<TPageProps> = ({ roles, user }) => {
 
   return (
     <>
-      <Meta title='Edit User' />
+      <Meta title={H1_EDIT_USER} />
       <ModalConfirmBox
         showModal={showChangesModal}
         title='Are you sure you want to go back?'
@@ -120,7 +119,7 @@ const UserEditScreen: React.FC<TPageProps> = ({ roles, user }) => {
       />
       <FormContainer>
         <Form onSubmit={handleSubmit(onSubmit)}>
-          <FormTitle>Edit User</FormTitle>
+          <FormTitle>{H1_EDIT_USER}</FormTitle>
           {errorUpdating && <ErrorBlock error={errorUpdating} />}
           <TextNumField
             controlId='name'

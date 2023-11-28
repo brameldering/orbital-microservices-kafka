@@ -8,6 +8,7 @@ import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
 import ModalConfirmBox from 'components/ModalConfirmBox';
 import Paginate from 'components/Paginate';
+import { H1_PRODUCT_ADMIN } from 'constants/form-titles';
 import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
 import {
   useGetProductsQuery,
@@ -84,7 +85,7 @@ const ProductListScreen = () => {
 
   return (
     <>
-      <Meta title='Manage Products' />
+      <Meta title={H1_PRODUCT_ADMIN} />
       <ModalConfirmBox
         showModal={confirmCreateProductModal}
         title='Create Product'
@@ -101,7 +102,7 @@ const ProductListScreen = () => {
       />
       <Row className='align-items-center my-0'>
         <Col>
-          <h1>Product Admin</h1>
+          <h1>{H1_PRODUCT_ADMIN}</h1>
         </Col>
         <Col className='text-end'>
           <Button

@@ -4,6 +4,7 @@ import { FaTimes } from 'react-icons/fa';
 import { NextPageContext } from 'next';
 import Link from 'next/link';
 import Meta from 'components/Meta';
+import { H1_MY_ORDERS } from 'constants/form-titles';
 import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
 import { ORDER_DETAIL_PAGE } from 'constants/client-pages';
 import { dateTimeToLocaleDateString } from 'utils/dateUtils';
@@ -17,8 +18,8 @@ interface TPageProps {
 const MyOrdersScreen: React.FC<TPageProps> = ({ myOrders }) => {
   return (
     <>
-      <Meta title='My Orders' />
-      <h1>My Orders</h1>
+      <Meta title={H1_MY_ORDERS} />
+      <h1>{H1_MY_ORDERS}</h1>
       {myOrders?.length === 0 ? (
         <p>You have no orders</p>
       ) : (

@@ -13,6 +13,7 @@ import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ModalConfirmBox from 'components/ModalConfirmBox';
 import ErrorBlock from 'components/ErrorBlock';
+import { H1_CHANGE_PASSWORD } from 'constants/form-titles';
 import { MY_PROFILE_PAGE } from 'constants/client-pages';
 import { useChangePasswordMutation } from 'slices/usersApiSlice';
 
@@ -79,7 +80,7 @@ const ChangePasswordScreen: React.FC = () => {
 
   return (
     <>
-      <Meta title='Change Password' />
+      <Meta title={H1_CHANGE_PASSWORD} />
       <ModalConfirmBox
         showModal={showChangesModal}
         title='Are you sure you want to go back?'
@@ -89,7 +90,7 @@ const ChangePasswordScreen: React.FC = () => {
       />
       <FormContainer>
         <Form onSubmit={handleSubmit(onSubmit, onError)}>
-          <FormTitle>Change Password</FormTitle>
+          <FormTitle>{H1_CHANGE_PASSWORD}</FormTitle>
           {isProcessing && <Loader />}
           <PasswordField
             controlId='currentPassword'

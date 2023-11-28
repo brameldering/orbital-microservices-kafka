@@ -12,11 +12,12 @@ if (
   !(
     process.env.MONGO_URI_SEQ &&
     process.env.MONGO_URI_AUTH &&
-    process.env.MONGO_URI_PRODUCTS
+    process.env.MONGO_URI_PRODUCTS &&
+    process.env.MONGO_URI_ORDERS
   )
 ) {
   console.error(
-    'Missing ENV variable for MONGO_URI_SEQ, MONGO_URI_AUTH, and MONGO_URI_PRODUCTS'
+    'Missing ENV variable for MONGO_URI_SEQ, MONGO_URI_AUTH, MONGO_URI_PRODUCTS, and MONGO_URI_ORDERS'
   );
   process.exit(1);
 }
@@ -58,6 +59,7 @@ process.on('unhandledRejection', (err: Error) => {
 let seqDB: Connection;
 let authDB: Connection;
 let prodDB: Connection;
+let ordersDB: Connection;
 
 const start = async () => {
   try {
@@ -69,6 +71,9 @@ const start = async () => {
 
     prodDB = mongoose.createConnection(process.env.MONGO_URI_PRODUCTS!);
     console.log('Connected to MongoDB', process.env.MONGO_URI_PRODUCTS!);
+
+    ordersDB = mongoose.createConnection(process.env.MONGO_URI_ORDERS!);
+    console.log('Connected to MongoDB', process.env.MONGO_URI_ORDERS!);
   } catch (err) {
     console.log(err);
   }
@@ -80,4 +85,4 @@ const start = async () => {
 
 start();
 
-export { seqDB, authDB, prodDB };
+export { seqDB, authDB, prodDB, ordersDB };

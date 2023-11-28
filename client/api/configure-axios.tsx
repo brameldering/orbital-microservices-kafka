@@ -8,7 +8,6 @@ export default ({ req }: NextPageContext) => {
   let httpsAgent = {};
   // Check for existence of Req which exists on the server but not on the browser
   if (req) {
-    console.log('== on the server!');
     // requests to be made to https://ingress-nginx.ingress-nginx-controller-admission.svc.cluster.local
     baseURL =
       'https://ingress-nginx-controller.ingress-nginx.svc.cluster.local';

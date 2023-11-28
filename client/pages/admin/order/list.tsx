@@ -4,6 +4,7 @@ import { FaTimes } from 'react-icons/fa';
 import { NextPageContext } from 'next';
 import Link from 'next/link';
 import Meta from 'components/Meta';
+import { H1_ORDER_ADMIN } from 'constants/form-titles';
 import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
 import { ORDER_DETAIL_PAGE } from 'constants/client-pages';
 import { dateTimeToLocaleDateString } from 'utils/dateUtils';
@@ -17,8 +18,8 @@ interface TPageProps {
 const OrderListScreen: React.FC<TPageProps> = ({ orders }) => {
   return (
     <>
-      <Meta title='Manage Orders' />
-      <h1>Order Admin</h1>
+      <Meta title={H1_ORDER_ADMIN} />
+      <h1>{H1_ORDER_ADMIN}</h1>
       {orders?.length === 0 ? (
         <p>There are no orders</p>
       ) : (

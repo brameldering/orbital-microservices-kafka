@@ -11,6 +11,7 @@ import { textField } from 'form/ValidationSpecs';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
+import { H1_RESET_PASSWORD } from 'constants/form-titles';
 import { RESET_PASSWORD_CONFIRM_PAGE } from 'constants/client-pages';
 import { useResetPasswordMutation } from 'slices/usersApiSlice';
 
@@ -19,9 +20,7 @@ interface IFormInput {
 }
 
 const schema = yup.object().shape({
-  email: textField()
-    .required('Email is required')
-    .email('Invalid email address'),
+  email: textField().required('Required').email('Invalid email address'),
 });
 
 const PasswordResetScreen = () => {
@@ -58,10 +57,10 @@ const PasswordResetScreen = () => {
 
   return (
     <>
-      <Meta title='Reset Password' />
+      <Meta title={H1_RESET_PASSWORD} />
       <FormContainer>
         <Form onSubmit={handleSubmit(onSubmit, onError)}>
-          <FormTitle>Reset Password</FormTitle>
+          <FormTitle>{H1_RESET_PASSWORD}</FormTitle>
           {isProcessing && <Loader />}
           <TextNumField
             controlId='email'

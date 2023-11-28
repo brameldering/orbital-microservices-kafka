@@ -13,8 +13,8 @@
     "lint:fix": "eslint --ext .ts,.tsx ./frontend/src/**/*.ts --no-error-on-unmatched-pattern --fix && eslint --ext .ts ./backend/**/*.ts --no-error-on-unmatched-pattern --fix",
     "test": "concurrently \"cd backend && npm run test\" \"cd frontend && npm run test\"",
     "types:check": "tsc --noEmit --pretty -p ./frontend && tsc --noEmit --pretty -p ./backend",
-    "cypress:open": "cd frontend && npm run cypress:open",
-    "cypress:run": "cd frontend && npm run cypress:run"
+    "cypress:open": "cd client && npm run cypress:open",
+    "cypress:run": "cd client && npm run cypress:run"
   },
   "author": "Bram Eldering",
   "license": "MIT",

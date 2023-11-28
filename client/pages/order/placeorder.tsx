@@ -9,6 +9,7 @@ import Meta from 'components/Meta';
 import CheckoutSteps from 'components/CheckoutSteps';
 import OrderItemLine from 'components/OrderItemLine';
 import OrderSummaryBlock from 'components/OrderSummaryBlock';
+import { H1_CONFIRM_ORDER } from 'constants/form-titles';
 import {
   SHIPPING_PAGE,
   PAYMENT_INFO_PAGE,
@@ -61,7 +62,7 @@ const PlaceOrderScreen = () => {
 
   return (
     <>
-      <Meta title='Confirm Order' />
+      <Meta title={H1_CONFIRM_ORDER} />
       <CheckoutSteps currentStep={3} />
       <Row>
         <Col md={8}>

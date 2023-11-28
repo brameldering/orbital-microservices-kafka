@@ -20,6 +20,7 @@ import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
 import OrderItemLine from 'components/OrderItemLine';
 import OrderSummaryBlock from 'components/OrderSummaryBlock';
+import { H2_ORDER_DETAILS } from 'constants/form-titles';
 import { CURRENCY_PAYPAL } from 'constants/constants-frontend';
 import { ORDER_DETAIL_PAGE } from 'constants/client-pages';
 import { ADMIN_ROLE, IOrder } from '@orbitelco/common';
@@ -186,13 +187,13 @@ const OrderScreen: React.FC<TPageProps> = ({ order }) => {
 
   return (
     <>
-      <Meta title='Order Details' />
+      <Meta title={H2_ORDER_DETAILS} />
       {order && (
         <Row>
           <Col md={8}>
             <ListGroup variant='flush'>
               <ListGroup.Item>
-                <h2>Order Details</h2>
+                <h2>{H2_ORDER_DETAILS}</h2>
                 <p>
                   <strong>Order Id: </strong> {order.sequenceOrderId}
                 </p>

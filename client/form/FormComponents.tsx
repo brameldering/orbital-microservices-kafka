@@ -175,6 +175,7 @@ const SelectField: React.FunctionComponent<SelectFieldProps> = ({
         render={({ field }) => (
           <Form.Select
             aria-label='Select Role'
+            id={controlId}
             className='mt-3'
             style={{ borderColor: '#606060' }}
             {...field}

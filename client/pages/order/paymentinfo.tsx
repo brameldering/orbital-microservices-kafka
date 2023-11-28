@@ -7,6 +7,7 @@ import FormContainer from 'form/FormContainer';
 import FormTitle from 'form/FormTitle';
 import Meta from 'components/Meta';
 import CheckoutSteps from 'components/CheckoutSteps';
+import { H1_PAYMENT_METHOD } from 'constants/form-titles';
 import { SHIPPING_PAGE, PLACE_ORDER_PAGE } from 'constants/client-pages';
 import { savePaymentMethod } from 'slices/cartSlice';
 import type { RootState } from 'slices/store';
@@ -36,11 +37,11 @@ const PaymentScreen = () => {
 
   return (
     <>
-      <Meta title='Payment Method' />
+      <Meta title={H1_PAYMENT_METHOD} />
       <CheckoutSteps currentStep={2} />
       <FormContainer>
         <Form onSubmit={handleSubmit(onSubmit)}>
-          <FormTitle>Payment Method</FormTitle>
+          <FormTitle>{H1_PAYMENT_METHOD}</FormTitle>
           <Form.Group>
             <Form.Label as='legend'>Select Method</Form.Label>
             <Col>

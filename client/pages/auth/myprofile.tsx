@@ -13,6 +13,7 @@ import { textField } from 'form/ValidationSpecs';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
+import { H1_MY_PROFILE } from 'constants/form-titles';
 import { CHANGE_PASSWORD_PAGE } from 'constants/client-pages';
 import type { RootState } from 'slices/store';
 import { updUserState } from 'slices/authSlice';
@@ -24,10 +25,8 @@ interface IFormInput {
 }
 
 const schema = yup.object().shape({
-  name: textField().required('Name is required'),
-  email: textField()
-    .required('Email is required')
-    .email('Invalid email address'),
+  name: textField().required('Required'),
+  email: textField().required('Required').email('Invalid email address'),
 });
 
 const ProfileScreen: React.FC = () => {
@@ -70,10 +69,10 @@ const ProfileScreen: React.FC = () => {
 
   return (
     <>
-      <Meta title='My Profile' />
+      <Meta title={H1_MY_PROFILE} />
       <FormContainer>
         <Form onSubmit={handleSubmit(onSubmit, onError)}>
-          <FormTitle>My Profile</FormTitle>
+          <FormTitle>{H1_MY_PROFILE}</FormTitle>
           {isProcessing && <Loader />}
           <TextNumField
             controlId='name'
