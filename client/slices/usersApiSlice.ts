@@ -3,11 +3,9 @@ import {
   SIGN_UP_URL,
   SIGN_IN_URL,
   SIGN_OUT_URL,
-  CURRENT_USER_URL,
   RESET_PASSWORD_URL,
   UPDATE_PASSWORD_URL,
   UPDATE_PROFILE_URL,
-  ICurrentUser,
   IUser,
   ISignUp,
   ISignIn,
@@ -20,18 +18,12 @@ import apiSlice from './apiSlice';
 
 export const userApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getCurrentUser: builder.query<ICurrentUser, void>({
-      query: () => ({
-        url: CURRENT_USER_URL,
-      }),
-    }),
     signUp: builder.mutation<IUser, ISignUp>({
       query: (data) => ({
         url: SIGN_UP_URL,
         method: 'POST',
         body: data,
       }),
-      invalidatesTags: ['User'],
     }),
     signIn: builder.mutation<IUser, ISignIn>({
       query: (data) => ({
@@ -45,13 +37,6 @@ export const userApiSlice = apiSlice.injectEndpoints({
         url: SIGN_OUT_URL,
         method: 'POST',
       }),
-      invalidatesTags: ['User', 'Order'],
-    }),
-    getUsers: builder.query<IUser[], void>({
-      query: () => ({
-        url: USERS_URL,
-      }),
-      providesTags: ['User'],
     }),
     changeUserProfile: builder.mutation<IUser, IChangeUserProfile>({
       query: (data) => ({
@@ -59,7 +44,6 @@ export const userApiSlice = apiSlice.injectEndpoints({
         method: 'PUT',
         body: data,
       }),
-      invalidatesTags: ['User'],
     }),
     changePassword: builder.mutation<IUser, IChangePassword>({
       query: (data) => ({
@@ -67,7 +51,6 @@ export const userApiSlice = apiSlice.injectEndpoints({
         method: 'PUT',
         body: data,
       }),
-      invalidatesTags: ['User'],
     }),
     resetPassword: builder.mutation<void, IResetPassword>({
       query: (data) => ({
@@ -75,13 +58,6 @@ export const userApiSlice = apiSlice.injectEndpoints({
         method: 'PUT',
         body: data,
       }),
-      invalidatesTags: ['User'],
-    }),
-    getUserById: builder.query<IUser, string>({
-      query: (id) => ({
-        url: `${USERS_URL}/${id}`,
-      }),
-      providesTags: (result, error, id) => [{ type: 'User', id }],
     }),
     updateUser: builder.mutation<IUser, IUser>({
       query: (data) => ({
@@ -89,28 +65,23 @@ export const userApiSlice = apiSlice.injectEndpoints({
         method: 'PUT',
         body: data,
       }),
-      invalidatesTags: ['User'],
     }),
     deleteUser: builder.mutation<void, string>({
       query: (id) => ({
         url: `${USERS_URL}/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['User'],
     }),
   }),
 });
 
 export const {
-  useGetCurrentUserQuery,
   useSignInMutation,
   useSignOutMutation,
   useSignUpMutation,
-  useGetUsersQuery,
   useChangeUserProfileMutation,
   useChangePasswordMutation,
   useResetPasswordMutation,
-  useGetUserByIdQuery,
   useUpdateUserMutation,
   useDeleteUserMutation,
 } = userApiSlice;

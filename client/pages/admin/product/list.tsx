@@ -45,6 +45,7 @@ const ProductListScreen = () => {
     try {
       await createProduct().unwrap();
       refetch();
+      // Router.push(PRODUCT_LIST_PAGE);
     } catch (err) {
       // Do nothing because useCreateProductMutation will set errorCreating in case of an error
     } finally {
@@ -98,7 +99,7 @@ const ProductListScreen = () => {
         handleClose={cancelDeleteProduct}
         handleConfirm={deleteProductHandler.bind(this)}
       />
-      <Row className='align-items-center'>
+      <Row className='align-items-center my-0'>
         <Col>
           <h1>Product Admin</h1>
         </Col>

@@ -8,6 +8,7 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { TextNumField, TextAreaField } from 'form/FormComponents';
 import FormContainer from 'form/FormContainer';
+import FormTitle from 'form/FormTitle';
 import { textField, textAreaField, numField } from 'form/ValidationSpecs';
 import Loader from 'components/Loader';
 import Meta from 'components/Meta';
@@ -147,17 +148,11 @@ const ProductEditScreen: React.FC<TPageProps> = ({ product }) => {
         handleClose={cancelGoBack}
         handleConfirm={goBackWithoutSaving}
       />
-      <Button
-        className='btn btn-light my-3'
-        onClick={goBackHandler}
-        disabled={loadingOrProcessing}>
-        Go Back
-      </Button>
       <FormContainer>
-        <h1>Edit Product</h1>
-        {errorUpdating && <ErrorBlock error={errorUpdating} />}
-        {errorUploadImage && <ErrorBlock error={errorUploadImage} />}
         <Form onSubmit={handleSubmit(onSubmit)}>
+          <FormTitle>Edit Product</FormTitle>
+          {errorUpdating && <ErrorBlock error={errorUpdating} />}
+          {errorUploadImage && <ErrorBlock error={errorUploadImage} />}
           <p>
             <strong>Product Id: </strong> {product?.sequenceProductId}
           </p>
@@ -232,14 +227,21 @@ const ProductEditScreen: React.FC<TPageProps> = ({ product }) => {
             error={errors.description}
             setError={setError}
           />
-          <Button
-            id='BUTTON_save'
-            type='submit'
-            variant='primary'
-            className='mt-2'
-            disabled={loadingOrProcessing || !isDirty}>
-            Save
-          </Button>
+          <div className='d-flex mt-3 justify-content-between align-items-center'>
+            <Button
+              id='BUTTON_save'
+              type='submit'
+              variant='primary'
+              disabled={loadingOrProcessing || !isDirty}>
+              Save
+            </Button>
+            <Button
+              className='btn btn-light my-3'
+              onClick={goBackHandler}
+              disabled={loadingOrProcessing}>
+              Cancel
+            </Button>
+          </div>
           {performingUpdate && <Loader />}
         </Form>
       </FormContainer>

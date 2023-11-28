@@ -71,7 +71,6 @@ const TextNumField: React.FunctionComponent<TextNumFieldProps> = ({
           style={{ borderColor: '#606060' }}
           type={type}
           placeholder={label}
-          // name={controlId}
           {...register(controlId)}
           onChange={(e) => {
             setError(controlId, { message: '' });
@@ -120,7 +119,6 @@ const PasswordField: React.FunctionComponent<PasswordFieldProps> = ({
             type={contentVisible ? 'text' : 'password'}
             style={{ borderColor: '#606060' }}
             placeholder={label}
-            // name={controlId}
             {...register(controlId)}
             onChange={(e) => {
               setError(controlId, { message: '' });

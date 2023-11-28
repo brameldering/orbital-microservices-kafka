@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import FormContainer from 'form/FormContainer';
+import FormTitle from 'form/FormTitle';
 import { PasswordField } from 'form/FormComponents';
 import { passwordField } from 'form/ValidationSpecs';
 import Meta from 'components/Meta';
@@ -78,7 +79,7 @@ const ChangePasswordScreen: React.FC = () => {
 
   return (
     <>
-      <Meta title='Change Password' />{' '}
+      <Meta title='Change Password' />
       <ModalConfirmBox
         showModal={showChangesModal}
         title='Are you sure you want to go back?'
@@ -86,16 +87,10 @@ const ChangePasswordScreen: React.FC = () => {
         handleClose={cancelGoBack}
         handleConfirm={goBackWithoutSaving}
       />
-      <Button
-        className='btn btn-light my-3'
-        onClick={goBackHandler}
-        disabled={isProcessing}>
-        Go Back
-      </Button>
       <FormContainer>
-        <h1 className='mb-4'>Change Password</h1>
-        {isProcessing && <Loader />}
         <Form onSubmit={handleSubmit(onSubmit, onError)}>
+          <FormTitle>Change Password</FormTitle>
+          {isProcessing && <Loader />}
           <PasswordField
             controlId='currentPassword'
             label='Current Password'
@@ -111,14 +106,23 @@ const ChangePasswordScreen: React.FC = () => {
             setError={setError}
           />
           {errorChanging && <ErrorBlock error={errorChanging} />}
-          <br />
-          <Button
-            id='BUTTON_update'
-            type='submit'
-            variant='primary mt-0'
-            disabled={isProcessing || !isDirty}>
-            Update
-          </Button>
+
+          <div className='d-flex mt-3 justify-content-between align-items-center'>
+            <Button
+              id='BUTTON_update'
+              type='submit'
+              variant='primary'
+              disabled={isProcessing || !isDirty}>
+              Update
+            </Button>
+            <Button
+              // className='btn btn-light my-3'
+              variant='light'
+              onClick={goBackHandler}
+              disabled={isProcessing}>
+              Cancel
+            </Button>
+          </div>
         </Form>
       </FormContainer>
     </>

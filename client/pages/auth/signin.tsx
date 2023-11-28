@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import FormContainer from 'form/FormContainer';
+import FormTitle from 'form/FormTitle';
 import { TextNumField, PasswordField } from 'form/FormComponents';
 import { textField, passwordField } from 'form/ValidationSpecs';
 import Meta from 'components/Meta';
@@ -72,56 +73,59 @@ const SignInScreen: React.FC = () => {
   };
 
   return (
-    <FormContainer>
+    <>
       <Meta title='Sign In' />
-      <Form onSubmit={handleSubmit(onSubmit, onError)}>
-        <h1 className='mb-4'>Sign In</h1>
-        {isProcessing && <Loader />}
-        <TextNumField
-          controlId='email'
-          label='Email'
-          register={register}
-          error={errors.email}
-          setError={setError}
-        />
-        <PasswordField
-          controlId='password'
-          label='Password'
-          register={register}
-          error={errors.password}
-          setError={setError}
-        />
-        {errorSigninIn && <ErrorBlock error={errorSigninIn} />}
-        <br />
-        <Button
-          id='BUTTON_login'
-          type='submit'
-          variant='primary mt-0'
-          disabled={isProcessing || !isDirty}>
-          Sign In
-        </Button>
-      </Form>
-      <Row className='py-3'>
-        <Col>
-          New Customer?<span> </span>
-          <Link
-            id='LINK_register_new_customer'
-            href={
-              redirect ? `${SIGNUP_PAGE}?redirect=${redirect}` : SIGNUP_PAGE
-            }>
-            Register
-          </Link>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          Password forgotten?<span> </span>
-          <Link id='LINK_reset_password' href={RESET_PASSWORD_PAGE}>
-            Reset password
-          </Link>
-        </Col>
-      </Row>
-    </FormContainer>
+      <FormContainer>
+        <Form onSubmit={handleSubmit(onSubmit, onError)}>
+          <FormTitle>Sign In</FormTitle>
+          {isProcessing && <Loader />}
+          <TextNumField
+            controlId='email'
+            label='Email'
+            register={register}
+            error={errors.email}
+            setError={setError}
+          />
+          <PasswordField
+            controlId='password'
+            label='Password'
+            register={register}
+            error={errors.password}
+            setError={setError}
+          />
+          {errorSigninIn && <ErrorBlock error={errorSigninIn} />}
+          <div className='d-flex mt-3 justify-content-between align-items-center'>
+            <Button
+              id='BUTTON_login'
+              type='submit'
+              variant='primary'
+              disabled={isProcessing || !isDirty}>
+              Sign In
+            </Button>
+          </div>
+        </Form>
+        <Row className='py-3'>
+          <Col>
+            New Customer?<span> </span>
+            <Link
+              id='LINK_register_new_customer'
+              href={
+                redirect ? `${SIGNUP_PAGE}?redirect=${redirect}` : SIGNUP_PAGE
+              }>
+              Register
+            </Link>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            Password forgotten?<span> </span>
+            <Link id='LINK_reset_password' href={RESET_PASSWORD_PAGE}>
+              Reset password
+            </Link>
+          </Col>
+        </Row>
+      </FormContainer>
+    </>
   );
 };
 

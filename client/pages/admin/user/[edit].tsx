@@ -9,6 +9,7 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { TextNumField, SelectField } from 'form/FormComponents';
 import FormContainer from 'form/FormContainer';
+import FormTitle from 'form/FormTitle';
 import { textField } from 'form/ValidationSpecs';
 import Loader from 'components/Loader';
 import Meta from 'components/Meta';
@@ -117,16 +118,10 @@ const UserEditScreen: React.FC<TPageProps> = ({ roles, user }) => {
         handleClose={cancelGoBack}
         handleConfirm={goBackWithoutSaving}
       />
-      <Button
-        className='btn btn-light my-3'
-        onClick={goBackHandler}
-        disabled={loadingOrProcessing}>
-        Go Back
-      </Button>
       <FormContainer>
-        <h1>Edit User</h1>
-        {errorUpdating && <ErrorBlock error={errorUpdating} />}
         <Form onSubmit={handleSubmit(onSubmit)}>
+          <FormTitle>Edit User</FormTitle>
+          {errorUpdating && <ErrorBlock error={errorUpdating} />}
           <TextNumField
             controlId='name'
             label='Full Name'
@@ -148,14 +143,21 @@ const UserEditScreen: React.FC<TPageProps> = ({ roles, user }) => {
             error={errors.role}
             setError={setError}
           />
-          <Button
-            id='BUTTON_update'
-            type='submit'
-            variant='primary'
-            className='mt-2'
-            disabled={loadingOrProcessing || !isDirty}>
-            Update
-          </Button>
+          <div className='d-flex mt-3 justify-content-between align-items-center'>
+            <Button
+              id='BUTTON_update'
+              type='submit'
+              variant='primary'
+              disabled={loadingOrProcessing || !isDirty}>
+              Update
+            </Button>
+            <Button
+              className='btn btn-light my-3'
+              onClick={goBackHandler}
+              disabled={loadingOrProcessing}>
+              Cancel
+            </Button>
+          </div>
           {updating && <Loader />}
         </Form>
       </FormContainer>

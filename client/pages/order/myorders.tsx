@@ -1,31 +1,25 @@
 import React from 'react';
 import { Table, Button } from 'react-bootstrap';
 import { FaTimes } from 'react-icons/fa';
+import { NextPageContext } from 'next';
 import Link from 'next/link';
-import Loader from 'components/Loader';
 import Meta from 'components/Meta';
-import ErrorBlock from 'components/ErrorBlock';
 import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
 import { ORDER_DETAIL_PAGE } from 'constants/client-pages';
 import { dateTimeToLocaleDateString } from 'utils/dateUtils';
-import { useGetMyOrdersQuery } from 'slices/ordersApiSlice';
+import { getMyOrders } from 'api/get-my-orders';
+import { IOrder } from '@orbitelco/common';
 
-const MyOrdersScreen = () => {
-  const {
-    data: myOrders,
-    isLoading,
-    error: errorLoading,
-  } = useGetMyOrdersQuery();
+interface TPageProps {
+  myOrders: IOrder[];
+}
 
+const MyOrdersScreen: React.FC<TPageProps> = ({ myOrders }) => {
   return (
     <>
       <Meta title='My Orders' />
       <h1>My Orders</h1>
-      {isLoading ? (
-        <Loader />
-      ) : errorLoading ? (
-        <ErrorBlock error={errorLoading} />
-      ) : myOrders?.length === 0 ? (
+      {myOrders?.length === 0 ? (
         <p>You have no orders</p>
       ) : (
         <Table striped hover responsive className='table-sm'>
@@ -79,6 +73,22 @@ const MyOrdersScreen = () => {
       )}
     </>
   );
+};
+
+// Fetch my orders, note that the API in the order MS will identify the user based on the session cookie
+export const getServerSideProps = async (context: NextPageContext) => {
+  try {
+    const myOrders = await getMyOrders(context);
+    return {
+      props: { myOrders },
+    };
+  } catch (error) {
+    // Handle errors if any
+    console.error('Error fetching data:', error);
+    return {
+      props: { myOrders: [] },
+    };
+  }
 };
 
 export default MyOrdersScreen;

@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Row, Col, ListGroup, Button, Alert } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
 import { useSelector } from 'react-redux';
-import { useRouter } from 'next/router';
+import { NextPageContext } from 'next';
+import Router from 'next/router';
 // import { OnApproveActions } from '@paypal/paypal-js/types/components/buttons';
 import { toast } from 'react-toastify';
 import {
@@ -21,34 +22,23 @@ import OrderItemLine from 'components/OrderItemLine';
 import OrderSummaryBlock from 'components/OrderSummaryBlock';
 import { CURRENCY_PAYPAL } from 'constants/constants-frontend';
 import { ORDER_DETAIL_PAGE } from 'constants/client-pages';
+import { ADMIN_ROLE, IOrder } from '@orbitelco/common';
+import { getOrderById } from 'api/get-order-by-id';
+import type { RootState } from 'slices/store';
 import {
-  useGetOrderByIdQuery,
   useGetPaypalClientIdQuery,
   useSetPayDataMutation,
   useSetDeliverDataMutation,
 } from 'slices/ordersApiSlice';
-import type { RootState } from 'slices/store';
-import { ADMIN_ROLE } from '@orbitelco/common';
 
-const OrderScreen = () => {
+interface TPageProps {
+  order: IOrder;
+}
+
+const OrderScreen: React.FC<TPageProps> = ({ order }) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const [payPalError, setPayPalError] = useState<any>();
   const [deliverError, setDeliverError] = useState<any>();
-
-  const router = useRouter();
-  // The name orderdetail should match the name of [orderdetail].tsx
-  const orderdetail = router.query.orderdetail as string | string[] | undefined;
-  let orderId = Array.isArray(orderdetail) ? orderdetail[0] : orderdetail;
-  if (!orderId) {
-    orderId = '';
-  }
-
-  const {
-    data: order,
-    refetch,
-    isLoading,
-    error: errorLoading,
-  } = useGetOrderByIdQuery(orderId);
 
   const {
     data: payPalClientId,
@@ -143,13 +133,12 @@ const OrderScreen = () => {
     try {
       return actions.order.capture().then(async function (details: any) {
         console.log('== actions.order.capture ===');
-        console.log('== Orbitelco orderId ===', orderId);
+        console.log('== Orbitelco orderId ===', order.id);
         console.log('== PayPal details ===', details);
-        if (!orderId) {
-          throw new Error('Error: PayPal OrderId not defined');
+        if (order.id) {
+          await setPayData({ orderId: order.id, details }).unwrap();
         }
-        await setPayData({ orderId, details }).unwrap();
-        refetch();
+        Router.push(`${ORDER_DETAIL_PAGE}/${order.id}`);
         if (errorSettingPayData) {
           setPayPalError(errorSettingPayData);
         } else {
@@ -182,28 +171,20 @@ const OrderScreen = () => {
 
   const deliverHandler = async () => {
     try {
-      if (!orderId) {
+      if (!order.id) {
         throw new Error('Error: PayPal OrderId not defined');
       }
-      await setDeliverData(orderId).unwrap();
-      refetch();
+      await setDeliverData(order.id).unwrap();
+      Router.push(`${ORDER_DETAIL_PAGE}/${order.id}`);
     } catch (err) {
       setDeliverError(err);
     }
   };
 
   const disableButtons =
-    isLoading ||
-    loadingPayPalClientId ||
-    settingPayData ||
-    settingDeliverData ||
-    isPending;
+    loadingPayPalClientId || settingPayData || settingDeliverData || isPending;
 
-  return isLoading ? (
-    <Loader />
-  ) : errorLoading ? (
-    <ErrorBlock error={errorLoading} />
-  ) : (
+  return (
     <>
       <Meta title='Order Details' />
       {order && (
@@ -345,6 +326,30 @@ const OrderScreen = () => {
       )}
     </>
   );
+};
+
+// Fetch order
+export const getServerSideProps = async (context: NextPageContext) => {
+  try {
+    // the name of the query parameter ('orderdetail') should match the [filename].tsx
+    const id = context.query.orderdetail as string | string[] | undefined;
+    let orderId = Array.isArray(id) ? id[0] : id;
+    if (!orderId) {
+      orderId = '';
+    }
+    let order = null;
+    if (orderId) {
+      order = await getOrderById(context, orderId);
+    }
+    return {
+      props: { order },
+    };
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    return {
+      props: { order: {} },
+    };
+  }
 };
 
 export default OrderScreen;

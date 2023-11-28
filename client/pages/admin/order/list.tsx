@@ -1,27 +1,25 @@
 import React from 'react';
 import { Table, Button } from 'react-bootstrap';
 import { FaTimes } from 'react-icons/fa';
+import { NextPageContext } from 'next';
 import Link from 'next/link';
-import Loader from 'components/Loader';
 import Meta from 'components/Meta';
-import ErrorBlock from 'components/ErrorBlock';
 import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
 import { ORDER_DETAIL_PAGE } from 'constants/client-pages';
 import { dateTimeToLocaleDateString } from 'utils/dateUtils';
-import { useGetOrdersQuery } from 'slices/ordersApiSlice';
+import { getOrders } from 'api/get-orders';
+import { IOrder } from '@orbitelco/common';
 
-const OrderListScreen = () => {
-  const { data: orders, isLoading, error: errorLoading } = useGetOrdersQuery();
+interface TPageProps {
+  orders: IOrder[];
+}
 
+const OrderListScreen: React.FC<TPageProps> = ({ orders }) => {
   return (
     <>
       <Meta title='Manage Orders' />
       <h1>Order Admin</h1>
-      {isLoading ? (
-        <Loader />
-      ) : errorLoading ? (
-        <ErrorBlock error={errorLoading} />
-      ) : orders?.length === 0 ? (
+      {orders?.length === 0 ? (
         <p>There are no orders</p>
       ) : (
         <Table striped hover responsive className='table-sm'>
@@ -77,6 +75,22 @@ const OrderListScreen = () => {
       )}
     </>
   );
+};
+
+// Fetch orders
+export const getServerSideProps = async (context: NextPageContext) => {
+  try {
+    const orders = await getOrders(context);
+    return {
+      props: { orders },
+    };
+  } catch (error) {
+    // Handle errors if any
+    console.error('Error fetching data:', error);
+    return {
+      props: { orders: [] },
+    };
+  }
 };
 
 export default OrderListScreen;

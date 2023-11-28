@@ -1,24 +1,23 @@
 import React, { useState } from 'react';
 import { Table, Button } from 'react-bootstrap';
 import { FaTrash, FaEdit, FaCheck, FaTimes } from 'react-icons/fa';
+import { NextPageContext } from 'next';
+import Router from 'next/router';
 import Link from 'next/link';
 import Loader from 'components/Loader';
 import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
 import ModalConfirmBox from 'components//ModalConfirmBox';
-import { ADMIN_ROLE } from '@orbitelco/common';
-import { USER_EDIT_PAGE } from 'constants/client-pages';
-import { useGetUsersQuery, useDeleteUserMutation } from 'slices/usersApiSlice';
+import { ADMIN_ROLE, IUser } from '@orbitelco/common';
+import { USER_EDIT_PAGE, USER_LIST_PAGE } from 'constants/client-pages';
+import { getUsers } from 'api/get-users';
+import { useDeleteUserMutation } from 'slices/usersApiSlice';
 
-const UserListScreen = () => {
-  // --------------- Get Users ---------------
-  const {
-    data: users,
-    refetch,
-    isLoading,
-    error: errorLoading,
-  } = useGetUsersQuery();
+interface TPageProps {
+  users: IUser[];
+}
 
+const UserListScreen: React.FC<TPageProps> = ({ users }) => {
   // --------------- Delete User ---------------
   const [deleteUser, { isLoading: deleting, error: errorDeleting }] =
     useDeleteUserMutation();
@@ -36,15 +35,15 @@ const UserListScreen = () => {
   const deleteUserHandler = async () => {
     try {
       await deleteUser(deleteUserId).unwrap();
-      refetch();
+      // perform a redirect to this page to refetch user records
+      Router.push(USER_LIST_PAGE);
     } catch (err) {
       // Do nothing because useDeleteUserMutation will set errorDeleting in case of an error
     } finally {
       setConfirmDeleteUserModal(false);
     }
   };
-
-  // --------------------------------------------
+  // --------------------------------------------------
   return (
     <>
       <Meta title='Manage Users' />
@@ -57,11 +56,12 @@ const UserListScreen = () => {
       />
       <h1>User Admin</h1>
       {errorDeleting && <ErrorBlock error={errorDeleting} />}
-      {isLoading ? (
+      {/* {isLoading ? (
         <Loader />
       ) : errorLoading ? (
         <ErrorBlock error={errorLoading} />
-      ) : users?.length === 0 ? (
+      ) : */}
+      {users?.length === 0 ? (
         <p>There are no users</p>
       ) : (
         <Table striped hover responsive className='table-sm'>
@@ -117,6 +117,22 @@ const UserListScreen = () => {
       {deleting && <Loader />}
     </>
   );
+};
+
+// Fetch Users
+export const getServerSideProps = async (context: NextPageContext) => {
+  try {
+    const users = await getUsers(context);
+    return {
+      props: { users },
+    };
+  } catch (error) {
+    // Handle errors if any
+    console.error('Error fetching data:', error);
+    return {
+      props: { users: [] },
+    };
+  }
 };
 
 export default UserListScreen;

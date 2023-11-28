@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import FormContainer from 'form/FormContainer';
+import FormTitle from 'form/FormTitle';
 import { TextNumField, PasswordField, SelectField } from 'form/FormComponents';
 import { textField, passwordField } from 'form/ValidationSpecs';
 import Meta from 'components/Meta';
@@ -104,62 +105,66 @@ const SignUpScreen: React.FC<TPageProps> = ({ roles }) => {
   ];
 
   return (
-    <FormContainer>
+    <>
+      {' '}
       <Meta title='Sign Up' />
-      <Form onSubmit={handleSubmit(onSubmit, onError)}>
-        <h1 className='mb-4'>Sign Up</h1>
-        {isProcessing && <Loader />}
-        <TextNumField
-          controlId='name'
-          label='Full Name'
-          register={register}
-          error={errors.name}
-          setError={setError}
-        />
-        <TextNumField
-          controlId='email'
-          label='Email'
-          register={register}
-          error={errors.email}
-          setError={setError}
-        />
-        <PasswordField
-          controlId='password'
-          label='Password'
-          register={register}
-          error={errors.password}
-          setError={setError}
-        />
-        <SelectField
-          controlId='role'
-          options={selectRoles}
-          control={control}
-          error={errors.role}
-          setError={setError}
-        />
-        {errorSigninUp && <ErrorBlock error={errorSigninUp} />}
-        <br />
-        <Button
-          id='BUTTON_register'
-          type='submit'
-          variant='primary mt-0'
-          disabled={isProcessing || !isDirty}>
-          Sign Up
-        </Button>
-      </Form>
-      <Row className='py-3'>
-        <Col>
-          Already have an account?{' '}
-          <Link
-            id='LINK_already_have_an_account'
-            href={
-              redirect ? `${SIGNIN_PAGE}?redirect=${redirect}` : SIGNIN_PAGE
-            }>
-            Login
-          </Link>
-        </Col>
-      </Row>
-    </FormContainer>
+      <FormContainer>
+        <Form onSubmit={handleSubmit(onSubmit, onError)}>
+          <FormTitle>Sign Up</FormTitle>
+          {isProcessing && <Loader />}
+          <TextNumField
+            controlId='name'
+            label='Full Name'
+            register={register}
+            error={errors.name}
+            setError={setError}
+          />
+          <TextNumField
+            controlId='email'
+            label='Email'
+            register={register}
+            error={errors.email}
+            setError={setError}
+          />
+          <PasswordField
+            controlId='password'
+            label='Password'
+            register={register}
+            error={errors.password}
+            setError={setError}
+          />
+          <SelectField
+            controlId='role'
+            options={selectRoles}
+            control={control}
+            error={errors.role}
+            setError={setError}
+          />
+          {errorSigninUp && <ErrorBlock error={errorSigninUp} />}
+          <div className='d-flex mt-3 justify-content-between align-items-center'>
+            <Button
+              id='BUTTON_register'
+              type='submit'
+              variant='primary'
+              disabled={isProcessing || !isDirty}>
+              Sign Up
+            </Button>
+          </div>
+        </Form>
+        <Row className='py-3'>
+          <Col>
+            Already have an account?{' '}
+            <Link
+              id='LINK_already_have_an_account'
+              href={
+                redirect ? `${SIGNIN_PAGE}?redirect=${redirect}` : SIGNIN_PAGE
+              }>
+              Login
+            </Link>
+          </Col>
+        </Row>
+      </FormContainer>
+    </>
   );
 };
 

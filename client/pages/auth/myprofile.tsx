@@ -1,12 +1,13 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Row, Col, Form, Button } from 'react-bootstrap';
+import { Form, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import FormContainer from 'form/FormContainer';
+import FormTitle from 'form/FormTitle';
 import { TextNumField } from 'form/FormComponents';
 import { textField } from 'form/ValidationSpecs';
 import Meta from 'components/Meta';
@@ -68,45 +69,43 @@ const ProfileScreen: React.FC = () => {
   };
 
   return (
-    <FormContainer>
+    <>
       <Meta title='My Profile' />
-      <Form onSubmit={handleSubmit(onSubmit, onError)}>
-        <h1>My Profile</h1>
-        {isProcessing && <Loader />}
-        <TextNumField
-          controlId='name'
-          label='Full name'
-          register={register}
-          error={errors.name}
-          setError={setError}
-        />
-        <TextNumField
-          controlId='email'
-          label='Email'
-          register={register}
-          error={errors.email}
-          setError={setError}
-        />
-        {errorChanging && <ErrorBlock error={errorChanging} />}
-        <br />
-        <Row className='align-items-center'>
-          <Col>
+      <FormContainer>
+        <Form onSubmit={handleSubmit(onSubmit, onError)}>
+          <FormTitle>My Profile</FormTitle>
+          {isProcessing && <Loader />}
+          <TextNumField
+            controlId='name'
+            label='Full name'
+            register={register}
+            error={errors.name}
+            setError={setError}
+          />
+          <TextNumField
+            controlId='email'
+            label='Email'
+            register={register}
+            error={errors.email}
+            setError={setError}
+          />
+          {errorChanging && <ErrorBlock error={errorChanging} />}
+
+          <div className='d-flex mt-3 justify-content-between align-items-center'>
             <Button
               id='BUTTON_update'
               type='submit'
-              variant='primary mt-0'
+              variant='primary'
               disabled={isProcessing || !isDirty}>
               Update
             </Button>
-          </Col>
-          <Col className='text-end'>
             <Link id='LINK_change_password' href={CHANGE_PASSWORD_PAGE}>
               Change Password
             </Link>
-          </Col>
-        </Row>
-      </Form>
-    </FormContainer>
+          </div>
+        </Form>
+      </FormContainer>
+    </>
   );
 };
 

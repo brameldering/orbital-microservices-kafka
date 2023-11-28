@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Router from 'next/router';
 import { useForm } from 'react-hook-form';
 import FormContainer from 'form/FormContainer';
+import FormTitle from 'form/FormTitle';
 import Meta from 'components/Meta';
 import CheckoutSteps from 'components/CheckoutSteps';
 import { SHIPPING_PAGE, PLACE_ORDER_PAGE } from 'constants/client-pages';
@@ -38,8 +39,8 @@ const PaymentScreen = () => {
       <Meta title='Payment Method' />
       <CheckoutSteps currentStep={2} />
       <FormContainer>
-        <h1>Payment Method</h1>
         <Form onSubmit={handleSubmit(onSubmit)}>
+          <FormTitle>Payment Method</FormTitle>
           <Form.Group>
             <Form.Label as='legend'>Select Method</Form.Label>
             <Col>
