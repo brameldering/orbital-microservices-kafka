@@ -1,4 +1,4 @@
-const orderContacts = [
+export const orderContacts = [
   {
     name: 'Admin User',
     email: 'admin@email.com',
@@ -12,5 +12,3 @@ const orderContacts = [
     email: 'jane@email.com',
   },
 ];
-
-export default orderContacts;

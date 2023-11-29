@@ -1,10 +1,10 @@
 import express, { Request, Response } from 'express';
 import {
   USERS_URL,
+  User,
   checkObjectId,
   ObjectNotFoundError,
 } from '@orbitelco/common';
-import { User } from '../userModel';
 
 const router = express.Router();
 

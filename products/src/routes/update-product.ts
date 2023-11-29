@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
-import { Product } from '../productModel';
 import {
   PRODUCTS_URL,
+  Product,
   checkObjectId,
   ObjectNotFoundError,
 } from '@orbitelco/common';

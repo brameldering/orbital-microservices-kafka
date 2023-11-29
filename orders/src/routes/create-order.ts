@@ -1,13 +1,15 @@
 import express, { Response } from 'express';
 // import { body } from 'express-validator';
 import { calcPrices } from '../utils/calcPrices';
-import { Order } from '../orderModel';
 import {
   ORDERS_URL,
-  IExtendedRequest,
+  Order,
+  OrderSequence,
   IOrderObj,
   IOrderUser,
+  IExtendedRequest,
   UserInputError,
+  DatabaseError,
 } from '@orbitelco/common';
 
 const router = express.Router();
@@ -84,29 +86,35 @@ router.post(ORDERS_URL, async (req: IExtendedRequest, res: Response) => {
   const totalAmounts = calcPrices(orderItems);
   // console.time('TimeNeededToSaveOrder');
   // Determine next orderId
-  // const seqNumberOrderId: IdSequenceObject =
-  //   await IdSequence.findOneAndUpdate(
-  //     { sequenceName: 'sequenceOrderId' },
-  //     { $inc: { sequenceCounter: 1 } },
-  //     { returnOriginal: false, upsert: true }
-  //   );
-  // const sequenceOrderId: string =
-  //   'ORD-' + seqNumberOrderId.sequenceCounter.toString().padStart(10, '0');
-  const orderObj: IOrderObj = {
-    // sequenceOrderId: sequenceOrderId,
-    user,
-    orderItems,
-    shippingAddress,
-    paymentMethod,
-    paymentResult: {},
-    totalAmounts,
-    isPaid: false,
-    isDelivered: false,
-  };
+  const seqNumberOrderId = await OrderSequence.findOneAndUpdate(
+    {},
+    { $inc: { latestSeqId: 1 } },
+    { returnOriginal: false, upsert: true }
+  );
+  if (seqNumberOrderId) {
+    console.log('seqNumberOrderId', seqNumberOrderId);
+    console.log('seqNumberOrderId.latestSeqId', seqNumberOrderId.latestSeqId);
+    const sequentialOrderId: string =
+      'ORD-' + seqNumberOrderId.latestSeqId.toString().padStart(10, '0');
+    const orderObj: IOrderObj = {
+      sequentialOrderId,
+      user,
+      orderItems,
+      shippingAddress,
+      paymentMethod,
+      paymentResult: {},
+      totalAmounts,
+      isPaid: false,
+      isDelivered: false,
+    };
 
-  const order = Order.build(orderObj);
-  await order.save();
-  res.status(201).send(order.toJSON());
+    const order = Order.build(orderObj);
+    await order.save();
+    res.status(201).send(order.toJSON());
+  } else {
+    throw new DatabaseError('Error determining sequential Order Id');
+    // console.log("Log error details")
+  }
 });
 
 export { router as createOrderRouter };

@@ -37,7 +37,7 @@ const MyOrdersScreen: React.FC<TPageProps> = ({ myOrders }) => {
           <tbody>
             {myOrders?.map((order) => (
               <tr key={order.id}>
-                <td>{order.sequenceOrderId}</td>
+                <td>{order.sequentialOrderId}</td>
                 <td>
                   {order.createdAt &&
                     dateTimeToLocaleDateString(order.createdAt)}

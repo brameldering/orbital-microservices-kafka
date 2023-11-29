@@ -1,11 +1,10 @@
 import request from 'supertest';
 import { app } from '../../app';
-import { Product } from '../../productModel';
 import {
   fakeSignupAdmin,
   fakeSignupCustomer,
 } from '../../test/helper-functions';
-import { PRODUCTS_URL } from '@orbitelco/common';
+import { PRODUCTS_URL, Product } from '@orbitelco/common';
 
 describe('Test create product', () => {
   it('creates a product with valid inputs and returns a status 201 with the created product', async () => {

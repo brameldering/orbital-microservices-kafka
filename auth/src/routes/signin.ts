@@ -3,12 +3,12 @@ import { body } from 'express-validator';
 import bcrypt from 'bcryptjs';
 import {
   SIGN_IN_URL,
+  User,
   validateRequest,
   NotAuthorizedError,
 } from '@orbitelco/common';
 
 import generateToken from '../utils/generateToken';
-import { User } from '../userModel';
 
 const router = express.Router();
 

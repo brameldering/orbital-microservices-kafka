@@ -1,6 +1,5 @@
 import express, { Request, Response } from 'express';
-import { IdSequence } from '../seqIdModel';
-import { ID_SEQUENCE_ORDERS_URL } from '@orbitelco/common';
+import { ID_SEQUENCE_ORDERS_URL, IdSequence } from '@orbitelco/common';
 
 const router = express.Router();
 
@@ -17,13 +16,13 @@ router.get(ID_SEQUENCE_ORDERS_URL, async (req: Request, res: Response) => {
       }
     } */
   const seqOrderId = await IdSequence.findOneAndUpdate(
-    { sequenceName: 'sequenceOrderId' },
+    { sequenceName: 'sequentialOrderId' },
     { $inc: { sequenceCounter: 1 } },
     { returnOriginal: false, upsert: true }
   );
-  const sequenceOrderId =
+  const sequentialOrderId =
     'ORD-' + seqOrderId.sequenceCounter.toString().padStart(8, '0');
-  res.send({ seqId: sequenceOrderId });
+  res.send({ seqId: sequentialOrderId });
 });
 
 export { router as getOrderSequenceIdRouter };

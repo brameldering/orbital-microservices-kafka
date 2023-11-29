@@ -1,6 +1,5 @@
 import express, { Request, Response } from 'express';
-import { Order } from '../orderModel';
-import { ORDERS_URL, ObjectNotFoundError } from '@orbitelco/common';
+import { ORDERS_URL, Order, ObjectNotFoundError } from '@orbitelco/common';
 
 const router = express.Router();
 

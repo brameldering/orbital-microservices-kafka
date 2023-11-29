@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
-import { Order } from '../orderModel';
 import {
   UPDATE_ORDER_TO_PAID_URL,
+  Order,
   UserInputError,
   ObjectNotFoundError,
 } from '@orbitelco/common';

@@ -2,11 +2,11 @@ import express, { Response } from 'express';
 import generateToken from '../utils/generateToken';
 import {
   USERS_URL,
+  User,
   checkObjectId,
   IExtendedRequest,
   ObjectNotFoundError,
 } from '@orbitelco/common';
-import { User } from '../userModel';
 
 const router = express.Router();
 

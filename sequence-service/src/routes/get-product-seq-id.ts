@@ -1,6 +1,5 @@
 import express, { Request, Response } from 'express';
-import { IdSequence } from '../seqIdModel';
-import { ID_SEQUENCE_PRODUCTS_URL } from '@orbitelco/common';
+import { ID_SEQUENCE_PRODUCTS_URL, IdSequence } from '@orbitelco/common';
 
 const router = express.Router();
 
@@ -17,13 +16,13 @@ router.get(ID_SEQUENCE_PRODUCTS_URL, async (req: Request, res: Response) => {
       }
     } */
   const seqProductId = await IdSequence.findOneAndUpdate(
-    { sequenceName: 'sequenceProductId' },
+    { sequenceName: 'sequentialProductId' },
     { $inc: { sequenceCounter: 1 } },
     { returnOriginal: false, upsert: true }
   );
-  const sequenceProductId =
+  const sequentialProductId =
     'PRD-' + seqProductId.sequenceCounter.toString().padStart(8, '0');
-  res.send({ seqId: sequenceProductId });
+  res.send({ seqId: sequentialProductId });
 });
 
 export { router as getProductSequenceIdRouter };

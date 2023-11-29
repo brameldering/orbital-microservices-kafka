@@ -135,7 +135,7 @@ const ProductDetailScreen: React.FC = () => {
                   Description: {product.description}
                 </ListGroup.Item>
                 <ListGroup.Item>
-                  Product Id: {product.sequenceProductId}
+                  Product Id: {product.sequentialProductId}
                 </ListGroup.Item>
               </ListGroup>
             </Col>

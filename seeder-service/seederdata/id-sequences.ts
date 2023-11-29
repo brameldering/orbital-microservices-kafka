@@ -1,16 +1,14 @@
-const idSequences = [
+export const idSequences = [
   {
-    sequenceName: 'sequenceProductId',
+    sequenceName: 'sequentialProductId',
     sequenceCounter: 6,
   },
   {
-    sequenceName: 'sequenceCustomerId',
+    sequenceName: 'sequentialCustomerId',
     sequenceCounter: 0,
   },
   {
-    sequenceName: 'sequenceOrderId',
+    sequenceName: 'sequentialOrderId',
     sequenceCounter: 0,
   },
 ];
-
-export default idSequences;

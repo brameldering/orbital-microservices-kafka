@@ -3,12 +3,12 @@ import { body } from 'express-validator';
 import bcrypt from 'bcryptjs';
 import {
   UPDATE_PASSWORD_URL,
+  User,
   IExtendedRequest,
   validateRequest,
   ObjectNotFoundError,
   UserInputError,
 } from '@orbitelco/common';
-import { User } from '../userModel';
 
 const router = express.Router();
 

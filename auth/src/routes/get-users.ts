@@ -1,6 +1,5 @@
 import express, { Request, Response } from 'express';
-import { USERS_URL } from '@orbitelco/common';
-import { User } from '../userModel';
+import { USERS_URL, User } from '@orbitelco/common';
 
 const router = express.Router();
 

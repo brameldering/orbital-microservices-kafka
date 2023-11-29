@@ -24,7 +24,7 @@ import {
 } from 'slices/productsApiSlice';
 
 interface IFormInput {
-  sequenceProductId?: string;
+  sequentialProductId?: string;
   name?: string;
   price?: number;
   imageURL?: string;
@@ -35,7 +35,7 @@ interface IFormInput {
 }
 
 const schema = yup.object().shape({
-  sequenceProductId: textField(),
+  sequentialProductId: textField(),
   name: textField(),
   price: numField(),
   imageURL: textField(),
@@ -67,7 +67,7 @@ const ProductEditScreen: React.FC<TPageProps> = ({ product }) => {
     formState: { isDirty, errors },
   } = useForm<IFormInput>({
     defaultValues: {
-      sequenceProductId: product?.sequenceProductId || '',
+      sequentialProductId: product?.sequentialProductId || '',
       name: product?.name || '',
       price: product?.price || 0,
       imageURL: product?.imageURL || '',
@@ -82,7 +82,7 @@ const ProductEditScreen: React.FC<TPageProps> = ({ product }) => {
   });
 
   const onSubmit = async () => {
-    const sequenceProductId = getValues('sequenceProductId') || '';
+    const sequentialProductId = getValues('sequentialProductId') || '';
     const name = getValues('name') || '';
     const imageURL = getValues('imageURL') || '';
     const brand = getValues('brand') || '';
@@ -93,7 +93,7 @@ const ProductEditScreen: React.FC<TPageProps> = ({ product }) => {
     try {
       await updateProduct({
         id: product.id,
-        sequenceProductId,
+        sequentialProductId,
         name,
         imageURL,
         brand,
@@ -155,7 +155,7 @@ const ProductEditScreen: React.FC<TPageProps> = ({ product }) => {
           {errorUpdating && <ErrorBlock error={errorUpdating} />}
           {errorUploadImage && <ErrorBlock error={errorUploadImage} />}
           <p>
-            <strong>Product Id: </strong> {product?.sequenceProductId}
+            <strong>Product Id: </strong> {product?.sequentialProductId}
           </p>
           <TextNumField
             controlId='name'

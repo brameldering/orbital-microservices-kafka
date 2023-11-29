@@ -3,12 +3,11 @@ import { body } from 'express-validator';
 import generateToken from '../utils/generateToken';
 import {
   UPDATE_PROFILE_URL,
+  User,
   IExtendedRequest,
   validateRequest,
   ObjectNotFoundError,
 } from '@orbitelco/common';
-
-import { User } from '../userModel';
 
 const router = express.Router();
 

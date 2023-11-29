@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import { ADMIN_ROLE, CUSTOMER_ROLE } from '@orbitelco/common';
 
-const users = [
+export const users = [
   {
     name: 'Admin User',
     email: 'admin@email.com',
@@ -21,5 +21,3 @@ const users = [
     role: CUSTOMER_ROLE,
   },
 ];
-
-export default users;

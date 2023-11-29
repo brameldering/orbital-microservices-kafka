@@ -1,13 +1,13 @@
 import request from 'supertest';
 import mongoose from 'mongoose';
 import { app } from '../../app';
-import { Order } from '../../orderModel';
 import {
   fakeSignupCustomer,
   testShippingAddress,
 } from '../../test/helper-functions';
 import {
   ORDERS_URL,
+  Order,
   IOrderItem,
   PAYMENT_METHOD_PAYPAL,
 } from '@orbitelco/common';

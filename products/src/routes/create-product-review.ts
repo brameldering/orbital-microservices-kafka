@@ -2,9 +2,10 @@ import express, { Response } from 'express';
 import mongoose from 'mongoose';
 // import { body } from 'express-validator';
 // import { validateRequest } from '@orbitelco/common';
-import { Product, Review } from '../productModel';
 import {
   PRODUCT_REVIEW_URL,
+  Product,
+  Review,
   checkObjectId,
   IExtendedRequest,
   IReviewDoc,

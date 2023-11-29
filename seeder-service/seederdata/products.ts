@@ -1,6 +1,10 @@
-const products = [
+export const productSequence = {
+  latestSeqId: 6,
+};
+
+export const products = [
   {
-    sequenceProductId: 'PRD-00000001',
+    sequentialProductId: 'PRD-0000000001',
     name: 'Airpods Wireless Bluetooth Headphones',
     imageURL:
       'https://res.cloudinary.com/dhhfmbqmx/image/upload/v1695128108/nfixqie269r0qtw7keua.jpg',
@@ -14,7 +18,7 @@ const products = [
     rating: 0,
   },
   {
-    sequenceProductId: 'PRD-00000002',
+    sequentialProductId: 'PRD-0000000002',
     name: 'iPhone 13 Pro 256GB Memory',
     imageURL:
       'https://res.cloudinary.com/dhhfmbqmx/image/upload/v1695128100/snlydn4dfqambpuimqid.jpg',
@@ -28,7 +32,7 @@ const products = [
     rating: 0,
   },
   {
-    sequenceProductId: 'PRD-00000003',
+    sequentialProductId: 'PRD-0000000003',
     name: 'Cannon EOS 80D DSLR Camera',
     imageURL:
       'https://res.cloudinary.com/dhhfmbqmx/image/upload/v1695128116/arjqzvtqabobx7mzasza.jpg',
@@ -42,7 +46,7 @@ const products = [
     rating: 0,
   },
   {
-    sequenceProductId: 'PRD-00000004',
+    sequentialProductId: 'PRD-0000000004',
     name: 'Sony Playstation 5',
     imageURL:
       'https://res.cloudinary.com/dhhfmbqmx/image/upload/v1695128124/almjmuoynuzsxdhpy5ud.jpg',
@@ -56,7 +60,7 @@ const products = [
     rating: 0,
   },
   {
-    sequenceProductId: 'PRD-00000005',
+    sequentialProductId: 'PRD-0000000005',
     name: 'Logitech G-Series Gaming Mouse',
     imageURL:
       'https://res.cloudinary.com/dhhfmbqmx/image/upload/v1695128140/agol2nwjyamskoavxbzc.jpg',
@@ -70,7 +74,7 @@ const products = [
     rating: 0,
   },
   {
-    sequenceProductId: 'PRD-00000006',
+    sequentialProductId: 'PRD-0000000006',
     name: 'Amazon Echo Dot 3rd Generation',
     imageURL:
       'https://res.cloudinary.com/dhhfmbqmx/image/upload/v1695128132/eqohg6l4s9fcoleoqa9b.jpg',
@@ -84,5 +88,3 @@ const products = [
     rating: 0,
   },
 ];
-
-export default products;

@@ -2,8 +2,14 @@ import express, { Response } from 'express';
 import mongoose from 'mongoose';
 // import { body } from 'express-validator';
 // import { validateRequest } from '@orbitelco/common';
-import { Product } from '../productModel';
-import { PRODUCTS_URL, IExtendedRequest, IProductObj } from '@orbitelco/common';
+import {
+  PRODUCTS_URL,
+  Product,
+  IExtendedRequest,
+  IProductObj,
+  ProductSequence,
+  DatabaseError,
+} from '@orbitelco/common';
 
 const router = express.Router();
 
@@ -35,21 +41,41 @@ router.post(PRODUCTS_URL, async (req: IExtendedRequest, res: Response) => {
               description: 'That object already exists',
 } */
   const userId = new mongoose.Types.ObjectId(req.currentUser!.id);
-  const productObject: IProductObj = {
-    name: 'Sample name',
-    imageURL: process.env.CLOUDINARY_SAMPLE_IMAGE_URL!,
-    brand: 'Sample brand',
-    category: 'Sample category',
-    description: 'Sample description',
-    numReviews: 0,
-    reviews: [],
-    price: 0,
-    countInStock: 0,
-    userId,
-  };
-  const product = Product.build(productObject);
-  await product.save();
-  res.status(201).send(product.toJSON());
+
+  const seqNumberProductId = await ProductSequence.findOneAndUpdate(
+    {},
+    { $inc: { latestSeqId: 1 } },
+    { returnOriginal: false, upsert: true }
+  );
+  if (seqNumberProductId) {
+    console.log('seqNumberProductId', seqNumberProductId);
+    console.log(
+      'seqNumberProductId.latestSeqId',
+      seqNumberProductId.latestSeqId
+    );
+    const sequentialProductId: string =
+      'PRD-' + seqNumberProductId.latestSeqId.toString().padStart(10, '0');
+
+    const productObject: IProductObj = {
+      sequentialProductId,
+      name: 'Sample name',
+      imageURL: process.env.CLOUDINARY_SAMPLE_IMAGE_URL!,
+      brand: 'Sample brand',
+      category: 'Sample category',
+      description: 'Sample description',
+      numReviews: 0,
+      reviews: [],
+      price: 0,
+      countInStock: 0,
+      userId,
+    };
+    const product = Product.build(productObject);
+    await product.save();
+    res.status(201).send(product.toJSON());
+  } else {
+    throw new DatabaseError('Error determining sequential Product Id');
+    // console.log("Log error details")
+  }
 });
 
 export { router as createProductRouter };

@@ -1,13 +1,18 @@
 import express, { Request, Response } from 'express';
-import { SEED_DATA_URL } from '@orbitelco/common';
-import { idSequenceSchema } from '../../models/seqIdModel';
-import { userSchema } from '../../models/userModel';
-import { productSchema } from '../../models/productModel';
-import { orderSchema } from '../../models/orderModel';
-import idSequences from '../../seederdata/id-sequences';
-import products from '../../seederdata/products';
-import users from '../../seederdata/users';
-import { seqDB, authDB, prodDB, ordersDB } from '../../src/server';
+import {
+  SEED_DATA_URL,
+  userSchema,
+  productSchema,
+  productSequenceSchema,
+  orderSchema,
+  orderSequenceSchema,
+  // idSequenceSchema,
+} from '@orbitelco/common';
+// import { idSequences } from '../../seederdata/id-sequences';
+import { products, productSequence } from '../../seederdata/products';
+import { users } from '../../seederdata/users';
+import { orderSequence } from '../../seederdata/orders';
+import { authDB, prodDB, ordersDB } from '../../src/server';
 
 const router = express.Router();
 
@@ -18,17 +23,28 @@ const router = express.Router();
 // @res     status(201).()
 router.post(SEED_DATA_URL, async (req: Request, res: Response) => {
   // Create models specific to each connection
-  const OrderInProdDB = ordersDB.model('Order', orderSchema);
+  const OrderInOrderDB = ordersDB.model('Order', orderSchema);
+  const OrderSeqInOrderDB = ordersDB.model(
+    'OrderSequence',
+    orderSequenceSchema
+  );
   const ProductInProdDB = prodDB.model('Product', productSchema);
+  const ProductSeqInProdDB = prodDB.model(
+    'ProductSequence',
+    productSequenceSchema
+  );
   const UserInAuthDB = authDB.model('User', userSchema);
-  const IdSequenceInSeqDB = seqDB.model('IdSequence', idSequenceSchema);
+  // const IdSequenceInSeqDB = seqDB.model('IdSequence', idSequenceSchema);
 
-  await OrderInProdDB.deleteMany();
+  await OrderSeqInOrderDB.deleteMany();
+  await ProductSeqInProdDB.deleteMany();
+  await OrderInOrderDB.deleteMany();
   await ProductInProdDB.deleteMany();
   await UserInAuthDB.deleteMany();
-  await IdSequenceInSeqDB.deleteMany();
+  // await IdSequenceInSeqDB.deleteMany();
 
-  await IdSequenceInSeqDB.insertMany(idSequences);
+  await OrderSeqInOrderDB.insertMany(orderSequence);
+  await ProductSeqInProdDB.insertMany(productSequence);
 
   const createdUsers = await UserInAuthDB.insertMany(users);
 

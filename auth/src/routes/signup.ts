@@ -1,9 +1,8 @@
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
-import { SIGN_UP_URL, validateRequest } from '@orbitelco/common';
+import { SIGN_UP_URL, User, validateRequest } from '@orbitelco/common';
 
 import generateToken from '../utils/generateToken';
-import { User } from '../userModel';
 
 const router = express.Router();
 

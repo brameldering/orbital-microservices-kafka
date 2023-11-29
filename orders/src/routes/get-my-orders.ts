@@ -1,7 +1,6 @@
 import express, { Response } from 'express';
 import mongoose from 'mongoose';
-import { Order } from '../orderModel';
-import { MY_ORDERS_URL, IExtendedRequest } from '@orbitelco/common';
+import { MY_ORDERS_URL, Order, IExtendedRequest } from '@orbitelco/common';
 
 const router = express.Router();
 
@@ -24,7 +23,7 @@ router.get(MY_ORDERS_URL, async (req: IExtendedRequest, res: Response) => {
       }
 } */
   const userId = new mongoose.Types.ObjectId(req.currentUser!.id);
-  const ordersOriginal = await Order.find({ userId: userId });
+  const ordersOriginal = await Order.find({ 'user.userId': userId });
   // .populate('user', 'name email')
   // .exec();
   // map products to json format as defined in product-types productSchema

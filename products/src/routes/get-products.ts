@@ -1,6 +1,5 @@
 import express, { Request, Response } from 'express';
-import { Product } from '../productModel';
-import { PRODUCTS_URL } from '@orbitelco/common';
+import { PRODUCTS_URL, Product } from '@orbitelco/common';
 
 const router = express.Router();
 

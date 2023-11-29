@@ -139,18 +139,18 @@ const ProductListScreen = () => {
               {data &&
                 data.products.map((product) => (
                   <tr key={product.id}>
-                    <td>{product.sequenceProductId}</td>
-                    <td id={`name_${product.sequenceProductId}`}>
+                    <td>{product.sequentialProductId}</td>
+                    <td id={`name_${product.sequentialProductId}`}>
                       {product.name}
                     </td>
                     <td>
                       {CURRENCY_SYMBOL}
                       {product.price.toFixed(2)}
                     </td>
-                    <td id={`brand_${product.sequenceProductId}`}>
+                    <td id={`brand_${product.sequentialProductId}`}>
                       {product.brand}
                     </td>
-                    <td id={`category_${product.sequenceProductId}`}>
+                    <td id={`category_${product.sequentialProductId}`}>
                       {product.category}
                     </td>
                     <td>

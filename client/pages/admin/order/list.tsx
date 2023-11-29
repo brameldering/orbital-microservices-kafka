@@ -38,7 +38,7 @@ const OrderListScreen: React.FC<TPageProps> = ({ orders }) => {
           <tbody>
             {orders?.map((order) => (
               <tr key={order.id}>
-                <td>{order.sequenceOrderId}</td>
+                <td>{order.sequentialOrderId}</td>
                 <td>{order.user && order.user.name}</td>
                 <td>
                   {order.createdAt &&

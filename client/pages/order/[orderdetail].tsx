@@ -112,7 +112,7 @@ const OrderScreen: React.FC<TPageProps> = ({ order }) => {
           purchase_units: [
             {
               description: 'Orbitelco order',
-              reference_id: order.sequenceOrderId,
+              reference_id: order.sequentialOrderId,
               amount: { value: order.totalAmounts.totalPrice },
             },
           ],
@@ -195,7 +195,7 @@ const OrderScreen: React.FC<TPageProps> = ({ order }) => {
               <ListGroup.Item>
                 <h2>{H2_ORDER_DETAILS}</h2>
                 <p>
-                  <strong>Order Id: </strong> {order.sequenceOrderId}
+                  <strong>Order Id: </strong> {order.sequentialOrderId}
                 </p>
                 <p>
                   <strong>Order Date: </strong>{' '}

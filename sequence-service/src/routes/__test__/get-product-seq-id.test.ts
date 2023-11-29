@@ -1,8 +1,11 @@
 import request from 'supertest';
 import { app } from '../../app';
-import { ID_SEQUENCE_URL, ID_SEQUENCE_PRODUCTS_URL } from '@orbitelco/common';
+import {
+  ID_SEQUENCE_URL,
+  IdSequence,
+  ID_SEQUENCE_PRODUCTS_URL,
+} from '@orbitelco/common';
 import { fakeSignupAdmin } from '../../test/helper-functions';
-import { IdSequence } from '../../seqIdModel';
 
 describe('Test get sequence id for products', () => {
   it('returns a status 200 and the next sequence id for a new product', async () => {
@@ -11,14 +14,14 @@ describe('Test get sequence id for products', () => {
       .post(ID_SEQUENCE_URL)
       .set('Cookie', fakeSignupAdmin())
       .send({
-        sequenceName: 'sequenceProductId',
+        sequenceName: 'sequentialProductId',
       })
       .expect(201);
 
     // Check that the sequence record table contains one record
     const sequenceRecords = await IdSequence.find({});
     expect(sequenceRecords.length).toEqual(1);
-    expect(sequenceRecords[0].sequenceName).toEqual('sequenceProductId');
+    expect(sequenceRecords[0].sequenceName).toEqual('sequentialProductId');
 
     // get next sequence id
     const resSeqId = await request(app)

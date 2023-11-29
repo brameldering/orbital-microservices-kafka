@@ -2,11 +2,11 @@ import express, { Response } from 'express';
 import { body } from 'express-validator';
 import {
   RESET_PASSWORD_URL,
+  User,
   IExtendedRequest,
   validateRequest,
   ObjectNotFoundError,
 } from '@orbitelco/common';
-import { User } from '../userModel';
 
 const router = express.Router();
 

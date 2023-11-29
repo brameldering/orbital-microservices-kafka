@@ -1,8 +1,8 @@
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
-import { IdSequence } from '../seqIdModel';
 import {
   ID_SEQUENCE_URL,
+  IdSequence,
   validateRequest,
   ISequenceIdObj,
 } from '@orbitelco/common';
