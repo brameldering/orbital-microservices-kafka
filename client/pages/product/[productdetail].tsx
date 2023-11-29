@@ -82,21 +82,24 @@ const ProductDetailScreen: React.FC = () => {
   ] = useCreateReviewMutation();
   const submitReviewHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (productId) {
-      await createReview({
-        productId,
-        rating,
-        comment,
-      }).unwrap();
-    }
-    if (!errorCreatingReview) {
-      refetch();
-      setRating(0);
-      setComment('');
-      toast.success('Review created');
+    try {
+      if (productId) {
+        await createReview({
+          productId,
+          rating,
+          comment,
+        }).unwrap();
+      }
+      if (!errorCreatingReview) {
+        refetch();
+        setRating(0);
+        setComment('');
+        toast.success('Review created');
+      }
+    } catch (err) {
+      // Do nothing, this is to avoid uncaught exception
     }
   };
-
   const loadingOrProcessing = isLoading || creatingProductReview;
 
   return (

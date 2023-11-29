@@ -6,43 +6,45 @@ interface ISerializedError {
   field?: string;
 }
 
+interface AlertWithStylingProps {
+  children: ReactNode;
+}
+
+const AlertWithStyling: React.FunctionComponent<AlertWithStylingProps> = ({
+  children,
+}) => {
+  return (
+    <Alert className='mt-3 mb-0' variant='danger' id='error_message'>
+      {children}
+    </Alert>
+  );
+};
+
 const ErrorBlock = ({ error }: { error: any }): ReactNode => {
   let errorBlock: ReactNode;
   if (error.data?.errors) {
     // Our custom error
     errorBlock = (
-      <Alert className='mt-3 mb-0' variant='danger'>
+      <AlertWithStyling>
         <ul className='my-0 list-unstyled'>
           {error.data.errors.map((err: ISerializedError) => (
             <li key={err.message}>{err.message}</li>
           ))}
         </ul>
-      </Alert>
+      </AlertWithStyling>
     );
   } else if (error.message) {
     // Axios error
     console.log('error: ', error.message);
-    errorBlock = (
-      <Alert className='mt-3 mb-0' variant='danger'>
-        {error.message}
-      </Alert>
-    );
+    errorBlock = <AlertWithStyling>{error.message}</AlertWithStyling>;
   } else if (error.request) {
     // Axios error
     console.log('error: ', error.request.toString());
-    errorBlock = (
-      <Alert className='mt-3 mb-0' variant='danger'>
-        Network Error
-      </Alert>
-    );
+    errorBlock = <AlertWithStyling>Network Error</AlertWithStyling>;
   } else {
     // Other errors
     const errorMessage = error.toString();
-    errorBlock = (
-      <Alert className='mt-3 mb-0' variant='danger'>
-        {errorMessage}
-      </Alert>
-    );
+    errorBlock = <AlertWithStyling>{errorMessage}</AlertWithStyling>;
   }
   return errorBlock;
 };

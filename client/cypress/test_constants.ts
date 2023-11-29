@@ -67,8 +67,10 @@ export const ARE_YOU_SURE_YOU_WANT_TO_CREATE_A_NEW_PRODUCT =
   'Are you sure you want to create a new product?';
 export const ARE_YOU_SURE_YOU_WANT_TO_DELETE_THIS_PRODUCT =
   'Are you sure you want to delete this product?';
+export const YOU_HAVE_ALREADY_REVIEWED_THIS_PRODUCT =
+  'You have already reviewed this product';
 
-export const PRODUCT_7_SEQ_ID = 'PRD-00000007';
+export const PRODUCT_7_SEQ_ID = 'PRD-0000000007';
 export const SAMPLE_PRODUCT_NAME = 'Sample name';
 export const SAMPLE_PRODUCT_CATEGORY = 'Sample category';
 export const SAMPLE_PRODUCT_BRAND = 'Sample brand';

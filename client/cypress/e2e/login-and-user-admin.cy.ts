@@ -50,8 +50,7 @@ const loginAsAdminAndGoToUserAdmin = () => {
   cy.get('[id="LINK_header_users"]').click();
   cy.get('h1').invoke('text').should('equal', H1_USER_ADMIN);
   // Check there are no errors
-  cy.get('alert_error').should('not.exist');
-  cy.get('error_message').should('not.exist');
+  cy.get('[id="error_message"]').should('not.exist');
 };
 
 describe('Initialize', () => {
@@ -135,8 +134,7 @@ describe('Test profile and password update', () => {
     cy.get('h1').invoke('text').should('equal', H1_MY_PROFILE);
     cy.wait(1000); // Wait one second to let MongoDB process the update
     // Check there are no errors
-    cy.get('alert_error').should('not.exist');
-    cy.get('error_message').should('not.exist');
+    cy.get('[id="error_message"]').should('not.exist');
   });
   it('E2E_User_9: Change password', () => {
     login(UPDATED_EMAIL, NEW_USER_PASSWORD);
@@ -150,8 +148,7 @@ describe('Test profile and password update', () => {
     cy.get('[id="BUTTON_update"]').click();
     cy.get('h1').invoke('text').should('equal', H1_MY_PROFILE);
     // Check there are no errors
-    cy.get('alert_error').should('not.exist');
-    cy.get('error_message').should('not.exist');
+    cy.get('[id="error_message"]').should('not.exist');
   });
   it('E2E_User_10: Login in with new email and password', () => {
     login(UPDATED_EMAIL, UPDATED_PASSWORD);
@@ -164,6 +161,7 @@ describe('Test profile and password update', () => {
     cy.get('[id="email"]').type(UNKNOWN_EMAIL);
     cy.get('[id="BUTTON_reset_password"]').click();
     cy.get('h1').invoke('text').should('equal', H1_RESET_PASSWORD);
+    cy.get('[id="error_message"]').should('exist');
     cy.contains(USER_NOT_FOUND);
   });
   it('E2E_User_12: Reset password with correct email address', () => {

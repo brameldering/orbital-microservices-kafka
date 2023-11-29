@@ -5,8 +5,8 @@ import {
   ADMIN_PASSWORD,
   HOME_PAGE_URL,
   NO_RESULTS_MESSAGE,
-  // ORDER_ID_1,
-  // ORDER_ID_2,
+  ORDER_ID_1,
+  ORDER_ID_2,
   PRODUCT_1,
   PRODUCT_2,
   SHIPPING_FEE,
@@ -21,10 +21,11 @@ import {
   TEST_CITY,
   TEST_COUNTRY,
   TEST_ADDRESS_LINE,
-  // TEST_USER_NAME,
+  TEST_USER_NAME,
   TEST_USER_EMAIL,
   TEST_USER_PASSWORD,
   YOUR_CART_IS_EMPTY,
+  YOU_HAVE_ALREADY_REVIEWED_THIS_PRODUCT,
 } from '../test_constants';
 import {
   H1_SHOPPING_CART,
@@ -113,6 +114,7 @@ describe('Shopping tests', () => {
     cy.get('h2').invoke('text').should('equal', SUBTOTAL_1_ITEMS);
     // Check out
     cy.get('[id="BUTTON_checkout"]').click();
+    cy.wait(1000);
     // Sign in
     cy.get('h1').invoke('text').should('equal', H1_SIGN_IN);
     cy.get('[id="email"]').type(TEST_USER_EMAIL);
@@ -159,10 +161,10 @@ describe('Shopping tests', () => {
     // Click [place order] and check we are on order screen
     cy.get('[id="BUTTON_place_order"]').click();
     // cy.contains('Order Details');
-    // cy.contains('Order Id: ' + ORDER_ID_1);
+    cy.contains('Order Id: ' + ORDER_ID_1);
     cy.contains('Shipping');
-    // cy.contains('Email: john@email.com');
-    // cy.contains('Name: John Doe');
+    cy.contains('Email: john@email.com');
+    cy.contains('Name: John Doe');
     cy.contains('Address: ' + TEST_ADDRESS_LINE);
     cy.contains('Not Delivered');
     cy.contains('Payment Method');
@@ -242,10 +244,10 @@ describe('Shopping tests', () => {
     // Click [place order] and check we are on order screen
     cy.get('[id="BUTTON_place_order"]').click();
     // cy.contains('Order Details');
-    // cy.contains('Order Id: ' + ORDER_ID_2);
+    cy.contains('Order Id: ' + ORDER_ID_2);
     cy.contains('Shipping');
-    // cy.contains('Email: john@email.com');
-    // cy.contains('Name: John Doe');
+    cy.contains('Email: john@email.com');
+    cy.contains('Name: John Doe');
     cy.contains('Address: ' + TEST_ADDRESS_LINE);
     cy.contains('Not Delivered');
     cy.contains('Payment Method');
@@ -267,8 +269,8 @@ describe('Shopping tests', () => {
     cy.get('alert_error').should('not.exist');
     cy.get('error_message').should('not.exist');
     cy.get('tr').should('have.length', 3);
-    // cy.contains(ORDER_ID_1);
-    // cy.contains(ORDER_ID_2);
+    cy.contains(ORDER_ID_1);
+    cy.contains(ORDER_ID_2);
     cy.contains(CURRENCY_SYMBOL + '65.00');
     cy.contains(CURRENCY_SYMBOL + '1028.50');
   });
@@ -299,29 +301,39 @@ describe('Test Reviews', () => {
     cy.get('[id="BUTTON_review_submit"]').click();
     cy.contains('John Doe');
     cy.contains('Test comment');
-  });
-  it('E2E_SHOP_OM_6: Write another review which should give error message', () => {
-    // Check that we are on Products page and all 6 products are shown
-    cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
-    cy.get('[id="product_card"]').should('have.length', 6);
-    // Sign in using sign in link
-    cy.get('[id="LINK_header_sign_in"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_SIGN_IN);
-    cy.get('[id="email"]').type(TEST_USER_EMAIL);
-    cy.get('[id="password"]').type(TEST_USER_PASSWORD);
-    cy.get('[id="BUTTON_login"]').click();
-    // Try to do another review and check that message appears
-    cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
-    cy.contains(PRODUCT_1.name).click();
-    cy.get('h3').invoke('text').should('equal', PRODUCT_1.name);
     // Select product which has already been reviewed by test user
-    cy.get('[id="rating"]').select('3 - Good');
+    cy.get('[id="rating"]').select('5 - Excellent');
     cy.get('[id="comment"]').type('Another test comment');
     cy.get('[id="BUTTON_review_submit"]').click();
-    cy.get('[id="alert_error"]')
-      .invoke('text')
-      .should('equal', 'You have already reviewed this product');
+    cy.get('[id="error_message"]').should('exist');
+    cy.contains(YOU_HAVE_ALREADY_REVIEWED_THIS_PRODUCT);
   });
+  //   it('E2E_SHOP_OM_6: Write another review which should give error message', () => {
+  //     // Check that we are on Products page and all 6 products are shown
+  //     cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
+  //     cy.get('[id="product_card"]').should('have.length', 6);
+  //     // Sign in using sign in link
+  //     cy.get('[id="LINK_header_sign_in"]').click();
+  //     cy.get('h1').invoke('text').should('equal', H1_SIGN_IN);
+  //     cy.get('[id="email"]').type(TEST_USER_EMAIL);
+  //     cy.get('[id="password"]').type(TEST_USER_PASSWORD);
+  //     cy.get('[id="BUTTON_login"]').click();
+  //     // Try to do another review and check that message appears
+  //     cy.wait(1000);
+  //     cy.contains(PRODUCT_1.name).click();
+  //     cy.get('h3').invoke('text').should('equal', PRODUCT_1.name);
+  //     cy.get('body').should('not.contain', 'No Reviews');
+  //     cy.contains('John Doe');
+  //     cy.contains('Test comment');
+  //     cy.contains(PRODUCT_1.name).click();
+  //     cy.get('h3').invoke('text').should('equal', PRODUCT_1.name);
+  //     // Select product which has already been reviewed by test user
+  //     cy.get('[id="rating"]').select('5 - Excellent');
+  //     cy.get('[id="comment"]').type('Another test comment');
+  //     cy.get('[id="BUTTON_review_submit"]').click();
+  //     cy.get('[id="error_message"]').should('exist');
+  //     cy.contains(YOU_HAVE_ALREADY_REVIEWED_THIS_PRODUCT);
+  //   });
 });
 describe('Test Order Admin', () => {
   beforeEach(() => cy.visit(HOME_PAGE_URL));
@@ -337,22 +349,21 @@ describe('Test Order Admin', () => {
     cy.get('[id="LINK_header_orders"]').click();
     cy.get('h1').invoke('text').should('equal', H1_ORDER_ADMIN);
     // Check there are no errors
-    cy.get('alert_error').should('not.exist');
     cy.get('error_message').should('not.exist');
     // Check there are 3 rows (1 header and 2 order records)
     cy.get('tr').should('have.length', 3);
-    // cy.contains(ORDER_ID_1);
-    // cy.contains(ORDER_ID_2);
+    cy.contains(ORDER_ID_1);
+    cy.contains(ORDER_ID_2);
     // Test name John Doe appears twice
-    // cy.get('body')
-    //   .invoke('text')
-    //   .then((text) => {
-    //     const count = (text.match(new RegExp(TEST_USER_NAME, 'g')) || [])
-    //       .length;
-    //     // Assert the count
-    //     cy.log(`Number of occurrences of "${TEST_USER_NAME}": ${count}`);
-    //     cy.wrap(count).should('be.equal', 2); // Change 2 to your expected count
-    //   });
+    cy.get('body')
+      .invoke('text')
+      .then((text) => {
+        const count = (text.match(new RegExp(TEST_USER_NAME, 'g')) || [])
+          .length;
+        // Assert the count
+        cy.log(`Number of occurrences of "${TEST_USER_NAME}": ${count}`);
+        cy.wrap(count).should('be.equal', 2); // Change 2 to your expected count
+      });
     // Test existence of order amounts
     cy.contains(CURRENCY_SYMBOL + '65.00');
     cy.contains(CURRENCY_SYMBOL + '1028.50');

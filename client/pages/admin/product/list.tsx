@@ -156,14 +156,14 @@ const ProductListScreen = () => {
                     <td>
                       <Link href={`${PRODUCT_EDIT_PAGE}/${product.id}`}>
                         <Button
-                          id={`edit_${product.id}`}
+                          id={`edit_${product.sequentialProductId}`}
                           variant='light'
                           className='btn-sm mx-2'>
                           <FaEdit />
                         </Button>
                       </Link>
                       <Button
-                        id={`delete_${product.id}`}
+                        id={`delete_${product.sequentialProductId}`}
                         variant='danger'
                         className='btn-sm'
                         onClick={() => confirmDeleteProduct(product.id)}>

@@ -46,8 +46,7 @@ describe('Create new product, update product and delete product', () => {
     loginAsAdminAndGoToProductAdmin();
     cy.get('tr').should('have.length', 7); // 6 products and header
     // Check there are no errors
-    cy.get('alert_error').should('not.exist');
-    cy.get('error_message').should('not.exist');
+    cy.get('[id="error_message"]').should('not.exist');
   });
   it('E2E_PM_1: Create new product', () => {
     loginAsAdminAndGoToProductAdmin();
@@ -92,8 +91,7 @@ describe('Create new product, update product and delete product', () => {
     cy.get('[id="BUTTON_yes"]').click();
     cy.get('h1').invoke('text').should('equal', H1_PRODUCT_ADMIN);
     // Check there are no errors
-    cy.get('alert_error').should('not.exist');
-    cy.get('error_message').should('not.exist');
+    cy.get('[id="error_message"]').should('not.exist');
     cy.get('tr').should('have.length', 7); // 6 products and header
     queryId = `[id="name_` + PRODUCT_7_SEQ_ID + `"]`;
     cy.get(queryId).should('not.exist');
