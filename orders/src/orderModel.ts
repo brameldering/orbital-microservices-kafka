@@ -1,5 +1,8 @@
 import mongoose from 'mongoose';
 import {
+  // IOrderContactObj,
+  // IOrderContactDoc,
+  // IOrderContactModel,
   IOrderItemObj,
   IOrderItemDoc,
   IOrderItemModel,
@@ -8,7 +11,44 @@ import {
   IOrderModel,
 } from '@orbitelco/common';
 
-// OrderItem
+// ====================== Customer ======================
+// const orderContactSchema = new mongoose.Schema(
+//   {
+//     userId: {
+//       type: mongoose.Schema.Types.ObjectId,
+//       required: true,
+//     },
+//     name: {
+//       type: String,
+//       required: true,
+//     },
+//     email: {
+//       type: String,
+//       required: true,
+//       unique: true,
+//     },
+//   },
+//   {
+//     toJSON: {
+//       transform(doc, ret) {
+//         ret.id = ret._id;
+//         delete ret._id;
+//         delete ret.__v;
+//       },
+//     },
+//   }
+// );
+
+// orderContactSchema.statics.build = (attrs: IOrderContactObj) => {
+//   return new OrderContact(attrs);
+// };
+
+// const OrderContact = mongoose.model<IOrderContactDoc, IOrderContactModel>(
+//   'OrderContact',
+//   orderContactSchema
+// );
+
+// ====================== OrderItem ======================
 const orderItemSchema = new mongoose.Schema({
   productId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -30,7 +70,7 @@ const OrderItem = mongoose.model<IOrderItemDoc, IOrderItemModel>(
   orderItemSchema
 );
 
-// Order Total Amount
+// ================= OrderTotalAmount =================
 const orderTotalAmountsSchema = new mongoose.Schema({
   itemsPrice: {
     type: Number,
@@ -54,23 +94,19 @@ const orderTotalAmountsSchema = new mongoose.Schema({
   },
 });
 
-// Order
+// ======================== Order ========================
 const orderSchema = new mongoose.Schema(
   {
     // sequenceOrderId: { type: String, required: true, unique: true },
-    userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-      // ref: 'User',
+    user: {
+      userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        // ref: 'OrderContact',
+      },
+      name: { type: String, required: true },
+      email: { type: String, required: true },
     },
-    // userName: {
-    //   type: String,
-    //   required: true,
-    // },
-    // userEmail: {
-    //   type: String,
-    //   required: true,
-    // },
     orderItems: [orderItemSchema],
     shippingAddress: {
       address: { type: String, required: true },
@@ -118,9 +154,9 @@ const orderSchema = new mongoose.Schema(
   }
 );
 
-// orderSchema.virtual('user', {
-//   ref: 'User',
-//   localField: 'userId',
+// orderSchema.virtual('orderContact', {
+//   ref: 'OrderContact',
+//   localField: 'orderContactId',
 //   foreignField: '_id',
 //   justOne: true,
 // });

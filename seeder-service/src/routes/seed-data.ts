@@ -4,7 +4,7 @@ import { idSequenceSchema } from '../../models/seqIdModel';
 import { userSchema } from '../../models/userModel';
 import { productSchema } from '../../models/productModel';
 import { orderSchema } from '../../models/orderModel';
-import idSequences from '../../seederdata/idSequences';
+import idSequences from '../../seederdata/id-sequences';
 import products from '../../seederdata/products';
 import users from '../../seederdata/users';
 import { seqDB, authDB, prodDB, ordersDB } from '../../src/server';

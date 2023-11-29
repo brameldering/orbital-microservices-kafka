@@ -1,5 +1,4 @@
 import express, { Response } from 'express';
-import mongoose from 'mongoose';
 // import { body } from 'express-validator';
 import { calcPrices } from '../utils/calcPrices';
 import { Order } from '../orderModel';
@@ -7,6 +6,7 @@ import {
   ORDERS_URL,
   IExtendedRequest,
   IOrderObj,
+  IOrderUser,
   UserInputError,
 } from '@orbitelco/common';
 
@@ -43,7 +43,12 @@ router.post(ORDERS_URL, async (req: IExtendedRequest, res: Response) => {
       #swagger.responses[400] = {
           description: 'json({ message: No order items })',
      } */
-  const userId = new mongoose.Types.ObjectId(req.currentUser!.id);
+
+  const user: IOrderUser = {
+    userId: req.currentUser!.id!,
+    name: req.currentUser!.name,
+    email: req.currentUser!.email,
+  };
 
   const { orderItems, shippingAddress, paymentMethod } = req.body;
   if (!orderItems || (orderItems && orderItems.length === 0)) {
@@ -89,7 +94,7 @@ router.post(ORDERS_URL, async (req: IExtendedRequest, res: Response) => {
   //   'ORD-' + seqNumberOrderId.sequenceCounter.toString().padStart(10, '0');
   const orderObj: IOrderObj = {
     // sequenceOrderId: sequenceOrderId,
-    userId,
+    user,
     orderItems,
     shippingAddress,
     paymentMethod,
