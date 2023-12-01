@@ -3,7 +3,7 @@ import { Kafka, Producer, ProducerRecord, Partitioners } from 'kafkajs';
 // Create a Kafka client
 const kafka = new Kafka({
   clientId: 'juno',
-  brokers: ['192.168.65.3:32000'], // Replace with your Kafka broker addresses
+  brokers: ['localhost:9092'], // Replace with your Kafka broker addresses
 });
 
 // Create a producer instance

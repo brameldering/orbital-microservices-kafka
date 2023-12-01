@@ -29,4 +29,4 @@ async function consumeMessages() {
   });
 }
 
-// consumeMessages();
+consumeMessages();
