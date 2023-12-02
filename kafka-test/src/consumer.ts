@@ -1,5 +1,7 @@
 import kafka from 'kafka-node';
 
+console.clear();
+
 const client = new kafka.KafkaClient({
   kafkaHost: 'localhost:9092',
 });

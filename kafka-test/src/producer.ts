@@ -1,37 +1,44 @@
 import kafka from 'kafka-node';
 
-const user = new kafka.KafkaClient({
+console.clear();
+
+const client = new kafka.KafkaClient({
   kafkaHost: 'localhost:9092',
 });
 
-user.on('ready', () => {
+client.on('ready', () => {
   console.log('Kafka Connected using kafka-node');
 });
 
-user.on('error', (error) => {
+client.on('error', (error) => {
   console.error('Error connecting to Kafka:', error);
 });
 
-const producer = new kafka.Producer(user);
+const producer = new kafka.Producer(client);
 
 producer.on('ready', () => {
-  console.log('Producer Ready');
-  const payload = [
-    {
-      topic: 'snoozy',
-      messages: 'Hello!',
-    },
-  ];
-  producer.send(payload, (error, data) => {
-    console.log('in callback');
-    if (error) {
-      console.error('Error in publishing message:', error);
-    } else {
-      console.log('Message successfully published:', data);
-    }
-  });
+  console.log('Producer ready');
 });
 
 producer.on('error', (error) => {
   console.error('Error connecting to Kafka:', error);
+});
+
+const payload = [
+  {
+    topic: 'snoozy',
+    messages: JSON.stringify({
+      id: 123,
+      name: 'user1',
+      email: 'user1@test.com',
+    }),
+  },
+];
+
+producer.send(payload, (error, data) => {
+  if (error) {
+    console.error('Error in publishing message:', error);
+  } else {
+    console.log('Message successfully published:', data);
+  }
 });
