@@ -1,5 +1,6 @@
 import kafka from 'kafka-node';
-import producer from './producer-instance';
+import producer from './shared/producer-instance';
+import { TOPIC_USERS } from './constants';
 
 const sendMessage = (
   partition: number,
@@ -10,7 +11,7 @@ const sendMessage = (
   const key = id;
   const payload = [
     {
-      topic: 'users',
+      topic: TOPIC_USERS,
       partition,
       messages: new kafka.KeyedMessage(
         key,
