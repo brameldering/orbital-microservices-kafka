@@ -1,12 +1,7 @@
 import kafka from 'kafka-node';
+import client from './client-instance';
 
-console.clear();
-
-const client = new kafka.KafkaClient({
-  kafkaHost: 'localhost:9092',
-});
-
-const consumer = new kafka.Consumer(client, [{ topic: 'snoozy' }], {});
+const consumer = new kafka.Consumer(client, [{ topic: 'users' }], {});
 
 consumer.on('message', (message) => {
   console.log('Received message:', message);
