@@ -5,10 +5,10 @@ import mongoose from 'mongoose';
 import {
   PRODUCT_REVIEW_URL,
   Product,
-  Review,
+  ProductReview,
   checkObjectId,
   IExtendedRequest,
-  IReviewDoc,
+  IProductReviewDoc,
   ObjectNotFoundError,
   UserInputError,
 } from '@orbitelco/common';
@@ -84,11 +84,11 @@ router.post(
         rating,
         comment,
       };
-      const review: IReviewDoc = Review.build(reviewObject);
+      const review: IProductReviewDoc = ProductReview.build(reviewObject);
       if (!product.reviews) {
         product.reviews = [];
       }
-      const reviews: IReviewDoc[] = product.reviews;
+      const reviews: IProductReviewDoc[] = product.reviews;
       reviews.push(review);
       product.numReviews = reviews.length;
       product.rating =
