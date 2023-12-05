@@ -8,6 +8,6 @@ export const getApiAccessArray = async () => {
   const apiAccessArray = apiAccessArrayOriginal.map(
     (apiAccess: { toJSON: () => any }) => apiAccess.toJSON()
   );
-  console.log('apiAccessArray: ', apiAccessArray);
+  // console.log('apiAccessArray: ', apiAccessArray);
   return apiAccessArray;
 };

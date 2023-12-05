@@ -1,12 +1,7 @@
 import express, { Request, Response } from 'express';
-import { ROLES_URL, CUSTOMER_ROLE, ADMIN_ROLE } from '@orbitelco/common';
+import { ROLES_URL, Role } from '@orbitelco/common';
 
 const router = express.Router();
-
-const ROLES = [
-  { role: CUSTOMER_ROLE, desc: 'Customer' },
-  { role: ADMIN_ROLE, desc: 'Admin' },
-];
 
 // @desc    Get all user roles
 // @route   GET /api/users/v2/roles
@@ -21,7 +16,13 @@ router.get(ROLES_URL, async (req: Request, res: Response) => {
           description: 'List of user roles [{role, desc}]',
 } */
   console.log('In get-user-roles router.get ROLES_URL');
-  res.json(ROLES).send();
+  const userRolesOriginal = await Role.find({});
+  // map users to json format as defined in user-types userSchema
+  const userRoles = userRolesOriginal.map((role: { toJSON: () => any }) =>
+    role.toJSON()
+  );
+  // console.log('userRoles', userRoles);
+  res.send(userRoles);
 });
 
 export { router as getUserRolesRouter };
