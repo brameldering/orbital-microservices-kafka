@@ -20,6 +20,7 @@ router.get(ROLES_URL, async (req: Request, res: Response) => {
       #swagger.responses[200] = {
           description: 'List of user roles [{role, desc}]',
 } */
+  console.log('In get-user-roles router.get ROLES_URL');
   res.json(ROLES).send();
 });
 

@@ -15,13 +15,15 @@ import { getUserByIdRouter } from './routes/get-user-by-id';
 import { updateUserRouter } from './routes/update-user';
 import { deleteUserRouter } from './routes/delete-user';
 import {
-  MICROSERVICE_AUTH,
+  AUTH_APIS,
+  IApiAccessObj,
   currentUser,
   authorize,
   validateURL,
   errorHandler,
   RouteNotFoundError,
 } from '@orbitelco/common';
+import { getApiAccessArray } from './utils/loadApiAccessArray';
 
 // ======================================================
 // Check for existence of ENV variables set in depl files (dev/prod) or .env file for test
@@ -55,29 +57,47 @@ app.use(
 app.use(validateURL);
 // set req.currentuser if a user is logged in
 app.use(currentUser);
-// validate if user (role) is authorized to access API
-app.use(authorize(MICROSERVICE_AUTH));
 
-app.use(getUserRolesRouter);
-app.use(currentUserRouter);
-app.use(signupRouter);
-app.use(signinRouter);
-app.use(signoutRouter);
-app.use(resetPasswordRouter);
-app.use(updatePasswordRouter);
-app.use(updateUserProfileRouter);
-app.use(getUsersRouter);
-app.use(getUserByIdRouter);
-app.use(updateUserRouter);
-app.use(deleteUserRouter);
+const setupApiAccessAndRunApp = async () => {
+  // ======= api access authorization logic =========
+  let apiAccessArray: IApiAccessObj[] = [];
+  try {
+    // console.log('==> before getApiAccessArray');
+    apiAccessArray = await getApiAccessArray();
+    // console.log('apiAccessArray: ', apiAccessArray);
 
-// Handle any other (unknown) route API calls
-app.all('*', async () => {
-  console.log('no match found for this API route!');
-  throw new RouteNotFoundError();
-});
+    // validate if user (role) is authorized to access API
+    app.use(authorize(AUTH_APIS, apiAccessArray));
+    // =================================================
 
-app.use(errorHandler);
+    app.use(getUserRolesRouter);
+    app.use(currentUserRouter);
+    app.use(signupRouter);
+    app.use(signinRouter);
+    app.use(signoutRouter);
+    app.use(resetPasswordRouter);
+    app.use(updatePasswordRouter);
+    app.use(updateUserProfileRouter);
+    app.use(getUsersRouter);
+    app.use(getUserByIdRouter);
+    app.use(updateUserRouter);
+    app.use(deleteUserRouter);
+
+    // Handle any other (unknown) route API calls
+    app.all('*', async () => {
+      console.log('no match found for this API route!');
+      throw new RouteNotFoundError();
+    });
+
+    app.use(errorHandler);
+  } catch (error) {
+    console.error('Error setting up API access:', error);
+    // Handle error setting up API access
+    app.use(errorHandler); // You might want to handle this differently based on your use case
+  }
+};
+
+setupApiAccessAndRunApp();
 
 process.on('uncaughtException', (err: any) => {
   console.error(`ERROR: ${err.stack}`);

@@ -31,13 +31,13 @@ spec:
                 name: orders-srv
                 port:
                   number: 3000
-          - path: /api/idsequence/v2/?(.*)
-            pathType: ImplementationSpecific
-            backend:
-              service:
-                name: seq-srv
-                port:
-                  number: 3000
+          # - path: /api/idsequence/v2/?(.*)
+          #   pathType: ImplementationSpecific
+          #   backend:
+          #     service:
+          #       name: seq-srv
+          #       port:
+          #         number: 3000
           - path: /api/seeddata/v2/?(.*)
             pathType: ImplementationSpecific
             backend:

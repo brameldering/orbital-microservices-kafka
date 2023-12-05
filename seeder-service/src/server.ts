@@ -56,20 +56,20 @@ process.on('unhandledRejection', (err: Error) => {
   process.exit(1);
 });
 
-let seqDB: Connection;
+// let seqDB: Connection;
 let authDB: Connection;
-let prodDB: Connection;
+let productsDB: Connection;
 let ordersDB: Connection;
 
 const start = async () => {
   try {
-    seqDB = mongoose.createConnection(process.env.MONGO_URI_SEQ!);
-    console.log('Connected to MongoDB', process.env.MONGO_URI_SEQ!);
+    // seqDB = mongoose.createConnection(process.env.MONGO_URI_SEQ!);
+    // console.log('Connected to MongoDB', process.env.MONGO_URI_SEQ!);
 
     authDB = mongoose.createConnection(process.env.MONGO_URI_AUTH!);
     console.log('Connected to MongoDB', process.env.MONGO_URI_AUTH!);
 
-    prodDB = mongoose.createConnection(process.env.MONGO_URI_PRODUCTS!);
+    productsDB = mongoose.createConnection(process.env.MONGO_URI_PRODUCTS!);
     console.log('Connected to MongoDB', process.env.MONGO_URI_PRODUCTS!);
 
     ordersDB = mongoose.createConnection(process.env.MONGO_URI_ORDERS!);
@@ -85,4 +85,4 @@ const start = async () => {
 
 start();
 
-export { seqDB, authDB, prodDB, ordersDB };
+export { authDB, productsDB, ordersDB }; // seqDB

@@ -3,7 +3,8 @@ import 'express-async-errors';
 import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
 import {
-  MICROSERVICE_ORDERS,
+  ORDERS_APIS,
+  IApiAccessObj,
   currentUser,
   authorize,
   validateURL,
@@ -17,6 +18,7 @@ import { updateOrderToPaidRouter } from './routes/update-order-to-paid';
 import { updateOrderToDeliveredRouter } from './routes/update-order-to-delivered';
 import { getOrderByIdRouter } from './routes/get-order-by-id';
 import { getPayPalClientIdRouter } from './routes/get-paypalclientid';
+import { getApiAccessArray } from './utils/loadApiAccessArray';
 
 // ======================================================
 // Check for existence of ENV variables set in depl files (dev/prod) or .env file for test
@@ -66,25 +68,42 @@ app.use(
 app.use(validateURL);
 // set req.currentuser if a user is logged in
 app.use(currentUser);
-// validate if user (role) is authorized to access API
-app.use(authorize(MICROSERVICE_ORDERS));
 
-app.use(getPayPalClientIdRouter);
-app.use(getOrdersRouter);
-app.use(createOrderRouter);
-app.use(getMyOrdersRouter);
-app.use(updateOrderToPaidRouter);
-app.use(updateOrderToDeliveredRouter);
-app.use(getOrderByIdRouter);
+const setupApiAccessAndRunApp = async () => {
+  // ======= api access authorization logic =========
+  let apiAccessArray: IApiAccessObj[] = [];
+  try {
+    // console.log('==> before getApiAccessArray');
+    apiAccessArray = await getApiAccessArray();
+    // console.log('apiAccessArray: ', apiAccessArray);
 
-// Handle any other (unknown) route API calls
-app.all('*', async () => {
-  console.log('no match found for this API route!');
-  throw new RouteNotFoundError();
-});
+    // validate if user (role) is authorized to access API
+    app.use(authorize(ORDERS_APIS, apiAccessArray));
+    // =================================================
 
-app.use(errorHandler);
+    app.use(getPayPalClientIdRouter);
+    app.use(getOrdersRouter);
+    app.use(createOrderRouter);
+    app.use(getMyOrdersRouter);
+    app.use(updateOrderToPaidRouter);
+    app.use(updateOrderToDeliveredRouter);
+    app.use(getOrderByIdRouter);
 
+    // Handle any other (unknown) route API calls
+    app.all('*', async () => {
+      console.log('no match found for this API route!');
+      throw new RouteNotFoundError();
+    });
+
+    app.use(errorHandler);
+  } catch (error) {
+    console.error('Error setting up API access:', error);
+    // Handle error setting up API access
+    app.use(errorHandler); // You might want to handle this differently based on your use case
+  }
+};
+
+setupApiAccessAndRunApp();
 process.on('uncaughtException', (err: any) => {
   console.error(`ERROR: ${err.stack}`);
   console.error('Shutting down due to uncaught exception');
