@@ -3,7 +3,7 @@ export const LOGIN_URL = 'https://orbitelco.dev/auth/signin';
 export const PRODUCT_LIST_URL = 'https://orbitelco.dev/admin/product/list';
 
 export const CUSTOMER_ROLE_SELECT = 'Customer';
-export const ADMIN_ROLE_SELECT = 'Admin';
+export const ADMIN_ROLE_SELECT = 'Administrator';
 
 export const TEST_USER_NAME = 'John Doe';
 export const TEST_USER_EMAIL: string = 'john@email.com';

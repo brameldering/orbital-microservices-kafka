@@ -71,7 +71,7 @@ const setupApiAccessAndRunApp = async () => {
   try {
     // console.log('==> before getApiAccessArray');
     apiAccessArray = await getApiAccessArray();
-    // console.log('apiAccessArray: ', apiAccessArray);
+    // console.log('=== Products === apiAccessArray: ', apiAccessArray);
 
     // validate if user (role) is authorized to access API
     app.use(authorize(PRODUCTS_APIS, apiAccessArray));

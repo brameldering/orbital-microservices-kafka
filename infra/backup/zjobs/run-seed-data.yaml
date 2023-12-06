@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: run-seed-data
+spec:
+  template:
+    spec:
+      containers:
+        - name: init-mongodb
+          image: orbitelco/init-data
+          command:
+            ['sh', '-c', 'echo "hello"; node seed-test.js']
+            # [
+            #   'sh',
+            #   '-c',
+            #   'while ! nc -z auth-mongo-srv 27017; do sleep 1; done; node seed-test.js',
+            # ]
+      restartPolicy: Never # Ensures the Job completes and exits
+  backoffLimit: 1 # Limits retries if the Job fails

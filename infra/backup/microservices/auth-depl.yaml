@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth
+  template:
+    metadata:
+      labels:
+        app: auth
+    spec:
+      # initContainers:
+      #   - name: init-mongodb
+      #     image: orbitelco/init-data
+      #     command:
+      #       # ['sh', '-c', 'node seed-test.js']
+      #       [
+      #         'sh',
+      #         '-c',
+      #         'while ! nc -z auth-mongo-srv 27017; do sleep 1; done; node seed-test.js',
+      #       ]
+      containers:
+        - name: auth
+          image: orbitelco/auth
+          env:
+            - name: NODE_ENV
+              value: 'development'
+            - name: MONGO_URI
+              value: 'mongodb://auth-mongo-srv:27017/auth'
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
+            - name: EXPIRES_IN
+              value: '1d'
+            - name: DEFAULT_RESET_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: default-reset-password
+                  key: DEFAULT_RESET_PASSWORD_KEY
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: auth
+  ports:
+    - name: auth
+      protocol: TCP
+      port: 3000
+      targetPort: 3000

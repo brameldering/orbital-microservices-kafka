@@ -1,5 +1,13 @@
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
+import {
+  roleSchema,
+  apiAccessSchema,
+  roles,
+  apiAccessAuth,
+  apiAccessOrders,
+  apiAccessProducts,
+} from '@orbitelco/common';
 
 // In test use .env file for environment variables
 require('dotenv').config();
@@ -19,6 +27,8 @@ beforeEach(async () => {
   for (const collection of collections) {
     await collection.deleteMany({});
   }
+
+  await loadRolesAndAccessSpecs();
 });
 
 afterAll(async () => {
@@ -27,3 +37,17 @@ afterAll(async () => {
   }
   await mongoose.connection.close();
 });
+
+const loadRolesAndAccessSpecs = async () => {
+  try {
+    const RolesInDB = mongoose.connection.model('Role', roleSchema);
+    const AccessInDB = mongoose.connection.model('ApiAccess', apiAccessSchema);
+
+    await RolesInDB.insertMany(roles);
+    await AccessInDB.insertMany(apiAccessAuth);
+    await AccessInDB.insertMany(apiAccessProducts);
+    await AccessInDB.insertMany(apiAccessOrders);
+  } catch (err) {
+    console.log(err);
+  }
+};
