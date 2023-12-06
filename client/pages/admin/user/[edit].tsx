@@ -36,7 +36,7 @@ const schema = yup.object().shape({
 });
 
 interface TPageProps {
-  roles: Array<{ role: string; desc: string }>;
+  roles: Array<{ role: string; roleDisplay: string }>;
   user: IUser;
 }
 
@@ -102,7 +102,7 @@ const UserEditScreen: React.FC<TPageProps> = ({ roles, user }) => {
 
   const selectRoles = [
     { label: 'Select role', value: '' },
-    ...roles.map((role) => ({ label: role.desc, value: role.role })),
+    ...roles.map((role) => ({ label: role.roleDisplay, value: role.role })),
   ];
 
   const loadingOrProcessing = updating;
