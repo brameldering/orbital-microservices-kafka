@@ -92,8 +92,8 @@ router.post(ORDERS_URL, async (req: IExtendedRequest, res: Response) => {
     { returnOriginal: false, upsert: true }
   );
   if (seqNumberOrderId) {
-    console.log('seqNumberOrderId', seqNumberOrderId);
-    console.log('seqNumberOrderId.latestSeqId', seqNumberOrderId.latestSeqId);
+    // console.log('seqNumberOrderId', seqNumberOrderId);
+    // console.log('seqNumberOrderId.latestSeqId', seqNumberOrderId.latestSeqId);
     const sequentialOrderId: string =
       'ORD-' + seqNumberOrderId.latestSeqId.toString().padStart(10, '0');
     const orderObj: IOrderObj = {

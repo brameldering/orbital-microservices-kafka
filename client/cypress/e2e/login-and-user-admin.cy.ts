@@ -1,7 +1,5 @@
 import {
   LOGIN_URL,
-  CUSTOMER_ROLE_SELECT,
-  ADMIN_ROLE_SELECT,
   TEST_USER_EMAIL,
   TEST_USER_PASSWORD,
   NEW_USER_NAME,
@@ -36,6 +34,7 @@ import {
   H1_EDIT_USER,
   H1_MY_ORDERS,
 } from 'constants/form-titles';
+import { CUSTOMER_DISPLAY, ADMIN_DISPLAY } from '@orbitelco/common';
 
 const login = (email: string, password: string) => {
   cy.visit(LOGIN_URL);
@@ -72,7 +71,7 @@ describe('Test registration of new account', () => {
     cy.get('[id="name"]').type(NEW_USER_NAME);
     cy.get('[id="email"]').type(NEW_USER_EMAIL);
     cy.get('[id="password"]').type(NEW_USER_PASSWORD);
-    cy.get('[id="role"]').select(CUSTOMER_ROLE_SELECT);
+    cy.get('[id="role"]').select(CUSTOMER_DISPLAY);
     cy.get('[id="BUTTON_register"]').click();
     cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
   });
@@ -83,7 +82,7 @@ describe('Test registration of new account', () => {
     cy.get('[id="name"]').type(NEW_USER_NAME);
     cy.get('[id="email"]').type(NEW_USER_EMAIL);
     cy.get('[id="password"]').type(NEW_USER_PASSWORD);
-    cy.get('[id="role"]').select(CUSTOMER_ROLE_SELECT);
+    cy.get('[id="role"]').select(CUSTOMER_DISPLAY);
     cy.get('[id="BUTTON_register"]').click();
     cy.contains(THAT_EMAIL_ALREADY_EXISTS);
   });
@@ -209,7 +208,7 @@ describe('Test Administration of Users', () => {
     // Change user name and email
     cy.get('[id="name"]').clear().type(NEW_USER_NAME);
     cy.get('[id="email"]').clear().type(NEW_USER_EMAIL);
-    cy.get('[id="role"]').select(ADMIN_ROLE_SELECT);
+    cy.get('[id="role"]').select(ADMIN_DISPLAY);
     cy.get('[id="BUTTON_update"]').click();
     // Check updated name and email are shown in users list
     cy.get('h1').invoke('text').should('equal', H1_USER_ADMIN);

@@ -1,9 +1,17 @@
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
+import { apiAccessOrders } from '@orbitelco/common';
+import { getApiAccessArray } from '../utils/loadApiAccessArray';
 
 // In test use .env file for environment variables
 require('dotenv').config();
 
+// ======================= Mock the ApiAccessArray =========================
+jest.mock('../utils/loadApiAccessArray', () => ({
+  getApiAccessArray: jest.fn(),
+}));
+(getApiAccessArray as jest.Mock).mockResolvedValue(apiAccessOrders);
+// =======================================================
 let mongo: MongoMemoryServer;
 
 beforeAll(async () => {

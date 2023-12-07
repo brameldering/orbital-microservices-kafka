@@ -15,7 +15,6 @@ router.get(ROLES_URL, async (req: Request, res: Response) => {
       #swagger.responses[200] = {
           description: 'List of user roles [{role, desc}]',
 } */
-  console.log('In get-user-roles router.get ROLES_URL');
   const userRolesOriginal = await Role.find({});
   // map users to json format as defined in user-types userSchema
   const userRoles = userRolesOriginal.map((role: { toJSON: () => any }) =>

@@ -48,11 +48,11 @@ router.post(PRODUCTS_URL, async (req: IExtendedRequest, res: Response) => {
     { returnOriginal: false, upsert: true }
   );
   if (seqNumberProductId) {
-    console.log('seqNumberProductId', seqNumberProductId);
-    console.log(
-      'seqNumberProductId.latestSeqId',
-      seqNumberProductId.latestSeqId
-    );
+    // console.log('seqNumberProductId', seqNumberProductId);
+    // console.log(
+    //   'seqNumberProductId.latestSeqId',
+    //   seqNumberProductId.latestSeqId
+    // );
     const sequentialProductId: string =
       'PRD-' + seqNumberProductId.latestSeqId.toString().padStart(10, '0');
 
