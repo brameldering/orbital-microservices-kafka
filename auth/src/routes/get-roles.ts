@@ -13,7 +13,7 @@ router.get(ROLES_URL, async (req: Request, res: Response) => {
       #swagger.description = 'Fetch all user roles'
       #swagger.parameters[] = {},
       #swagger.responses[200] = {
-          description: 'List of user roles [{role, desc}]',
+          description: 'List of user roles [{role, roleDisplay}]',
 } */
   const userRolesOriginal = await Role.find({});
   // map users to json format as defined in user-types userSchema
@@ -24,4 +24,4 @@ router.get(ROLES_URL, async (req: Request, res: Response) => {
   res.send(userRoles);
 });
 
-export { router as getUserRolesRouter };
+export { router as getRolesRouter };

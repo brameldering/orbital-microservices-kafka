@@ -2,7 +2,9 @@ import express from 'express';
 import 'express-async-errors';
 import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
-import { getUserRolesRouter } from './routes/get-user-roles';
+import { getRolesRouter } from './routes/get-roles';
+import { createRoleRouter } from './routes/create-role';
+import { deleteRoleRouter } from './routes/delete-role';
 import { currentUserRouter } from './routes/current-user';
 import { signinRouter } from './routes/signin';
 import { signoutRouter } from './routes/signout';
@@ -70,7 +72,9 @@ const setupApiAccessAndRunApp = async () => {
     app.use(authorize(AUTH_APIS, apiAccessArray));
     // =================================================
 
-    app.use(getUserRolesRouter);
+    app.use(getRolesRouter);
+    app.use(createRoleRouter);
+    app.use(deleteRoleRouter);
     app.use(currentUserRouter);
     app.use(signupRouter);
     app.use(signinRouter);

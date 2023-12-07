@@ -1,6 +1,6 @@
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
-import { apiAccessAuth, roles } from '@orbitelco/common';
+import { apiAccessAuth } from '@orbitelco/common';
 import { getApiAccessArray } from '../utils/loadApiAccessArray';
 
 // In test use .env file for environment variables
@@ -13,28 +13,28 @@ jest.mock('../utils/loadApiAccessArray', () => ({
 (getApiAccessArray as jest.Mock).mockResolvedValue(apiAccessAuth);
 
 // === Mock the Role.find mongoose call used inthe get-user-roles.ts API ===
-jest.mock('@orbitelco/common', () => {
-  const originalModule = jest.requireActual('@orbitelco/common');
-  const { Role } = originalModule;
-  // Create a mock implementation for Role.find() returning an array of objects with toJSON method
-  const mockFind = jest.fn().mockReturnValue({
-    map: jest.fn().mockImplementation(() => {
-      // Return objects with a toJSON method
-      return roles.map((role) => ({
-        toJSON: jest.fn().mockReturnValue({
-          role: role.role,
-          roleDisplay: role.roleDisplay,
-        }),
-      }));
-    }),
-  });
-  // Assign the mock find function to the Role model
-  (mongoose.model('Role') as any).find = mockFind;
-  return {
-    ...originalModule,
-    Role, // : mockedRole,
-  };
-});
+// jest.mock('@orbitelco/common', () => {
+//   const originalModule = jest.requireActual('@orbitelco/common');
+//   const { Role } = originalModule;
+//   // Create a mock implementation for Role.find() returning an array of objects with toJSON method
+//   const mockFind = jest.fn().mockReturnValue({
+//     map: jest.fn().mockImplementation(() => {
+//       // Return objects with a toJSON method
+//       return roles.map((role) => ({
+//         toJSON: jest.fn().mockReturnValue({
+//           role: role.role,
+//           roleDisplay: role.roleDisplay,
+//         }),
+//       }));
+//     }),
+//   });
+//   // Assign the mock find function to the Role model
+//   (mongoose.model('Role') as any).find = mockFind;
+//   return {
+//     ...originalModule,
+//     Role, // : mockedRole,
+//   };
+// });
 // =======================================================
 let mongo: MongoMemoryServer;
 
