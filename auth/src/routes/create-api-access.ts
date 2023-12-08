@@ -1,39 +1,30 @@
-apiName: 'get-user-roles',
-allowedRoles: [ANONYMOUS_ROLE, CUSTOMER_ROLE, ADMIN_ROLE],
-
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
-import { ROLES_URL, Role, validateRequest } from '@orbitelco/common';
+import { API_ACCESS_URL, ApiAccess, validateRequest } from '@orbitelco/common';
 
 const router = express.Router();
 
-// @desc    Create a new user role
-// @route   POST /api/users/v2/roles
+// @desc    Create a new api access entry
+// @route   POST /api/users/v2/apiaccess
 // @access  Admin
-// @req     body {role, roleDisplay}
+// @req     body {microservice: string, apiName: string, allowedRoles: [string]}
 // @res     status(201).send(role)
 //       or status(400).RequestValidationError
 router.post(
-  ROLES_URL,
-  [
-    body('role').trim().notEmpty().withMessage('Role can not be empty'),
-    body('roleDisplay')
-      .trim()
-      .notEmpty()
-      .withMessage('RoleDisplay can not be empty'),
-  ],
+  API_ACCESS_URL,
+  [body('apiName').trim().notEmpty().withMessage('Api Name can not be empty')],
   validateRequest,
   async (req: Request, res: Response) => {
     /*  #swagger.tags = ['Users']
-      #swagger.description = 'Create a new user role'
-      #swagger.parameters['role, roleDisplay'] = {
+      #swagger.description = 'Create a new api access record'
+      #swagger.parameters['microservice: string, apiName: string, allowedRoles: [string]'] = {
           in: 'body',
-          description: '{role, roleDisplay} info of user',
+          description: '{microservice: string, apiName: string, allowedRoles: [string]',
           required: 'true',
           type: 'object',
       }
       #swagger.responses[201] = {
-          description: '{role})',
+          description: '{apiAccess})',
       }
       #swagger.responses[400] = {
           description: 'RequestValidationError',
@@ -41,14 +32,13 @@ router.post(
           description: 'That object already exists',
       }
      } */
-    const { role, roleDisplay } = req.body;
+    const { microservice, apiName, allowedRoles } = req.body;
 
-    // TO DO: role is set to admin by default
-    const roleObj = Role.build({ role, roleDisplay });
+    const apiAccess = ApiAccess.build({ microservice, apiName, allowedRoles });
 
-    await roleObj.save();
-    res.status(201).send(roleObj.toJSON());
+    await apiAccess.save();
+    res.status(201).send(apiAccess.toJSON());
   }
 );
 
-export { router as createRoleRouter };
+export { router as createApiAccessRouter };

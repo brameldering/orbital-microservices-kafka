@@ -5,6 +5,10 @@ import cookieSession from 'cookie-session';
 import { getRolesRouter } from './routes/get-roles';
 import { createRoleRouter } from './routes/create-role';
 import { deleteRoleRouter } from './routes/delete-role';
+import { getApiAccessesRouter } from './routes/get-api-accesses';
+import { createApiAccessRouter } from './routes/create-api-access';
+import { updateApiAccessRouter } from './routes/update-api-access';
+import { deleteApiAccessRouter } from './routes/delete-api-access';
 import { currentUserRouter } from './routes/current-user';
 import { signinRouter } from './routes/signin';
 import { signoutRouter } from './routes/signout';
@@ -72,6 +76,10 @@ const setupApiAccessAndRunApp = async () => {
     app.use(authorize(AUTH_APIS, apiAccessArray));
     // =================================================
 
+    app.use(getApiAccessesRouter);
+    app.use(createApiAccessRouter);
+    app.use(updateApiAccessRouter);
+    app.use(deleteApiAccessRouter);
     app.use(getRolesRouter);
     app.use(createRoleRouter);
     app.use(deleteRoleRouter);
