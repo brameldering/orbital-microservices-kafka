@@ -49,12 +49,10 @@ const ProfileScreen: React.FC = () => {
   const [changeUserProfile, { isLoading: isProcessing, error: errorChanging }] =
     useChangeUserProfileMutation();
   const onSubmit = async () => {
-    const name = getValues('name');
-    const email = getValues('email');
     try {
       const updatedUser = await changeUserProfile({
-        name,
-        email,
+        name: getValues('name'),
+        email: getValues('email'),
       }).unwrap();
       dispatch(updUserState(updatedUser));
       toast.success('Profile updated');

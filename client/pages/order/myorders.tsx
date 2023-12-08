@@ -8,7 +8,7 @@ import { H1_MY_ORDERS } from 'constants/form-titles';
 import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
 import { ORDER_DETAIL_PAGE } from 'constants/client-pages';
 import { dateTimeToLocaleDateString } from 'utils/dateUtils';
-import { getMyOrders } from 'api/get-my-orders';
+import { getMyOrders } from 'api/orders/get-my-orders';
 import { IOrder } from '@orbitelco/common';
 
 interface TPageProps {

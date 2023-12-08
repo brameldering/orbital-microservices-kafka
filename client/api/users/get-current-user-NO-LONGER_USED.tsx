@@ -1,5 +1,5 @@
 import { NextPageContext } from 'next';
-import configureAxios from './configure-axios';
+import configureAxios from '../configure-axios';
 import { CURRENT_USER_URL } from '@orbitelco/common';
 
 export const getCurrentUser = async (context: NextPageContext) => {

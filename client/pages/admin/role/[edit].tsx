@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { Form, Button } from 'react-bootstrap';
 import { NextPageContext } from 'next';
 import Router from 'next/router';
@@ -7,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { TextNumField, SelectField } from 'form/FormComponents';
+import { TextNumField } from 'form/FormComponents';
 import FormContainer from 'form/FormContainer';
 import FormTitle from 'form/FormTitle';
 import { textField } from 'form/ValidationSpecs';
@@ -15,51 +14,40 @@ import Loader from 'components/Loader';
 import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
 import ModalConfirmBox from 'components/ModalConfirmBox';
-import { H1_EDIT_USER } from 'constants/form-titles';
-import { USER_LIST_PAGE } from 'constants/client-pages';
-import { IUser } from '@orbitelco/common';
-import { getRoles } from 'api/users/get-roles';
-import { getUserById } from 'api/users/get-user-by-id';
-import { updUserState } from 'slices/authSlice';
-import { useUpdateUserMutation } from 'slices/usersApiSlice';
+import { H1_EDIT_ROLE } from 'constants/form-titles';
+import { ROLE_LIST_PAGE } from 'constants/client-pages';
+import { IRole } from '@orbitelco/common';
+import { getRoleById } from 'api/users/get-role-by-id';
+import { useUpdateRoleMutation } from 'slices/rolesApiSlice';
 
 interface IFormInput {
-  name: string;
-  email: string;
-  role: string;
+  // role: string;
+  roleDisplay: string;
 }
 
 const schema = yup.object().shape({
-  name: textField().required('Required'),
-  email: textField().required('Required').email('Invalid email address'),
-  role: yup.string().required('Required'),
+  // role: textField().required('Required'),
+  roleDisplay: textField().required('Required'),
 });
 
 interface TPageProps {
-  roles: Array<{ role: string; roleDisplay: string }>;
-  user: IUser;
+  roleObj: IRole;
 }
 
-const UserEditScreen: React.FC<TPageProps> = ({ roles, user }) => {
-  const dispatch = useDispatch();
-  const [updateUser, { isLoading: updating, error: errorUpdating }] =
-    useUpdateUserMutation();
+const RoleEditScreen: React.FC<TPageProps> = ({ roleObj }) => {
+  const [updateRole, { isLoading: updating, error: errorUpdating }] =
+    useUpdateRoleMutation();
 
   const {
     register,
-    control,
     handleSubmit,
-    // setValue,
     getValues,
     reset,
     setError,
-    // watch,
     formState: { isDirty, errors },
   } = useForm<IFormInput>({
     defaultValues: {
-      name: user?.name || '',
-      email: user?.email || '',
-      role: user?.role || '',
+      roleDisplay: roleObj?.roleDisplay || '',
     },
     mode: 'onBlur',
     reValidateMode: 'onSubmit',
@@ -68,16 +56,14 @@ const UserEditScreen: React.FC<TPageProps> = ({ roles, user }) => {
 
   const onSubmit = async () => {
     try {
-      const res = await updateUser({
-        id: user.id,
-        name: getValues('name'),
-        email: getValues('email'),
-        role: getValues('role'),
+      await updateRole({
+        id: roleObj.id,
+        role: roleObj?.role,
+        roleDisplay: getValues('roleDisplay'),
       }).unwrap();
       reset();
-      dispatch(updUserState({ ...res }));
-      toast.success('User updated');
-      Router.push(USER_LIST_PAGE);
+      toast.success('Role updated');
+      Router.push(ROLE_LIST_PAGE);
     } catch (err: any) {
       // To avoid "Uncaught in promise" errors in console, errors are handled by RTK mutation
     }
@@ -86,27 +72,22 @@ const UserEditScreen: React.FC<TPageProps> = ({ roles, user }) => {
   const [showChangesModal, setShowChangesModal] = useState(false);
   const goBackWithoutSaving = () => {
     setShowChangesModal(false);
-    Router.push(USER_LIST_PAGE);
+    Router.push(ROLE_LIST_PAGE);
   };
   const cancelGoBack = () => setShowChangesModal(false);
   const goBackHandler = async () => {
     if (isDirty) {
       setShowChangesModal(true);
     } else {
-      Router.push(USER_LIST_PAGE);
+      Router.push(ROLE_LIST_PAGE);
     }
   };
-
-  const selectRoles = [
-    { label: 'Select role', value: '' },
-    ...roles.map((role) => ({ label: role.roleDisplay, value: role.role })),
-  ];
 
   const loadingOrProcessing = updating;
 
   return (
     <>
-      <Meta title={H1_EDIT_USER} />
+      <Meta title={H1_EDIT_ROLE} />
       <ModalConfirmBox
         showModal={showChangesModal}
         title='Are you sure you want to go back?'
@@ -116,27 +97,16 @@ const UserEditScreen: React.FC<TPageProps> = ({ roles, user }) => {
       />
       <FormContainer>
         <Form onSubmit={handleSubmit(onSubmit)}>
-          <FormTitle>{H1_EDIT_USER}</FormTitle>
+          <FormTitle>{H1_EDIT_ROLE}</FormTitle>
           {errorUpdating && <ErrorBlock error={errorUpdating} />}
+          <p>
+            <strong>Role: </strong> {roleObj.role}
+          </p>
           <TextNumField
-            controlId='name'
-            label='Full Name'
+            controlId='roleDisplay'
+            label='Role Display'
             register={register}
-            error={errors.name}
-            setError={setError}
-          />
-          <TextNumField
-            controlId='email'
-            label='Email'
-            register={register}
-            error={errors.email}
-            setError={setError}
-          />
-          <SelectField
-            controlId='role'
-            options={selectRoles}
-            control={control}
-            error={errors.role}
+            error={errors.roleDisplay}
             setError={setError}
           />
           <div className='d-flex mt-3 justify-content-between align-items-center'>
@@ -161,31 +131,30 @@ const UserEditScreen: React.FC<TPageProps> = ({ roles, user }) => {
   );
 };
 
-// Fetch user and User Roles (to fill dropdown box)
+// Fetch role
 export const getServerSideProps = async (context: NextPageContext) => {
   try {
-    const roles = await getRoles(context);
     // the name of the query parameter ('edit') should match the [filename].tsx
     const id = context.query.edit as string | string[] | undefined;
-    let userId = Array.isArray(id) ? id[0] : id;
-    if (!userId) {
-      userId = '';
+    let roleId = Array.isArray(id) ? id[0] : id;
+    if (!roleId) {
+      roleId = '';
     }
-    let user = null;
-    if (userId) {
-      // Call the corresponding API function to fetch user data
-      user = await getUserById(context, userId);
+    let roleObj = null;
+    if (roleId) {
+      // Call the corresponding API function to fetch role data
+      roleObj = await getRoleById(context, roleId);
     }
     return {
-      props: { roles, user },
+      props: { roleObj },
     };
   } catch (error) {
     // Handle errors if any
     console.error('Error fetching data:', error);
     return {
-      props: { roles: [], user: {} },
+      props: { roleObj: {} },
     };
   }
 };
 
-export default UserEditScreen;
+export default RoleEditScreen;

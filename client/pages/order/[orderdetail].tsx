@@ -24,7 +24,7 @@ import { H2_ORDER_DETAILS } from 'constants/form-titles';
 import { CURRENCY_PAYPAL } from 'constants/constants-frontend';
 import { ORDER_DETAIL_PAGE } from 'constants/client-pages';
 import { ADMIN_ROLE, IOrder } from '@orbitelco/common';
-import { getOrderById } from 'api/get-order-by-id';
+import { getOrderById } from 'api/orders/get-order-by-id';
 import type { RootState } from 'slices/store';
 import {
   useGetPaypalClientIdQuery,

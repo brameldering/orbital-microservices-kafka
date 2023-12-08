@@ -16,7 +16,7 @@ import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
 import { H1_SIGN_UP } from 'constants/form-titles';
 import { PRODUCTS_PAGE, SIGNIN_PAGE } from 'constants/client-pages';
-import { getUserRoles } from 'api/get-user-roles';
+import { getRoles } from 'api/users/get-roles';
 import type { RootState } from 'slices/store';
 import { setUserState } from 'slices/authSlice';
 import { useSignUpMutation } from 'slices/usersApiSlice';
@@ -170,7 +170,7 @@ const SignUpScreen: React.FC<TPageProps> = ({ roles }) => {
 // Fetch User Roles (to fill dropdown box)
 export const getServerSideProps = async (context: NextPageContext) => {
   try {
-    const roles = await getUserRoles(context);
+    const roles = await getRoles(context);
     return {
       props: { roles },
     };

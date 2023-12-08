@@ -17,7 +17,7 @@ import ModalConfirmBox from 'components/ModalConfirmBox';
 import { H1_EDIT_PRODUCT } from 'constants/form-titles';
 import { PRODUCT_LIST_PAGE } from 'constants/client-pages';
 import { IProduct } from '@orbitelco/common';
-import { getProductById } from 'api/get-product-by-id';
+import { getProductById } from 'api/produts/get-product-by-id';
 import {
   useUpdateProductMutation,
   useUploadImageMutation,
@@ -82,25 +82,17 @@ const ProductEditScreen: React.FC<TPageProps> = ({ product }) => {
   });
 
   const onSubmit = async () => {
-    const sequentialProductId = getValues('sequentialProductId') || '';
-    const name = getValues('name') || '';
-    const imageURL = getValues('imageURL') || '';
-    const brand = getValues('brand') || '';
-    const category = getValues('category') || '';
-    const description = getValues('description') || '';
-    const price = getValues('price') || 0;
-    const countInStock = getValues('countInStock') || 0;
     try {
       await updateProduct({
         id: product.id,
-        sequentialProductId,
-        name,
-        imageURL,
-        brand,
-        category,
-        description,
-        price,
-        countInStock,
+        sequentialProductId: getValues('sequentialProductId') || '',
+        name: getValues('name') || '',
+        imageURL: getValues('imageURL') || '',
+        brand: getValues('brand') || '',
+        category: getValues('category') || '',
+        description: getValues('description') || '',
+        price: getValues('price') || 0,
+        countInStock: getValues('countInStock') || 0,
       }).unwrap();
       toast.success('Product updated');
       Router.push(PRODUCT_LIST_PAGE);

@@ -11,7 +11,7 @@ import ModalConfirmBox from 'components//ModalConfirmBox';
 import { H1_USER_ADMIN } from 'constants/form-titles';
 import { ADMIN_ROLE, IUser } from '@orbitelco/common';
 import { USER_EDIT_PAGE, USER_LIST_PAGE } from 'constants/client-pages';
-import { getUsers } from 'api/get-users';
+import { getUsers } from 'api/users/get-users';
 import { useDeleteUserMutation } from 'slices/usersApiSlice';
 
 interface TPageProps {

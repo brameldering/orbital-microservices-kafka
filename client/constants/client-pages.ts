@@ -7,6 +7,9 @@ export const ORDER_LIST_PAGE = '/admin/order/list';
 // export const ORDER_EDIT_PAGE = '/admin/order';
 export const USER_LIST_PAGE = '/admin/user/list';
 export const USER_EDIT_PAGE = '/admin/user';
+export const ROLE_CREATE_PAGE = '/admin/role/create';
+export const ROLE_LIST_PAGE = '/admin/role/list';
+export const ROLE_EDIT_PAGE = '/admin/role';
 
 // auth
 export const SIGNUP_PAGE = '/auth/signup';

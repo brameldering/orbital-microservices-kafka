@@ -12,7 +12,7 @@ jest.mock('../utils/loadApiAccessArray', () => ({
 }));
 (getApiAccessArray as jest.Mock).mockResolvedValue(apiAccessAll);
 
-// === Mock the Role.find mongoose call used inthe get-user-roles.ts API ===
+// === Mock the Role.find mongoose call used inthe get-roles.ts API ===
 // jest.mock('@orbitelco/common', () => {
 //   const originalModule = jest.requireActual('@orbitelco/common');
 //   const { Role } = originalModule;

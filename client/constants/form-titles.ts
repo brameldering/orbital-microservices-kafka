@@ -25,3 +25,6 @@ export const H1_USER_ADMIN = 'User Admin';
 export const H1_EDIT_USER = 'Edit User';
 
 export const H1_ORDER_ADMIN = 'Order Admin';
+
+export const H1_ROLE_ADMIN = 'Role Admin';
+export const H1_EDIT_ROLE = 'Edit Role';

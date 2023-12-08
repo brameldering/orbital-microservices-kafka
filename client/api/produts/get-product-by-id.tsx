@@ -1,5 +1,5 @@
 import { NextPageContext } from 'next';
-import configureAxios from './configure-axios';
+import configureAxios from '../configure-axios';
 import { PRODUCTS_URL } from '@orbitelco/common';
 
 export const getProductById = async (context: NextPageContext, id: string) => {

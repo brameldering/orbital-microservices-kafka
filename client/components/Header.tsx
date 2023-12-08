@@ -18,6 +18,7 @@ import {
   PRODUCT_LIST_PAGE,
   USER_LIST_PAGE,
   ORDER_LIST_PAGE,
+  ROLE_LIST_PAGE,
 } from 'constants/client-pages';
 import type { RootState } from 'slices/store';
 import { logout } from 'slices/authSlice';
@@ -125,6 +126,12 @@ const Header: React.FC = () => {
                       href={ORDER_LIST_PAGE}
                       id='LINK_header_orders'>
                       Orders
+                    </NavDropdown.Item>
+                    <NavDropdown.Item
+                      as={Link}
+                      href={ROLE_LIST_PAGE}
+                      id='LINK_header_roles'>
+                      Roles
                     </NavDropdown.Item>
                   </NavDropdown>
                 )}
