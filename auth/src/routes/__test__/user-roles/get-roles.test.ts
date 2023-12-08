@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { app } from '../../app';
+import { app } from '../../../app';
 import {
   ROLES_URL,
   CUSTOMER_ROLE,
@@ -10,7 +10,7 @@ import {
 import {
   createCustomerRole,
   createAdminRole,
-} from '../../test/helper-functions';
+} from '../../../test/helper-functions';
 
 describe('Test getting user roles', () => {
   it('returns a status 200 and list of user roles', async () => {

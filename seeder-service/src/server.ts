@@ -36,8 +36,8 @@ app.use(
 app.use(seedDataRouter);
 
 // Handle any other (unknown) route API calls
-app.all('*', async () => {
-  console.log('no match found for this API route!');
+app.all('*', async (req) => {
+  console.log('no match found for API route:', req.method, req.originalUrl);
   throw new RouteNotFoundError();
 });
 

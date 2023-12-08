@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { apiAccessSchema, apiAccessOrders } from '@orbitelco/common';
+import { apiAccessSchema, apiAccessAll } from '@orbitelco/common';
 
 const MONGO_URI_ORDERS = 'mongodb://orders-mongo-srv:27017/orders';
 
@@ -13,6 +13,6 @@ const AccessInOrderDB = ordersDB.model('ApiAccess', apiAccessSchema);
 await AccessInOrderDB.deleteMany();
 
 // =============== Seed data =================
-await AccessInOrderDB.insertMany(apiAccessOrders);
+await AccessInOrderDB.insertMany(apiAccessAll);
 
 console.log('Auth Data Imported Succesfully!');

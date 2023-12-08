@@ -15,6 +15,8 @@ import {
   ROLES_URL,
   CUSTOMER_DISPLAY,
   ADMIN_DISPLAY,
+  API_ACCESS_URL,
+  MICROSERVICE_AUTH,
 } from '@orbitelco/common';
 
 // Re-usable signup function for a test customer
@@ -124,6 +126,23 @@ export const createAdminRole: any = async () => {
     .send({
       role: ADMIN_ROLE,
       roleDisplay: ADMIN_DISPLAY,
+    })
+    .expect(201);
+  return res;
+};
+
+export const TEST_API_NAME = 'get-users';
+export const TEST_API_UPDATED = 'get-users-updated';
+
+// Re-usable function to create api access record
+export const createApiAccess: any = async () => {
+  const res = await request(app)
+    .post(API_ACCESS_URL)
+    .set('Cookie', fakeSignupAdmin())
+    .send({
+      microservice: MICROSERVICE_AUTH,
+      apiName: TEST_API_NAME,
+      allowedRoles: [ADMIN_ROLE],
     })
     .expect(201);
   return res;

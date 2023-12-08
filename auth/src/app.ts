@@ -2,13 +2,14 @@ import express from 'express';
 import 'express-async-errors';
 import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
-import { getRolesRouter } from './routes/get-roles';
-import { createRoleRouter } from './routes/create-role';
-import { deleteRoleRouter } from './routes/delete-role';
-import { getApiAccessesRouter } from './routes/get-api-accesses';
-import { createApiAccessRouter } from './routes/create-api-access';
-import { updateApiAccessRouter } from './routes/update-api-access';
-import { deleteApiAccessRouter } from './routes/delete-api-access';
+import { getRolesRouter } from './routes/user-roles/get-roles';
+import { createRoleRouter } from './routes/user-roles/create-role';
+import { deleteRoleRouter } from './routes/user-roles/delete-role';
+import { getApiAccessesRouter } from './routes/api-access/get-api-accesses';
+import { createApiAccessRouter } from './routes/api-access/create-api-access';
+import { getApiAccessByIdRouter } from './routes/api-access/get-api-access-by-id';
+import { updateApiAccessRolesRouter } from './routes/api-access/update-api-access-roles';
+import { deleteApiAccessRouter } from './routes/api-access/delete-api-access';
 import { currentUserRouter } from './routes/current-user';
 import { signinRouter } from './routes/signin';
 import { signoutRouter } from './routes/signout';
@@ -78,7 +79,8 @@ const setupApiAccessAndRunApp = async () => {
 
     app.use(getApiAccessesRouter);
     app.use(createApiAccessRouter);
-    app.use(updateApiAccessRouter);
+    app.use(getApiAccessByIdRouter);
+    app.use(updateApiAccessRolesRouter);
     app.use(deleteApiAccessRouter);
     app.use(getRolesRouter);
     app.use(createRoleRouter);
@@ -96,8 +98,8 @@ const setupApiAccessAndRunApp = async () => {
     app.use(deleteUserRouter);
 
     // Handle any other (unknown) route API calls
-    app.all('*', async () => {
-      console.log('no match found for this API route!');
+    app.all('*', async (req) => {
+      console.log('no match found for API route:', req.method, req.originalUrl);
       throw new RouteNotFoundError();
     });
 

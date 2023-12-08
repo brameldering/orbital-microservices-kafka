@@ -3,9 +3,7 @@ import {
   roleSchema,
   apiAccessSchema,
   roles,
-  apiAccessAuth,
-  apiAccessOrders,
-  apiAccessProducts,
+  apiAccessAll,
 } from '@orbitelco/common';
 
 const mongoURI = 'mongodb://auth-mongo-srv:27017/auth';
@@ -41,6 +39,7 @@ const mongoURI = 'mongodb://auth-mongo-srv:27017/auth';
 
 // =============== Seed data =================
 // await RolesInAuthDB.insertMany(roles);
+// await AccessInAuthDB.insertMany(apiAccessAll);
 // await AccessInAuthDB.insertMany(apiAccessAuth);
 // await AllAccessInAuthDB.insertMany(apiAccessAuth);
 // await AllAccessInAuthDB.insertMany(apiAccessProducts);

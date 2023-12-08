@@ -8,19 +8,11 @@ import {
   productSequenceSchema,
   orderSchema,
   orderSequenceSchema,
-  // idSequenceSchema,
   roles,
-  apiAccessAuth,
-  apiAccessOrders,
-  apiAccessProducts,
+  apiAccessAll,
 } from '@orbitelco/common';
-// import { idSequences } from '../../seederdata/id-sequences';
 import { products, productSequence } from '../../seederdata/products';
-// import {  } from '../../seederdata/api-access/roles';
 import { users } from '../../seederdata/users';
-// import {  } from '../../seederdata/api-access/api-access-auth';
-// import {  } from '../../seederdata/api-access/api-access-orders';
-// import {  } from '../../seederdata/api-access/api-access-products';
 import { orderSequence } from '../../seederdata/orders';
 import { authDB, productsDB, ordersDB } from '../../src/server';
 
@@ -50,7 +42,6 @@ router.post(SEED_DATA_URL, async (req: Request, res: Response) => {
   const UserInAuthDB = authDB.model('User', userSchema);
   const RolesInAuthDB = authDB.model('Roles', roleSchema);
   const AccessInAuthDB = authDB.model('ApiAccess', apiAccessSchema);
-  const AllAccessInAuthDB = authDB.model('AllApiAccess', apiAccessSchema);
   // const IdSequenceInSeqDB = seqDB.model('IdSequence', idSequenceSchema);
 
   // =============== Delete existing data =================
@@ -60,7 +51,6 @@ router.post(SEED_DATA_URL, async (req: Request, res: Response) => {
 
   await RolesInAuthDB.deleteMany();
   await AccessInAuthDB.deleteMany();
-  await AllAccessInAuthDB.deleteMany();
   await UserInAuthDB.deleteMany();
 
   await ProductSeqInProductDB.deleteMany();
@@ -71,14 +61,11 @@ router.post(SEED_DATA_URL, async (req: Request, res: Response) => {
 
   // =============== Load seed data =================
   await OrderSeqInOrderDB.insertMany(orderSequence);
-  await AccessInOrderDB.insertMany(apiAccessOrders);
+  await AccessInOrderDB.insertMany(apiAccessAll);
   // Note there are no orders to seed
 
   await RolesInAuthDB.insertMany(roles);
-  await AccessInAuthDB.insertMany(apiAccessAuth);
-  await AllAccessInAuthDB.insertMany(apiAccessAuth);
-  await AllAccessInAuthDB.insertMany(apiAccessProducts);
-  await AllAccessInAuthDB.insertMany(apiAccessOrders);
+  await AccessInAuthDB.insertMany(apiAccessAll);
   const createdUsers = await UserInAuthDB.insertMany(users);
 
   const adminUserId = createdUsers[0].id;
@@ -90,7 +77,7 @@ router.post(SEED_DATA_URL, async (req: Request, res: Response) => {
   });
 
   await ProductsInProductDB.insertMany(sampleProducts);
-  await AccessInProductDB.insertMany(apiAccessProducts);
+  await AccessInProductDB.insertMany(apiAccessAll);
   await ProductSeqInProductDB.insertMany(productSequence);
 
   console.log('Data Imported Succesfully!');

@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { apiAccessSchema, apiAccessProducts } from '@orbitelco/common';
+import { apiAccessSchema, apiAccessAll } from '@orbitelco/common';
 
 const MONGO_URI_PRODUCTS = 'mongodb://products-mongo-srv:27017/products';
 
@@ -13,6 +13,6 @@ const AccessInProductDB = productsDB.model('ApiAccess', apiAccessSchema);
 await AccessInProductDB.deleteMany();
 
 // =============== Seed data =================
-await AccessInProductDB.insertMany(apiAccessProducts);
+await AccessInProductDB.insertMany(apiAccessAll);
 
 console.log('Products Data Imported Succesfully!');

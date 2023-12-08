@@ -1,9 +1,9 @@
 import request from 'supertest';
-import { app } from '../../app';
+import { app } from '../../../app';
 import {
   fakeSignupAdmin,
   fakeSignupCustomer,
-} from '../../test/helper-functions';
+} from '../../../test/helper-functions';
 import {
   ROLES_URL,
   Role,

@@ -8,11 +8,11 @@ import {
 
 const router = express.Router();
 
-// @desc    Update an api access record
+// @desc    Update the allowed roles of an api access record
 // @route   PUT /api/users/v2/apiaccess/:id
 // @access  Admin
 // @req     params.id
-//          body {microservice: string, apiName, allowedRoles }
+//          body {allowedRoles }
 // @res     (updatedApiAccess)
 //       or status(404).ObjectNotFoundError(ApiAccess not found)
 router.put(
@@ -20,7 +20,7 @@ router.put(
   checkObjectId,
   async (req: Request, res: Response) => {
     /*  #swagger.tags = ['Users']
-      #swagger.description = 'Update an Api Access record'
+      #swagger.description = 'Update the allowed roles of an api access record'
       #swagger.security = [{
         bearerAuth: ['admin']
       }]
@@ -30,9 +30,9 @@ router.put(
               required: 'true',
               type: 'string',
       }
-      #swagger.parameters['{microservice: string, apiName: string, allowedRoles: [string]'] = {
+      #swagger.parameters['{allowedRoles: [string]'] = {
               in: 'body',
-              description: '{microservice: string, apiName: string, allowedRoles: [string]',
+              description: '{allowedRoles: [string]',
               required: 'true',
               type: 'object',
       }
@@ -43,17 +43,17 @@ router.put(
             description: 'ObjectNotFoundError(Api Record not found)'
       }
   } */
-    const { microservice, apiName, allowedRoles } = req.body;
+    const { allowedRoles } = req.body;
     const apiAccess = await ApiAccess.findById(req.params.id);
     if (apiAccess) {
-      apiAccess.microservice = microservice;
-      apiAccess.apiName = apiName;
+      // apiAccess.microservice = microservice;
+      // apiAccess.apiName = apiName;
       apiAccess.allowedRoles = allowedRoles;
       const updatedApiAccess = await apiAccess.save();
       res.send(updatedApiAccess.toJSON());
     } else {
-      throw new ObjectNotFoundError('ApiAccess record not found');
+      throw new ObjectNotFoundError('Api Access not found');
     }
   }
 );
-export { router as updateApiAccessRouter };
+export { router as updateApiAccessRolesRouter };

@@ -2,47 +2,46 @@ import express, { Request, Response } from 'express';
 import {
   API_ACCESS_URL,
   ApiAccess,
-  checkObjectId,
   ObjectNotFoundError,
+  checkObjectId,
 } from '@orbitelco/common';
 
 const router = express.Router();
 
-// @desc    Delete api access record
-// @route   DELETE /api/users/v2/apiaccess/:id
+// @desc    Get Api Access record by ID
+// @route   GET /api/users/v2/apiaccess/:id
 // @access  Admin
 // @req     params.id
-// @res     {}
-//       or status(404).ObjectNotFoundError('apiaccess not found')
-router.delete(
+// @res     {Api Access Record}
+//       or status(404).ObjectNotFoundError('Api Access not found')
+router.get(
   API_ACCESS_URL + '/:id',
   checkObjectId,
   async (req: Request, res: Response) => {
     /*  #swagger.tags = ['Users']
-      #swagger.description = 'Delete apiaccess'
+      #swagger.description = 'Get Api Access by ID'
       #swagger.security = [{
         bearerAuth: ['admin']
       }]
       #swagger.parameters['id'] = {
             in: 'path',
-            description: 'apiaccess id',
+            description: 'Api Access id',
             required: 'true',
             type: 'string'
       }
       #swagger.responses[200] = {
-          description: 'Empty response',
+          description: '{Api Access}',
       }
       #swagger.responses[404] = {
-          description: 'ObjectNotFoundError(apiaccess not found)',
+          description: 'ObjectNotFoundError(Api Access not found)',
      } */
     const apiAccess = await ApiAccess.findById(req.params.id);
     if (apiAccess) {
-      await apiAccess.deleteOne({ _id: apiAccess.id });
-      res.send();
+      res.send(apiAccess.toJSON());
     } else {
-      throw new ObjectNotFoundError('apiAccess not found');
+      throw new ObjectNotFoundError('Api Access not found');
     }
   }
 );
 
-export { router as deleteApiAccessRouter };
+export { router as getApiAccessByIdRouter };

@@ -13,7 +13,8 @@
     "test": "concurrently \"cd backend && npm run test\" \"cd frontend && npm run test\"",
     "types:check": "tsc --noEmit --pretty -p ./frontend && tsc --noEmit --pretty -p ./backend",
     "cypress:open": "cd client && npm run cypress:open",
-    "cypress:run": "cd client && npm run cypress:run"
+    "cypress:run": "cd client && npm run cypress:run",
+    "seeddata": "cd client && npm run seeddata"
   },
   "author": "Bram Eldering",
   "license": "MIT",

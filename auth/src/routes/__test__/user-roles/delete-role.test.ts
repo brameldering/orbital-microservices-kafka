@@ -1,11 +1,11 @@
 import request from 'supertest';
 import mongoose from 'mongoose';
-import { app } from '../../app';
+import { app } from '../../../app';
 import {
   fakeSignupAdmin,
   fakeSignupCustomer,
   createCustomerRole,
-} from '../../test/helper-functions';
+} from '../../../test/helper-functions';
 import { ROLES_URL, Role } from '@orbitelco/common';
 
 describe('Test delete role', () => {
