@@ -13,7 +13,7 @@ import Loader from 'components/Loader';
 import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
 import ModalConfirmBox from 'components/ModalConfirmBox';
-import { H1_EDIT_ROLE } from 'constants/form-titles';
+import { H1_CREATE_ROLE } from 'constants/form-titles';
 import { ROLE_LIST_PAGE } from 'constants/client-pages';
 import { useCreateRoleMutation } from 'slices/rolesApiSlice';
 
@@ -23,8 +23,8 @@ interface IFormInput {
 }
 
 const schema = yup.object().shape({
-  role: textField().required('Required'),
-  roleDisplay: textField().required('Required'),
+  role: textField().max(25).required('Required'),
+  roleDisplay: textField().max(25).required('Required'),
 });
 
 const RoleCreateScreen: React.FC = () => {
@@ -80,7 +80,7 @@ const RoleCreateScreen: React.FC = () => {
 
   return (
     <>
-      <Meta title={H1_EDIT_ROLE} />
+      <Meta title={H1_CREATE_ROLE} />
       <ModalConfirmBox
         showModal={showChangesModal}
         title='Are you sure you want to go back?'
@@ -90,7 +90,7 @@ const RoleCreateScreen: React.FC = () => {
       />
       <FormContainer>
         <Form onSubmit={handleSubmit(onSubmit)}>
-          <FormTitle>{H1_EDIT_ROLE}</FormTitle>
+          <FormTitle>{H1_CREATE_ROLE}</FormTitle>
           {errorCreating && <ErrorBlock error={errorCreating} />}
           <TextNumField
             controlId='role'
@@ -121,7 +121,7 @@ const RoleCreateScreen: React.FC = () => {
               Cancel
             </Button>
           </div>
-          {creating && <Loader />}
+          {loadingOrProcessing && <Loader />}
         </Form>
       </FormContainer>
     </>

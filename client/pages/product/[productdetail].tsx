@@ -110,9 +110,7 @@ const ProductDetailScreen: React.FC = () => {
         href={goBackPath.toString()}>
         Go Back
       </Link>
-      {isLoading ? (
-        <Loader />
-      ) : errorLoading ? (
+      {errorLoading ? (
         <ErrorBlock error={errorLoading} />
       ) : product ? (
         <>
@@ -281,6 +279,7 @@ const ProductDetailScreen: React.FC = () => {
                 </ListGroup.Item>
               </ListGroup>
             </Col>
+            {isLoading && <Loader />}
           </Row>
         </>
       ) : (

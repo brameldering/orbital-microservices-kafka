@@ -61,7 +61,6 @@ const PasswordResetScreen = () => {
       <FormContainer>
         <Form onSubmit={handleSubmit(onSubmit, onError)}>
           <FormTitle>{H1_RESET_PASSWORD}</FormTitle>
-          {isProcessing && <Loader />}
           <TextNumField
             controlId='email'
             label='Your email address as known to us'
@@ -81,6 +80,7 @@ const PasswordResetScreen = () => {
               Reset Password
             </Button>
           </div>
+          {isProcessing && <Loader />}
         </Form>
       </FormContainer>
     </>

@@ -29,10 +29,10 @@ const ShippingScreen = () => {
   }
 
   const schema = yup.object().shape({
-    address: textField().required('Required'),
-    postalCode: textField().required('Required'),
-    city: textField().required('Required'),
-    country: textField().required('Required'),
+    address: textField().max(80).required('Required'),
+    postalCode: textField().max(12).required('Required'),
+    city: textField().max(40).required('Required'),
+    country: textField().max(40).required('Required'),
   });
 
   const {

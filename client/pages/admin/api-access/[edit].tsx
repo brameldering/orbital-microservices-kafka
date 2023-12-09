@@ -4,39 +4,31 @@ import { NextPageContext } from 'next';
 import Router from 'next/router';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { TextNumField } from 'form/FormComponents';
 import FormContainer from 'form/FormContainer';
 import FormTitle from 'form/FormTitle';
-import { textField } from 'form/ValidationSpecs';
 import Loader from 'components/Loader';
 import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
 import ModalConfirmBox from 'components/ModalConfirmBox';
-import { H1_EDIT_ROLE } from 'constants/form-titles';
-import { ROLE_LIST_PAGE } from 'constants/client-pages';
-import { IRole } from '@orbitelco/common';
-import { getRoleById } from 'api/roles/get-role-by-id';
-import { useUpdateRoleMutation } from 'slices/rolesApiSlice';
+import { H1_EDIT_API_ACCESS } from 'constants/form-titles';
+import { API_ACCESS_LIST_PAGE } from 'constants/client-pages';
+import { IApiAccess } from '@orbitelco/common';
+import { getApiAccessById } from 'api/api-access/get-api-access-by-id';
+import { useUpdateApiAccessMutation } from 'slices/apiAccessApiSlice';
 
 interface IFormInput {
   // role: string;
-  roleDisplay: string;
+  allowedRoles: string[];
 }
-
-const schema = yup.object().shape({
-  // role: textField().required('Required'),
-  roleDisplay: textField().max(25).required('Required'),
-});
 
 interface TPageProps {
-  roleObj: IRole;
+  apiAccess: IApiAccess;
 }
 
-const RoleEditScreen: React.FC<TPageProps> = ({ roleObj }) => {
-  const [updateRole, { isLoading: updating, error: errorUpdating }] =
-    useUpdateRoleMutation();
+const ApiAccessEditScreen: React.FC<TPageProps> = ({ apiAccess }) => {
+  const [updateApiAccess, { isLoading: updating, error: errorUpdating }] =
+    useUpdateApiAccessMutation();
 
   const {
     register,
@@ -47,23 +39,22 @@ const RoleEditScreen: React.FC<TPageProps> = ({ roleObj }) => {
     formState: { isDirty, errors },
   } = useForm<IFormInput>({
     defaultValues: {
-      roleDisplay: roleObj?.roleDisplay || '',
+      allowedRoles: apiAccess?.allowedRoles || [''],
     },
     mode: 'onBlur',
     reValidateMode: 'onSubmit',
-    resolver: yupResolver(schema),
   });
 
   const onSubmit = async () => {
     try {
-      await updateRole({
-        id: roleObj.id,
-        role: roleObj?.role,
-        roleDisplay: getValues('roleDisplay'),
+      await updateApiAccess({
+        microservice: apiAccess.microservice,
+        apiName: apiAccess.apiName,
+        allowedRoles: getValues('allowedRoles'),
       }).unwrap();
       reset();
       toast.success('Role updated');
-      Router.push(ROLE_LIST_PAGE);
+      Router.push(API_ACCESS_LIST_PAGE);
     } catch (err: any) {
       // To avoid "Uncaught in promise" errors in console, errors are handled by RTK mutation
     }
@@ -72,14 +63,14 @@ const RoleEditScreen: React.FC<TPageProps> = ({ roleObj }) => {
   const [showChangesModal, setShowChangesModal] = useState(false);
   const goBackWithoutSaving = () => {
     setShowChangesModal(false);
-    Router.push(ROLE_LIST_PAGE);
+    Router.push(API_ACCESS_LIST_PAGE);
   };
   const cancelGoBack = () => setShowChangesModal(false);
   const goBackHandler = async () => {
     if (isDirty) {
       setShowChangesModal(true);
     } else {
-      Router.push(ROLE_LIST_PAGE);
+      Router.push(API_ACCESS_LIST_PAGE);
     }
   };
 
@@ -87,7 +78,7 @@ const RoleEditScreen: React.FC<TPageProps> = ({ roleObj }) => {
 
   return (
     <>
-      <Meta title={H1_EDIT_ROLE} />
+      <Meta title={H1_EDIT_API_ACCESS} />
       <ModalConfirmBox
         showModal={showChangesModal}
         title='Are you sure you want to go back?'
@@ -97,16 +88,19 @@ const RoleEditScreen: React.FC<TPageProps> = ({ roleObj }) => {
       />
       <FormContainer>
         <Form onSubmit={handleSubmit(onSubmit)}>
-          <FormTitle>{H1_EDIT_ROLE}</FormTitle>
+          <FormTitle>{H1_EDIT_API_ACCESS}</FormTitle>
           {errorUpdating && <ErrorBlock error={errorUpdating} />}
           <p>
-            <strong>Role: </strong> {roleObj.role}
+            <strong>Microservice: </strong> {apiAccess.microservice}
+          </p>
+          <p>
+            <strong>Api Name: </strong> {apiAccess.apiName}
           </p>
           <TextNumField
-            controlId='roleDisplay'
-            label='Role Display'
+            controlId='allowedRoles'
+            label='Allowed Roles'
             register={register}
-            error={errors.roleDisplay}
+            error={errors.allowedRoles}
             setError={setError}
           />
           <div className='d-flex mt-3 justify-content-between align-items-center'>
@@ -124,7 +118,7 @@ const RoleEditScreen: React.FC<TPageProps> = ({ roleObj }) => {
               Cancel
             </Button>
           </div>
-          {loadingOrProcessing && <Loader />}
+          {updating && <Loader />}
         </Form>
       </FormContainer>
     </>
@@ -136,25 +130,25 @@ export const getServerSideProps = async (context: NextPageContext) => {
   try {
     // the name of the query parameter ('edit') should match the [filename].tsx
     const id = context.query.edit as string | string[] | undefined;
-    let roleId = Array.isArray(id) ? id[0] : id;
-    if (!roleId) {
-      roleId = '';
+    let apiAccessId = Array.isArray(id) ? id[0] : id;
+    if (!apiAccessId) {
+      apiAccessId = '';
     }
-    let roleObj = null;
-    if (roleId) {
-      // Call the corresponding API function to fetch role data
-      roleObj = await getRoleById(context, roleId);
+    let apiAccess = null;
+    if (apiAccessId) {
+      // Call the corresponding API function to fetch api access data
+      apiAccess = await getApiAccessById(context, apiAccessId);
     }
     return {
-      props: { roleObj },
+      props: { apiAccess },
     };
   } catch (error) {
     // Handle errors if any
     console.error('Error fetching data:', error);
     return {
-      props: { roleObj: {} },
+      props: { apiAccess: {} },
     };
   }
 };
 
-export default RoleEditScreen;
+export default ApiAccessEditScreen;

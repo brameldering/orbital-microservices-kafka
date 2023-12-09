@@ -18,7 +18,7 @@ import ModalConfirmBox from 'components/ModalConfirmBox';
 import { H1_EDIT_USER } from 'constants/form-titles';
 import { USER_LIST_PAGE } from 'constants/client-pages';
 import { IUser } from '@orbitelco/common';
-import { getRoles } from 'api/users/get-roles';
+import { getRoles } from 'api/roles/get-roles';
 import { getUserById } from 'api/users/get-user-by-id';
 import { updUserState } from 'slices/authSlice';
 import { useUpdateUserMutation } from 'slices/usersApiSlice';
@@ -30,8 +30,11 @@ interface IFormInput {
 }
 
 const schema = yup.object().shape({
-  name: textField().required('Required'),
-  email: textField().required('Required').email('Invalid email address'),
+  name: textField().max(80).required('Required'),
+  email: textField()
+    .max(40)
+    .required('Required')
+    .email('Invalid email address'),
   role: yup.string().required('Required'),
 });
 
@@ -154,7 +157,7 @@ const UserEditScreen: React.FC<TPageProps> = ({ roles, user }) => {
               Cancel
             </Button>
           </div>
-          {updating && <Loader />}
+          {loadingOrProcessing && <Loader />}
         </Form>
       </FormContainer>
     </>

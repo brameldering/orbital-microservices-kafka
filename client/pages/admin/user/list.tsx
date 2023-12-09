@@ -45,6 +45,8 @@ const UserListScreen: React.FC<TPageProps> = ({ users }) => {
     }
   };
   // --------------------------------------------------
+  const loadingOrProcessing = deleting;
+
   return (
     <>
       <Meta title={H1_USER_ADMIN} />
@@ -115,7 +117,7 @@ const UserListScreen: React.FC<TPageProps> = ({ users }) => {
           </tbody>
         </Table>
       )}
-      {deleting && <Loader />}
+      {loadingOrProcessing && <Loader />}
     </>
   );
 };

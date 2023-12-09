@@ -25,8 +25,11 @@ interface IFormInput {
 }
 
 const schema = yup.object().shape({
-  name: textField().required('Required'),
-  email: textField().required('Required').email('Invalid email address'),
+  name: textField().max(80).required('Required'),
+  email: textField()
+    .max(40)
+    .required('Required')
+    .email('Invalid email address'),
 });
 
 const ProfileScreen: React.FC = () => {
@@ -71,7 +74,6 @@ const ProfileScreen: React.FC = () => {
       <FormContainer>
         <Form onSubmit={handleSubmit(onSubmit, onError)}>
           <FormTitle>{H1_MY_PROFILE}</FormTitle>
-          {isProcessing && <Loader />}
           <TextNumField
             controlId='name'
             label='Full name'
@@ -100,6 +102,7 @@ const ProfileScreen: React.FC = () => {
               Change Password
             </Link>
           </div>
+          {isProcessing && <Loader />}
         </Form>
       </FormContainer>
     </>

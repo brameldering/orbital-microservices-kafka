@@ -3,13 +3,20 @@ export const INDEX_PAGE = '/';
 // admin
 export const PRODUCT_LIST_PAGE = '/admin/product/list';
 export const PRODUCT_EDIT_PAGE = '/admin/product';
+
 export const ORDER_LIST_PAGE = '/admin/order/list';
 // export const ORDER_EDIT_PAGE = '/admin/order';
+
 export const USER_LIST_PAGE = '/admin/user/list';
 export const USER_EDIT_PAGE = '/admin/user';
+
 export const ROLE_CREATE_PAGE = '/admin/role/create';
 export const ROLE_LIST_PAGE = '/admin/role/list';
 export const ROLE_EDIT_PAGE = '/admin/role';
+
+export const API_ACCESS_CREATE_PAGE = '/admin/api-access/create';
+export const API_ACCESS_LIST_PAGE = '/admin/api-access/list';
+export const API_ACCESS_EDIT_PAGE = '/admin/api-access';
 
 // auth
 export const SIGNUP_PAGE = '/auth/signup';

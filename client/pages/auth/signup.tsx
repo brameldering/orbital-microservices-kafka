@@ -16,7 +16,7 @@ import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
 import { H1_SIGN_UP } from 'constants/form-titles';
 import { PRODUCTS_PAGE, SIGNIN_PAGE } from 'constants/client-pages';
-import { getRoles } from 'api/users/get-roles';
+import { getRoles } from 'api/roles/get-roles';
 import type { RootState } from 'slices/store';
 import { setUserState } from 'slices/authSlice';
 import { useSignUpMutation } from 'slices/usersApiSlice';
@@ -29,7 +29,7 @@ interface IFormInput {
 }
 
 const schema = yup.object().shape({
-  name: textField().required('Required'),
+  name: textField().max(25).required('Required'),
   email: textField().required('Required').email('Invalid email address'),
   password: passwordField(),
   role: yup.string().required('Required'),
@@ -49,7 +49,7 @@ const SignUpScreen: React.FC<TPageProps> = ({ roles }) => {
     handleSubmit,
     // setValue,
     getValues,
-    reset,
+    // reset,
     setError,
     // watch,
     formState: { isDirty, errors },
@@ -86,7 +86,7 @@ const SignUpScreen: React.FC<TPageProps> = ({ roles }) => {
         password,
         role,
       }).unwrap();
-      reset();
+      // reset();
       dispatch(setUserState(createdUser));
       Router.push(redirectString);
     } catch (err: any) {
@@ -110,7 +110,6 @@ const SignUpScreen: React.FC<TPageProps> = ({ roles }) => {
       <FormContainer>
         <Form onSubmit={handleSubmit(onSubmit, onError)}>
           <FormTitle>{H1_SIGN_UP}</FormTitle>
-          {isProcessing && <Loader />}
           <TextNumField
             controlId='name'
             label='Full Name'
@@ -162,6 +161,7 @@ const SignUpScreen: React.FC<TPageProps> = ({ roles }) => {
             </Link>
           </Col>
         </Row>
+        {isProcessing && <Loader />}
       </FormContainer>
     </>
   );

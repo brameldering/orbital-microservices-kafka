@@ -15,7 +15,7 @@ import {
   ROLE_CREATE_PAGE,
   ROLE_EDIT_PAGE,
 } from 'constants/client-pages';
-import { getRoles } from 'api/users/get-roles';
+import { getRoles } from 'api/roles/get-roles';
 import { useDeleteRoleMutation } from 'slices/rolesApiSlice';
 
 interface TPageProps {
@@ -72,7 +72,7 @@ const RolesListscreen: React.FC<TPageProps> = ({ roles }) => {
               id={'BUTTON_create_role'}
               variant='primary'
               className='btn-sm'>
-              <FaPlus /> Create Order
+              <FaPlus /> Create Role
             </Button>
           </Link>
         </Col>
@@ -85,7 +85,6 @@ const RolesListscreen: React.FC<TPageProps> = ({ roles }) => {
         <Table striped hover responsive className='table-sm'>
           <thead>
             <tr>
-              <th>ID</th>
               <th>ROLE</th>
               <th>ROLE DISPLAY</th>
               <th></th>
@@ -95,7 +94,6 @@ const RolesListscreen: React.FC<TPageProps> = ({ roles }) => {
             {roles &&
               roles.map((role: any) => (
                 <tr key={role.id}>
-                  <td id={`id_${role.role}`}>{role.id}</td>
                   <td id={`role_${role.role}`}>{role.role}</td>
                   <td id={`roleDisplay_${role.role}`}>{role.roleDisplay}</td>
                   <td>

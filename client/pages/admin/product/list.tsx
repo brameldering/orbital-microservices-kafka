@@ -116,9 +116,7 @@ const ProductListScreen = () => {
       </Row>
       {errorCreating && <ErrorBlock error={errorCreating} />}
       {errorDeleting && <ErrorBlock error={errorDeleting} />}
-      {isLoading ? (
-        <Loader />
-      ) : errorLoading ? (
+      {errorLoading ? (
         <ErrorBlock error={errorLoading} />
       ) : data && (!data.products || data.products.length === 0) ? (
         <p>There are no products</p>
@@ -177,7 +175,7 @@ const ProductListScreen = () => {
           {data && (
             <Paginate pages={data.pages} page={data.page} isAdmin={true} />
           )}
-          {(creating || deleting) && <Loader />}
+          {loadingOrProcessing && <Loader />}
         </>
       )}
     </>

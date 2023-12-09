@@ -27,4 +27,9 @@ export const H1_EDIT_USER = 'Edit User';
 export const H1_ORDER_ADMIN = 'Order Admin';
 
 export const H1_ROLE_ADMIN = 'Role Admin';
+export const H1_CREATE_ROLE = 'Create Role';
 export const H1_EDIT_ROLE = 'Edit Role';
+
+export const H1_API_ACCESS_ADMIN = 'Api Access Admin';
+export const H1_CREATE_API_ACCESS = 'Create Api Access';
+export const H1_EDIT_API_ACCESS = 'Edit Api Access';

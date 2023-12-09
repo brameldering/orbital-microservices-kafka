@@ -37,7 +37,6 @@ const SignInScreen: React.FC = () => {
     register,
     handleSubmit,
     getValues,
-    reset,
     setError,
     formState: { isDirty, errors },
   } = useForm<IFormInput>({
@@ -59,7 +58,6 @@ const SignInScreen: React.FC = () => {
     const password = getValues('password');
     try {
       const signedInUser = await doSignIn({ email, password }).unwrap();
-      reset();
       dispatch(setUserState(signedInUser));
       Router.push(redirect.toString());
     } catch (err: any) {
@@ -77,7 +75,6 @@ const SignInScreen: React.FC = () => {
       <FormContainer>
         <Form onSubmit={handleSubmit(onSubmit, onError)}>
           <FormTitle>{H1_SIGN_IN}</FormTitle>
-          {isProcessing && <Loader />}
           <TextNumField
             controlId='email'
             label='Email'
@@ -123,6 +120,7 @@ const SignInScreen: React.FC = () => {
             </Link>
           </Col>
         </Row>
+        {isProcessing && <Loader />}
       </FormContainer>
     </>
   );

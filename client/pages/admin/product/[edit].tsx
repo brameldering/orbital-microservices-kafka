@@ -36,13 +36,13 @@ interface IFormInput {
 
 const schema = yup.object().shape({
   sequentialProductId: textField(),
-  name: textField(),
-  price: numField(),
+  name: textField().max(80).required('Required'),
+  price: numField().required('Required'),
   imageURL: textField(),
-  brand: textField(),
-  category: textField(),
+  brand: textField().max(40).required('Required'),
+  category: textField().max(40).required('Required'),
   countInStock: numField(),
-  description: textAreaField(),
+  description: textAreaField().max(1024).required('Required'),
 });
 
 interface TPageProps {
@@ -235,7 +235,7 @@ const ProductEditScreen: React.FC<TPageProps> = ({ product }) => {
               Cancel
             </Button>
           </div>
-          {performingUpdate && <Loader />}
+          {loadingOrProcessing && <Loader />}
         </Form>
       </FormContainer>
     </>

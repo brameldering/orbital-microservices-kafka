@@ -20,7 +20,7 @@ export const apiAccessApiSlice = apiSlice.injectEndpoints({
         url: `${API_ACCESS_URL}/${id}`,
       }),
     }),
-    updateApiAccessRoles: builder.mutation<IApiAccess, IApiAccess>({
+    updateApiAccess: builder.mutation<IApiAccess, IApiAccess>({
       query: (data) => ({
         url: `${API_ACCESS_URL}/${data.id}`,
         method: 'PUT',
@@ -39,6 +39,6 @@ export const apiAccessApiSlice = apiSlice.injectEndpoints({
 export const {
   useGetApiAccessByIdQuery,
   useCreateApiAccessMutation,
-  useUpdateApiAccessRolesMutation,
+  useUpdateApiAccessMutation,
   useDeleteApiAccessMutation,
 } = apiAccessApiSlice;

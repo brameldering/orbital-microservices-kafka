@@ -2,7 +2,7 @@ import * as Yup from 'yup';
 import YupPassword from 'yup-password';
 
 YupPassword(Yup);
-const textField = () => Yup.string().max(255);
+const textField = () => Yup.string();
 const textAreaField = () => Yup.string().max(1024);
 
 const numField = () =>
