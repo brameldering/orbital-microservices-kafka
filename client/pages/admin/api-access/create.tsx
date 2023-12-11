@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Row, Col } from 'react-bootstrap';
+import { NextPageContext } from 'next';
 import Router from 'next/router';
-import { useForm } from 'react-hook-form';
+import { useForm, Resolver } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { TextNumField } from 'form/FormComponents';
 import FormContainer from 'form/FormContainer';
 import FormTitle from 'form/FormTitle';
+import { TextNumField, SelectField } from 'form/FormComponents';
 import { textField } from 'form/ValidationSpecs';
 import Loader from 'components/Loader';
 import Meta from 'components/Meta';
@@ -15,6 +16,8 @@ import ErrorBlock from 'components/ErrorBlock';
 import ModalConfirmBox from 'components/ModalConfirmBox';
 import { H1_CREATE_API_ACCESS } from 'constants/form-titles';
 import { API_ACCESS_LIST_PAGE } from 'constants/client-pages';
+import { CURRENT_MICROSERVICES } from '@orbitelco/common';
+import { getRoles } from 'api/roles/get-roles';
 import { useCreateApiAccessMutation } from 'slices/apiAccessApiSlice';
 
 interface IFormInput {
@@ -24,39 +27,45 @@ interface IFormInput {
 }
 
 const schema = yup.object().shape({
-  microservice: textField().required('Required'),
+  microservice: yup.string().required('Required'),
   apiName: textField().max(40).required('Required'),
+  allowedRoles: yup.array().of(yup.string()),
 });
 
-const ApiAccessCreateScreen: React.FC = () => {
+interface TPageProps {
+  roles: Array<{ role: string; roleDisplay: string }>;
+}
+
+const ApiAccessCreateScreen: React.FC<TPageProps> = ({ roles }) => {
   const [createApiAccess, { isLoading: creating, error: errorCreating }] =
     useCreateApiAccessMutation();
 
   const {
     register,
+    control,
     handleSubmit,
     getValues,
-    reset,
     setError,
     formState: { isDirty, errors },
   } = useForm<IFormInput>({
     defaultValues: {
       microservice: '',
       apiName: '',
+      allowedRoles: [],
     },
     mode: 'onBlur',
     reValidateMode: 'onSubmit',
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schema) as Resolver<IFormInput>,
   });
 
   const onSubmit = async () => {
     try {
+      // console.log('getValues(allowedRoles)', getValues('allowedRoles'));
       await createApiAccess({
         microservice: getValues('microservice'),
         apiName: getValues('apiName'),
         allowedRoles: getValues('allowedRoles'),
       }).unwrap();
-      reset();
       toast.success('Api Access created');
       Router.push(API_ACCESS_LIST_PAGE);
     } catch (err: any) {
@@ -77,6 +86,14 @@ const ApiAccessCreateScreen: React.FC = () => {
       Router.push(API_ACCESS_LIST_PAGE);
     }
   };
+  // --------------------------------------------------
+  const microservices = [
+    { label: 'Select microservice', value: '' },
+    ...CURRENT_MICROSERVICES.map((ms) => ({
+      label: ms,
+      value: ms,
+    })),
+  ];
 
   const loadingOrProcessing = creating;
 
@@ -93,11 +110,10 @@ const ApiAccessCreateScreen: React.FC = () => {
       <FormContainer>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <FormTitle>{H1_CREATE_API_ACCESS}</FormTitle>
-          {errorCreating && <ErrorBlock error={errorCreating} />}
-          <TextNumField
+          <SelectField
             controlId='microservice'
-            label='Microservice'
-            register={register}
+            options={microservices}
+            control={control}
             error={errors.microservice}
             setError={setError}
           />
@@ -108,7 +124,27 @@ const ApiAccessCreateScreen: React.FC = () => {
             error={errors.apiName}
             setError={setError}
           />
-
+          <fieldset className='border border-primary mt-3 mb-0'>
+            <Form.Group as={Row}>
+              <Form.Label as='legend' column sm={6} className='ps-3 pt-1'>
+                Allowed Roles
+              </Form.Label>
+              <Col sm={6}>
+                {roles.map((role, index) => (
+                  <div key={index} className='m-1'>
+                    <Form.Check
+                      type='checkbox'
+                      id={`checkbox-${index}`}
+                      label={role.roleDisplay}
+                      value={role.role}
+                      {...register(`allowedRoles.${index}` as const)}
+                    />
+                  </div>
+                ))}
+              </Col>
+            </Form.Group>
+          </fieldset>
+          {errorCreating && <ErrorBlock error={errorCreating} />}
           <div className='d-flex mt-3 justify-content-between align-items-center'>
             <Button
               id='BUTTON_update'
@@ -129,6 +165,22 @@ const ApiAccessCreateScreen: React.FC = () => {
       </FormContainer>
     </>
   );
+};
+
+// Fetch Roles (to generate list of checkboxes)
+export const getServerSideProps = async (context: NextPageContext) => {
+  try {
+    const roles = await getRoles(context);
+    return {
+      props: { roles },
+    };
+  } catch (error) {
+    // Handle errors if any
+    console.error('Error fetching data:', error);
+    return {
+      props: { roles: [] },
+    };
+  }
 };
 
 export default ApiAccessCreateScreen;

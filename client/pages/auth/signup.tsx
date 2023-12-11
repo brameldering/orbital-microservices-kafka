@@ -105,7 +105,6 @@ const SignUpScreen: React.FC<TPageProps> = ({ roles }) => {
 
   return (
     <>
-      {' '}
       <Meta title={H1_SIGN_UP} />
       <FormContainer>
         <Form onSubmit={handleSubmit(onSubmit, onError)}>
@@ -167,7 +166,7 @@ const SignUpScreen: React.FC<TPageProps> = ({ roles }) => {
   );
 };
 
-// Fetch User Roles (to fill dropdown box)
+// Fetch Roles (to fill dropdown box)
 export const getServerSideProps = async (context: NextPageContext) => {
   try {
     const roles = await getRoles(context);
