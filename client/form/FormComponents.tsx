@@ -45,7 +45,7 @@ const CheckBoxField: React.FunctionComponent<CheckBoxFieldProps> = ({
 };
 
 // =================== TextNumField ====================
-// = form field used for text and number               =
+// = form field used for text and whole number               =
 interface TextNumFieldProps {
   controlId: string;
   label: string;
@@ -74,6 +74,61 @@ const TextNumField: React.FunctionComponent<TextNumFieldProps> = ({
           {...register(controlId)}
           onChange={(e) => {
             setError(controlId, { message: '' });
+            register(controlId).onChange(e);
+          }}
+        />
+      </FloatingLabel>
+      {error && (
+        <Form.Text id={errorTextId} className='text-danger'>
+          {error.message}
+        </Form.Text>
+      )}
+    </Form.Group>
+  );
+};
+
+// ================= CurrencyNumField ==================
+// = form field used for currency number               =
+interface CurrencyNumFieldProps {
+  controlId: string;
+  label: string;
+  register: any;
+  error: any;
+  setError: any;
+}
+
+const CurrencyNumField: React.FunctionComponent<CurrencyNumFieldProps> = ({
+  controlId,
+  label,
+  register,
+  error,
+  setError,
+}) => {
+  const errorTextId = 'error_text_' + controlId;
+  return (
+    <Form.Group>
+      <FloatingLabel controlId={controlId} label={label} className='mt-3'>
+        <Form.Control
+          style={{ borderColor: '#606060' }}
+          type='number'
+          step='0.01'
+          placeholder={label}
+          {...register(controlId)}
+          onChange={(e) => {
+            const value = parseFloat(e.target.value);
+            if (value % 1 !== 0) {
+              // Check if the number has a decimal part
+              const decimalPart = parseFloat((value % 1).toFixed(2)); // Limit decimal to two places
+              if (decimalPart < 0 || decimalPart > 0.99) {
+                setError(controlId, {
+                  message: 'Decimal part should be between .00 and .99',
+                });
+              } else {
+                setError(controlId, { message: '' }); // Clear error if it's within the allowed range
+              }
+            } else {
+              setError(controlId, { message: '' }); // Clear error for whole numbers
+            }
             register(controlId).onChange(e);
           }}
         />
@@ -251,6 +306,7 @@ const TextAreaField: React.FunctionComponent<TextAreaFieldProps> = ({
 export {
   CheckBoxField,
   TextNumField,
+  CurrencyNumField,
   PasswordField,
   SelectField,
   TextAreaField,

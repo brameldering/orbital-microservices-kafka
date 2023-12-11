@@ -2,11 +2,15 @@ import React, { useState } from 'react';
 import { Row, Col, Form, Button } from 'react-bootstrap';
 import { NextPageContext } from 'next';
 import Router from 'next/router';
-import { useForm } from 'react-hook-form';
+import { useForm, Resolver } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { TextNumField, TextAreaField } from 'form/FormComponents';
+import {
+  TextNumField,
+  CurrencyNumField,
+  TextAreaField,
+} from 'form/FormComponents';
 import FormContainer from 'form/FormContainer';
 import FormTitle from 'form/FormTitle';
 import { textField, textAreaField, numField } from 'form/ValidationSpecs';
@@ -24,24 +28,24 @@ import {
 } from 'slices/productsApiSlice';
 
 interface IFormInput {
-  sequentialProductId?: string;
-  name?: string;
-  price?: number;
-  imageURL?: string;
-  brand?: string;
-  category?: string;
-  countInStock?: number;
-  description?: string;
+  sequentialProductId: string;
+  name: string;
+  price: number;
+  imageURL: string;
+  brand: string;
+  category: string;
+  countInStock: number;
+  description: string;
 }
 
 const schema = yup.object().shape({
   sequentialProductId: textField(),
   name: textField().max(80).required('Required'),
   price: numField().required('Required'),
-  imageURL: textField(),
+  imageURL: textField().required('Required'),
   brand: textField().max(40).required('Required'),
   category: textField().max(40).required('Required'),
-  countInStock: numField(),
+  countInStock: numField().required('Required'),
   description: textAreaField().max(1024).required('Required'),
 });
 
@@ -67,18 +71,18 @@ const ProductEditScreen: React.FC<TPageProps> = ({ product }) => {
     formState: { isDirty, errors },
   } = useForm<IFormInput>({
     defaultValues: {
-      sequentialProductId: product?.sequentialProductId || '',
-      name: product?.name || '',
-      price: product?.price || 0,
-      imageURL: product?.imageURL || '',
-      brand: product?.brand || '',
-      category: product?.category || '',
-      countInStock: product?.countInStock || 0,
-      description: product?.description || '',
+      sequentialProductId: product.sequentialProductId,
+      name: product.name,
+      price: product.price,
+      imageURL: product.imageURL,
+      brand: product.brand,
+      category: product.category,
+      countInStock: product.countInStock,
+      description: product.description,
     },
     mode: 'onBlur',
     reValidateMode: 'onSubmit',
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schema) as Resolver<IFormInput>,
   });
 
   const onSubmit = async () => {
@@ -190,9 +194,8 @@ const ProductEditScreen: React.FC<TPageProps> = ({ product }) => {
             error={errors.brand}
             setError={setError}
           />
-          <TextNumField
+          <CurrencyNumField
             controlId='price'
-            type='number'
             label='Price'
             register={register}
             error={errors.price}

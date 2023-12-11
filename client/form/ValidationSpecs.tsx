@@ -6,8 +6,12 @@ const textField = () => Yup.string();
 const textAreaField = () => Yup.string().max(1024);
 
 const numField = () =>
+  Yup.number().transform((_, val) => (val !== '' ? Number(val) : null));
+
+const currencyField = () =>
   Yup.number()
-    .moreThan(-1, 'Cannot be negative')
+    .moreThan(-0.01) // Ensures the number is positive
+    .max(9999999.99)
     .transform((_, val) => (val !== '' ? Number(val) : null));
 
 const passwordField = () =>
@@ -23,4 +27,4 @@ const passwordField = () =>
 // .minNumbers(1, 'password must contain at least 1 number')
 // .minSymbols(1, 'password must contain at least 1 special character');
 
-export { textField, textAreaField, numField, passwordField };
+export { textField, textAreaField, numField, currencyField, passwordField };

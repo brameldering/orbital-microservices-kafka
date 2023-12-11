@@ -1,6 +1,5 @@
 import express, { Response } from 'express';
 // import { body } from 'express-validator';
-import { calcPrices } from '../utils/calcPrices';
 import {
   ORDERS_URL,
   Order,
@@ -8,6 +7,7 @@ import {
   IOrderObj,
   IOrderUser,
   IExtendedRequest,
+  calcPrices,
   UserInputError,
   DatabaseError,
 } from '@orbitelco/common';
@@ -83,7 +83,17 @@ router.post(ORDERS_URL, async (req: IExtendedRequest, res: Response) => {
   // console.log('=== createOrder -> orderItems');
   // console.log(orderItems);
   // calculate prices
-  const totalAmounts = calcPrices(orderItems);
+  const vatPercentage: number = Number(process.env!.VAT_PERCENTAGE);
+  const shippingFee: number = Number(process.env!.SHIPPING_FEE);
+  const thresholdFreeShipping: number = Number(
+    process.env!.THRESHOLD_FREE_SHIPPING
+  );
+  const totalAmounts = calcPrices(
+    orderItems,
+    vatPercentage,
+    shippingFee,
+    thresholdFreeShipping
+  );
   // console.time('TimeNeededToSaveOrder');
   // Determine next orderId
   const seqNumberOrderId = await OrderSequence.findOneAndUpdate(
