@@ -6,11 +6,21 @@ import { getApiAccessArray } from '../utils/loadApiAccessArray';
 // In test use .env file for environment variables
 require('dotenv').config();
 
-// ======================= Mock the ApiAccessArray =========================
+// ==================== Mock the ApiAccessArray =======================
 jest.mock('../utils/loadApiAccessArray', () => ({
   getApiAccessArray: jest.fn(),
 }));
 (getApiAccessArray as jest.Mock).mockResolvedValue(apiAccessAll);
+
+// =================== Mock the PriceCalcSettings =====================
+jest.mock('../utils/getPriceCalcSettings', () => ({
+  getPriceCalcSettings: jest.fn().mockResolvedValue({
+    vatPercentage: 21,
+    shippingFee: 4.5,
+    thresholdFreeShipping: 100,
+  }),
+}));
+
 // =======================================================
 let mongo: MongoMemoryServer;
 

@@ -35,7 +35,6 @@ const RoleCreateScreen: React.FC = () => {
     register,
     handleSubmit,
     getValues,
-    reset,
     setError,
     formState: { isDirty, errors },
   } = useForm<IFormInput>({
@@ -54,7 +53,6 @@ const RoleCreateScreen: React.FC = () => {
         role: getValues('role'),
         roleDisplay: getValues('roleDisplay'),
       }).unwrap();
-      reset();
       toast.success('Role created');
       Router.push(ROLE_LIST_PAGE);
     } catch (err: any) {

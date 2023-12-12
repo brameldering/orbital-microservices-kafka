@@ -26,6 +26,9 @@ export const H1_EDIT_USER = 'Edit User';
 
 export const H1_ORDER_ADMIN = 'Order Admin';
 
+export const H1_PRICE_CALC_ADMIN = 'Price Calculation Admin';
+export const H1_EDIT_PRICE_CALC = 'Edit Price Calculation';
+
 export const H1_ROLE_ADMIN = 'Role Admin';
 export const H1_CREATE_ROLE = 'Create Role';
 export const H1_EDIT_ROLE = 'Edit Role';

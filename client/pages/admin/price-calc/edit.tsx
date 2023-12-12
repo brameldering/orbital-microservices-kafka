@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { Form, Button } from 'react-bootstrap';
 import { NextPageContext } from 'next';
 import Router from 'next/router';
@@ -7,61 +6,55 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { TextNumField, SelectField } from 'form/FormComponents';
+import { TextNumField, CurrencyNumField } from 'form/FormComponents';
 import FormContainer from 'form/FormContainer';
 import FormTitle from 'form/FormTitle';
-import { textField } from 'form/ValidationSpecs';
+import { numField } from 'form/ValidationSpecs';
 import Loader from 'components/Loader';
 import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
 import ModalConfirmBox from 'components/ModalConfirmBox';
-import { H1_EDIT_USER } from 'constants/form-titles';
-import { USER_LIST_PAGE } from 'constants/client-pages';
-import { IUser } from '@orbitelco/common';
-import { getRoles } from 'api/roles/get-roles';
-import { getUserById } from 'api/users/get-user-by-id';
-import { updUserState } from 'slices/authSlice';
-import { useUpdateUserMutation } from 'slices/usersApiSlice';
+import { H1_EDIT_PRICE_CALC } from 'constants/form-titles';
+import { PRICE_CALC_VIEW_PAGE } from 'constants/client-pages';
+import { IPriceCalcSettingsObj } from '@orbitelco/common';
+import { getPriceCalcSettings } from 'api/orders/get-price-calc-settings';
+import { useUpdatePriceCalcSettingsMutation } from 'slices/priceCalcSettingsApiSlice';
 
 interface IFormInput {
-  name: string;
-  email: string;
-  role: string;
+  vatPercentage: number;
+  shippingFee: number;
+  thresholdFreeShipping: number;
 }
 
 const schema = yup.object().shape({
-  name: textField().max(80).required('Required'),
-  email: textField()
-    .max(40)
-    .required('Required')
-    .email('Invalid email address'),
-  role: yup.string().required('Required'),
+  vatPercentage: numField().required('Required'),
+  shippingFee: numField().required('Required'),
+  thresholdFreeShipping: numField().required('Required'),
 });
 
 interface TPageProps {
-  roles: Array<{ role: string; roleDisplay: string }>;
-  user: IUser;
+  priceCalcSettings: IPriceCalcSettingsObj;
 }
 
-const UserEditScreen: React.FC<TPageProps> = ({ roles, user }) => {
-  const dispatch = useDispatch();
-  const [updateUser, { isLoading: updating, error: errorUpdating }] =
-    useUpdateUserMutation();
+const PriceCalcSettingsEditScreen: React.FC<TPageProps> = ({
+  priceCalcSettings,
+}) => {
+  const [
+    updatePriceCalcSettings,
+    { isLoading: updating, error: errorUpdating },
+  ] = useUpdatePriceCalcSettingsMutation();
 
   const {
     register,
-    control,
     handleSubmit,
-    // setValue,
     getValues,
     setError,
-    // watch,
     formState: { isDirty, errors },
   } = useForm<IFormInput>({
     defaultValues: {
-      name: user?.name || '',
-      email: user?.email || '',
-      role: user?.role || '',
+      vatPercentage: priceCalcSettings.vatPercentage,
+      shippingFee: priceCalcSettings.shippingFee,
+      thresholdFreeShipping: priceCalcSettings.thresholdFreeShipping,
     },
     mode: 'onBlur',
     reValidateMode: 'onSubmit',
@@ -70,15 +63,13 @@ const UserEditScreen: React.FC<TPageProps> = ({ roles, user }) => {
 
   const onSubmit = async () => {
     try {
-      const res = await updateUser({
-        id: user.id,
-        name: getValues('name'),
-        email: getValues('email'),
-        role: getValues('role'),
+      await updatePriceCalcSettings({
+        vatPercentage: getValues('vatPercentage'),
+        shippingFee: getValues('shippingFee'),
+        thresholdFreeShipping: getValues('thresholdFreeShipping'),
       }).unwrap();
-      dispatch(updUserState({ ...res }));
-      toast.success('User updated');
-      Router.push(USER_LIST_PAGE);
+      toast.success('PriceCalcSettings updated');
+      Router.push(PRICE_CALC_VIEW_PAGE);
     } catch (err: any) {
       // To avoid "Uncaught in promise" errors in console, errors are handled by RTK mutation
     }
@@ -87,27 +78,22 @@ const UserEditScreen: React.FC<TPageProps> = ({ roles, user }) => {
   const [showChangesModal, setShowChangesModal] = useState(false);
   const goBackWithoutSaving = () => {
     setShowChangesModal(false);
-    Router.push(USER_LIST_PAGE);
+    Router.push(PRICE_CALC_VIEW_PAGE);
   };
   const cancelGoBack = () => setShowChangesModal(false);
   const goBackHandler = async () => {
     if (isDirty) {
       setShowChangesModal(true);
     } else {
-      Router.push(USER_LIST_PAGE);
+      Router.push(PRICE_CALC_VIEW_PAGE);
     }
   };
-
-  const selectRoles = [
-    { label: 'Select role', value: '' },
-    ...roles.map((role) => ({ label: role.roleDisplay, value: role.role })),
-  ];
 
   const loadingOrProcessing = updating;
 
   return (
     <>
-      <Meta title={H1_EDIT_USER} />
+      <Meta title={H1_EDIT_PRICE_CALC} />
       <ModalConfirmBox
         showModal={showChangesModal}
         title='Are you sure you want to go back?'
@@ -117,27 +103,27 @@ const UserEditScreen: React.FC<TPageProps> = ({ roles, user }) => {
       />
       <FormContainer>
         <Form onSubmit={handleSubmit(onSubmit)}>
-          <FormTitle>{H1_EDIT_USER}</FormTitle>
+          <FormTitle>{H1_EDIT_PRICE_CALC}</FormTitle>
           {errorUpdating && <ErrorBlock error={errorUpdating} />}
           <TextNumField
-            controlId='name'
-            label='Full Name'
+            controlId='vatPercentage'
+            label='VAT Percentage'
             register={register}
-            error={errors.name}
+            error={errors.vatPercentage}
             setError={setError}
           />
-          <TextNumField
-            controlId='email'
-            label='Email'
+          <CurrencyNumField
+            controlId='shippingFee'
+            label='Shipping Fee'
             register={register}
-            error={errors.email}
+            error={errors.shippingFee}
             setError={setError}
           />
-          <SelectField
-            controlId='role'
-            options={selectRoles}
-            control={control}
-            error={errors.role}
+          <CurrencyNumField
+            controlId='thresholdFreeShipping'
+            label='Threshold Free Shipping'
+            register={register}
+            error={errors.thresholdFreeShipping}
             setError={setError}
           />
           <div className='d-flex mt-3 justify-content-between align-items-center'>
@@ -162,31 +148,21 @@ const UserEditScreen: React.FC<TPageProps> = ({ roles, user }) => {
   );
 };
 
-// Fetch user and User Roles (to fill dropdown box)
+// Fetch price calc settings
 export const getServerSideProps = async (context: NextPageContext) => {
   try {
-    const roles = await getRoles(context);
-    // the name of the query parameter ('edit') should match the [filename].tsx
-    const id = context.query.edit as string | string[] | undefined;
-    let userId = Array.isArray(id) ? id[0] : id;
-    if (!userId) {
-      userId = '';
-    }
-    let user = null;
-    if (userId) {
-      // Call the corresponding API function to fetch user data
-      user = await getUserById(context, userId);
-    }
+    // Call the corresponding API function to fetch price settings
+    const priceCalcSettings = await getPriceCalcSettings(context);
     return {
-      props: { roles, user },
+      props: { priceCalcSettings },
     };
   } catch (error) {
     // Handle errors if any
     console.error('Error fetching data:', error);
     return {
-      props: { roles: [], user: {} },
+      props: { priceCalcSettings: {} },
     };
   }
 };
 
-export default UserEditScreen;
+export default PriceCalcSettingsEditScreen;

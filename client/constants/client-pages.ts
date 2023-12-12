@@ -7,6 +7,9 @@ export const PRODUCT_EDIT_PAGE = '/admin/product';
 export const ORDER_LIST_PAGE = '/admin/order/list';
 // export const ORDER_EDIT_PAGE = '/admin/order';
 
+export const PRICE_CALC_VIEW_PAGE = '/admin/price-calc/view';
+export const PRICE_CALC_EDIT_PAGE = '/admin/price-calc/edit';
+
 export const USER_LIST_PAGE = '/admin/user/list';
 export const USER_EDIT_PAGE = '/admin/user';
 

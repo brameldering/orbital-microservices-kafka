@@ -20,6 +20,7 @@ import {
   ORDER_LIST_PAGE,
   ROLE_LIST_PAGE,
   API_ACCESS_LIST_PAGE,
+  PRICE_CALC_VIEW_PAGE,
 } from 'constants/client-pages';
 import type { RootState } from 'slices/store';
 import { logout } from 'slices/authSlice';
@@ -139,6 +140,12 @@ const Header: React.FC = () => {
                       href={API_ACCESS_LIST_PAGE}
                       id='LINK_header_apiAccess'>
                       Api Access Rights
+                    </NavDropdown.Item>
+                    <NavDropdown.Item
+                      as={Link}
+                      href={PRICE_CALC_VIEW_PAGE}
+                      id='LINK_header_priceCalc'>
+                      Price Calculation
                     </NavDropdown.Item>
                   </NavDropdown>
                 )}

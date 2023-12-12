@@ -22,7 +22,7 @@ interface TPageProps {
   roles: IRole[];
 }
 
-const RolesListscreen: React.FC<TPageProps> = ({ roles }) => {
+const RolesListScreen: React.FC<TPageProps> = ({ roles }) => {
   // --------------- Delete Role ---------------
   const [deleteRole, { isLoading: deleting, error: errorDeleting }] =
     useDeleteRoleMutation();
@@ -141,4 +141,4 @@ export const getServerSideProps = async (context: NextPageContext) => {
   }
 };
 
-export default RolesListscreen;
+export default RolesListScreen;

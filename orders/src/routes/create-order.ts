@@ -1,16 +1,18 @@
 import express, { Response } from 'express';
 // import { body } from 'express-validator';
 import {
+  IExtendedRequest,
   ORDERS_URL,
   Order,
   OrderSequence,
   IOrderObj,
   IOrderUser,
-  IExtendedRequest,
   calcPrices,
+  IPriceCalcSettingsObj,
   UserInputError,
   DatabaseError,
 } from '@orbitelco/common';
+import { getPriceCalcSettings } from '../utils/getPriceCalcSettings';
 
 const router = express.Router();
 
@@ -82,17 +84,20 @@ router.post(ORDERS_URL, async (req: IExtendedRequest, res: Response) => {
   // );
   // console.log('=== createOrder -> orderItems');
   // console.log(orderItems);
+
+  // Get price calculation settings
+  const priceCalcSettings: IPriceCalcSettingsObj | null =
+    await getPriceCalcSettings();
+  console.log('PriceCalcSettings', priceCalcSettings);
+  if (!priceCalcSettings) {
+    throw new DatabaseError('Missing Price Calc Settings table in database');
+  }
   // calculate prices
-  const vatPercentage: number = Number(process.env!.VAT_PERCENTAGE);
-  const shippingFee: number = Number(process.env!.SHIPPING_FEE);
-  const thresholdFreeShipping: number = Number(
-    process.env!.THRESHOLD_FREE_SHIPPING
-  );
   const totalAmounts = calcPrices(
     orderItems,
-    vatPercentage,
-    shippingFee,
-    thresholdFreeShipping
+    priceCalcSettings.vatPercentage,
+    priceCalcSettings.shippingFee,
+    priceCalcSettings.thresholdFreeShipping
   );
   // console.time('TimeNeededToSaveOrder');
   // Determine next orderId

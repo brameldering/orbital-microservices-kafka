@@ -42,7 +42,6 @@ const RoleEditScreen: React.FC<TPageProps> = ({ roleObj }) => {
     register,
     handleSubmit,
     getValues,
-    reset,
     setError,
     formState: { isDirty, errors },
   } = useForm<IFormInput>({
@@ -61,7 +60,6 @@ const RoleEditScreen: React.FC<TPageProps> = ({ roleObj }) => {
         role: roleObj?.role,
         roleDisplay: getValues('roleDisplay'),
       }).unwrap();
-      reset();
       toast.success('Role updated');
       Router.push(ROLE_LIST_PAGE);
     } catch (err: any) {

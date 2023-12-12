@@ -3,6 +3,7 @@ import {
   SEED_DATA_URL,
   roleSchema,
   apiAccessSchema,
+  priceCalcSettingsSchema,
   userSchema,
   productSchema,
   productSequenceSchema,
@@ -14,6 +15,7 @@ import {
 import { products, productSequence } from '../../seederdata/products';
 import { users } from '../../seederdata/users';
 import { orderSequence } from '../../seederdata/orders';
+import { priceCalcSettings } from '../../seederdata/price-calc-settings';
 import { authDB, productsDB, ordersDB } from '../../src/server';
 
 const router = express.Router();
@@ -31,6 +33,10 @@ router.post(SEED_DATA_URL, async (req: Request, res: Response) => {
     'OrderSequence',
     orderSequenceSchema
   );
+  const PriceCalcSettingsInOrderDB = ordersDB.model(
+    'PriceCalcSettings',
+    priceCalcSettingsSchema
+  );
 
   const ProductsInProductDB = productsDB.model('Product', productSchema);
   const AccessInProductDB = productsDB.model('ApiAccess', apiAccessSchema);
@@ -45,6 +51,7 @@ router.post(SEED_DATA_URL, async (req: Request, res: Response) => {
   // const IdSequenceInSeqDB = seqDB.model('IdSequence', idSequenceSchema);
 
   // =============== Delete existing data =================
+  await PriceCalcSettingsInOrderDB.deleteMany();
   await OrderSeqInOrderDB.deleteMany();
   await AccessInOrderDB.deleteMany();
   await OrdersInOrderDB.deleteMany();
@@ -60,6 +67,7 @@ router.post(SEED_DATA_URL, async (req: Request, res: Response) => {
   // await IdSequenceInSeqDB.deleteMany();
 
   // =============== Load seed data =================
+  await PriceCalcSettingsInOrderDB.insertMany(priceCalcSettings);
   await OrderSeqInOrderDB.insertMany(orderSequence);
   await AccessInOrderDB.insertMany(apiAccessAll);
   // Note there are no orders to seed

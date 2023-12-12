@@ -18,6 +18,8 @@ import { updateOrderToPaidRouter } from './routes/update-order-to-paid';
 import { updateOrderToDeliveredRouter } from './routes/update-order-to-delivered';
 import { getOrderByIdRouter } from './routes/get-order-by-id';
 import { getPayPalClientIdRouter } from './routes/get-paypalclientid';
+import { getPriceCalcSettingsRouter } from './routes/get-price-calc-settings';
+import { updatePriceCalcSettingsRouter } from './routes/update-price-calc-settings';
 import { getApiAccessArray } from './utils/loadApiAccessArray';
 
 // ======================================================
@@ -37,18 +39,6 @@ if (
 ) {
   console.error(
     'Missing ENV variable for PAYPAL_CLIENT_ID, PAYPAL_APP_SECRET or PAYPAL_API_URL'
-  );
-  process.exit(1);
-}
-if (
-  !(
-    process.env.VAT_PERCENTAGE &&
-    process.env.SHIPPING_FEE &&
-    process.env.THRESHOLD_FREE_SHIPPING
-  )
-) {
-  console.error(
-    'Missing ENV variable for VAT_PERCENTAGE, SHIPPING_FEE or THRESHOLD_FREE_SHIPPING'
   );
   process.exit(1);
 }
@@ -82,6 +72,8 @@ const setupApiAccessAndRunApp = async () => {
     // =================================================
 
     app.use(getPayPalClientIdRouter);
+    app.use(getPriceCalcSettingsRouter);
+    app.use(updatePriceCalcSettingsRouter);
     app.use(getOrdersRouter);
     app.use(createOrderRouter);
     app.use(getMyOrdersRouter);

@@ -17,6 +17,7 @@ export const updateCart = (state: ICart) => {
   //   );
   // }
   // const feesConfig: IFeesConfig = JSON.parse(configInfoLocalStorage);
+
   const totalAmounts = calcPrices(
     state.cartItems,
     VAT_PERCENTAGE,

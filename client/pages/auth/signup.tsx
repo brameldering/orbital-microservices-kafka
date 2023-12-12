@@ -86,7 +86,6 @@ const SignUpScreen: React.FC<TPageProps> = ({ roles }) => {
         password,
         role,
       }).unwrap();
-      // reset();
       dispatch(setUserState(createdUser));
       Router.push(redirectString);
     } catch (err: any) {
