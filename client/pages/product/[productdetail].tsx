@@ -12,6 +12,7 @@ import {
 } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
 import { toast } from 'react-toastify';
+import { NextPageContext } from 'next';
 import Link from 'next/link';
 import Router, { useRouter } from 'next/router';
 import Meta from 'components/Meta';
@@ -19,7 +20,7 @@ import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
 import Rating from 'components/Rating';
 import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
-import { ICartItem } from '@orbitelco/common';
+import { ICartItem, IPriceCalcSettingsObj } from '@orbitelco/common';
 import { dateTimeToLocaleDateString } from 'utils/dateUtils';
 import { PRODUCTS_PAGE, CART_PAGE, SIGNIN_PAGE } from 'constants/client-pages';
 import type { RootState } from 'slices/store';
@@ -28,8 +29,13 @@ import {
   useGetProductByIdQuery,
   useCreateReviewMutation,
 } from 'slices/productsApiSlice';
+import { getPriceCalcSettings } from 'api/orders/get-price-calc-settings';
 
-const ProductDetailScreen: React.FC = () => {
+interface TPageProps {
+  priceCalcSettings: IPriceCalcSettingsObj;
+}
+
+const ProductDetailScreen: React.FC<TPageProps> = ({ priceCalcSettings }) => {
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state: RootState) => state.auth);
 
@@ -71,7 +77,9 @@ const ProductDetailScreen: React.FC = () => {
         countInStock: product.countInStock,
         qty: 0,
       };
-      dispatch(addToCart({ ...cartItem, qty }));
+      dispatch(
+        addToCart({ cartItem: { ...cartItem, qty }, priceCalcSettings })
+      );
       Router.push(CART_PAGE);
     }
   };
@@ -287,6 +295,23 @@ const ProductDetailScreen: React.FC = () => {
       )}
     </>
   );
+};
+
+// Fetch price calc settings
+export const getServerSideProps = async (context: NextPageContext) => {
+  try {
+    // Call the corresponding API function to fetch price settings
+    const priceCalcSettings = await getPriceCalcSettings(context);
+    return {
+      props: { priceCalcSettings },
+    };
+  } catch (error) {
+    // Handle errors if any
+    console.error('Error fetching data:', error);
+    return {
+      props: { priceCalcSettings: {} },
+    };
+  }
 };
 
 export default ProductDetailScreen;

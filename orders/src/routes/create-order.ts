@@ -88,7 +88,7 @@ router.post(ORDERS_URL, async (req: IExtendedRequest, res: Response) => {
   // Get price calculation settings
   const priceCalcSettings: IPriceCalcSettingsObj | null =
     await getPriceCalcSettings();
-  console.log('PriceCalcSettings', priceCalcSettings);
+  // console.log('PriceCalcSettings', priceCalcSettings);
   if (!priceCalcSettings) {
     throw new DatabaseError('Missing Price Calc Settings table in database');
   }

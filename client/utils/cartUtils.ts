@@ -1,13 +1,10 @@
 'use client';
-import { ICart, calcPrices } from '@orbitelco/common';
-// import { IFeesConfig } from '@orbitelco/common';
-import {
-  VAT_PERCENTAGE,
-  SHIPPING_FEE,
-  THRESHOLD_FREE_SHIPPING,
-} from 'constants/constants-frontend';
+import { ICart, calcPrices, IPriceCalcSettingsObj } from '@orbitelco/common';
 
-export const updateCart = (state: ICart) => {
+export const updateCart = (
+  state: ICart,
+  priceCalcSettings: IPriceCalcSettingsObj
+) => {
   // const configInfoLocalStorage: string | null =
   //   localStorage.getItem('configInfo');
 
@@ -20,9 +17,9 @@ export const updateCart = (state: ICart) => {
 
   const totalAmounts = calcPrices(
     state.cartItems,
-    VAT_PERCENTAGE,
-    SHIPPING_FEE,
-    THRESHOLD_FREE_SHIPPING
+    priceCalcSettings.vatPercentage,
+    priceCalcSettings.shippingFee,
+    priceCalcSettings.thresholdFreeShipping
   );
 
   state.totalAmounts.itemsPrice = totalAmounts.itemsPrice;

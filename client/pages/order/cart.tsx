@@ -11,6 +11,7 @@ import {
 import Card from 'react-bootstrap/Card';
 import { FaTrash } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
+import { NextPageContext } from 'next';
 import Link from 'next/link';
 import Router, { useRouter } from 'next/router';
 import Meta from 'components/Meta';
@@ -23,11 +24,16 @@ import {
   SHIPPING_PAGE,
   PRODUCT_DETAIL_PAGE,
 } from 'constants/client-pages';
-import { ICartItem } from '@orbitelco/common';
+import { ICartItem, IPriceCalcSettingsObj } from '@orbitelco/common';
 import type { RootState } from 'slices/store';
 import { addToCart, removeFromCart } from 'slices/cartSlice';
+import { getPriceCalcSettings } from 'api/orders/get-price-calc-settings';
 
-const CartScreen: React.FC = () => {
+interface TPageProps {
+  priceCalcSettings: IPriceCalcSettingsObj;
+}
+
+const CartScreen: React.FC<TPageProps> = ({ priceCalcSettings }) => {
   const dispatch = useDispatch();
   const router = useRouter();
   const currentPath = router.pathname;
@@ -36,11 +42,11 @@ const CartScreen: React.FC = () => {
   const { cartItems } = useSelector((state: RootState) => state.cart);
 
   const addToCartHandler = (product: ICartItem, qty: number) => {
-    dispatch(addToCart({ ...product, qty }));
+    dispatch(addToCart({ cartItem: { ...product, qty }, priceCalcSettings }));
   };
 
   const removeFromCartHandler = (id: string) => {
-    dispatch(removeFromCart(id));
+    dispatch(removeFromCart({ id, priceCalcSettings }));
   };
 
   const nextPage = SHIPPING_PAGE;
@@ -146,6 +152,23 @@ const CartScreen: React.FC = () => {
       </Row>
     </>
   );
+};
+
+// Fetch price calc settings
+export const getServerSideProps = async (context: NextPageContext) => {
+  try {
+    // Call the corresponding API function to fetch price settings
+    const priceCalcSettings = await getPriceCalcSettings(context);
+    return {
+      props: { priceCalcSettings },
+    };
+  } catch (error) {
+    // Handle errors if any
+    console.error('Error fetching data:', error);
+    return {
+      props: { priceCalcSettings: {} },
+    };
+  }
 };
 
 export default CartScreen;

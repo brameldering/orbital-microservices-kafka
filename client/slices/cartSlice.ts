@@ -2,7 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type {
   ICart,
-  ICartItem,
+  ICartItemWithSettings,
+  IRemoveFromCart,
   IShippingAddress,
   ITotalAmounts,
 } from '@orbitelco/common';
@@ -37,8 +38,8 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    addToCart: (state, action: PayloadAction<ICartItem>) => {
-      const cartItem = action.payload;
+    addToCart: (state, action: PayloadAction<ICartItemWithSettings>) => {
+      const cartItem = action.payload.cartItem;
 
       const existItem = state.cartItems.find(
         (x) => x.productId === cartItem.productId
@@ -52,15 +53,15 @@ const cartSlice = createSlice({
         state.cartItems = [...state.cartItems, cartItem];
       }
       localStorage.setItem('cart', JSON.stringify(state));
-      return updateCart(state);
+      const priceCalcSettings = action.payload.priceCalcSettings;
+      return updateCart(state, priceCalcSettings);
     },
-    removeFromCart: (state, action: PayloadAction<string>) => {
+    removeFromCart: (state, action: PayloadAction<IRemoveFromCart>) => {
       state.cartItems = state.cartItems.filter(
-        (x) => x.productId !== action.payload
+        (x) => x.productId !== action.payload.id
       );
-
       localStorage.setItem('cart', JSON.stringify(state));
-      return updateCart(state);
+      return updateCart(state, action.payload.priceCalcSettings);
     },
     saveShippingAddress: (state, action: PayloadAction<IShippingAddress>) => {
       state.shippingAddress = action.payload;

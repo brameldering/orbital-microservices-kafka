@@ -39,12 +39,6 @@ spec:
                   key: PAYPAL_APP_SECRET_KEY
             - name: PAYPAL_API_URL
               value: 'https://api-m.sandbox.paypal.com'
-            - name: VAT_PERCENTAGE
-              value: '21'
-            - name: SHIPPING_FEE
-              value: '4.5'
-            - name: THRESHOLD_FREE_SHIPPING
-              value: '100'
 ---
 apiVersion: v1
 kind: Service
