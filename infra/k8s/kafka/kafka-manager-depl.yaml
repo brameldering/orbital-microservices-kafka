@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kafka-manager
-  namespace: kafka
+  # namespace: kafka
   labels:
     app: kafka-manager
 spec:
@@ -31,7 +31,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: kafka-manager-service
-  namespace: kafka
+  # namespace: kafka
   labels:
     app: kafka-manager
 spec:
