@@ -1,9 +1,9 @@
 'use client';
-import { ICart, calcPrices, IPriceCalcSettingsObj } from '@orbitelco/common';
+import { ICart, calcPrices, IPriceCalcSettingsAttrs } from '@orbitelco/common';
 
 export const updateCart = (
   state: ICart,
-  priceCalcSettings: IPriceCalcSettingsObj
+  priceCalcSettings: IPriceCalcSettingsAttrs
 ) => {
   // const configInfoLocalStorage: string | null =
   //   localStorage.getItem('configInfo');

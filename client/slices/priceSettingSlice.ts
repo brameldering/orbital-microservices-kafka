@@ -1,6 +1,6 @@
 import { Dispatch, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
-  IPriceCalcSettingsObj,
+  IPriceCalcSettingsAttrs,
   PRICE_CALC_SETTINGS_URL,
 } from '@orbitelco/common';
 
@@ -29,7 +29,7 @@ export const fetchPriceCalcSettingsInformation =
   };
 
 interface PriceCalcSettingsState {
-  priceCalcSettings: IPriceCalcSettingsObj | null;
+  priceCalcSettings: IPriceCalcSettingsAttrs | null;
   loading: boolean;
   error: string | null;
 }

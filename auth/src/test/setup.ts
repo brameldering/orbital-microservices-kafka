@@ -6,36 +6,16 @@ import { getApiAccessArray } from '../utils/loadApiAccessArray';
 // In test use .env file for environment variables
 require('dotenv').config();
 
-// ======================= Mock the ApiAccessArray =========================
+// ================== Mock the kafka-wrapper ====================
+jest.mock('../kafka-wrapper');
+
+// ================== Mock the ApiAccessArray ===================
 jest.mock('../utils/loadApiAccessArray', () => ({
   getApiAccessArray: jest.fn(),
 }));
 (getApiAccessArray as jest.Mock).mockResolvedValue(apiAccessAll);
+// ==============================================================
 
-// === Mock the Role.find mongoose call used inthe get-roles.ts API ===
-// jest.mock('@orbitelco/common', () => {
-//   const originalModule = jest.requireActual('@orbitelco/common');
-//   const { Role } = originalModule;
-//   // Create a mock implementation for Role.find() returning an array of objects with toJSON method
-//   const mockFind = jest.fn().mockReturnValue({
-//     map: jest.fn().mockImplementation(() => {
-//       // Return objects with a toJSON method
-//       return roles.map((role) => ({
-//         toJSON: jest.fn().mockReturnValue({
-//           role: role.role,
-//           roleDisplay: role.roleDisplay,
-//         }),
-//       }));
-//     }),
-//   });
-//   // Assign the mock find function to the Role model
-//   (mongoose.model('Role') as any).find = mockFind;
-//   return {
-//     ...originalModule,
-//     Role, // : mockedRole,
-//   };
-// });
-// =======================================================
 let mongo: MongoMemoryServer;
 
 beforeAll(async () => {
@@ -46,6 +26,8 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
+  jest.clearAllMocks();
+
   const collections = await mongoose.connection.db.collections();
 
   for (const collection of collections) {

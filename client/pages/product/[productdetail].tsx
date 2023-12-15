@@ -20,7 +20,7 @@ import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
 import Rating from 'components/Rating';
 import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
-import { ICartItem, IPriceCalcSettingsObj } from '@orbitelco/common';
+import { ICartItem, IPriceCalcSettingsAttrs } from '@orbitelco/common';
 import { dateTimeToLocaleDateString } from 'utils/dateUtils';
 import { PRODUCTS_PAGE, CART_PAGE, SIGNIN_PAGE } from 'constants/client-pages';
 import type { RootState } from 'slices/store';
@@ -32,7 +32,7 @@ import {
 import { getPriceCalcSettings } from 'api/orders/get-price-calc-settings';
 
 interface TPageProps {
-  priceCalcSettings: IPriceCalcSettingsObj;
+  priceCalcSettings: IPriceCalcSettingsAttrs;
 }
 
 const ProductDetailScreen: React.FC<TPageProps> = ({ priceCalcSettings }) => {

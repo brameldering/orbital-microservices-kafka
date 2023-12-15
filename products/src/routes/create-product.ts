@@ -6,7 +6,7 @@ import {
   PRODUCTS_URL,
   Product,
   IExtendedRequest,
-  IProductObj,
+  IProductAttrs,
   ProductSequence,
   DatabaseError,
 } from '@orbitelco/common';
@@ -56,7 +56,7 @@ router.post(PRODUCTS_URL, async (req: IExtendedRequest, res: Response) => {
     const sequentialProductId: string =
       'PRD-' + seqNumberProductId.latestSeqId.toString().padStart(10, '0');
 
-    const productObject: IProductObj = {
+    const productObject: IProductAttrs = {
       sequentialProductId,
       name: 'Sample name',
       imageURL: process.env.CLOUDINARY_SAMPLE_IMAGE_URL!,

@@ -12,11 +12,12 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",
-    "@orbitelco/common": "^1.0.176",
+    "@orbitelco/common": "^1.0.186",
     "@paypal/react-paypal-js": "^8.1.3",
     "@reduxjs/toolkit": "^1.9.7",
     "@types/node": "^20.8.8",
     "axios": "^1.5.1",
+    "net": "^1.0.2",
     "next": "latest",
     "react": "18.2.0",
     "react-bootstrap": "^2.9.1",
@@ -27,6 +28,7 @@
     "react-redux": "^8.1.3",
     "react-scroll": "^1.9.0",
     "react-toastify": "^9.1.3",
+    "tls": "^0.0.1",
     "typescript": "^5.2.2",
     "yup": "^1.3.2",
     "yup-password": "^0.2.2"

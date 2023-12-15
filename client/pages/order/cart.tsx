@@ -24,13 +24,13 @@ import {
   SHIPPING_PAGE,
   PRODUCT_DETAIL_PAGE,
 } from 'constants/client-pages';
-import { ICartItem, IPriceCalcSettingsObj } from '@orbitelco/common';
+import { ICartItem, IPriceCalcSettingsAttrs } from '@orbitelco/common';
 import type { RootState } from 'slices/store';
 import { addToCart, removeFromCart } from 'slices/cartSlice';
 import { getPriceCalcSettings } from 'api/orders/get-price-calc-settings';
 
 interface TPageProps {
-  priceCalcSettings: IPriceCalcSettingsObj;
+  priceCalcSettings: IPriceCalcSettingsAttrs;
 }
 
 const CartScreen: React.FC<TPageProps> = ({ priceCalcSettings }) => {

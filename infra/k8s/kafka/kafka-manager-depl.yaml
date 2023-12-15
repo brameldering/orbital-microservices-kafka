@@ -39,4 +39,6 @@ spec:
     app: kafka-manager
   ports:
     - name: kafka-manager-port
+      protocol: TCP
       port: 80
+      targetPort: 80

@@ -1,6 +1,6 @@
 import {
   PRICE_CALC_SETTINGS_URL,
-  IPriceCalcSettingsObj,
+  IPriceCalcSettingsAttrs,
 } from '@orbitelco/common';
 
 import apiSlice from './apiSlice';
@@ -8,8 +8,8 @@ import apiSlice from './apiSlice';
 export const priceCalcSettingsApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     updatePriceCalcSettings: builder.mutation<
-      IPriceCalcSettingsObj,
-      IPriceCalcSettingsObj
+      IPriceCalcSettingsAttrs,
+      IPriceCalcSettingsAttrs
     >({
       query: (data) => ({
         url: PRICE_CALC_SETTINGS_URL,

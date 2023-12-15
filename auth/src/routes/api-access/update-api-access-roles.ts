@@ -5,6 +5,8 @@ import {
   checkObjectId,
   ObjectNotFoundError,
 } from '@orbitelco/common';
+import { ApiAccessUpdatedPublisher } from '../../events/publishers/api-access-updated-publisher';
+import { kafkaWrapper } from '../../kafka-wrapper';
 
 const router = express.Router();
 
@@ -50,6 +52,13 @@ router.put(
       // apiAccess.apiName = apiName;
       apiAccess.allowedRoles = allowedRoles;
       const updatedApiAccess = await apiAccess.save();
+
+      // Publish ApiAccessUpdatedEvent
+      new ApiAccessUpdatedPublisher(kafkaWrapper.client).publish({
+        id: updatedApiAccess.id,
+        allowedRoles: updatedApiAccess.allowedRoles,
+      });
+
       res.send(updatedApiAccess.toJSON());
     } else {
       throw new ObjectNotFoundError('Api Access not found');

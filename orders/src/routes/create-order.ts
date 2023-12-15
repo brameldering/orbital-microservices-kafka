@@ -5,10 +5,10 @@ import {
   ORDERS_URL,
   Order,
   OrderSequence,
-  IOrderObj,
+  IOrderAttrs,
   IOrderUser,
   calcPrices,
-  IPriceCalcSettingsObj,
+  IPriceCalcSettingsAttrs,
   UserInputError,
   DatabaseError,
 } from '@orbitelco/common';
@@ -86,7 +86,7 @@ router.post(ORDERS_URL, async (req: IExtendedRequest, res: Response) => {
   // console.log(orderItems);
 
   // Get price calculation settings
-  const priceCalcSettings: IPriceCalcSettingsObj | null =
+  const priceCalcSettings: IPriceCalcSettingsAttrs | null =
     await getPriceCalcSettings();
   // console.log('PriceCalcSettings', priceCalcSettings);
   if (!priceCalcSettings) {
@@ -111,7 +111,7 @@ router.post(ORDERS_URL, async (req: IExtendedRequest, res: Response) => {
     // console.log('seqNumberOrderId.latestSeqId', seqNumberOrderId.latestSeqId);
     const sequentialOrderId: string =
       'ORD-' + seqNumberOrderId.latestSeqId.toString().padStart(10, '0');
-    const orderObj: IOrderObj = {
+    const orderObj: IOrderAttrs = {
       sequentialOrderId,
       user,
       orderItems,

@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import {
   PRICE_CALC_SETTINGS_URL,
-  IPriceCalcSettingsObj,
+  IPriceCalcSettingsAttrs,
 } from '@orbitelco/common';
 import { getPriceCalcSettings } from '../utils/getPriceCalcSettings';
 
@@ -11,7 +11,7 @@ const router = express.Router();
 // @route   GET /api/orders/v2/pricecalcsettings
 // @access  Public
 // @req
-// @res     json(IPriceCalcSettingsObj)
+// @res     json(IPriceCalcSettingsAttrs)
 router.get(PRICE_CALC_SETTINGS_URL, async (req: Request, res: Response) => {
   /*  #swagger.tags = ['Orders']
       #swagger.description = 'Get Price Calculation Settings'
@@ -19,10 +19,10 @@ router.get(PRICE_CALC_SETTINGS_URL, async (req: Request, res: Response) => {
         bearerAuth: ['public']
       }]
       #swagger.responses[200] = {
-          description: 'json(IPriceCalcSettingsObj)',
+          description: 'json(IPriceCalcSettingsAttrs)',
       }
  */
-  const calcPriceSettings: IPriceCalcSettingsObj | null =
+  const calcPriceSettings: IPriceCalcSettingsAttrs | null =
     await getPriceCalcSettings();
   res.send(calcPriceSettings);
 });

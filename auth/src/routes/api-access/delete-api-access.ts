@@ -5,6 +5,8 @@ import {
   checkObjectId,
   ObjectNotFoundError,
 } from '@orbitelco/common';
+import { ApiAccessDeletedPublisher } from '../../events/publishers/api-access-deleted-publisher';
+import { kafkaWrapper } from '../../kafka-wrapper';
 
 const router = express.Router();
 
@@ -38,6 +40,12 @@ router.delete(
     const apiAccess = await ApiAccess.findById(req.params.id);
     if (apiAccess) {
       await apiAccess.deleteOne({ _id: apiAccess.id });
+
+      // Publish ApiAccessDeletedEvent
+      new ApiAccessDeletedPublisher(kafkaWrapper.client).publish({
+        id: apiAccess.id,
+      });
+
       res.send();
     } else {
       throw new ObjectNotFoundError('Api Access not found');

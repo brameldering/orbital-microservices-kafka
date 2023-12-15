@@ -5,12 +5,12 @@ import { NextPageContext } from 'next';
 import Link from 'next/link';
 import Meta from 'components/Meta';
 import { H1_PRICE_CALC_ADMIN } from 'constants/form-titles';
-import { IPriceCalcSettingsObj } from '@orbitelco/common';
+import { IPriceCalcSettingsAttrs } from '@orbitelco/common';
 import { PRICE_CALC_EDIT_PAGE } from 'constants/client-pages';
 import { getPriceCalcSettings } from 'api/orders/get-price-calc-settings';
 
 interface TPageProps {
-  priceCalcSettings: IPriceCalcSettingsObj;
+  priceCalcSettings: IPriceCalcSettingsAttrs;
 }
 
 const PriceCalcSettingsScreen: React.FC<TPageProps> = ({

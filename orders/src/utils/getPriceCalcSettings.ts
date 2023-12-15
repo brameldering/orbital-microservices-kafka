@@ -1,11 +1,11 @@
 import {
   PriceCalcSettings,
-  IPriceCalcSettingsObj,
+  IPriceCalcSettingsAttrs,
   IPriceCalcSettingsDoc,
 } from '@orbitelco/common';
 
 export const getPriceCalcSettings =
-  async (): Promise<IPriceCalcSettingsObj | null> => {
+  async (): Promise<IPriceCalcSettingsAttrs | null> => {
     const priceCalcSettings: IPriceCalcSettingsDoc | null =
       await PriceCalcSettings.findOne();
     if (priceCalcSettings) {

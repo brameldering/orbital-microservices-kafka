@@ -1,6 +1,8 @@
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
 import { API_ACCESS_URL, ApiAccess, validateRequest } from '@orbitelco/common';
+import { ApiAccessCreatedPublisher } from '../../events/publishers/api-access-created-publisher';
+import { kafkaWrapper } from '../../kafka-wrapper';
 
 const router = express.Router();
 
@@ -35,8 +37,16 @@ router.post(
     const { microservice, apiName, allowedRoles } = req.body;
 
     const apiAccess = ApiAccess.build({ microservice, apiName, allowedRoles });
-
     await apiAccess.save();
+
+    // Publish ApiAccessCreatedEvent
+    new ApiAccessCreatedPublisher(kafkaWrapper.client).publish({
+      id: apiAccess.id,
+      microservice: apiAccess.microservice,
+      apiName: apiAccess.apiName,
+      allowedRoles: apiAccess.allowedRoles,
+    });
+
     res.status(201).send(apiAccess.toJSON());
   }
 );

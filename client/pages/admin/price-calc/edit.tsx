@@ -16,7 +16,7 @@ import ErrorBlock from 'components/ErrorBlock';
 import ModalConfirmBox from 'components/ModalConfirmBox';
 import { H1_EDIT_PRICE_CALC } from 'constants/form-titles';
 import { PRICE_CALC_VIEW_PAGE } from 'constants/client-pages';
-import { IPriceCalcSettingsObj } from '@orbitelco/common';
+import { IPriceCalcSettingsAttrs } from '@orbitelco/common';
 import { getPriceCalcSettings } from 'api/orders/get-price-calc-settings';
 import { useUpdatePriceCalcSettingsMutation } from 'slices/priceCalcSettingsApiSlice';
 
@@ -33,7 +33,7 @@ const schema = yup.object().shape({
 });
 
 interface TPageProps {
-  priceCalcSettings: IPriceCalcSettingsObj;
+  priceCalcSettings: IPriceCalcSettingsAttrs;
 }
 
 const PriceCalcSettingsEditScreen: React.FC<TPageProps> = ({

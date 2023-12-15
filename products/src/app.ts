@@ -4,7 +4,7 @@ import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
 import {
   PRODUCTS_APIS,
-  IApiAccessObj,
+  IApiAccessAttrs,
   currentUser,
   authorize,
   validateURL,
@@ -22,10 +22,20 @@ import { getApiAccessArray } from './utils/loadApiAccessArray';
 
 // ======================================================
 // Check for existence of ENV variables set in depl files (dev/prod) or .env file for test
-if (
-  !(process.env.JWT_SECRET && process.env.EXPIRES_IN && process.env.MONGO_URI)
-) {
-  console.error('Missing ENV variable for JWT_SECRET, EXPIRES_IN or MONGO_URI');
+if (!process.env.MONGO_URI) {
+  console.error('Missing ENV variable for MONGO_URI');
+  process.exit(1);
+}
+if (!process.env.KAFKA_URL) {
+  console.error('Missing ENV variable for KAFKA_URL');
+  process.exit(1);
+}
+if (!process.env.ZOOKEEPER_URL) {
+  console.error('Missing ENV variable for ZOOKEEPER_URL');
+  process.exit(1);
+}
+if (!(process.env.JWT_SECRET && process.env.EXPIRES_IN)) {
+  console.error('Missing ENV variable for JWT_SECRET or EXPIRES_IN');
   process.exit(1);
 }
 if (
@@ -67,7 +77,7 @@ app.use(currentUser);
 
 const setupApiAccessAndRunApp = async () => {
   // ======= api access authorization logic =========
-  let apiAccessArray: IApiAccessObj[] = [];
+  let apiAccessArray: IApiAccessAttrs[] = [];
   try {
     // console.log('==> before getApiAccessArray');
     apiAccessArray = await getApiAccessArray();

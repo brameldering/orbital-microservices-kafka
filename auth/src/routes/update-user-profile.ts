@@ -45,7 +45,7 @@ router.put(
           type: 'object',
       }
       #swagger.responses[200] = {
-          description: '{updatedUser: IUserObj}',
+          description: '{updatedUser: IUserAttrs}',
       }
       #swagger.responses[400] = {
           description: 'RequestValidationError',
