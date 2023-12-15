@@ -19,7 +19,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@orbitelco/common": "^1.0.186",
+    "@orbitelco/common": "^1.0.192",
     "@types/bcryptjs": "^2.4.5",
     "@types/body-parser": "^1.19.4",
     "@types/cookie-session": "^2.0.46",
@@ -32,7 +32,7 @@
     "express-async-errors": "^3.1.1",
     "express-validator": "^7.0.1",
     "jsonwebtoken": "^9.0.2",
-    "kafka-node": "^5.0.0",
+    "kafkajs": "^2.2.4",
     "mongoose": "^7.6.3",
     "mongoose-update-if-current": "^1.4.0",
     "net": "^1.0.2",

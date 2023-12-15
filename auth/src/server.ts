@@ -1,34 +1,29 @@
 import mongoose from 'mongoose';
 import { app } from './app';
-import { kafkaWrapper } from './kafka-wrapper';
+// import { kafkaWrapper } from './kafka-wrapper';
+
+// const KAFKA_CLIENT_ID = 'auth01';
 
 const start = async () => {
   try {
-    await kafkaWrapper.connect(process.env.KAFKA_URL!);
+    // Ensure Kafka connection
+    // kafkaWrapper.connect(
+    //   KAFKA_CLIENT_ID,
+    //   process.env.KAFKA_BROKERS!.split(',')
+    // );
 
-    kafkaWrapper.client.on('close', () => {
-      console.log('auth - server - kafkaWrapper connection closed!');
-      // process.exit();
-    });
-    process.on('SIGINT', () => {
-      console.log('auth - server - received SIGINT');
-      kafkaWrapper.client.close();
-    });
-
-    process.on('SIGTERM', () => {
-      console.log('auth - server - received SIGTERM');
-      kafkaWrapper.client.close();
-    });
-
+    // Connect to MongoDB
     await mongoose.connect(process.env.MONGO_URI!);
     console.log('Connected to MongoDB');
-  } catch (err) {
-    console.log(err);
-  }
 
-  app.listen(3000, () => {
-    console.log('Listening on port 3000');
-  });
+    // Start the server
+    app.listen(3000, () => {
+      console.log('Listening on port 3000');
+    });
+  } catch (err) {
+    console.error('Startup error:', err);
+    process.exit(1);
+  }
 };
 
 start();

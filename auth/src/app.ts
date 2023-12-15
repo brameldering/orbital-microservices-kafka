@@ -40,12 +40,8 @@ if (!process.env.MONGO_URI) {
   console.error('Missing ENV variable for MONGO_URI');
   process.exit(1);
 }
-if (!process.env.KAFKA_URL) {
-  console.error('Missing ENV variable for KAFKA_URL');
-  process.exit(1);
-}
-if (!process.env.ZOOKEEPER_URL) {
-  console.error('Missing ENV variable for ZOOKEEPER_URL');
+if (!process.env.KAFKA_BROKERS) {
+  console.error('Missing ENV variable for KAFKA_BROKERS');
   process.exit(1);
 }
 if (!(process.env.JWT_SECRET && process.env.EXPIRES_IN)) {

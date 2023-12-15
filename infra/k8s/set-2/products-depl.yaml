@@ -20,10 +20,8 @@ spec:
               value: 'development'
             - name: MONGO_URI
               value: 'mongodb://products-mongo-srv:27017/products'
-            - name: KAFKA_URL
+            - name: KAFKA_BROKERS
               value: 'kafka-service:9092'
-            - name: ZOOKEEPER_URL
-              value: 'zookeeper-service:2181'
             - name: JWT_SECRET
               valueFrom:
                 secretKeyRef:

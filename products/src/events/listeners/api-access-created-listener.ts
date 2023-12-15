@@ -1,4 +1,3 @@
-import { Message } from 'kafka-node';
 import {
   Listener,
   Topics,
@@ -11,9 +10,9 @@ export class ApiAccessCreatedListener extends Listener<ApiAccessCreatedEvent> {
   topic: Topics.ApiAccessCreated = Topics.ApiAccessCreated;
   consumerGroupID = consumerGroupID;
 
-  async onMessage(data: ApiAccessCreatedEvent['data'], msg: Message) {
+  async onMessage(data: ApiAccessCreatedEvent['data']) {
     console.log(
-      `= products.ApiAccessCreatedListener = consumerGroupID${this.consumerGroupID}, topic: ${msg.topic}, partition: ${msg.partition}, offset: ${msg.offset} - data:`,
+      `= products.ApiAccessCreatedListener = consumerGroupID${this.consumerGroupID}, topic: ${this.topic} - data:`,
       data
     );
     // const { id, microservice, apiName, allowedRoles } = data;

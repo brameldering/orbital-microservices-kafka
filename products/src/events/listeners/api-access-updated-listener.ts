@@ -1,4 +1,3 @@
-import { Message } from 'kafka-node';
 import {
   Listener,
   Topics,
@@ -11,9 +10,9 @@ export class ApiAccessUpdatedListener extends Listener<ApiAccessUpdatedEvent> {
   topic: Topics.ApiAccessUpdated = Topics.ApiAccessUpdated;
   consumerGroupID = consumerGroupID;
 
-  async onMessage(data: ApiAccessUpdatedEvent['data'], msg: Message) {
+  async onMessage(data: ApiAccessUpdatedEvent['data']) {
     console.log(
-      `= products.ApiAccessUpdatedListener = consumerGroupID${this.consumerGroupID}, topic: ${msg.topic}, partition: ${msg.partition}, offset: ${msg.offset} - data:`,
+      `= products.ApiAccessUpdatedListener = consumerGroupID${this.consumerGroupID}, topic: ${this.topic} - data:`,
       data
     );
 

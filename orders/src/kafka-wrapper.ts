@@ -1,7 +1,7 @@
-import kafka, { KafkaClient } from 'kafka-node';
+import { Kafka, logLevel } from 'kafkajs';
 
 class KafkaWrapper {
-  private _client?: KafkaClient;
+  private _client?: Kafka;
 
   get client() {
     if (!this._client) {
@@ -10,22 +10,9 @@ class KafkaWrapper {
     return this._client;
   }
 
-  // connect(clusterId: string, clientId: string, url: string) {
-  connect(url: string) {
-    this._client = new kafka.KafkaClient({
-      kafkaHost: url,
-    });
-    console.log('connect');
-    return new Promise<void>((resolve, reject) => {
-      this.client.on('ready', () => {
-        console.log('= KafkaWrapper on ready = Connected to Kafka');
-        resolve();
-      });
-      this.client.on('error', (error) => {
-        console.error('= KafkaWrapper = Error connecting to Kafka:', error);
-        reject(error);
-      });
-    });
+  connect(clientId: string, brokers: string[]) {
+    this._client = new Kafka({ clientId, brokers, logLevel: logLevel.ERROR });
+    console.log('Created client for Kafka brokers', brokers);
   }
 }
 

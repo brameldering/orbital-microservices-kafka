@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",
-    "@orbitelco/common": "^1.0.186",
+    "@orbitelco/common": "^1.0.192",
     "@paypal/react-paypal-js": "^8.1.3",
     "@reduxjs/toolkit": "^1.9.7",
     "@types/node": "^20.8.8",
