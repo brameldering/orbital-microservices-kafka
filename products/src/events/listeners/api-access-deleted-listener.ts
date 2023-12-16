@@ -4,6 +4,7 @@ import {
   ApiAccessDeletedEvent,
   ApiAccess,
 } from '@orbitelco/common';
+import { updateApiAccessCache } from '../../utils/apiAccessArrayManager';
 import { consumerGroupID } from './consumer-group-id';
 
 export class ApiAccessDeletedListener extends Listener<ApiAccessDeletedEvent> {
@@ -26,5 +27,8 @@ export class ApiAccessDeletedListener extends Listener<ApiAccessDeletedEvent> {
 
     // Update the ApiAccess record
     apiAccess.deleteOne({ _id: data.id });
+
+    // Refresh ApiAccessArray cache
+    await updateApiAccessCache();
   }
 }

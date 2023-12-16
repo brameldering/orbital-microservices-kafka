@@ -10,14 +10,16 @@ import { seedDataRouter } from './routes/seed-data';
 // Check for existence of ENV variables set in depl files (dev/prod) or .env file for test
 if (
   !(
-    process.env.MONGO_URI_SEQ &&
-    process.env.MONGO_URI_AUTH &&
-    process.env.MONGO_URI_PRODUCTS &&
-    process.env.MONGO_URI_ORDERS
+    // process.env.MONGO_URI_SEQ &&
+    (
+      process.env.MONGO_URI_AUTH &&
+      process.env.MONGO_URI_PRODUCTS &&
+      process.env.MONGO_URI_ORDERS
+    )
   )
 ) {
   console.error(
-    'Missing ENV variable for MONGO_URI_SEQ, MONGO_URI_AUTH, MONGO_URI_PRODUCTS, and MONGO_URI_ORDERS'
+    'Missing ENV variable for MONGO_URI_AUTH, MONGO_URI_PRODUCTS, or MONGO_URI_ORDERS'
   );
   process.exit(1);
 }

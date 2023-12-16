@@ -18,7 +18,10 @@ import { getProductByIdRouter } from './routes/get-product-by-id';
 import { updateProductRouter } from './routes/update-product';
 import { deleteProductRouter } from './routes/delete-product';
 import { createProductReviewRouter } from './routes/create-product-review';
-import { getApiAccessArray } from './utils/loadApiAccessArray';
+import {
+  updateApiAccessCache,
+  getCurrentApiAccessArray,
+} from './utils/apiAccessArrayManager';
 
 // ======================================================
 // Check for existence of ENV variables set in depl files (dev/prod) or .env file for test
@@ -72,15 +75,15 @@ app.use(validateURL);
 app.use(currentUser);
 
 const setupApiAccessAndRunApp = async () => {
-  // ======= api access authorization logic =========
-  let apiAccessArray: IApiAccessAttrs[] = [];
   try {
-    // console.log('==> before getApiAccessArray');
-    apiAccessArray = await getApiAccessArray();
-    // console.log('=== Products === apiAccessArray: ', apiAccessArray);
+    // Initialize cache of API Access Array on server start
+    await updateApiAccessCache();
+    // load current list of Api Access Array
+    const apiAccessCache: IApiAccessAttrs[] = getCurrentApiAccessArray();
+    // console.log('=== Auth === apiAccessCache: ', apiAccessCache());
 
-    // validate if user (role) is authorized to access API
-    app.use(authorize(PRODUCTS_APIS, apiAccessArray));
+    // validate if user is authorized to access API
+    app.use(authorize(PRODUCTS_APIS, apiAccessCache));
     // =================================================
 
     app.use(uploadFileRouter);

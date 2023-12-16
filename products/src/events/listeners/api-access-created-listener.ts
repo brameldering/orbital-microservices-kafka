@@ -4,6 +4,7 @@ import {
   ApiAccessCreatedEvent,
   ApiAccess,
 } from '@orbitelco/common';
+import { updateApiAccessCache } from '../../utils/apiAccessArrayManager';
 import { consumerGroupID } from './consumer-group-id';
 
 export class ApiAccessCreatedListener extends Listener<ApiAccessCreatedEvent> {
@@ -27,5 +28,8 @@ export class ApiAccessCreatedListener extends Listener<ApiAccessCreatedEvent> {
     console.log('products ApiAccess.build: ', apiAccess);
 
     await apiAccess.save();
+
+    // Refresh ApiAccessArray cache
+    await updateApiAccessCache();
   }
 }

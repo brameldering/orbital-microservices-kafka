@@ -20,7 +20,10 @@ import { getOrderByIdRouter } from './routes/get-order-by-id';
 import { getPayPalClientIdRouter } from './routes/get-paypalclientid';
 import { getPriceCalcSettingsRouter } from './routes/get-price-calc-settings';
 import { updatePriceCalcSettingsRouter } from './routes/update-price-calc-settings';
-import { getApiAccessArray } from './utils/loadApiAccessArray';
+import {
+  updateApiAccessCache,
+  getCurrentApiAccessArray,
+} from './utils/apiAccessArrayManager';
 
 // ======================================================
 // Check for existence of ENV variables set in depl files (dev/prod) or .env file for test
@@ -66,15 +69,15 @@ app.use(validateURL);
 app.use(currentUser);
 
 const setupApiAccessAndRunApp = async () => {
-  // ======= api access authorization logic =========
-  let apiAccessArray: IApiAccessAttrs[] = [];
   try {
-    // console.log('==> before getApiAccessArray');
-    apiAccessArray = await getApiAccessArray();
-    // console.log('==== Orders === apiAccessArray: ', apiAccessArray);
+    // Initialize cache of API Access Array on server start
+    await updateApiAccessCache();
+    // load current list of Api Access Array
+    const apiAccessCache: IApiAccessAttrs[] = getCurrentApiAccessArray();
+    // console.log('=== Auth === apiAccessCache: ', apiAccessCache());
 
-    // validate if user (role) is authorized to access API
-    app.use(authorize(ORDERS_APIS, apiAccessArray));
+    // validate if user is authorized to access API
+    app.use(authorize(ORDERS_APIS, apiAccessCache));
     // =================================================
 
     app.use(getPayPalClientIdRouter);

@@ -1,7 +1,7 @@
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 import { apiAccessAll } from '@orbitelco/common';
-import { getApiAccessArray } from '../utils/loadApiAccessArray';
+import { getApiAccessArray } from '../utils/getApiAccessArray';
 
 // In test use .env file for environment variables
 require('dotenv').config();

@@ -32,7 +32,10 @@ import {
   errorHandler,
   RouteNotFoundError,
 } from '@orbitelco/common';
-import { getApiAccessArray } from './utils/loadApiAccessArray';
+import {
+  updateApiAccessCache,
+  getCurrentApiAccessArray,
+} from './utils/apiAccessArrayManager';
 
 // ======================================================
 // Check for existence of ENV variables set in depl files (dev/prod) or .env file for test
@@ -70,15 +73,15 @@ app.use(validateURL);
 app.use(currentUser);
 
 const setupApiAccessAndRunApp = async () => {
-  // ======= api access authorization logic =========
-  let apiAccessArray: IApiAccessAttrs[] = [];
   try {
-    // console.log('==> before getApiAccessArray');
-    apiAccessArray = await getApiAccessArray();
-    // console.log('=== Auth === apiAccessArray: ', apiAccessArray);
+    // Initialize cache of API Access Array on server start
+    await updateApiAccessCache();
+    // load current list of Api Access Array
+    const apiAccessCache: IApiAccessAttrs[] = getCurrentApiAccessArray();
+    // console.log('=== Auth === apiAccessCache: ', apiAccessCache());
 
-    // validate if user (role) is authorized to access API
-    app.use(authorize(AUTH_APIS, apiAccessArray));
+    // validate if user is authorized to access API
+    app.use(authorize(AUTH_APIS, apiAccessCache));
     // =================================================
 
     app.use(getApiAccessesRouter);
