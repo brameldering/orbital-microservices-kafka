@@ -2,7 +2,7 @@ import {
   Listener,
   Topics,
   ApiAccessUpdatedEvent,
-  // ApiAccess,
+  ApiAccess,
 } from '@orbitelco/common';
 import { consumerGroupID } from './consumer-group-id';
 
@@ -17,16 +17,17 @@ export class ApiAccessUpdatedListener extends Listener<ApiAccessUpdatedEvent> {
     );
 
     // const apiAccess = await ApiAccess.findById(data.id);
+    const apiAccess = await ApiAccess.findOne({ apiName: data.apiName });
 
-    // // If no apiAccess record, throw error
-    // if (!apiAccess) {
-    //   throw new Error('products ApiAccess record not found');
-    // }
+    // If no apiAccess record, throw error
+    if (!apiAccess) {
+      throw new Error('products ApiAccess record not found');
+    }
 
-    // // Update the allowedRoles property
-    // apiAccess.set({ allowedRoles: data.allowedRoles });
+    // Update the allowedRoles property
+    apiAccess.set({ allowedRoles: data.allowedRoles });
 
-    // // Save the apiAccess record
-    // await apiAccess.save();
+    // Save the apiAccess record
+    await apiAccess.save();
   }
 }

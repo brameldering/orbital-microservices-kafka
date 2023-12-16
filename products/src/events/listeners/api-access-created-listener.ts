@@ -2,7 +2,7 @@ import {
   Listener,
   Topics,
   ApiAccessCreatedEvent,
-  // ApiAccess,
+  ApiAccess,
 } from '@orbitelco/common';
 import { consumerGroupID } from './consumer-group-id';
 
@@ -15,17 +15,17 @@ export class ApiAccessCreatedListener extends Listener<ApiAccessCreatedEvent> {
       `= products.ApiAccessCreatedListener = consumerGroupID${this.consumerGroupID}, topic: ${this.topic} - data:`,
       data
     );
-    // const { id, microservice, apiName, allowedRoles } = data;
+    const { id, microservice, apiName, allowedRoles } = data;
 
-    // const apiAccess = ApiAccess.build({
-    //   id,
-    //   microservice,
-    //   apiName,
-    //   allowedRoles,
-    // });
+    const apiAccess = ApiAccess.build({
+      id,
+      microservice,
+      apiName,
+      allowedRoles,
+    });
 
-    // console.log('products ApiAccess.build: ', apiAccess);
+    console.log('products ApiAccess.build: ', apiAccess);
 
-    // await apiAccess.save();
+    await apiAccess.save();
   }
 }

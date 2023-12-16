@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
 import { API_ACCESS_URL, ApiAccess, validateRequest } from '@orbitelco/common';
 import { ApiAccessCreatedPublisher } from '../../events/publishers/api-access-created-publisher';
-// import { kafkaWrapper } from '../../kafka-wrapper';
+import { kafkaWrapper } from '../../kafka-wrapper';
 
 const router = express.Router();
 
@@ -40,10 +40,7 @@ router.post(
     await apiAccess.save();
 
     // Publish ApiAccessCreatedEvent
-    new ApiAccessCreatedPublisher(
-      'auth01',
-      process.env.KAFKA_BROKERS!.split(',')
-    ).publish({
+    new ApiAccessCreatedPublisher(kafkaWrapper.client).publish({
       id: apiAccess.id,
       microservice: apiAccess.microservice,
       apiName: apiAccess.apiName,

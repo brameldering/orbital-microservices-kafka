@@ -2,7 +2,7 @@ import {
   Listener,
   Topics,
   ApiAccessDeletedEvent,
-  // ApiAccess,
+  ApiAccess,
 } from '@orbitelco/common';
 import { consumerGroupID } from './consumer-group-id';
 
@@ -16,14 +16,15 @@ export class ApiAccessDeletedListener extends Listener<ApiAccessDeletedEvent> {
       data
     );
 
-    //   const apiAccess = await ApiAccess.findById(data.id);
+    // const apiAccess = await ApiAccess.findById(data.id);
+    const apiAccess = await ApiAccess.findOne({ apiName: data.apiName });
 
-    //   // If no apiAccess record, throw error
-    //   if (!apiAccess) {
-    //     throw new Error('products ApiAccess record not found');
-    //   }
+    // If no apiAccess record, throw error
+    if (!apiAccess) {
+      throw new Error('products ApiAccess record not found');
+    }
 
-    //   // Update the ApiAccess record
-    //   apiAccess.deleteOne({ _id: data.id });
+    // Update the ApiAccess record
+    apiAccess.deleteOne({ _id: data.id });
   }
 }
