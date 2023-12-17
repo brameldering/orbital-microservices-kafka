@@ -3,8 +3,8 @@ import {
   Topics,
   ApiAccessUpdatedEvent,
   ApiAccess,
+  apiAccessCache,
 } from '@orbitelco/common';
-import { updateApiAccessCache } from '../../utils/apiAccessArrayManager';
 import { consumerGroupID } from './consumer-group-id';
 
 export class ApiAccessUpdatedListener extends Listener<ApiAccessUpdatedEvent> {
@@ -32,6 +32,6 @@ export class ApiAccessUpdatedListener extends Listener<ApiAccessUpdatedEvent> {
     await apiAccess.save();
 
     // Refresh ApiAccessArray cache
-    await updateApiAccessCache();
+    await apiAccessCache.loadCacheFromDB();
   }
 }

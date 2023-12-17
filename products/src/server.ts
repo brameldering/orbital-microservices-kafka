@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import { app } from './app';
-import { kafkaWrapper } from './kafka-wrapper';
+import { kafkaWrapper, Topics } from '@orbitelco/common';
 import { ApiAccessCreatedListener } from './events/listeners/api-access-created-listener';
 import { ApiAccessUpdatedListener } from './events/listeners/api-access-updated-listener';
 import { ApiAccessDeletedListener } from './events/listeners/api-access-deleted-listener';
@@ -15,16 +15,25 @@ const start = async () => {
       process.env.KAFKA_BROKERS!.split(',')
     );
 
+    // Ensure topic exists and create listener
+    // TO DO: potentially refactor to ensuretopic exists in baselistener and basepublisher
+    await kafkaWrapper.ensureTopicExists(Topics.ApiAccessCreated);
     new ApiAccessCreatedListener(
       kafkaWrapper.client,
       'products_ApiAccessCreatedConsumerGroup'
     ).listen();
 
+    // Ensure topic exists and create listener
+    // TO DO: potentially refactor to ensuretopic exists in baselistener and basepublisher
+    await kafkaWrapper.ensureTopicExists(Topics.ApiAccessUpdated);
     new ApiAccessUpdatedListener(
       kafkaWrapper.client,
       'products_ApiAccessUpdatedConsumerGroup'
     ).listen();
 
+    // Ensure topic exists and create listener
+    // TO DO: potentially refactor to ensuretopic exists in baselistener and basepublisher
+    await kafkaWrapper.ensureTopicExists(Topics.ApiAccessDeleted);
     new ApiAccessDeletedListener(
       kafkaWrapper.client,
       'products_ApiAccessDeletedConsumerGroup'

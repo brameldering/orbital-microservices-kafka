@@ -4,6 +4,9 @@ import mongoose from 'mongoose';
 // import { validateRequest } from '@orbitelco/common';
 import {
   PRODUCT_REVIEW_URL,
+  cacheMiddleware,
+  authorize,
+  PRODUCTS_APIS,
   Product,
   ProductReview,
   checkObjectId,
@@ -27,6 +30,9 @@ const router = express.Router();
 //       or status(404).ObjectNotFoundError(Product not found)
 router.post(
   PRODUCT_REVIEW_URL + '/:id',
+  cacheMiddleware,
+  (req: IExtendedRequest, res: Response, next) =>
+    authorize(PRODUCTS_APIS, req.apiAccessCache || [])(req, res, next),
   checkObjectId,
   async (req: IExtendedRequest, res: Response) => {
     /* #swagger.tags = ['Products']

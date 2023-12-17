@@ -4,6 +4,9 @@ import mongoose from 'mongoose';
 // import { validateRequest } from '@orbitelco/common';
 import {
   PRODUCTS_URL,
+  cacheMiddleware,
+  authorize,
+  PRODUCTS_APIS,
   Product,
   IExtendedRequest,
   IProductAttrs,
@@ -23,8 +26,13 @@ const router = express.Router();
 // @access  Admin
 // @req     req.currentuser.id
 // @res     status(201).(createdProduct)
-router.post(PRODUCTS_URL, async (req: IExtendedRequest, res: Response) => {
-  /*  #swagger.tags = ['Products']
+router.post(
+  PRODUCTS_URL,
+  cacheMiddleware,
+  (req: IExtendedRequest, res: Response, next) =>
+    authorize(PRODUCTS_APIS, req.apiAccessCache || [])(req, res, next),
+  async (req: IExtendedRequest, res: Response) => {
+    /*  #swagger.tags = ['Products']
         #swagger.description = 'Create a product'
         #swagger.security = [{
         bearerAuth: ['admin']
@@ -40,42 +48,43 @@ router.post(PRODUCTS_URL, async (req: IExtendedRequest, res: Response) => {
         #swagger.responses[422] = {
               description: 'That object already exists',
 } */
-  const userId = new mongoose.Types.ObjectId(req.currentUser!.id);
+    const userId = new mongoose.Types.ObjectId(req.currentUser!.id);
 
-  const seqNumberProductId = await ProductSequence.findOneAndUpdate(
-    {},
-    { $inc: { latestSeqId: 1 } },
-    { returnOriginal: false, upsert: true }
-  );
-  if (seqNumberProductId) {
-    // console.log('seqNumberProductId', seqNumberProductId);
-    // console.log(
-    //   'seqNumberProductId.latestSeqId',
-    //   seqNumberProductId.latestSeqId
-    // );
-    const sequentialProductId: string =
-      'PRD-' + seqNumberProductId.latestSeqId.toString().padStart(10, '0');
+    const seqNumberProductId = await ProductSequence.findOneAndUpdate(
+      {},
+      { $inc: { latestSeqId: 1 } },
+      { returnOriginal: false, upsert: true }
+    );
+    if (seqNumberProductId) {
+      // console.log('seqNumberProductId', seqNumberProductId);
+      // console.log(
+      //   'seqNumberProductId.latestSeqId',
+      //   seqNumberProductId.latestSeqId
+      // );
+      const sequentialProductId: string =
+        'PRD-' + seqNumberProductId.latestSeqId.toString().padStart(10, '0');
 
-    const productObject: IProductAttrs = {
-      sequentialProductId,
-      name: 'Sample name',
-      imageURL: process.env.CLOUDINARY_SAMPLE_IMAGE_URL!,
-      brand: 'Sample brand',
-      category: 'Sample category',
-      description: 'Sample description',
-      numReviews: 0,
-      reviews: [],
-      price: 0,
-      countInStock: 0,
-      userId,
-    };
-    const product = Product.build(productObject);
-    await product.save();
-    res.status(201).send(product.toJSON());
-  } else {
-    throw new DatabaseError('Error determining sequential Product Id');
-    // console.log("Log error details")
+      const productObject: IProductAttrs = {
+        sequentialProductId,
+        name: 'Sample name',
+        imageURL: process.env.CLOUDINARY_SAMPLE_IMAGE_URL!,
+        brand: 'Sample brand',
+        category: 'Sample category',
+        description: 'Sample description',
+        numReviews: 0,
+        reviews: [],
+        price: 0,
+        countInStock: 0,
+        userId,
+      };
+      const product = Product.build(productObject);
+      await product.save();
+      res.status(201).send(product.toJSON());
+    } else {
+      throw new DatabaseError('Error determining sequential Product Id');
+      // console.log("Log error details")
+    }
   }
-});
+);
 
 export { router as createProductRouter };

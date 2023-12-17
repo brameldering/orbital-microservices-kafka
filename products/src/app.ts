@@ -3,10 +3,8 @@ import 'express-async-errors';
 import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
 import {
-  PRODUCTS_APIS,
-  IApiAccessAttrs,
   currentUser,
-  authorize,
+  apiAccessCache,
   validateURL,
   errorHandler,
   RouteNotFoundError,
@@ -18,10 +16,6 @@ import { getProductByIdRouter } from './routes/get-product-by-id';
 import { updateProductRouter } from './routes/update-product';
 import { deleteProductRouter } from './routes/delete-product';
 import { createProductReviewRouter } from './routes/create-product-review';
-import {
-  updateApiAccessCache,
-  getCurrentApiAccessArray,
-} from './utils/apiAccessArrayManager';
 
 // ======================================================
 // Check for existence of ENV variables set in depl files (dev/prod) or .env file for test
@@ -76,14 +70,12 @@ app.use(currentUser);
 
 const setupApiAccessAndRunApp = async () => {
   try {
-    // Initialize cache of API Access Array on server start
-    await updateApiAccessCache();
-    // load current list of Api Access Array
-    const apiAccessCache: IApiAccessAttrs[] = getCurrentApiAccessArray();
+    // Initialize cache of API Access Array
+    await apiAccessCache.loadCacheFromDB();
     // console.log('=== Auth === apiAccessCache: ', apiAccessCache());
 
     // validate if user is authorized to access API
-    app.use(authorize(PRODUCTS_APIS, apiAccessCache));
+    // app.use(authorize(PRODUCTS_APIS, apiAccessCache.cache));
     // =================================================
 
     app.use(uploadFileRouter);

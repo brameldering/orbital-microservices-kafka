@@ -17,7 +17,7 @@ export async function updateApiAccessCache() {
   }
 }
 
-export function getCurrentApiAccessArray() {
+export function getApiAccessCache() {
   return apiAccessCache; // Return the current state of the array
 }
 

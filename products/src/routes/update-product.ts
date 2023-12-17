@@ -1,8 +1,12 @@
 import express, { Request, Response } from 'express';
 import {
   PRODUCTS_URL,
+  cacheMiddleware,
+  authorize,
+  PRODUCTS_APIS,
   Product,
   checkObjectId,
+  IExtendedRequest,
   ObjectNotFoundError,
 } from '@orbitelco/common';
 
@@ -17,6 +21,9 @@ const router = express.Router();
 //       or status(404).ObjectNotFoundError(Product not found)
 router.put(
   PRODUCTS_URL + '/:id',
+  cacheMiddleware,
+  (req: IExtendedRequest, res: Response, next) =>
+    authorize(PRODUCTS_APIS, req.apiAccessCache || [])(req, res, next),
   checkObjectId,
   async (req: Request, res: Response) => {
     /*  #swagger.tags = ['Products']

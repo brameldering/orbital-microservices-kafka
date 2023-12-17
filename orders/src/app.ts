@@ -22,7 +22,7 @@ import { getPriceCalcSettingsRouter } from './routes/get-price-calc-settings';
 import { updatePriceCalcSettingsRouter } from './routes/update-price-calc-settings';
 import {
   updateApiAccessCache,
-  getCurrentApiAccessArray,
+  getApiAccessCache,
 } from './utils/apiAccessArrayManager';
 
 // ======================================================
@@ -73,7 +73,7 @@ const setupApiAccessAndRunApp = async () => {
     // Initialize cache of API Access Array on server start
     await updateApiAccessCache();
     // load current list of Api Access Array
-    const apiAccessCache: IApiAccessAttrs[] = getCurrentApiAccessArray();
+    const apiAccessCache: IApiAccessAttrs[] = getApiAccessCache();
     // console.log('=== Auth === apiAccessCache: ', apiAccessCache());
 
     // validate if user is authorized to access API
