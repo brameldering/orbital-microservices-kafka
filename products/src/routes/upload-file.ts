@@ -1,11 +1,11 @@
-import express, { Request, Response } from 'express';
+import express, { Response, NextFunction } from 'express';
 import { uploadImageToCloudinary } from './fileUploadHelpers/uploadImageToCloudinary';
 import {
   UPLOAD_URL,
+  IExtendedRequest,
   cacheMiddleware,
   authorize,
   PRODUCTS_APIS,
-  IExtendedRequest,
   FileUploadError,
 } from '@orbitelco/common';
 
@@ -20,9 +20,9 @@ const router = express.Router();
 router.post(
   UPLOAD_URL,
   cacheMiddleware,
-  (req: IExtendedRequest, res: Response, next) =>
+  (req: IExtendedRequest, res: Response, next: NextFunction) =>
     authorize(PRODUCTS_APIS, req.apiAccessCache || [])(req, res, next),
-  async (req: Request, res: Response) => {
+  async (req: IExtendedRequest, res: Response) => {
     /*  #swagger.tags = ['Products']
      #swagger.description = 'Upload image to cloudinary'
      #swagger.security = [{

@@ -1,14 +1,14 @@
-import express, { Response } from 'express';
+import express, { Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
 // import { body } from 'express-validator';
 // import { validateRequest } from '@orbitelco/common';
 import {
   PRODUCTS_URL,
+  Product,
+  IExtendedRequest,
   cacheMiddleware,
   authorize,
   PRODUCTS_APIS,
-  Product,
-  IExtendedRequest,
   IProductAttrs,
   ProductSequence,
   DatabaseError,
@@ -29,7 +29,7 @@ const router = express.Router();
 router.post(
   PRODUCTS_URL,
   cacheMiddleware,
-  (req: IExtendedRequest, res: Response, next) =>
+  (req: IExtendedRequest, res: Response, next: NextFunction) =>
     authorize(PRODUCTS_APIS, req.apiAccessCache || [])(req, res, next),
   async (req: IExtendedRequest, res: Response) => {
     /*  #swagger.tags = ['Products']

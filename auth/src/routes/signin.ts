@@ -1,9 +1,13 @@
-import express, { Request, Response } from 'express';
+import express, { Response, NextFunction } from 'express';
 import { body } from 'express-validator';
 import bcrypt from 'bcryptjs';
 import {
   SIGN_IN_URL,
   User,
+  IExtendedRequest,
+  cacheMiddleware,
+  authorize,
+  AUTH_APIS,
   validateRequest,
   NotAuthorizedError,
 } from '@orbitelco/common';
@@ -22,12 +26,15 @@ const router = express.Router();
 //       or status(401).NotAuthorizedError
 router.post(
   SIGN_IN_URL,
+  cacheMiddleware,
+  (req: IExtendedRequest, res: Response, next: NextFunction) =>
+    authorize(AUTH_APIS, req.apiAccessCache || [])(req, res, next),
   [
     body('email').isEmail().withMessage('Email must be valid'),
     body('password').trim().notEmpty().withMessage('Password can not be empty'),
   ],
   validateRequest,
-  async (req: Request, res: Response) => {
+  async (req: IExtendedRequest, res: Response) => {
     /*  #swagger.tags = ['Users']
       #swagger.description = 'Authenticate user & construct token using JSON Web Token.  On succesful authentication sets an HTTP Only Cookie with the encrypted jwt token'
       #swagger.parameters['email, password'] = {

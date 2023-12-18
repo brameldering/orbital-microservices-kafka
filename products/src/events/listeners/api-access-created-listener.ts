@@ -1,3 +1,4 @@
+import { Kafka } from 'kafkajs';
 import {
   Listener,
   Topics,
@@ -9,11 +10,14 @@ import { consumerGroupID } from './consumer-group-id';
 
 export class ApiAccessCreatedListener extends Listener<ApiAccessCreatedEvent> {
   topic: Topics.ApiAccessCreated = Topics.ApiAccessCreated;
-  consumerGroupID = consumerGroupID;
+
+  constructor(client: Kafka) {
+    super(client, consumerGroupID);
+  }
 
   async onMessage(data: ApiAccessCreatedEvent['data']) {
     console.log(
-      `= products.ApiAccessCreatedListener = consumerGroupID${this.consumerGroupID}, topic: ${this.topic} - data:`,
+      `Products - ApiAccessCreatedListener: consumerGroupID${this.consumerGroupID}, topic: ${this.topic} - data:`,
       data
     );
     const { id, microservice, apiName, allowedRoles } = data;
@@ -25,11 +29,9 @@ export class ApiAccessCreatedListener extends Listener<ApiAccessCreatedEvent> {
       allowedRoles,
     });
 
-    console.log('products ApiAccess.build: ', apiAccess);
-
     await apiAccess.save();
 
-    // Refresh ApiAccessArray cache
+    // Refresh ApiAccess cache
     await apiAccessCache.loadCacheFromDB();
   }
 }

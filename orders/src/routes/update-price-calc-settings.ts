@@ -1,9 +1,12 @@
-import express, { Response } from 'express';
+import express, { Response, NextFunction } from 'express';
 import {
   PRICE_CALC_SETTINGS_URL,
+  IExtendedRequest,
+  cacheMiddleware,
+  authorize,
+  ORDERS_APIS,
   PriceCalcSettings,
   IPriceCalcSettingsDoc,
-  IExtendedRequest,
   ObjectNotFoundError,
 } from '@orbitelco/common';
 
@@ -16,6 +19,9 @@ const router = express.Router();
 // @res     {updated PriceCalcSettingsObj}
 router.put(
   PRICE_CALC_SETTINGS_URL,
+  cacheMiddleware,
+  (req: IExtendedRequest, res: Response, next: NextFunction) =>
+    authorize(ORDERS_APIS, req.apiAccessCache || [])(req, res, next),
   async (req: IExtendedRequest, res: Response) => {
     /*  #swagger.tags = ['Orders']
       #swagger.description = 'Update Price Calculation Settings'

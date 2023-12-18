@@ -1,18 +1,23 @@
+import { Kafka } from 'kafkajs';
 import {
   Listener,
   Topics,
   ApiAccessCreatedEvent,
   ApiAccess,
+  apiAccessCache,
 } from '@orbitelco/common';
 import { consumerGroupID } from './consumer-group-id';
 
 export class ApiAccessCreatedListener extends Listener<ApiAccessCreatedEvent> {
   topic: Topics.ApiAccessCreated = Topics.ApiAccessCreated;
-  consumerGroupID = consumerGroupID;
+
+  constructor(client: Kafka) {
+    super(client, consumerGroupID);
+  }
 
   async onMessage(data: ApiAccessCreatedEvent['data']) {
     console.log(
-      `= orders.ApiAccessCreatedListener = consumerGroupID${this.consumerGroupID}, topic: ${this.topic} - data:`,
+      `Orders - ApiAccessCreatedListener: consumerGroupID${this.consumerGroupID}, topic: ${this.topic} - data:`,
       data
     );
     const { id, microservice, apiName, allowedRoles } = data;
@@ -24,8 +29,9 @@ export class ApiAccessCreatedListener extends Listener<ApiAccessCreatedEvent> {
       allowedRoles,
     });
 
-    console.log('orders ApiAccess.build: ', apiAccess);
-
     await apiAccess.save();
+
+    // Refresh ApiAccess cache
+    await apiAccessCache.loadCacheFromDB();
   }
 }

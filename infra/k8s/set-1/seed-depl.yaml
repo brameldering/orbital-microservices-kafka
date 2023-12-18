@@ -26,6 +26,8 @@ spec:
               value: 'mongodb://auth-mongo-srv:27017/auth'
             - name: MONGO_URI_ORDERS
               value: 'mongodb://orders-mongo-srv:27017/orders'
+            - name: KAFKA_BROKERS
+              value: 'kafka-service:9092'
 ---
 apiVersion: v1
 kind: Service

@@ -1,10 +1,13 @@
-import express, { Response } from 'express';
+import express, { Response, NextFunction } from 'express';
 import { body } from 'express-validator';
 import generateToken from '../utils/generateToken';
 import {
   UPDATE_PROFILE_URL,
   User,
   IExtendedRequest,
+  cacheMiddleware,
+  authorize,
+  AUTH_APIS,
   validateRequest,
   ObjectNotFoundError,
 } from '@orbitelco/common';
@@ -21,6 +24,9 @@ const router = express.Router();
 //       or status(404).ObjectNotFoundError('User not found')
 router.put(
   UPDATE_PROFILE_URL,
+  cacheMiddleware,
+  (req: IExtendedRequest, res: Response, next: NextFunction) =>
+    authorize(AUTH_APIS, req.apiAccessCache || [])(req, res, next),
   [
     body('name').trim().notEmpty().withMessage('Name can not be empty'),
     body('email').isEmail().withMessage('Email must be valid'),

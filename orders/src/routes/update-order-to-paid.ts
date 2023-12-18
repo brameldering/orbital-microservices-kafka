@@ -1,6 +1,10 @@
-import express, { Request, Response } from 'express';
+import express, { Response, NextFunction } from 'express';
 import {
   UPDATE_ORDER_TO_PAID_URL,
+  IExtendedRequest,
+  cacheMiddleware,
+  authorize,
+  ORDERS_APIS,
   Order,
   UserInputError,
   ObjectNotFoundError,
@@ -18,7 +22,10 @@ const router = express.Router();
 //       or status(404).ObjectNotFoundError(Order not found)
 router.put(
   UPDATE_ORDER_TO_PAID_URL + '/:id',
-  async (req: Request, res: Response) => {
+  cacheMiddleware,
+  (req: IExtendedRequest, res: Response, next: NextFunction) =>
+    authorize(ORDERS_APIS, req.apiAccessCache || [])(req, res, next),
+  async (req: IExtendedRequest, res: Response) => {
     /*  #swagger.tags = ['Orders']
       #swagger.description = 'Update order to paid.  Verifies that correct payment has been made using PayPal'
       #swagger.security = [{

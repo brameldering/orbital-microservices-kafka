@@ -1,7 +1,11 @@
-import express, { Request, Response } from 'express';
+import express, { Response, NextFunction } from 'express';
 import {
   USERS_URL,
   User,
+  IExtendedRequest,
+  cacheMiddleware,
+  authorize,
+  AUTH_APIS,
   ObjectNotFoundError,
   checkObjectId,
 } from '@orbitelco/common';
@@ -16,8 +20,11 @@ const router = express.Router();
 //       or status(404).ObjectNotFoundError('User not found')
 router.get(
   USERS_URL + '/:id',
+  cacheMiddleware,
+  (req: IExtendedRequest, res: Response, next: NextFunction) =>
+    authorize(AUTH_APIS, req.apiAccessCache || [])(req, res, next),
   checkObjectId,
-  async (req: Request, res: Response) => {
+  async (req: IExtendedRequest, res: Response) => {
     /*  #swagger.tags = ['Users']
       #swagger.description = 'Get user by ID'
       #swagger.security = [{

@@ -1,5 +1,12 @@
-import express, { Request, Response } from 'express';
-import { ORDERS_URL, Order } from '@orbitelco/common';
+import express, { Response, NextFunction } from 'express';
+import {
+  ORDERS_URL,
+  IExtendedRequest,
+  cacheMiddleware,
+  authorize,
+  ORDERS_APIS,
+  Order,
+} from '@orbitelco/common';
 
 const router = express.Router();
 
@@ -8,8 +15,13 @@ const router = express.Router();
 // @access  Admin
 // @req
 // @res     json(orders)
-router.get(ORDERS_URL, async (req: Request, res: Response) => {
-  /*  #swagger.tags = ['Orders']
+router.get(
+  ORDERS_URL,
+  cacheMiddleware,
+  (req: IExtendedRequest, res: Response, next: NextFunction) =>
+    authorize(ORDERS_APIS, req.apiAccessCache || [])(req, res, next),
+  async (req: IExtendedRequest, res: Response) => {
+    /*  #swagger.tags = ['Orders']
       #swagger.description = 'Fetch all products'
           #swagger.security = [{
         bearerAuth: ['admin']
@@ -18,14 +30,15 @@ router.get(ORDERS_URL, async (req: Request, res: Response) => {
           description: 'json(orders)',
       }
  */
-  const ordersOriginal = await Order.find({});
-  // .populate('user', 'name email')
-  // .exec();
-  // map products to json format as defined in product-types productSchema
-  const orders = ordersOriginal.map((order: { toJSON: () => any }) =>
-    order.toJSON()
-  );
-  res.send(orders);
-});
+    const ordersOriginal = await Order.find({});
+    // .populate('user', 'name email')
+    // .exec();
+    // map products to json format as defined in product-types productSchema
+    const orders = ordersOriginal.map((order: { toJSON: () => any }) =>
+      order.toJSON()
+    );
+    res.send(orders);
+  }
+);
 
 export { router as getOrdersRouter };

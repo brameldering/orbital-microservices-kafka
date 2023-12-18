@@ -1,6 +1,13 @@
-import express, { Response } from 'express';
+import express, { Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
-import { MY_ORDERS_URL, Order, IExtendedRequest } from '@orbitelco/common';
+import {
+  MY_ORDERS_URL,
+  IExtendedRequest,
+  cacheMiddleware,
+  authorize,
+  ORDERS_APIS,
+  Order,
+} from '@orbitelco/common';
 
 const router = express.Router();
 
@@ -9,8 +16,13 @@ const router = express.Router();
 // @access  Private
 // @req     req.currentUser!.id
 // @res     json(orders)
-router.get(MY_ORDERS_URL, async (req: IExtendedRequest, res: Response) => {
-  /*  #swagger.tags = ['Orders']
+router.get(
+  MY_ORDERS_URL,
+  cacheMiddleware,
+  (req: IExtendedRequest, res: Response, next: NextFunction) =>
+    authorize(ORDERS_APIS, req.apiAccessCache || [])(req, res, next),
+  async (req: IExtendedRequest, res: Response) => {
+    /*  #swagger.tags = ['Orders']
       #swagger.description = 'Fetch orders belonging to currently logged in user'
          #swagger.parameters['req.currentUser!.id'] = {
             in: 'request',
@@ -22,15 +34,16 @@ router.get(MY_ORDERS_URL, async (req: IExtendedRequest, res: Response) => {
             description: 'orders belonging to logged in user'
       }
 } */
-  const userId = new mongoose.Types.ObjectId(req.currentUser!.id);
-  const ordersOriginal = await Order.find({ 'user.userId': userId });
-  // .populate('user', 'name email')
-  // .exec();
-  // map products to json format as defined in product-types productSchema
-  const orders = ordersOriginal.map((order: { toJSON: () => any }) =>
-    order.toJSON()
-  );
-  res.send(orders);
-});
+    const userId = new mongoose.Types.ObjectId(req.currentUser!.id);
+    const ordersOriginal = await Order.find({ 'user.userId': userId });
+    // .populate('user', 'name email')
+    // .exec();
+    // map products to json format as defined in product-types productSchema
+    const orders = ordersOriginal.map((order: { toJSON: () => any }) =>
+      order.toJSON()
+    );
+    res.send(orders);
+  }
+);
 
 export { router as getMyOrdersRouter };

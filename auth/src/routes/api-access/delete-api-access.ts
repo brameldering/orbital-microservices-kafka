@@ -1,12 +1,16 @@
-import express, { Request, Response } from 'express';
+import express, { Response, NextFunction } from 'express';
 import {
   API_ACCESS_URL,
   ApiAccess,
+  IExtendedRequest,
+  cacheMiddleware,
+  authorize,
+  AUTH_APIS,
+  kafkaWrapper,
   checkObjectId,
   ObjectNotFoundError,
 } from '@orbitelco/common';
 import { ApiAccessDeletedPublisher } from '../../events/publishers/api-access-deleted-publisher';
-import { kafkaWrapper } from '../../kafka-wrapper';
 
 const router = express.Router();
 
@@ -18,8 +22,11 @@ const router = express.Router();
 //       or status(404).ObjectNotFoundError('apiaccess not found')
 router.delete(
   API_ACCESS_URL + '/:id',
+  cacheMiddleware,
+  (req: IExtendedRequest, res: Response, next: NextFunction) =>
+    authorize(AUTH_APIS, req.apiAccessCache || [])(req, res, next),
   checkObjectId,
-  async (req: Request, res: Response) => {
+  async (req: IExtendedRequest, res: Response) => {
     /*  #swagger.tags = ['Users']
       #swagger.description = 'Delete apiaccess'
       #swagger.security = [{

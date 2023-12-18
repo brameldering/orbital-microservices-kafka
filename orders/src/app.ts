@@ -3,10 +3,8 @@ import 'express-async-errors';
 import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
 import {
-  ORDERS_APIS,
-  IApiAccessAttrs,
   currentUser,
-  authorize,
+  apiAccessCache,
   validateURL,
   errorHandler,
   RouteNotFoundError,
@@ -20,10 +18,6 @@ import { getOrderByIdRouter } from './routes/get-order-by-id';
 import { getPayPalClientIdRouter } from './routes/get-paypalclientid';
 import { getPriceCalcSettingsRouter } from './routes/get-price-calc-settings';
 import { updatePriceCalcSettingsRouter } from './routes/update-price-calc-settings';
-import {
-  updateApiAccessCache,
-  getApiAccessCache,
-} from './utils/apiAccessArrayManager';
 
 // ======================================================
 // Check for existence of ENV variables set in depl files (dev/prod) or .env file for test
@@ -52,7 +46,6 @@ if (
   process.exit(1);
 }
 // ======================================================
-
 const app = express();
 app.set('trust proxy', true);
 app.use(json());
@@ -70,15 +63,9 @@ app.use(currentUser);
 
 const setupApiAccessAndRunApp = async () => {
   try {
-    // Initialize cache of API Access Array on server start
-    await updateApiAccessCache();
-    // load current list of Api Access Array
-    const apiAccessCache: IApiAccessAttrs[] = getApiAccessCache();
+    // Initialize cache of API Access Array
+    await apiAccessCache.loadCacheFromDB();
     // console.log('=== Auth === apiAccessCache: ', apiAccessCache());
-
-    // validate if user is authorized to access API
-    app.use(authorize(ORDERS_APIS, apiAccessCache));
-    // =================================================
 
     app.use(getPayPalClientIdRouter);
     app.use(getPriceCalcSettingsRouter);
@@ -106,15 +93,15 @@ const setupApiAccessAndRunApp = async () => {
 
 setupApiAccessAndRunApp();
 process.on('uncaughtException', (err: any) => {
-  console.error(`ERROR: ${err.stack}`);
   console.error('Shutting down due to uncaught exception');
+  console.error(`ERROR: ${err.stack}`);
   process.exit(1);
 });
 
 // Handle Unhandled Promise rejections
 process.on('unhandledRejection', (err: any) => {
-  console.error(`ERROR: ${err.stack}`);
   console.error('Shutting down the server due to Unhandled Promise rejection');
+  console.error(`ERROR: ${err.stack}`);
   process.exit(1);
 });
 

@@ -1,7 +1,11 @@
-import express, { Request, Response } from 'express';
+import express, { Response, NextFunction } from 'express';
 import {
   ROLES_URL,
   Role,
+  IExtendedRequest,
+  cacheMiddleware,
+  authorize,
+  AUTH_APIS,
   checkObjectId,
   ObjectNotFoundError,
 } from '@orbitelco/common';
@@ -17,8 +21,11 @@ const router = express.Router();
 //       or status(404).ObjectNotFoundError(Role not found)
 router.put(
   ROLES_URL + '/:id',
+  cacheMiddleware,
+  (req: IExtendedRequest, res: Response, next: NextFunction) =>
+    authorize(AUTH_APIS, req.apiAccessCache || [])(req, res, next),
   checkObjectId,
-  async (req: Request, res: Response) => {
+  async (req: IExtendedRequest, res: Response) => {
     /*  #swagger.tags = ['Users']
       #swagger.description = 'Update the display name of a role record'
       #swagger.security = [{

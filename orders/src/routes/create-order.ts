@@ -1,8 +1,11 @@
-import express, { Response } from 'express';
+import express, { Response, NextFunction } from 'express';
 // import { body } from 'express-validator';
 import {
-  IExtendedRequest,
   ORDERS_URL,
+  IExtendedRequest,
+  cacheMiddleware,
+  authorize,
+  ORDERS_APIS,
   Order,
   OrderSequence,
   IOrderAttrs,
@@ -23,8 +26,13 @@ const router = express.Router();
 //          body {orderItems, shippingAddress, paymentMethod}
 // @res     status(201).(createdOrder)
 //       or status(400).json({ message:'No order items' })
-router.post(ORDERS_URL, async (req: IExtendedRequest, res: Response) => {
-  /*  #swagger.tags = ['Orders']
+router.post(
+  ORDERS_URL,
+  cacheMiddleware,
+  (req: IExtendedRequest, res: Response, next: NextFunction) =>
+    authorize(ORDERS_APIS, req.apiAccessCache || [])(req, res, next),
+  async (req: IExtendedRequest, res: Response) => {
+    /*  #swagger.tags = ['Orders']
       #swagger.description = 'Create new order'
       #swagger.security = [{
         bearerAuth: ['user']
@@ -48,88 +56,89 @@ router.post(ORDERS_URL, async (req: IExtendedRequest, res: Response) => {
           description: 'json({ message: No order items })',
      } */
 
-  const user: IOrderUser = {
-    userId: req.currentUser!.id!,
-    name: req.currentUser!.name,
-    email: req.currentUser!.email,
-  };
-
-  const { orderItems, shippingAddress, paymentMethod } = req.body;
-  if (!orderItems || (orderItems && orderItems.length === 0)) {
-    throw new UserInputError('No order items in request body');
-  }
-  // else {
-  // // get the product info for the orderItems from the database
-  // const itemsFromDB: ProductObject[] = await Product.find({
-  //   _id: { $in: orderItems.map((x: OrderOrderItem) => x.productId) },
-  // });
-  // console.log('=== createOrder -> itemsFromDB');
-  // console.log(itemsFromDB);
-  // // map over the order items and get the price from our items from database
-  // const dbOrderItems: OrderOrderItem[] = orderItems.map(
-  //   (itemFromClient: OrderOrderItem) => {
-  //     const matchingItemFromDB: ProductObject | undefined =
-  //       itemsFromDB.find(
-  //         (itemFromDB) =>
-  //           itemFromDB._id.toString() ===
-  //           itemFromClient.productId.toString()
-  //       );
-  //     return {
-  //       ...itemFromClient,
-  //       productId: itemFromClient.productId,
-  //       price: matchingItemFromDB!.price,
-  //       _id: undefined,
-  //     };
-  //   }
-  // );
-  // console.log('=== createOrder -> orderItems');
-  // console.log(orderItems);
-
-  // Get price calculation settings
-  const priceCalcSettings: IPriceCalcSettingsAttrs | null =
-    await getPriceCalcSettings();
-  // console.log('PriceCalcSettings', priceCalcSettings);
-  if (!priceCalcSettings) {
-    throw new DatabaseError('Missing Price Calc Settings table in database');
-  }
-  // calculate prices
-  const totalAmounts = calcPrices(
-    orderItems,
-    priceCalcSettings.vatPercentage,
-    priceCalcSettings.shippingFee,
-    priceCalcSettings.thresholdFreeShipping
-  );
-  // console.time('TimeNeededToSaveOrder');
-  // Determine next orderId
-  const seqNumberOrderId = await OrderSequence.findOneAndUpdate(
-    {},
-    { $inc: { latestSeqId: 1 } },
-    { returnOriginal: false, upsert: true }
-  );
-  if (seqNumberOrderId) {
-    // console.log('seqNumberOrderId', seqNumberOrderId);
-    // console.log('seqNumberOrderId.latestSeqId', seqNumberOrderId.latestSeqId);
-    const sequentialOrderId: string =
-      'ORD-' + seqNumberOrderId.latestSeqId.toString().padStart(10, '0');
-    const orderObj: IOrderAttrs = {
-      sequentialOrderId,
-      user,
-      orderItems,
-      shippingAddress,
-      paymentMethod,
-      paymentResult: {},
-      totalAmounts,
-      isPaid: false,
-      isDelivered: false,
+    const user: IOrderUser = {
+      userId: req.currentUser!.id!,
+      name: req.currentUser!.name,
+      email: req.currentUser!.email,
     };
 
-    const order = Order.build(orderObj);
-    await order.save();
-    res.status(201).send(order.toJSON());
-  } else {
-    throw new DatabaseError('Error determining sequential Order Id');
-    // console.log("Log error details")
+    const { orderItems, shippingAddress, paymentMethod } = req.body;
+    if (!orderItems || (orderItems && orderItems.length === 0)) {
+      throw new UserInputError('No order items in request body');
+    }
+    // else {
+    // // get the product info for the orderItems from the database
+    // const itemsFromDB: ProductObject[] = await Product.find({
+    //   _id: { $in: orderItems.map((x: OrderOrderItem) => x.productId) },
+    // });
+    // console.log('=== createOrder -> itemsFromDB');
+    // console.log(itemsFromDB);
+    // // map over the order items and get the price from our items from database
+    // const dbOrderItems: OrderOrderItem[] = orderItems.map(
+    //   (itemFromClient: OrderOrderItem) => {
+    //     const matchingItemFromDB: ProductObject | undefined =
+    //       itemsFromDB.find(
+    //         (itemFromDB) =>
+    //           itemFromDB._id.toString() ===
+    //           itemFromClient.productId.toString()
+    //       );
+    //     return {
+    //       ...itemFromClient,
+    //       productId: itemFromClient.productId,
+    //       price: matchingItemFromDB!.price,
+    //       _id: undefined,
+    //     };
+    //   }
+    // );
+    // console.log('=== createOrder -> orderItems');
+    // console.log(orderItems);
+
+    // Get price calculation settings
+    const priceCalcSettings: IPriceCalcSettingsAttrs | null =
+      await getPriceCalcSettings();
+    // console.log('PriceCalcSettings', priceCalcSettings);
+    if (!priceCalcSettings) {
+      throw new DatabaseError('Missing Price Calc Settings table in database');
+    }
+    // calculate prices
+    const totalAmounts = calcPrices(
+      orderItems,
+      priceCalcSettings.vatPercentage,
+      priceCalcSettings.shippingFee,
+      priceCalcSettings.thresholdFreeShipping
+    );
+    // console.time('TimeNeededToSaveOrder');
+    // Determine next orderId
+    const seqNumberOrderId = await OrderSequence.findOneAndUpdate(
+      {},
+      { $inc: { latestSeqId: 1 } },
+      { returnOriginal: false, upsert: true }
+    );
+    if (seqNumberOrderId) {
+      // console.log('seqNumberOrderId', seqNumberOrderId);
+      // console.log('seqNumberOrderId.latestSeqId', seqNumberOrderId.latestSeqId);
+      const sequentialOrderId: string =
+        'ORD-' + seqNumberOrderId.latestSeqId.toString().padStart(10, '0');
+      const orderObj: IOrderAttrs = {
+        sequentialOrderId,
+        user,
+        orderItems,
+        shippingAddress,
+        paymentMethod,
+        paymentResult: {},
+        totalAmounts,
+        isPaid: false,
+        isDelivered: false,
+      };
+
+      const order = Order.build(orderObj);
+      await order.save();
+      res.status(201).send(order.toJSON());
+    } else {
+      throw new DatabaseError('Error determining sequential Order Id');
+      // console.log("Log error details")
+    }
   }
-});
+);
 
 export { router as createOrderRouter };

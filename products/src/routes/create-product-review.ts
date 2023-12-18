@@ -1,16 +1,16 @@
-import express, { Response } from 'express';
+import express, { Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
 // import { body } from 'express-validator';
 // import { validateRequest } from '@orbitelco/common';
 import {
   PRODUCT_REVIEW_URL,
+  IExtendedRequest,
   cacheMiddleware,
   authorize,
   PRODUCTS_APIS,
   Product,
   ProductReview,
   checkObjectId,
-  IExtendedRequest,
   IProductReviewDoc,
   ObjectNotFoundError,
   UserInputError,
@@ -31,7 +31,7 @@ const router = express.Router();
 router.post(
   PRODUCT_REVIEW_URL + '/:id',
   cacheMiddleware,
-  (req: IExtendedRequest, res: Response, next) =>
+  (req: IExtendedRequest, res: Response, next: NextFunction) =>
     authorize(PRODUCTS_APIS, req.apiAccessCache || [])(req, res, next),
   checkObjectId,
   async (req: IExtendedRequest, res: Response) => {

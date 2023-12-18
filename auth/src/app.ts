@@ -24,18 +24,12 @@ import { getUserByIdRouter } from './routes/get-user-by-id';
 import { updateUserRouter } from './routes/update-user';
 import { deleteUserRouter } from './routes/delete-user';
 import {
-  AUTH_APIS,
-  IApiAccessAttrs,
+  apiAccessCache,
   currentUser,
-  authorize,
   validateURL,
   errorHandler,
   RouteNotFoundError,
 } from '@orbitelco/common';
-import {
-  updateApiAccessCache,
-  getApiAccessCache,
-} from './utils/apiAccessArrayManager';
 
 // ======================================================
 // Check for existence of ENV variables set in depl files (dev/prod) or .env file for test
@@ -74,15 +68,9 @@ app.use(currentUser);
 
 const setupApiAccessAndRunApp = async () => {
   try {
-    // Initialize cache of API Access Array on server start
-    await updateApiAccessCache();
-    // load current list of Api Access Array
-    const apiAccessCache: IApiAccessAttrs[] = getApiAccessCache();
+    // Initialize cache of API Access Array
+    await apiAccessCache.loadCacheFromDB();
     // console.log('=== Auth === apiAccessCache: ', apiAccessCache());
-
-    // validate if user is authorized to access API
-    app.use(authorize(AUTH_APIS, apiAccessCache));
-    // =================================================
 
     app.use(getApiAccessesRouter);
     app.use(createApiAccessRouter);
@@ -123,15 +111,15 @@ const setupApiAccessAndRunApp = async () => {
 setupApiAccessAndRunApp();
 
 process.on('uncaughtException', (err: any) => {
-  console.error(`ERROR: ${err.stack}`);
   console.error('Shutting down due to uncaught exception');
+  console.error(`ERROR: ${err.stack}`);
   process.exit(1);
 });
 
 // Handle Unhandled Promise rejections
 process.on('unhandledRejection', (err: any) => {
-  console.error(`ERROR: ${err.stack}`);
   console.error('Shutting down the server due to Unhandled Promise rejection');
+  console.error(`ERROR: ${err.stack}`);
   process.exit(1);
 });
 

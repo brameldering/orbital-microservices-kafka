@@ -1,6 +1,14 @@
-import express, { Request, Response } from 'express';
+import express, { Response, NextFunction } from 'express';
 import { body } from 'express-validator';
-import { SIGN_UP_URL, User, validateRequest } from '@orbitelco/common';
+import {
+  SIGN_UP_URL,
+  User,
+  IExtendedRequest,
+  cacheMiddleware,
+  authorize,
+  AUTH_APIS,
+  validateRequest,
+} from '@orbitelco/common';
 
 import generateToken from '../utils/generateToken';
 
@@ -14,6 +22,9 @@ const router = express.Router();
 //       or status(400).RequestValidationError
 router.post(
   SIGN_UP_URL,
+  cacheMiddleware,
+  (req: IExtendedRequest, res: Response, next: NextFunction) =>
+    authorize(AUTH_APIS, req.apiAccessCache || [])(req, res, next),
   [
     body('name').trim().notEmpty().withMessage('Name can not be empty'),
     body('email').isEmail().withMessage('Email must be valid'),
@@ -24,7 +35,7 @@ router.post(
     body('role').trim().notEmpty().withMessage('Role can not be empty'),
   ],
   validateRequest,
-  async (req: Request, res: Response) => {
+  async (req: IExtendedRequest, res: Response) => {
     /*  #swagger.tags = ['Users']
       #swagger.description = 'Register a new user'
       #swagger.parameters['name, email, password, role'] = {

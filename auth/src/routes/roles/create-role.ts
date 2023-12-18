@@ -1,6 +1,14 @@
-import express, { Request, Response } from 'express';
+import express, { Response, NextFunction } from 'express';
 import { body } from 'express-validator';
-import { ROLES_URL, Role, validateRequest } from '@orbitelco/common';
+import {
+  ROLES_URL,
+  Role,
+  IExtendedRequest,
+  cacheMiddleware,
+  authorize,
+  AUTH_APIS,
+  validateRequest,
+} from '@orbitelco/common';
 
 const router = express.Router();
 
@@ -12,6 +20,9 @@ const router = express.Router();
 //       or status(400).RequestValidationError
 router.post(
   ROLES_URL,
+  cacheMiddleware,
+  (req: IExtendedRequest, res: Response, next: NextFunction) =>
+    authorize(AUTH_APIS, req.apiAccessCache || [])(req, res, next),
   [
     body('role').trim().notEmpty().withMessage('Role can not be empty'),
     body('roleDisplay')
@@ -20,7 +31,7 @@ router.post(
       .withMessage('RoleDisplay can not be empty'),
   ],
   validateRequest,
-  async (req: Request, res: Response) => {
+  async (req: IExtendedRequest, res: Response) => {
     /*  #swagger.tags = ['Users']
       #swagger.description = 'Create a new user role'
       #swagger.parameters['role, roleDisplay'] = {

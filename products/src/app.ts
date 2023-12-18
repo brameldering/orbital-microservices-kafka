@@ -52,7 +52,6 @@ if (
   process.exit(1);
 }
 // ======================================================
-
 const app = express();
 app.set('trust proxy', true);
 app.use(json());
@@ -73,10 +72,6 @@ const setupApiAccessAndRunApp = async () => {
     // Initialize cache of API Access Array
     await apiAccessCache.loadCacheFromDB();
     // console.log('=== Auth === apiAccessCache: ', apiAccessCache());
-
-    // validate if user is authorized to access API
-    // app.use(authorize(PRODUCTS_APIS, apiAccessCache.cache));
-    // =================================================
 
     app.use(uploadFileRouter);
     app.use(createProductReviewRouter);
@@ -103,15 +98,15 @@ const setupApiAccessAndRunApp = async () => {
 setupApiAccessAndRunApp();
 
 process.on('uncaughtException', (err: any) => {
-  console.error(`ERROR: ${err.stack}`);
   console.error('Shutting down due to uncaught exception');
+  console.error(`ERROR: ${err.stack}`);
   process.exit(1);
 });
 
 // Handle Unhandled Promise rejections
 process.on('unhandledRejection', (err: any) => {
-  console.error(`ERROR: ${err.stack}`);
   console.error('Shutting down the server due to Unhandled Promise rejection');
+  console.error(`ERROR: ${err.stack}`);
   process.exit(1);
 });
 
