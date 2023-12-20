@@ -82,7 +82,6 @@ router.post(
       res.status(201).send(product.toJSON());
     } else {
       throw new DatabaseError('Error determining sequential Product Id');
-      // console.log("Log error details")
     }
   }
 );

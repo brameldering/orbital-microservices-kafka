@@ -59,7 +59,7 @@ const ChangePasswordScreen: React.FC = () => {
   };
 
   const onError = (error: any) => {
-    console.log('ERROR:::', error);
+    console.error('ERROR:::', error);
   };
 
   const [showChangesModal, setShowChangesModal] = useState(false);

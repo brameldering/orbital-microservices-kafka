@@ -120,10 +120,9 @@ const OrderScreen: React.FC<TPageProps> = ({ order }) => {
         .then((orderID: string) => {
           return orderID;
         });
-    } catch (err) {
-      console.log('=== createOrder Error');
-      console.log(err);
-      setPayPalError(err);
+    } catch (error) {
+      console.error('Error in [orderdetail].tsx createOrder', error);
+      setPayPalError(error);
     }
   }
 
@@ -146,10 +145,9 @@ const OrderScreen: React.FC<TPageProps> = ({ order }) => {
           toast.success('Payment succesful');
         }
       });
-    } catch (err: any) {
-      console.log('=== onApprove error');
-      console.log(err);
-      setPayPalError(err);
+    } catch (error: any) {
+      console.error('Error in [orderdetail].tsx onApprove', error);
+      setPayPalError(error);
     }
   }
 
@@ -164,10 +162,9 @@ const OrderScreen: React.FC<TPageProps> = ({ order }) => {
   //   }
   // }
 
-  function onPayPalError(err: any) {
-    console.log('=== onPayPalError');
-    console.log(err);
-    setPayPalError(err);
+  function onPayPalError(error: any) {
+    console.error('Error in [orderdetail].tsx onPayPalError', error);
+    setPayPalError(error);
   }
 
   const deliverHandler = async () => {
@@ -177,8 +174,9 @@ const OrderScreen: React.FC<TPageProps> = ({ order }) => {
       }
       await setDeliverData(order.id).unwrap();
       Router.push(`${ORDER_DETAIL_PAGE}/${order.id}`);
-    } catch (err) {
-      setDeliverError(err);
+    } catch (error) {
+      console.error('Error in [orderdetail].tsx deliverHandler', error);
+      setDeliverError(error);
     }
   };
 

@@ -1,1 +1,1 @@
-export const consumerGroupID = 'products-service';
+export const consumerGroupID = 'products-service-test';

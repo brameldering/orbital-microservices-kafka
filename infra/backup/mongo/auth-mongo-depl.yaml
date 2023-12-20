@@ -20,7 +20,7 @@ spec:
       #       [
       #         'sh',
       #         '-c',
-      #         'until nc -z auth-mongo-srv 27017; do sleep 1; done; node seed-auth-data.js',
+      #         'until nc -z auth-mongo-service 27017; do sleep 1; done; node seed-auth-data.js',
       #       ]
       containers:
         - name: auth-mongo
@@ -29,7 +29,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: auth-mongo-srv
+  name: auth-mongo-service
 spec:
   type: ClusterIP
   selector:

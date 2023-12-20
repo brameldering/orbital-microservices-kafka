@@ -7,10 +7,10 @@ import {
   authorize,
   AUTH_APIS,
   kafkaWrapper,
+  Topics,
   checkObjectId,
   ObjectNotFoundError,
 } from '@orbitelco/common';
-import { ApiAccessDeletedPublisher } from '../../events/publishers/api-access-deleted-publisher';
 
 const router = express.Router();
 
@@ -49,7 +49,7 @@ router.delete(
       await apiAccess.deleteOne({ _id: apiAccess.id });
 
       // Publish ApiAccessDeletedEvent
-      new ApiAccessDeletedPublisher(kafkaWrapper.client).publish({
+      await kafkaWrapper.publishers[Topics.ApiAccessDeleted].publish({
         id: apiAccess.id,
         microservice: apiAccess.microservice,
         apiName: apiAccess.apiName,

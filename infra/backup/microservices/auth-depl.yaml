@@ -20,7 +20,7 @@ spec:
       #       [
       #         'sh',
       #         '-c',
-      #         'while ! nc -z auth-mongo-srv 27017; do sleep 1; done; node seed-test.js',
+      #         'while ! nc -z auth-mongo-service 27017; do sleep 1; done; node seed-test.js',
       #       ]
       containers:
         - name: auth
@@ -29,7 +29,7 @@ spec:
             - name: NODE_ENV
               value: 'development'
             - name: MONGO_URI
-              value: 'mongodb://auth-mongo-srv:27017/auth'
+              value: 'mongodb://auth-mongo-service:27017/auth'
             - name: JWT_SECRET
               valueFrom:
                 secretKeyRef:
@@ -46,7 +46,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: auth-srv
+  name: auth-service
 spec:
   type: ClusterIP
   selector:

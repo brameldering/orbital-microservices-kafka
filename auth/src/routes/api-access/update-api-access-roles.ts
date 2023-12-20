@@ -7,10 +7,10 @@ import {
   authorize,
   AUTH_APIS,
   kafkaWrapper,
+  Topics,
   checkObjectId,
   ObjectNotFoundError,
 } from '@orbitelco/common';
-import { ApiAccessUpdatedPublisher } from '../../events/publishers/api-access-updated-publisher';
 
 const router = express.Router();
 
@@ -61,7 +61,7 @@ router.put(
       const updatedApiAccess = await apiAccess.save();
 
       // Publish ApiAccessUpdatedEvent
-      new ApiAccessUpdatedPublisher(kafkaWrapper.client).publish({
+      await kafkaWrapper.publishers[Topics.ApiAccessUpdated].publish({
         id: updatedApiAccess.id,
         microservice: updatedApiAccess.microservice,
         apiName: updatedApiAccess.apiName,

@@ -19,18 +19,18 @@ spec:
             - name: NODE_ENV
               value: 'development'
             - name: MONGO_URI_SEQ
-              value: 'mongodb://seq-mongo-srv:27017/seq'
+              value: 'mongodb://seq-mongo-service:27017/seq'
             - name: MONGO_URI_PRODUCTS
-              value: 'mongodb://products-mongo-srv:27017/products'
+              value: 'mongodb://products-mongo-service:27017/products'
             - name: MONGO_URI_AUTH
-              value: 'mongodb://auth-mongo-srv:27017/auth'
+              value: 'mongodb://auth-mongo-service:27017/auth'
             - name: MONGO_URI_ORDERS
-              value: 'mongodb://orders-mongo-srv:27017/orders'
+              value: 'mongodb://orders-mongo-service:27017/orders'
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: seed-srv
+  name: seed-service
 spec:
   type: ClusterIP
   selector:

@@ -65,7 +65,7 @@ const ProfileScreen: React.FC = () => {
   };
 
   const onError = (error: any) => {
-    console.log('ERROR:::', error);
+    console.error('ERROR:::', error);
   };
 
   return (

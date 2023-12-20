@@ -19,7 +19,7 @@ spec:
             - name: NODE_ENV
               value: 'development'
             - name: MONGO_URI
-              value: 'mongodb://products-mongo-srv:27017/products'
+              value: 'mongodb://products-mongo-service:27017/products'
             - name: JWT_SECRET
               valueFrom:
                 secretKeyRef:
@@ -47,7 +47,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: products-srv
+  name: products-service
 spec:
   type: ClusterIP
   selector:

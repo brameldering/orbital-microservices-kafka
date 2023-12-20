@@ -1,29 +1,34 @@
-import { kafkaWrapper } from './kafka-wrapper';
-import { ApiAccessCreatedListener } from './events/listeners/api-access-created-listener';
+import { kafkaWrapper, ListenerManager } from '@orbitelco/common';
+// import { ApiAccessCreatedListener } from './events/listeners/api-access-created-listener';
 import { ApiAccessUpdatedListener } from './events/listeners/api-access-updated-listener';
-import { ApiAccessDeletedListener } from './events/listeners/api-access-deleted-listener';
+// import { ApiAccessDeletedListener } from './events/listeners/api-access-deleted-listener';
 
-const KAFKA_URL = 'localhost:9092';
+const KAFKA_URL = ['localhost:9092'];
+
+process.env.KAFKA_LOG_LEVEL = 'ERROR';
 
 const start = async () => {
   try {
-    await kafkaWrapper.connect(KAFKA_URL);
-    kafkaWrapper.client.on('close', () => {
-      console.log('= Consumer = Kafka connection closed!');
-      process.exit();
-    });
-    process.on('SIGINT', () => {
-      console.log('= consumer = Received SIGINT. Closing Kafka connection...');
-      kafkaWrapper.client.close();
-    });
-    process.on('SIGTERM', () => {
-      console.log('= consumer = Received SIGTERM. Closing Kafka connection...');
-      kafkaWrapper.client.close();
-    });
-    console.log('= Consumer = after connect');
-    new ApiAccessCreatedListener(kafkaWrapper.client).listen();
-    new ApiAccessUpdatedListener(kafkaWrapper.client).listen();
-    new ApiAccessDeletedListener(kafkaWrapper.client).listen();
+    await kafkaWrapper.connect('kafka-test-3', KAFKA_URL);
+    console.log('Connected to client using kafkawrapper');
+
+    const listenerManager = new ListenerManager(
+      kafkaWrapper.client,
+      'TestConsumerGroup',
+      {
+        sessionTimeout: 60000,
+        rebalanceTimeout: 30000,
+        heartbeatInterval: 3000,
+        allowAutoTopicCreation: true,
+      }
+    );
+    await listenerManager.connect();
+    console.log('Connected to consumer using listenerManager');
+
+    const listener = new ApiAccessUpdatedListener();
+    await listenerManager.registerListener(listener);
+    console.log('consumer.ts registered listener for topic', listener.topic);
+    listenerManager.listen();
   } catch (error) {
     console.error('= consumer = ', error);
   }

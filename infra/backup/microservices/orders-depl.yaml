@@ -19,7 +19,7 @@ spec:
             - name: NODE_ENV
               value: 'development'
             - name: MONGO_URI
-              value: 'mongodb://orders-mongo-srv:27017/orders'
+              value: 'mongodb://orders-mongo-service:27017/orders'
             - name: JWT_SECRET
               valueFrom:
                 secretKeyRef:
@@ -43,7 +43,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: orders-srv
+  name: orders-service
 spec:
   type: ClusterIP
   selector:

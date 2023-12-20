@@ -35,11 +35,11 @@ const ErrorBlock = ({ error }: { error: any }): ReactNode => {
     );
   } else if (error.message) {
     // Axios error
-    console.log('error: ', error.message);
+    console.error('error: ', error.message);
     errorBlock = <AlertWithStyling>{error.message}</AlertWithStyling>;
   } else if (error.request) {
     // Axios error
-    console.log('error: ', error.request.toString());
+    console.error('error: ', error.request.toString());
     errorBlock = <AlertWithStyling>Network Error</AlertWithStyling>;
   } else {
     // Other errors

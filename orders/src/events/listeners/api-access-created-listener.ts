@@ -1,4 +1,3 @@
-import { Kafka } from 'kafkajs';
 import {
   Listener,
   Topics,
@@ -6,32 +5,30 @@ import {
   ApiAccess,
   apiAccessCache,
 } from '@orbitelco/common';
-import { consumerGroupID } from './consumer-group-id';
 
 export class ApiAccessCreatedListener extends Listener<ApiAccessCreatedEvent> {
   topic: Topics.ApiAccessCreated = Topics.ApiAccessCreated;
 
-  constructor(client: Kafka) {
-    super(client, consumerGroupID);
-  }
-
   async onMessage(data: ApiAccessCreatedEvent['data']) {
-    console.log(
-      `Orders - ApiAccessCreatedListener: consumerGroupID${this.consumerGroupID}, topic: ${this.topic} - data:`,
-      data
-    );
-    const { id, microservice, apiName, allowedRoles } = data;
+    try {
+      const { id, microservice, apiName, allowedRoles } = data;
 
-    const apiAccess = ApiAccess.build({
-      id,
-      microservice,
-      apiName,
-      allowedRoles,
-    });
+      const apiAccess = ApiAccess.build({
+        id,
+        microservice,
+        apiName,
+        allowedRoles,
+      });
 
-    await apiAccess.save();
+      await apiAccess.save();
 
-    // Refresh ApiAccess cache
-    await apiAccessCache.loadCacheFromDB();
+      // Refresh ApiAccess cache
+      await apiAccessCache.loadCacheFromDB();
+    } catch (error: any) {
+      console.error(
+        `Error in ApiAccessCreatedListener for topic ${this.topic}:`,
+        error
+      );
+    }
   }
 }

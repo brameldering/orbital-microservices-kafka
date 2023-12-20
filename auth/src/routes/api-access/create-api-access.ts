@@ -9,8 +9,8 @@ import {
   AUTH_APIS,
   validateRequest,
   kafkaWrapper,
+  Topics,
 } from '@orbitelco/common';
-import { ApiAccessCreatedPublisher } from '../../events/publishers/api-access-created-publisher';
 
 const router = express.Router();
 
@@ -51,7 +51,7 @@ router.post(
     await apiAccess.save();
 
     // Publish ApiAccessCreatedEvent
-    new ApiAccessCreatedPublisher(kafkaWrapper.client).publish({
+    await kafkaWrapper.publishers[Topics.ApiAccessCreated].publish({
       id: apiAccess.id,
       microservice: apiAccess.microservice,
       apiName: apiAccess.apiName,

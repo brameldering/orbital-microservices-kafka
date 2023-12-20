@@ -1,4 +1,3 @@
-import { Kafka } from 'kafkajs';
 import {
   Listener,
   Topics,
@@ -6,32 +5,29 @@ import {
   ApiAccess,
   apiAccessCache,
 } from '@orbitelco/common';
-import { consumerGroupID } from './consumer-group-id';
 
 export class ApiAccessDeletedListener extends Listener<ApiAccessDeletedEvent> {
   topic: Topics.ApiAccessDeleted = Topics.ApiAccessDeleted;
 
-  constructor(client: Kafka) {
-    super(client, consumerGroupID);
-  }
-
   async onMessage(data: ApiAccessDeletedEvent['data']) {
-    console.log(
-      `Products - ApiAccessDeletedListener: consumerGroupID${this.consumerGroupID}, topic: ${this.topic} - data:`,
-      data
-    );
+    try {
+      const apiAccess = await ApiAccess.findOne({ apiName: data.apiName });
 
-    const apiAccess = await ApiAccess.findOne({ apiName: data.apiName });
+      // If no apiAccess record, throw error
+      if (!apiAccess) {
+        throw new Error('Products - ApiAccess record not found');
+      }
 
-    // If no apiAccess record, throw error
-    if (!apiAccess) {
-      throw new Error('Products - ApiAccess record not found');
+      // Update the ApiAccess record
+      apiAccess.deleteOne({ _id: data.id });
+
+      // Refresh ApiAccesscache
+      await apiAccessCache.loadCacheFromDB();
+    } catch (error: any) {
+      console.error(
+        `Error in ApiAccessDeletedListener for topic ${this.topic}:`,
+        error
+      );
     }
-
-    // Update the ApiAccess record
-    apiAccess.deleteOne({ _id: data.id });
-
-    // Refresh ApiAccesscache
-    await apiAccessCache.loadCacheFromDB();
   }
 }

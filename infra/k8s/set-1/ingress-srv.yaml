@@ -14,41 +14,41 @@ spec:
             pathType: ImplementationSpecific
             backend:
               service:
-                name: auth-srv
+                name: auth-service
                 port:
                   number: 3000
           - path: /api/products/v2/?(.*)
             pathType: ImplementationSpecific
             backend:
               service:
-                name: products-srv
+                name: products-service
                 port:
                   number: 3000
           - path: /api/orders/v2/?(.*)
             pathType: ImplementationSpecific
             backend:
               service:
-                name: orders-srv
+                name: orders-service
                 port:
                   number: 3000
           # - path: /api/idsequence/v2/?(.*)
           #   pathType: ImplementationSpecific
           #   backend:
           #     service:
-          #       name: seq-srv
+          #       name: seq-service
           #       port:
           #         number: 3000
           - path: /api/seeddata/v2/?(.*)
             pathType: ImplementationSpecific
             backend:
               service:
-                name: seed-srv
+                name: seed-service
                 port:
                   number: 3000
           - path: /?(.*)
             pathType: ImplementationSpecific
             backend:
               service:
-                name: client-srv
+                name: client-service
                 port:
                   number: 3000

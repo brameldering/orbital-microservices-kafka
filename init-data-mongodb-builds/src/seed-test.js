@@ -6,7 +6,7 @@ import {
   apiAccessAll,
 } from '@orbitelco/common';
 
-const mongoURI = 'mongodb://auth-mongo-srv:27017/auth';
+const mongoURI = 'mongodb://auth-mongo-service:27017/auth';
 
 // Establishing the connection
 // mongoose.connect(mongoURI, {

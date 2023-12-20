@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import { apiAccessSchema, apiAccessAll } from '@orbitelco/common';
 
-const MONGO_URI_PRODUCTS = 'mongodb://products-mongo-srv:27017/products';
+const MONGO_URI_PRODUCTS = 'mongodb://products-mongo-service:27017/products';
 
 const productsDB = mongoose.createConnection(MONGO_URI_PRODUCTS);
 console.log('Connected to MongoDB', MONGO_URI_PRODUCTS);

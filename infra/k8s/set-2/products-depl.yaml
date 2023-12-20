@@ -19,9 +19,11 @@ spec:
             - name: NODE_ENV
               value: 'development'
             - name: MONGO_URI
-              value: 'mongodb://products-mongo-srv:27017/products'
+              value: 'mongodb://products-mongo-service:27017/products'
             - name: KAFKA_BROKERS
-              value: 'kafka-service:9092'
+              value: kafka-service-1:9092
+            - name: KAFKA_LOG_LEVEL
+              value: WARN
             - name: JWT_SECRET
               valueFrom:
                 secretKeyRef:
@@ -49,7 +51,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: products-srv
+  name: products-service
 spec:
   type: ClusterIP
   selector:

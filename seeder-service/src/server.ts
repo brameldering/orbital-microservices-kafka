@@ -7,7 +7,9 @@ import {
   errorHandler,
   RouteNotFoundError,
   kafkaWrapper,
+  getKafkaLogLevel,
   Topics,
+  wait,
 } from '@orbitelco/common';
 import { seedDataRouter } from './routes/seed-data';
 
@@ -32,6 +34,16 @@ if (!process.env.KAFKA_BROKERS) {
   console.error('Missing ENV variable for KAFKA_BROKERS');
   process.exit(1);
 }
+if (!process.env.KAFKA_LOG_LEVEL) {
+  console.error('Missing ENV variable for KAFKA_LOG_LEVEL');
+  process.exit(1);
+}
+try {
+  // test if KAFKA_LOG_LEVEL is a valid level
+  getKafkaLogLevel(process.env.KAFKA_LOG_LEVEL);
+} catch (error) {
+  console.error('ENV variable for KAFKA_LOG_LEVEL not valid', error);
+}
 // ======================================================
 
 const app = express();
@@ -48,7 +60,7 @@ app.use(seedDataRouter);
 
 // Handle any other (unknown) route API calls
 app.all('*', async (req) => {
-  console.log('no match found for API route:', req.method, req.originalUrl);
+  console.error('no match found for API route:', req.method, req.originalUrl);
   throw new RouteNotFoundError();
 });
 
@@ -56,6 +68,8 @@ app.use(errorHandler);
 
 // ======================================================================
 const KAFKA_CLIENT_ID = 'seeder';
+const NUM_PARTITIONS = 1;
+const REPLICATION_FACTOR = 1;
 
 // ======================================================================
 // Initialize Kafka topics and Mongo DB connections
@@ -75,7 +89,12 @@ const start = async () => {
 
     // Loop through all topics and check/create required topics
     for (const topic of Object.values(Topics)) {
-      await kafkaWrapper.ensureTopicExists(topic);
+      await kafkaWrapper.ensureTopicExists(
+        topic,
+        NUM_PARTITIONS,
+        REPLICATION_FACTOR
+      );
+      await wait(1000); // wait 1 second to give balancing time
     }
 
     // seqDB = mongoose.createConnection(process.env.MONGO_URI_SEQ!);
@@ -94,12 +113,8 @@ const start = async () => {
     app.listen(3000, () => {
       console.log('Listening on port 3000');
     });
-
-    // Handle graceful shutdown
-    process.on('SIGTERM', shutDown);
-    process.on('SIGINT', shutDown);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.error(`Error starting seeder server`, error);
   }
 };
 
@@ -118,6 +133,10 @@ const shutDown = async () => {
 };
 
 start();
+
+// Handle graceful shutdown
+process.on('SIGTERM', shutDown);
+process.on('SIGINT', shutDown);
 
 process.on('uncaughtException', (err: Error) => {
   console.error(`ERROR: ${err.stack}`);

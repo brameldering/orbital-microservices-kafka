@@ -1,89 +1,116 @@
 import mongoose from 'mongoose';
 import { app } from './app';
-import { kafkaWrapper, Topics, Listener } from '@orbitelco/common';
+import {
+  kafkaWrapper,
+  Topics,
+  Listener,
+  ListenerManager,
+  IConsumerConfig,
+  wait,
+} from '@orbitelco/common';
 import { ApiAccessCreatedListener } from './events/listeners/api-access-created-listener';
 import { ApiAccessUpdatedListener } from './events/listeners/api-access-updated-listener';
 import { ApiAccessDeletedListener } from './events/listeners/api-access-deleted-listener';
 
-const KAFKA_CLIENT_ID = 'products';
+class Server {
+  private listenerManager: ListenerManager | null = null;
+  // Array to keep track of all listeners
+  private allListeners: Listener<any>[] = [];
+  private readonly KAFKA_CLIENT_ID = 'products';
+  private readonly CONSUMER_GROUP = 'products';
+  private readonly listenerConfigurations = [
+    {
+      topic: Topics.ApiAccessCreated,
+      listenerClass: ApiAccessCreatedListener,
+    },
+    {
+      topic: Topics.ApiAccessUpdated,
+      listenerClass: ApiAccessUpdatedListener,
+    },
+    {
+      topic: Topics.ApiAccessDeleted,
+      listenerClass: ApiAccessDeletedListener,
+    },
+  ];
+  private readonly listenerConfig: IConsumerConfig = {
+    sessionTimeout: 60000,
+    rebalanceTimeout: 30000,
+    heartbeatInterval: 3000,
+    allowAutoTopicCreation: true,
+  };
 
-const listenerConfigurations = [
-  {
-    topic: Topics.ApiAccessCreated,
-    listenerClass: ApiAccessCreatedListener,
-    consumerGroupID:
-      'ConsumerGroup_' + KAFKA_CLIENT_ID + '_' + Topics.ApiAccessCreated,
-  },
-  {
-    topic: Topics.ApiAccessUpdated,
-    listenerClass: ApiAccessUpdatedListener,
-    consumerGroupID:
-      'ConsumerGroup_' + KAFKA_CLIENT_ID + '_' + Topics.ApiAccessUpdated,
-  },
-  {
-    topic: Topics.ApiAccessDeleted,
-    listenerClass: ApiAccessDeletedListener,
-    consumerGroupID:
-      'ConsumerGroup_' + KAFKA_CLIENT_ID + '_' + Topics.ApiAccessDeleted,
-  },
-];
+  start = async () => {
+    try {
+      // Create Kafka connection
+      await kafkaWrapper.connect(
+        this.KAFKA_CLIENT_ID,
+        process.env.KAFKA_BROKERS!.split(',')
+      );
 
-// Array to keep track of all listeners
-const allListeners: Listener<any>[] = [];
+      this.listenerManager = new ListenerManager(
+        kafkaWrapper.client,
+        this.CONSUMER_GROUP,
+        this.listenerConfig
+      );
+      await this.listenerManager.connect();
 
-const start = async () => {
-  try {
-    // Create Kafka connection
-    await kafkaWrapper.connect(
-      KAFKA_CLIENT_ID,
-      process.env.KAFKA_BROKERS!.split(',')
-    );
+      for (const config of this.listenerConfigurations) {
+        const listener = new config.listenerClass();
+        await this.listenerManager.registerListener(listener);
+        this.allListeners.push(listener);
+        await wait(1200); // wait to give balancing time
+      }
 
-    for (const config of listenerConfigurations) {
-      const listener = new config.listenerClass(kafkaWrapper.client);
-      listener.listen();
-      allListeners.push(listener);
+      // Start listening for registered listeners
+      await this.listenerManager.listen();
+
+      // Connect to MongoDB
+      await mongoose.connect(process.env.MONGO_URI!);
+      console.log('Connected to MongoDB');
+
+      // Start listening
+      const port = process.env.PORT || 3000;
+      app.listen(port, () => {
+        console.log(`Listening on port ${port}`);
+      });
+    } catch (error) {
+      console.error(`Error starting products server`, error);
     }
+  };
 
-    // Connect to MongoDB
-    await mongoose.connect(process.env.MONGO_URI!);
-    console.log('Connected to MongoDB');
+  shutDown = async () => {
+    console.log('Received stop signal, shutting down gracefully');
 
-    // Start listening
-    app.listen(3000, () => {
-      console.log('Listening on port 3000');
-    });
-
-    // Handle graceful shutdown
-    process.on('SIGTERM', shutDown);
-    process.on('SIGINT', shutDown);
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-const shutDown = async () => {
-  console.log('Received stop signal, shutting down gracefully');
-
-  try {
-    // Disconnect all registered listeners
-    for (const listener of allListeners) {
-      await listener.shutdown();
+    try {
+      // Disconnect listener
+      if (this.listenerManager) {
+        await this.listenerManager.disconnect();
+      }
+    } catch (err) {
+      console.error('Error during disconnect of listenerManager:', err);
     }
+    try {
+      // Disconnect Kafka client and admin
+      await kafkaWrapper.disconnect();
+      console.log('Kafka client disconnected');
+    } catch (err) {
+      console.error('Error during disconnect of kafka client:', err);
+    }
+    try {
+      // Disconnect MongoDB connection
+      await mongoose.disconnect();
+      console.log('MongoDB disconnected');
 
-    // Disconnect Kafka client and admin
-    await kafkaWrapper.disconnect();
-    console.log('Kafka client disconnected');
+      process.exit(0);
+    } catch (err) {
+      console.error('Error during MongoDB disconnect:', err);
+    }
+  };
+}
 
-    // Disconnect MongoDB connection
-    await mongoose.disconnect();
-    console.log('MongoDB disconnected');
+const server = new Server();
+server.start();
 
-    process.exit(0);
-  } catch (err) {
-    console.error('Error during shutdown:', err);
-    process.exit(1);
-  }
-};
-
-start();
+// Handle graceful shutdown
+process.on('SIGTERM', () => server.shutDown());
+process.on('SIGINT', () => server.shutDown());

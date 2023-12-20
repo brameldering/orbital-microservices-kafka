@@ -15,7 +15,7 @@ build:
 manifests:
   rawYaml:
     - ./infra/k8s/set-1/*
-    # - ./infra/k8s/ingress-srv.yaml
+    # - ./infra/k8s/ingress-service.yaml
     # - ./infra/k8s/mongo/*
     # - ./infra/k8s/zjobs/*
     # - ./infra/k8s/microservices/*

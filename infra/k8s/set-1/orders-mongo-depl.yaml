@@ -19,13 +19,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: orders-mongo-srv
+  name: orders-mongo-service
 spec:
   type: ClusterIP
   selector:
     app: orders-mongo
   ports:
-    - name: orders-mongo-db
+    - name: orders-mongo
       protocol: TCP
       port: 27017
       targetPort: 27017

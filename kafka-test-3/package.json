@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@orbitelco/common": "^1.0.181",
+    "@orbitelco/common": "^1.0.233",
     "@types/node": "^20.10.1",
     "kafka-node": "^5.0.0",
     "ts-node-dev": "^2.0.0",

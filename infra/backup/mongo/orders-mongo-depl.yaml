@@ -19,7 +19,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: orders-mongo-srv
+  name: orders-mongo-service
 spec:
   type: ClusterIP
   selector:

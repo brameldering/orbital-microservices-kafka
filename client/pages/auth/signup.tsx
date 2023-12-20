@@ -94,7 +94,7 @@ const SignUpScreen: React.FC<TPageProps> = ({ roles }) => {
   };
 
   const onError = (error: any) => {
-    console.log('ERROR:::', error);
+    console.error('ERROR:::', error);
   };
 
   const selectRoles = [

@@ -3,6 +3,7 @@ import 'express-async-errors';
 import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
 import {
+  getKafkaLogLevel,
   currentUser,
   apiAccessCache,
   validateURL,
@@ -26,6 +27,16 @@ if (!process.env.MONGO_URI) {
 if (!process.env.KAFKA_BROKERS) {
   console.error('Missing ENV variable for KAFKA_BROKERS');
   process.exit(1);
+}
+if (!process.env.KAFKA_LOG_LEVEL) {
+  console.error('Missing ENV variable for KAFKA_LOG_LEVEL');
+  process.exit(1);
+}
+try {
+  // test if KAFKA_LOG_LEVEL is a valid level
+  getKafkaLogLevel(process.env.KAFKA_LOG_LEVEL);
+} catch (error) {
+  console.error('ENV variable for KAFKA_LOG_LEVEL not valid', error);
 }
 if (!(process.env.JWT_SECRET && process.env.EXPIRES_IN)) {
   console.error('Missing ENV variable for JWT_SECRET or EXPIRES_IN');
@@ -83,7 +94,11 @@ const setupApiAccessAndRunApp = async () => {
 
     // Handle any other (unknown) route API calls
     app.all('*', async (req) => {
-      console.log('no match found for API route:', req.method, req.originalUrl);
+      console.error(
+        'no match found for API route:',
+        req.method,
+        req.originalUrl
+      );
       throw new RouteNotFoundError();
     });
 

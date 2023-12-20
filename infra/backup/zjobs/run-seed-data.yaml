@@ -13,7 +13,7 @@ spec:
             # [
             #   'sh',
             #   '-c',
-            #   'while ! nc -z auth-mongo-srv 27017; do sleep 1; done; node seed-test.js',
+            #   'while ! nc -z auth-mongo-service 27017; do sleep 1; done; node seed-test.js',
             # ]
       restartPolicy: Never # Ensures the Job completes and exits
   backoffLimit: 1 # Limits retries if the Job fails

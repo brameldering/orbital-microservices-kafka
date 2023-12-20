@@ -1,0 +1,14 @@
+config:
+  organization:
+    name: 'Orbitelco'
+
+  admin:
+    email: 'bram.eldering@gmail.com'
+    password: '123456'
+
+  database:
+    host: 'postgres'
+    port: 5432
+    name: 'postgresdb'
+    username: 'admin'
+    password: 'psltest'
