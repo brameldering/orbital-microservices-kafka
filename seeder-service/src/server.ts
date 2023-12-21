@@ -110,8 +110,9 @@ const start = async () => {
     console.log('Connected to MongoDB', process.env.MONGO_URI_ORDERS!);
 
     // Start listening
-    app.listen(3000, () => {
-      console.log('Listening on port 3000');
+    const port = process.env.PORT || 3000;
+    app.listen(port, () => {
+      console.log(`Listening on port ${port}`);
     });
   } catch (error) {
     console.error(`Error starting seeder server`, error);
