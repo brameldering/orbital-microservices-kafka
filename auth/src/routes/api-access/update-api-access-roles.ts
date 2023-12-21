@@ -2,6 +2,7 @@ import express, { Response, NextFunction } from 'express';
 import {
   API_ACCESS_URL,
   ApiAccess,
+  apiAccessCache,
   IExtendedRequest,
   cacheMiddleware,
   authorize,
@@ -59,6 +60,9 @@ router.put(
       // apiAccess.apiName = apiName;
       apiAccess.allowedRoles = allowedRoles;
       const updatedApiAccess = await apiAccess.save();
+
+      // Refresh ApiAccess cache
+      // await apiAccessCache.loadCacheFromDB();
 
       // Publish ApiAccessUpdatedEvent
       await kafkaWrapper.publishers[Topics.ApiAccessUpdated].publish({

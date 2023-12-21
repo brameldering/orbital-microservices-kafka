@@ -2,6 +2,7 @@ import express, { Response, NextFunction } from 'express';
 import {
   API_ACCESS_URL,
   ApiAccess,
+  apiAccessCache,
   IExtendedRequest,
   cacheMiddleware,
   authorize,
@@ -47,6 +48,9 @@ router.delete(
     const apiAccess = await ApiAccess.findById(req.params.id);
     if (apiAccess) {
       await apiAccess.deleteOne({ _id: apiAccess.id });
+
+      // Refresh ApiAccess cache
+      // await apiAccessCache.loadCacheFromDB();
 
       // Publish ApiAccessDeletedEvent
       await kafkaWrapper.publishers[Topics.ApiAccessDeleted].publish({

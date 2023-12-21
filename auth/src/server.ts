@@ -1,11 +1,12 @@
 import mongoose from 'mongoose';
-import { app } from './app';
+import { app, setupApp } from './app';
 import { kafkaWrapper, Topics, wait } from '@orbitelco/common';
 import { ApiAccessCreatedPublisher } from './events/publishers/api-access-created-publisher';
 import { ApiAccessUpdatedPublisher } from './events/publishers/api-access-updated-publisher';
 import { ApiAccessDeletedPublisher } from './events/publishers/api-access-deleted-publisher';
 
 const KAFKA_CLIENT_ID = 'auth';
+const method = 'server.ts';
 
 const publisherConfigurations = [
   {
@@ -27,6 +28,7 @@ const publisherConfigurations = [
 
 const start = async () => {
   try {
+    console.log(`${method}: starting server`);
     // Ensure Kafka connection
     await kafkaWrapper.connect(
       KAFKA_CLIENT_ID,
@@ -37,7 +39,9 @@ const start = async () => {
     for (const config of publisherConfigurations) {
       const publisher = new config.publisherClass(kafkaWrapper.client);
       await publisher.connect();
-      console.log(`server.ts connected publisher for topic ${publisher.topic}`);
+      console.log(
+        `${method}: connected publisher for topic ${publisher.topic}`
+      );
       // Add publisher to kafkaWrapper instance
       kafkaWrapper.publishers[config.topic] = publisher;
       await wait(800); // wait to give balancing time
@@ -45,7 +49,10 @@ const start = async () => {
 
     // Connect to MongoDB
     await mongoose.connect(process.env.MONGO_URI!);
-    console.log('Connected to MongoDB');
+    console.log(`${method}: Connected to MongoDB`);
+
+    // Setup App including caching of ApiAccess after mongoose connection has been established
+    await setupApp();
 
     // Start listening
     app.listen(3000, () => {

@@ -3,6 +3,7 @@ import { body } from 'express-validator';
 import {
   API_ACCESS_URL,
   ApiAccess,
+  apiAccessCache,
   IExtendedRequest,
   cacheMiddleware,
   authorize,
@@ -49,6 +50,9 @@ router.post(
 
     const apiAccess = ApiAccess.build({ microservice, apiName, allowedRoles });
     await apiAccess.save();
+
+    // Refresh ApiAccess cache
+    // await apiAccessCache.loadCacheFromDB();
 
     // Publish ApiAccessCreatedEvent
     await kafkaWrapper.publishers[Topics.ApiAccessCreated].publish({

@@ -78,11 +78,10 @@ app.use(validateURL);
 // set req.currentuser if a user is logged in
 app.use(currentUser);
 
-const setupApiAccessAndRunApp = async () => {
+const setupApp = async () => {
   try {
     // Initialize cache of API Access Array
     await apiAccessCache.loadCacheFromDB();
-    // console.log('=== Auth === apiAccessCache: ', apiAccessCache());
 
     app.use(uploadFileRouter);
     app.use(createProductReviewRouter);
@@ -110,8 +109,6 @@ const setupApiAccessAndRunApp = async () => {
   }
 };
 
-setupApiAccessAndRunApp();
-
 process.on('uncaughtException', (err: any) => {
   console.error('Shutting down due to uncaught exception');
   console.error(`ERROR: ${err.stack}`);
@@ -125,4 +122,4 @@ process.on('unhandledRejection', (err: any) => {
   process.exit(1);
 });
 
-export { app };
+export { app, setupApp };
