@@ -18,6 +18,7 @@ import Router, { useRouter } from 'next/router';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
+import { parseError } from 'utils/parse-error';
 import Rating from 'components/Rating';
 import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
 import { ICartItem, IPriceCalcSettingsAttrs } from '@orbitelco/common';
@@ -33,9 +34,13 @@ import { getPriceCalcSettings } from 'api/orders/get-price-calc-settings';
 
 interface TPageProps {
   priceCalcSettings: IPriceCalcSettingsAttrs;
+  error?: string[];
 }
 
-const ProductDetailScreen: React.FC<TPageProps> = ({ priceCalcSettings }) => {
+const ProductDetailScreen: React.FC<TPageProps> = ({
+  priceCalcSettings,
+  error,
+}) => {
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state: RootState) => state.auth);
 
@@ -118,7 +123,9 @@ const ProductDetailScreen: React.FC<TPageProps> = ({ priceCalcSettings }) => {
         href={goBackPath.toString()}>
         Go Back
       </Link>
-      {errorLoading ? (
+      {error ? (
+        <ErrorBlock error={error} />
+      ) : errorLoading ? (
         <ErrorBlock error={errorLoading} />
       ) : product ? (
         <>
@@ -306,10 +313,9 @@ export const getServerSideProps = async (context: NextPageContext) => {
       props: { priceCalcSettings },
     };
   } catch (error) {
-    // Handle errors if any
-    console.error('Error fetching data:', error);
+    const parsedError = parseError(error);
     return {
-      props: { priceCalcSettings: {} },
+      props: { priceCalcSettings: {}, error: parsedError },
     };
   }
 };

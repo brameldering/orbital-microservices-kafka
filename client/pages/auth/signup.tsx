@@ -14,6 +14,7 @@ import { textField, passwordField } from 'form/ValidationSpecs';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
+import { parseError } from 'utils/parse-error';
 import { H1_SIGN_UP } from 'constants/form-titles';
 import { PRODUCTS_PAGE, SIGNIN_PAGE } from 'constants/client-pages';
 import { getRoles } from 'api/roles/get-roles';
@@ -37,9 +38,10 @@ const schema = yup.object().shape({
 
 interface TPageProps {
   roles: Array<{ role: string; roleDisplay: string }>;
+  error?: string[];
 }
 
-const SignUpScreen: React.FC<TPageProps> = ({ roles }) => {
+const SignUpScreen: React.FC<TPageProps> = ({ roles, error }) => {
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state: RootState) => state.auth);
 
@@ -108,44 +110,50 @@ const SignUpScreen: React.FC<TPageProps> = ({ roles }) => {
       <FormContainer>
         <Form onSubmit={handleSubmit(onSubmit, onError)}>
           <FormTitle>{H1_SIGN_UP}</FormTitle>
-          <TextNumField
-            controlId='name'
-            label='Full Name'
-            register={register}
-            error={errors.name}
-            setError={setError}
-          />
-          <TextNumField
-            controlId='email'
-            label='Email'
-            register={register}
-            error={errors.email}
-            setError={setError}
-          />
-          <PasswordField
-            controlId='password'
-            label='Password'
-            register={register}
-            error={errors.password}
-            setError={setError}
-          />
-          <SelectField
-            controlId='role'
-            options={selectRoles}
-            control={control}
-            error={errors.role}
-            setError={setError}
-          />
-          {errorSigninUp && <ErrorBlock error={errorSigninUp} />}
-          <div className='d-flex mt-3 justify-content-between align-items-center'>
-            <Button
-              id='BUTTON_register'
-              type='submit'
-              variant='primary'
-              disabled={isProcessing || !isDirty}>
-              Sign Up
-            </Button>
-          </div>
+          {error ? (
+            <ErrorBlock error={error} />
+          ) : (
+            <>
+              <TextNumField
+                controlId='name'
+                label='Full Name'
+                register={register}
+                error={errors.name}
+                setError={setError}
+              />
+              <TextNumField
+                controlId='email'
+                label='Email'
+                register={register}
+                error={errors.email}
+                setError={setError}
+              />
+              <PasswordField
+                controlId='password'
+                label='Password'
+                register={register}
+                error={errors.password}
+                setError={setError}
+              />
+              <SelectField
+                controlId='role'
+                options={selectRoles}
+                control={control}
+                error={errors.role}
+                setError={setError}
+              />
+              {errorSigninUp && <ErrorBlock error={errorSigninUp} />}
+              <div className='d-flex mt-3 justify-content-between align-items-center'>
+                <Button
+                  id='BUTTON_register'
+                  type='submit'
+                  variant='primary'
+                  disabled={isProcessing || !isDirty}>
+                  Sign Up
+                </Button>
+              </div>
+            </>
+          )}
         </Form>
         <Row className='py-3'>
           <Col>
@@ -173,10 +181,9 @@ export const getServerSideProps = async (context: NextPageContext) => {
       props: { roles },
     };
   } catch (error) {
-    // Handle errors if any
-    console.error('Error fetching data:', error);
+    const parsedError = parseError(error);
     return {
-      props: { roles: [] },
+      props: { roles: [], error: parsedError },
     };
   }
 };

@@ -21,6 +21,7 @@ const AlertWithStyling: React.FunctionComponent<AlertWithStylingProps> = ({
 };
 
 const ErrorBlock = ({ error }: { error: any }): ReactNode => {
+  console.log('Errorblock error', error);
   let errorBlock: ReactNode;
   if (error.data?.errors) {
     // Our custom error

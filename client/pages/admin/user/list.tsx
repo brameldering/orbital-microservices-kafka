@@ -7,6 +7,7 @@ import Link from 'next/link';
 import Loader from 'components/Loader';
 import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
+import { parseError } from 'utils/parse-error';
 import ModalConfirmBox from 'components//ModalConfirmBox';
 import { H1_USER_ADMIN } from 'constants/form-titles';
 import { ADMIN_ROLE, IUser } from '@orbitelco/common';
@@ -16,9 +17,10 @@ import { useDeleteUserMutation } from 'slices/usersApiSlice';
 
 interface TPageProps {
   users: IUser[];
+  error?: string[];
 }
 
-const UserListScreen: React.FC<TPageProps> = ({ users }) => {
+const UserListScreen: React.FC<TPageProps> = ({ users, error }) => {
   // --------------- Delete User ---------------
   const [deleteUser, { isLoading: deleting, error: errorDeleting }] =
     useDeleteUserMutation();
@@ -64,7 +66,9 @@ const UserListScreen: React.FC<TPageProps> = ({ users }) => {
       ) : errorLoading ? (
         <ErrorBlock error={errorLoading} />
       ) : */}
-      {users?.length === 0 ? (
+      {error ? (
+        <ErrorBlock error={error} />
+      ) : users?.length === 0 ? (
         <p>There are no users</p>
       ) : (
         <Table striped hover responsive className='table-sm'>
@@ -130,10 +134,9 @@ export const getServerSideProps = async (context: NextPageContext) => {
       props: { users },
     };
   } catch (error) {
-    // Handle errors if any
-    console.error('Error fetching data:', error);
+    const parsedError = parseError(error);
     return {
-      props: { users: [] },
+      props: { users: [], error: parsedError },
     };
   }
 };

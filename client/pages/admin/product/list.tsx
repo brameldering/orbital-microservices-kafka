@@ -107,7 +107,8 @@ const ProductListScreen = () => {
         <Col className='text-end'>
           <Button
             id='BUTTON_create_product'
-            className='my-3'
+            className='btn-sm'
+            variant='primary'
             onClick={confirmCreateProduct}
             disabled={loadingOrProcessing}>
             <FaPlus /> Create Product

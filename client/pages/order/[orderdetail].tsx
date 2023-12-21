@@ -18,6 +18,7 @@ import {
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
+import { parseError } from 'utils/parse-error';
 import OrderItemLine from 'components/OrderItemLine';
 import OrderSummaryBlock from 'components/OrderSummaryBlock';
 import { H2_ORDER_DETAILS } from 'constants/form-titles';
@@ -34,9 +35,10 @@ import {
 
 interface TPageProps {
   order: IOrder;
+  error?: string[];
 }
 
-const OrderScreen: React.FC<TPageProps> = ({ order }) => {
+const OrderScreen: React.FC<TPageProps> = ({ order, error }) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const [payPalError, setPayPalError] = useState<any>();
   const [deliverError, setDeliverError] = useState<any>();
@@ -186,142 +188,147 @@ const OrderScreen: React.FC<TPageProps> = ({ order }) => {
   return (
     <>
       <Meta title={H2_ORDER_DETAILS} />
-      {order && (
-        <Row>
-          <Col md={8}>
-            <ListGroup variant='flush'>
-              <ListGroup.Item>
-                <h2>{H2_ORDER_DETAILS}</h2>
-                <p>
-                  <strong>Order Id: </strong> {order.sequentialOrderId}
-                </p>
-                <p>
-                  <strong>Order Date: </strong>{' '}
-                  {order.createdAt &&
-                    dateTimeToLocaleDateString(order.createdAt)}
-                </p>
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <h2>Shipping</h2>
-                <p>
-                  <strong>Name: </strong> {order.user?.name}
-                </p>
-                <p>
-                  <strong>Email: </strong>{' '}
-                  <a href={`mailto:${order.user && order.user.email}`}>
-                    {order.user?.email}
-                  </a>
-                </p>
-                <p>
-                  <strong>Address: </strong>
-                  {order.shippingAddress.address},{' '}
-                  {order.shippingAddress.postalCode}{' '}
-                  {order.shippingAddress.city}, {order.shippingAddress.country}
-                </p>
-                {order.isDelivered && order.deliveredAt ? (
-                  <Alert variant='success'>
-                    Delivered on:{' '}
-                    {dateTimeToLocaleDateString(order.deliveredAt)}
-                  </Alert>
-                ) : (
-                  <Alert variant='info'>Not Delivered</Alert>
-                )}
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <h2>Payment Method</h2>
-                <p>
-                  <strong>Method: </strong>
-                  {order.paymentMethod}
-                </p>
-                {order.isPaid && order.paidAt ? (
-                  <Alert variant='success'>
-                    Paid on: {dateTimeToLocaleDateString(order.paidAt)} at{' '}
-                    {dateTimeToLocaleTimeString(order.paidAt)}
-                    <br />
-                    {`Payment Id: ${order.paymentResult?.id}`}
-                  </Alert>
-                ) : (
-                  <Alert variant='info'>Not Paid</Alert>
-                )}
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <h2>Order Items</h2>
-                {order.orderItems.length === 0 ? (
-                  <Alert variant='info'>Order is empty</Alert>
-                ) : (
-                  <ListGroup variant='flush'>
-                    {order &&
-                      order.orderItems.map((item, index) => (
-                        <ListGroup.Item key={index}>
-                          <OrderItemLine
-                            item={item}
-                            goBackPath={`${ORDER_DETAIL_PAGE}/${order.id}`}
-                          />
-                        </ListGroup.Item>
-                      ))}
-                  </ListGroup>
-                )}
-              </ListGroup.Item>
-            </ListGroup>
-          </Col>
-          <Col md={4}>
-            <Card>
+      {error ? (
+        <ErrorBlock error={error} />
+      ) : (
+        order && (
+          <Row>
+            <Col md={8}>
               <ListGroup variant='flush'>
-                <OrderSummaryBlock totalAmounts={order.totalAmounts} />
-                {disableButtons && (
-                  <>
-                    <br />
-                    <Loader />
-                  </>
-                )}
-                {!order.isPaid && (
-                  <ListGroup.Item>
-                    {errorSettingPayData ? (
-                      <ErrorBlock error={errorSettingPayData} />
-                    ) : errorSettingDeliverData ? (
-                      <ErrorBlock error={errorSettingDeliverData} />
-                    ) : payPalError ? (
-                      <ErrorBlock error={payPalError} />
-                    ) : (
-                      <div>
-                        {/* THIS BUTTON IS FOR TESTING! REMOVE BEFORE PRODUCTION! */}
-                        {/* <Button
+                <ListGroup.Item>
+                  <h2>{H2_ORDER_DETAILS}</h2>
+                  <p>
+                    <strong>Order Id: </strong> {order.sequentialOrderId}
+                  </p>
+                  <p>
+                    <strong>Order Date: </strong>{' '}
+                    {order.createdAt &&
+                      dateTimeToLocaleDateString(order.createdAt)}
+                  </p>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <h2>Shipping</h2>
+                  <p>
+                    <strong>Name: </strong> {order.user?.name}
+                  </p>
+                  <p>
+                    <strong>Email: </strong>{' '}
+                    <a href={`mailto:${order.user && order.user.email}`}>
+                      {order.user?.email}
+                    </a>
+                  </p>
+                  <p>
+                    <strong>Address: </strong>
+                    {order.shippingAddress.address},{' '}
+                    {order.shippingAddress.postalCode}{' '}
+                    {order.shippingAddress.city},{' '}
+                    {order.shippingAddress.country}
+                  </p>
+                  {order.isDelivered && order.deliveredAt ? (
+                    <Alert variant='success'>
+                      Delivered on:{' '}
+                      {dateTimeToLocaleDateString(order.deliveredAt)}
+                    </Alert>
+                  ) : (
+                    <Alert variant='info'>Not Delivered</Alert>
+                  )}
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <h2>Payment Method</h2>
+                  <p>
+                    <strong>Method: </strong>
+                    {order.paymentMethod}
+                  </p>
+                  {order.isPaid && order.paidAt ? (
+                    <Alert variant='success'>
+                      Paid on: {dateTimeToLocaleDateString(order.paidAt)} at{' '}
+                      {dateTimeToLocaleTimeString(order.paidAt)}
+                      <br />
+                      {`Payment Id: ${order.paymentResult?.id}`}
+                    </Alert>
+                  ) : (
+                    <Alert variant='info'>Not Paid</Alert>
+                  )}
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <h2>Order Items</h2>
+                  {order.orderItems.length === 0 ? (
+                    <Alert variant='info'>Order is empty</Alert>
+                  ) : (
+                    <ListGroup variant='flush'>
+                      {order &&
+                        order.orderItems.map((item, index) => (
+                          <ListGroup.Item key={index}>
+                            <OrderItemLine
+                              item={item}
+                              goBackPath={`${ORDER_DETAIL_PAGE}/${order.id}`}
+                            />
+                          </ListGroup.Item>
+                        ))}
+                    </ListGroup>
+                  )}
+                </ListGroup.Item>
+              </ListGroup>
+            </Col>
+            <Col md={4}>
+              <Card>
+                <ListGroup variant='flush'>
+                  <OrderSummaryBlock totalAmounts={order.totalAmounts} />
+                  {disableButtons && (
+                    <>
+                      <br />
+                      <Loader />
+                    </>
+                  )}
+                  {!order.isPaid && (
+                    <ListGroup.Item>
+                      {errorSettingPayData ? (
+                        <ErrorBlock error={errorSettingPayData} />
+                      ) : errorSettingDeliverData ? (
+                        <ErrorBlock error={errorSettingDeliverData} />
+                      ) : payPalError ? (
+                        <ErrorBlock error={payPalError} />
+                      ) : (
+                        <div>
+                          {/* THIS BUTTON IS FOR TESTING! REMOVE BEFORE PRODUCTION! */}
+                          {/* <Button
                         style={{ marginBottom: '10px' }}
                         onClick={onApproveTest}
                       >
                         Test Pay Order
                       </Button> */}
-                        <div>
-                          <PayPalButtons
-                            createOrder={createOrder}
-                            onApprove={onApprove}
-                            onError={onPayPalError}></PayPalButtons>
+                          <div>
+                            <PayPalButtons
+                              createOrder={createOrder}
+                              onApprove={onApprove}
+                              onError={onPayPalError}></PayPalButtons>
+                          </div>
                         </div>
-                      </div>
-                    )}
-                  </ListGroup.Item>
-                )}
-                {deliverError ? (
-                  <ErrorBlock error={deliverError} />
-                ) : (
-                  userInfo?.role === ADMIN_ROLE &&
-                  order &&
-                  order.isPaid &&
-                  !order.isDelivered && (
-                    <ListGroup.Item>
-                      <Button
-                        type='button'
-                        className='btn btn-block mt-2'
-                        onClick={deliverHandler}>
-                        Mark As Delivered
-                      </Button>
+                      )}
                     </ListGroup.Item>
-                  )
-                )}
-              </ListGroup>
-            </Card>
-          </Col>
-        </Row>
+                  )}
+                  {deliverError ? (
+                    <ErrorBlock error={deliverError} />
+                  ) : (
+                    userInfo?.role === ADMIN_ROLE &&
+                    order &&
+                    order.isPaid &&
+                    !order.isDelivered && (
+                      <ListGroup.Item>
+                        <Button
+                          type='button'
+                          className='btn btn-block mt-2'
+                          onClick={deliverHandler}>
+                          Mark As Delivered
+                        </Button>
+                      </ListGroup.Item>
+                    )
+                  )}
+                </ListGroup>
+              </Card>
+            </Col>
+          </Row>
+        )
       )}
     </>
   );
@@ -344,9 +351,9 @@ export const getServerSideProps = async (context: NextPageContext) => {
       props: { order },
     };
   } catch (error) {
-    console.error('Error fetching data:', error);
+    const parsedError = parseError(error);
     return {
-      props: { order: {} },
+      props: { order: {}, error: parsedError },
     };
   }
 };

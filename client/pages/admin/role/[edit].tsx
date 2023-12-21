@@ -13,6 +13,7 @@ import { textField } from 'form/ValidationSpecs';
 import Loader from 'components/Loader';
 import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
+import { parseError } from 'utils/parse-error';
 import ModalConfirmBox from 'components/ModalConfirmBox';
 import { H1_EDIT_ROLE } from 'constants/form-titles';
 import { ROLE_LIST_PAGE } from 'constants/client-pages';
@@ -32,9 +33,10 @@ const schema = yup.object().shape({
 
 interface TPageProps {
   roleObj: IRole;
+  error?: string[];
 }
 
-const RoleEditScreen: React.FC<TPageProps> = ({ roleObj }) => {
+const RoleEditScreen: React.FC<TPageProps> = ({ roleObj, error }) => {
   const [updateRole, { isLoading: updating, error: errorUpdating }] =
     useUpdateRoleMutation();
 
@@ -97,31 +99,37 @@ const RoleEditScreen: React.FC<TPageProps> = ({ roleObj }) => {
         <Form onSubmit={handleSubmit(onSubmit)}>
           <FormTitle>{H1_EDIT_ROLE}</FormTitle>
           {errorUpdating && <ErrorBlock error={errorUpdating} />}
-          <p>
-            <strong>Role: </strong> {roleObj.role}
-          </p>
-          <TextNumField
-            controlId='roleDisplay'
-            label='Role Display'
-            register={register}
-            error={errors.roleDisplay}
-            setError={setError}
-          />
-          <div className='d-flex mt-3 justify-content-between align-items-center'>
-            <Button
-              id='BUTTON_update'
-              type='submit'
-              variant='primary'
-              disabled={loadingOrProcessing || !isDirty}>
-              Update
-            </Button>
-            <Button
-              className='btn btn-light my-3'
-              onClick={goBackHandler}
-              disabled={loadingOrProcessing}>
-              Cancel
-            </Button>
-          </div>
+          {error ? (
+            <ErrorBlock error={error} />
+          ) : (
+            <>
+              <p>
+                <strong>Role: </strong> {roleObj.role}
+              </p>
+              <TextNumField
+                controlId='roleDisplay'
+                label='Role Display'
+                register={register}
+                error={errors.roleDisplay}
+                setError={setError}
+              />
+              <div className='d-flex mt-3 justify-content-between align-items-center'>
+                <Button
+                  id='BUTTON_update'
+                  type='submit'
+                  variant='primary'
+                  disabled={loadingOrProcessing || !isDirty}>
+                  Update
+                </Button>
+                <Button
+                  className='btn btn-light my-3'
+                  onClick={goBackHandler}
+                  disabled={loadingOrProcessing}>
+                  Cancel
+                </Button>
+              </div>
+            </>
+          )}
           {loadingOrProcessing && <Loader />}
         </Form>
       </FormContainer>
@@ -147,10 +155,9 @@ export const getServerSideProps = async (context: NextPageContext) => {
       props: { roleObj },
     };
   } catch (error) {
-    // Handle errors if any
-    console.error('Error fetching data:', error);
+    const parsedError = parseError(error);
     return {
-      props: { roleObj: {} },
+      props: { roleObj: {}, error: parsedError },
     };
   }
 };

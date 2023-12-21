@@ -13,6 +13,7 @@ import { numField } from 'form/ValidationSpecs';
 import Loader from 'components/Loader';
 import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
+import { parseError } from 'utils/parse-error';
 import ModalConfirmBox from 'components/ModalConfirmBox';
 import { H1_EDIT_PRICE_CALC } from 'constants/form-titles';
 import { PRICE_CALC_VIEW_PAGE } from 'constants/client-pages';
@@ -34,10 +35,12 @@ const schema = yup.object().shape({
 
 interface TPageProps {
   priceCalcSettings: IPriceCalcSettingsAttrs;
+  error?: string[];
 }
 
 const PriceCalcSettingsEditScreen: React.FC<TPageProps> = ({
   priceCalcSettings,
+  error,
 }) => {
   const [
     updatePriceCalcSettings,
@@ -94,56 +97,62 @@ const PriceCalcSettingsEditScreen: React.FC<TPageProps> = ({
   return (
     <>
       <Meta title={H1_EDIT_PRICE_CALC} />
-      <ModalConfirmBox
-        showModal={showChangesModal}
-        title='Are you sure you want to go back?'
-        body='All the new and changed info will be lost.'
-        handleClose={cancelGoBack}
-        handleConfirm={goBackWithoutSaving}
-      />
-      <FormContainer>
-        <Form onSubmit={handleSubmit(onSubmit)}>
-          <FormTitle>{H1_EDIT_PRICE_CALC}</FormTitle>
-          {errorUpdating && <ErrorBlock error={errorUpdating} />}
-          <TextNumField
-            controlId='vatPercentage'
-            label='VAT Percentage'
-            register={register}
-            error={errors.vatPercentage}
-            setError={setError}
+      {error ? (
+        <ErrorBlock error={error} />
+      ) : (
+        <>
+          <ModalConfirmBox
+            showModal={showChangesModal}
+            title='Are you sure you want to go back?'
+            body='All the new and changed info will be lost.'
+            handleClose={cancelGoBack}
+            handleConfirm={goBackWithoutSaving}
           />
-          <CurrencyNumField
-            controlId='shippingFee'
-            label='Shipping Fee'
-            register={register}
-            error={errors.shippingFee}
-            setError={setError}
-          />
-          <CurrencyNumField
-            controlId='thresholdFreeShipping'
-            label='Threshold Free Shipping'
-            register={register}
-            error={errors.thresholdFreeShipping}
-            setError={setError}
-          />
-          <div className='d-flex mt-3 justify-content-between align-items-center'>
-            <Button
-              id='BUTTON_update'
-              type='submit'
-              variant='primary'
-              disabled={loadingOrProcessing || !isDirty}>
-              Update
-            </Button>
-            <Button
-              className='btn btn-light my-3'
-              onClick={goBackHandler}
-              disabled={loadingOrProcessing}>
-              Cancel
-            </Button>
-          </div>
-          {loadingOrProcessing && <Loader />}
-        </Form>
-      </FormContainer>
+          <FormContainer>
+            <Form onSubmit={handleSubmit(onSubmit)}>
+              <FormTitle>{H1_EDIT_PRICE_CALC}</FormTitle>
+              {errorUpdating && <ErrorBlock error={errorUpdating} />}
+              <TextNumField
+                controlId='vatPercentage'
+                label='VAT Percentage'
+                register={register}
+                error={errors.vatPercentage}
+                setError={setError}
+              />
+              <CurrencyNumField
+                controlId='shippingFee'
+                label='Shipping Fee'
+                register={register}
+                error={errors.shippingFee}
+                setError={setError}
+              />
+              <CurrencyNumField
+                controlId='thresholdFreeShipping'
+                label='Threshold Free Shipping'
+                register={register}
+                error={errors.thresholdFreeShipping}
+                setError={setError}
+              />
+              <div className='d-flex mt-3 justify-content-between align-items-center'>
+                <Button
+                  id='BUTTON_update'
+                  type='submit'
+                  variant='primary'
+                  disabled={loadingOrProcessing || !isDirty}>
+                  Update
+                </Button>
+                <Button
+                  className='btn btn-light my-3'
+                  onClick={goBackHandler}
+                  disabled={loadingOrProcessing}>
+                  Cancel
+                </Button>
+              </div>
+              {loadingOrProcessing && <Loader />}
+            </Form>
+          </FormContainer>
+        </>
+      )}
     </>
   );
 };
@@ -157,10 +166,9 @@ export const getServerSideProps = async (context: NextPageContext) => {
       props: { priceCalcSettings },
     };
   } catch (error) {
-    // Handle errors if any
-    console.error('Error fetching data:', error);
+    const parsedError = parseError(error);
     return {
-      props: { priceCalcSettings: {} },
+      props: { priceCalcSettings: {}, error: parsedError },
     };
   }
 };

@@ -7,6 +7,7 @@ import Link from 'next/link';
 import Loader from 'components/Loader';
 import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
+import { parseError } from 'utils/parse-error';
 import ModalConfirmBox from 'components//ModalConfirmBox';
 import { H1_ROLE_ADMIN } from 'constants/form-titles';
 import { IRole } from '@orbitelco/common';
@@ -20,9 +21,10 @@ import { useDeleteRoleMutation } from 'slices/rolesApiSlice';
 
 interface TPageProps {
   roles: IRole[];
+  error?: string[];
 }
 
-const RolesListScreen: React.FC<TPageProps> = ({ roles }) => {
+const RolesListScreen: React.FC<TPageProps> = ({ roles, error }) => {
   // --------------- Delete Role ---------------
   const [deleteRole, { isLoading: deleting, error: errorDeleting }] =
     useDeleteRoleMutation();
@@ -77,48 +79,55 @@ const RolesListScreen: React.FC<TPageProps> = ({ roles }) => {
           </Link>
         </Col>
       </Row>
-
       {errorDeleting && <ErrorBlock error={errorDeleting} />}
-      {roles?.length === 0 ? (
-        <p>There are no roles</p>
+      {error ? (
+        <ErrorBlock error={error} />
       ) : (
-        <Table striped hover responsive className='table-sm'>
-          <thead>
-            <tr>
-              <th>ROLE</th>
-              <th>ROLE DISPLAY</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {roles &&
-              roles.map((role: any) => (
-                <tr key={role.id}>
-                  <td id={`role_${role.role}`}>{role.role}</td>
-                  <td id={`roleDisplay_${role.role}`}>{role.roleDisplay}</td>
-                  <td>
-                    <Link
-                      href={`${ROLE_EDIT_PAGE}/${role.id}`}
-                      style={{ marginRight: '10px' }}>
-                      <Button
-                        id={`edit_${role.role}`}
-                        variant='light'
-                        className='btn-sm'>
-                        <FaEdit />
-                      </Button>
-                    </Link>
-                    <Button
-                      id={`delete_${role.role}`}
-                      variant='danger'
-                      className='btn-sm'
-                      onClick={() => confirmDeleteRole(role.id)}>
-                      <FaTrash style={{ color: 'white' }} />
-                    </Button>
-                  </td>
+        <>
+          {roles?.length === 0 ? (
+            <p>There are no roles</p>
+          ) : (
+            <Table striped hover responsive className='table-sm'>
+              <thead>
+                <tr>
+                  <th>ROLE</th>
+                  <th>ROLE DISPLAY</th>
+                  <th></th>
                 </tr>
-              ))}
-          </tbody>
-        </Table>
+              </thead>
+              <tbody>
+                {roles &&
+                  roles.map((role: any) => (
+                    <tr key={role.id}>
+                      <td id={`role_${role.role}`}>{role.role}</td>
+                      <td id={`roleDisplay_${role.role}`}>
+                        {role.roleDisplay}
+                      </td>
+                      <td>
+                        <Link
+                          href={`${ROLE_EDIT_PAGE}/${role.id}`}
+                          style={{ marginRight: '10px' }}>
+                          <Button
+                            id={`edit_${role.role}`}
+                            variant='light'
+                            className='btn-sm'>
+                            <FaEdit />
+                          </Button>
+                        </Link>
+                        <Button
+                          id={`delete_${role.role}`}
+                          variant='danger'
+                          className='btn-sm'
+                          onClick={() => confirmDeleteRole(role.id)}>
+                          <FaTrash style={{ color: 'white' }} />
+                        </Button>
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </Table>
+          )}{' '}
+        </>
       )}
       {loadingOrProcessing && <Loader />}
     </>
@@ -133,10 +142,9 @@ export const getServerSideProps = async (context: NextPageContext) => {
       props: { roles },
     };
   } catch (error) {
-    // Handle errors if any
-    console.error('Error fetching data:', error);
+    const parsedError = parseError(error);
     return {
-      props: { roles: [] },
+      props: { roles: [], error: parsedError },
     };
   }
 };

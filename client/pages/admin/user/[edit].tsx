@@ -14,6 +14,7 @@ import { textField } from 'form/ValidationSpecs';
 import Loader from 'components/Loader';
 import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
+import { parseError } from 'utils/parse-error';
 import ModalConfirmBox from 'components/ModalConfirmBox';
 import { H1_EDIT_USER } from 'constants/form-titles';
 import { USER_LIST_PAGE } from 'constants/client-pages';
@@ -41,9 +42,10 @@ const schema = yup.object().shape({
 interface TPageProps {
   roles: Array<{ role: string; roleDisplay: string }>;
   user: IUser;
+  error?: string[];
 }
 
-const UserEditScreen: React.FC<TPageProps> = ({ roles, user }) => {
+const UserEditScreen: React.FC<TPageProps> = ({ roles, user, error }) => {
   const dispatch = useDispatch();
   const [updateUser, { isLoading: updating, error: errorUpdating }] =
     useUpdateUserMutation();
@@ -119,42 +121,48 @@ const UserEditScreen: React.FC<TPageProps> = ({ roles, user }) => {
         <Form onSubmit={handleSubmit(onSubmit)}>
           <FormTitle>{H1_EDIT_USER}</FormTitle>
           {errorUpdating && <ErrorBlock error={errorUpdating} />}
-          <TextNumField
-            controlId='name'
-            label='Full Name'
-            register={register}
-            error={errors.name}
-            setError={setError}
-          />
-          <TextNumField
-            controlId='email'
-            label='Email'
-            register={register}
-            error={errors.email}
-            setError={setError}
-          />
-          <SelectField
-            controlId='role'
-            options={selectRoles}
-            control={control}
-            error={errors.role}
-            setError={setError}
-          />
-          <div className='d-flex mt-3 justify-content-between align-items-center'>
-            <Button
-              id='BUTTON_update'
-              type='submit'
-              variant='primary'
-              disabled={loadingOrProcessing || !isDirty}>
-              Update
-            </Button>
-            <Button
-              className='btn btn-light my-3'
-              onClick={goBackHandler}
-              disabled={loadingOrProcessing}>
-              Cancel
-            </Button>
-          </div>
+          {error ? (
+            <ErrorBlock error={error} />
+          ) : (
+            <>
+              <TextNumField
+                controlId='name'
+                label='Full Name'
+                register={register}
+                error={errors.name}
+                setError={setError}
+              />
+              <TextNumField
+                controlId='email'
+                label='Email'
+                register={register}
+                error={errors.email}
+                setError={setError}
+              />
+              <SelectField
+                controlId='role'
+                options={selectRoles}
+                control={control}
+                error={errors.role}
+                setError={setError}
+              />
+              <div className='d-flex mt-3 justify-content-between align-items-center'>
+                <Button
+                  id='BUTTON_update'
+                  type='submit'
+                  variant='primary'
+                  disabled={loadingOrProcessing || !isDirty}>
+                  Update
+                </Button>
+                <Button
+                  className='btn btn-light my-3'
+                  onClick={goBackHandler}
+                  disabled={loadingOrProcessing}>
+                  Cancel
+                </Button>
+              </div>
+            </>
+          )}
           {loadingOrProcessing && <Loader />}
         </Form>
       </FormContainer>
@@ -181,10 +189,9 @@ export const getServerSideProps = async (context: NextPageContext) => {
       props: { roles, user },
     };
   } catch (error) {
-    // Handle errors if any
-    console.error('Error fetching data:', error);
+    const parsedError = parseError(error);
     return {
-      props: { roles: [], user: {} },
+      props: { roles: [], user: {}, error: parsedError },
     };
   }
 };

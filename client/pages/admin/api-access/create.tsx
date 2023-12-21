@@ -13,6 +13,7 @@ import { textField } from 'form/ValidationSpecs';
 import Loader from 'components/Loader';
 import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
+import { parseError } from 'utils/parse-error';
 import ModalConfirmBox from 'components/ModalConfirmBox';
 import { H1_CREATE_API_ACCESS } from 'constants/form-titles';
 import { API_ACCESS_LIST_PAGE } from 'constants/client-pages';
@@ -34,9 +35,10 @@ const schema = yup.object().shape({
 
 interface TPageProps {
   roles: Array<{ role: string; roleDisplay: string }>;
+  error?: string[];
 }
 
-const ApiAccessCreateScreen: React.FC<TPageProps> = ({ roles }) => {
+const ApiAccessCreateScreen: React.FC<TPageProps> = ({ roles, error }) => {
   const [createApiAccess, { isLoading: creating, error: errorCreating }] =
     useCreateApiAccessMutation();
 
@@ -110,56 +112,62 @@ const ApiAccessCreateScreen: React.FC<TPageProps> = ({ roles }) => {
       <FormContainer>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <FormTitle>{H1_CREATE_API_ACCESS}</FormTitle>
-          <SelectField
-            controlId='microservice'
-            options={microservices}
-            control={control}
-            error={errors.microservice}
-            setError={setError}
-          />
-          <TextNumField
-            controlId='apiName'
-            label='API Name'
-            register={register}
-            error={errors.apiName}
-            setError={setError}
-          />
-          <fieldset className='border border-primary mt-3 mb-0'>
-            <Form.Group as={Row}>
-              <Form.Label as='legend' column sm={6} className='ps-3 pt-1'>
-                Allowed Roles
-              </Form.Label>
-              <Col sm={6}>
-                {roles.map((role, index) => (
-                  <div key={index} className='m-1'>
-                    <Form.Check
-                      type='checkbox'
-                      id={`checkbox-${index}`}
-                      label={role.roleDisplay}
-                      value={role.role}
-                      {...register(`allowedRoles.${index}` as const)}
-                    />
-                  </div>
-                ))}
-              </Col>
-            </Form.Group>
-          </fieldset>
-          {errorCreating && <ErrorBlock error={errorCreating} />}
-          <div className='d-flex mt-3 justify-content-between align-items-center'>
-            <Button
-              id='BUTTON_update'
-              type='submit'
-              variant='primary'
-              disabled={loadingOrProcessing || !isDirty}>
-              Update
-            </Button>
-            <Button
-              className='btn btn-light my-3'
-              onClick={goBackHandler}
-              disabled={loadingOrProcessing}>
-              Cancel
-            </Button>
-          </div>
+          {error ? (
+            <ErrorBlock error={error} />
+          ) : (
+            <>
+              <SelectField
+                controlId='microservice'
+                options={microservices}
+                control={control}
+                error={errors.microservice}
+                setError={setError}
+              />
+              <TextNumField
+                controlId='apiName'
+                label='API Name'
+                register={register}
+                error={errors.apiName}
+                setError={setError}
+              />
+              <fieldset className='border border-primary mt-3 mb-0'>
+                <Form.Group as={Row}>
+                  <Form.Label as='legend' column sm={6} className='ps-3 pt-1'>
+                    Allowed Roles
+                  </Form.Label>
+                  <Col sm={6}>
+                    {roles.map((role, index) => (
+                      <div key={index} className='m-1'>
+                        <Form.Check
+                          type='checkbox'
+                          id={`checkbox-${index}`}
+                          label={role.roleDisplay}
+                          value={role.role}
+                          {...register(`allowedRoles.${index}` as const)}
+                        />
+                      </div>
+                    ))}
+                  </Col>
+                </Form.Group>
+              </fieldset>
+              {errorCreating && <ErrorBlock error={errorCreating} />}
+              <div className='d-flex mt-3 justify-content-between align-items-center'>
+                <Button
+                  id='BUTTON_update'
+                  type='submit'
+                  variant='primary'
+                  disabled={loadingOrProcessing || !isDirty}>
+                  Update
+                </Button>
+                <Button
+                  className='btn btn-light my-3'
+                  onClick={goBackHandler}
+                  disabled={loadingOrProcessing}>
+                  Cancel
+                </Button>
+              </div>
+            </>
+          )}
           {loadingOrProcessing && <Loader />}
         </Form>
       </FormContainer>
@@ -175,10 +183,9 @@ export const getServerSideProps = async (context: NextPageContext) => {
       props: { roles },
     };
   } catch (error) {
-    // Handle errors if any
-    console.error('Error fetching data:', error);
+    const parsedError = parseError(error);
     return {
-      props: { roles: [] },
+      props: { roles: [], error: parsedError },
     };
   }
 };

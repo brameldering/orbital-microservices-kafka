@@ -12,6 +12,7 @@ import FormTitle from 'form/FormTitle';
 import Loader from 'components/Loader';
 import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
+import { parseError } from 'utils/parse-error';
 import ModalConfirmBox from 'components/ModalConfirmBox';
 import { H1_EDIT_API_ACCESS } from 'constants/form-titles';
 import { API_ACCESS_LIST_PAGE } from 'constants/client-pages';
@@ -31,9 +32,14 @@ const schema = yup.object().shape({
 interface TPageProps {
   roles: Array<{ role: string; roleDisplay: string }>;
   apiAccess: IApiAccess;
+  error?: string[];
 }
 
-const ApiAccessEditScreen: React.FC<TPageProps> = ({ roles, apiAccess }) => {
+const ApiAccessEditScreen: React.FC<TPageProps> = ({
+  roles,
+  apiAccess,
+  error,
+}) => {
   const [updateApiAccess, { isLoading: updating, error: errorUpdating }] =
     useUpdateApiAccessMutation();
   // State to manage checked status of checkboxes
@@ -128,41 +134,47 @@ const ApiAccessEditScreen: React.FC<TPageProps> = ({ roles, apiAccess }) => {
         <Form onSubmit={handleSubmit(onSubmit)}>
           <FormTitle>{H1_EDIT_API_ACCESS}</FormTitle>
           {errorUpdating && <ErrorBlock error={errorUpdating} />}
-          <p>
-            <strong>Microservice: </strong> {apiAccess.microservice}
-          </p>
-          <p>
-            <strong>Api Name: </strong> {apiAccess.apiName}
-          </p>
-          <fieldset className='border border-primary mt-3 mb-0'>
-            <Form.Group as={Row}>
-              <Form.Label as='legend' column sm={6} className='ps-3 pt-1'>
-                Allowed Roles
-              </Form.Label>
-              <Col sm={6}>
-                {roles.map((role, index) => (
-                  <div key={index} className='m-1'>
-                    <Form.Check
-                      type='checkbox'
-                      id={`checkbox-${index}`}
-                      label={role.roleDisplay}
-                      {...register(`allowedRoles.${index}` as const)}
-                      checked={checkedBoxes[index]}
-                      onChange={handleCheckboxChange(index)}
-                    />
-                  </div>
-                ))}
-              </Col>
-            </Form.Group>
-          </fieldset>
-          <div className='d-flex mt-3 justify-content-between align-items-center'>
-            <Button id='BUTTON_update' type='submit' variant='primary'>
-              Update
-            </Button>
-            <Button className='btn btn-light my-3' onClick={goBackHandler}>
-              Cancel
-            </Button>
-          </div>
+          {error ? (
+            <ErrorBlock error={error} />
+          ) : (
+            <>
+              <p>
+                <strong>Microservice: </strong> {apiAccess.microservice}
+              </p>
+              <p>
+                <strong>Api Name: </strong> {apiAccess.apiName}
+              </p>
+              <fieldset className='border border-primary mt-3 mb-0'>
+                <Form.Group as={Row}>
+                  <Form.Label as='legend' column sm={6} className='ps-3 pt-1'>
+                    Allowed Roles
+                  </Form.Label>
+                  <Col sm={6}>
+                    {roles.map((role, index) => (
+                      <div key={index} className='m-1'>
+                        <Form.Check
+                          type='checkbox'
+                          id={`checkbox-${index}`}
+                          label={role.roleDisplay}
+                          {...register(`allowedRoles.${index}` as const)}
+                          checked={checkedBoxes[index]}
+                          onChange={handleCheckboxChange(index)}
+                        />
+                      </div>
+                    ))}
+                  </Col>
+                </Form.Group>
+              </fieldset>
+              <div className='d-flex mt-3 justify-content-between align-items-center'>
+                <Button id='BUTTON_update' type='submit' variant='primary'>
+                  Update
+                </Button>
+                <Button className='btn btn-light my-3' onClick={goBackHandler}>
+                  Cancel
+                </Button>
+              </div>
+            </>
+          )}
           {updating && <Loader />}
         </Form>
       </FormContainer>
@@ -189,10 +201,9 @@ export const getServerSideProps = async (context: NextPageContext) => {
       props: { roles, apiAccess },
     };
   } catch (error) {
-    // Handle errors if any
-    console.error('Error fetching data:', error);
+    const parsedError = parseError(error);
     return {
-      props: { roles: [], apiAccess: {} },
+      props: { roles: [], apiAccess: {}, error: parsedError },
     };
   }
 };

@@ -4,6 +4,8 @@ import { FaTimes } from 'react-icons/fa';
 import { NextPageContext } from 'next';
 import Link from 'next/link';
 import Meta from 'components/Meta';
+import ErrorBlock from 'components/ErrorBlock';
+import { parseError } from 'utils/parse-error';
 import { H1_ORDER_ADMIN } from 'constants/form-titles';
 import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
 import { ORDER_DETAIL_PAGE } from 'constants/client-pages';
@@ -13,14 +15,19 @@ import { IOrder } from '@orbitelco/common';
 
 interface TPageProps {
   orders: IOrder[];
+  error?: string[];
 }
 
-const OrderListScreen: React.FC<TPageProps> = ({ orders }) => {
+const OrderListScreen: React.FC<TPageProps> = ({ orders, error }) => {
   return (
     <>
       <Meta title={H1_ORDER_ADMIN} />
       <h1>{H1_ORDER_ADMIN}</h1>
-      {orders?.length === 0 ? (
+      {error ? (
+        <ErrorBlock error={error} />
+      ) : orders?.length === 0 ? (
+        <p>There are no orders</p>
+      ) : orders?.length === 0 ? (
         <p>There are no orders</p>
       ) : (
         <Table striped hover responsive className='table-sm'>
@@ -85,11 +92,10 @@ export const getServerSideProps = async (context: NextPageContext) => {
     return {
       props: { orders },
     };
-  } catch (error) {
-    // Handle errors if any
-    console.error('Error fetching data:', error);
+  } catch (error: any) {
+    const parsedError = parseError(error);
     return {
-      props: { orders: [] },
+      props: { orders: [], error: parsedError },
     };
   }
 };

@@ -4,6 +4,8 @@ import { FaEdit } from 'react-icons/fa';
 import { NextPageContext } from 'next';
 import Link from 'next/link';
 import Meta from 'components/Meta';
+import ErrorBlock from 'components/ErrorBlock';
+import { parseError } from 'utils/parse-error';
 import { H1_PRICE_CALC_ADMIN } from 'constants/form-titles';
 import { IPriceCalcSettingsAttrs } from '@orbitelco/common';
 import { PRICE_CALC_EDIT_PAGE } from 'constants/client-pages';
@@ -11,10 +13,12 @@ import { getPriceCalcSettings } from 'api/orders/get-price-calc-settings';
 
 interface TPageProps {
   priceCalcSettings: IPriceCalcSettingsAttrs;
+  error?: string[];
 }
 
 const PriceCalcSettingsScreen: React.FC<TPageProps> = ({
   priceCalcSettings,
+  error,
 }) => {
   return (
     <>
@@ -34,18 +38,22 @@ const PriceCalcSettingsScreen: React.FC<TPageProps> = ({
           </Link>
         </Col>
       </Row>
-      <Row>
-        <p>
-          <strong>VAT Percentage: </strong> {priceCalcSettings.vatPercentage}
-        </p>
-        <p>
-          <strong>Shipping Fee: </strong> {priceCalcSettings.shippingFee}
-        </p>
-        <p>
-          <strong>Threshold Free Shipping: </strong>{' '}
-          {priceCalcSettings.thresholdFreeShipping}
-        </p>
-      </Row>
+      {error ? (
+        <ErrorBlock error={error} />
+      ) : (
+        <Row>
+          <p>
+            <strong>VAT Percentage: </strong> {priceCalcSettings.vatPercentage}
+          </p>
+          <p>
+            <strong>Shipping Fee: </strong> {priceCalcSettings.shippingFee}
+          </p>
+          <p>
+            <strong>Threshold Free Shipping: </strong>{' '}
+            {priceCalcSettings.thresholdFreeShipping}
+          </p>
+        </Row>
+      )}
     </>
   );
 };
@@ -58,10 +66,9 @@ export const getServerSideProps = async (context: NextPageContext) => {
       props: { priceCalcSettings },
     };
   } catch (error) {
-    // Handle errors if any
-    console.error('Error fetching data:', error);
+    const parsedError = parseError(error);
     return {
-      props: { PriceCalcSettingsScreen: {} },
+      props: { PriceCalcSettingsScreen: {}, error: parsedError },
     };
   }
 };

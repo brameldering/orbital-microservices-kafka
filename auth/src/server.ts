@@ -44,7 +44,7 @@ const start = async () => {
       );
       // Add publisher to kafkaWrapper instance
       kafkaWrapper.publishers[config.topic] = publisher;
-      await wait(800); // wait to give balancing time
+      await wait(300); // wait to give balancing time
     }
 
     // Connect to MongoDB

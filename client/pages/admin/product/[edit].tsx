@@ -17,6 +17,7 @@ import { textField, textAreaField, numField } from 'form/ValidationSpecs';
 import Loader from 'components/Loader';
 import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
+import { parseError } from 'utils/parse-error';
 import ModalConfirmBox from 'components/ModalConfirmBox';
 import { H1_EDIT_PRODUCT } from 'constants/form-titles';
 import { PRODUCT_LIST_PAGE } from 'constants/client-pages';
@@ -51,9 +52,10 @@ const schema = yup.object().shape({
 
 interface TPageProps {
   product: IProduct;
+  error?: string[];
 }
 
-const ProductEditScreen: React.FC<TPageProps> = ({ product }) => {
+const ProductEditScreen: React.FC<TPageProps> = ({ product, error }) => {
   const [updateProduct, { isLoading: performingUpdate, error: errorUpdating }] =
     useUpdateProductMutation();
 
@@ -150,94 +152,100 @@ const ProductEditScreen: React.FC<TPageProps> = ({ product }) => {
           <FormTitle>{H1_EDIT_PRODUCT}</FormTitle>
           {errorUpdating && <ErrorBlock error={errorUpdating} />}
           {errorUploadImage && <ErrorBlock error={errorUploadImage} />}
-          <p>
-            <strong>Product Id: </strong> {product?.sequentialProductId}
-          </p>
-          <TextNumField
-            controlId='name'
-            label='Product name'
-            register={register}
-            error={errors.name}
-            setError={setError}
-          />
-          <Form.Group className='my-2' controlId='imageURL'>
-            <Form.Label className='my-1'>Image</Form.Label>
-            <Row className='align-items-center'>
-              <Col md={4}>
-                <img
-                  src={getValues('imageURL')}
-                  alt={getValues('name')}
-                  width='80'
-                  height='80'
-                />
-              </Col>
-              <Col md={8}>
+          {error ? (
+            <ErrorBlock error={error} />
+          ) : (
+            <>
+              <p>
+                <strong>Product Id: </strong> {product?.sequentialProductId}
+              </p>
+              <TextNumField
+                controlId='name'
+                label='Product name'
+                register={register}
+                error={errors.name}
+                setError={setError}
+              />
+              <Form.Group className='my-2' controlId='imageURL'>
+                <Form.Label className='my-1'>Image</Form.Label>
+                <Row className='align-items-center'>
+                  <Col md={4}>
+                    <img
+                      src={getValues('imageURL')}
+                      alt={getValues('name')}
+                      width='80'
+                      height='80'
+                    />
+                  </Col>
+                  <Col md={8}>
+                    <Form.Control
+                      name='imageURL'
+                      type='text'
+                      value={getValues('imageURL')}
+                      disabled
+                    />
+                  </Col>
+                </Row>
                 <Form.Control
-                  name='imageURL'
-                  type='text'
-                  value={getValues('imageURL')}
-                  disabled
-                />
-              </Col>
-            </Row>
-            <Form.Control
-              name='imageFile'
-              onChange={uploadFileHandler}
-              type='file'
-              className='my-1'></Form.Control>
-          </Form.Group>
-          {performinUploadImage && <Loader />}
-          <TextNumField
-            controlId='brand'
-            label='Brand'
-            register={register}
-            error={errors.brand}
-            setError={setError}
-          />
-          <CurrencyNumField
-            controlId='price'
-            label='Price'
-            register={register}
-            error={errors.price}
-            setError={setError}
-          />
-          <TextNumField
-            controlId='countInStock'
-            type='number'
-            label='Count In Stock'
-            register={register}
-            error={errors.countInStock}
-            setError={setError}
-          />
-          <TextNumField
-            controlId='category'
-            label='Category'
-            register={register}
-            error={errors.category}
-            setError={setError}
-          />
-          <TextAreaField
-            controlId='description'
-            label='Description'
-            register={register}
-            error={errors.description}
-            setError={setError}
-          />
-          <div className='d-flex mt-3 justify-content-between align-items-center'>
-            <Button
-              id='BUTTON_save'
-              type='submit'
-              variant='primary'
-              disabled={loadingOrProcessing || !isDirty}>
-              Save
-            </Button>
-            <Button
-              className='btn btn-light my-3'
-              onClick={goBackHandler}
-              disabled={loadingOrProcessing}>
-              Cancel
-            </Button>
-          </div>
+                  name='imageFile'
+                  onChange={uploadFileHandler}
+                  type='file'
+                  className='my-1'></Form.Control>
+              </Form.Group>
+              {performinUploadImage && <Loader />}
+              <TextNumField
+                controlId='brand'
+                label='Brand'
+                register={register}
+                error={errors.brand}
+                setError={setError}
+              />
+              <CurrencyNumField
+                controlId='price'
+                label='Price'
+                register={register}
+                error={errors.price}
+                setError={setError}
+              />
+              <TextNumField
+                controlId='countInStock'
+                type='number'
+                label='Count In Stock'
+                register={register}
+                error={errors.countInStock}
+                setError={setError}
+              />
+              <TextNumField
+                controlId='category'
+                label='Category'
+                register={register}
+                error={errors.category}
+                setError={setError}
+              />
+              <TextAreaField
+                controlId='description'
+                label='Description'
+                register={register}
+                error={errors.description}
+                setError={setError}
+              />
+              <div className='d-flex mt-3 justify-content-between align-items-center'>
+                <Button
+                  id='BUTTON_save'
+                  type='submit'
+                  variant='primary'
+                  disabled={loadingOrProcessing || !isDirty}>
+                  Save
+                </Button>
+                <Button
+                  className='btn btn-light my-3'
+                  onClick={goBackHandler}
+                  disabled={loadingOrProcessing}>
+                  Cancel
+                </Button>
+              </div>
+            </>
+          )}
           {loadingOrProcessing && <Loader />}
         </Form>
       </FormContainer>
@@ -263,10 +271,9 @@ export const getServerSideProps = async (context: NextPageContext) => {
       props: { product },
     };
   } catch (error) {
-    // Handle errors if any
-    console.error('Error fetching data:', error);
+    const parsedError = parseError(error);
     return {
-      props: { product: {} },
+      props: { product: {}, error: parsedError },
     };
   }
 };
