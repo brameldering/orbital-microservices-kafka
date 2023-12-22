@@ -20,8 +20,10 @@ spec:
               value: 'development'
             - name: MONGO_URI
               value: 'mongodb://orders-mongo-service:27017/orders'
+            # - name: KAFKA_BROKERS
+            #   value: kafka-service-1:9092
             - name: KAFKA_BROKERS
-              value: kafka-service-1:9092
+              value: kafka-service-1.kafka.svc.cluster.local:9092
             - name: KAFKA_LOG_LEVEL
               value: WARN
             - name: JWT_SECRET

@@ -1,25 +1,9 @@
 apiVersion: skaffold/v4beta6
 kind: Config
-build:
-  artifacts:
-    - image: orbitelco/seed
-      context: seeder-service
-      sync:
-        manual:
-          - src: src/**/*.ts
-            dest: .
-      docker:
-        dockerfile: Dockerfile
-  local:
-    push: false
 manifests:
   rawYaml:
-    - ./infra/k8s/set-1/*
+    - ./infra/k8s/kafka-namespace/*
     - ./infra/k8s/kafka/*
     # - ./infra/k8s/postgres/*
-    # - ./infra/k8s/ingress-service.yaml
-    # - ./infra/k8s/mongo/*
-    # - ./infra/k8s/zjobs/*
-    # - ./infra/k8s/microservices/*
 deploy:
   kubectl: {}

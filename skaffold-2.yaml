@@ -2,35 +2,11 @@ apiVersion: skaffold/v4beta6
 kind: Config
 build:
   artifacts:
-    - image: orbitelco/auth
-      context: auth
+    - image: orbitelco/seed
+      context: seeder-service
       sync:
         manual:
           - src: src/**/*.ts
-            dest: .
-      docker:
-        dockerfile: Dockerfile
-    - image: orbitelco/products
-      context: products
-      sync:
-        manual:
-          - src: src/**/*.ts
-            dest: .
-      docker:
-        dockerfile: Dockerfile
-    - image: orbitelco/orders
-      context: orders
-      sync:
-        manual:
-          - src: src/**/*.ts
-            dest: .
-      docker:
-        dockerfile: Dockerfile
-    - image: orbitelco/client
-      context: client
-      sync:
-        manual:
-          - src: /**/*.js
             dest: .
       docker:
         dockerfile: Dockerfile
@@ -38,10 +14,6 @@ build:
     push: false
 manifests:
   rawYaml:
-    - ./infra/k8s/set-2/*
-    # - ./infra/k8s/ingress-service.yaml
-    # - ./infra/k8s/mongo/*
-    # - ./infra/k8s/zjobs/*
-    # - ./infra/k8s/microservices/*
+    - ./infra/k8s/set-1/*
 deploy:
   kubectl: {}
