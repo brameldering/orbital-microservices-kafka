@@ -62,7 +62,7 @@ router.put(
       const updatedApiAccess = await apiAccess.save();
 
       // Refresh ApiAccess cache
-      // await apiAccessCache.loadCacheFromDB();
+      await apiAccessCache.loadCacheFromDB();
 
       // Publish ApiAccessUpdatedEvent
       await kafkaWrapper.publishers[Topics.ApiAccessUpdated].publish({

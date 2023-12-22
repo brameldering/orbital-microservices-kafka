@@ -50,7 +50,7 @@ router.delete(
       await apiAccess.deleteOne({ _id: apiAccess.id });
 
       // Refresh ApiAccess cache
-      // await apiAccessCache.loadCacheFromDB();
+      await apiAccessCache.loadCacheFromDB();
 
       // Publish ApiAccessDeletedEvent
       await kafkaWrapper.publishers[Topics.ApiAccessDeleted].publish({

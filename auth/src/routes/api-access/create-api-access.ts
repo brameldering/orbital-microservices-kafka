@@ -52,7 +52,7 @@ router.post(
     await apiAccess.save();
 
     // Refresh ApiAccess cache
-    // await apiAccessCache.loadCacheFromDB();
+    await apiAccessCache.loadCacheFromDB();
 
     // Publish ApiAccessCreatedEvent
     await kafkaWrapper.publishers[Topics.ApiAccessCreated].publish({
