@@ -16,6 +16,8 @@ spec:
         - name: orders
           image: orbitelco/orders
           env:
+            - name: DEPLOY_ENV
+              value: 'kubernetes'
             - name: NODE_ENV
               value: 'development'
             - name: MONGO_URI

@@ -23,9 +23,6 @@ const publisherConfigurations = [
   },
 ];
 
-// Array to keep track of all listeners
-// const allPublishers: Publisher<any>[] = [];
-
 const start = async () => {
   try {
     console.log(`${method}: starting server`);

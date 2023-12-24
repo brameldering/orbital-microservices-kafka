@@ -1,18 +1,13 @@
 import mongoose from 'mongoose';
 import { app, setupApp } from './app';
 import {
-  //   kafkaWrapper,
-  //   Topics,
-  //   Listener,
-  //   ListenerManager,
-  //   IConsumerConfig,
+  kafkaWrapper,
+  Topics,
+  Listener,
+  ListenerManager,
+  IConsumerConfig,
   wait,
 } from '@orbitelco/common';
-import { kafkaWrapper } from './kafka/kafka-wrapper';
-import { Topics } from './kafka/types/topics';
-import { IConsumerConfig } from './kafka/types/consumer-config';
-import { Listener } from './kafka/base-listener';
-import { ListenerManager } from './kafka/listener-manager';
 import { ApiAccessCreatedListener } from './events/listeners/api-access-created-listener';
 import { ApiAccessUpdatedListener } from './events/listeners/api-access-updated-listener';
 import { ApiAccessDeletedListener } from './events/listeners/api-access-deleted-listener';

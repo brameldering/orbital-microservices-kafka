@@ -1,3 +1,7 @@
+// Load local .env file settings in case DEPLOY_ENV variable is not defined or not kubernetes
+if (!process.env.DEPLOY_ENV || process.env.DEPLOY_ENV !== 'kubernetes') {
+  require('dotenv').config();
+}
 import express from 'express';
 import 'express-async-errors';
 import { json } from 'body-parser';

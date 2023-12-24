@@ -16,6 +16,8 @@ spec:
         - name: auth
           image: orbitelco/auth
           env:
+            - name: DEPLOY_ENV
+              value: 'kubernetes'
             - name: NODE_ENV
               value: 'development'
             - name: MONGO_URI

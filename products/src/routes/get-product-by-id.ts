@@ -3,12 +3,13 @@ import {
   PRODUCTS_URL,
   Product,
   IExtendedRequest,
-  cacheMiddleware,
+  // cacheMiddleware,
   authorize,
   PRODUCTS_APIS,
   checkObjectId,
   ObjectNotFoundError,
 } from '@orbitelco/common';
+import { cacheMiddleware } from '../utils/cache-middleware';
 
 const router = express.Router();
 
