@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 import {
   PRODUCT_REVIEW_URL,
   IExtendedRequest,
-  // cacheMiddleware,
+  cacheMiddleware,
   authorize,
   PRODUCTS_APIS,
   Product,
@@ -15,7 +15,6 @@ import {
   ObjectNotFoundError,
   UserInputError,
 } from '@orbitelco/common';
-import { cacheMiddleware } from '../utils/cache-middleware';
 
 const router = express.Router();
 

@@ -68,10 +68,8 @@ class Server {
         await wait(1200); // wait to give balancing time
       }
 
-      console.log(`${method}: Before this.listenerManager.listen()`);
       // Start listening for registered listeners
       await this.listenerManager.listen();
-      console.log(`${method}: After this.listenerManager.listen()`);
 
       // Connect to MongoDB
       await mongoose.connect(process.env.MONGO_URI!);

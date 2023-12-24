@@ -3,12 +3,11 @@ import { uploadImageToCloudinary } from './fileUploadHelpers/uploadImageToCloudi
 import {
   UPLOAD_URL,
   IExtendedRequest,
-  // cacheMiddleware,
+  cacheMiddleware,
   authorize,
   PRODUCTS_APIS,
   FileUploadError,
 } from '@orbitelco/common';
-import { cacheMiddleware } from '../utils/cache-middleware';
 
 const router = express.Router();
 
