@@ -58,6 +58,10 @@ beforeEach(async () => {
   await setupApp();
 });
 
+afterEach(() => {
+  jest.restoreAllMocks();
+});
+
 afterAll(async () => {
   if (mongo) {
     await mongo.stop();
