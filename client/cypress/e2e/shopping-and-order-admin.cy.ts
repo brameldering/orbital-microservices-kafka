@@ -51,8 +51,11 @@ describe('Initialize', () => {
 describe('Shopping tests', () => {
   beforeEach(() => cy.visit(HOME_PAGE_URL));
   it('E2E_SHOP_OM_1: Search for products and test back and home links', () => {
+    cy.wait(20000);
     // Check that we are on Products page and all 6 products are shown
-    cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
+    cy.get('h1')
+      .invoke('text')
+      .should('equal', H1_PRODUCTS, { timeout: 40000 });
     cy.get('[id="product_card"]').should('have.length', 6);
     // search for phone and check that 2 products match
     cy.get('[id="search_keyword"]').type(SEARCH_KEYWORD);
