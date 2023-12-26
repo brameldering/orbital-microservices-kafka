@@ -14,11 +14,13 @@ export const apiAccessApiSlice = apiSlice.injectEndpoints({
         method: 'POST',
         body: data,
       }),
+      invalidatesTags: ['ApiAccess'],
     }),
     getApiAccessById: builder.query<IApiAccess, string>({
       query: (id) => ({
         url: `${API_ACCESS_URL}/${id}`,
       }),
+      providesTags: ['ApiAccess'],
     }),
     updateApiAccess: builder.mutation<IApiAccess, IApiAccess>({
       query: (data) => ({
@@ -26,12 +28,14 @@ export const apiAccessApiSlice = apiSlice.injectEndpoints({
         method: 'PUT',
         body: data,
       }),
+      invalidatesTags: ['ApiAccess'],
     }),
     deleteApiAccess: builder.mutation<void, string>({
       query: (id) => ({
         url: `${API_ACCESS_URL}/${id}`,
         method: 'DELETE',
       }),
+      invalidatesTags: ['ApiAccess'],
     }),
   }),
 });

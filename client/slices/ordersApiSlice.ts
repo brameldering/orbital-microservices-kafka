@@ -70,7 +70,5 @@ export const {
   useCreateOrderMutation,
   useSetPayDataMutation,
   useSetDeliverDataMutation,
-  // useCalcTotalAmountsMutation,
-  // useGetVATandShippingFeeQuery,
   useGetPaypalClientIdQuery,
 } = orderApiSlice;

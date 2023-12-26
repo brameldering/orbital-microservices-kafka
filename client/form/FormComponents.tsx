@@ -259,7 +259,6 @@ const SelectField: React.FunctionComponent<SelectFieldProps> = ({
 interface TextAreaFieldProps {
   controlId: string;
   label: string;
-  value?: string;
   register: any;
   error: any;
   setError: any;
@@ -268,7 +267,6 @@ interface TextAreaFieldProps {
 const TextAreaField: React.FunctionComponent<TextAreaFieldProps> = ({
   controlId,
   label,
-  value = '',
   register,
   error,
   setError,
@@ -286,7 +284,6 @@ const TextAreaField: React.FunctionComponent<TextAreaFieldProps> = ({
             borderColor: '#606060',
           }}
           placeholder={label}
-          value={value}
           {...register(controlId)}
           onChange={(e) => {
             setError(controlId, { message: '' });

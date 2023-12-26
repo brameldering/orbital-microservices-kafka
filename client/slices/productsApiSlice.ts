@@ -21,17 +21,20 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         url: PRODUCTS_URL,
         params: { keyword, pagenumber },
       }),
+      providesTags: ['Product'],
     }),
     getProductById: builder.query<IProduct, string>({
       query: (productId) => ({
         url: `${PRODUCTS_URL}/${productId}`,
       }),
+      providesTags: ['Product'],
     }),
     createProduct: builder.mutation<IBaseProduct, void>({
       query: () => ({
         url: PRODUCTS_URL,
         method: 'POST',
       }),
+      invalidatesTags: ['Product'],
     }),
     updateProduct: builder.mutation<IProduct, IBaseProduct>({
       query: (data) => ({
@@ -39,12 +42,14 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         method: 'PUT',
         body: data,
       }),
+      invalidatesTags: ['Product'],
     }),
     deleteProduct: builder.mutation<void, string>({
       query: (productId) => ({
         url: `${PRODUCTS_URL}/${productId}`,
         method: 'DELETE',
       }),
+      invalidatesTags: ['Product'],
     }),
     createReview: builder.mutation<void, IReviewInput>({
       query: (data) => ({
@@ -52,6 +57,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         method: 'POST',
         body: data,
       }),
+      invalidatesTags: ['Product'],
     }),
     uploadImage: builder.mutation<IUploadImageResponse, FormData>({
       query: (data) => ({
@@ -59,6 +65,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         method: 'POST',
         body: data,
       }),
+      invalidatesTags: ['Product'],
     }),
   }),
 });
