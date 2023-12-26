@@ -20,7 +20,6 @@ describe('Test get products', () => {
     await createTestProduct();
 
     const res = await request(app).get(PRODUCTS_URL).send({}).expect(200);
-    console.log(res);
     // Check that response contains 1 record
     const result = res.body.products;
     expect(result.length).toEqual(3);

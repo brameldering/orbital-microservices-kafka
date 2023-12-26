@@ -8,8 +8,10 @@ import {
   IConsumerConfig,
   wait,
 } from '@orbitelco/common';
-import { SequenceResponsePublisher } from './events/publishers/sequence-response-publisher';
-import { SequenceRequestListener } from './events/listeners/sequence-request-listener';
+import { SequenceResponseOrdersPublisher } from './events/publishers/sequence-response-orders-publisher';
+import { SequenceResponseProductsPublisher } from './events/publishers/sequence-response-products-publisher';
+import { SequenceRequestOrdersListener } from './events/listeners/sequence-request-orders-listener';
+import { SequenceRequestProductsListener } from './events/listeners/sequence-request-products-listener';
 
 const method = 'server.ts';
 
@@ -20,8 +22,12 @@ class Server {
   // ===================================================================
   private publisherConfigurations = [
     {
-      topic: Topics.SequenceResponse,
-      publisherClass: SequenceResponsePublisher,
+      topic: Topics.SequenceResponseOrders,
+      publisherClass: SequenceResponseOrdersPublisher,
+    },
+    {
+      topic: Topics.SequenceResponseProducts,
+      publisherClass: SequenceResponseProductsPublisher,
     },
   ];
 
@@ -31,8 +37,12 @@ class Server {
   private allListeners: Listener<any>[] = [];
   private readonly listenerConfigurations = [
     {
-      topic: Topics.SequenceRequest,
-      listenerClass: SequenceRequestListener,
+      topic: Topics.SequenceRequestOrders,
+      listenerClass: SequenceRequestOrdersListener,
+    },
+    {
+      topic: Topics.SequenceRequestProducts,
+      listenerClass: SequenceRequestProductsListener,
     },
   ];
   private readonly listenerConfig: IConsumerConfig = {

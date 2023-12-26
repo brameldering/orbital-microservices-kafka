@@ -11,8 +11,8 @@ import {
 import { ApiAccessCreatedListener } from './events/listeners/api-access-created-listener';
 import { ApiAccessUpdatedListener } from './events/listeners/api-access-updated-listener';
 import { ApiAccessDeletedListener } from './events/listeners/api-access-deleted-listener';
-import { SequenceRequestPublisher } from './events/publishers/sequence-response-publisher';
-import { SequenceResponseListener } from './events/listeners/sequence-response-listener';
+import { SequenceRequestProductsPublisher } from './events/publishers/sequence-request-products-publisher';
+import { SequenceResponseProductsListener } from './events/listeners/sequence-response-products-listener';
 
 const method = 'server.ts';
 
@@ -23,8 +23,8 @@ class Server {
   // ===================================================================
   private publisherConfigurations = [
     {
-      topic: Topics.SequenceRequest,
-      publisherClass: SequenceRequestPublisher,
+      topic: Topics.SequenceRequestProducts,
+      publisherClass: SequenceRequestProductsPublisher,
     },
   ];
 
@@ -46,8 +46,8 @@ class Server {
       listenerClass: ApiAccessDeletedListener,
     },
     {
-      topic: Topics.SequenceResponse,
-      listenerClass: SequenceResponseListener,
+      topic: Topics.SequenceResponseProducts,
+      listenerClass: SequenceResponseProductsListener,
     },
   ];
   private readonly listenerConfig: IConsumerConfig = {

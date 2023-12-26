@@ -12,7 +12,6 @@ import {
   IProductAttrs,
   kafkaWrapper,
   Topics,
-  Entities,
   GENERATING,
 } from '@orbitelco/common';
 
@@ -70,10 +69,9 @@ router.post(
     const savedProduct = await product.save();
 
     // Request generating sequence number: Publish SequenceRequestEvent
-    await kafkaWrapper.publishers[Topics.SequenceRequest].publish(
-      Entities.ProductsEntity,
+    await kafkaWrapper.publishers[Topics.SequenceRequestProducts].publish(
+      savedProduct._id.toString(),
       {
-        entity: Entities.ProductsEntity,
         entityObjectId: savedProduct._id,
       }
     );

@@ -96,7 +96,7 @@ const start = async () => {
         NUM_PARTITIONS,
         REPLICATION_FACTOR
       );
-      await wait(500); // wait to give balancing time
+      await wait(200); // wait to give balancing time
     }
 
     sequencesDB = mongoose.createConnection(process.env.MONGO_URI_SEQUENCES!);

@@ -15,7 +15,6 @@ import {
   DatabaseError,
   kafkaWrapper,
   Topics,
-  Entities,
   GENERATING,
 } from '@orbitelco/common';
 import { getPriceCalcSettings } from '../utils/getPriceCalcSettings';
@@ -127,11 +126,10 @@ router.post(
     const order = Order.build(orderObj);
     const savedOrder = await order.save();
 
-    // Request generating sequence number: Publish SequenceRequestEvent
-    await kafkaWrapper.publishers[Topics.SequenceRequest].publish(
-      Entities.OrdersEntity,
+    // Request generating sequence number: Publish SequenceRequestOrdersEvent
+    await kafkaWrapper.publishers[Topics.SequenceRequestOrders].publish(
+      savedOrder._id.toString(),
       {
-        entity: Entities.OrdersEntity,
         entityObjectId: savedOrder._id,
       }
     );
