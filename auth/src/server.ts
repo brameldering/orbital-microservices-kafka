@@ -56,7 +56,7 @@ const start = async () => {
     app.listen(port, () => {
       console.log(`Listening on port ${port}`);
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error(`Error starting auth server`, error);
   }
 };

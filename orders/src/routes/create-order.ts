@@ -7,13 +7,16 @@ import {
   authorize,
   ORDERS_APIS,
   Order,
-  OrderSequence,
   IOrderAttrs,
   IOrderUser,
   calcPrices,
   IPriceCalcSettingsAttrs,
   UserInputError,
   DatabaseError,
+  kafkaWrapper,
+  Topics,
+  Entities,
+  GENERATING,
 } from '@orbitelco/common';
 import { getPriceCalcSettings } from '../utils/getPriceCalcSettings';
 
@@ -108,36 +111,32 @@ router.post(
       priceCalcSettings.thresholdFreeShipping
     );
     // console.time('TimeNeededToSaveOrder');
-    // Determine next orderId
-    const seqNumberOrderId = await OrderSequence.findOneAndUpdate(
-      {},
-      { $inc: { latestSeqId: 1 } },
-      { returnOriginal: false, upsert: true }
-    );
-    if (seqNumberOrderId) {
-      // console.log('seqNumberOrderId', seqNumberOrderId);
-      // console.log('seqNumberOrderId.latestSeqId', seqNumberOrderId.latestSeqId);
-      const sequentialOrderId: string =
-        'ORD-' + seqNumberOrderId.latestSeqId.toString().padStart(10, '0');
-      const orderObj: IOrderAttrs = {
-        sequentialOrderId,
-        user,
-        orderItems,
-        shippingAddress,
-        paymentMethod,
-        paymentResult: {},
-        totalAmounts,
-        isPaid: false,
-        isDelivered: false,
-      };
+    const sequentialOrderId = GENERATING;
+    const orderObj: IOrderAttrs = {
+      sequentialOrderId,
+      user,
+      orderItems,
+      shippingAddress,
+      paymentMethod,
+      paymentResult: {},
+      totalAmounts,
+      isPaid: false,
+      isDelivered: false,
+    };
 
-      const order = Order.build(orderObj);
-      await order.save();
-      res.status(201).send(order.toJSON());
-    } else {
-      throw new DatabaseError('Error determining sequential Order Id');
-      // console.log("Log error details")
-    }
+    const order = Order.build(orderObj);
+    const savedOrder = await order.save();
+
+    // Request generating sequence number: Publish SequenceRequestEvent
+    await kafkaWrapper.publishers[Topics.SequenceRequest].publish(
+      Entities.OrdersEntity,
+      {
+        entity: Entities.OrdersEntity,
+        entityObjectId: savedOrder._id,
+      }
+    );
+
+    res.status(201).send(savedOrder.toJSON());
   }
 );
 

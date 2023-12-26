@@ -20,12 +20,12 @@ spec:
               value: 'kubernetes'
             - name: NODE_ENV
               value: 'development'
-            # - name: MONGO_URI_SEQ
-            #   value: 'mongodb://seq-mongo-service:27017/seq'
-            - name: MONGO_URI_PRODUCTS
-              value: 'mongodb://products-mongo-service:27017/products'
+            - name: MONGO_URI_SEQUENCES
+              value: 'mongodb://sequences-mongo-service:27017/sequences'
             - name: MONGO_URI_AUTH
               value: 'mongodb://auth-mongo-service:27017/auth'
+            - name: MONGO_URI_PRODUCTS
+              value: 'mongodb://products-mongo-service:27017/products'
             - name: MONGO_URI_ORDERS
               value: 'mongodb://orders-mongo-service:27017/orders'
             # - name: KAFKA_BROKERS

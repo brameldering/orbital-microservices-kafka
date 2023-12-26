@@ -4,12 +4,13 @@ import {
   ApiAccessCreatedEvent,
   ApiAccess,
   apiAccessCache,
+  ApplicationServerError,
 } from '@orbitelco/common';
 
 export class ApiAccessCreatedListener extends Listener<ApiAccessCreatedEvent> {
   topic: Topics.ApiAccessCreated = Topics.ApiAccessCreated;
 
-  async onMessage(data: ApiAccessCreatedEvent['data']) {
+  async onMessage(key: string, data: ApiAccessCreatedEvent['data']) {
     try {
       const { id, microservice, apiName, allowedRoles } = data;
 
@@ -29,6 +30,7 @@ export class ApiAccessCreatedListener extends Listener<ApiAccessCreatedEvent> {
         `Error in ApiAccessCreatedListener for topic ${this.topic}:`,
         error
       );
+      throw new ApplicationServerError(error.toString());
     }
   }
 }

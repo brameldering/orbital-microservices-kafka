@@ -65,7 +65,7 @@ export const getServerSideProps = async (context: NextPageContext) => {
     return {
       props: { priceCalcSettings },
     };
-  } catch (error) {
+  } catch (error: any) {
     const parsedError = parseError(error);
     return {
       props: { PriceCalcSettingsScreen: {}, error: parsedError },

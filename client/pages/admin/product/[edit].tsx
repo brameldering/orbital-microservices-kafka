@@ -270,7 +270,7 @@ export const getServerSideProps = async (context: NextPageContext) => {
     return {
       props: { product },
     };
-  } catch (error) {
+  } catch (error: any) {
     const parsedError = parseError(error);
     return {
       props: { product: {}, error: parsedError },

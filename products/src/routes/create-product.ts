@@ -10,8 +10,10 @@ import {
   authorize,
   PRODUCTS_APIS,
   IProductAttrs,
-  ProductSequence,
-  DatabaseError,
+  kafkaWrapper,
+  Topics,
+  Entities,
+  GENERATING,
 } from '@orbitelco/common';
 
 const router = express.Router();
@@ -50,39 +52,33 @@ router.post(
 } */
     const userId = new mongoose.Types.ObjectId(req.currentUser!.id);
 
-    const seqNumberProductId = await ProductSequence.findOneAndUpdate(
-      {},
-      { $inc: { latestSeqId: 1 } },
-      { returnOriginal: false, upsert: true }
-    );
-    if (seqNumberProductId) {
-      // console.log('seqNumberProductId', seqNumberProductId);
-      // console.log(
-      //   'seqNumberProductId.latestSeqId',
-      //   seqNumberProductId.latestSeqId
-      // );
-      const sequentialProductId: string =
-        'PRD-' + seqNumberProductId.latestSeqId.toString().padStart(10, '0');
+    const sequentialProductId = GENERATING;
+    const productObject: IProductAttrs = {
+      sequentialProductId,
+      name: 'Sample name',
+      imageURL: process.env.CLOUDINARY_SAMPLE_IMAGE_URL!,
+      brand: 'Sample brand',
+      category: 'Sample category',
+      description: 'Sample description',
+      numReviews: 0,
+      reviews: [],
+      price: 0,
+      countInStock: 0,
+      userId,
+    };
+    const product = Product.build(productObject);
+    const savedProduct = await product.save();
 
-      const productObject: IProductAttrs = {
-        sequentialProductId,
-        name: 'Sample name',
-        imageURL: process.env.CLOUDINARY_SAMPLE_IMAGE_URL!,
-        brand: 'Sample brand',
-        category: 'Sample category',
-        description: 'Sample description',
-        numReviews: 0,
-        reviews: [],
-        price: 0,
-        countInStock: 0,
-        userId,
-      };
-      const product = Product.build(productObject);
-      await product.save();
-      res.status(201).send(product.toJSON());
-    } else {
-      throw new DatabaseError('Error determining sequential Product Id');
-    }
+    // Request generating sequence number: Publish SequenceRequestEvent
+    await kafkaWrapper.publishers[Topics.SequenceRequest].publish(
+      Entities.ProductsEntity,
+      {
+        entity: Entities.ProductsEntity,
+        entityObjectId: savedProduct._id,
+      }
+    );
+
+    res.status(201).send(savedProduct.toJSON());
   }
 );
 

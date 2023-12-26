@@ -122,7 +122,7 @@ const OrderScreen: React.FC<TPageProps> = ({ order, error }) => {
         .then((orderID: string) => {
           return orderID;
         });
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error in [orderdetail].tsx createOrder', error);
       setPayPalError(error);
     }
@@ -176,7 +176,7 @@ const OrderScreen: React.FC<TPageProps> = ({ order, error }) => {
       }
       await setDeliverData(order.id).unwrap();
       Router.push(`${ORDER_DETAIL_PAGE}/${order.id}`);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error in [orderdetail].tsx deliverHandler', error);
       setDeliverError(error);
     }
@@ -350,7 +350,7 @@ export const getServerSideProps = async (context: NextPageContext) => {
     return {
       props: { order },
     };
-  } catch (error) {
+  } catch (error: any) {
     const parsedError = parseError(error);
     return {
       props: { order: {}, error: parsedError },

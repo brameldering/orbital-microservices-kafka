@@ -84,6 +84,7 @@ export const createTestOrder = async () => {
       orderItems,
       shippingAddress: testShippingAddress,
       paymentMethod: PAYMENT_METHOD_PAYPAL,
-    });
+    })
+    .expect(201);
   return res;
 };

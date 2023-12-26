@@ -29,7 +29,7 @@ const start = async () => {
     await listenerManager.registerListener(listener);
     console.log('consumer.ts registered listener for topic', listener.topic);
     listenerManager.listen();
-  } catch (error) {
+  } catch (error: any) {
     console.error('= consumer = ', error);
   }
 };

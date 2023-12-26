@@ -6,7 +6,7 @@ import { PRODUCTS_URL } from '@orbitelco/common';
 
 describe('Test get product by id', () => {
   it('returns a status 200 and the product info for an existing product', async () => {
-    // create product (POST to PRODUCTS_URL)
+    // create product
     const res = await createTestProduct();
     const id = res.body.id;
 

@@ -21,16 +21,14 @@ import { seedDataRouter } from './routes/seed-data';
 // Check for existence of ENV variables set in depl files (dev/prod) or .env file for test
 if (
   !(
-    // process.env.MONGO_URI_SEQ &&
-    (
-      process.env.MONGO_URI_AUTH &&
-      process.env.MONGO_URI_PRODUCTS &&
-      process.env.MONGO_URI_ORDERS
-    )
+    process.env.MONGO_URI_SEQUENCES &&
+    process.env.MONGO_URI_AUTH &&
+    process.env.MONGO_URI_PRODUCTS &&
+    process.env.MONGO_URI_ORDERS
   )
 ) {
   console.error(
-    'Missing ENV variable for MONGO_URI_AUTH, MONGO_URI_PRODUCTS, or MONGO_URI_ORDERS'
+    'Missing ENV variable for MONGO_URI_SEQUENCES, MONGO_URI_AUTH, MONGO_URI_PRODUCTS, or MONGO_URI_ORDERS'
   );
   process.exit(1);
 }
@@ -45,7 +43,7 @@ if (!process.env.KAFKA_LOG_LEVEL) {
 try {
   // test if KAFKA_LOG_LEVEL is a valid level
   getKafkaLogLevel(process.env.KAFKA_LOG_LEVEL);
-} catch (error) {
+} catch (error: any) {
   console.error('ENV variable for KAFKA_LOG_LEVEL not valid', error);
 }
 // ======================================================
@@ -78,7 +76,7 @@ const REPLICATION_FACTOR = 1;
 // ======================================================================
 // Initialize Kafka topics and Mongo DB connections
 // ======================================================================
-// let seqDB: Connection;
+let sequencesDB: Connection;
 let authDB: Connection;
 let productsDB: Connection;
 let ordersDB: Connection;
@@ -101,8 +99,8 @@ const start = async () => {
       await wait(500); // wait to give balancing time
     }
 
-    // seqDB = mongoose.createConnection(process.env.MONGO_URI_SEQ!);
-    // console.log('Connected to MongoDB', process.env.MONGO_URI_SEQ!);
+    sequencesDB = mongoose.createConnection(process.env.MONGO_URI_SEQUENCES!);
+    console.log('Connected to MongoDB', process.env.MONGO_URI_SEQUENCES!);
 
     authDB = mongoose.createConnection(process.env.MONGO_URI_AUTH!);
     console.log('Connected to MongoDB', process.env.MONGO_URI_AUTH!);
@@ -118,7 +116,7 @@ const start = async () => {
     app.listen(port, () => {
       console.log(`Listening on port ${port}`);
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error(`Error starting seeder server`, error);
   }
 };
@@ -127,7 +125,12 @@ const shutDown = async () => {
   console.log('Received stop signal, shutting down gracefully');
   try {
     // Close each named connection
-    await Promise.all([authDB.close(), productsDB.close(), ordersDB.close()]);
+    await Promise.all([
+      sequencesDB.close(),
+      authDB.close(),
+      productsDB.close(),
+      ordersDB.close(),
+    ]);
     console.log('All MongoDB connections closed');
 
     process.exit(0);
@@ -156,4 +159,4 @@ process.on('unhandledRejection', (err: Error) => {
   process.exit(1);
 });
 
-export { authDB, productsDB, ordersDB }; // seqDB
+export { sequencesDB, authDB, productsDB, ordersDB }; // seqDB

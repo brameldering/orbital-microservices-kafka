@@ -2,6 +2,14 @@ apiVersion: skaffold/v4beta6
 kind: Config
 build:
   artifacts:
+    - image: orbitelco/sequences
+      context: sequences
+      sync:
+        manual:
+          - src: src/**/*.ts
+            dest: .
+      docker:
+        dockerfile: Dockerfile
     - image: orbitelco/auth
       context: auth
       sync:

@@ -4,18 +4,22 @@ import {
   ApiAccessUpdatedEvent,
   ApiAccess,
   apiAccessCache,
+  ApplicationIntegrityError,
+  ApplicationServerError,
 } from '@orbitelco/common';
 
 export class ApiAccessUpdatedListener extends Listener<ApiAccessUpdatedEvent> {
   topic: Topics.ApiAccessUpdated = Topics.ApiAccessUpdated;
 
-  async onMessage(data: ApiAccessUpdatedEvent['data']) {
+  async onMessage(key: string, data: ApiAccessUpdatedEvent['data']) {
     try {
       const apiAccess = await ApiAccess.findOne({ apiName: data.apiName });
 
       // If no apiAccess record, throw error
       if (!apiAccess) {
-        throw new Error('Products - ApiAccess record not found');
+        throw new ApplicationIntegrityError(
+          'Products - ApiAccess record not found'
+        );
       }
 
       // Update the allowedRoles property
@@ -31,6 +35,7 @@ export class ApiAccessUpdatedListener extends Listener<ApiAccessUpdatedEvent> {
         `Error in ApiAccessUpdatedListener for topic ${this.topic}:`,
         error
       );
+      throw new ApplicationServerError(error.toString());
     }
   }
 }

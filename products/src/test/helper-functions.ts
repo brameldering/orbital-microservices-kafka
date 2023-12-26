@@ -61,6 +61,7 @@ export const createTestProduct = async () => {
   const res = await request(app)
     .post(PRODUCTS_URL)
     .set('Cookie', fakeSignupAdmin())
-    .send({});
+    .send({})
+    .expect(201);
   return res;
 };

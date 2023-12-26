@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sequences-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sequences
+  template:
+    metadata:
+      labels:
+        app: sequences
+    spec:
+      containers:
+        - name: sequences
+          image: orbitelco/sequences
+          env:
+            - name: DEPLOY_ENV
+              value: 'kubernetes'
+            - name: NODE_ENV
+              value: 'development'
+            - name: MONGO_URI
+              value: 'mongodb://sequences-mongo-service:27017/sequences'
+            # - name: KAFKA_BROKERS
+            #   value: kafka-service-1:9092
+            - name: KAFKA_BROKERS
+              value: kafka-service-1.kafka.svc.cluster.local:9092
+            - name: KAFKA_LOG_LEVEL
+              value: WARN
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sequences-service
+spec:
+  type: ClusterIP
+  selector:
+    app: sequences
+  ports:
+    - name: sequences
+      protocol: TCP
+      port: 3000
+      targetPort: 3000

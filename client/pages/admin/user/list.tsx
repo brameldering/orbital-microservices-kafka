@@ -133,7 +133,7 @@ export const getServerSideProps = async (context: NextPageContext) => {
     return {
       props: { users },
     };
-  } catch (error) {
+  } catch (error: any) {
     const parsedError = parseError(error);
     return {
       props: { users: [], error: parsedError },

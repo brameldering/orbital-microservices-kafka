@@ -65,12 +65,15 @@ router.put(
       await apiAccessCache.loadCacheFromDB();
 
       // Publish ApiAccessUpdatedEvent
-      await kafkaWrapper.publishers[Topics.ApiAccessUpdated].publish({
-        id: updatedApiAccess.id,
-        microservice: updatedApiAccess.microservice,
-        apiName: updatedApiAccess.apiName,
-        allowedRoles: updatedApiAccess.allowedRoles,
-      });
+      await kafkaWrapper.publishers[Topics.ApiAccessUpdated].publish(
+        apiAccess.id,
+        {
+          id: updatedApiAccess.id,
+          microservice: updatedApiAccess.microservice,
+          apiName: updatedApiAccess.apiName,
+          allowedRoles: updatedApiAccess.allowedRoles,
+        }
+      );
 
       res.send(updatedApiAccess.toJSON());
     } else {

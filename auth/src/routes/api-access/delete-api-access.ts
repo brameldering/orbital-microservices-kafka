@@ -53,11 +53,14 @@ router.delete(
       await apiAccessCache.loadCacheFromDB();
 
       // Publish ApiAccessDeletedEvent
-      await kafkaWrapper.publishers[Topics.ApiAccessDeleted].publish({
-        id: apiAccess.id,
-        microservice: apiAccess.microservice,
-        apiName: apiAccess.apiName,
-      });
+      await kafkaWrapper.publishers[Topics.ApiAccessDeleted].publish(
+        apiAccess.id,
+        {
+          id: apiAccess.id,
+          microservice: apiAccess.microservice,
+          apiName: apiAccess.apiName,
+        }
+      );
 
       res.send();
     } else {

@@ -23,8 +23,9 @@ describe('Test get orders', () => {
     expect(result.length).toEqual(1);
     expect(result[0].totalAmounts.totalPrice).toEqual(101.3);
   });
-  it('returns a status 200 and the order info for 2 orders', async () => {
+  it('returns a status 200 and the order info for 3 orders', async () => {
     // create test order
+    await createTestOrder();
     await createTestOrder();
     await createTestOrder();
 
@@ -36,7 +37,7 @@ describe('Test get orders', () => {
     // Check that response contains 1 record
     const result = res.body;
     // console.log('orders', result);
-    expect(result.length).toEqual(2);
+    expect(result.length).toEqual(3);
     expect(result[0].totalAmounts.totalPrice).toEqual(101.3);
     expect(result[1].totalAmounts.totalPrice).toEqual(101.3);
   });

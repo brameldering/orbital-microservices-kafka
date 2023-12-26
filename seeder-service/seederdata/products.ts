@@ -1,7 +1,3 @@
-export const productSequence = {
-  latestSeqId: 6,
-};
-
 export const products = [
   {
     sequentialProductId: 'PRD-0000000001',

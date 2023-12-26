@@ -53,7 +53,7 @@ if (!process.env.KAFKA_LOG_LEVEL) {
 try {
   // test if KAFKA_LOG_LEVEL is a valid level
   getKafkaLogLevel(process.env.KAFKA_LOG_LEVEL);
-} catch (error) {
+} catch (error: any) {
   console.error('ENV variable for KAFKA_LOG_LEVEL not valid', error);
 }
 if (!(process.env.JWT_SECRET && process.env.EXPIRES_IN)) {
@@ -119,7 +119,7 @@ const setupApp = async () => {
     });
 
     app.use(errorHandler);
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error setting up API access:', error);
     // Handle error setting up API access
     app.use(errorHandler); // You might want to handle this differently based on your use case

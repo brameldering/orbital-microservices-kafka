@@ -4,18 +4,22 @@ import {
   ApiAccessDeletedEvent,
   ApiAccess,
   apiAccessCache,
+  ApplicationIntegrityError,
+  ApplicationServerError,
 } from '@orbitelco/common';
 
 export class ApiAccessDeletedListener extends Listener<ApiAccessDeletedEvent> {
   topic: Topics.ApiAccessDeleted = Topics.ApiAccessDeleted;
 
-  async onMessage(data: ApiAccessDeletedEvent['data']) {
+  async onMessage(key: string, data: ApiAccessDeletedEvent['data']) {
     try {
       const apiAccess = await ApiAccess.findOne({ apiName: data.apiName });
 
       // If no apiAccess record, throw error
       if (!apiAccess) {
-        throw new Error('Orders - ApiAccess record not found');
+        throw new ApplicationIntegrityError(
+          'Orders - ApiAccess record not found'
+        );
       }
 
       // Update the ApiAccess record
@@ -28,6 +32,7 @@ export class ApiAccessDeletedListener extends Listener<ApiAccessDeletedEvent> {
         `Error in ApiAccessDeletedListener for topic ${this.topic}:`,
         error
       );
+      throw new ApplicationServerError(error.toString());
     }
   }
 }

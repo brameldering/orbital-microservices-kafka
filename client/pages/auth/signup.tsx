@@ -180,7 +180,7 @@ export const getServerSideProps = async (context: NextPageContext) => {
     return {
       props: { roles },
     };
-  } catch (error) {
+  } catch (error: any) {
     const parsedError = parseError(error);
     return {
       props: { roles: [], error: parsedError },

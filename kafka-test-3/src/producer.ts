@@ -33,7 +33,7 @@ const start = async () => {
     new ApiAccessDeletedPublisher(kafkaWrapper.client).publish({
       id: 'ApiAccessId_1',
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
   }
 };

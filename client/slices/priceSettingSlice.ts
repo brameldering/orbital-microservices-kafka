@@ -19,7 +19,7 @@ export const fetchPriceCalcSettingsInformation =
       } else {
         dispatch(fetchPriceCalcSettingsFailure('Failed to fetch information'));
       }
-    } catch (error) {
+    } catch (error: any) {
       dispatch(
         fetchPriceCalcSettingsFailure(
           'An error occurred while fetching information'

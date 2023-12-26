@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sequences-mongo-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sequences-mongo
+  template:
+    metadata:
+      labels:
+        app: sequences-mongo
+    spec:
+      containers:
+        - name: sequences-mongo
+          image: mongo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sequences-mongo-service
+spec:
+  type: ClusterIP
+  selector:
+    app: sequences-mongo
+  ports:
+    - name: sequences-mongo
+      protocol: TCP
+      port: 27017
+      targetPort: 27017

@@ -88,7 +88,7 @@ export const getServerSideProps = async (context: NextPageContext) => {
     return {
       props: { myOrders },
     };
-  } catch (error) {
+  } catch (error: any) {
     const parsedError = parseError(error);
     return {
       props: { myOrders: [], error: parsedError },
