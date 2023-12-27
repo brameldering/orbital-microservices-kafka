@@ -6,7 +6,6 @@ import { ApiAccessUpdatedPublisher } from './events/publishers/api-access-update
 import { ApiAccessDeletedPublisher } from './events/publishers/api-access-deleted-publisher';
 
 const KAFKA_CLIENT_ID = 'auth';
-const method = 'server.ts';
 
 const publisherConfigurations = [
   {
@@ -25,7 +24,6 @@ const publisherConfigurations = [
 
 const start = async () => {
   try {
-    console.log(`${method}: starting server`);
     // Ensure Kafka connection
     await kafkaWrapper.connect(
       KAFKA_CLIENT_ID,
@@ -36,9 +34,6 @@ const start = async () => {
     for (const config of publisherConfigurations) {
       const publisher = new config.publisherClass(kafkaWrapper.client);
       await publisher.connect();
-      console.log(
-        `${method}: connected publisher for topic ${publisher.topic}`
-      );
       // Add publisher to kafkaWrapper instance
       kafkaWrapper.publishers[config.topic] = publisher;
       await wait(300); // wait to give balancing time
@@ -46,7 +41,7 @@ const start = async () => {
 
     // Connect to MongoDB
     await mongoose.connect(process.env.MONGO_URI!);
-    console.log(`${method}: Connected to MongoDB`);
+    console.log(`Connected to MongoDB`);
 
     // Setup App including caching of ApiAccess after mongoose connection has been established
     await setupApp();

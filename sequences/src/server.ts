@@ -16,8 +16,6 @@ import { SequenceResponseProductsPublisher } from './events/publishers/sequence-
 import { SequenceRequestOrdersListener } from './events/listeners/sequence-request-orders-listener';
 import { SequenceRequestProductsListener } from './events/listeners/sequence-request-products-listener';
 
-const method = 'server.ts';
-
 class Server {
   private readonly KAFKA_CLIENT_ID = 'sequences';
   private readonly CONSUMER_GROUP = 'sequences';
@@ -58,9 +56,6 @@ class Server {
   // ===================================================================
   start = async () => {
     try {
-      console.log(`${method}: starting server`);
-
-      // ======================================================
       // Check for existence of ENV variables set in depl files (dev/prod) or .env file for test
       if (!process.env.MONGO_URI) {
         console.error('Missing ENV variable for MONGO_URI');
@@ -93,9 +88,6 @@ class Server {
       for (const config of this.publisherConfigurations) {
         const publisher = new config.publisherClass(kafkaWrapper.client);
         await publisher.connect();
-        console.log(
-          `${method}: connected publisher for topic ${publisher.topic}`
-        );
         // Add publisher to kafkaWrapper instance
         kafkaWrapper.publishers[config.topic] = publisher;
         await wait(300); // wait to give balancing time
@@ -114,9 +106,6 @@ class Server {
         const listener = new config.listenerClass();
         await this.listenerManager.registerListener(listener);
         this.allListeners.push(listener);
-        console.log(
-          `${method}: Registered listener for topic ${listener.topic}`
-        );
         await wait(1200); // wait to give balancing time
       }
 
@@ -126,7 +115,7 @@ class Server {
       // ===================================================================
       // Connect to MongoDB
       await mongoose.connect(process.env.MONGO_URI!);
-      console.log(`${method}: Connected to MongoDB`);
+      console.log(`Connected to MongoDB`);
     } catch (error: any) {
       console.error(`Error starting sequences server`, error);
     }

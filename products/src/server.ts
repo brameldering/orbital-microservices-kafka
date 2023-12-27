@@ -14,8 +14,6 @@ import { ApiAccessDeletedListener } from './events/listeners/api-access-deleted-
 import { SequenceRequestProductsPublisher } from './events/publishers/sequence-request-products-publisher';
 import { SequenceResponseProductsListener } from './events/listeners/sequence-response-products-listener';
 
-const method = 'server.ts';
-
 class Server {
   private readonly KAFKA_CLIENT_ID = 'products';
   private readonly CONSUMER_GROUP = 'products';
@@ -60,8 +58,6 @@ class Server {
   // ===================================================================
   start = async () => {
     try {
-      console.log(`${method}: starting server`);
-
       // Create Kafka connection
       await kafkaWrapper.connect(
         this.KAFKA_CLIENT_ID,
@@ -73,9 +69,6 @@ class Server {
       for (const config of this.publisherConfigurations) {
         const publisher = new config.publisherClass(kafkaWrapper.client);
         await publisher.connect();
-        console.log(
-          `${method}: connected publisher for topic ${publisher.topic}`
-        );
         // Add publisher to kafkaWrapper instance
         kafkaWrapper.publishers[config.topic] = publisher;
         await wait(300); // wait to give balancing time
@@ -94,9 +87,6 @@ class Server {
         const listener = new config.listenerClass();
         await this.listenerManager.registerListener(listener);
         this.allListeners.push(listener);
-        console.log(
-          `${method}: Registered listener for topic ${listener.topic}`
-        );
         await wait(1200); // wait to give balancing time
       }
 
