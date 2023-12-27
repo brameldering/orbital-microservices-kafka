@@ -70,7 +70,7 @@ app.use(errorHandler);
 
 // ======================================================================
 const KAFKA_CLIENT_ID = 'seeder';
-const NUM_PARTITIONS = 1;
+const NUM_PARTITIONS = 3;
 const REPLICATION_FACTOR = 1;
 
 // ======================================================================
@@ -96,7 +96,7 @@ const start = async () => {
         NUM_PARTITIONS,
         REPLICATION_FACTOR
       );
-      await wait(200); // wait to give balancing time
+      await wait(100); // wait to give balancing time
     }
 
     sequencesDB = mongoose.createConnection(process.env.MONGO_URI_SEQUENCES!);
