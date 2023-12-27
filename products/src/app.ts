@@ -115,14 +115,14 @@ const setupApp = async () => {
 
 process.on('uncaughtException', (err: any) => {
   console.error('Shutting down due to uncaught exception');
-  console.error(`ERROR: ${err.stack}`);
+  console.error(`ERROR: ${err.message} - ${err.stack}`);
   process.exit(1);
 });
 
 // Handle Unhandled Promise rejections
 process.on('unhandledRejection', (err: any) => {
   console.error('Shutting down the server due to Unhandled Promise rejection');
-  console.error(`ERROR: ${err.stack}`);
+  console.error(`ERROR: ${err.message} - ${err.stack}`);
   process.exit(1);
 });
 

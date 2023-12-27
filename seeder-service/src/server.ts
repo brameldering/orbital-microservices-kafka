@@ -71,7 +71,7 @@ app.use(errorHandler);
 // ======================================================================
 const KAFKA_CLIENT_ID = 'seeder';
 const NUM_PARTITIONS = 3;
-const REPLICATION_FACTOR = 1;
+const REPLICATION_FACTOR = 2;
 
 // ======================================================================
 // Initialize Kafka topics and Mongo DB connections

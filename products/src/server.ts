@@ -17,6 +17,7 @@ import { SequenceResponseProductsListener } from './events/listeners/sequence-re
 class Server {
   private readonly KAFKA_CLIENT_ID = 'products';
   private readonly CONSUMER_GROUP = 'products';
+  private _isShuttingDown: boolean = false;
 
   // ===================================================================
   private publisherConfigurations = [
@@ -112,7 +113,12 @@ class Server {
   };
 
   shutDown = async () => {
-    console.log('Received stop signal, shutting down gracefully');
+    if (this._isShuttingDown) {
+      return;
+    }
+    this._isShuttingDown = true;
+
+    console.log('Received stop signal, shutting down gracefully...');
 
     try {
       // Disconnect all registered publishers
@@ -123,7 +129,8 @@ class Server {
       console.error('Error during shutdown of publishers:', err);
     }
     try {
-      // Disconnect listener
+      // Disconnect listenerManager
+      console.log('Disconnecting listenerManager');
       if (this.listenerManager) {
         await this.listenerManager.disconnect();
       }

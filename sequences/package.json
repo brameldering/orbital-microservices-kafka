@@ -19,7 +19,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@orbitelco/common": "^1.0.271",
+    "@orbitelco/common": "^1.0.274",
     "dotenv": "^16.3.1",
     "kafkajs": "^2.2.4",
     "mongoose": "^7.6.3",
