@@ -28,6 +28,8 @@ spec:
               value: kafka-service-1.kafka.svc.cluster.local:9092
             - name: KAFKA_LOG_LEVEL
               value: WARN
+            # - name: KAFKAJS_NO_PARTITIONER_WARNING
+            #   value: 1
 ---
 apiVersion: v1
 kind: Service
