@@ -1,12 +1,13 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { Provider } from 'react-redux';
-import { Container } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AppProps } from 'next/app';
 import { HelmetProvider } from 'react-helmet-async';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
+import AdminSideBar from 'components/AdminSideBar';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
 import store from 'slices/store';
@@ -28,7 +29,14 @@ const AppComponent = ({ Component, pageProps }: AppProps) => {
         <Header />
         <PayPalScriptProvider deferLoading={true} options={payPalOptions}>
           <Container className='mx-2 my-2'>
-            <Component {...pageProps} />
+            <Row>
+              <Col xs={12} md={3}>
+                <AdminSideBar />
+              </Col>
+              <Col xs={12} md={9}>
+                <Component {...pageProps} />
+              </Col>
+            </Row>
           </Container>
         </PayPalScriptProvider>
         <Footer />
