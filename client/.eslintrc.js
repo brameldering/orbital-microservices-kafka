@@ -27,6 +27,7 @@ module.exports = {
     'import/no-cycle': 'error',
     'import/no-duplicates': 'error',
     'import/extensions': 'off',
+    'jsx-a11y/anchor-is-valid': 'off',
     'linebreak-style': ['error', 'unix'],
     'no-multiple-empty-lines': 'warn',
     'no-var': 'error',
