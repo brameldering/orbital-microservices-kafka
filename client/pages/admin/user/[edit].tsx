@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Form, Button } from 'react-bootstrap';
 import { NextPageContext } from 'next';
 import Router from 'next/router';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { Button, Box } from '@mui/material';
 import { TextNumField, SelectField } from 'form/FormComponents';
 import FormContainer from 'form/FormContainer';
 import FormTitle from 'form/FormTitle';
@@ -16,7 +16,7 @@ import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
 import { parseError } from 'utils/parse-error';
 import ModalConfirmBox from 'components/ModalConfirmBox';
-import { H1_EDIT_USER } from 'constants/form-titles';
+import { TITLE_EDIT_USER } from 'constants/form-titles';
 import { USER_LIST_PAGE } from 'constants/client-pages';
 import { IUser } from '@orbitelco/common';
 import { getRoles } from 'api/roles/get-roles';
@@ -109,7 +109,7 @@ const UserEditScreen: React.FC<TPageProps> = ({ roles, user, error }) => {
 
   return (
     <>
-      <Meta title={H1_EDIT_USER} />
+      <Meta title={TITLE_EDIT_USER} />
       <ModalConfirmBox
         showModal={showChangesModal}
         title='Are you sure you want to go back?'
@@ -118,8 +118,8 @@ const UserEditScreen: React.FC<TPageProps> = ({ roles, user, error }) => {
         handleConfirm={goBackWithoutSaving}
       />
       <FormContainer>
-        <Form onSubmit={handleSubmit(onSubmit)}>
-          <FormTitle>{H1_EDIT_USER}</FormTitle>
+        <Box component='form' onSubmit={handleSubmit(onSubmit)}>
+          <FormTitle>{TITLE_EDIT_USER}</FormTitle>
           {errorUpdating && <ErrorBlock error={errorUpdating} />}
           {error ? (
             <ErrorBlock error={error} />
@@ -146,25 +146,32 @@ const UserEditScreen: React.FC<TPageProps> = ({ roles, user, error }) => {
                 error={errors.role}
                 setError={setError}
               />
-              <div className='d-flex mt-3 justify-content-between align-items-center'>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  mt: 3,
+                }}>
                 <Button
                   id='BUTTON_update'
                   type='submit'
-                  variant='primary'
+                  variant='contained'
+                  color='primary'
                   disabled={loadingOrProcessing || !isDirty}>
                   Update
                 </Button>
                 <Button
-                  className='btn btn-light my-3'
+                  variant='outlined'
                   onClick={goBackHandler}
                   disabled={loadingOrProcessing}>
                   Cancel
                 </Button>
-              </div>
+              </Box>
             </>
           )}
           {loadingOrProcessing && <Loader />}
-        </Form>
+        </Box>
       </FormContainer>
     </>
   );

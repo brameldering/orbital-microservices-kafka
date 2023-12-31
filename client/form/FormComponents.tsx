@@ -1,8 +1,20 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
-import { Form, FloatingLabel, InputGroup, Button } from 'react-bootstrap';
+// import { Form, FloatingLabel, InputGroup, Button } from 'react-bootstrap';
 import { Controller } from 'react-hook-form';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
+// import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import TextField from '@mui/material/TextField';
+import Checkbox from '@mui/material/Checkbox';
+import Select from '@mui/material/Select';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import FormHelperText from '@mui/material/FormHelperText';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormGroup from '@mui/material/FormGroup';
+import InputAdornment from '@mui/material/InputAdornment';
+import IconButton from '@mui/material/IconButton';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 // ================== CheckBoxField ==================
 interface CheckBoxFieldProps {
@@ -24,23 +36,22 @@ const CheckBoxField: React.FunctionComponent<CheckBoxFieldProps> = ({
 }) => {
   const errorTextId = 'error_text_' + controlId;
   return (
-    <Form.Group className='mt-3' controlId={controlId}>
-      <Form.Check
-        name={controlId}
+    <FormGroup>
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={checked}
+            {...register(controlId)}
+            onChange={(e) => {
+              setError(controlId, { message: '' });
+              register(controlId).onChange(e);
+            }}
+          />
+        }
         label={label}
-        checked={checked}
-        {...register(controlId)}
-        onChange={(e) => {
-          setError(controlId, { message: '' });
-          register(controlId).onChange(e);
-        }}
       />
-      {error && (
-        <Form.Text id={errorTextId} className='text-danger'>
-          {error.message}
-        </Form.Text>
-      )}
-    </Form.Group>
+      {error && <FormHelperText error>{error.message}</FormHelperText>}
+    </FormGroup>
   );
 };
 
@@ -54,6 +65,17 @@ interface TextNumFieldProps {
   error: any;
   setError: any;
 }
+{
+  /* <Form.Group>
+     <FloatingLabel controlId={controlId} label={label} className='mt-3'>
+ </FloatingLabel>
+       {error && (
+         <Form.Text id={errorTextId} className='text-danger'>
+           {error.message}
+         </Form.Text>
+       )}
+</Form.Group>  */
+}
 
 const TextNumField: React.FunctionComponent<TextNumFieldProps> = ({
   controlId,
@@ -63,27 +85,22 @@ const TextNumField: React.FunctionComponent<TextNumFieldProps> = ({
   error,
   setError,
 }) => {
-  const errorTextId = 'error_text_' + controlId;
+  // const errorTextId = 'error_text_' + controlId;
   return (
-    <Form.Group>
-      <FloatingLabel controlId={controlId} label={label} className='mt-3'>
-        <Form.Control
-          style={{ borderColor: '#606060' }}
-          type={type}
-          placeholder={label}
-          {...register(controlId)}
-          onChange={(e) => {
-            setError(controlId, { message: '' });
-            register(controlId).onChange(e);
-          }}
-        />
-      </FloatingLabel>
-      {error && (
-        <Form.Text id={errorTextId} className='text-danger'>
-          {error.message}
-        </Form.Text>
-      )}
-    </Form.Group>
+    <TextField
+      type={type}
+      label={label}
+      variant='outlined'
+      margin='normal'
+      fullWidth
+      {...register(controlId)}
+      error={!!error}
+      helperText={error?.message}
+      onChange={(e) => {
+        setError(controlId, { message: '' });
+        register(controlId).onChange(e);
+      }}
+    />
   );
 };
 
@@ -106,39 +123,40 @@ const CurrencyNumField: React.FunctionComponent<CurrencyNumFieldProps> = ({
 }) => {
   const errorTextId = 'error_text_' + controlId;
   return (
-    <Form.Group>
-      <FloatingLabel controlId={controlId} label={label} className='mt-3'>
-        <Form.Control
-          style={{ borderColor: '#606060' }}
-          type='number'
-          step='0.01'
-          placeholder={label}
-          {...register(controlId)}
-          onChange={(e) => {
+    <FormControl fullWidth variant='outlined' margin='normal'>
+      <InputLabel htmlFor={controlId}>{label}</InputLabel>
+      <TextField
+        id={controlId}
+        type='number'
+        label={label}
+        error={!!error}
+        inputProps={{
+          step: '0.01',
+          ...register(controlId),
+          onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
             const value = parseFloat(e.target.value);
             if (value % 1 !== 0) {
-              // Check if the number has a decimal part
-              const decimalPart = parseFloat((value % 1).toFixed(2)); // Limit decimal to two places
+              const decimalPart = parseFloat((value % 1).toFixed(2));
               if (decimalPart < 0 || decimalPart > 0.99) {
                 setError(controlId, {
                   message: 'Decimal part should be between .00 and .99',
                 });
               } else {
-                setError(controlId, { message: '' }); // Clear error if it's within the allowed range
+                setError(controlId, { message: '' });
               }
             } else {
-              setError(controlId, { message: '' }); // Clear error for whole numbers
+              setError(controlId, { message: '' });
             }
             register(controlId).onChange(e);
-          }}
-        />
-      </FloatingLabel>
+          },
+        }}
+      />
       {error && (
-        <Form.Text id={errorTextId} className='text-danger'>
+        <FormHelperText error id={`error_text_${controlId}`}>
           {error.message}
-        </Form.Text>
+        </FormHelperText>
       )}
-    </Form.Group>
+    </FormControl>
   );
 };
 
@@ -159,48 +177,35 @@ const PasswordField: React.FunctionComponent<PasswordFieldProps> = ({
   setError,
 }) => {
   const [contentVisible, setContentVisible] = useState(false);
-  const showPassword = () => {
-    setContentVisible(true);
-  };
-  const hidePassword = () => {
-    setContentVisible(false);
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
   };
   const errorTextId = 'error_text_' + controlId;
   return (
-    <>
-      <InputGroup>
-        <FloatingLabel controlId={controlId} label={label} className='mt-3'>
-          <Form.Control
-            type={contentVisible ? 'text' : 'password'}
-            style={{ borderColor: '#606060' }}
-            placeholder={label}
-            {...register(controlId)}
-            onChange={(e) => {
-              setError(controlId, { message: '' });
-              register(controlId).onChange(e);
-            }}
-          />
-        </FloatingLabel>
-        <Button
-          type='button'
-          className='btn-outline mt-3'
-          style={{
-            position: 'relative',
-            height: '58px',
-            borderColor: '#606060',
-          }}
-          onMouseDown={showPassword}
-          onMouseUp={hidePassword}
-          onBlur={hidePassword}>
-          {contentVisible ? <FaEye /> : <FaEyeSlash />}
-        </Button>
-      </InputGroup>
-      {error && (
-        <Form.Text id={errorTextId} className='text-danger'>
-          {error.message}
-        </Form.Text>
-      )}
-    </>
+    <TextField
+      type={contentVisible ? 'text' : 'password'}
+      label={label}
+      variant='outlined'
+      margin='normal'
+      fullWidth
+      {...register(controlId)}
+      error={!!error}
+      helperText={error?.message}
+      InputProps={{
+        endAdornment: (
+          <InputAdornment position='end'>
+            <IconButton
+              aria-label='toggle password visibility'
+              onClick={() => setContentVisible(!contentVisible)}
+              onMouseDown={handleMouseDownPassword}>
+              {contentVisible ? <Visibility /> : <VisibilityOff />}
+            </IconButton>
+          </InputAdornment>
+        ),
+      }}
+    />
   );
 };
 
@@ -228,11 +233,11 @@ const SelectField: React.FunctionComponent<SelectFieldProps> = ({
         control={control}
         defaultValue=''
         render={({ field }) => (
-          <Form.Select
+          <Select
             aria-label='Select Role'
             id={controlId}
-            className='mt-3'
-            style={{ borderColor: '#606060' }}
+            // className='mt-3'
+            // style={{ borderColor: '#606060' }}
             {...field}
             onChange={(e) => {
               setError(controlId, { message: '' });
@@ -243,14 +248,10 @@ const SelectField: React.FunctionComponent<SelectFieldProps> = ({
                 {option.label}
               </option>
             ))}
-          </Form.Select>
+          </Select>
         )}
       />
-      {error && (
-        <Form.Text id={errorTextId} className='text-danger'>
-          {error.message}
-        </Form.Text>
-      )}
+      {error && <FormHelperText error>{error.message}</FormHelperText>}
     </>
   );
 };
@@ -273,30 +274,17 @@ const TextAreaField: React.FunctionComponent<TextAreaFieldProps> = ({
 }) => {
   const errorTextId = 'error_text_' + controlId;
   return (
-    <Form.Group>
-      <FloatingLabel controlId={controlId} label={label} className='mt-3'>
-        <Form.Control
-          as='textarea'
-          rows={3}
-          style={{
-            height: '100px',
-            lineHeight: '1.5',
-            borderColor: '#606060',
-          }}
-          placeholder={label}
-          {...register(controlId)}
-          onChange={(e) => {
-            setError(controlId, { message: '' });
-            register(controlId).onChange(e);
-          }}
-        />
-      </FloatingLabel>
-      {error && (
-        <Form.Text id={errorTextId} className='text-danger'>
-          {error.message}
-        </Form.Text>
-      )}
-    </Form.Group>
+    <TextField
+      label={label}
+      variant='outlined'
+      margin='normal'
+      fullWidth
+      multiline
+      rows={4}
+      {...register(controlId)}
+      error={!!error}
+      helperText={error?.message}
+    />
   );
 };
 

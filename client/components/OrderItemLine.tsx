@@ -1,6 +1,7 @@
 import React from 'react';
-import { Row, Col, Image } from 'react-bootstrap';
-import Link from 'next/link';
+import Grid from '@mui/material/Grid';
+import Link from '@mui/material/Link';
+import Typography from '@mui/material/Typography';
 import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
 import { PRODUCT_DETAIL_PAGE } from 'constants/client-pages';
 import { IOrderItem } from '@orbitelco/common';
@@ -13,22 +14,31 @@ interface OrderItemLineProps {
 const OrderItemLine = (itemProps: OrderItemLineProps) => {
   const item = itemProps.item;
   return (
-    <Row>
-      <Col md={1}>
-        <Image src={item.imageURL} alt={item.productName} fluid />
-      </Col>
-      <Col>
+    <Grid container spacing={2}>
+      <Grid item xs={12} md={1}>
+        <img
+          src={item.imageURL}
+          alt={item.productName}
+          style={{ width: '100%', height: 'auto' }}
+        />
+      </Grid>
+      <Grid item xs={12} md={7}>
         <Link
-          href={`${PRODUCT_DETAIL_PAGE}/${item.productId}?goBackPath=${itemProps.goBackPath}`}>
-          {item.productName}
+          href={`${PRODUCT_DETAIL_PAGE}/${item.productId}?goBackPath=${itemProps.goBackPath}`}
+          underline='hover'>
+          <Typography variant='body1' component='span'>
+            {item.productName}
+          </Typography>
         </Link>
-      </Col>
-      <Col md={4}>
-        {item.qty} x {CURRENCY_SYMBOL}
-        {item.price.toFixed(2)} = {CURRENCY_SYMBOL}
-        {(item.qty * item.price).toFixed(2)}
-      </Col>
-    </Row>
+      </Grid>
+      <Grid item xs={12} md={4}>
+        <Typography variant='body1'>
+          {item.qty} x {CURRENCY_SYMBOL}
+          {item.price.toFixed(2)} = {CURRENCY_SYMBOL}
+          {(item.qty * item.price).toFixed(2)}
+        </Typography>
+      </Grid>
+    </Grid>
   );
 };
 

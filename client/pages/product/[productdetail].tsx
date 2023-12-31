@@ -1,25 +1,30 @@
 'use client';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  Row,
-  Col,
-  Image,
-  ListGroup,
-  Button,
-  Form,
-  Alert,
-} from 'react-bootstrap';
-import Card from 'react-bootstrap/Card';
 import { toast } from 'react-toastify';
 import { NextPageContext } from 'next';
 import Link from 'next/link';
 import Router, { useRouter } from 'next/router';
+import Image from 'next/image';
+import {
+  Grid,
+  Card,
+  CardContent,
+  Button,
+  Typography,
+  Alert,
+  FormControl,
+  Select,
+  InputLabel,
+  MenuItem,
+  TextareaAutosize,
+  Box,
+} from '@mui/material';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
 import { parseError } from 'utils/parse-error';
-import Rating from 'components/Rating';
+import CustomRating from 'components/Rating';
 import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
 import { ICartItem, IPriceCalcSettingsAttrs } from '@orbitelco/common';
 import { dateTimeToLocaleDateString } from 'utils/dateUtils';
@@ -117,12 +122,11 @@ const ProductDetailScreen: React.FC<TPageProps> = ({
 
   return (
     <>
-      <Link
-        id='BUTTON_go_back'
-        className='btn btn-light my-3'
-        href={goBackPath.toString()}>
-        Go Back
-      </Link>
+      <Box sx={{ my: 4 }}>
+        <Link id='BUTTON_go_back' href={goBackPath.toString()} passHref>
+          <Button variant='outlined'>Go Back</Button>
+        </Link>
+      </Box>
       {error ? (
         <ErrorBlock error={error} />
       ) : errorLoading ? (
@@ -130,172 +134,171 @@ const ProductDetailScreen: React.FC<TPageProps> = ({
       ) : product ? (
         <>
           <Meta title={product.name} description={product.description} />
-          <Row>
-            <Col md={8}>
-              <Image src={product.imageURL} alt={product.name} fluid />
-              <ListGroup variant='flush'>
-                <ListGroup.Item>
-                  <h3>{product.name}</h3>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <Rating
+          <Grid container spacing={2}>
+            <Grid item md={8} xs={12}>
+              <Card>
+                <CardContent>
+                  <Image
+                    src={product.imageURL}
+                    alt={product.name}
+                    layout='responsive'
+                    width={500} // Set the desired width
+                    height={300} // Set the height according to the aspect ratio of your image
+                  />
+                  <Typography variant='h3'>{product.name}</Typography>
+                  <CustomRating
                     value={product.rating}
                     text={`${product.numReviews} reviews`}
                   />
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  Price: {CURRENCY_SYMBOL}
-                  {product.price.toFixed(2)}
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  Description: {product.description}
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  Product Id: {product.sequentialProductId}
-                </ListGroup.Item>
-              </ListGroup>
-            </Col>
+                  <Typography variant='body1'>
+                    Price: {CURRENCY_SYMBOL}
+                    {product.price.toFixed(2)}
+                  </Typography>
+                  <Typography variant='body1'>
+                    Description: {product.description}
+                  </Typography>
+                  <Typography variant='body1'>
+                    Product Id: {product.sequentialProductId}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
             {/* <Col md={1}></Col> */}
-            <Col md={4}>
+            <Grid item md={4} xs={12}>
               <Card>
-                <ListGroup variant='flush'>
-                  <ListGroup.Item>
-                    <Row>
-                      <Col>Price:</Col>
-                      <Col>
-                        <strong>
-                          {CURRENCY_SYMBOL}
-                          {product.price.toFixed(2)}
-                        </strong>
-                      </Col>
-                    </Row>
-                  </ListGroup.Item>
-                  <ListGroup.Item>
-                    <Row>
-                      <Col>Status:</Col>
-                      <Col>
-                        {product.countInStock > 0 ? 'In Stock' : 'Out Of Stock'}
-                      </Col>
-                    </Row>
-                  </ListGroup.Item>
+                <CardContent>
+                  <Typography variant='subtitle1'>Price:</Typography>
+                  <Typography variant='body1' gutterBottom>
+                    <strong>
+                      {CURRENCY_SYMBOL}
+                      {product.price.toFixed(2)}
+                    </strong>
+                  </Typography>
+                  <Typography variant='subtitle1'>Status:</Typography>
+                  <Typography variant='body1' gutterBottom>
+                    {product.countInStock > 0 ? 'In Stock' : 'Out Of Stock'}
+                  </Typography>
                   {product.countInStock > 0 && (
-                    <ListGroup.Item>
-                      <Row>
-                        <Col>Qty</Col>
-                        <Col>
-                          <Form.Control
-                            id='select_quantity'
-                            as='select'
-                            value={qty}
-                            onChange={(e) => setQty(Number(e.target.value))}>
-                            {/* The following creates an array starting with 0 to countinStock-1:
+                    <FormControl fullWidth margin='normal'>
+                      <InputLabel>Qty</InputLabel>
+                      <Select
+                        id='select_quantity'
+                        value={qty}
+                        onChange={(e) => setQty(Number(e.target.value))}>
+                        {/* The following creates an array starting with 0 to countinStock-1:
                                 [...Array(product.countInStock).keys()] */}
-                            {[...Array(product.countInStock).keys()].map(
-                              (x) => (
-                                <option key={x + 1} value={x + 1}>
-                                  {x + 1}
-                                </option>
-                              )
-                            )}
-                          </Form.Control>
-                        </Col>
-                      </Row>
-                    </ListGroup.Item>
+                        {[...Array(product.countInStock).keys()].map((x) => (
+                          <MenuItem key={x + 1} value={x + 1}>
+                            {x + 1}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
                   )}
-                  <ListGroup.Item>
+                  <Box mt={2}>
                     <Button
                       id='BUTTON_add_to_cart'
-                      className='btn-block mt-2'
-                      type='button'
+                      variant='contained'
+                      fullWidth
                       disabled={
                         product.countInStock === 0 || loadingOrProcessing
                       }
                       onClick={addToCartHandler}>
                       Add To Cart
                     </Button>
-                  </ListGroup.Item>
-                </ListGroup>
+                  </Box>
+                </CardContent>
               </Card>
-            </Col>
-          </Row>
-          <Row className='review'>
-            <Col md={8}>
-              <h2>Reviews</h2>
-              {product.reviews.length === 0 && (
-                <Alert variant='info'>No Reviews</Alert>
-              )}
-              <ListGroup variant='flush'>
-                {product.reviews.map((review) => (
-                  <ListGroup.Item key={review.id}>
-                    <strong>{review.userName}</strong>
-                    <Rating value={review.rating} />
-                    <p>{dateTimeToLocaleDateString(review.createdAt)}</p>
-                    <p>{review.comment}</p>
-                  </ListGroup.Item>
-                ))}
-                <ListGroup.Item>
-                  <h2>Write a Customer Review</h2>
-                  {creatingProductReview && <Loader />}
-                  {userInfo ? (
-                    <Form onSubmit={submitReviewHandler}>
-                      <Form.Group className='my-2' controlId='rating'>
-                        <Form.Label>Rating</Form.Label>
-                        <Form.Control
-                          as='select'
-                          required
-                          value={rating}
-                          onChange={(e) => setRating(Number(e.target.value))}>
-                          <option value=''>Select...</option>
-                          <option value='1'>1 - Poor</option>
-                          <option value='2'>2 - Fair</option>
-                          <option value='3'>3 - Good</option>
-                          <option value='4'>4 - Very Good</option>
-                          <option value='5'>5 - Excellent</option>
-                        </Form.Control>
-                      </Form.Group>
-                      <Form.Group className='my-2' controlId='comment'>
-                        <Form.Label>Comment</Form.Label>
-                        <Form.Control
-                          as='textarea'
-                          rows={3}
-                          style={{ lineHeight: '1.5' }}
-                          required
-                          value={comment}
-                          onChange={(e) =>
-                            setComment(e.target.value)
-                          }></Form.Control>
-                      </Form.Group>
-                      {errorCreatingReview && (
-                        <ErrorBlock error={errorCreatingReview} />
-                      )}
-                      <Button
-                        id='BUTTON_review_submit'
-                        disabled={
-                          loadingOrProcessing ||
-                          comment.trim().length === 0 ||
-                          rating === 0
-                        }
-                        type='submit'
-                        variant='primary mt-2'>
-                        Submit
-                      </Button>
-                    </Form>
-                  ) : (
-                    <Alert variant='info'>
-                      Please{' '}
-                      <Link
-                        id='LINK_sign_in'
-                        href={`${SIGNIN_PAGE}?redirect=${asPath}`}>
-                        sign in
-                      </Link>{' '}
-                      to write a review
-                    </Alert>
+            </Grid>
+          </Grid>
+
+          <Grid container className='review' spacing={2}>
+            <Grid item md={8}>
+              <Card>
+                <CardContent>
+                  <Typography variant='h3'>Reviews</Typography>
+                  {product.reviews.length === 0 && (
+                    <Alert severity='info'>No Reviews</Alert>
                   )}
-                </ListGroup.Item>
-              </ListGroup>
-            </Col>
+                  {product.reviews.map((review) => (
+                    <Box key={review.id} sx={{ my: 2 }}>
+                      <Typography variant='subtitle1'>
+                        {review.userName}
+                      </Typography>
+                      <CustomRating value={review.rating} />
+                      <Typography variant='body2'>
+                        {dateTimeToLocaleDateString(review.createdAt)}
+                      </Typography>
+                      <Typography variant='body2'>{review.comment}</Typography>
+                    </Box>
+                  ))}
+                  <Box sx={{ mt: 2 }}>
+                    <Typography variant='h3'>
+                      Write a Customer Review
+                    </Typography>
+                    {creatingProductReview && <Loader />}
+                    {userInfo ? (
+                      <Box component='form' onSubmit={submitReviewHandler}>
+                        <FormControl fullWidth margin='normal'>
+                          <InputLabel>Rating</InputLabel>
+                          <Select
+                            value={rating}
+                            onChange={(e) => setRating(Number(e.target.value))}
+                            required>
+                            <MenuItem value=''>Select...</MenuItem>
+                            <MenuItem value='1'>1 - Poor</MenuItem>
+                            <MenuItem value='2'>2 - Fair</MenuItem>
+                            <MenuItem value='3'>3 - Good</MenuItem>
+                            <MenuItem value='4'>4 - Very Good</MenuItem>
+                            <MenuItem value='5'>5 - Excellent</MenuItem>
+                          </Select>
+                        </FormControl>
+                        <FormControl fullWidth margin='normal'>
+                          <TextareaAutosize
+                            minRows={3}
+                            value={comment}
+                            onChange={(e) => setComment(e.target.value)}
+                            required
+                            placeholder='Comment'
+                          />
+                        </FormControl>
+                        {errorCreatingReview && (
+                          <ErrorBlock error={errorCreatingReview} />
+                        )}
+                        <Button
+                          id='BUTTON_review_submit'
+                          disabled={
+                            loadingOrProcessing ||
+                            comment.trim().length === 0 ||
+                            rating === 0
+                          }
+                          type='submit'
+                          variant='contained'
+                          color='primary'
+                          sx={{ mt: 2 }}>
+                          Submit
+                        </Button>
+                      </Box>
+                    ) : (
+                      <Alert severity='info'>
+                        Please{' '}
+                        <Link
+                          id='LINK_sign_in'
+                          href={`${SIGNIN_PAGE}?redirect=${asPath}`}
+                          passHref>
+                          <Typography variant='subtitle1' component='a'>
+                            sign in
+                          </Typography>
+                        </Link>{' '}
+                        to write a review
+                      </Alert>
+                    )}
+                  </Box>
+                </CardContent>
+              </Card>
+            </Grid>
             {isLoading && <Loader />}
-          </Row>
+          </Grid>
         </>
       ) : (
         <p>This should never be shown</p>

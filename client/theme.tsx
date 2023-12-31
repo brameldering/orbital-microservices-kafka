@@ -90,7 +90,7 @@ export const tokens = (mode: 'dark' | 'light'): Tokens => ({
           100: '#040509',
           200: '#080b12',
           300: '#0c101b',
-          400: '#f2f0f0', // manually changed
+          400: '#f2f0f0',
           500: '#141b2d',
           600: '#1F2A40',
           700: '#727681',
@@ -145,18 +145,23 @@ interface ThemeSettings {
   typography: {
     fontFamily: string;
     fontSize: number;
-    h1: { fontFamily: string; fontSize: number };
-    h2: { fontFamily: string; fontSize: number };
-    h3: { fontFamily: string; fontSize: number };
-    h4: { fontFamily: string; fontSize: number };
-    h5: { fontFamily: string; fontSize: number };
-    h6: { fontFamily: string; fontSize: number };
+    color: string;
+    h1: { fontFamily: string; fontSize: number; color: string };
+    h2: { fontFamily: string; fontSize: number; color: string };
+    h3: { fontFamily: string; fontSize: number; color: string };
+    h4: { fontFamily: string; fontSize: number; color: string };
+    h5: { fontFamily: string; fontSize: number; color: string };
+    h6: { fontFamily: string; fontSize: number; color: string };
+    body1: { color: string };
   };
 }
 
 // mui theme settings
 export const themeSettings = (mode: 'dark' | 'light'): ThemeSettings => {
   const colors = tokens(mode);
+  const textPrimary = mode === 'dark' ? '#ffffff' : '#000000'; // White for dark mode, Black for light mode
+  const textSecondary = mode === 'dark' ? '#e0e0e0' : '#333333'; // Lighter for dark mode, Darker for light mode
+
   return {
     palette: {
       mode: mode,
@@ -199,29 +204,39 @@ export const themeSettings = (mode: 'dark' | 'light'): ThemeSettings => {
     typography: {
       fontFamily: ['Source Sans Pro', 'sans-serif'].join(','),
       fontSize: 12,
+      color: textPrimary,
       h1: {
         fontFamily: ['Source Sans Pro', 'sans-serif'].join(','),
         fontSize: 40,
+        color: textPrimary,
       },
       h2: {
         fontFamily: ['Source Sans Pro', 'sans-serif'].join(','),
         fontSize: 32,
+        color: textPrimary,
       },
       h3: {
         fontFamily: ['Source Sans Pro', 'sans-serif'].join(','),
         fontSize: 24,
+        color: textPrimary,
       },
       h4: {
         fontFamily: ['Source Sans Pro', 'sans-serif'].join(','),
         fontSize: 20,
+        color: textPrimary,
       },
       h5: {
         fontFamily: ['Source Sans Pro', 'sans-serif'].join(','),
         fontSize: 16,
+        color: textPrimary,
       },
       h6: {
         fontFamily: ['Source Sans Pro', 'sans-serif'].join(','),
         fontSize: 14,
+        color: textPrimary,
+      },
+      body1: {
+        color: textSecondary, // You can set different colors for body text if needed
       },
     },
   };

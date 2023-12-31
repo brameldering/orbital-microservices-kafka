@@ -1,9 +1,9 @@
 import React from 'react';
-import { Form, Button } from 'react-bootstrap';
 import Router from 'next/router';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { Box, Button } from '@mui/material';
 import FormContainer from 'form/FormContainer';
 import FormTitle from 'form/FormTitle';
 import { TextNumField } from 'form/FormComponents';
@@ -11,7 +11,7 @@ import { textField } from 'form/ValidationSpecs';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
-import { H1_RESET_PASSWORD } from 'constants/form-titles';
+import { TITLE_RESET_PASSWORD } from 'constants/form-titles';
 import { RESET_PASSWORD_CONFIRM_PAGE } from 'constants/client-pages';
 import { useResetPasswordMutation } from 'slices/usersApiSlice';
 
@@ -57,10 +57,10 @@ const PasswordResetScreen = () => {
 
   return (
     <>
-      <Meta title={H1_RESET_PASSWORD} />
+      <Meta title={TITLE_RESET_PASSWORD} />
       <FormContainer>
-        <Form onSubmit={handleSubmit(onSubmit, onError)}>
-          <FormTitle>{H1_RESET_PASSWORD}</FormTitle>
+        <Box component='form' onSubmit={handleSubmit(onSubmit, onError)}>
+          <FormTitle>{TITLE_RESET_PASSWORD}</FormTitle>
           <TextNumField
             controlId='email'
             label='Your email address as known to us'
@@ -71,17 +71,23 @@ const PasswordResetScreen = () => {
           {errorResettingPassword && (
             <ErrorBlock error={errorResettingPassword} />
           )}
-          <div className='d-flex mt-3 justify-content-between align-items-center'>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              mt: 3,
+            }}>
             <Button
               id='BUTTON_reset_password'
               type='submit'
-              variant='primary'
+              variant='contained'
               disabled={isProcessing || !isDirty}>
               Reset Password
             </Button>
-          </div>
+          </Box>
           {isProcessing && <Loader />}
-        </Form>
+        </Box>
       </FormContainer>
     </>
   );

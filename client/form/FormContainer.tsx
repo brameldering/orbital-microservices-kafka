@@ -1,7 +1,8 @@
 import React, { ReactNode } from 'react';
-import { Row, Col } from 'react-bootstrap';
-import Card from 'react-bootstrap/Card';
-import Container from 'react-bootstrap/Container';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
 
 interface FormContainerProps {
   children: ReactNode;
@@ -11,18 +12,15 @@ const FormContainer: React.FunctionComponent<FormContainerProps> = ({
   children,
 }) => {
   return (
-    <Container style={{ margin: '2rem' }}>
-      <Row className='justify-content-md-center'>
-        <Col xs={1} sm={1} md={2} lg={3} xl={3}></Col>
-        <Col xs={10} sm={10} md={8} lg={6} xl={6}>
-          <Card style={{ padding: '1rem', borderColor: '#606060' }}>
-            {children}
+    <Container sx={{ mt: 4, mb: 4 }}>
+      <Grid container justifyContent='center'>
+        <Grid item xs={12} sm={10} md={8} lg={6} xl={6}>
+          <Card variant='outlined' sx={{ p: 2, borderColor: '#606060' }}>
+            <CardContent>{children}</CardContent>
           </Card>
-        </Col>
-        <Col xs={1} sm={1} md={2} lg={3} xl={3}></Col>
-      </Row>
+        </Grid>
+      </Grid>
     </Container>
   );
 };
-
 export default FormContainer;

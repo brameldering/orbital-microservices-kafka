@@ -1,11 +1,20 @@
 import React, { useState } from 'react';
-import { Form, Button, Row, Col } from 'react-bootstrap';
 import { NextPageContext } from 'next';
 import Router from 'next/router';
-import { useForm, Resolver } from 'react-hook-form';
+import { useForm, Resolver, Controller } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import {
+  Box,
+  Grid,
+  Button,
+  FormControl,
+  FormLabel,
+  FormGroup,
+  FormControlLabel,
+  Checkbox,
+} from '@mui/material';
 import FormContainer from 'form/FormContainer';
 import FormTitle from 'form/FormTitle';
 import { TextNumField, SelectField } from 'form/FormComponents';
@@ -15,7 +24,7 @@ import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
 import { parseError } from 'utils/parse-error';
 import ModalConfirmBox from 'components/ModalConfirmBox';
-import { H1_CREATE_API_ACCESS } from 'constants/form-titles';
+import { TITLE_CREATE_API_ACCESS } from 'constants/form-titles';
 import { API_ACCESS_LIST_PAGE } from 'constants/client-pages';
 import { CURRENT_MICROSERVICES } from '@orbitelco/common';
 import { getRoles } from 'api/roles/get-roles';
@@ -101,7 +110,7 @@ const ApiAccessCreateScreen: React.FC<TPageProps> = ({ roles, error }) => {
 
   return (
     <>
-      <Meta title={H1_CREATE_API_ACCESS} />
+      <Meta title={TITLE_CREATE_API_ACCESS} />
       <ModalConfirmBox
         showModal={showChangesModal}
         title='Are you sure you want to go back?'
@@ -110,8 +119,8 @@ const ApiAccessCreateScreen: React.FC<TPageProps> = ({ roles, error }) => {
         handleConfirm={goBackWithoutSaving}
       />
       <FormContainer>
-        <Form onSubmit={handleSubmit(onSubmit)}>
-          <FormTitle>{H1_CREATE_API_ACCESS}</FormTitle>
+        <Box component='form' onSubmit={handleSubmit(onSubmit)}>
+          <FormTitle>{TITLE_CREATE_API_ACCESS}</FormTitle>
           {error ? (
             <ErrorBlock error={error} />
           ) : (
@@ -130,46 +139,55 @@ const ApiAccessCreateScreen: React.FC<TPageProps> = ({ roles, error }) => {
                 error={errors.apiName}
                 setError={setError}
               />
-              <fieldset className='border border-primary mt-3 mb-0'>
-                <Form.Group as={Row}>
-                  <Form.Label as='legend' column sm={6} className='ps-3 pt-1'>
-                    Allowed Roles
-                  </Form.Label>
-                  <Col sm={6}>
+              <FormControl component='fieldset'>
+                <FormLabel component='legend'>Allowed Roles</FormLabel>
+                <FormGroup>
+                  <Grid container spacing={2}>
                     {roles.map((role, index) => (
-                      <div key={index} className='m-1'>
-                        <Form.Check
-                          type='checkbox'
-                          id={`checkbox-${index}`}
+                      <Grid item xs={12} sm={6} key={role.role}>
+                        <FormControlLabel
+                          control={
+                            <Controller
+                              name={`allowedRoles.${index}`}
+                              control={control}
+                              render={({ field }) => (
+                                <Checkbox {...field} value={role.role} />
+                              )}
+                            />
+                          }
                           label={role.roleDisplay}
-                          value={role.role}
-                          {...register(`allowedRoles.${index}` as const)}
                         />
-                      </div>
+                      </Grid>
                     ))}
-                  </Col>
-                </Form.Group>
-              </fieldset>
+                  </Grid>
+                </FormGroup>
+              </FormControl>
               {errorCreating && <ErrorBlock error={errorCreating} />}
-              <div className='d-flex mt-3 justify-content-between align-items-center'>
+              <Box
+                display='flex'
+                justifyContent='space-between'
+                alignItems='center'
+                mt={3}>
                 <Button
                   id='BUTTON_update'
                   type='submit'
-                  variant='primary'
+                  variant='contained'
+                  color='primary'
                   disabled={loadingOrProcessing || !isDirty}>
                   Update
                 </Button>
                 <Button
-                  className='btn btn-light my-3'
+                  variant='outlined'
                   onClick={goBackHandler}
+                  color='secondary'
                   disabled={loadingOrProcessing}>
                   Cancel
                 </Button>
-              </div>
+              </Box>
             </>
           )}
           {loadingOrProcessing && <Loader />}
-        </Form>
+        </Box>
       </FormContainer>
     </>
   );

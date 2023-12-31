@@ -1,12 +1,22 @@
 import React from 'react';
-import { Table, Button } from 'react-bootstrap';
-import { FaTimes } from 'react-icons/fa';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Button,
+} from '@mui/material';
+import { Close as CloseIcon } from '@mui/icons-material';
 import { NextPageContext } from 'next';
 import Link from 'next/link';
+import FormTitle from 'form/FormTitle';
 import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
 import { parseError } from 'utils/parse-error';
-import { H1_ORDER_ADMIN } from 'constants/form-titles';
+import { TITLE_ORDER_ADMIN } from 'constants/form-titles';
 import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
 import { ORDER_DETAIL_PAGE } from 'constants/client-pages';
 import { dateTimeToLocaleDateString } from 'utils/dateUtils';
@@ -21,8 +31,8 @@ interface TPageProps {
 const OrderListScreen: React.FC<TPageProps> = ({ orders, error }) => {
   return (
     <>
-      <Meta title={H1_ORDER_ADMIN} />
-      <h1>{H1_ORDER_ADMIN}</h1>
+      <Meta title={TITLE_ORDER_ADMIN} />
+      <FormTitle>{TITLE_ORDER_ADMIN}</FormTitle>
       {error ? (
         <ErrorBlock error={error} />
       ) : orders?.length === 0 ? (
@@ -30,56 +40,66 @@ const OrderListScreen: React.FC<TPageProps> = ({ orders, error }) => {
       ) : orders?.length === 0 ? (
         <p>There are no orders</p>
       ) : (
-        <Table striped hover responsive className='table-sm'>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>USER</th>
-              <th>DATE</th>
-              <th>TOTAL</th>
-              <th>PAID</th>
-              <th>DELIVERED</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {orders?.map((order) => (
-              <tr key={order.id}>
-                <td>{order.sequentialOrderId}</td>
-                <td>{order.user && order.user.name}</td>
-                <td>
-                  {order.createdAt &&
-                    dateTimeToLocaleDateString(order.createdAt)}
-                </td>
-                <td>
-                  {CURRENCY_SYMBOL}
-                  {order.totalAmounts.totalPrice.toFixed(2)}
-                </td>
-                <td>
-                  {order.isPaid && order.paidAt ? (
-                    dateTimeToLocaleDateString(order.paidAt)
-                  ) : (
-                    <FaTimes style={{ color: 'red' }} />
-                  )}
-                </td>
-                <td>
-                  {order.isDelivered && order.deliveredAt ? (
-                    dateTimeToLocaleDateString(order.deliveredAt)
-                  ) : (
-                    <FaTimes style={{ color: 'red' }} />
-                  )}
-                </td>
-                <td>
-                  <Link href={`${ORDER_DETAIL_PAGE}/${order.id}`}>
-                    <Button variant='light' className='btn-sm'>
-                      Details
-                    </Button>
-                  </Link>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
+        <TableContainer component={Paper}>
+          <Table size='small'>
+            <TableHead>
+              <TableRow>
+                <TableCell>ID</TableCell>
+                <TableCell>USER</TableCell>
+                <TableCell>DATE</TableCell>
+                <TableCell>TOTAL</TableCell>
+                <TableCell>PAID</TableCell>
+                <TableCell>DELIVERED</TableCell>
+                <TableCell></TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {orders?.map((order, index) => (
+                <TableRow
+                  key={order.id}
+                  sx={{
+                    backgroundColor:
+                      index % 2 ? 'background.default' : 'background.paper',
+                    '&:hover': {
+                      backgroundColor: 'action.hover',
+                    },
+                  }}>
+                  <TableCell>{order.sequentialOrderId}</TableCell>
+                  <TableCell>{order.user && order.user.name}</TableCell>
+                  <TableCell>
+                    {order.createdAt &&
+                      dateTimeToLocaleDateString(order.createdAt)}
+                  </TableCell>
+                  <TableCell>
+                    {CURRENCY_SYMBOL}
+                    {order.totalAmounts.totalPrice.toFixed(2)}
+                  </TableCell>
+                  <TableCell>
+                    {order.isPaid && order.paidAt ? (
+                      dateTimeToLocaleDateString(order.paidAt)
+                    ) : (
+                      <CloseIcon style={{ color: 'red' }} />
+                    )}
+                  </TableCell>
+                  <TableCell>
+                    {order.isDelivered && order.deliveredAt ? (
+                      dateTimeToLocaleDateString(order.deliveredAt)
+                    ) : (
+                      <CloseIcon style={{ color: 'red' }} />
+                    )}
+                  </TableCell>
+                  <TableCell>
+                    <Link href={`${ORDER_DETAIL_PAGE}/${order.id}`} passHref>
+                      <Button variant='outlined' size='small'>
+                        Details
+                      </Button>
+                    </Link>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       )}
     </>
   );

@@ -1,14 +1,56 @@
 import React, { useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
 import { useRouter } from 'next/router';
+import { styled, alpha } from '@mui/material/styles';
+import { InputBase } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 import { PRODUCTS_PAGE } from 'constants/client-pages';
+
+const Search = styled('div')(({ theme }) => ({
+  position: 'relative',
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  '&:hover': {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+  },
+  marginRight: theme.spacing(2),
+  marginLeft: 0,
+  width: '100%',
+  [theme.breakpoints.up('sm')]: {
+    marginLeft: theme.spacing(3),
+    width: 'auto',
+  },
+}));
+
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: 'inherit',
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: '20ch',
+    },
+  },
+}));
 
 const SearchBox = () => {
   const router = useRouter();
   const { keyword: urlKeyword } = router.query;
   const [keyword, setKeyword] = useState(urlKeyword?.toString() || '');
 
-  const submitHandler = (e: any) => {
+  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (keyword.trim()) {
       router.push(`${PRODUCTS_PAGE}?keyword=${keyword.trim()}`);
@@ -19,23 +61,19 @@ const SearchBox = () => {
   };
 
   return (
-    <Form onSubmit={submitHandler} className='d-flex'>
-      <Form.Control
-        id='search_keyword'
-        type='text'
-        name='q'
-        onChange={(e) => setKeyword(e.target.value)}
-        value={keyword}
-        placeholder='Search Products...'
-        className='mr-sm-2 ml-sm-5'></Form.Control>
-      <Button
-        id='LINK_header_search'
-        type='submit'
-        variant='outline-light'
-        className='p-2 mx-2'>
-        Search
-      </Button>
-    </Form>
+    <Search>
+      <form onSubmit={submitHandler}>
+        <SearchIconWrapper>
+          <SearchIcon />
+        </SearchIconWrapper>
+        <StyledInputBase
+          placeholder='Search…'
+          inputProps={{ 'aria-label': 'search' }}
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
+        />
+      </form>
+    </Search>
   );
 };
 

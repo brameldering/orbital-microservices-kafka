@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
 import { NextPageContext } from 'next';
 import Router from 'next/router';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { Box, Button, Typography } from '@mui/material';
 import { TextNumField } from 'form/FormComponents';
 import FormContainer from 'form/FormContainer';
 import FormTitle from 'form/FormTitle';
@@ -15,7 +15,7 @@ import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
 import { parseError } from 'utils/parse-error';
 import ModalConfirmBox from 'components/ModalConfirmBox';
-import { H1_EDIT_ROLE } from 'constants/form-titles';
+import { TITLE_EDIT_ROLE } from 'constants/form-titles';
 import { ROLE_LIST_PAGE } from 'constants/client-pages';
 import { IRole } from '@orbitelco/common';
 import { getRoleById } from 'api/roles/get-role-by-id';
@@ -87,7 +87,7 @@ const RoleEditScreen: React.FC<TPageProps> = ({ roleObj, error }) => {
 
   return (
     <>
-      <Meta title={H1_EDIT_ROLE} />
+      <Meta title={TITLE_EDIT_ROLE} />
       <ModalConfirmBox
         showModal={showChangesModal}
         title='Are you sure you want to go back?'
@@ -96,16 +96,20 @@ const RoleEditScreen: React.FC<TPageProps> = ({ roleObj, error }) => {
         handleConfirm={goBackWithoutSaving}
       />
       <FormContainer>
-        <Form onSubmit={handleSubmit(onSubmit)}>
-          <FormTitle>{H1_EDIT_ROLE}</FormTitle>
+        <Box
+          component='form'
+          onSubmit={handleSubmit(onSubmit)}
+          noValidate
+          sx={{ mt: 1 }}>
+          <FormTitle>{TITLE_EDIT_ROLE}</FormTitle>
           {errorUpdating && <ErrorBlock error={errorUpdating} />}
           {error ? (
             <ErrorBlock error={error} />
           ) : (
             <>
-              <p>
+              <Typography>
                 <strong>Role: </strong> {roleObj.role}
-              </p>
+              </Typography>
               <TextNumField
                 controlId='roleDisplay'
                 label='Role Display'
@@ -113,25 +117,31 @@ const RoleEditScreen: React.FC<TPageProps> = ({ roleObj, error }) => {
                 error={errors.roleDisplay}
                 setError={setError}
               />
-              <div className='d-flex mt-3 justify-content-between align-items-center'>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  mt: 3,
+                  mb: 2,
+                }}>
                 <Button
                   id='BUTTON_update'
                   type='submit'
-                  variant='primary'
+                  variant='contained'
                   disabled={loadingOrProcessing || !isDirty}>
                   Update
                 </Button>
                 <Button
-                  className='btn btn-light my-3'
+                  variant='outlined'
                   onClick={goBackHandler}
                   disabled={loadingOrProcessing}>
                   Cancel
                 </Button>
-              </div>
+              </Box>
             </>
           )}
           {loadingOrProcessing && <Loader />}
-        </Form>
+        </Box>
       </FormContainer>
     </>
   );

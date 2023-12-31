@@ -1,5 +1,9 @@
 import React, { ReactNode } from 'react';
-import { Button, Modal } from 'react-bootstrap';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import Button from '@mui/material/Button';
 
 interface ModalConfirmBoxProps {
   showModal: boolean;
@@ -17,20 +21,18 @@ const ModalConfirmBox: React.FunctionComponent<ModalConfirmBoxProps> = ({
   handleConfirm,
 }) => {
   return (
-    <Modal show={showModal} onHide={handleClose}>
-      <Modal.Header closeButton>
-        <Modal.Title>{title}</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>{body}</Modal.Body>
-      <Modal.Footer>
-        <Button id='BUTTON_no' variant='secondary' onClick={handleClose}>
+    <Dialog open={showModal} onClose={handleClose}>
+      <DialogTitle>{title}</DialogTitle>
+      <DialogContent>{body}</DialogContent>
+      <DialogActions>
+        <Button color='secondary' onClick={handleClose}>
           No
         </Button>
-        <Button id='BUTTON_yes' variant='primary' onClick={handleConfirm}>
+        <Button color='primary' onClick={handleConfirm}>
           Yes
         </Button>
-      </Modal.Footer>
-    </Modal>
+      </DialogActions>
+    </Dialog>
   );
 };
 

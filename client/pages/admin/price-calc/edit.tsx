@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
 import { NextPageContext } from 'next';
 import Router from 'next/router';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { Box, Button } from '@mui/material';
 import { TextNumField, CurrencyNumField } from 'form/FormComponents';
 import FormContainer from 'form/FormContainer';
 import FormTitle from 'form/FormTitle';
@@ -15,7 +15,7 @@ import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
 import { parseError } from 'utils/parse-error';
 import ModalConfirmBox from 'components/ModalConfirmBox';
-import { H1_EDIT_PRICE_CALC } from 'constants/form-titles';
+import { TITLE_EDIT_PRICE_CALC } from 'constants/form-titles';
 import { PRICE_CALC_VIEW_PAGE } from 'constants/client-pages';
 import { IPriceCalcSettingsAttrs } from '@orbitelco/common';
 import { getPriceCalcSettings } from 'api/orders/get-price-calc-settings';
@@ -96,7 +96,7 @@ const PriceCalcSettingsEditScreen: React.FC<TPageProps> = ({
 
   return (
     <>
-      <Meta title={H1_EDIT_PRICE_CALC} />
+      <Meta title={TITLE_EDIT_PRICE_CALC} />
       {error ? (
         <ErrorBlock error={error} />
       ) : (
@@ -109,8 +109,12 @@ const PriceCalcSettingsEditScreen: React.FC<TPageProps> = ({
             handleConfirm={goBackWithoutSaving}
           />
           <FormContainer>
-            <Form onSubmit={handleSubmit(onSubmit)}>
-              <FormTitle>{H1_EDIT_PRICE_CALC}</FormTitle>
+            <Box
+              component='form'
+              onSubmit={handleSubmit(onSubmit)}
+              noValidate
+              sx={{ mt: 1 }}>
+              <FormTitle>{TITLE_EDIT_PRICE_CALC}</FormTitle>
               {errorUpdating && <ErrorBlock error={errorUpdating} />}
               <TextNumField
                 controlId='vatPercentage'
@@ -133,23 +137,29 @@ const PriceCalcSettingsEditScreen: React.FC<TPageProps> = ({
                 error={errors.thresholdFreeShipping}
                 setError={setError}
               />
-              <div className='d-flex mt-3 justify-content-between align-items-center'>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  mt: 3,
+                  mb: 2,
+                }}>
                 <Button
                   id='BUTTON_update'
                   type='submit'
-                  variant='primary'
+                  variant='contained'
                   disabled={loadingOrProcessing || !isDirty}>
                   Update
                 </Button>
                 <Button
-                  className='btn btn-light my-3'
+                  variant='outlined'
                   onClick={goBackHandler}
                   disabled={loadingOrProcessing}>
                   Cancel
                 </Button>
-              </div>
+              </Box>
               {loadingOrProcessing && <Loader />}
-            </Form>
+            </Box>
           </FormContainer>
         </>
       )}

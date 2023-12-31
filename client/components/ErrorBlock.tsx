@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { Alert } from 'react-bootstrap';
+import Alert from '@mui/material/Alert';
 
 interface ISerializedError {
   message: string;
@@ -14,7 +14,7 @@ const AlertWithStyling: React.FunctionComponent<AlertWithStylingProps> = ({
   children,
 }) => {
   return (
-    <Alert className='mt-3 mb-0' variant='danger' id='error_message'>
+    <Alert severity='error' sx={{ mt: 3, mb: 0 }} id='error_message'>
       {children}
     </Alert>
   );

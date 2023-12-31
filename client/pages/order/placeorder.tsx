@@ -1,15 +1,23 @@
 import React, { useEffect } from 'react';
-import { Button, Row, Col, ListGroup, Alert } from 'react-bootstrap';
-import Card from 'react-bootstrap/Card';
 import { useDispatch, useSelector } from 'react-redux';
 import Router from 'next/router';
+import {
+  Grid,
+  Card,
+  CardContent,
+  Button,
+  List,
+  ListItem,
+  Typography,
+  Alert,
+} from '@mui/material';
 import ErrorBlock from 'components/ErrorBlock';
 import Loader from 'components/Loader';
 import Meta from 'components/Meta';
 import CheckoutSteps from 'components/CheckoutSteps';
 import OrderItemLine from 'components/OrderItemLine';
 import OrderSummaryBlock from 'components/OrderSummaryBlock';
-import { H1_CONFIRM_ORDER } from 'constants/form-titles';
+import { TITLE_CONFIRM_ORDER } from 'constants/form-titles';
 import {
   SHIPPING_PAGE,
   PAYMENT_INFO_PAGE,
@@ -62,68 +70,64 @@ const PlaceOrderScreen = () => {
 
   return (
     <>
-      <Meta title={H1_CONFIRM_ORDER} />
+      <Meta title={TITLE_CONFIRM_ORDER} />
       <CheckoutSteps currentStep={3} />
-      <Row>
-        <Col md={8}>
-          <ListGroup variant='flush'>
-            <ListGroup.Item>
-              <h2>Shipping</h2>
-              <p>
+      <Grid container spacing={3}>
+        <Grid item md={8} xs={12}>
+          <List>
+            <ListItem>
+              <Typography variant='h3'>Shipping</Typography>
+              <Typography paragraph>
                 <strong>Address: </strong>
                 {cart.shippingAddress.address},{' '}
                 {cart.shippingAddress.postalCode} {cart.shippingAddress.city},{' '}
                 {cart.shippingAddress.country}
-              </p>
-            </ListGroup.Item>
-            <ListGroup.Item>
-              <h2>Payment Method</h2>
-              <strong>Method: </strong>
-              {cart.paymentMethod}
-            </ListGroup.Item>
-            <ListGroup.Item>
-              <h2>Order Items</h2>
+              </Typography>
+            </ListItem>
+            <ListItem>
+              <Typography variant='h3'>Payment Method</Typography>
+              <Typography paragraph>
+                <strong>Method: </strong>
+                {cart.paymentMethod}
+              </Typography>
+            </ListItem>
+            <ListItem>
+              <Typography variant='h3'>Order Items</Typography>
               {cart.cartItems.length === 0 ? (
-                <Alert variant='info'>Your cart is empty</Alert>
+                <Alert severity='info'>Your cart is empty</Alert>
               ) : (
-                <ListGroup variant='flush'>
+                <List>
                   {cart.cartItems.map((item, index) => (
-                    <ListGroup.Item key={index}>
+                    <ListItem key={index}>
                       <OrderItemLine
                         item={item}
                         goBackPath={PLACE_ORDER_PAGE}
                       />
-                    </ListGroup.Item>
+                    </ListItem>
                   ))}
-                </ListGroup>
+                </List>
               )}
-            </ListGroup.Item>
-          </ListGroup>
-        </Col>
-        <Col md={4}>
+            </ListItem>
+          </List>
+        </Grid>
+        <Grid item md={4} xs={12}>
           <Card>
-            <ListGroup variant='flush'>
+            <CardContent>
               <OrderSummaryBlock totalAmounts={cart.totalAmounts} />
-              <ListGroup.Item>
-                {errorCreatingOrder && (
-                  <ErrorBlock error={errorCreatingOrder} />
-                )}
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <Button
-                  id='BUTTON_place_order'
-                  type='button'
-                  className='btn-block mt-2'
-                  disabled={cart.cartItems.length === 0 || creatingOrder}
-                  onClick={placeOrderHandler}>
-                  Place Order
-                </Button>
-                {creatingOrder && <Loader />}
-              </ListGroup.Item>
-            </ListGroup>
+              {errorCreatingOrder && <ErrorBlock error={errorCreatingOrder} />}
+              <Button
+                id='BUTTON_place_order'
+                type='button'
+                className='btn-block mt-2'
+                disabled={cart.cartItems.length === 0 || creatingOrder}
+                onClick={placeOrderHandler}>
+                Place Order
+              </Button>
+              {creatingOrder && <Loader />}
+            </CardContent>
           </Card>
-        </Col>
-      </Row>
+        </Grid>
+      </Grid>
     </>
   );
 };

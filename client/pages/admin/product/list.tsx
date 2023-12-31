@@ -1,14 +1,29 @@
 import React, { useState } from 'react';
-import { Table, Button, Row, Col } from 'react-bootstrap';
-import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import {
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Grid,
+  Paper,
+  Typography,
+} from '@mui/material';
+import {
+  Edit as EditIcon,
+  Add as AddIcon,
+  Delete as DeleteIcon,
+} from '@mui/icons-material';
+import FormTitle from 'form/FormTitle';
 import Loader from 'components/Loader';
 import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
 import ModalConfirmBox from 'components/ModalConfirmBox';
 import Paginate from 'components/Paginate';
-import { H1_PRODUCT_ADMIN } from 'constants/form-titles';
+import { TITLE_PRODUCT_ADMIN } from 'constants/form-titles';
 import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
 import {
   useGetProductsQuery,
@@ -85,7 +100,7 @@ const ProductListScreen = () => {
 
   return (
     <>
-      <Meta title={H1_PRODUCT_ADMIN} />
+      <Meta title={TITLE_PRODUCT_ADMIN} />
       <ModalConfirmBox
         showModal={confirmCreateProductModal}
         title='Create Product'
@@ -100,84 +115,87 @@ const ProductListScreen = () => {
         handleClose={cancelDeleteProduct}
         handleConfirm={deleteProductHandler.bind(this)}
       />
-      <Row className='align-items-center my-0'>
-        <Col>
-          <h1>{H1_PRODUCT_ADMIN}</h1>
-        </Col>
-        <Col className='text-end'>
+      <Grid
+        container
+        justifyContent='space-between'
+        alignItems='center'
+        sx={{ mb: 2 }}>
+        <Grid item>
+          <FormTitle>{TITLE_PRODUCT_ADMIN}</FormTitle>
+        </Grid>
+        <Grid item>
           <Button
             id='BUTTON_create_product'
-            className='btn-sm'
-            variant='primary'
+            variant='contained'
+            startIcon={<AddIcon />}
             onClick={confirmCreateProduct}
             disabled={loadingOrProcessing}>
-            <FaPlus /> Create Product
+            Create Product
           </Button>
-        </Col>
-      </Row>
-      {errorCreating && <ErrorBlock error={errorCreating} />}
-      {errorDeleting && <ErrorBlock error={errorDeleting} />}
-      {errorLoading ? (
-        <ErrorBlock error={errorLoading} />
-      ) : data && (!data.products || data.products.length === 0) ? (
-        <p>There are no products</p>
+        </Grid>
+      </Grid>
+      <ErrorBlock error={errorCreating || errorDeleting || errorLoading} />
+      {data && (!data.products || data.products.length === 0) ? (
+        <Typography>There are no products</Typography>
       ) : (
-        <>
-          <Table striped hover responsive className='table-sm'>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>NAME</th>
-                <th>PRICE</th>
-                <th>BRAND</th>
-                <th>CATEGORY</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
+        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+          <Table size='small'>
+            <TableHead>
+              <TableRow>
+                <TableCell>ID</TableCell>
+                <TableCell>NAME</TableCell>
+                <TableCell>PRICE</TableCell>
+                <TableCell>BRAND</TableCell>
+                <TableCell>CATEGORY</TableCell>
+                <TableCell></TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
               {data &&
                 data.products.map((product) => (
-                  <tr key={product.id}>
-                    <td>{product.sequentialProductId}</td>
-                    <td id={`name_${product.sequentialProductId}`}>
+                  <TableRow key={product.id}>
+                    <TableCell>{product.sequentialProductId}</TableCell>
+                    <TableCell id={`name_${product.sequentialProductId}`}>
                       {product.name}
-                    </td>
-                    <td>
+                    </TableCell>
+                    <TableCell>
                       {CURRENCY_SYMBOL}
                       {product.price.toFixed(2)}
-                    </td>
-                    <td id={`brand_${product.sequentialProductId}`}>
+                    </TableCell>
+                    <TableCell id={`brand_${product.sequentialProductId}`}>
                       {product.brand}
-                    </td>
-                    <td id={`category_${product.sequentialProductId}`}>
+                    </TableCell>
+                    <TableCell id={`category_${product.sequentialProductId}`}>
                       {product.category}
-                    </td>
-                    <td>
+                    </TableCell>
+                    <TableCell>
                       <Link href={`${PRODUCT_EDIT_PAGE}/${product.id}`}>
                         <Button
                           id={`edit_${product.sequentialProductId}`}
-                          variant='light'
-                          className='btn-sm mx-2'>
-                          <FaEdit />
-                        </Button>
+                          variant='outlined'
+                          size='small'
+                          startIcon={<EditIcon />}
+                          sx={{ mx: 1 }}></Button>
                       </Link>
                       <Button
                         id={`delete_${product.sequentialProductId}`}
-                        variant='danger'
-                        className='btn-sm'
-                        onClick={() => confirmDeleteProduct(product.id)}>
-                        <FaTrash style={{ color: 'white' }} />
-                      </Button>
-                    </td>
-                  </tr>
+                        variant='contained'
+                        color='error'
+                        size='small'
+                        startIcon={<DeleteIcon />}
+                        onClick={() =>
+                          confirmDeleteProduct(product.id)
+                        }></Button>
+                    </TableCell>
+                  </TableRow>
                 ))}
-            </tbody>
+            </TableBody>
           </Table>
           {data && (
             <Paginate pages={data.pages} page={data.page} isAdmin={true} />
           )}
           {loadingOrProcessing && <Loader />}
-        </>
+        </Paper>
       )}
     </>
   );

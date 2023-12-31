@@ -23,16 +23,16 @@ import {
   ARE_YOU_SURE_YOU_WANT_TO_DELETE_THIS_USER,
 } from '../test_constants';
 import {
-  H1_SIGN_IN,
-  H1_SIGN_UP,
-  H1_PRODUCTS,
-  H1_MY_PROFILE,
-  H1_CHANGE_PASSWORD,
-  H1_RESET_PASSWORD,
-  H1_RESET_PASSWORD_CONFIRMATION,
-  H1_USER_ADMIN,
-  H1_EDIT_USER,
-  H1_MY_ORDERS,
+  TITLE_SIGN_IN,
+  TITLE_SIGN_UP,
+  TITLE_PRODUCTS,
+  TITLE_MY_PROFILE,
+  TITLE_CHANGE_PASSWORD,
+  TITLE_RESET_PASSWORD,
+  TITLE_RESET_PASSWORD_CONFIRMATION,
+  TITLE_USER_ADMIN,
+  TITLE_EDIT_USER,
+  TITLE_MY_ORDERS,
 } from 'constants/form-titles';
 import { CUSTOMER_DISPLAY, ADMIN_DISPLAY } from '@orbitelco/common';
 
@@ -47,7 +47,7 @@ const loginAsAdminAndGoToUserAdmin = () => {
   login(ADMIN_EMAIL, ADMIN_PASSWORD);
   cy.get('[id="LINK_header_adminmenu"]').click();
   cy.get('[id="LINK_header_users"]').click();
-  cy.get('h1').invoke('text').should('equal', H1_USER_ADMIN);
+  cy.get('h1').invoke('text').should('equal', TITLE_USER_ADMIN);
   // Check there are no errors
   cy.get('[id="error_message"]').should('not.exist');
 };
@@ -65,20 +65,20 @@ describe('Initialize', () => {
 describe('Test registration of new account', () => {
   it('E2E_User_1: Opens register screen and enters new account', () => {
     cy.visit(LOGIN_URL);
-    cy.get('h1').invoke('text').should('equal', H1_SIGN_IN);
+    cy.get('h1').invoke('text').should('equal', TITLE_SIGN_IN);
     cy.get('[id="LINK_register_new_customer"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_SIGN_UP);
+    cy.get('h1').invoke('text').should('equal', TITLE_SIGN_UP);
     cy.get('[id="name"]').type(NEW_USER_NAME);
     cy.get('[id="email"]').type(NEW_USER_EMAIL);
     cy.get('[id="password"]').type(NEW_USER_PASSWORD);
     cy.get('[id="role"]').select(CUSTOMER_DISPLAY);
     cy.get('[id="BUTTON_register"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
+    cy.get('h1').invoke('text').should('equal', TITLE_PRODUCTS);
   });
   it('E2E_User_2: Opens register screen enters already existing account', () => {
     cy.visit(LOGIN_URL);
     cy.get('[id="LINK_register_new_customer"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_SIGN_UP);
+    cy.get('h1').invoke('text').should('equal', TITLE_SIGN_UP);
     cy.get('[id="name"]').type(NEW_USER_NAME);
     cy.get('[id="email"]').type(NEW_USER_EMAIL);
     cy.get('[id="password"]').type(NEW_USER_PASSWORD);
@@ -89,15 +89,15 @@ describe('Test registration of new account', () => {
   it('E2E_User_3: Opens register screen and clicks Login (Already have an account)', () => {
     cy.visit(LOGIN_URL);
     cy.get('[id="LINK_register_new_customer"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_SIGN_UP);
+    cy.get('h1').invoke('text').should('equal', TITLE_SIGN_UP);
     cy.get('[id="LINK_already_have_an_account"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_SIGN_IN);
+    cy.get('h1').invoke('text').should('equal', TITLE_SIGN_IN);
   });
 });
 describe('Test logging in', () => {
   it('E2E_User_4: Signs in correctly with test account', () => {
     login(TEST_USER_EMAIL, TEST_USER_PASSWORD);
-    cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
+    cy.get('h1').invoke('text').should('equal', TITLE_PRODUCTS);
   });
   it('E2E_User_5: Signs in with unknown account', () => {
     login(UNKNOWN_EMAIL, TEST_USER_PASSWORD);
@@ -123,57 +123,59 @@ describe('Test logging in', () => {
 describe('Test profile and password update', () => {
   it('E2E_User_8: Change username and email', () => {
     login(NEW_USER_EMAIL, NEW_USER_PASSWORD);
-    cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
+    cy.get('h1').invoke('text').should('equal', TITLE_PRODUCTS);
     cy.get('[id="LINK_header_username"]').click();
     cy.get('[id="LINK_my_profile"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_MY_PROFILE);
+    cy.get('h1').invoke('text').should('equal', TITLE_MY_PROFILE);
     cy.get('[id="name"]').clear().type(UPDATED_USER_NAME);
     cy.get('[id="email"]').clear().type(UPDATED_EMAIL);
     cy.get('[id="BUTTON_update"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_MY_PROFILE);
+    cy.get('h1').invoke('text').should('equal', TITLE_MY_PROFILE);
     cy.wait(1000); // Wait one second to let MongoDB process the update
     // Check there are no errors
     cy.get('[id="error_message"]').should('not.exist');
   });
   it('E2E_User_9: Change password', () => {
     login(UPDATED_EMAIL, NEW_USER_PASSWORD);
-    cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
+    cy.get('h1').invoke('text').should('equal', TITLE_PRODUCTS);
     cy.get('[id="LINK_header_username"]').click();
     cy.get('[id="LINK_my_profile"]').click();
     cy.get('[id="LINK_change_password"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_CHANGE_PASSWORD);
+    cy.get('h1').invoke('text').should('equal', TITLE_CHANGE_PASSWORD);
     cy.get('[id="currentPassword"]').type(NEW_USER_PASSWORD);
     cy.get('[id="newPassword"]').type(UPDATED_PASSWORD);
     cy.get('[id="BUTTON_update"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_MY_PROFILE);
+    cy.get('h1').invoke('text').should('equal', TITLE_MY_PROFILE);
     // Check there are no errors
     cy.get('[id="error_message"]').should('not.exist');
   });
   it('E2E_User_10: Login in with new email and password', () => {
     login(UPDATED_EMAIL, UPDATED_PASSWORD);
-    cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
+    cy.get('h1').invoke('text').should('equal', TITLE_PRODUCTS);
   });
   it('E2E_User_11: Tries to reset password with unknown email address', () => {
     cy.visit(LOGIN_URL);
     cy.get('[id="LINK_reset_password"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_RESET_PASSWORD);
+    cy.get('h1').invoke('text').should('equal', TITLE_RESET_PASSWORD);
     cy.get('[id="email"]').type(UNKNOWN_EMAIL);
     cy.get('[id="BUTTON_reset_password"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_RESET_PASSWORD);
+    cy.get('h1').invoke('text').should('equal', TITLE_RESET_PASSWORD);
     cy.get('[id="error_message"]').should('exist');
     cy.contains(USER_NOT_FOUND);
   });
   it('E2E_User_12: Reset password with correct email address', () => {
     cy.visit(LOGIN_URL);
     cy.get('[id="LINK_reset_password"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_RESET_PASSWORD);
+    cy.get('h1').invoke('text').should('equal', TITLE_RESET_PASSWORD);
     cy.get('[id="email"]').type(UPDATED_EMAIL);
     cy.get('[id="BUTTON_reset_password"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_RESET_PASSWORD_CONFIRMATION);
+    cy.get('h1')
+      .invoke('text')
+      .should('equal', TITLE_RESET_PASSWORD_CONFIRMATION);
   });
   it('E2E_User_13: Login in with new email and password', () => {
     login(UPDATED_EMAIL, RESET_PASSWORD);
-    cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
+    cy.get('h1').invoke('text').should('equal', TITLE_PRODUCTS);
   });
 });
 describe('Test logout', () => {
@@ -181,7 +183,7 @@ describe('Test logout', () => {
     login(UPDATED_EMAIL, RESET_PASSWORD);
     cy.get('[id="LINK_header_username"]').click();
     cy.get('[id="LINK_header_logout"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
+    cy.get('h1').invoke('text').should('equal', TITLE_PRODUCTS);
   });
 });
 describe('E2E_User_15: Test my orders', () => {
@@ -189,7 +191,7 @@ describe('E2E_User_15: Test my orders', () => {
     login(UPDATED_EMAIL, RESET_PASSWORD);
     cy.get('[id="LINK_header_username"]').click();
     cy.get('[id="LINK_my_orders"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_MY_ORDERS);
+    cy.get('h1').invoke('text').should('equal', TITLE_MY_ORDERS);
     cy.contains(YOU_HAVE_NO_ORDERS);
   });
 });
@@ -204,14 +206,14 @@ describe('Test Administration of Users', () => {
     // Select user to administrate
     let queryId: string = `[id="edit_` + UPDATED_EMAIL + `"]`;
     cy.get(queryId).click();
-    cy.get('h1').invoke('text').should('equal', H1_EDIT_USER);
+    cy.get('h1').invoke('text').should('equal', TITLE_EDIT_USER);
     // Change user name and email
     cy.get('[id="name"]').clear().type(NEW_USER_NAME);
     cy.get('[id="email"]').clear().type(NEW_USER_EMAIL);
     cy.get('[id="role"]').select(ADMIN_DISPLAY);
     cy.get('[id="BUTTON_update"]').click();
     // Check updated name and email are shown in users list
-    cy.get('h1').invoke('text').should('equal', H1_USER_ADMIN);
+    cy.get('h1').invoke('text').should('equal', TITLE_USER_ADMIN);
     cy.get('tr').should('have.length', 5); //4 users and header
     queryId = `[id="name_` + NEW_USER_EMAIL + `"]`;
     cy.get(queryId).invoke('text').should('equal', NEW_USER_NAME);
@@ -228,7 +230,7 @@ describe('Test Administration of Users', () => {
     cy.get(queryId).click();
     cy.contains(ARE_YOU_SURE_YOU_WANT_TO_DELETE_THIS_USER);
     cy.get('[id="BUTTON_yes"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_USER_ADMIN);
+    cy.get('h1').invoke('text').should('equal', TITLE_USER_ADMIN);
     cy.get('tr').should('have.length', 4); //3 users and header
     queryId = `[id="email_` + NEW_USER_EMAIL + `"]`;
     cy.get(queryId).should('not.exist');

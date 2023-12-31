@@ -1,16 +1,17 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Form, Button } from 'react-bootstrap';
 import Router from 'next/router';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { Box, Button } from '@mui/material';
+import FormTitle from 'form/FormTitle';
 import { TextNumField } from 'form/FormComponents';
 import FormContainer from 'form/FormContainer';
 import { textField } from 'form/ValidationSpecs';
 import Meta from 'components/Meta';
 import CheckoutSteps from 'components/CheckoutSteps';
-import { H1_SHIPPING } from 'constants/form-titles';
+import { TITLE_SHIPPING } from 'constants/form-titles';
 import { PAYMENT_INFO_PAGE } from 'constants/client-pages';
 import { saveShippingAddress } from 'slices/cartSlice';
 import type { RootState } from 'slices/store';
@@ -64,11 +65,11 @@ const ShippingScreen = () => {
 
   return (
     <>
-      <Meta title={H1_SHIPPING} />
+      <Meta title={TITLE_SHIPPING} />
       <CheckoutSteps currentStep={1} />
       <FormContainer>
-        <h1>{H1_SHIPPING}</h1>
-        <Form onSubmit={handleSubmit(onSubmit)}>
+        <FormTitle>{TITLE_SHIPPING}</FormTitle>
+        <Box component='form' onSubmit={handleSubmit(onSubmit)}>
           <TextNumField
             controlId='address'
             label='Address'
@@ -97,10 +98,15 @@ const ShippingScreen = () => {
             error={errors.country}
             setError={setError}
           />
-          <Button id='BUTTON_continue' type='submit' variant='primary mt-2'>
+          <Button
+            id='BUTTON_continue'
+            type='submit'
+            variant='contained'
+            color='primary'
+            sx={{ mt: 2 }}>
             Continue
           </Button>
-        </Form>
+        </Box>
       </FormContainer>
     </>
   );

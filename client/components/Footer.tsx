@@ -1,6 +1,7 @@
 import React from 'react';
-import { Row, Col } from 'react-bootstrap';
-import Container from 'react-bootstrap/Container';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
 
 const Footer: React.FunctionComponent = () => {
   const currentYear = new Date().getFullYear();
@@ -8,13 +9,16 @@ const Footer: React.FunctionComponent = () => {
   return (
     <footer>
       <Container>
-        <Row>
-          <Col className='text-center py-3'>
-            <p>Orbitelco Shop &copy; {currentYear}</p>
-          </Col>
-        </Row>
+        <Grid container>
+          <Grid item xs={12} className='text-center py-3'>
+            <Typography variant='body1'>
+              Orbitelco Shop &copy; {currentYear}
+            </Typography>
+          </Grid>
+        </Grid>
       </Container>
     </footer>
   );
 };
+
 export default Footer;

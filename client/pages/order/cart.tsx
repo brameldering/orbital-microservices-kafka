@@ -1,24 +1,29 @@
 import React from 'react';
-import {
-  Row,
-  Col,
-  ListGroup,
-  Image,
-  Form,
-  Button,
-  Alert,
-} from 'react-bootstrap';
-import Card from 'react-bootstrap/Card';
-import { FaTrash } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { NextPageContext } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import Router, { useRouter } from 'next/router';
+import {
+  Grid,
+  Card,
+  CardContent,
+  Button,
+  Typography,
+  List,
+  ListItem,
+  FormControl,
+  Select,
+  MenuItem,
+  Alert,
+} from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import FormTitle from 'form/FormTitle';
 import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
 import { parseError } from 'utils/parse-error';
 import CheckoutSteps from 'components/CheckoutSteps';
-import { H1_SHOPPING_CART } from 'constants/form-titles';
+import { TITLE_SHOPPING_CART } from 'constants/form-titles';
 import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
 import {
   PRODUCTS_PAGE,
@@ -65,105 +70,118 @@ const CartScreen: React.FC<TPageProps> = ({ priceCalcSettings, error }) => {
 
   return (
     <>
-      <Meta title={H1_SHOPPING_CART} />
+      <Meta title={TITLE_SHOPPING_CART} />
       <CheckoutSteps currentStep={0} />
       {error ? (
         <ErrorBlock error={error} />
       ) : (
         <>
-          <Row>
-            <Col md={8}>
-              <h1 style={{ marginBottom: '20px' }}>{H1_SHOPPING_CART}</h1>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={8}>
+              <FormTitle>{TITLE_SHOPPING_CART}</FormTitle>
               {cartItems.length === 0 ? (
-                <Alert variant='info'>
+                <Alert severity='info'>
                   Your cart is empty{' '}
                   <Link id='LINK_go_to_shop' href={PRODUCTS_PAGE}>
                     Go to shop
                   </Link>
                 </Alert>
               ) : (
-                <ListGroup variant='flush'>
+                <List>
                   {cartItems.map((item) => (
-                    <ListGroup.Item id='product_item' key={item.productId}>
-                      <Row>
-                        <Col md={2}>
+                    <ListItem
+                      id='product_item'
+                      key={item.productId}
+                      sx={{ py: 2 }}>
+                      <Grid container spacing={2}>
+                        <Grid item xs={2}>
                           <Image
                             src={item.imageURL}
                             alt={item.productName}
-                            fluid
+                            width={50}
+                            height={50}
+                            layout='responsive'
                           />
-                        </Col>
-                        <Col md={4}>
+                        </Grid>
+                        <Grid item xs={4}>
                           <Link
                             id={`product_name_${item.productName}`}
-                            href={`${PRODUCT_DETAIL_PAGE}/${item.productId}?goBackPath=${currentPath}`}>
-                            {item.productName}
+                            href={`${PRODUCT_DETAIL_PAGE}/${item.productId}?goBackPath=${currentPath}`}
+                            passHref>
+                            <Typography component='a' variant='body1'>
+                              {item.productName}
+                            </Typography>
                           </Link>
-                        </Col>
-                        <Col md={2}>
-                          {CURRENCY_SYMBOL}
-                          {item.price.toFixed(2)}
-                        </Col>
-                        <Col md={2}>
-                          <Form.Control
-                            id={`select_quantity_${item.productName}`}
-                            as='select'
-                            value={item.qty}
-                            onChange={(e) =>
-                              addToCartHandler(item, Number(e.target.value))
-                            }>
-                            {[...Array(item.countInStock).keys()].map((x) => (
-                              <option key={x + 1} value={x + 1}>
-                                {x + 1}
-                              </option>
-                            ))}
-                          </Form.Control>
-                        </Col>
-                        <Col md={2}>
+                        </Grid>
+                        <Grid item xs={2}>
+                          <Typography>
+                            {CURRENCY_SYMBOL}
+                            {item.price.toFixed(2)}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={2}>
+                          <FormControl fullWidth>
+                            <Select
+                              id={`select_quantity_${item.productName}`}
+                              value={item.qty}
+                              onChange={(e) =>
+                                addToCartHandler(item, Number(e.target.value))
+                              }>
+                              {[...Array(item.countInStock).keys()].map((x) => (
+                                <MenuItem key={x + 1} value={x + 1}>
+                                  {x + 1}
+                                </MenuItem>
+                              ))}
+                            </Select>
+                          </FormControl>
+                        </Grid>
+                        <Grid item xs={2}>
                           <Button
                             id={`remove_from_cart_${item.productName}`}
-                            type='button'
-                            variant='light'
                             onClick={() =>
                               removeFromCartHandler(item.productId)
-                            }>
-                            <FaTrash />
-                          </Button>
-                        </Col>
-                      </Row>
-                    </ListGroup.Item>
+                            }
+                            startIcon={<DeleteIcon />}></Button>
+                        </Grid>
+                      </Grid>
+                    </ListItem>
                   ))}
-                </ListGroup>
+                </List>
               )}
-            </Col>
-            <Col md={4}>
+            </Grid>
+            <Grid item md={4} xs={12}>
               <Card>
-                <ListGroup variant='flush'>
-                  <ListGroup.Item>
-                    <h2>
-                      Subtotal (
-                      {cartItems.reduce((acc, item) => acc + item.qty, 0)})
-                      items
-                    </h2>
-                    {CURRENCY_SYMBOL}
-                    {cartItems
-                      .reduce((acc, item) => acc + item.qty * item.price, 0)
-                      .toFixed(2)}
-                  </ListGroup.Item>
-                  <ListGroup.Item>
-                    <Button
-                      id='BUTTON_checkout'
-                      type='button'
-                      className='btn-block mt-2'
-                      disabled={cartItems.length === 0}
-                      onClick={checkoutHandler}>
-                      Proceed To Checkout
-                    </Button>
-                  </ListGroup.Item>
-                </ListGroup>
+                <CardContent>
+                  <List disablePadding>
+                    <ListItem>
+                      <Typography variant='h3'>
+                        Subtotal (
+                        {cartItems.reduce((acc, item) => acc + item.qty, 0)})
+                        items
+                      </Typography>
+                      <Typography variant='body1'>
+                        {CURRENCY_SYMBOL}
+                        {cartItems
+                          .reduce((acc, item) => acc + item.qty * item.price, 0)
+                          .toFixed(2)}
+                      </Typography>
+                    </ListItem>
+                    <ListItem>
+                      <Button
+                        id='BUTTON_checkout'
+                        variant='contained'
+                        color='primary'
+                        fullWidth
+                        disabled={cartItems.length === 0}
+                        onClick={checkoutHandler}>
+                        Proceed To Checkout
+                      </Button>
+                    </ListItem>
+                  </List>
+                </CardContent>
               </Card>
-            </Col>
-          </Row>
+            </Grid>
+          </Grid>
         </>
       )}
     </>

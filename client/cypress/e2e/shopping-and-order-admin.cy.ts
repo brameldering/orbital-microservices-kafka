@@ -28,14 +28,14 @@ import {
   YOU_HAVE_ALREADY_REVIEWED_THIS_PRODUCT,
 } from '../test_constants';
 import {
-  H1_SHOPPING_CART,
-  H1_SHIPPING,
-  H1_MY_ORDERS,
-  H1_ORDER_ADMIN,
-  H1_PRODUCTS,
-  H1_SIGN_IN,
-  H1_PAYMENT_METHOD,
-  // H2_ORDER_DETAILS,
+  TITLE_SHOPPING_CART,
+  TITLE_SHIPPING,
+  TITLE_MY_ORDERS,
+  TITLE_ORDER_ADMIN,
+  TITLE_PRODUCTS,
+  TITLE_SIGN_IN,
+  TITLE_PAYMENT_METHOD,
+  // TITLE_ORDER_DETAILS,
 } from 'constants/form-titles';
 
 describe('Initialize', () => {
@@ -55,31 +55,31 @@ describe('Shopping tests', () => {
     // Check that we are on Products page and all 6 products are shown
     cy.get('h1')
       .invoke('text')
-      .should('equal', H1_PRODUCTS, { timeout: 40000 });
+      .should('equal', TITLE_PRODUCTS, { timeout: 40000 });
     cy.get('[id="product_card"]').should('have.length', 6);
     // search for phone and check that 2 products match
     cy.get('[id="search_keyword"]').type(SEARCH_KEYWORD);
     cy.get('[id="LINK_header_search"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
+    cy.get('h1').invoke('text').should('equal', TITLE_PRODUCTS);
     cy.get('[id="product_card"]').should('have.length', 2);
     // Go back to main page using [go back] and check that now all 6 products appear
     cy.get('[id="BUTTON_back"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
+    cy.get('h1').invoke('text').should('equal', TITLE_PRODUCTS);
     cy.get('[id="product_card"]').should('have.length', 6);
     // Search for keyword that should give 0 results
     cy.get('[id="search_keyword"]').type(SEARCH_KEYWORD_NO_RESULTS);
     cy.get('[id="LINK_header_search"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
+    cy.get('h1').invoke('text').should('equal', TITLE_PRODUCTS);
     cy.get('[id="product_card"]').should('have.length', 0);
     cy.contains(NO_RESULTS_MESSAGE);
     // Go back to main page by clicking brand logo and check there are 6 products
     cy.get('[id="LINK_orbitelco_shop"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
+    cy.get('h1').invoke('text').should('equal', TITLE_PRODUCTS);
     cy.get('[id="product_card"]').should('have.length', 6);
   });
   it('E2E_SHOP_OM_2: Select one product, change to 2 items and empty cart', () => {
     // Check that we are on Products page and all 6 products are shown
-    cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
+    cy.get('h1').invoke('text').should('equal', TITLE_PRODUCTS);
     cy.get('[id="product_card"]').should('have.length', 6);
     // Select mousde product and check we go to product page
     cy.contains(PRODUCT_1.name).click();
@@ -87,7 +87,7 @@ describe('Shopping tests', () => {
     // select 2 items and add to cart
     cy.get('[id="select_quantity"]').select('2');
     cy.get('[id="BUTTON_add_to_cart"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_SHOPPING_CART);
+    cy.get('h1').invoke('text').should('equal', TITLE_SHOPPING_CART);
     cy.get('h2').invoke('text').should('equal', SUBTOTAL_2_ITEMS);
     // Check that clicking the product name takes us to the product page
     let queryId: string = `[id="product_name_` + PRODUCT_1.name + `"]`;
@@ -95,35 +95,35 @@ describe('Shopping tests', () => {
     cy.get('h3').invoke('text').should('equal', PRODUCT_1.name);
     // Check that [go back] takes us back to the cart again
     cy.get('[id="BUTTON_go_back"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_SHOPPING_CART);
+    cy.get('h1').invoke('text').should('equal', TITLE_SHOPPING_CART);
     cy.get('h2').invoke('text').should('equal', SUBTOTAL_2_ITEMS);
     // Remove item from cart
     queryId = `[id="remove_from_cart_` + PRODUCT_1.name + `"]`;
     cy.get(queryId).click();
     cy.contains(YOUR_CART_IS_EMPTY);
     cy.get('[id="LINK_go_to_shop"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
+    cy.get('h1').invoke('text').should('equal', TITLE_PRODUCTS);
   });
   it('E2E_SHOP_OM_3: Full order flow of 1 product with shipping fee', () => {
     // Check that we are on Products page and all 6 products are shown
-    cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
+    cy.get('h1').invoke('text').should('equal', TITLE_PRODUCTS);
     cy.get('[id="product_card"]').should('have.length', 6);
     // Select Mouse Product
     cy.contains(PRODUCT_1.name).click();
     cy.get('h3').invoke('text').should('equal', PRODUCT_1.name);
     // Add to cart
     cy.get('[id="BUTTON_add_to_cart"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_SHOPPING_CART);
+    cy.get('h1').invoke('text').should('equal', TITLE_SHOPPING_CART);
     cy.get('h2').invoke('text').should('equal', SUBTOTAL_1_ITEMS);
     // Check out
     cy.get('[id="BUTTON_checkout"]').click();
     cy.wait(1000);
     // Sign in
-    cy.get('h1').invoke('text').should('equal', H1_SIGN_IN);
+    cy.get('h1').invoke('text').should('equal', TITLE_SIGN_IN);
     cy.get('[id="email"]').type(TEST_USER_EMAIL);
     cy.get('[id="password"]').type(TEST_USER_PASSWORD);
     cy.get('[id="BUTTON_login"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_SHIPPING);
+    cy.get('h1').invoke('text').should('equal', TITLE_SHIPPING);
     // Click continue so that that error messages appear for required fields
     cy.get('[id="BUTTON_continue"]').click();
     cy.get('[id="error_text_address"]')
@@ -147,7 +147,7 @@ describe('Shopping tests', () => {
     // cy.get('[id="error_text_country"]').should('not.exist');
     // Click continue button and check we are on Payment Method page
     cy.get('[id="BUTTON_continue"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_PAYMENT_METHOD);
+    cy.get('h1').invoke('text').should('equal', TITLE_PAYMENT_METHOD);
     // Click continue button and check items on Order Summary page
     cy.get('[id="BUTTON_continue"]').click();
     cy.contains('Shipping');
@@ -156,7 +156,7 @@ describe('Shopping tests', () => {
     cy.contains('Method: PayPal');
     cy.contains('Order Items');
     cy.contains('1 x €50.00 = €50.00');
-    // cy.contains(H2_ORDER_DETAILS);
+    // cy.contains(TITLE_ORDER_DETAILS);
     cy.contains(CURRENCY_SYMBOL + PRODUCT_1.price.toFixed(2));
     cy.contains(CURRENCY_SYMBOL + SHIPPING_FEE.toFixed(2));
     cy.contains(CURRENCY_SYMBOL + PRODUCT_1.vat.toFixed(2));
@@ -175,7 +175,7 @@ describe('Shopping tests', () => {
     cy.contains('Not Paid');
     cy.contains('Order Items');
     cy.contains('1 x €50.00 = €50.00');
-    // cy.contains(H2_ORDER_DETAILS);
+    // cy.contains(TITLE_ORDER_DETAILS);
     cy.contains(CURRENCY_SYMBOL + PRODUCT_1.price.toFixed(2));
     cy.contains(CURRENCY_SYMBOL + SHIPPING_FEE.toFixed(2));
     cy.contains(CURRENCY_SYMBOL + PRODUCT_1.vat.toFixed(2));
@@ -183,23 +183,23 @@ describe('Shopping tests', () => {
   });
   it('E2E_SHOP_OM_4: Full order flow of 2 products with 3 items in total', () => {
     // Check that we are on Products page and all 6 products are shown
-    cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
+    cy.get('h1').invoke('text').should('equal', TITLE_PRODUCTS);
     cy.get('[id="product_card"]').should('have.length', 6);
     // Select Mouse Product
     cy.contains(PRODUCT_1.name).click();
     cy.get('h3').invoke('text').should('equal', PRODUCT_1.name);
     // Add to cart
     cy.get('[id="BUTTON_add_to_cart"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_SHOPPING_CART);
+    cy.get('h1').invoke('text').should('equal', TITLE_SHOPPING_CART);
     cy.get('h2').invoke('text').should('equal', SUBTOTAL_1_ITEMS);
     // Back to home page and select playstation
     cy.get('[id="LINK_orbitelco_shop"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
+    cy.get('h1').invoke('text').should('equal', TITLE_PRODUCTS);
     cy.contains(PRODUCT_2.name).click();
     cy.get('h3').invoke('text').should('equal', PRODUCT_2.name);
     // Add to cart
     cy.get('[id="BUTTON_add_to_cart"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_SHOPPING_CART);
+    cy.get('h1').invoke('text').should('equal', TITLE_SHOPPING_CART);
     cy.get('h2').invoke('text').should('equal', SUBTOTAL_2_ITEMS);
     cy.get('[id="product_item"]').should('have.length', 2);
     cy.contains(CURRENCY_SYMBOL + '450.00');
@@ -208,20 +208,20 @@ describe('Shopping tests', () => {
     // Check out
     cy.get('[id="BUTTON_checkout"]').click();
     // Sign in
-    cy.get('h1').invoke('text').should('equal', H1_SIGN_IN);
+    cy.get('h1').invoke('text').should('equal', TITLE_SIGN_IN);
     cy.get('[id="email"]').type(TEST_USER_EMAIL);
     cy.get('[id="password"]').type(TEST_USER_PASSWORD);
     cy.get('[id="BUTTON_login"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_SHIPPING);
+    cy.get('h1').invoke('text').should('equal', TITLE_SHIPPING);
     // Click cart button to go back to cart
     cy.get('[id="LINK_header_cart"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_SHOPPING_CART);
+    cy.get('h1').invoke('text').should('equal', TITLE_SHOPPING_CART);
     cy.get('h2').invoke('text').should('equal', SUBTOTAL_3_ITEMS);
     cy.get('[id="product_item"]').should('have.length', 2);
     cy.contains('€850.00');
     // Check out
     cy.get('[id="BUTTON_checkout"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_SHIPPING);
+    cy.get('h1').invoke('text').should('equal', TITLE_SHIPPING);
     // Fill in address fields
     cy.get('[id="address"]').type(TEST_STREET);
     cy.get('[id="postalCode"]').type(TEST_POSTALCODE);
@@ -229,7 +229,7 @@ describe('Shopping tests', () => {
     cy.get('[id="country"]').type(TEST_COUNTRY);
     // Click continue button and check we are on Payment Method page
     cy.get('[id="BUTTON_continue"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_PAYMENT_METHOD);
+    cy.get('h1').invoke('text').should('equal', TITLE_PAYMENT_METHOD);
     // Click continue button and check items on Order Summary page
     cy.get('[id="BUTTON_continue"]').click();
     cy.contains('Shipping');
@@ -239,7 +239,7 @@ describe('Shopping tests', () => {
     cy.contains('Order Items');
     cy.contains('1 x €50.00 = €50.00');
     cy.contains('2 x €400.00 = €800.00');
-    // cy.contains(H2_ORDER_DETAILS);
+    // cy.contains(TITLE_ORDER_DETAILS);
     cy.contains(CURRENCY_SYMBOL + '850.00');
     cy.contains(CURRENCY_SYMBOL + '0.00');
     cy.contains(CURRENCY_SYMBOL + '178.50');
@@ -259,7 +259,7 @@ describe('Shopping tests', () => {
     cy.contains('Order Items');
     cy.contains('1 x €50.00 = €50.00');
     cy.contains('2 x €400.00 = €800.00');
-    // cy.contains(H2_ORDER_DETAILS);
+    // cy.contains(TITLE_ORDER_DETAILS);
     cy.contains(CURRENCY_SYMBOL + '850.00');
     cy.contains(CURRENCY_SYMBOL + '0.00');
     cy.contains(CURRENCY_SYMBOL + '178.50');
@@ -267,7 +267,7 @@ describe('Shopping tests', () => {
     // Check My Orders now contains 2 orders
     cy.get('[id="LINK_header_username"]').click();
     cy.get('[id="LINK_my_orders"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_MY_ORDERS);
+    cy.get('h1').invoke('text').should('equal', TITLE_MY_ORDERS);
     // Check there are no errors
     cy.get('alert_error').should('not.exist');
     cy.get('error_message').should('not.exist');
@@ -282,7 +282,7 @@ describe('Test Reviews', () => {
   beforeEach(() => cy.visit(HOME_PAGE_URL));
   it('E2E_SHOP_OM_5: Write succesful review', () => {
     // Check that we are on Products page and all 6 products are shown
-    cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
+    cy.get('h1').invoke('text').should('equal', TITLE_PRODUCTS);
     cy.get('[id="product_card"]').should('have.length', 6);
     // Select Mouse Product and check review block
     cy.contains(PRODUCT_1.name).click();
@@ -290,11 +290,11 @@ describe('Test Reviews', () => {
     cy.contains('Please sign in to write a review');
     cy.get('[id="LINK_sign_in"]').click();
     // Sign in
-    cy.get('h1').invoke('text').should('equal', H1_SIGN_IN);
+    cy.get('h1').invoke('text').should('equal', TITLE_SIGN_IN);
     cy.get('[id="email"]').type(TEST_USER_EMAIL);
     cy.get('[id="password"]').type(TEST_USER_PASSWORD);
     cy.get('[id="BUTTON_login"]').click();
-    // cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
+    // cy.get('h1').invoke('text').should('equal', TITLE_PRODUCTS);
     cy.wait(1000);
     cy.contains(PRODUCT_1.name).click();
     cy.get('h3').invoke('text').should('equal', PRODUCT_1.name);
@@ -313,11 +313,11 @@ describe('Test Reviews', () => {
   });
   //   it('E2E_SHOP_OM_6: Write another review which should give error message', () => {
   //     // Check that we are on Products page and all 6 products are shown
-  //     cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
+  //     cy.get('h1').invoke('text').should('equal', TITLE_PRODUCTS);
   //     cy.get('[id="product_card"]').should('have.length', 6);
   //     // Sign in using sign in link
   //     cy.get('[id="LINK_header_sign_in"]').click();
-  //     cy.get('h1').invoke('text').should('equal', H1_SIGN_IN);
+  //     cy.get('h1').invoke('text').should('equal', TITLE_SIGN_IN);
   //     cy.get('[id="email"]').type(TEST_USER_EMAIL);
   //     cy.get('[id="password"]').type(TEST_USER_PASSWORD);
   //     cy.get('[id="BUTTON_login"]').click();
@@ -343,14 +343,14 @@ describe('Test Order Admin', () => {
   it('E2E_SHOP_OM_7: There are 2 orders in Order Admin screen', () => {
     // Sign in using sign in link
     cy.get('[id="LINK_header_sign_in"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_SIGN_IN);
+    cy.get('h1').invoke('text').should('equal', TITLE_SIGN_IN);
     cy.get('[id="email"]').type(ADMIN_EMAIL);
     cy.get('[id="password"]').type(ADMIN_PASSWORD);
     cy.get('[id="BUTTON_login"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
+    cy.get('h1').invoke('text').should('equal', TITLE_PRODUCTS);
     cy.get('[id="LINK_header_adminmenu"]').click();
     cy.get('[id="LINK_header_orders"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_ORDER_ADMIN);
+    cy.get('h1').invoke('text').should('equal', TITLE_ORDER_ADMIN);
     // Check there are no errors
     cy.get('error_message').should('not.exist');
     // Check there are 3 rows (1 header and 2 order records)

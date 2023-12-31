@@ -1,62 +1,35 @@
 import React from 'react';
-import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
+import Rating from '@mui/material/Rating';
+import Typography from '@mui/material/Typography';
+import StarIcon from '@mui/icons-material/Star';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
 
 interface RatingProps {
   value: number;
   text?: string;
 }
 
-const Rating: React.FunctionComponent<RatingProps> = ({ value, text }) => {
+const CustomRating: React.FunctionComponent<RatingProps> = ({
+  value,
+  text,
+}) => {
   return (
-    <div className='rating'>
-      <span>
-        {value >= 1 ? (
-          <FaStar />
-        ) : value >= 0.5 ? (
-          <FaStarHalfAlt />
-        ) : (
-          <FaRegStar />
-        )}
-      </span>
-      <span>
-        {value >= 2 ? (
-          <FaStar />
-        ) : value >= 1.5 ? (
-          <FaStarHalfAlt />
-        ) : (
-          <FaRegStar />
-        )}
-      </span>
-      <span>
-        {value >= 3 ? (
-          <FaStar />
-        ) : value >= 2.5 ? (
-          <FaStarHalfAlt />
-        ) : (
-          <FaRegStar />
-        )}
-      </span>
-      <span>
-        {value >= 4 ? (
-          <FaStar />
-        ) : value >= 3.5 ? (
-          <FaStarHalfAlt />
-        ) : (
-          <FaRegStar />
-        )}
-      </span>
-      <span>
-        {value >= 5 ? (
-          <FaStar />
-        ) : value >= 4.5 ? (
-          <FaStarHalfAlt />
-        ) : (
-          <FaRegStar />
-        )}
-      </span>
-      <span className='rating-text'>{text && text}</span>
+    <div>
+      <Rating
+        name='customized-rating'
+        value={value}
+        precision={0.5}
+        readOnly
+        icon={<StarIcon fontSize='inherit' />}
+        emptyIcon={<StarBorderIcon fontSize='inherit' />}
+      />
+      {text && (
+        <Typography component='span' variant='body2' color='text.secondary'>
+          {text}
+        </Typography>
+      )}
     </div>
   );
 };
 
-export default Rating;
+export default CustomRating;

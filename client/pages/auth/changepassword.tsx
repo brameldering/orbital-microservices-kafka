@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import Router from 'next/router';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { Button, Box } from '@mui/material';
 import FormContainer from 'form/FormContainer';
 import FormTitle from 'form/FormTitle';
 import { PasswordField } from 'form/FormComponents';
@@ -13,7 +13,7 @@ import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ModalConfirmBox from 'components/ModalConfirmBox';
 import ErrorBlock from 'components/ErrorBlock';
-import { H1_CHANGE_PASSWORD } from 'constants/form-titles';
+import { TITLE_CHANGE_PASSWORD } from 'constants/form-titles';
 import { MY_PROFILE_PAGE } from 'constants/client-pages';
 import { useChangePasswordMutation } from 'slices/usersApiSlice';
 
@@ -78,7 +78,7 @@ const ChangePasswordScreen: React.FC = () => {
 
   return (
     <>
-      <Meta title={H1_CHANGE_PASSWORD} />
+      <Meta title={TITLE_CHANGE_PASSWORD} />
       <ModalConfirmBox
         showModal={showChangesModal}
         title='Are you sure you want to go back?'
@@ -87,8 +87,8 @@ const ChangePasswordScreen: React.FC = () => {
         handleConfirm={goBackWithoutSaving}
       />
       <FormContainer>
-        <Form onSubmit={handleSubmit(onSubmit, onError)}>
-          <FormTitle>{H1_CHANGE_PASSWORD}</FormTitle>
+        <Box component='form' onSubmit={handleSubmit(onSubmit, onError)}>
+          <FormTitle>{TITLE_CHANGE_PASSWORD}</FormTitle>
           <PasswordField
             controlId='currentPassword'
             label='Current Password'
@@ -104,24 +104,32 @@ const ChangePasswordScreen: React.FC = () => {
             setError={setError}
           />
           {errorChanging && <ErrorBlock error={errorChanging} />}
-          <div className='d-flex mt-3 justify-content-between align-items-center'>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              mt: 3,
+            }}>
             <Button
               id='BUTTON_update'
               type='submit'
-              variant='primary'
+              variant='contained'
+              color='primary'
               disabled={isProcessing || !isDirty}>
               Update
             </Button>
             <Button
-              // className='btn btn-light my-3'
-              variant='light'
+              variant='outlined'
+              color='secondary'
               onClick={goBackHandler}
               disabled={isProcessing}>
               Cancel
             </Button>
-          </div>
+          </Box>
+
           {isProcessing && <Loader />}
-        </Form>
+        </Box>
       </FormContainer>
     </>
   );

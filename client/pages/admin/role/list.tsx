@@ -1,15 +1,30 @@
 import React, { useState } from 'react';
-import { Table, Button, Row, Col } from 'react-bootstrap';
-import { FaTrash, FaEdit, FaPlus } from 'react-icons/fa';
 import { NextPageContext } from 'next';
 import Router from 'next/router';
 import Link from 'next/link';
+import {
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Grid,
+  Typography,
+  Paper,
+} from '@mui/material';
+import {
+  Edit as EditIcon,
+  Add as AddIcon,
+  Delete as DeleteIcon,
+} from '@mui/icons-material';
+import FormTitle from 'form/FormTitle';
 import Loader from 'components/Loader';
 import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
 import { parseError } from 'utils/parse-error';
 import ModalConfirmBox from 'components//ModalConfirmBox';
-import { H1_ROLE_ADMIN } from 'constants/form-titles';
+import { TITLE_ROLE_ADMIN } from 'constants/form-titles';
 import { IRole } from '@orbitelco/common';
 import {
   ROLE_LIST_PAGE,
@@ -56,7 +71,7 @@ const RolesListScreen: React.FC<TPageProps> = ({ roles, error }) => {
 
   return (
     <>
-      <Meta title={H1_ROLE_ADMIN} />
+      <Meta title={TITLE_ROLE_ADMIN} />
       <ModalConfirmBox
         showModal={confirmDeleteRoleModal}
         title='Delete Role'
@@ -64,72 +79,79 @@ const RolesListScreen: React.FC<TPageProps> = ({ roles, error }) => {
         handleClose={cancelDeleteRole}
         handleConfirm={deleteRoleHandler.bind(this)}
       />
-      <Row className='align-items-center my-0'>
-        <Col>
-          <h1>{H1_ROLE_ADMIN}</h1>
-        </Col>
-        <Col className='text-end'>
-          <Link href={ROLE_CREATE_PAGE} style={{ marginRight: '10px' }}>
+      <Grid
+        container
+        justifyContent='space-between'
+        alignItems='center'
+        sx={{ mb: 2 }}>
+        <Grid item>
+          <FormTitle>{TITLE_ROLE_ADMIN}</FormTitle>
+        </Grid>
+        <Grid item>
+          <Link href={ROLE_CREATE_PAGE} passHref>
             <Button
               id={'BUTTON_create_role'}
-              variant='primary'
-              className='btn-sm'>
-              <FaPlus /> Create Role
+              variant='contained'
+              startIcon={<AddIcon />}>
+              {' '}
+              Create Role
             </Button>
           </Link>
-        </Col>
-      </Row>
+        </Grid>
+      </Grid>
       {errorDeleting && <ErrorBlock error={errorDeleting} />}
       {error ? (
         <ErrorBlock error={error} />
       ) : (
         <>
           {roles?.length === 0 ? (
-            <p>There are no roles</p>
+            <Typography>There are no roles</Typography>
           ) : (
-            <Table striped hover responsive className='table-sm'>
-              <thead>
-                <tr>
-                  <th>ROLE</th>
-                  <th>ROLE DISPLAY</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {roles &&
-                  roles.map((role: any) => (
-                    <tr key={role.id}>
-                      <td id={`role_${role.role}`}>{role.role}</td>
-                      <td id={`roleDisplay_${role.role}`}>
+            <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+              <Table size='small'>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>ROLE</TableCell>
+                    <TableCell>ROLE DISPLAY</TableCell>
+                    <TableCell></TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {roles.map((role: any) => (
+                    <TableRow key={role.id}>
+                      <TableCell id={`role_${role.role}`}>
+                        {role.role}
+                      </TableCell>
+                      <TableCell id={`roleDisplay_${role.role}`}>
                         {role.roleDisplay}
-                      </td>
-                      <td>
+                      </TableCell>
+                      <TableCell>
                         <Link
                           href={`${ROLE_EDIT_PAGE}/${role.id}`}
                           style={{ marginRight: '10px' }}>
                           <Button
-                            id={`edit_${role.role}`}
-                            variant='light'
-                            className='btn-sm'>
-                            <FaEdit />
-                          </Button>
+                            variant='outlined'
+                            size='small'
+                            startIcon={<EditIcon />}
+                            sx={{ mx: 1 }}></Button>
                         </Link>
                         <Button
                           id={`delete_${role.role}`}
-                          variant='danger'
-                          className='btn-sm'
-                          onClick={() => confirmDeleteRole(role.id)}>
-                          <FaTrash style={{ color: 'white' }} />
-                        </Button>
-                      </td>
-                    </tr>
+                          variant='contained'
+                          color='error'
+                          size='small'
+                          startIcon={<DeleteIcon />}
+                          onClick={() => confirmDeleteRole(role.id)}></Button>
+                      </TableCell>
+                    </TableRow>
                   ))}
-              </tbody>
-            </Table>
-          )}{' '}
+                </TableBody>
+              </Table>
+            </Paper>
+          )}
+          {loadingOrProcessing && <Loader />}
         </>
       )}
-      {loadingOrProcessing && <Loader />}
     </>
   );
 };

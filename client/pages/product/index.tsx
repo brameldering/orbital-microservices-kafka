@@ -1,14 +1,15 @@
 import React from 'react';
-import { Row, Col } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { Grid, Typography, Button, Box } from '@mui/material';
+import FormTitle from 'form/FormTitle';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
 import Paginate from 'components/Paginate';
 import ProductComponent from 'components/ProductComponent';
-import { H1_PRODUCTS } from 'constants/form-titles';
+import { TITLE_PRODUCTS } from 'constants/form-titles';
 import { IProduct, ADMIN_ROLE } from '@orbitelco/common';
 import { PRODUCTS_PAGE } from 'constants/client-pages';
 import type { RootState } from 'slices/store';
@@ -35,14 +36,13 @@ const ProductsPage: React.FC = () => {
 
   return (
     <>
-      <Meta title={H1_PRODUCTS} />
-      <h1>{H1_PRODUCTS}</h1>
+      <Meta title={TITLE_PRODUCTS} />
+      <FormTitle>{TITLE_PRODUCTS}</FormTitle>
       {keyword && (
-        <Link
-          id='BUTTON_back'
-          href={PRODUCTS_PAGE}
-          className='btn btn-light mb-4'>
-          Go Back
+        <Link href={PRODUCTS_PAGE} passHref>
+          <Button variant='outlined' sx={{ mb: 2 }}>
+            Go Back
+          </Button>
         </Link>
       )}
       {loadingOrProcessing ? (
@@ -51,26 +51,26 @@ const ProductsPage: React.FC = () => {
         <ErrorBlock error={errorLoadingCatalog} />
       ) : (
         <>
-          <Row>
-            {catalogData &&
-              catalogData.products.length > 0 &&
+          <Grid container spacing={2}>
+            {catalogData && catalogData.products.length > 0 ? (
               catalogData.products.map((product: IProduct) => (
-                <Col key={product.id} sm={12} md={6} lg={4} xl={3}>
+                <Grid item key={product.id} xs={12} sm={6} md={4} lg={3}>
                   <ProductComponent product={product} />
-                </Col>
-              ))}
-            {!catalogData ||
-              (catalogData.products.length === 0 && (
-                <p>No products match the search keyword</p>
-              ))}
-          </Row>
+                </Grid>
+              ))
+            ) : (
+              <Typography>No products match the search keyword</Typography>
+            )}
+          </Grid>
           {catalogData && (
-            <Paginate
-              pages={catalogData.pages}
-              page={catalogData.page}
-              keyword={keyword ? keyword : ''}
-              isAdmin={isAdmin}
-            />
+            <Box sx={{ my: 2 }}>
+              <Paginate
+                pages={catalogData.pages}
+                page={catalogData.page}
+                keyword={keyword ? keyword : ''}
+                isAdmin={isAdmin}
+              />
+            </Box>
           )}
         </>
       )}

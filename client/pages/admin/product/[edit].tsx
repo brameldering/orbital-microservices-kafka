@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Row, Col, Form, Button } from 'react-bootstrap';
 import { NextPageContext } from 'next';
 import Router from 'next/router';
 import { useForm, Resolver } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { Box, TextField, Button, Grid, Typography } from '@mui/material';
 import {
   TextNumField,
   CurrencyNumField,
@@ -19,7 +19,7 @@ import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
 import { parseError } from 'utils/parse-error';
 import ModalConfirmBox from 'components/ModalConfirmBox';
-import { H1_EDIT_PRODUCT } from 'constants/form-titles';
+import { TITLE_EDIT_PRODUCT } from 'constants/form-titles';
 import { PRODUCT_LIST_PAGE } from 'constants/client-pages';
 import { IProduct } from '@orbitelco/common';
 import { getProductById } from 'api/produts/get-product-by-id';
@@ -139,7 +139,7 @@ const ProductEditScreen: React.FC<TPageProps> = ({ product, error }) => {
 
   return (
     <>
-      <Meta title={H1_EDIT_PRODUCT} />
+      <Meta title={TITLE_EDIT_PRODUCT} />
       <ModalConfirmBox
         showModal={showChangesModal}
         title='Are you sure you want to go back?'
@@ -148,106 +148,116 @@ const ProductEditScreen: React.FC<TPageProps> = ({ product, error }) => {
         handleConfirm={goBackWithoutSaving}
       />
       <FormContainer>
-        <Form onSubmit={handleSubmit(onSubmit)}>
-          <FormTitle>{H1_EDIT_PRODUCT}</FormTitle>
-          {errorUpdating && <ErrorBlock error={errorUpdating} />}
-          {errorUploadImage && <ErrorBlock error={errorUploadImage} />}
-          {error ? (
-            <ErrorBlock error={error} />
-          ) : (
-            <>
-              <p>
-                <strong>Product Id: </strong> {product?.sequentialProductId}
-              </p>
-              <TextNumField
-                controlId='name'
-                label='Product name'
-                register={register}
-                error={errors.name}
-                setError={setError}
+        <Box
+          component='form'
+          onSubmit={handleSubmit(onSubmit)}
+          noValidate
+          sx={{ mt: 1 }}>
+          <FormTitle>{TITLE_EDIT_PRODUCT}</FormTitle>
+          <ErrorBlock error={error || errorUpdating || errorUploadImage} />
+          <Typography>
+            <strong>Product Id: </strong> {product?.sequentialProductId}
+          </Typography>
+          <TextNumField
+            controlId='name'
+            label='Product name'
+            register={register}
+            error={errors.name}
+            setError={setError}
+          />
+          <Box sx={{ my: 2 }}>
+            <Typography variant='subtitle1' sx={{ mb: 1 }}>
+              Image
+            </Typography>
+            <Grid container alignItems='center' spacing={2}>
+              <Grid item md={4}>
+                <img
+                  src={getValues('imageURL')}
+                  alt={getValues('name')}
+                  style={{ width: '80px', height: '80px' }}
+                />
+              </Grid>
+              <Grid item md={8}>
+                <TextField
+                  name='imageURL'
+                  type='text'
+                  value={getValues('imageURL')}
+                  disabled
+                  fullWidth
+                  variant='outlined'
+                />
+              </Grid>
+            </Grid>
+            <Button component='label' variant='contained' sx={{ mt: 1 }}>
+              Upload Image
+              <input
+                name='imageFile'
+                type='file'
+                hidden
+                onChange={uploadFileHandler}
               />
-              <Form.Group className='my-2' controlId='imageURL'>
-                <Form.Label className='my-1'>Image</Form.Label>
-                <Row className='align-items-center'>
-                  <Col md={4}>
-                    <img
-                      src={getValues('imageURL')}
-                      alt={getValues('name')}
-                      width='80'
-                      height='80'
-                    />
-                  </Col>
-                  <Col md={8}>
-                    <Form.Control
-                      name='imageURL'
-                      type='text'
-                      value={getValues('imageURL')}
-                      disabled
-                    />
-                  </Col>
-                </Row>
-                <Form.Control
-                  name='imageFile'
-                  onChange={uploadFileHandler}
-                  type='file'
-                  className='my-1'></Form.Control>
-              </Form.Group>
-              {performinUploadImage && <Loader />}
-              <TextNumField
-                controlId='brand'
-                label='Brand'
-                register={register}
-                error={errors.brand}
-                setError={setError}
-              />
-              <CurrencyNumField
-                controlId='price'
-                label='Price'
-                register={register}
-                error={errors.price}
-                setError={setError}
-              />
-              <TextNumField
-                controlId='countInStock'
-                type='number'
-                label='Count In Stock'
-                register={register}
-                error={errors.countInStock}
-                setError={setError}
-              />
-              <TextNumField
-                controlId='category'
-                label='Category'
-                register={register}
-                error={errors.category}
-                setError={setError}
-              />
-              <TextAreaField
-                controlId='description'
-                label='Description'
-                register={register}
-                error={errors.description}
-                setError={setError}
-              />
-              <div className='d-flex mt-3 justify-content-between align-items-center'>
-                <Button
-                  id='BUTTON_save'
-                  type='submit'
-                  variant='primary'
-                  disabled={loadingOrProcessing || !isDirty}>
-                  Save
-                </Button>
-                <Button
-                  className='btn btn-light my-3'
-                  onClick={goBackHandler}
-                  disabled={loadingOrProcessing}>
-                  Cancel
-                </Button>
-              </div>
-            </>
-          )}
+            </Button>
+          </Box>
+          {performinUploadImage && <Loader />}
+          <TextNumField
+            controlId='brand'
+            label='Brand'
+            register={register}
+            error={errors.brand}
+            setError={setError}
+          />
+          <CurrencyNumField
+            controlId='price'
+            label='Price'
+            register={register}
+            error={errors.price}
+            setError={setError}
+          />
+          <TextNumField
+            controlId='countInStock'
+            type='number'
+            label='Count In Stock'
+            register={register}
+            error={errors.countInStock}
+            setError={setError}
+          />
+          <TextNumField
+            controlId='category'
+            label='Category'
+            register={register}
+            error={errors.category}
+            setError={setError}
+          />
+          <TextAreaField
+            controlId='description'
+            label='Description'
+            register={register}
+            error={errors.description}
+            setError={setError}
+          />
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              mt: 3,
+              mb: 2,
+            }}>
+            <Button
+              id='BUTTON_save'
+              type='submit'
+              variant='contained'
+              disabled={loadingOrProcessing || !isDirty}>
+              Save
+            </Button>
+            <Button
+              variant='outlined'
+              onClick={goBackHandler}
+              disabled={loadingOrProcessing}>
+              Cancel
+            </Button>
+          </Box>
           {loadingOrProcessing && <Loader />}
-        </Form>
+        </Box>
       </FormContainer>
     </>
   );

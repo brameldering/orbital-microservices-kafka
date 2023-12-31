@@ -1,6 +1,8 @@
 import React from 'react';
-import { Row, Col, ListGroup } from 'react-bootstrap';
-
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
 import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
 import { ITotalAmounts } from '@orbitelco/common';
 
@@ -18,15 +20,19 @@ const CurrencyField: React.FunctionComponent<CurrencyFieldProps> = ({
   amount,
 }) => {
   return (
-    <ListGroup.Item>
-      <Row>
-        <Col>{label}</Col>
-        <Col>
-          {CURRENCY_SYMBOL}
-          {amount.toFixed(2)}
-        </Col>
-      </Row>
-    </ListGroup.Item>
+    <ListItem>
+      <Grid container>
+        <Grid item xs={6}>
+          <Typography>{label}</Typography>
+        </Grid>
+        <Grid item xs={6}>
+          <Typography>
+            {CURRENCY_SYMBOL}
+            {amount.toFixed(2)}
+          </Typography>
+        </Grid>
+      </Grid>
+    </ListItem>
   );
 };
 
@@ -35,15 +41,15 @@ const OrderSummaryBlock: React.FunctionComponent<OrderSummaryBlockProps> = ({
 }) => {
   console.log('OrderSummaryBlock', totalAmounts);
   return (
-    <>
-      <ListGroup.Item>
-        <h2>Order Summary</h2>
-      </ListGroup.Item>
+    <List>
+      <ListItem>
+        <Typography variant='h2'>Order Summary</Typography>
+      </ListItem>
       <CurrencyField label='Items' amount={totalAmounts.itemsPrice} />
       <CurrencyField label='Shipping' amount={totalAmounts.shippingPrice} />
       <CurrencyField label='Tax' amount={totalAmounts.taxPrice} />
       <CurrencyField label='Total' amount={totalAmounts.totalPrice} />
-    </>
+    </List>
   );
 };
 

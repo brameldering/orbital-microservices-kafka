@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Form, Button, Row, Col } from 'react-bootstrap';
 import { NextPageContext } from 'next';
 import Router, { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { Box, Button, Grid } from '@mui/material';
 import FormContainer from 'form/FormContainer';
 import FormTitle from 'form/FormTitle';
 import { TextNumField, PasswordField, SelectField } from 'form/FormComponents';
@@ -15,7 +15,7 @@ import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
 import { parseError } from 'utils/parse-error';
-import { H1_SIGN_UP } from 'constants/form-titles';
+import { TITLE_SIGN_UP } from 'constants/form-titles';
 import { PRODUCTS_PAGE, SIGNIN_PAGE } from 'constants/client-pages';
 import { getRoles } from 'api/roles/get-roles';
 import type { RootState } from 'slices/store';
@@ -106,10 +106,10 @@ const SignUpScreen: React.FC<TPageProps> = ({ roles, error }) => {
 
   return (
     <>
-      <Meta title={H1_SIGN_UP} />
+      <Meta title={TITLE_SIGN_UP} />
       <FormContainer>
-        <Form onSubmit={handleSubmit(onSubmit, onError)}>
-          <FormTitle>{H1_SIGN_UP}</FormTitle>
+        <Box component='form' onSubmit={handleSubmit(onSubmit, onError)}>
+          <FormTitle>{TITLE_SIGN_UP}</FormTitle>
           {error ? (
             <ErrorBlock error={error} />
           ) : (
@@ -143,20 +143,27 @@ const SignUpScreen: React.FC<TPageProps> = ({ roles, error }) => {
                 setError={setError}
               />
               {errorSigninUp && <ErrorBlock error={errorSigninUp} />}
-              <div className='d-flex mt-3 justify-content-between align-items-center'>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  mt: 3,
+                }}>
                 <Button
                   id='BUTTON_register'
                   type='submit'
-                  variant='primary'
+                  variant='contained'
                   disabled={isProcessing || !isDirty}>
                   Sign Up
                 </Button>
-              </div>
+              </Box>
             </>
           )}
-        </Form>
-        <Row className='py-3'>
-          <Col>
+        </Box>
+        {isProcessing && <Loader />}
+        <Grid container spacing={2} sx={{ mt: 2 }}>
+          <Grid item xs>
             Already have an account?{' '}
             <Link
               id='LINK_already_have_an_account'
@@ -165,9 +172,8 @@ const SignUpScreen: React.FC<TPageProps> = ({ roles, error }) => {
               }>
               Login
             </Link>
-          </Col>
-        </Row>
-        {isProcessing && <Loader />}
+          </Grid>
+        </Grid>
       </FormContainer>
     </>
   );

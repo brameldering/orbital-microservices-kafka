@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col, ListGroup, Button, Alert } from 'react-bootstrap';
-import Card from 'react-bootstrap/Card';
 import { useSelector } from 'react-redux';
 import { NextPageContext } from 'next';
 import Router from 'next/router';
@@ -15,13 +13,25 @@ import {
   dateTimeToLocaleDateString,
   dateTimeToLocaleTimeString,
 } from 'utils/dateUtils';
+import {
+  Box,
+  Button,
+  Grid,
+  List,
+  ListItem,
+  Card,
+  CardContent,
+  Typography,
+  Alert,
+} from '@mui/material';
+import FormTitle from 'form/FormTitle';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
 import { parseError } from 'utils/parse-error';
 import OrderItemLine from 'components/OrderItemLine';
 import OrderSummaryBlock from 'components/OrderSummaryBlock';
-import { H2_ORDER_DETAILS } from 'constants/form-titles';
+import { TITLE_ORDER_DETAILS } from 'constants/form-titles';
 import { CURRENCY_PAYPAL } from 'constants/constants-frontend';
 import { ORDER_DETAIL_PAGE } from 'constants/client-pages';
 import { ADMIN_ROLE, IOrder } from '@orbitelco/common';
@@ -187,92 +197,90 @@ const OrderScreen: React.FC<TPageProps> = ({ order, error }) => {
 
   return (
     <>
-      <Meta title={H2_ORDER_DETAILS} />
+      <Meta title={TITLE_ORDER_DETAILS} />
       {error ? (
         <ErrorBlock error={error} />
       ) : (
         order && (
-          <Row>
-            <Col md={8}>
-              <ListGroup variant='flush'>
-                <ListGroup.Item>
-                  <h2>{H2_ORDER_DETAILS}</h2>
-                  <p>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={8}>
+              <List disablePadding>
+                <ListItem>
+                  <FormTitle>{TITLE_ORDER_DETAILS}</FormTitle>
+                  <Typography paragraph>
                     <strong>Order Id: </strong> {order.sequentialOrderId}
-                  </p>
-                  <p>
+                  </Typography>
+                  <Typography paragraph>
                     <strong>Order Date: </strong>{' '}
                     {order.createdAt &&
                       dateTimeToLocaleDateString(order.createdAt)}
-                  </p>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <h2>Shipping</h2>
-                  <p>
+                  </Typography>
+                </ListItem>
+                <ListItem>
+                  <h3>Shipping</h3>
+                  <Typography paragraph>
                     <strong>Name: </strong> {order.user?.name}
-                  </p>
-                  <p>
+                  </Typography>
+                  <Typography paragraph>
                     <strong>Email: </strong>{' '}
                     <a href={`mailto:${order.user && order.user.email}`}>
                       {order.user?.email}
                     </a>
-                  </p>
-                  <p>
+                  </Typography>
+                  <Typography paragraph>
                     <strong>Address: </strong>
                     {order.shippingAddress.address},{' '}
                     {order.shippingAddress.postalCode}{' '}
                     {order.shippingAddress.city},{' '}
                     {order.shippingAddress.country}
-                  </p>
+                  </Typography>
                   {order.isDelivered && order.deliveredAt ? (
-                    <Alert variant='success'>
+                    <Alert severity='success'>
                       Delivered on:{' '}
                       {dateTimeToLocaleDateString(order.deliveredAt)}
                     </Alert>
                   ) : (
-                    <Alert variant='info'>Not Delivered</Alert>
+                    <Alert severity='info'>Not Delivered</Alert>
                   )}
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <h2>Payment Method</h2>
-                  <p>
+                </ListItem>
+                <ListItem>
+                  <Typography variant='h3'>Payment Method</Typography>
+                  <Typography paragraph>
                     <strong>Method: </strong>
                     {order.paymentMethod}
-                  </p>
+                  </Typography>
                   {order.isPaid && order.paidAt ? (
-                    <Alert variant='success'>
+                    <Alert severity='success'>
                       Paid on: {dateTimeToLocaleDateString(order.paidAt)} at{' '}
                       {dateTimeToLocaleTimeString(order.paidAt)}
                       <br />
                       {`Payment Id: ${order.paymentResult?.id}`}
                     </Alert>
                   ) : (
-                    <Alert variant='info'>Not Paid</Alert>
+                    <Alert severity='info'>Not Paid</Alert>
                   )}
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <h2>Order Items</h2>
+                </ListItem>
+                <ListItem>
+                  <Typography variant='h3'>Order Items</Typography>
                   {order.orderItems.length === 0 ? (
-                    <Alert variant='info'>Order is empty</Alert>
+                    <Alert severity='info'>Order is empty</Alert>
                   ) : (
-                    <ListGroup variant='flush'>
-                      {order &&
-                        order.orderItems.map((item, index) => (
-                          <ListGroup.Item key={index}>
-                            <OrderItemLine
-                              item={item}
-                              goBackPath={`${ORDER_DETAIL_PAGE}/${order.id}`}
-                            />
-                          </ListGroup.Item>
-                        ))}
-                    </ListGroup>
+                    order &&
+                    order.orderItems.map((item, index) => (
+                      <ListItem key={index}>
+                        <OrderItemLine
+                          item={item}
+                          goBackPath={`${ORDER_DETAIL_PAGE}/${order.id}`}
+                        />
+                      </ListItem>
+                    ))
                   )}
-                </ListGroup.Item>
-              </ListGroup>
-            </Col>
-            <Col md={4}>
+                </ListItem>
+              </List>
+            </Grid>
+            <Grid item xs={12} md={4}>
               <Card>
-                <ListGroup variant='flush'>
+                <CardContent>
                   <OrderSummaryBlock totalAmounts={order.totalAmounts} />
                   {disableButtons && (
                     <>
@@ -281,7 +289,7 @@ const OrderScreen: React.FC<TPageProps> = ({ order, error }) => {
                     </>
                   )}
                   {!order.isPaid && (
-                    <ListGroup.Item>
+                    <>
                       {errorSettingPayData ? (
                         <ErrorBlock error={errorSettingPayData} />
                       ) : errorSettingDeliverData ? (
@@ -289,7 +297,7 @@ const OrderScreen: React.FC<TPageProps> = ({ order, error }) => {
                       ) : payPalError ? (
                         <ErrorBlock error={payPalError} />
                       ) : (
-                        <div>
+                        <Box>
                           {/* THIS BUTTON IS FOR TESTING! REMOVE BEFORE PRODUCTION! */}
                           {/* <Button
                         style={{ marginBottom: '10px' }}
@@ -297,15 +305,15 @@ const OrderScreen: React.FC<TPageProps> = ({ order, error }) => {
                       >
                         Test Pay Order
                       </Button> */}
-                          <div>
+                          <Box>
                             <PayPalButtons
                               createOrder={createOrder}
                               onApprove={onApprove}
                               onError={onPayPalError}></PayPalButtons>
-                          </div>
-                        </div>
+                          </Box>
+                        </Box>
                       )}
-                    </ListGroup.Item>
+                    </>
                   )}
                   {deliverError ? (
                     <ErrorBlock error={deliverError} />
@@ -314,20 +322,21 @@ const OrderScreen: React.FC<TPageProps> = ({ order, error }) => {
                     order &&
                     order.isPaid &&
                     !order.isDelivered && (
-                      <ListGroup.Item>
+                      <ListItem>
                         <Button
-                          type='button'
-                          className='btn btn-block mt-2'
+                          variant='contained'
+                          color='primary'
+                          fullWidth
                           onClick={deliverHandler}>
                           Mark As Delivered
                         </Button>
-                      </ListGroup.Item>
+                      </ListItem>
                     )
                   )}
-                </ListGroup>
+                </CardContent>
               </Card>
-            </Col>
-          </Row>
+            </Grid>
+          </Grid>
         )
       )}
     </>

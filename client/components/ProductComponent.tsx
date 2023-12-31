@@ -1,12 +1,13 @@
-'use client';
 import React from 'react';
-import Card from 'react-bootstrap/Card';
+import Card from '@mui/material/Card';
+import CardMedia from '@mui/material/CardMedia';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
 import Link from 'next/link';
 import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
 import { PRODUCT_DETAIL_PAGE } from 'constants/client-pages';
 import { IProduct } from '@orbitelco/common';
-
-import Rating from './Rating';
+import CustomRating from './Rating';
 
 interface ProductComponentProps {
   product: IProduct;
@@ -16,35 +17,35 @@ const ProductComponent: React.FunctionComponent<ProductComponentProps> = ({
   product,
 }) => {
   return (
-    <Card id='product_card' className='my-3 p-3 rounded'>
-      <Link href={`${PRODUCT_DETAIL_PAGE}/${product.id}`}>
-        <Card.Img
-          src={product.imageURL}
+    <Card sx={{ my: 3, p: 3, borderRadius: '4px' }} id='product_card'>
+      <Link href={`${PRODUCT_DETAIL_PAGE}/${product.id}`} passHref>
+        <CardMedia
+          component='img'
+          image={product.imageURL}
           alt={product.name}
-          variant='top'
-          img-fluid='true'
+          sx={{ cursor: 'pointer' }} // To make the image act like a link
         />
       </Link>
 
-      <Card.Body>
-        <Link href={`/product/${product.id}`}>
-          <Card.Title as='div' className='product-title'>
-            <strong>{product.name}</strong>
-          </Card.Title>
+      <CardContent>
+        <Link href={`/product/${product.id}`} passHref>
+          <Typography variant='h6' component='div' gutterBottom>
+            {product.name}
+          </Typography>
         </Link>
 
-        <Card.Text as='div'>
-          <Rating
+        <Typography variant='body2' color='text.secondary'>
+          <CustomRating
             value={product.rating}
             text={`${product.numReviews} reviews`}
           />
-        </Card.Text>
+        </Typography>
 
-        <Card.Text as='h3'>
+        <Typography variant='h5'>
           {CURRENCY_SYMBOL}
           {product.price.toFixed(2)}
-        </Card.Text>
-      </Card.Body>
+        </Typography>
+      </CardContent>
     </Card>
   );
 };

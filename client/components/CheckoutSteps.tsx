@@ -1,5 +1,7 @@
 import React from 'react';
-import { Nav } from 'react-bootstrap';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import Button from '@mui/material/Button';
 import Link from 'next/link';
 import {
   CART_PAGE,
@@ -23,9 +25,9 @@ const CheckoutSteps: React.FunctionComponent<CheckoutStepsProps> = ({
   ];
 
   return (
-    <ul className='processFlow'>
+    <List className='processFlow'>
       {checkOutSteps.map((element, index) => (
-        <li
+        <ListItem
           key={index}
           className={
             index < currentStep
@@ -34,15 +36,14 @@ const CheckoutSteps: React.FunctionComponent<CheckoutStepsProps> = ({
               ? 'current'
               : 'todo'
           }>
-          <Nav.Link
-            as={Link}
-            href={element.path}
-            disabled={index >= currentStep}>
-            {element.name}
-          </Nav.Link>
-        </li>
+          <Link href={element.path} passHref>
+            <Button component='a' disabled={index >= currentStep}>
+              {element.name}
+            </Button>
+          </Link>
+        </ListItem>
       ))}
-    </ul>
+    </List>
   );
 };
 

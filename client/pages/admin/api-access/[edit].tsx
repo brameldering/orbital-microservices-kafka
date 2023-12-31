@@ -1,8 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Button, Row, Col } from 'react-bootstrap';
 import { NextPageContext } from 'next';
 import Router from 'next/router';
-import { useForm, Resolver } from 'react-hook-form';
+import { useForm, Resolver, Controller } from 'react-hook-form';
+import {
+  Box,
+  Grid,
+  Checkbox,
+  FormControl,
+  FormGroup,
+  FormLabel,
+  FormControlLabel,
+  Button,
+} from '@mui/material';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -14,7 +23,7 @@ import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
 import { parseError } from 'utils/parse-error';
 import ModalConfirmBox from 'components/ModalConfirmBox';
-import { H1_EDIT_API_ACCESS } from 'constants/form-titles';
+import { TITLE_EDIT_API_ACCESS } from 'constants/form-titles';
 import { API_ACCESS_LIST_PAGE } from 'constants/client-pages';
 import { IApiAccess } from '@orbitelco/common';
 import { getRoles } from 'api/roles/get-roles';
@@ -42,17 +51,15 @@ const ApiAccessEditScreen: React.FC<TPageProps> = ({
 }) => {
   const [updateApiAccess, { isLoading: updating, error: errorUpdating }] =
     useUpdateApiAccessMutation();
-  // State to manage checked status of checkboxes
+
+  // State to store checked status of checkboxes
   const [checkedBoxes, setCheckedBoxes] = useState<boolean[]>(
     roles.map(() => false) // Initialize all checkboxes as unchecked
   );
 
   const {
-    register,
+    control,
     handleSubmit,
-    // getValues,
-    // setValue,
-    // setError,
     formState: { isDirty },
   } = useForm<IFormInput>({
     defaultValues: {
@@ -122,7 +129,7 @@ const ApiAccessEditScreen: React.FC<TPageProps> = ({
   // --------------------------------------------------
   return (
     <>
-      <Meta title={H1_EDIT_API_ACCESS} />
+      <Meta title={TITLE_EDIT_API_ACCESS} />
       <ModalConfirmBox
         showModal={showChangesModal}
         title='Are you sure you want to go back?'
@@ -131,8 +138,8 @@ const ApiAccessEditScreen: React.FC<TPageProps> = ({
         handleConfirm={goBackWithoutSaving}
       />
       <FormContainer>
-        <Form onSubmit={handleSubmit(onSubmit)}>
-          <FormTitle>{H1_EDIT_API_ACCESS}</FormTitle>
+        <Box component='form' onSubmit={handleSubmit(onSubmit)}>
+          <FormTitle>{TITLE_EDIT_API_ACCESS}</FormTitle>
           {errorUpdating && <ErrorBlock error={errorUpdating} />}
           {error ? (
             <ErrorBlock error={error} />
@@ -144,39 +151,52 @@ const ApiAccessEditScreen: React.FC<TPageProps> = ({
               <p>
                 <strong>Api Name: </strong> {apiAccess.apiName}
               </p>
-              <fieldset className='border border-primary mt-3 mb-0'>
-                <Form.Group as={Row}>
-                  <Form.Label as='legend' column sm={6} className='ps-3 pt-1'>
-                    Allowed Roles
-                  </Form.Label>
-                  <Col sm={6}>
+              {/* <fieldset className='border border-primary mt-3 mb-0'> */}
+              <FormControl
+                component='fieldset'
+                variant='outlined'
+                margin='normal'>
+                <FormLabel component='legend'>Allowed Roles</FormLabel>
+                <FormGroup>
+                  <Grid container>
                     {roles.map((role, index) => (
-                      <div key={index} className='m-1'>
-                        <Form.Check
-                          type='checkbox'
-                          id={`checkbox-${index}`}
-                          label={role.roleDisplay}
-                          {...register(`allowedRoles.${index}` as const)}
-                          checked={checkedBoxes[index]}
-                          onChange={handleCheckboxChange(index)}
+                      <Grid item sm={6} key={role.role}>
+                        <Controller
+                          name={`allowedRoles.${index}`}
+                          control={control}
+                          render={({ field }) => (
+                            <FormControlLabel
+                              control={
+                                <Checkbox
+                                  {...field}
+                                  checked={checkedBoxes[index]}
+                                  onChange={(e) => {
+                                    handleCheckboxChange(index)(e);
+                                    field.onChange(e.target.checked);
+                                  }}
+                                />
+                              }
+                              label={role.roleDisplay}
+                            />
+                          )}
                         />
-                      </div>
+                      </Grid>
                     ))}
-                  </Col>
-                </Form.Group>
-              </fieldset>
-              <div className='d-flex mt-3 justify-content-between align-items-center'>
-                <Button id='BUTTON_update' type='submit' variant='primary'>
+                  </Grid>
+                </FormGroup>
+              </FormControl>
+               <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 3 }}>
+                <Button id='BUTTON_update' variant='contained' color='primary'>
                   Update
                 </Button>
-                <Button className='btn btn-light my-3' onClick={goBackHandler}>
+                <Button variant='outlined' onClick={goBackHandler}>
                   Cancel
                 </Button>
               </div>
             </>
           )}
           {updating && <Loader />}
-        </Form>
+        </Box>
       </FormContainer>
     </>
   );

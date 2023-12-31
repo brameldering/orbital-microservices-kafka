@@ -1,15 +1,26 @@
 import React, { useState } from 'react';
-import { Table, Button } from 'react-bootstrap';
-import { FaTrash, FaEdit, FaCheck, FaTimes } from 'react-icons/fa';
 import { NextPageContext } from 'next';
 import Router from 'next/router';
 import Link from 'next/link';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  IconButton,
+} from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
+import FormTitle from 'form/FormTitle';
 import Loader from 'components/Loader';
 import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
 import { parseError } from 'utils/parse-error';
 import ModalConfirmBox from 'components//ModalConfirmBox';
-import { H1_USER_ADMIN } from 'constants/form-titles';
+import { TITLE_USER_ADMIN } from 'constants/form-titles';
 import { ADMIN_ROLE, IUser } from '@orbitelco/common';
 import { USER_EDIT_PAGE, USER_LIST_PAGE } from 'constants/client-pages';
 import { getUsers } from 'api/users/get-users';
@@ -51,7 +62,7 @@ const UserListScreen: React.FC<TPageProps> = ({ users, error }) => {
 
   return (
     <>
-      <Meta title={H1_USER_ADMIN} />
+      <Meta title={TITLE_USER_ADMIN} />
       <ModalConfirmBox
         showModal={confirmDeleteUserModal}
         title='Delete User'
@@ -59,7 +70,7 @@ const UserListScreen: React.FC<TPageProps> = ({ users, error }) => {
         handleClose={cancelDeleteUser}
         handleConfirm={deleteUserHandler.bind(this)}
       />
-      <h1>{H1_USER_ADMIN}</h1>
+      <FormTitle>{TITLE_USER_ADMIN}</FormTitle>
       {errorDeleting && <ErrorBlock error={errorDeleting} />}
       {/* {isLoading ? (
         <Loader />
@@ -71,54 +82,45 @@ const UserListScreen: React.FC<TPageProps> = ({ users, error }) => {
       ) : users?.length === 0 ? (
         <p>There are no users</p>
       ) : (
-        <Table striped hover responsive className='table-sm'>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>NAME</th>
-              <th>EMAIL</th>
-              <th>ADMIN</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
+        <Table size='small'>
+          <TableHead>
+            <TableRow>
+              <TableCell>ID</TableCell>
+              <TableCell>NAME</TableCell>
+              <TableCell>EMAIL</TableCell>
+              <TableCell>ADMIN</TableCell>
+              <TableCell></TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
             {users &&
               users.map((user) => (
-                <tr key={user.id}>
-                  <td id={`id_${user.email}`}>{user.id}</td>
-                  <td id={`name_${user.email}`}>{user.name}</td>
-                  <td id={`email_${user.email}`}>
+                <TableRow key={user.id}>
+                  <TableCell id={`id_${user.email}`}>{user.id}</TableCell>
+                  <TableCell id={`name_${user.email}`}>{user.name}</TableCell>
+                  <TableCell id={`email_${user.email}`}>
                     <a href={`mailto:${user.email}`}>{user.email}</a>
-                  </td>
-                  <td id={`admin_${user.email}`}>
+                  </TableCell>
+                  <TableCell id={`admin_${user.email}`}>
                     {user.role === ADMIN_ROLE ? (
-                      <FaCheck style={{ color: 'green' }} />
+                      <CheckIcon style={{ color: 'green' }} />
                     ) : (
-                      <FaTimes style={{ color: 'red' }} />
+                      <CloseIcon style={{ color: 'red' }} />
                     )}
-                  </td>
-                  <td>
-                    <Link
-                      href={`${USER_EDIT_PAGE}/${user.id}`}
-                      style={{ marginRight: '10px' }}>
-                      <Button
-                        id={`edit_${user.email}`}
-                        variant='light'
-                        className='btn-sm'>
-                        <FaEdit />
-                      </Button>
+                  </TableCell>
+                  <TableCell>
+                    <Link href={`${USER_EDIT_PAGE}/${user.id}`} passHref>
+                      <IconButton>
+                        <EditIcon />
+                      </IconButton>
                     </Link>
-                    <Button
-                      id={`delete_${user.email}`}
-                      variant='danger'
-                      className='btn-sm'
-                      onClick={() => confirmDeleteUser(user.id)}>
-                      <FaTrash style={{ color: 'white' }} />
-                    </Button>
-                  </td>
-                </tr>
+                    <IconButton onClick={() => confirmDeleteUser(user.id)}>
+                      <DeleteIcon />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
               ))}
-          </tbody>
+          </TableBody>
         </Table>
       )}
       {loadingOrProcessing && <Loader />}

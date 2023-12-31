@@ -11,7 +11,10 @@
     "seeddata": "node seed-data.js"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
     "@hookform/resolvers": "^3.3.2",
+    "@mui/icons-material": "^5.15.2",
     "@mui/material": "^5.15.2",
     "@orbitelco/common": "^1.0.274",
     "@paypal/react-paypal-js": "^8.1.3",
@@ -21,14 +24,10 @@
     "net": "^1.0.2",
     "next": "latest",
     "react": "18.2.0",
-    "react-bootstrap": "^2.9.1",
-    "react-dom": "18.2.0",
     "react-helmet-async": "^1.3.0",
     "react-hook-form": "^7.47.0",
-    "react-icons": "^4.11.0",
     "react-pro-sidebar": "^1.1.0-alpha.1",
     "react-redux": "^8.1.3",
-    "react-router-dom": "^6.21.1",
     "react-scroll": "^1.9.0",
     "react-toastify": "^9.1.3",
     "tls": "^0.0.1",
@@ -41,7 +40,6 @@
   },
   "devDependencies": {
     "@types/react": "^18.2.31",
-    "@types/react-bootstrap": "^0.32.34",
     "@types/react-redux": "^7.1.28",
     "@typescript-eslint/eslint-plugin": "^6.9.0",
     "@typescript-eslint/parser": "^6.9.0",

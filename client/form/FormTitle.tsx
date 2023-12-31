@@ -1,11 +1,16 @@
 import React, { ReactNode } from 'react';
+import Typography from '@mui/material/Typography';
 
 interface FormTitleProps {
   children: ReactNode;
 }
 
 const FormTitle: React.FunctionComponent<FormTitleProps> = ({ children }) => {
-  return <h2 className='mb-3'>{children}</h2>;
+  return (
+    <Typography variant='h2' sx={{ mb: 3 }}>
+      {children}
+    </Typography>
+  );
 };
 
 export default FormTitle;

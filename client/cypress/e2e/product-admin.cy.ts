@@ -13,22 +13,22 @@ import {
   ARE_YOU_SURE_YOU_WANT_TO_DELETE_THIS_PRODUCT,
 } from '../test_constants';
 import {
-  H1_EDIT_PRODUCT,
-  H1_SIGN_IN,
-  H1_PRODUCTS,
-  H1_PRODUCT_ADMIN,
+  TITLE_EDIT_PRODUCT,
+  TITLE_SIGN_IN,
+  TITLE_PRODUCTS,
+  TITLE_PRODUCT_ADMIN,
 } from 'constants/form-titles';
 
 const loginAsAdminAndGoToProductAdmin = () => {
   cy.visit(LOGIN_URL);
-  cy.get('h1').invoke('text').should('equal', H1_SIGN_IN);
+  cy.get('h1').invoke('text').should('equal', TITLE_SIGN_IN);
   cy.get('[id="email"]').type(ADMIN_EMAIL);
   cy.get('[id="password"]').type(ADMIN_PASSWORD);
   cy.get('[id="BUTTON_login"]').click();
-  cy.get('h1').invoke('text').should('equal', H1_PRODUCTS);
+  cy.get('h1').invoke('text').should('equal', TITLE_PRODUCTS);
   cy.get('[id="LINK_header_adminmenu"]').click();
   cy.get('[id="LINK_header_products"]').click();
-  cy.get('h1').invoke('text').should('equal', H1_PRODUCT_ADMIN);
+  cy.get('h1').invoke('text').should('equal', TITLE_PRODUCT_ADMIN);
 };
 
 describe('Initialize', () => {
@@ -53,7 +53,7 @@ describe('Create new product, update product and delete product', () => {
     cy.get('[id="BUTTON_create_product"]').click();
     cy.contains(ARE_YOU_SURE_YOU_WANT_TO_CREATE_A_NEW_PRODUCT);
     cy.get('[id="BUTTON_yes"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_PRODUCT_ADMIN);
+    cy.get('h1').invoke('text').should('equal', TITLE_PRODUCT_ADMIN);
     cy.contains(SAMPLE_PRODUCT_NAME);
     cy.contains(SAMPLE_PRODUCT_CATEGORY);
     cy.contains(SAMPLE_PRODUCT_BRAND);
@@ -64,7 +64,7 @@ describe('Create new product, update product and delete product', () => {
     // Select product to administrate
     let queryId: string = `[id="edit_` + PRODUCT_7_SEQ_ID + `"]`;
     cy.get(queryId).click();
-    cy.get('h1').invoke('text').should('equal', H1_EDIT_PRODUCT);
+    cy.get('h1').invoke('text').should('equal', TITLE_EDIT_PRODUCT);
     cy.contains('Product Id: ' + PRODUCT_7_SEQ_ID);
     // Change product info
     // Note that updating the image is not checked
@@ -73,7 +73,7 @@ describe('Create new product, update product and delete product', () => {
     cy.get('[id="category"]').clear().type(NEW_PRODUCT_CATEGORY);
     cy.get('[id="BUTTON_save"]').click();
     // Check updated product info is shown in products list
-    cy.get('h1').invoke('text').should('equal', H1_PRODUCT_ADMIN);
+    cy.get('h1').invoke('text').should('equal', TITLE_PRODUCT_ADMIN);
     cy.get('tr').should('have.length', 8); // 7 products and header
     queryId = `[id="name_` + PRODUCT_7_SEQ_ID + `"]`;
     cy.get(queryId).invoke('text').should('equal', NEW_PRODUCT_NAME);
@@ -89,7 +89,7 @@ describe('Create new product, update product and delete product', () => {
     cy.get(queryId).click();
     cy.contains(ARE_YOU_SURE_YOU_WANT_TO_DELETE_THIS_PRODUCT);
     cy.get('[id="BUTTON_yes"]').click();
-    cy.get('h1').invoke('text').should('equal', H1_PRODUCT_ADMIN);
+    cy.get('h1').invoke('text').should('equal', TITLE_PRODUCT_ADMIN);
     // Check there are no errors
     cy.get('[id="error_message"]').should('not.exist');
     cy.get('tr').should('have.length', 7); // 6 products and header

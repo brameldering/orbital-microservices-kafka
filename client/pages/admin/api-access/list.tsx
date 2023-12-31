@@ -1,15 +1,37 @@
 import React, { useState } from 'react';
-import { Form, Table, Button, Row, Col } from 'react-bootstrap';
-import { FaTrash, FaEdit, FaPlus, FaCheck, FaTimes } from 'react-icons/fa';
 import { NextPageContext } from 'next';
 import Router, { useRouter } from 'next/router';
 import Link from 'next/link';
+import {
+  Grid,
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Box,
+} from '@mui/material';
+import {
+  Delete as DeleteIcon,
+  Edit as EditIcon,
+  Add as AddIcon,
+  Check as CheckIcon,
+  Close as CloseIcon,
+} from '@mui/icons-material';
 import Loader from 'components/Loader';
 import Meta from 'components/Meta';
+import FormTitle from 'form/FormTitle';
 import ErrorBlock from 'components/ErrorBlock';
 import { parseError } from 'utils/parse-error';
 import ModalConfirmBox from 'components//ModalConfirmBox';
-import { H1_API_ACCESS_ADMIN } from 'constants/form-titles';
+import { TITLE_API_ACCESS_ADMIN } from 'constants/form-titles';
 import {
   IApiAccess,
   CURRENT_MICROSERVICES,
@@ -89,7 +111,7 @@ const ApiAccessListscreen: React.FC<TPageProps> = ({
 
   return (
     <>
-      <Meta title={H1_API_ACCESS_ADMIN} />
+      <Meta title={TITLE_API_ACCESS_ADMIN} />
       <ModalConfirmBox
         showModal={confirmDeleteApiAccessModal}
         title='Delete Api Access'
@@ -97,145 +119,139 @@ const ApiAccessListscreen: React.FC<TPageProps> = ({
         handleClose={cancelDeleteApiAccess}
         handleConfirm={deleteApiAccessHandler.bind(this)}
       />
-      <Row className='align-items-center my-0'>
-        <Col>
-          <h1>{H1_API_ACCESS_ADMIN}</h1>
-        </Col>
-        <Col className='text-end'>
-          <Link href={API_ACCESS_CREATE_PAGE} style={{ marginRight: '10px' }}>
+      <Grid container alignItems='center' spacing={2}>
+        <Grid item xs>
+          <FormTitle>{TITLE_API_ACCESS_ADMIN}</FormTitle>
+        </Grid>
+        <Grid item>
+          <Link href={API_ACCESS_CREATE_PAGE} passHref>
             <Button
-              id={'BUTTON_create_apiAccess'}
-              variant='primary'
-              className='btn-sm'>
-              <FaPlus /> Create Api Access
+              id='BUTTON_create_apiAccess'
+              variant='contained'
+              startIcon={<AddIcon />}>
+              Create Api Access
             </Button>
           </Link>
-        </Col>
-      </Row>
+        </Grid>
+      </Grid>
       {error ? (
         <ErrorBlock error={error} />
       ) : (
         <>
-          <Form>
-            <Form.Group
-              as={Row}
-              controlId='microservice'
-              className='align-items-center'>
-              <Col sm={2} className='d-flex align-items-center'>
-                <Form.Label className='mb-0'>Microservice</Form.Label>
-              </Col>
-              <Col sm={10} className='d-flex align-items-center'>
-                <Form.Select
-                  aria-label='Select Microservice'
-                  className='mt-0'
-                  style={{
-                    borderColor: '#606060',
-                    maxWidth: '180px',
-                    marginTop: '0',
-                  }}
-                  value={selectedMicroservice}
-                  onChange={handleSelectChange}>
-                  {microservices.map((option: any) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </Form.Select>
-              </Col>
-            </Form.Group>
-          </Form>
+          <FormControl fullWidth margin='normal'>
+            <InputLabel id='microservice-label'>Microservice</InputLabel>
+            <Select
+              labelId='microservice-label'
+              value={selectedMicroservice}
+              onChange={handleSelectChange}
+              label='Microservice'>
+              {microservices.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+
           {errorDeleting && <ErrorBlock error={errorDeleting} />}
           {apiAccess?.length === 0 ? (
             <p>There are no Api Access records</p>
           ) : (
-            <Table striped hover responsive className='table-sm'>
-              <thead>
-                <tr>
-                  {/* <th>MICROSERVICE</th> */}
-                  <th>API NAME</th>
-                  <th>ALLOWED ROLES</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {apiAccess &&
-                  apiAccess
-                    // Filter the records based on selected microservice
-                    .filter(
-                      (apiAccess: any) =>
-                        apiAccess.microservice === selectedMicroservice
-                    )
-                    .map((filteredApiAccess: any) => (
-                      <tr key={filteredApiAccess.id}>
-                        {/* <td id={`microservice_${filteredApiAccess.apiName}`}>
+            <TableContainer component={Paper}>
+              <Table size='small'>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>API NAME</TableCell>
+                    <TableCell>ALLOWED ROLES</TableCell>
+                    <TableCell></TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {apiAccess &&
+                    apiAccess
+                      // Filter the records based on selected microservice
+                      .filter(
+                        (apiAccess: any) =>
+                          apiAccess.microservice === selectedMicroservice
+                      )
+                      .map((filteredApiAccess: any) => (
+                        <TableRow key={filteredApiAccess.id}>
+                          {/* <TableCell id={`microservice_${filteredApiAccess.apiName}`}>
                       {filteredApiAccess.microservice}
-                    </td> */}
-                        <td
-                          id={`apiName_${filteredApiAccess.apiName}`}
-                          style={{
-                            textAlign: 'left',
-                          }}>
-                          {filteredApiAccess.apiName}
-                        </td>
-                        <td id={`allowedRoles_${filteredApiAccess.apiName}`}>
-                          <ul style={{ listStyle: 'none', padding: 0 }}>
-                            {roles.map((roleObj) => {
-                              const { role, roleDisplay } = roleObj;
-                              const isAllowed = isRoleAllowed(
-                                role,
-                                filteredApiAccess.allowedRoles
-                              );
-                              return (
-                                <li key={role}>
-                                  {isAllowed ? (
-                                    <span
-                                      style={{
-                                        display: 'block',
-                                        textAlign: 'left',
-                                      }}>
-                                      <FaCheck style={{ color: 'green' }} />{' '}
-                                      {roleDisplay}
-                                    </span>
-                                  ) : (
-                                    <span
-                                      style={{
-                                        display: 'block',
-                                        textAlign: 'left',
-                                      }}>
-                                      <FaTimes style={{ color: 'red' }} />{' '}
-                                      {roleDisplay}
-                                    </span>
-                                  )}
-                                </li>
-                              );
-                            })}
-                          </ul>
-                        </td>
-                        <td>
-                          <Link
-                            href={`${API_ACCESS_EDIT_PAGE}/${filteredApiAccess.id}`}
-                            style={{ marginRight: '10px' }}>
+                    </TableCell> */}
+                          <TableCell
+                            id={`apiName_${filteredApiAccess.apiName}`}>
+                            {filteredApiAccess.apiName}
+                          </TableCell>
+                          <TableCell
+                            id={`allowedRoles_${filteredApiAccess.apiName}`}>
+                            <Box
+                              component='ul'
+                              sx={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                              {roles.map((roleObj) => {
+                                const { role, roleDisplay } = roleObj;
+                                const isAllowed = isRoleAllowed(
+                                  role,
+                                  filteredApiAccess.allowedRoles
+                                );
+                                return (
+                                  <Box
+                                    component='li'
+                                    key={role}
+                                    sx={{
+                                      display: 'block',
+                                      textAlign: 'left',
+                                    }}>
+                                    {isAllowed ? (
+                                      <span
+                                        style={{
+                                          display: 'block',
+                                          textAlign: 'left',
+                                        }}>
+                                        <CheckIcon sx={{ color: 'green' }} />{' '}
+                                        {roleDisplay}
+                                      </span>
+                                    ) : (
+                                      <span
+                                        style={{
+                                          display: 'block',
+                                          textAlign: 'left',
+                                        }}>
+                                        <CloseIcon sx={{ color: 'red' }} />{' '}
+                                        {roleDisplay}
+                                      </span>
+                                    )}
+                                  </Box>
+                                );
+                              })}
+                            </Box>
+                          </TableCell>
+                          <TableCell>
+                            <Link
+                              href={`${API_ACCESS_EDIT_PAGE}/${filteredApiAccess.id}`}
+                              passHref>
+                              <Button
+                                id={`edit_${filteredApiAccess.apiName}`}
+                                variant='outlined'
+                                size='small'
+                                startIcon={<EditIcon />}
+                                sx={{ marginRight: 1 }}></Button>
+                            </Link>
                             <Button
-                              id={`edit_${filteredApiAccess.apiName}`}
-                              variant='light'
-                              className='btn-sm'>
-                              <FaEdit />
-                            </Button>
-                          </Link>
-                          <Button
-                            id={`delete_${filteredApiAccess.apiName}`}
-                            variant='danger'
-                            className='btn-sm'
-                            onClick={() =>
-                              confirmDeleteApiAccess(filteredApiAccess.id)
-                            }>
-                            <FaTrash style={{ color: 'white' }} />
-                          </Button>
-                        </td>
-                      </tr>
-                    ))}
-              </tbody>
-            </Table>
+                              id={`delete_${filteredApiAccess.apiName}`}
+                              variant='contained'
+                              color='error'
+                              size='small'
+                              startIcon={<DeleteIcon />}
+                              onClick={() =>
+                                confirmDeleteApiAccess(filteredApiAccess.id)
+                              }></Button>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
           )}
         </>
       )}

@@ -1,25 +1,32 @@
 import React from 'react';
 import Link from 'next/link';
+import { Typography, Box, Button } from '@mui/material';
+import FormTitle from 'form/FormTitle';
 import FormContainer from 'form/FormContainer';
 import Meta from 'components/Meta';
-import { H1_RESET_PASSWORD_CONFIRMATION } from 'constants/form-titles';
+import { TITLE_RESET_PASSWORD_CONFIRMATION } from 'constants/form-titles';
 import { SIGNIN_PAGE } from 'constants/client-pages';
 
 const ResetPasswordConfirmation = () => {
   return (
     <FormContainer>
-      <Meta title={H1_RESET_PASSWORD_CONFIRMATION} />
-      <h1>{H1_RESET_PASSWORD_CONFIRMATION}</h1>
-      <p>Your password has been reset to 123456</p>
-      <p>
+      <Meta title={TITLE_RESET_PASSWORD_CONFIRMATION} />
+      <FormTitle>{TITLE_RESET_PASSWORD_CONFIRMATION}</FormTitle>
+      <Typography paragraph>Your password has been reset to 123456</Typography>
+      <Typography paragraph>
         In a future version of this application an email will be send containing
         a link to allow for securely resetting your password
-      </p>
-      <p>
+      </Typography>
+      <Typography paragraph>
         This email will then be send to the email entered in the previous screen
         (and only if that email is already known in our system)
-      </p>
-      <Link href={SIGNIN_PAGE}>Go to Login screen</Link>
+      </Typography>
+      <Box mt={2}>
+        <Link href={SIGNIN_PAGE} passHref>
+          <Button variant='contained' color='primary'></Button>Go to Login
+          screen
+        </Link>
+      </Box>
     </FormContainer>
   );
 };
