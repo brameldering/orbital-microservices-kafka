@@ -46,7 +46,7 @@ const PriceCalcSettingsScreen: React.FC<TPageProps> = ({
       {error ? (
         <ErrorBlock error={error} />
       ) : (
-        <Paper elevation={2} sx={{ p: 2 }}>
+        <Paper elevation={2} sx={{ p: 2, mr: 2 }}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <Typography>

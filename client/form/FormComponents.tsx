@@ -6,8 +6,8 @@ import { Controller } from 'react-hook-form';
 import TextField from '@mui/material/TextField';
 import Checkbox from '@mui/material/Checkbox';
 import Select from '@mui/material/Select';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
+// import FormControl from '@mui/material/FormControl';
+// import InputLabel from '@mui/material/InputLabel';
 import FormHelperText from '@mui/material/FormHelperText';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
@@ -40,9 +40,10 @@ const CheckBoxField: React.FunctionComponent<CheckBoxFieldProps> = ({
       <FormControlLabel
         control={
           <Checkbox
+            id={controlId}
             checked={checked}
             {...register(controlId)}
-            onChange={(e) => {
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               setError(controlId, { message: '' });
               register(controlId).onChange(e);
             }}
@@ -88,6 +89,7 @@ const TextNumField: React.FunctionComponent<TextNumFieldProps> = ({
   // const errorTextId = 'error_text_' + controlId;
   return (
     <TextField
+      id={controlId}
       type={type}
       label={label}
       variant='outlined'
@@ -96,7 +98,7 @@ const TextNumField: React.FunctionComponent<TextNumFieldProps> = ({
       {...register(controlId)}
       error={!!error}
       helperText={error?.message}
-      onChange={(e) => {
+      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
         setError(controlId, { message: '' });
         register(controlId).onChange(e);
       }}
@@ -121,42 +123,46 @@ const CurrencyNumField: React.FunctionComponent<CurrencyNumFieldProps> = ({
   error,
   setError,
 }) => {
-  const errorTextId = 'error_text_' + controlId;
+  // const errorTextId = 'error_text_' + controlId;
   return (
-    <FormControl fullWidth variant='outlined' margin='normal'>
-      <InputLabel htmlFor={controlId}>{label}</InputLabel>
-      <TextField
-        id={controlId}
-        type='number'
-        label={label}
-        error={!!error}
-        inputProps={{
-          step: '0.01',
-          ...register(controlId),
-          onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-            const value = parseFloat(e.target.value);
-            if (value % 1 !== 0) {
-              const decimalPart = parseFloat((value % 1).toFixed(2));
-              if (decimalPart < 0 || decimalPart > 0.99) {
-                setError(controlId, {
-                  message: 'Decimal part should be between .00 and .99',
-                });
-              } else {
-                setError(controlId, { message: '' });
-              }
-            } else {
-              setError(controlId, { message: '' });
-            }
-            register(controlId).onChange(e);
-          },
-        }}
-      />
-      {error && (
-        <FormHelperText error id={`error_text_${controlId}`}>
-          {error.message}
-        </FormHelperText>
-      )}
-    </FormControl>
+    <TextField
+      id={controlId}
+      type='number'
+      label={label}
+      variant='outlined'
+      margin='normal'
+      fullWidth
+      error={!!error}
+      helperText={error?.message}
+      inputProps={{
+        step: '0.01',
+        ...register(controlId),
+        onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+          setError(controlId, { message: '' });
+          register(controlId).onChange(e);
+        },
+      }}
+      // inputProps={{
+      //   step: '0.01',
+      //   ...register(controlId),
+      //   onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+      //     const value = parseFloat(e.target.value);
+      //     if (value % 1 !== 0) {
+      //       const decimalPart = parseFloat((value % 1).toFixed(2));
+      //       if (decimalPart < 0 || decimalPart > 0.99) {
+      //         setError(controlId, {
+      //           message: 'Decimal part should be between .00 and .99',
+      //         });
+      //       } else {
+      //         setError(controlId, { message: '' });
+      //       }
+      //     } else {
+      //       setError(controlId, { message: '' });
+      //     }
+      //     register(controlId).onChange(e);
+      //   },
+      // }}
+    />
   );
 };
 
@@ -182,9 +188,10 @@ const PasswordField: React.FunctionComponent<PasswordFieldProps> = ({
   ) => {
     event.preventDefault();
   };
-  const errorTextId = 'error_text_' + controlId;
+  // const errorTextId = 'error_text_' + controlId;
   return (
     <TextField
+      id={controlId}
       type={contentVisible ? 'text' : 'password'}
       label={label}
       variant='outlined'
@@ -225,7 +232,7 @@ const SelectField: React.FunctionComponent<SelectFieldProps> = ({
   error,
   setError,
 }) => {
-  const errorTextId = 'error_text_' + controlId;
+  // const errorTextId = 'error_text_' + controlId;
   return (
     <>
       <Controller
@@ -275,6 +282,7 @@ const TextAreaField: React.FunctionComponent<TextAreaFieldProps> = ({
   const errorTextId = 'error_text_' + controlId;
   return (
     <TextField
+      id={controlId}
       label={label}
       variant='outlined'
       margin='normal'

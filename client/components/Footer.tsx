@@ -14,6 +14,7 @@ const Footer: React.FunctionComponent = () => {
             item
             xs={12}
             sx={{
+              mt: 4,
               display: 'flex',
               flexDirection: 'row',
               alignItems: 'center',

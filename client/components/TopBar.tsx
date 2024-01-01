@@ -12,7 +12,7 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
-import { ColorModeContext, tokens } from '../theme';
+import { ColorModeContext } from '../theme'; // tokens
 import {
   AccountCircle,
   DarkModeOutlined,
@@ -53,7 +53,7 @@ const TopBar: React.FC = () => {
   };
 
   const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
+  // const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -165,10 +165,14 @@ const TopBar: React.FC = () => {
               }}>
               <LogoSVG />
               <Typography
-                variant='h4'
+                variant='h3'
                 noWrap
                 component='div'
-                sx={{ ml: 1, display: { xs: 'none', sm: 'block' } }}>
+                sx={{
+                  ml: 1,
+                  color: 'inherit',
+                  display: { xs: 'none', sm: 'block' },
+                }}>
                 Orbital
               </Typography>
             </a>
