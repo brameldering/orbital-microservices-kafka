@@ -11,11 +11,11 @@ import {
   FormLabel,
   FormControlLabel,
   Button,
+  Typography,
 } from '@mui/material';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-// import { TextNumField } from 'form/FormComponents';
 import FormContainer from 'form/FormContainer';
 import FormTitle from 'form/FormTitle';
 import Loader from 'components/Loader';
@@ -145,12 +145,12 @@ const ApiAccessEditScreen: React.FC<TPageProps> = ({
             <ErrorBlock error={error} />
           ) : (
             <>
-              <p>
+              <Typography>
                 <strong>Microservice: </strong> {apiAccess.microservice}
-              </p>
-              <p>
+              </Typography>
+              <Typography>
                 <strong>Api Name: </strong> {apiAccess.apiName}
-              </p>
+              </Typography>
               {/* <fieldset className='border border-primary mt-3 mb-0'> */}
               <FormControl
                 component='fieldset'
@@ -185,14 +185,20 @@ const ApiAccessEditScreen: React.FC<TPageProps> = ({
                   </Grid>
                 </FormGroup>
               </FormControl>
-               <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 3 }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  mt: 3,
+                }}>
                 <Button id='BUTTON_update' variant='contained' color='primary'>
                   Update
                 </Button>
                 <Button variant='outlined' onClick={goBackHandler}>
                   Cancel
                 </Button>
-              </div>
+              </Box>
             </>
           )}
           {updating && <Loader />}

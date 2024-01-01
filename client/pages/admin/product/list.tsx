@@ -134,8 +134,11 @@ const ProductListScreen = () => {
           </Button>
         </Grid>
       </Grid>
-      <ErrorBlock error={errorCreating || errorDeleting || errorLoading} />
-      {data && (!data.products || data.products.length === 0) ? (
+      {errorCreating && <ErrorBlock error={errorCreating} />}
+      {errorDeleting && <ErrorBlock error={errorDeleting} />}
+      {errorLoading ? (
+        <ErrorBlock error={errorLoading} />
+      ) : data && (!data.products || data.products.length === 0) ? (
         <Typography>There are no products</Typography>
       ) : (
         <Paper sx={{ width: '100%', overflow: 'hidden' }}>

@@ -1,22 +1,28 @@
 import React, { useState, useContext, MouseEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useTheme, Link as MuiLink } from '@mui/material';
+import {
+  AppBar,
+  Badge,
+  Box,
+  IconButton,
+  Link as MuiLink,
+  Menu,
+  MenuItem,
+  Toolbar,
+  Typography,
+  useTheme,
+} from '@mui/material';
 import { ColorModeContext, tokens } from '../theme';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
-import Badge from '@mui/material/Badge';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import AccountCircle from '@mui/icons-material/AccountCircle';
+import {
+  AccountCircle,
+  DarkModeOutlined,
+  LightModeOutlined,
+  ShoppingCart,
+} from '@mui/icons-material';
 import Link from 'next/link';
 import Router from 'next/router';
 import LogoSVG from 'logo/LogoSVG';
 import SearchBox from './SearchBox';
-import ErrorBlock from './ErrorBlock';
 import {
   PRODUCTS_PAGE,
   CART_PAGE,
@@ -28,14 +34,13 @@ import {
 import type { RootState } from 'slices/store';
 import { logout } from 'slices/authSlice';
 import { useSignOutMutation } from 'slices/usersApiSlice';
-// import { ADMIN_ROLE } from '@orbitelco/common';
 
 const TopBar: React.FC = () => {
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const { cartItems } = useSelector((state: RootState) => state.cart);
 
-  const [doSignOut, { error: errorSigninOut }] = useSignOutMutation();
+  const [doSignOut] = useSignOutMutation();
   const handleLogout = async () => {
     try {
       setAnchorEl(null);
@@ -197,7 +202,7 @@ const TopBar: React.FC = () => {
                   <Badge
                     badgeContent={cartItems.reduce((a, c) => a + c.qty, 0)}
                     color='secondary'>
-                    <ShoppingCartIcon />
+                    <ShoppingCart />
                   </Badge>
                 </a>
               </Link>
@@ -205,16 +210,29 @@ const TopBar: React.FC = () => {
             {/* ==================================================== */}
             <IconButton
               size='large'
-              edge='end'
               aria-label='user account'
               aria-controls={menuIdLoggedIn}
               aria-haspopup='true'
-              onClick={handleProfileMenuOpen}
-              color='inherit'>
+              color='inherit'
+              onClick={handleProfileMenuOpen}>
               <AccountCircle />
             </IconButton>
+            {/* ==================================================== */}
+            <IconButton
+              size='large'
+              edge='end'
+              aria-label='light dark mode'
+              aria-controls='menu-light-dark-mode'
+              aria-haspopup='true'
+              color='inherit'
+              onClick={colorMode.toggleColorMode}>
+              {theme.palette.mode === 'dark' ? (
+                <DarkModeOutlined />
+              ) : (
+                <LightModeOutlined />
+              )}
+            </IconButton>
           </Box>
-          {/* ==================================================== */}
         </Toolbar>
       </AppBar>
       {userInfo ? renderMenuLoggedIn : renderMenuNotLoggedIn}

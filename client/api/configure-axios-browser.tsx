@@ -1,7 +1,7 @@
 import axios from 'axios';
 import https from 'https';
 
-export default () => {
+const ConfigureAxiosBrowser = () => {
   const baseURL = '';
   const headers = {};
   let httpsAgent = {};
@@ -22,3 +22,5 @@ export default () => {
     httpsAgent,
   });
 };
+
+export default ConfigureAxiosBrowser;

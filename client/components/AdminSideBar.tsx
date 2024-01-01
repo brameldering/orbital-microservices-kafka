@@ -1,26 +1,24 @@
 import React, { useState, useEffect, ReactElement } from 'react';
 import Link from 'next/link';
-// import Meta from 'components/Meta';
-// import FormTitle from 'form/FormTitle';
 import { Sidebar, Menu, MenuItem } from 'react-pro-sidebar'; //SubMenu
 import { Box, IconButton, Typography, useTheme } from '@mui/material';
 import { tokens } from '../theme';
+import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
-import ContactsOutlinedIcon from '@mui/icons-material/ContactsOutlined';
-import ReceiptOutlinedIcon from '@mui/icons-material/ReceiptOutlined';
-import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
-import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
 import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
-import BarChartOutlinedIcon from '@mui/icons-material/BarChartOutlined';
-import PieChartOutlineOutlinedIcon from '@mui/icons-material/PieChartOutlineOutlined';
-import TimelineOutlinedIcon from '@mui/icons-material/TimelineOutlined';
-import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
-import MapOutlinedIcon from '@mui/icons-material/MapOutlined';
 
 // import 'react-pro-sidebar/dist/css/styles.css';
 
-// import { PRODUCTS_PAGE } from 'constants/client-pages';
+import {
+  PRODUCTS_PAGE,
+  PRODUCT_LIST_PAGE,
+  USER_LIST_PAGE,
+  ORDER_LIST_PAGE,
+  ROLE_LIST_PAGE,
+  API_ACCESS_LIST_PAGE,
+  PRICE_CALC_VIEW_PAGE,
+} from 'constants/client-pages';
 
 interface ItemProps {
   title: string;
@@ -41,16 +39,15 @@ const Item: React.FC<ItemProps> = ({
   const theme = useTheme();
   const colors = tokens(theme.palette.mode as 'light' | 'dark');
   return (
-    <MenuItem
-      active={selected === title}
-      style={{
-        color: colors.grey[100],
-      }}
-      onClick={() => setSelected(title)}
-      icon={icon}>
-      <Typography>{title}</Typography>
-      <Link id={`LINK_${title.replace(/\s/g, '_')}`} href={to} />
-    </MenuItem>
+    <Link id={`LINK_${title.replace(/\s/g, '_')}`} href={to} passHref>
+      <MenuItem
+        active={selected === title}
+        style={{ color: colors.grey[100] }}
+        onClick={() => setSelected(title)}>
+        {icon}
+        <Typography>{title}</Typography>
+      </MenuItem>
+    </Link>
   );
 };
 
@@ -105,7 +102,7 @@ const AdminSideBar: React.FC = () => {
                     alignItems='center'
                     ml='15px'>
                     <Typography variant='h3' color={colors.grey[100]}>
-                      ADMINIS
+                      Administration
                     </Typography>
                     <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                       <MenuOutlinedIcon />
@@ -115,65 +112,42 @@ const AdminSideBar: React.FC = () => {
               </MenuItem>
               {!isCollapsed && (
                 <Box mb='25px'>
-                  {/* <Box
-                    display='flex'
-                    justifyContent='center'
-                    alignItems='center'>
-                    <img
-                      alt='profile-user'
-                      width='100px'
-                      height='100px'
-                      src={`../../assets/user.png`}
-                      style={{ cursor: 'pointer', borderRadius: '50%' }}
-                    />
-                  </Box> */}
                   <Box textAlign='center'>
                     <Typography
-                      variant='h2'
+                      variant='h4'
                       color={colors.grey[100]}
                       fontWeight='bold'
                       sx={{ m: '10px 0 0 0' }}>
                       Name of Admin
-                    </Typography>
-                    <Typography variant='h5' color={colors.greenAccent[500]}>
-                      Administrator
                     </Typography>
                   </Box>
                 </Box>
               )}
               <Box paddingLeft={isCollapsed ? undefined : '10%'}>
                 <Item
-                  title='Dashboard'
-                  to='/'
+                  title='Shop'
+                  to={PRODUCTS_PAGE}
                   icon={<HomeOutlinedIcon />}
                   selected={selected}
                   setSelected={setSelected}
                 />
-
                 <Typography
                   variant='h6'
                   color={colors.grey[300]}
                   sx={{ m: '15px 0 5px 20px' }}>
-                  Data
+                  Products and Prices
                 </Typography>
                 <Item
-                  title='Manage Team'
-                  to='/team'
+                  title='Products'
+                  to={PRODUCT_LIST_PAGE}
                   icon={<PeopleOutlinedIcon />}
                   selected={selected}
                   setSelected={setSelected}
                 />
                 <Item
-                  title='Contacts Information'
-                  to='/contacts'
-                  icon={<ContactsOutlinedIcon />}
-                  selected={selected}
-                  setSelected={setSelected}
-                />
-                <Item
-                  title='Invoices Balances'
-                  to='/invoices'
-                  icon={<ReceiptOutlinedIcon />}
+                  title='Price Calculation'
+                  to={PRICE_CALC_VIEW_PAGE}
+                  icon={<PeopleOutlinedIcon />}
                   selected={selected}
                   setSelected={setSelected}
                 />
@@ -182,61 +156,57 @@ const AdminSideBar: React.FC = () => {
                   variant='h6'
                   color={colors.grey[300]}
                   sx={{ m: '15px 0 5px 20px' }}>
-                  Pages
+                  Users
                 </Typography>
                 <Item
-                  title='Profile Form'
-                  to='/form'
-                  icon={<PersonOutlinedIcon />}
+                  title='Users'
+                  to={USER_LIST_PAGE}
+                  icon={<PeopleOutlinedIcon />}
                   selected={selected}
                   setSelected={setSelected}
                 />
                 <Item
-                  title='Calendar'
-                  to='/calendar'
-                  icon={<CalendarTodayOutlinedIcon />}
+                  title='Roles'
+                  to={ROLE_LIST_PAGE}
+                  icon={<PeopleOutlinedIcon />}
                   selected={selected}
                   setSelected={setSelected}
                 />
+
                 <Item
-                  title='FAQ Page'
-                  to='/faq'
+                  title='Role Access Rights'
+                  to={API_ACCESS_LIST_PAGE}
+                  icon={<PeopleOutlinedIcon />}
+                  selected={selected}
+                  setSelected={setSelected}
+                />
+
+                <Typography
+                  variant='h6'
+                  color={colors.grey[300]}
+                  sx={{ m: '15px 0 5px 20px' }}>
+                  Orders
+                </Typography>
+
+                <Item
+                  title='Orders'
+                  to={ORDER_LIST_PAGE}
+                  icon={<PeopleOutlinedIcon />}
+                  selected={selected}
+                  setSelected={setSelected}
+                />
+
+                <Typography
+                  variant='h6'
+                  color={colors.grey[300]}
+                  sx={{ m: '15px 0 5px 20px' }}>
+                  Various
+                </Typography>
+
+                <Item
+                  title='Help'
+                  to='\'
                   icon={<HelpOutlineOutlinedIcon />}
-                  selected={selected}
-                  setSelected={setSelected}
-                />
-
-                <Typography
-                  variant='h6'
-                  color={colors.grey[300]}
-                  sx={{ m: '15px 0 5px 20px' }}>
-                  Charts
-                </Typography>
-                <Item
-                  title='Bar Chart'
-                  to='/bar'
-                  icon={<BarChartOutlinedIcon />}
-                  selected={selected}
-                  setSelected={setSelected}
-                />
-                <Item
-                  title='Pie Chart'
-                  to='/pie'
-                  icon={<PieChartOutlineOutlinedIcon />}
-                  selected={selected}
-                  setSelected={setSelected}
-                />
-                <Item
-                  title='Line Chart'
-                  to='/line'
-                  icon={<TimelineOutlinedIcon />}
-                  selected={selected}
-                  setSelected={setSelected}
-                />
-                <Item
-                  title='Geography Chart'
-                  to='/geography'
-                  icon={<MapOutlinedIcon />}
                   selected={selected}
                   setSelected={setSelected}
                 />

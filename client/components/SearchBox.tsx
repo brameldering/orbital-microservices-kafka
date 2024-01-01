@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { styled, alpha } from '@mui/material/styles';
-import { InputBase } from '@mui/material';
+import { Box, InputBase } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { PRODUCTS_PAGE } from 'constants/client-pages';
 
@@ -62,7 +62,7 @@ const SearchBox = () => {
 
   return (
     <Search>
-      <form onSubmit={submitHandler}>
+      <Box component='form' onSubmit={submitHandler}>
         <SearchIconWrapper>
           <SearchIcon />
         </SearchIconWrapper>
@@ -72,7 +72,7 @@ const SearchBox = () => {
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
         />
-      </form>
+      </Box>
     </Search>
   );
 };

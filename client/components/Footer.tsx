@@ -10,7 +10,15 @@ const Footer: React.FunctionComponent = () => {
     <footer>
       <Container>
         <Grid container>
-          <Grid item xs={12} className='text-center py-3'>
+          <Grid
+            item
+            xs={12}
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
             <Typography variant='body1'>
               Orbitelco Shop &copy; {currentYear}
             </Typography>

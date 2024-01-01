@@ -154,109 +154,116 @@ const ProductEditScreen: React.FC<TPageProps> = ({ product, error }) => {
           noValidate
           sx={{ mt: 1 }}>
           <FormTitle>{TITLE_EDIT_PRODUCT}</FormTitle>
-          <ErrorBlock error={error || errorUpdating || errorUploadImage} />
-          <Typography>
-            <strong>Product Id: </strong> {product?.sequentialProductId}
-          </Typography>
-          <TextNumField
-            controlId='name'
-            label='Product name'
-            register={register}
-            error={errors.name}
-            setError={setError}
-          />
-          <Box sx={{ my: 2 }}>
-            <Typography variant='subtitle1' sx={{ mb: 1 }}>
-              Image
-            </Typography>
-            <Grid container alignItems='center' spacing={2}>
-              <Grid item md={4}>
-                <img
-                  src={getValues('imageURL')}
-                  alt={getValues('name')}
-                  style={{ width: '80px', height: '80px' }}
-                />
-              </Grid>
-              <Grid item md={8}>
-                <TextField
-                  name='imageURL'
-                  type='text'
-                  value={getValues('imageURL')}
-                  disabled
-                  fullWidth
-                  variant='outlined'
-                />
-              </Grid>
-            </Grid>
-            <Button component='label' variant='contained' sx={{ mt: 1 }}>
-              Upload Image
-              <input
-                name='imageFile'
-                type='file'
-                hidden
-                onChange={uploadFileHandler}
+          {errorUpdating && <ErrorBlock error={errorUpdating} />}
+          {errorUploadImage && <ErrorBlock error={errorUploadImage} />}
+          {error ? (
+            <ErrorBlock error={error} />
+          ) : (
+            <>
+              <Typography>
+                <strong>Product Id: </strong> {product?.sequentialProductId}
+              </Typography>
+              <TextNumField
+                controlId='name'
+                label='Product name'
+                register={register}
+                error={errors.name}
+                setError={setError}
               />
-            </Button>
-          </Box>
-          {performinUploadImage && <Loader />}
-          <TextNumField
-            controlId='brand'
-            label='Brand'
-            register={register}
-            error={errors.brand}
-            setError={setError}
-          />
-          <CurrencyNumField
-            controlId='price'
-            label='Price'
-            register={register}
-            error={errors.price}
-            setError={setError}
-          />
-          <TextNumField
-            controlId='countInStock'
-            type='number'
-            label='Count In Stock'
-            register={register}
-            error={errors.countInStock}
-            setError={setError}
-          />
-          <TextNumField
-            controlId='category'
-            label='Category'
-            register={register}
-            error={errors.category}
-            setError={setError}
-          />
-          <TextAreaField
-            controlId='description'
-            label='Description'
-            register={register}
-            error={errors.description}
-            setError={setError}
-          />
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              mt: 3,
-              mb: 2,
-            }}>
-            <Button
-              id='BUTTON_save'
-              type='submit'
-              variant='contained'
-              disabled={loadingOrProcessing || !isDirty}>
-              Save
-            </Button>
-            <Button
-              variant='outlined'
-              onClick={goBackHandler}
-              disabled={loadingOrProcessing}>
-              Cancel
-            </Button>
-          </Box>
-          {loadingOrProcessing && <Loader />}
+              <Box sx={{ my: 2 }}>
+                <Typography variant='subtitle1' sx={{ mb: 1 }}>
+                  Image
+                </Typography>
+                <Grid container alignItems='center' spacing={2}>
+                  <Grid item md={4}>
+                    <img
+                      src={getValues('imageURL')}
+                      alt={getValues('name')}
+                      style={{ width: '80px', height: '80px' }}
+                    />
+                  </Grid>
+                  <Grid item md={8}>
+                    <TextField
+                      name='imageURL'
+                      type='text'
+                      value={getValues('imageURL')}
+                      disabled
+                      fullWidth
+                      variant='outlined'
+                    />
+                  </Grid>
+                </Grid>
+                <Button component='label' variant='contained' sx={{ mt: 1 }}>
+                  Upload Image
+                  <input
+                    name='imageFile'
+                    type='file'
+                    hidden
+                    onChange={uploadFileHandler}
+                  />
+                </Button>
+              </Box>
+              {performinUploadImage && <Loader />}
+              <TextNumField
+                controlId='brand'
+                label='Brand'
+                register={register}
+                error={errors.brand}
+                setError={setError}
+              />
+              <CurrencyNumField
+                controlId='price'
+                label='Price'
+                register={register}
+                error={errors.price}
+                setError={setError}
+              />
+              <TextNumField
+                controlId='countInStock'
+                type='number'
+                label='Count In Stock'
+                register={register}
+                error={errors.countInStock}
+                setError={setError}
+              />
+              <TextNumField
+                controlId='category'
+                label='Category'
+                register={register}
+                error={errors.category}
+                setError={setError}
+              />
+              <TextAreaField
+                controlId='description'
+                label='Description'
+                register={register}
+                error={errors.description}
+                setError={setError}
+              />
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  mt: 3,
+                  mb: 2,
+                }}>
+                <Button
+                  id='BUTTON_save'
+                  type='submit'
+                  variant='contained'
+                  disabled={loadingOrProcessing || !isDirty}>
+                  Save
+                </Button>
+                <Button
+                  variant='outlined'
+                  onClick={goBackHandler}
+                  disabled={loadingOrProcessing}>
+                  Cancel
+                </Button>
+              </Box>
+              {loadingOrProcessing && <Loader />}
+            </>
+          )}
         </Box>
       </FormContainer>
     </>
