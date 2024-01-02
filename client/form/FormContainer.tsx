@@ -1,8 +1,6 @@
 import React, { ReactNode } from 'react';
-import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
+import { Container, Paper } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 
 interface FormContainerProps {
   children: ReactNode;
@@ -11,15 +9,14 @@ interface FormContainerProps {
 const FormContainer: React.FunctionComponent<FormContainerProps> = ({
   children,
 }) => {
+  const theme = useTheme();
   return (
-    <Container sx={{ mt: 4, mb: 4 }}>
-      <Grid container justifyContent='center'>
-        <Grid item xs={12} sm={10} md={8} lg={6} xl={6}>
-          <Card variant='outlined' sx={{ p: 2, borderColor: '#606060' }}>
-            <CardContent>{children}</CardContent>
-          </Card>
-        </Grid>
-      </Grid>
+    <Container maxWidth='sm'>
+      <Paper
+        elevation={3}
+        sx={{ p: theme.spacing(3), maxWidth: theme.spacing(80) }}>
+        {children}
+      </Paper>
     </Container>
   );
 };

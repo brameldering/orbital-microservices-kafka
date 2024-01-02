@@ -154,27 +154,26 @@ interface ThemeSettings {
     h6: { fontFamily: string; fontSize: number; color: string };
     body1: { color: string };
   };
-  components?: {
-    // Optional components field
-    // Define styles for specific MUI components
-    MuiLink?: {
-      styleOverrides?: {
-        root?: {};
-      };
-    };
-    MenuItem?: {
-      styleOverrides?: {
-        root?: {};
-      };
-    };
-  };
+  // components?: {
+  // MuiTextField?: {
+  //   styleOverrides?: {
+  //     root?: {};
+  //     input?: {};
+  //   };
+  // };
+  // MuiLink?: {
+  //   styleOverrides?: {
+  //     root?: {};
+  //   };
+  // }
+  // };
 }
 
 // mui theme settings
 export const themeSettings = (mode: 'dark' | 'light'): ThemeSettings => {
   const colors = tokens(mode);
   const textPrimary = mode === 'dark' ? '#ffffff' : '#000000'; // White for dark mode, Black for light mode
-  const textSecondary = mode === 'dark' ? '#e0e0e0' : '#333333'; // Lighter for dark mode, Darker for light mode
+  // const textSecondary = mode === 'dark' ? '#e0e0e0' : '#333333'; // Lighter for dark mode, Darker for light mode
 
   return {
     palette: {
@@ -250,44 +249,37 @@ export const themeSettings = (mode: 'dark' | 'light'): ThemeSettings => {
         color: textPrimary,
       },
       body1: {
-        color: textSecondary, // You can set different colors for body text if needed
+        color: textPrimary,
       },
     },
-    components: {
-      // Add this section to your theme
-      MuiLink: {
-        // Target the Link component
-        styleOverrides: {
-          root: {
-            // Override the root style
-            textDecoration: 'none', // Remove text decoration
-            color: mode === 'dark' ? textPrimary : textSecondary, // Set link color
-            '&:hover': {
-              // Add a hover state if you like
-              textDecoration: 'underline', // Example: underline on hover
-            },
-            // Remove text decoration for active state
-            '&:active': {
-              textDecoration: 'none',
-            },
-          },
-        },
-      },
-      MenuItem: {
-        // Target the Link component
-        styleOverrides: {
-          root: {
-            // Override the root style
-            textDecoration: 'none', // Remove text decoration
-            color: mode === 'dark' ? textPrimary : textSecondary, // Set link color
-            // Remove text decoration for active state
-            '&:active': {
-              textDecoration: 'none',
-            },
-          },
-        },
-      },
-    },
+    // components: {
+    //   MuiTextField: {
+    //     styleOverrides: {
+    //       root: {
+    //         maxWidth: (theme: Theme) => theme.spacing(12.5),
+    //       },
+    //       input: {
+    //         padding: (theme: Theme) => theme.spacing(0.25),
+    //         height: (theme: Theme) => theme.spacing(1),
+    //       },
+    //     },
+    //   },
+    //   MuiLink: {
+    //     styleOverrides: {
+    //       root: {
+    //         textDecoration: 'none', // Remove text decoration
+    //         color: mode === 'dark' ? textPrimary : textSecondary, // Set link color
+    //         '&:hover': {
+    //           textDecoration: 'underline', // Example: underline on hover
+    //         },
+    //         // Remove text decoration for active state
+    //         '&:active': {
+    //           textDecoration: 'none',
+    //         },
+    //       },
+    //     },
+    //   },
+    // },
   };
 };
 

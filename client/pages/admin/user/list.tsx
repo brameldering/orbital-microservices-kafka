@@ -3,7 +3,6 @@ import { NextPageContext } from 'next';
 import Router from 'next/router';
 import Link from 'next/link';
 import {
-  Table,
   TableBody,
   TableCell,
   TableHead,
@@ -15,6 +14,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import FormTitle from 'form/FormTitle';
+import FormTable from 'form/TableContainer';
 import Loader from 'components/Loader';
 import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
@@ -82,7 +82,7 @@ const UserListScreen: React.FC<TPageProps> = ({ users, error }) => {
       ) : users?.length === 0 ? (
         <p>There are no users</p>
       ) : (
-        <Table size='small'>
+        <FormTable>
           <TableHead>
             <TableRow>
               <TableCell>ID</TableCell>
@@ -121,7 +121,7 @@ const UserListScreen: React.FC<TPageProps> = ({ users, error }) => {
                 </TableRow>
               ))}
           </TableBody>
-        </Table>
+        </FormTable>
       )}
       {loadingOrProcessing && <Loader />}
     </>

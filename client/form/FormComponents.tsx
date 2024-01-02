@@ -93,7 +93,7 @@ const TextNumField: React.FunctionComponent<TextNumFieldProps> = ({
       type={type}
       label={label}
       variant='outlined'
-      margin='normal'
+      // margin='normal'
       fullWidth
       {...register(controlId)}
       error={!!error}

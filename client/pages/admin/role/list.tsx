@@ -4,14 +4,12 @@ import Router from 'next/router';
 import Link from 'next/link';
 import {
   Button,
-  Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
   Grid,
   Typography,
-  Paper,
 } from '@mui/material';
 import {
   Edit as EditIcon,
@@ -19,6 +17,7 @@ import {
   Delete as DeleteIcon,
 } from '@mui/icons-material';
 import FormTitle from 'form/FormTitle';
+import FormTable from 'form/TableContainer';
 import Loader from 'components/Loader';
 import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
@@ -107,47 +106,43 @@ const RolesListScreen: React.FC<TPageProps> = ({ roles, error }) => {
           {roles?.length === 0 ? (
             <Typography>There are no roles</Typography>
           ) : (
-            <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-              <Table size='small'>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>ROLE</TableCell>
-                    <TableCell>ROLE DISPLAY</TableCell>
-                    <TableCell></TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {roles.map((role: any) => (
-                    <TableRow key={role.id}>
-                      <TableCell id={`role_${role.role}`}>
-                        {role.role}
-                      </TableCell>
-                      <TableCell id={`roleDisplay_${role.role}`}>
-                        {role.roleDisplay}
-                      </TableCell>
-                      <TableCell>
-                        <Link
-                          href={`${ROLE_EDIT_PAGE}/${role.id}`}
-                          style={{ marginRight: '10px' }}>
-                          <Button
-                            variant='outlined'
-                            size='small'
-                            startIcon={<EditIcon />}
-                            sx={{ mx: 1 }}></Button>
-                        </Link>
+            <FormTable>
+              <TableHead>
+                <TableRow>
+                  <TableCell>ROLE</TableCell>
+                  <TableCell>ROLE DISPLAY</TableCell>
+                  <TableCell></TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {roles.map((role: any) => (
+                  <TableRow key={role.id}>
+                    <TableCell id={`role_${role.role}`}>{role.role}</TableCell>
+                    <TableCell id={`roleDisplay_${role.role}`}>
+                      {role.roleDisplay}
+                    </TableCell>
+                    <TableCell>
+                      <Link
+                        href={`${ROLE_EDIT_PAGE}/${role.id}`}
+                        style={{ marginRight: '10px' }}>
                         <Button
-                          id={`delete_${role.role}`}
-                          variant='contained'
-                          color='error'
+                          variant='outlined'
                           size='small'
-                          startIcon={<DeleteIcon />}
-                          onClick={() => confirmDeleteRole(role.id)}></Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </Paper>
+                          startIcon={<EditIcon />}
+                          sx={{ mx: 1 }}></Button>
+                      </Link>
+                      <Button
+                        id={`delete_${role.role}`}
+                        variant='contained'
+                        color='error'
+                        size='small'
+                        startIcon={<DeleteIcon />}
+                        onClick={() => confirmDeleteRole(role.id)}></Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </FormTable>
           )}
           {loadingOrProcessing && <Loader />}
         </>

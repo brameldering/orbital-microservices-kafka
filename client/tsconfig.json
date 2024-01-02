@@ -113,7 +113,8 @@
     "../common/src/types/config-types.ts",
     "../common/src/types/order-types.ts",
     "../common/src/types/product-types.ts",
-    "../common/src/types/user-types.ts"
+    "../common/src/types/user-types.ts",
+    "next.config.js"
   ],
   "exclude": ["node_modules"]
 }

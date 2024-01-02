@@ -3,13 +3,11 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import {
   Button,
-  Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
   Grid,
-  Paper,
   Typography,
 } from '@mui/material';
 import {
@@ -18,6 +16,7 @@ import {
   Delete as DeleteIcon,
 } from '@mui/icons-material';
 import FormTitle from 'form/FormTitle';
+import FormTable from 'form/TableContainer';
 import Loader from 'components/Loader';
 import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
@@ -141,65 +140,59 @@ const ProductListScreen = () => {
       ) : data && (!data.products || data.products.length === 0) ? (
         <Typography>There are no products</Typography>
       ) : (
-        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-          <Table size='small'>
-            <TableHead>
-              <TableRow>
-                <TableCell>ID</TableCell>
-                <TableCell>NAME</TableCell>
-                <TableCell>PRICE</TableCell>
-                <TableCell>BRAND</TableCell>
-                <TableCell>CATEGORY</TableCell>
-                <TableCell></TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {data &&
-                data.products.map((product) => (
-                  <TableRow key={product.id}>
-                    <TableCell>{product.sequentialProductId}</TableCell>
-                    <TableCell id={`name_${product.sequentialProductId}`}>
-                      {product.name}
-                    </TableCell>
-                    <TableCell>
-                      {CURRENCY_SYMBOL}
-                      {product.price.toFixed(2)}
-                    </TableCell>
-                    <TableCell id={`brand_${product.sequentialProductId}`}>
-                      {product.brand}
-                    </TableCell>
-                    <TableCell id={`category_${product.sequentialProductId}`}>
-                      {product.category}
-                    </TableCell>
-                    <TableCell>
-                      <Link href={`${PRODUCT_EDIT_PAGE}/${product.id}`}>
-                        <Button
-                          id={`edit_${product.sequentialProductId}`}
-                          variant='outlined'
-                          size='small'
-                          startIcon={<EditIcon />}
-                          sx={{ mx: 1 }}></Button>
-                      </Link>
+        <FormTable>
+          <TableHead>
+            <TableRow>
+              <TableCell>ID</TableCell>
+              <TableCell>NAME</TableCell>
+              <TableCell>PRICE</TableCell>
+              <TableCell>BRAND</TableCell>
+              <TableCell>CATEGORY</TableCell>
+              <TableCell></TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {data &&
+              data.products.map((product) => (
+                <TableRow key={product.id}>
+                  <TableCell>{product.sequentialProductId}</TableCell>
+                  <TableCell id={`name_${product.sequentialProductId}`}>
+                    {product.name}
+                  </TableCell>
+                  <TableCell>
+                    {CURRENCY_SYMBOL}
+                    {product.price.toFixed(2)}
+                  </TableCell>
+                  <TableCell id={`brand_${product.sequentialProductId}`}>
+                    {product.brand}
+                  </TableCell>
+                  <TableCell id={`category_${product.sequentialProductId}`}>
+                    {product.category}
+                  </TableCell>
+                  <TableCell>
+                    <Link href={`${PRODUCT_EDIT_PAGE}/${product.id}`}>
                       <Button
-                        id={`delete_${product.sequentialProductId}`}
-                        variant='contained'
-                        color='error'
+                        id={`edit_${product.sequentialProductId}`}
+                        variant='outlined'
                         size='small'
-                        startIcon={<DeleteIcon />}
-                        onClick={() =>
-                          confirmDeleteProduct(product.id)
-                        }></Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-            </TableBody>
-          </Table>
-          {data && (
-            <Paginate pages={data.pages} page={data.page} isAdmin={true} />
-          )}
-          {loadingOrProcessing && <Loader />}
-        </Paper>
+                        startIcon={<EditIcon />}
+                        sx={{ mx: 1 }}></Button>
+                    </Link>
+                    <Button
+                      id={`delete_${product.sequentialProductId}`}
+                      variant='contained'
+                      color='error'
+                      size='small'
+                      startIcon={<DeleteIcon />}
+                      onClick={() => confirmDeleteProduct(product.id)}></Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+          </TableBody>
+        </FormTable>
       )}
+      {data && <Paginate pages={data.pages} page={data.page} isAdmin={true} />}
+      {loadingOrProcessing && <Loader />}
     </>
   );
 };

@@ -36,7 +36,7 @@ import {
   PRICE_CALC_VIEW_PAGE,
 } from 'constants/client-pages';
 
-const drawerWidth = 240;
+const drawerWidth = 200;
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
