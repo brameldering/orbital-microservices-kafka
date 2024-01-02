@@ -15,7 +15,7 @@ import {
 import {
   TITLE_EDIT_PRODUCT,
   TITLE_SIGN_IN,
-  TITLE_PRODUCTS,
+  TITLE_SHOP,
   TITLE_PRODUCT_ADMIN,
 } from 'constants/form-titles';
 
@@ -25,7 +25,7 @@ const loginAsAdminAndGoToProductAdmin = () => {
   cy.get('[id="email"]').type(ADMIN_EMAIL);
   cy.get('[id="password"]').type(ADMIN_PASSWORD);
   cy.get('[id="BUTTON_login"]').click();
-  cy.get('h1').invoke('text').should('equal', TITLE_PRODUCTS);
+  cy.get('h1').invoke('text').should('equal', TITLE_SHOP);
   cy.get('[id="LINK_header_adminmenu"]').click();
   cy.get('[id="LINK_header_products"]').click();
   cy.get('h1').invoke('text').should('equal', TITLE_PRODUCT_ADMIN);

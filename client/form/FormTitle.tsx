@@ -7,7 +7,7 @@ interface FormTitleProps {
 
 const FormTitle: React.FunctionComponent<FormTitleProps> = ({ children }) => {
   return (
-    <Typography variant='h2' sx={{ mb: 3 }}>
+    <Typography variant='h3' sx={{ mb: 3 }}>
       {children}
     </Typography>
   );

@@ -12,7 +12,7 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
-import { ColorModeContext } from '../theme'; // tokens
+import { ColorModeContext } from '../styles/theme'; // tokens
 import {
   AccountCircle,
   DarkModeOutlined,
@@ -231,9 +231,9 @@ const TopBar: React.FC = () => {
               color='inherit'
               onClick={colorMode.toggleColorMode}>
               {theme.palette.mode === 'dark' ? (
-                <DarkModeOutlined />
-              ) : (
                 <LightModeOutlined />
+              ) : (
+                <DarkModeOutlined />
               )}
             </IconButton>
           </Box>

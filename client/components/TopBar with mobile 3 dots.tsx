@@ -1,7 +1,7 @@
 import React, { useState, useContext, MouseEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from '@mui/material';
-import { ColorModeContext, tokens } from '../theme';
+import { ColorModeContext, tokens } from '../styles/theme';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';

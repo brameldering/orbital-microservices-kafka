@@ -7,7 +7,7 @@ export const TITLE_RESET_PASSWORD = 'Reset Password';
 export const TITLE_RESET_PASSWORD_CONFIRMATION = 'Reset Password Confirmation';
 
 // Product
-export const TITLE_PRODUCTS = 'Products';
+export const TITLE_SHOP = 'Shop';
 
 // order
 export const TITLE_SHOPPING_CART = 'Shopping Cart';

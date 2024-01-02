@@ -32,7 +32,7 @@ import {
   TITLE_SHIPPING,
   TITLE_MY_ORDERS,
   TITLE_ORDER_ADMIN,
-  TITLE_PRODUCTS,
+  TITLE_SHOP,
   TITLE_SIGN_IN,
   TITLE_PAYMENT_METHOD,
   // TITLE_ORDER_DETAILS,
@@ -53,33 +53,31 @@ describe('Shopping tests', () => {
   it('E2E_SHOP_OM_1: Search for products and test back and home links', () => {
     cy.wait(10000);
     // Check that we are on Products page and all 6 products are shown
-    cy.get('h1')
-      .invoke('text')
-      .should('equal', TITLE_PRODUCTS, { timeout: 40000 });
+    cy.get('h1').invoke('text').should('equal', TITLE_SHOP, { timeout: 40000 });
     cy.get('[id="product_card"]').should('have.length', 6);
     // search for phone and check that 2 products match
     cy.get('[id="search_keyword"]').type(SEARCH_KEYWORD);
     cy.get('[id="LINK_header_search"]').click();
-    cy.get('h1').invoke('text').should('equal', TITLE_PRODUCTS);
+    cy.get('h1').invoke('text').should('equal', TITLE_SHOP);
     cy.get('[id="product_card"]').should('have.length', 2);
     // Go back to main page using [go back] and check that now all 6 products appear
     cy.get('[id="BUTTON_back"]').click();
-    cy.get('h1').invoke('text').should('equal', TITLE_PRODUCTS);
+    cy.get('h1').invoke('text').should('equal', TITLE_SHOP);
     cy.get('[id="product_card"]').should('have.length', 6);
     // Search for keyword that should give 0 results
     cy.get('[id="search_keyword"]').type(SEARCH_KEYWORD_NO_RESULTS);
     cy.get('[id="LINK_header_search"]').click();
-    cy.get('h1').invoke('text').should('equal', TITLE_PRODUCTS);
+    cy.get('h1').invoke('text').should('equal', TITLE_SHOP);
     cy.get('[id="product_card"]').should('have.length', 0);
     cy.contains(NO_RESULTS_MESSAGE);
     // Go back to main page by clicking brand logo and check there are 6 products
     cy.get('[id="LINK_orbitelco_shop"]').click();
-    cy.get('h1').invoke('text').should('equal', TITLE_PRODUCTS);
+    cy.get('h1').invoke('text').should('equal', TITLE_SHOP);
     cy.get('[id="product_card"]').should('have.length', 6);
   });
   it('E2E_SHOP_OM_2: Select one product, change to 2 items and empty cart', () => {
     // Check that we are on Products page and all 6 products are shown
-    cy.get('h1').invoke('text').should('equal', TITLE_PRODUCTS);
+    cy.get('h1').invoke('text').should('equal', TITLE_SHOP);
     cy.get('[id="product_card"]').should('have.length', 6);
     // Select mousde product and check we go to product page
     cy.contains(PRODUCT_1.name).click();
@@ -102,11 +100,11 @@ describe('Shopping tests', () => {
     cy.get(queryId).click();
     cy.contains(YOUR_CART_IS_EMPTY);
     cy.get('[id="LINK_go_to_shop"]').click();
-    cy.get('h1').invoke('text').should('equal', TITLE_PRODUCTS);
+    cy.get('h1').invoke('text').should('equal', TITLE_SHOP);
   });
   it('E2E_SHOP_OM_3: Full order flow of 1 product with shipping fee', () => {
     // Check that we are on Products page and all 6 products are shown
-    cy.get('h1').invoke('text').should('equal', TITLE_PRODUCTS);
+    cy.get('h1').invoke('text').should('equal', TITLE_SHOP);
     cy.get('[id="product_card"]').should('have.length', 6);
     // Select Mouse Product
     cy.contains(PRODUCT_1.name).click();
@@ -183,7 +181,7 @@ describe('Shopping tests', () => {
   });
   it('E2E_SHOP_OM_4: Full order flow of 2 products with 3 items in total', () => {
     // Check that we are on Products page and all 6 products are shown
-    cy.get('h1').invoke('text').should('equal', TITLE_PRODUCTS);
+    cy.get('h1').invoke('text').should('equal', TITLE_SHOP);
     cy.get('[id="product_card"]').should('have.length', 6);
     // Select Mouse Product
     cy.contains(PRODUCT_1.name).click();
@@ -194,7 +192,7 @@ describe('Shopping tests', () => {
     cy.get('h2').invoke('text').should('equal', SUBTOTAL_1_ITEMS);
     // Back to home page and select playstation
     cy.get('[id="LINK_orbitelco_shop"]').click();
-    cy.get('h1').invoke('text').should('equal', TITLE_PRODUCTS);
+    cy.get('h1').invoke('text').should('equal', TITLE_SHOP);
     cy.contains(PRODUCT_2.name).click();
     cy.get('h3').invoke('text').should('equal', PRODUCT_2.name);
     // Add to cart
@@ -282,7 +280,7 @@ describe('Test Reviews', () => {
   beforeEach(() => cy.visit(HOME_PAGE_URL));
   it('E2E_SHOP_OM_5: Write succesful review', () => {
     // Check that we are on Products page and all 6 products are shown
-    cy.get('h1').invoke('text').should('equal', TITLE_PRODUCTS);
+    cy.get('h1').invoke('text').should('equal', TITLE_SHOP);
     cy.get('[id="product_card"]').should('have.length', 6);
     // Select Mouse Product and check review block
     cy.contains(PRODUCT_1.name).click();
@@ -294,7 +292,7 @@ describe('Test Reviews', () => {
     cy.get('[id="email"]').type(TEST_USER_EMAIL);
     cy.get('[id="password"]').type(TEST_USER_PASSWORD);
     cy.get('[id="BUTTON_login"]').click();
-    // cy.get('h1').invoke('text').should('equal', TITLE_PRODUCTS);
+    // cy.get('h1').invoke('text').should('equal', TITLE_SHOP);
     cy.wait(1000);
     cy.contains(PRODUCT_1.name).click();
     cy.get('h3').invoke('text').should('equal', PRODUCT_1.name);
@@ -313,7 +311,7 @@ describe('Test Reviews', () => {
   });
   //   it('E2E_SHOP_OM_6: Write another review which should give error message', () => {
   //     // Check that we are on Products page and all 6 products are shown
-  //     cy.get('h1').invoke('text').should('equal', TITLE_PRODUCTS);
+  //     cy.get('h1').invoke('text').should('equal', TITLE_SHOP);
   //     cy.get('[id="product_card"]').should('have.length', 6);
   //     // Sign in using sign in link
   //     cy.get('[id="LINK_header_sign_in"]').click();
@@ -347,7 +345,7 @@ describe('Test Order Admin', () => {
     cy.get('[id="email"]').type(ADMIN_EMAIL);
     cy.get('[id="password"]').type(ADMIN_PASSWORD);
     cy.get('[id="BUTTON_login"]').click();
-    cy.get('h1').invoke('text').should('equal', TITLE_PRODUCTS);
+    cy.get('h1').invoke('text').should('equal', TITLE_SHOP);
     cy.get('[id="LINK_header_adminmenu"]').click();
     cy.get('[id="LINK_header_orders"]').click();
     cy.get('h1').invoke('text').should('equal', TITLE_ORDER_ADMIN);

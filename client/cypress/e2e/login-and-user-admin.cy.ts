@@ -25,7 +25,7 @@ import {
 import {
   TITLE_SIGN_IN,
   TITLE_SIGN_UP,
-  TITLE_PRODUCTS,
+  TITLE_SHOP,
   TITLE_MY_PROFILE,
   TITLE_CHANGE_PASSWORD,
   TITLE_RESET_PASSWORD,
@@ -73,7 +73,7 @@ describe('Test registration of new account', () => {
     cy.get('[id="password"]').type(NEW_USER_PASSWORD);
     cy.get('[id="role"]').select(CUSTOMER_DISPLAY);
     cy.get('[id="BUTTON_register"]').click();
-    cy.get('h1').invoke('text').should('equal', TITLE_PRODUCTS);
+    cy.get('h1').invoke('text').should('equal', TITLE_SHOP);
   });
   it('E2E_User_2: Opens register screen enters already existing account', () => {
     cy.visit(LOGIN_URL);
@@ -97,7 +97,7 @@ describe('Test registration of new account', () => {
 describe('Test logging in', () => {
   it('E2E_User_4: Signs in correctly with test account', () => {
     login(TEST_USER_EMAIL, TEST_USER_PASSWORD);
-    cy.get('h1').invoke('text').should('equal', TITLE_PRODUCTS);
+    cy.get('h1').invoke('text').should('equal', TITLE_SHOP);
   });
   it('E2E_User_5: Signs in with unknown account', () => {
     login(UNKNOWN_EMAIL, TEST_USER_PASSWORD);
@@ -123,7 +123,7 @@ describe('Test logging in', () => {
 describe('Test profile and password update', () => {
   it('E2E_User_8: Change username and email', () => {
     login(NEW_USER_EMAIL, NEW_USER_PASSWORD);
-    cy.get('h1').invoke('text').should('equal', TITLE_PRODUCTS);
+    cy.get('h1').invoke('text').should('equal', TITLE_SHOP);
     cy.get('[id="LINK_header_username"]').click();
     cy.get('[id="LINK_my_profile"]').click();
     cy.get('h1').invoke('text').should('equal', TITLE_MY_PROFILE);
@@ -137,7 +137,7 @@ describe('Test profile and password update', () => {
   });
   it('E2E_User_9: Change password', () => {
     login(UPDATED_EMAIL, NEW_USER_PASSWORD);
-    cy.get('h1').invoke('text').should('equal', TITLE_PRODUCTS);
+    cy.get('h1').invoke('text').should('equal', TITLE_SHOP);
     cy.get('[id="LINK_header_username"]').click();
     cy.get('[id="LINK_my_profile"]').click();
     cy.get('[id="LINK_change_password"]').click();
@@ -151,7 +151,7 @@ describe('Test profile and password update', () => {
   });
   it('E2E_User_10: Login in with new email and password', () => {
     login(UPDATED_EMAIL, UPDATED_PASSWORD);
-    cy.get('h1').invoke('text').should('equal', TITLE_PRODUCTS);
+    cy.get('h1').invoke('text').should('equal', TITLE_SHOP);
   });
   it('E2E_User_11: Tries to reset password with unknown email address', () => {
     cy.visit(LOGIN_URL);
@@ -175,7 +175,7 @@ describe('Test profile and password update', () => {
   });
   it('E2E_User_13: Login in with new email and password', () => {
     login(UPDATED_EMAIL, RESET_PASSWORD);
-    cy.get('h1').invoke('text').should('equal', TITLE_PRODUCTS);
+    cy.get('h1').invoke('text').should('equal', TITLE_SHOP);
   });
 });
 describe('Test logout', () => {
@@ -183,7 +183,7 @@ describe('Test logout', () => {
     login(UPDATED_EMAIL, RESET_PASSWORD);
     cy.get('[id="LINK_header_username"]').click();
     cy.get('[id="LINK_header_logout"]').click();
-    cy.get('h1').invoke('text').should('equal', TITLE_PRODUCTS);
+    cy.get('h1').invoke('text').should('equal', TITLE_SHOP);
   });
 });
 describe('E2E_User_15: Test my orders', () => {

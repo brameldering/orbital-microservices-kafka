@@ -1,15 +1,31 @@
-import React, { useState, useEffect, ReactElement } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
-import { Sidebar, Menu, MenuItem } from 'react-pro-sidebar'; //SubMenu
-import { Box, IconButton, Typography, useTheme } from '@mui/material';
-import { tokens } from '../theme';
-import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
+import {
+  Box,
+  IconButton,
+  SvgIconProps,
+  Typography,
+  styled,
+  Theme,
+  useTheme,
+  CSSObject,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Divider,
+} from '@mui/material';
+import MuiDrawer from '@mui/material/Drawer';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
-import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
-
-// import 'react-pro-sidebar/dist/css/styles.css';
-
+import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
+import CalculateOutlinedIcon from '@mui/icons-material/CalculateOutlined';
+import PeopleAllOutlinedIcon from '@mui/icons-material/PeopleOutlined';
+import PsychologyOutlinedIcon from '@mui/icons-material/PsychologyOutlined';
+import GppGoodOutlinedIcon from '@mui/icons-material/GppGoodOutlined';
+import Shop2OutlinedIcon from '@mui/icons-material/Shop2Outlined';
 import {
   PRODUCTS_PAGE,
   PRODUCT_LIST_PAGE,
@@ -20,202 +36,206 @@ import {
   PRICE_CALC_VIEW_PAGE,
 } from 'constants/client-pages';
 
-interface ItemProps {
-  title: string;
-  to: string;
-  icon: ReactElement; // ReactElement type is used for JSX elements
-  selected: string;
-  // eslint-disable-next-line no-unused-vars
-  setSelected: (title: string) => void;
+const drawerWidth = 240;
+
+const openedMixin = (theme: Theme): CSSObject => ({
+  width: drawerWidth,
+  transition: theme.transitions.create('width', {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.enteringScreen,
+  }),
+  overflowX: 'hidden',
+});
+
+const closedMixin = (theme: Theme): CSSObject => ({
+  transition: theme.transitions.create('width', {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  overflowX: 'hidden',
+  width: `calc(${theme.spacing(7)} + 1px)`,
+  [theme.breakpoints.up('sm')]: {
+    width: `calc(${theme.spacing(8)} + 1px)`,
+  },
+});
+
+const DrawerHeader = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'flex-end',
+  padding: theme.spacing(0, 1),
+  // necessary for content to be below app bar
+  ...theme.mixins.toolbar,
+}));
+
+const Drawer = styled(MuiDrawer, {
+  shouldForwardProp: (prop) => prop !== 'open',
+})(({ theme, open }) => ({
+  width: drawerWidth,
+  flexShrink: 0,
+  whiteSpace: 'nowrap',
+  boxSizing: 'border-box',
+  ...(open && {
+    ...openedMixin(theme),
+    '& .MuiDrawer-paper': openedMixin(theme),
+  }),
+  ...(!open && {
+    ...closedMixin(theme),
+    '& .MuiDrawer-paper': closedMixin(theme),
+  }),
+}));
+
+interface AdminListItemProps {
+  text: string;
+  icon: React.ReactElement<SvgIconProps>;
+  url: string;
+  open: boolean;
 }
 
-const Item: React.FC<ItemProps> = ({
-  title,
-  to,
+const AdminListItem: React.FC<AdminListItemProps> = ({
+  text,
   icon,
-  selected,
-  setSelected,
+  url,
+  open,
 }) => {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode as 'light' | 'dark');
   return (
-    <Link id={`LINK_${title.replace(/\s/g, '_')}`} href={to} passHref>
-      <MenuItem
-        active={selected === title}
-        style={{ color: colors.grey[100] }}
-        onClick={() => setSelected(title)}>
-        {icon}
-        <Typography>{title}</Typography>
-      </MenuItem>
-    </Link>
+    <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+      <Link href={url} passHref>
+        <ListItemButton
+          sx={{
+            minHeight: 48,
+            justifyContent: open ? 'initial' : 'center',
+            px: 2.5,
+          }}>
+          <ListItemIcon
+            sx={{
+              minWidth: 0,
+              mr: open ? 3 : 'auto',
+              justifyContent: 'center',
+            }}>
+            {icon}
+          </ListItemIcon>
+          <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+        </ListItemButton>
+      </Link>
+    </ListItem>
   );
 };
 
 const AdminSideBar: React.FC = () => {
   const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
-  const [isCollapsed, setIsCollapsed] = useState(false);
-  const [selected, setSelected] = useState('Dashboard');
-  const [isClient, setIsClient] = useState(false);
+  const [open, setOpen] = useState(true);
 
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
 
   return (
-    <>
-      {/* following ensures that this is only rendered on the client */}
-      {isClient && (
-        <Box
-          sx={{
-            '& .pro-sidebar-inner': {
-              background: `${colors.primary[400]} !important`,
-            },
-            '& .pro-icon-wrapper': {
-              backgroundColor: 'transparent !important',
-            },
-            '& .pro-inner-item': {
-              padding: '5px 35px 5px 20px !important',
-            },
-            '& .pro-inner-item:hover': {
-              color: '#868dfb !important',
-            },
-            '& .pro-menu-item.active': {
-              color: '#6870fa !important',
-            },
-          }}>
-          <Sidebar collapsed={isCollapsed}>
-            <Menu>
-              {/* icon='square' */}
-              {/* LOGO AND MENU ICON */}
-              <MenuItem
-                onClick={() => setIsCollapsed(!isCollapsed)}
-                icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
-                style={{
-                  margin: '10px 0 20px 0',
-                  color: colors.grey[100],
-                }}>
-                {!isCollapsed && (
-                  <Box
-                    display='flex'
-                    justifyContent='space-between'
-                    alignItems='center'
-                    ml='15px'>
-                    <Typography variant='h3' color={colors.grey[100]}>
-                      Administration
-                    </Typography>
-                    <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
-                      <MenuOutlinedIcon />
-                    </IconButton>
-                  </Box>
-                )}
-              </MenuItem>
-              {!isCollapsed && (
-                <Box mb='25px'>
-                  <Box textAlign='center'>
-                    <Typography
-                      variant='h4'
-                      color={colors.grey[100]}
-                      fontWeight='bold'
-                      sx={{ m: '10px 0 0 0' }}>
-                      Name of Admin
-                    </Typography>
-                  </Box>
-                </Box>
-              )}
-              <Box paddingLeft={isCollapsed ? undefined : '10%'}>
-                <Item
-                  title='Shop'
-                  to={PRODUCTS_PAGE}
-                  icon={<HomeOutlinedIcon />}
-                  selected={selected}
-                  setSelected={setSelected}
-                />
-                <Typography
-                  variant='h6'
-                  color={colors.grey[300]}
-                  sx={{ m: '15px 0 5px 20px' }}>
-                  Products and Prices
-                </Typography>
-                <Item
-                  title='Products'
-                  to={PRODUCT_LIST_PAGE}
-                  icon={<PeopleOutlinedIcon />}
-                  selected={selected}
-                  setSelected={setSelected}
-                />
-                <Item
-                  title='Price Calculation'
-                  to={PRICE_CALC_VIEW_PAGE}
-                  icon={<PeopleOutlinedIcon />}
-                  selected={selected}
-                  setSelected={setSelected}
-                />
-
-                <Typography
-                  variant='h6'
-                  color={colors.grey[300]}
-                  sx={{ m: '15px 0 5px 20px' }}>
-                  Users
-                </Typography>
-                <Item
-                  title='Users'
-                  to={USER_LIST_PAGE}
-                  icon={<PeopleOutlinedIcon />}
-                  selected={selected}
-                  setSelected={setSelected}
-                />
-                <Item
-                  title='Roles'
-                  to={ROLE_LIST_PAGE}
-                  icon={<PeopleOutlinedIcon />}
-                  selected={selected}
-                  setSelected={setSelected}
-                />
-
-                <Item
-                  title='Role Access Rights'
-                  to={API_ACCESS_LIST_PAGE}
-                  icon={<PeopleOutlinedIcon />}
-                  selected={selected}
-                  setSelected={setSelected}
-                />
-
-                <Typography
-                  variant='h6'
-                  color={colors.grey[300]}
-                  sx={{ m: '15px 0 5px 20px' }}>
-                  Orders
-                </Typography>
-
-                <Item
-                  title='Orders'
-                  to={ORDER_LIST_PAGE}
-                  icon={<PeopleOutlinedIcon />}
-                  selected={selected}
-                  setSelected={setSelected}
-                />
-
-                <Typography
-                  variant='h6'
-                  color={colors.grey[300]}
-                  sx={{ m: '15px 0 5px 20px' }}>
-                  Various
-                </Typography>
-
-                <Item
-                  title='Help'
-                  to='\'
-                  icon={<HelpOutlineOutlinedIcon />}
-                  selected={selected}
-                  setSelected={setSelected}
-                />
-              </Box>
-            </Menu>
-          </Sidebar>
-        </Box>
-      )}
-    </>
+    <Box sx={{ display: 'flex' }}>
+      <Drawer
+        variant='permanent'
+        open={open}
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'flex-start',
+        }}>
+        <DrawerHeader>
+          <IconButton
+            color='inherit'
+            aria-label='open drawer'
+            onClick={handleDrawerOpen}
+            sx={{
+              ...(open && { display: 'none' }),
+              ml: 2,
+              flexGrow: 1,
+              textAlign: 'left',
+            }}>
+            {theme.direction === 'rtl' ? (
+              <ChevronLeftIcon />
+            ) : (
+              <ChevronRightIcon />
+            )}
+          </IconButton>
+          <Typography
+            variant='h5'
+            sx={{
+              ...(!open && { display: 'none' }),
+              ml: 2,
+              flexGrow: 1,
+              textAlign: 'left',
+            }}>
+            Administration
+          </Typography>
+          <IconButton
+            color='inherit'
+            aria-label='close drawer'
+            onClick={handleDrawerClose}
+            sx={{
+              ...(!open && { display: 'none' }),
+            }}>
+            {theme.direction === 'rtl' ? (
+              <ChevronRightIcon />
+            ) : (
+              <ChevronLeftIcon />
+            )}
+          </IconButton>
+        </DrawerHeader>
+        <Divider />
+        <List>
+          <AdminListItem
+            text='Shop'
+            icon={<HomeOutlinedIcon />}
+            url={PRODUCTS_PAGE}
+            open={open}
+          />
+          <Divider />
+          <AdminListItem
+            text='Products'
+            icon={<CategoryOutlinedIcon />}
+            url={PRODUCT_LIST_PAGE}
+            open={open}
+          />
+          <AdminListItem
+            text='Price Calculation'
+            icon={<CalculateOutlinedIcon />}
+            url={PRICE_CALC_VIEW_PAGE}
+            open={open}
+          />
+          <Divider />
+          <AdminListItem
+            text='Users'
+            icon={<PeopleAllOutlinedIcon />}
+            url={USER_LIST_PAGE}
+            open={open}
+          />
+          <AdminListItem
+            text='Roles'
+            icon={<PsychologyOutlinedIcon />}
+            url={ROLE_LIST_PAGE}
+            open={open}
+          />
+          <AdminListItem
+            text='Role Access Rights'
+            icon={<GppGoodOutlinedIcon />}
+            url={API_ACCESS_LIST_PAGE}
+            open={open}
+          />
+          <Divider />
+          <AdminListItem
+            text='Orders'
+            icon={<Shop2OutlinedIcon />}
+            url={ORDER_LIST_PAGE}
+            open={open}
+          />
+          <Divider />
+        </List>
+      </Drawer>
+    </Box>
   );
 };
 

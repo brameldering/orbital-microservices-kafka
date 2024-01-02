@@ -5,7 +5,7 @@ import { AppProps } from 'next/app';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 import store from 'slices/store';
 import { CssBaseline, ThemeProvider } from '@mui/material';
-import { ColorModeContext, useMode } from '../theme';
+import { ColorModeContext, useMode } from '../styles/theme';
 import Content from 'components/Content';
 
 import '../styles/index.css'; // To Do incorporate in custom theme

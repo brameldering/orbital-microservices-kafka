@@ -154,6 +154,20 @@ interface ThemeSettings {
     h6: { fontFamily: string; fontSize: number; color: string };
     body1: { color: string };
   };
+  components?: {
+    // Optional components field
+    // Define styles for specific MUI components
+    MuiLink?: {
+      styleOverrides?: {
+        root?: {};
+      };
+    };
+    MenuItem?: {
+      styleOverrides?: {
+        root?: {};
+      };
+    };
+  };
 }
 
 // mui theme settings
@@ -237,6 +251,41 @@ export const themeSettings = (mode: 'dark' | 'light'): ThemeSettings => {
       },
       body1: {
         color: textSecondary, // You can set different colors for body text if needed
+      },
+    },
+    components: {
+      // Add this section to your theme
+      MuiLink: {
+        // Target the Link component
+        styleOverrides: {
+          root: {
+            // Override the root style
+            textDecoration: 'none', // Remove text decoration
+            color: mode === 'dark' ? textPrimary : textSecondary, // Set link color
+            '&:hover': {
+              // Add a hover state if you like
+              textDecoration: 'underline', // Example: underline on hover
+            },
+            // Remove text decoration for active state
+            '&:active': {
+              textDecoration: 'none',
+            },
+          },
+        },
+      },
+      MenuItem: {
+        // Target the Link component
+        styleOverrides: {
+          root: {
+            // Override the root style
+            textDecoration: 'none', // Remove text decoration
+            color: mode === 'dark' ? textPrimary : textSecondary, // Set link color
+            // Remove text decoration for active state
+            '&:active': {
+              textDecoration: 'none',
+            },
+          },
+        },
       },
     },
   };
