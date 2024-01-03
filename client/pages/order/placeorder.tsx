@@ -118,7 +118,7 @@ const PlaceOrderScreen = () => {
               <Button
                 id='BUTTON_place_order'
                 type='button'
-                className='btn-block mt-2'
+                variant='contained'
                 disabled={cart.cartItems.length === 0 || creatingOrder}
                 onClick={placeOrderHandler}>
                 Place Order

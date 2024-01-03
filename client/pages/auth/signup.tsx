@@ -2,7 +2,8 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NextPageContext } from 'next';
 import Router, { useRouter } from 'next/router';
-import Link from 'next/link';
+import NextLink from 'next/link';
+import MuiLink from '@mui/material/Link';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -95,10 +96,6 @@ const SignUpScreen: React.FC<TPageProps> = ({ roles, error }) => {
     }
   };
 
-  const onError = (error: any) => {
-    console.error('ERROR:::', error);
-  };
-
   const selectRoles = [
     { label: 'Select role', value: '' },
     ...roles.map((role) => ({ label: role.roleDisplay, value: role.role })),
@@ -108,8 +105,24 @@ const SignUpScreen: React.FC<TPageProps> = ({ roles, error }) => {
     <>
       <Meta title={TITLE_SIGN_UP} />
       <FormContainer>
-        <Box component='form' onSubmit={handleSubmit(onSubmit, onError)}>
-          <FormTitle>{TITLE_SIGN_UP}</FormTitle>
+        <Box component='form' onSubmit={handleSubmit(onSubmit)}>
+          <Grid container justifyContent='space-between' alignItems='center'>
+            <Grid item>
+              <FormTitle>{TITLE_SIGN_UP}</FormTitle>
+            </Grid>
+            <Grid item>
+              Already have an account?{'  '}
+              <MuiLink
+                id='LINK_already_have_an_account'
+                href={
+                  redirect ? `${SIGNIN_PAGE}?redirect=${redirect}` : SIGNIN_PAGE
+                }
+                component={NextLink}>
+                Login
+              </MuiLink>
+            </Grid>
+          </Grid>
+
           {error ? (
             <ErrorBlock error={error} />
           ) : (
@@ -154,6 +167,7 @@ const SignUpScreen: React.FC<TPageProps> = ({ roles, error }) => {
                   id='BUTTON_register'
                   type='submit'
                   variant='contained'
+                  fullWidth
                   disabled={isProcessing || !isDirty}>
                   Sign Up
                 </Button>
@@ -162,18 +176,6 @@ const SignUpScreen: React.FC<TPageProps> = ({ roles, error }) => {
           )}
         </Box>
         {isProcessing && <Loader />}
-        <Grid container spacing={2} sx={{ mt: 2 }}>
-          <Grid item xs>
-            Already have an account?{' '}
-            <Link
-              id='LINK_already_have_an_account'
-              href={
-                redirect ? `${SIGNIN_PAGE}?redirect=${redirect}` : SIGNIN_PAGE
-              }>
-              Login
-            </Link>
-          </Grid>
-        </Grid>
       </FormContainer>
     </>
   );

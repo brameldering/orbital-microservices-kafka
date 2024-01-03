@@ -1,5 +1,5 @@
 import { createContext, useState, useMemo } from 'react';
-import { createTheme, Theme } from '@mui/material/styles';
+import { createTheme, Theme, Components } from '@mui/material/styles';
 
 // Define the color token types
 type ColorToken = {
@@ -87,16 +87,28 @@ export const tokens = (mode: 'dark' | 'light'): Tokens => ({
           900: '#e0e0e0',
         },
         primary: {
-          100: '#040509',
-          200: '#080b12',
-          300: '#0c101b',
-          400: '#f2f0f0',
-          500: '#141b2d',
-          600: '#1F2A40',
-          700: '#727681',
-          800: '#a1a4ab',
-          900: '#d0d1d5',
+          50: '#e6e8f0',
+          100: '#c7cde3',
+          200: '#a8b2d6',
+          300: '#8997c9',
+          400: '#6a7cbc',
+          500: '#414e71',
+          600: '#3a4765',
+          700: '#333f59',
+          800: '#2c374d',
+          900: '#252e41',
         },
+        // primary: {
+        //   100: '#040509',
+        //   200: '#080b12',
+        //   300: '#0c101b',
+        //   400: '#f2f0f0',
+        //   500: '#141b2d',
+        //   600: '#1F2A40',
+        //   700: '#727681',
+        //   800: '#a1a4ab',
+        //   900: '#d0d1d5',
+        // },
         greenAccent: {
           100: '#0f2922',
           200: '#1e5245',
@@ -154,30 +166,7 @@ interface ThemeSettings {
     h6: { fontFamily: string; fontSize: number; color: string };
     body1: { color: string };
   };
-  components?: {
-    MuiTableCell?: {
-      styleOverrides?: {
-        head?: {
-          backgroundColor?: string;
-          color?: string;
-          fontWeight?: string;
-        };
-      };
-    };
-  };
-  // components?: {
-  // MuiTextField?: {
-  //   styleOverrides?: {
-  //     root?: {};
-  //     input?: {};
-  //   };
-  // };
-  // MuiLink?: {
-  //   styleOverrides?: {
-  //     root?: {};
-  //   };
-  // }
-  // };
+  components?: Components;
 }
 
 // mui theme settings
@@ -221,7 +210,7 @@ export const themeSettings = (mode: 'dark' | 'light'): ThemeSettings => {
               light: colors.grey[100],
             },
             background: {
-              default: colors.grey[900], //'#fcfcfc',
+              default: colors.primary[100], // grey[900], //'#fcfcfc',
             },
           }),
     },
@@ -264,45 +253,43 @@ export const themeSettings = (mode: 'dark' | 'light'): ThemeSettings => {
       },
     },
     components: {
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            color: mode === 'dark' ? colors.grey[100] : colors.grey[900],
+            backgroundColor:
+              mode === 'dark' ? colors.primary[600] : colors.primary[300],
+            '&:hover': {
+              backgroundColor:
+                mode === 'dark' ? colors.primary[800] : colors.primary[400],
+            },
+          },
+          disabled: {
+            backgroundColor:
+              mode === 'dark' ? colors.grey[700] : colors.grey[400],
+            color: mode === 'dark' ? colors.grey[500] : colors.grey[300],
+          },
+        },
+      },
+      // Custom style for table header cells
       MuiTableCell: {
         styleOverrides: {
           head: {
-            // Define styles for table header cells
             backgroundColor: mode === 'dark' ? '#0a0d16' : colors.grey[800],
             color: textPrimary,
             fontWeight: 'bold',
           },
         },
       },
+      // Custom style for Links
+      MuiLink: {
+        styleOverrides: {
+          root: {
+            color: mode === 'dark' ? textPrimary : colors.blueAccent[100],
+          },
+        },
+      },
     },
-    // components: {
-    //   MuiTextField: {
-    //     styleOverrides: {
-    //       root: {
-    //         maxWidth: (theme: Theme) => theme.spacing(12.5),
-    //       },
-    //       input: {
-    //         padding: (theme: Theme) => theme.spacing(0.25),
-    //         height: (theme: Theme) => theme.spacing(1),
-    //       },
-    //     },
-    //   },
-    //   MuiLink: {
-    //     styleOverrides: {
-    //       root: {
-    //         textDecoration: 'none', // Remove text decoration
-    //         color: mode === 'dark' ? textPrimary : textSecondary, // Set link color
-    //         '&:hover': {
-    //           textDecoration: 'underline', // Example: underline on hover
-    //         },
-    //         // Remove text decoration for active state
-    //         '&:active': {
-    //           textDecoration: 'none',
-    //         },
-    //       },
-    //     },
-    //   },
-    // },
   };
 };
 

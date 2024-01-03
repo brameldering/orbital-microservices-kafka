@@ -9,6 +9,7 @@ import {
   TextField,
   Checkbox,
   Select,
+  InputLabel,
   MenuItem,
   FormHelperText,
   FormControlLabel,
@@ -225,17 +226,21 @@ const SelectField: React.FunctionComponent<SelectFieldProps> = ({
   setError,
 }) => {
   // const errorTextId = 'error_text_' + controlId;
+  const defaultValue = options.length > 0 ? options[0].label : '';
   return (
     <>
       <FormControl fullWidth margin='normal' variant='outlined'>
+        <InputLabel id={`${controlId}-label`}>{options[0].label}</InputLabel>
         <Controller
           name={controlId}
           control={control}
-          defaultValue=''
+          defaultValue={defaultValue}
           render={({ field }) => (
             <Select
-              aria-label='Select'
               id={controlId}
+              labelId={`${controlId}-label`}
+              label={options[0].label}
+              aria-label='Select'
               {...field}
               onChange={(e) => {
                 setError(controlId, { message: '' });

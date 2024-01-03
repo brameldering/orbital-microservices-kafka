@@ -13,7 +13,7 @@ const FormContainer: React.FunctionComponent<FormContainerProps> = ({
   return (
     <Container maxWidth='sm'>
       <Paper
-        elevation={3}
+        elevation={2}
         sx={{ p: theme.spacing(3), maxWidth: theme.spacing(80) }}>
         {children}
       </Paper>

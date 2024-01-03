@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { NextPageContext } from 'next';
-import Link from 'next/link';
+import NextLink from 'next/link';
+import MuiLink from '@mui/material/Link';
 import Router, { useRouter } from 'next/router';
 import Image from 'next/image';
 import {
@@ -123,9 +124,9 @@ const ProductDetailScreen: React.FC<TPageProps> = ({
   return (
     <>
       <Box sx={{ my: 4 }}>
-        <Link id='BUTTON_go_back' href={goBackPath.toString()} passHref>
+        <NextLink id='BUTTON_go_back' href={goBackPath.toString()} passHref>
           <Button variant='outlined'>Go Back</Button>
-        </Link>
+        </NextLink>
       </Box>
       {error ? (
         <ErrorBlock error={error} />
@@ -286,14 +287,12 @@ const ProductDetailScreen: React.FC<TPageProps> = ({
                     ) : (
                       <Alert severity='info'>
                         Please{' '}
-                        <Link
+                        <MuiLink
                           id='LINK_sign_in'
                           href={`${SIGNIN_PAGE}?redirect=${asPath}`}
-                          passHref>
-                          <Typography variant='subtitle1' component='a'>
-                            sign in
-                          </Typography>
-                        </Link>{' '}
+                          component={NextLink}>
+                          sign in{' '}
+                        </MuiLink>
                         to write a review
                       </Alert>
                     )}

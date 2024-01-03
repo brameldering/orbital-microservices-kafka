@@ -6,8 +6,6 @@ import Image from 'next/image';
 import Router, { useRouter } from 'next/router';
 import {
   Grid,
-  Card,
-  CardContent,
   Button,
   IconButton,
   Typography,
@@ -17,6 +15,7 @@ import {
   Select,
   MenuItem,
   Alert,
+  Paper,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FormTitle from 'form/FormTitle';
@@ -90,100 +89,101 @@ const CartScreen: React.FC<TPageProps> = ({ priceCalcSettings, error }) => {
               ) : (
                 <List>
                   {cartItems.map((item) => (
-                    <ListItem
-                      id='product_item'
-                      key={item.productId}
-                      sx={{ py: 2 }}>
-                      <Grid container spacing={2}>
-                        <Grid item xs={2}>
-                          <Image
-                            src={item.imageURL}
-                            alt={item.productName}
-                            width={50}
-                            height={50}
-                            layout='responsive'
-                          />
-                        </Grid>
-                        <Grid item xs={4}>
-                          <Link
-                            id={`product_name_${item.productName}`}
-                            href={`${PRODUCT_DETAIL_PAGE}/${item.productId}?goBackPath=${currentPath}`}
-                            passHref>
-                            <Typography component='a' variant='body1'>
-                              {item.productName}
+                    <ListItem id='product_item' key={item.productId}>
+                      <Paper elevation={2} sx={{ p: 2 }}>
+                        <Grid container spacing={2}>
+                          <Grid item xs={2}>
+                            <Image
+                              src={item.imageURL}
+                              alt={item.productName}
+                              width={50}
+                              height={50}
+                              layout='responsive'
+                            />
+                          </Grid>
+                          <Grid item xs={4}>
+                            <Link
+                              id={`product_name_${item.productName}`}
+                              href={`${PRODUCT_DETAIL_PAGE}/${item.productId}?goBackPath=${currentPath}`}
+                              passHref>
+                              <Typography component='a' variant='body1'>
+                                {item.productName}
+                              </Typography>
+                            </Link>
+                          </Grid>
+                          <Grid item xs={2}>
+                            <Typography>
+                              {CURRENCY_SYMBOL}
+                              {item.price.toFixed(2)}
                             </Typography>
-                          </Link>
-                        </Grid>
-                        <Grid item xs={2}>
-                          <Typography>
-                            {CURRENCY_SYMBOL}
-                            {item.price.toFixed(2)}
-                          </Typography>
-                        </Grid>
-                        <Grid item xs={2}>
-                          <FormControl fullWidth>
-                            <Select
-                              id={`select_quantity_${item.productName}`}
-                              value={item.qty}
-                              variant='outlined'
-                              fullWidth
-                              onChange={(e) =>
-                                addToCartHandler(item, Number(e.target.value))
+                          </Grid>
+                          <Grid item xs={2}>
+                            <FormControl fullWidth>
+                              <Select
+                                id={`select_quantity_${item.productName}`}
+                                value={item.qty}
+                                variant='outlined'
+                                fullWidth
+                                onChange={(e) =>
+                                  addToCartHandler(item, Number(e.target.value))
+                                }>
+                                {[...Array(item.countInStock).keys()].map(
+                                  (x) => (
+                                    <MenuItem key={x + 1} value={x + 1}>
+                                      {x + 1}
+                                    </MenuItem>
+                                  )
+                                )}
+                              </Select>
+                            </FormControl>
+                          </Grid>
+                          <Grid item xs={2}>
+                            <IconButton
+                              id={`remove_from_cart_${item.productName}`}
+                              onClick={() =>
+                                removeFromCartHandler(item.productId)
                               }>
-                              {[...Array(item.countInStock).keys()].map((x) => (
-                                <MenuItem key={x + 1} value={x + 1}>
-                                  {x + 1}
-                                </MenuItem>
-                              ))}
-                            </Select>
-                          </FormControl>
+                              <DeleteIcon />
+                            </IconButton>
+                          </Grid>
                         </Grid>
-                        <Grid item xs={2}>
-                          <IconButton
-                            id={`remove_from_cart_${item.productName}`}
-                            onClick={() =>
-                              removeFromCartHandler(item.productId)
-                            }>
-                            <DeleteIcon />
-                          </IconButton>
-                        </Grid>
-                      </Grid>
+                      </Paper>
                     </ListItem>
                   ))}
                 </List>
               )}
             </Grid>
             <Grid item md={4} xs={12}>
-              <Card>
-                <CardContent>
-                  <List disablePadding>
-                    <ListItem>
-                      <Typography variant='h3'>
-                        Subtotal (
-                        {cartItems.reduce((acc, item) => acc + item.qty, 0)})
-                        items
-                      </Typography>
-                      <Typography variant='body1'>
-                        {CURRENCY_SYMBOL}
-                        {cartItems
-                          .reduce((acc, item) => acc + item.qty * item.price, 0)
-                          .toFixed(2)}
-                      </Typography>
-                    </ListItem>
-                    <ListItem>
-                      <Button
-                        id='BUTTON_checkout'
-                        variant='contained'
-                        color='primary'
-                        fullWidth
-                        disabled={cartItems.length === 0}
-                        onClick={checkoutHandler}>
-                        Proceed To Checkout
-                      </Button>
-                    </ListItem>
-                  </List>
-                </CardContent>
-              </Card>
+              <Paper elevation={2} sx={{ p: 2 }}>
+                <List disablePadding>
+                  <ListItem>
+                    <Typography variant='h3'>
+                      Subtotal (
+                      {cartItems.reduce((acc, item) => acc + item.qty, 0)})
+                      items
+                    </Typography>
+                  </ListItem>
+                  <ListItem>
+                    <Typography variant='h5'>
+                      {CURRENCY_SYMBOL}
+                      {cartItems
+                        .reduce((acc, item) => acc + item.qty * item.price, 0)
+                        .toFixed(2)}
+                    </Typography>
+                  </ListItem>
+                  <ListItem>
+                    <Button
+                      id='BUTTON_checkout'
+                      variant='contained'
+                      color='primary'
+                      fullWidth
+                      disabled={cartItems.length === 0}
+                      onClick={checkoutHandler}>
+                      Proceed To Checkout
+                    </Button>
+                  </ListItem>
+                </List>
+              </Paper>
             </Grid>
           </Grid>
         </>

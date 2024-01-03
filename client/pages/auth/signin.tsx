@@ -1,7 +1,8 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import Router, { useRouter } from 'next/router';
-import Link from 'next/link';
+import NextLink from 'next/link';
+import MuiLink from '@mui/material/Link';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -95,7 +96,6 @@ const SignInScreen: React.FC = () => {
             id='BUTTON_login'
             type='submit'
             variant='contained'
-            color='primary'
             disabled={isProcessing || !isDirty}
             fullWidth
             sx={{ mt: 3, mb: 2 }}>
@@ -105,22 +105,26 @@ const SignInScreen: React.FC = () => {
         </Box>
         <Grid container>
           <Grid item xs>
-            New Customer?<span> </span>
-            <Link
+            New Customer?{'  '}
+            <MuiLink
               id='LINK_register_new_customer'
               href={
                 redirect ? `${SIGNUP_PAGE}?redirect=${redirect}` : SIGNUP_PAGE
-              }>
+              }
+              component={NextLink}>
               Register
-            </Link>
+            </MuiLink>
           </Grid>
         </Grid>
         <Grid container>
           <Grid item>
-            Password forgotten?<span> </span>
-            <Link id='LINK_reset_password' href={RESET_PASSWORD_PAGE}>
+            Password forgotten?{'  '}
+            <MuiLink
+              id='LINK_reset_password'
+              href={RESET_PASSWORD_PAGE}
+              component={NextLink}>
               Reset password
-            </Link>
+            </MuiLink>
           </Grid>
         </Grid>
         {isProcessing && <Loader />}
