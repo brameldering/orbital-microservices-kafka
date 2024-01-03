@@ -9,6 +9,7 @@ import {
   Card,
   CardContent,
   Button,
+  IconButton,
   Typography,
   List,
   ListItem,
@@ -124,6 +125,8 @@ const CartScreen: React.FC<TPageProps> = ({ priceCalcSettings, error }) => {
                             <Select
                               id={`select_quantity_${item.productName}`}
                               value={item.qty}
+                              variant='outlined'
+                              fullWidth
                               onChange={(e) =>
                                 addToCartHandler(item, Number(e.target.value))
                               }>
@@ -136,12 +139,13 @@ const CartScreen: React.FC<TPageProps> = ({ priceCalcSettings, error }) => {
                           </FormControl>
                         </Grid>
                         <Grid item xs={2}>
-                          <Button
+                          <IconButton
                             id={`remove_from_cart_${item.productName}`}
                             onClick={() =>
                               removeFromCartHandler(item.productId)
-                            }
-                            startIcon={<DeleteIcon />}></Button>
+                            }>
+                            <DeleteIcon />
+                          </IconButton>
                         </Grid>
                       </Grid>
                     </ListItem>

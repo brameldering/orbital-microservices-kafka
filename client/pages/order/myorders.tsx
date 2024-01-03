@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import FormTitle from 'form/FormTitle';
-import FormTable from 'form/TableContainer';
+import FormTable from 'form/FormTable';
 import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
 import { parseError } from 'utils/parse-error';

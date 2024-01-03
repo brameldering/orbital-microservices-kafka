@@ -3,16 +3,18 @@ import React, { useState } from 'react';
 // import { Form, FloatingLabel, InputGroup, Button } from 'react-bootstrap';
 import { Controller } from 'react-hook-form';
 // import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import TextField from '@mui/material/TextField';
-import Checkbox from '@mui/material/Checkbox';
-import Select from '@mui/material/Select';
-// import FormControl from '@mui/material/FormControl';
-// import InputLabel from '@mui/material/InputLabel';
-import FormHelperText from '@mui/material/FormHelperText';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormGroup from '@mui/material/FormGroup';
-import InputAdornment from '@mui/material/InputAdornment';
-import IconButton from '@mui/material/IconButton';
+import {
+  FormGroup,
+  FormControl,
+  TextField,
+  Checkbox,
+  Select,
+  MenuItem,
+  FormHelperText,
+  FormControlLabel,
+  InputAdornment,
+  IconButton,
+} from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
@@ -34,25 +36,27 @@ const CheckBoxField: React.FunctionComponent<CheckBoxFieldProps> = ({
   error,
   setError,
 }) => {
-  const errorTextId = 'error_text_' + controlId;
+  // const errorTextId = 'error_text_' + controlId;
   return (
-    <FormGroup>
-      <FormControlLabel
-        control={
-          <Checkbox
-            id={controlId}
-            checked={checked}
-            {...register(controlId)}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              setError(controlId, { message: '' });
-              register(controlId).onChange(e);
-            }}
-          />
-        }
-        label={label}
-      />
-      {error && <FormHelperText error>{error.message}</FormHelperText>}
-    </FormGroup>
+    <FormControl component='fieldset' margin='normal' fullWidth>
+      <FormGroup>
+        <FormControlLabel
+          control={
+            <Checkbox
+              id={controlId}
+              checked={checked}
+              {...register(controlId)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                setError(controlId, { message: '' });
+                register(controlId).onChange(e);
+              }}
+            />
+          }
+          label={label}
+        />
+        {error && <FormHelperText error>{error.message}</FormHelperText>}
+      </FormGroup>
+    </FormControl>
   );
 };
 
@@ -65,17 +69,6 @@ interface TextNumFieldProps {
   register: any;
   error: any;
   setError: any;
-}
-{
-  /* <Form.Group>
-     <FloatingLabel controlId={controlId} label={label} className='mt-3'>
- </FloatingLabel>
-       {error && (
-         <Form.Text id={errorTextId} className='text-danger'>
-           {error.message}
-         </Form.Text>
-       )}
-</Form.Group>  */
 }
 
 const TextNumField: React.FunctionComponent<TextNumFieldProps> = ({
@@ -93,7 +86,7 @@ const TextNumField: React.FunctionComponent<TextNumFieldProps> = ({
       type={type}
       label={label}
       variant='outlined'
-      // margin='normal'
+      margin='normal'
       fullWidth
       {...register(controlId)}
       error={!!error}
@@ -183,11 +176,6 @@ const PasswordField: React.FunctionComponent<PasswordFieldProps> = ({
   setError,
 }) => {
   const [contentVisible, setContentVisible] = useState(false);
-  const handleMouseDownPassword = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    event.preventDefault();
-  };
   // const errorTextId = 'error_text_' + controlId;
   return (
     <TextField
@@ -200,13 +188,17 @@ const PasswordField: React.FunctionComponent<PasswordFieldProps> = ({
       {...register(controlId)}
       error={!!error}
       helperText={error?.message}
+      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+        setError(controlId, { message: '' });
+        register(controlId).onChange(e);
+      }}
       InputProps={{
         endAdornment: (
           <InputAdornment position='end'>
             <IconButton
               aria-label='toggle password visibility'
-              onClick={() => setContentVisible(!contentVisible)}
-              onMouseDown={handleMouseDownPassword}>
+              onMouseDown={() => setContentVisible(!contentVisible)}
+              onMouseUp={() => setContentVisible(!contentVisible)}>
               {contentVisible ? <Visibility /> : <VisibilityOff />}
             </IconButton>
           </InputAdornment>
@@ -235,30 +227,30 @@ const SelectField: React.FunctionComponent<SelectFieldProps> = ({
   // const errorTextId = 'error_text_' + controlId;
   return (
     <>
-      <Controller
-        name={controlId}
-        control={control}
-        defaultValue=''
-        render={({ field }) => (
-          <Select
-            aria-label='Select Role'
-            id={controlId}
-            // className='mt-3'
-            // style={{ borderColor: '#606060' }}
-            {...field}
-            onChange={(e) => {
-              setError(controlId, { message: '' });
-              field.onChange(e);
-            }}>
-            {options.map((option: any) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </Select>
-        )}
-      />
-      {error && <FormHelperText error>{error.message}</FormHelperText>}
+      <FormControl fullWidth margin='normal' variant='outlined'>
+        <Controller
+          name={controlId}
+          control={control}
+          defaultValue=''
+          render={({ field }) => (
+            <Select
+              aria-label='Select'
+              id={controlId}
+              {...field}
+              onChange={(e) => {
+                setError(controlId, { message: '' });
+                field.onChange(e);
+              }}>
+              {options.map((option: any) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </Select>
+          )}
+        />
+        {error && <FormHelperText error>{error.message}</FormHelperText>}
+      </FormControl>
     </>
   );
 };
@@ -292,6 +284,10 @@ const TextAreaField: React.FunctionComponent<TextAreaFieldProps> = ({
       {...register(controlId)}
       error={!!error}
       helperText={error?.message}
+      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+        setError(controlId, { message: '' });
+        register(controlId).onChange(e);
+      }}
     />
   );
 };

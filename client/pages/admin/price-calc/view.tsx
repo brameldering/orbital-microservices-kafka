@@ -38,7 +38,6 @@ const PriceCalcSettingsScreen: React.FC<TPageProps> = ({
             variant='contained'
             startIcon={<EditIcon />}
             size='small'>
-            {' '}
             Edit Price Calculation Settings
           </Button>
         </Link>

@@ -184,6 +184,8 @@ const ProductDetailScreen: React.FC<TPageProps> = ({
                       <Select
                         id='select_quantity'
                         value={qty}
+                        variant='outlined'
+                        fullWidth
                         onChange={(e) => setQty(Number(e.target.value))}>
                         {/* The following creates an array starting with 0 to countinStock-1:
                                 [...Array(product.countInStock).keys()] */}
@@ -243,6 +245,8 @@ const ProductDetailScreen: React.FC<TPageProps> = ({
                           <InputLabel>Rating</InputLabel>
                           <Select
                             value={rating}
+                            variant='outlined'
+                            fullWidth
                             onChange={(e) => setRating(Number(e.target.value))}
                             required>
                             <MenuItem value=''>Select...</MenuItem>

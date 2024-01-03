@@ -14,7 +14,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import FormTitle from 'form/FormTitle';
-import FormTable from 'form/TableContainer';
+import FormTable from 'form/FormTable';
 import Loader from 'components/Loader';
 import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
@@ -109,12 +109,17 @@ const UserListScreen: React.FC<TPageProps> = ({ users, error }) => {
                     )}
                   </TableCell>
                   <TableCell>
-                    <Link href={`${USER_EDIT_PAGE}/${user.id}`} passHref>
+                    <Link
+                      id={`edit_${user.email}`}
+                      href={`${USER_EDIT_PAGE}/${user.id}`}
+                      passHref>
                       <IconButton>
                         <EditIcon />
                       </IconButton>
                     </Link>
-                    <IconButton onClick={() => confirmDeleteUser(user.id)}>
+                    <IconButton
+                      id={`delete_${user.email}`}
+                      onClick={() => confirmDeleteUser(user.id)}>
                       <DeleteIcon />
                     </IconButton>
                   </TableCell>

@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import {
   Button,
+  IconButton,
   TableBody,
   TableCell,
   TableHead,
@@ -16,7 +17,7 @@ import {
   Delete as DeleteIcon,
 } from '@mui/icons-material';
 import FormTitle from 'form/FormTitle';
-import FormTable from 'form/TableContainer';
+import FormTable from 'form/FormTable';
 import Loader from 'components/Loader';
 import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
@@ -169,22 +170,25 @@ const ProductListScreen = () => {
                   <TableCell id={`category_${product.sequentialProductId}`}>
                     {product.category}
                   </TableCell>
-                  <TableCell>
-                    <Link href={`${PRODUCT_EDIT_PAGE}/${product.id}`}>
-                      <Button
-                        id={`edit_${product.sequentialProductId}`}
-                        variant='outlined'
-                        size='small'
-                        startIcon={<EditIcon />}
-                        sx={{ mx: 1 }}></Button>
+                  <TableCell
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'flex-start',
+                    }}>
+                    <Link
+                      id={`edit_${product.sequentialProductId}`}
+                      href={`${PRODUCT_EDIT_PAGE}/${product.id}`}
+                      passHref>
+                      <IconButton>
+                        <EditIcon />
+                      </IconButton>
                     </Link>
-                    <Button
+                    <IconButton
                       id={`delete_${product.sequentialProductId}`}
-                      variant='contained'
-                      color='error'
-                      size='small'
-                      startIcon={<DeleteIcon />}
-                      onClick={() => confirmDeleteProduct(product.id)}></Button>
+                      onClick={() => confirmDeleteProduct(product.id)}>
+                      <DeleteIcon />
+                    </IconButton>
                   </TableCell>
                 </TableRow>
               ))}

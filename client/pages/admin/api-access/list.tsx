@@ -5,6 +5,7 @@ import Link from 'next/link';
 import {
   Grid,
   Button,
+  IconButton,
   TableBody,
   TableCell,
   TableHead,
@@ -25,7 +26,7 @@ import {
 import Loader from 'components/Loader';
 import Meta from 'components/Meta';
 import FormTitle from 'form/FormTitle';
-import FormTable from 'form/TableContainer';
+import FormTable from 'form/FormTable';
 import ErrorBlock from 'components/ErrorBlock';
 import { parseError } from 'utils/parse-error';
 import ModalConfirmBox from 'components//ModalConfirmBox';
@@ -141,6 +142,8 @@ const ApiAccessListscreen: React.FC<TPageProps> = ({
             <Select
               labelId='microservice-label'
               value={selectedMicroservice}
+              variant='outlined'
+              fullWidth
               onChange={handleSelectChange}
               label='Microservice'>
               {microservices.map((option) => (
@@ -224,24 +227,20 @@ const ApiAccessListscreen: React.FC<TPageProps> = ({
                         </TableCell>
                         <TableCell>
                           <Link
+                            id={`edit_${filteredApiAccess.apiName}`}
                             href={`${API_ACCESS_EDIT_PAGE}/${filteredApiAccess.id}`}
                             passHref>
-                            <Button
-                              id={`edit_${filteredApiAccess.apiName}`}
-                              variant='outlined'
-                              size='small'
-                              startIcon={<EditIcon />}
-                              sx={{ marginRight: 1 }}></Button>
+                            <IconButton>
+                              <EditIcon />
+                            </IconButton>
                           </Link>
-                          <Button
+                          <IconButton
                             id={`delete_${filteredApiAccess.apiName}`}
-                            variant='contained'
-                            color='error'
-                            size='small'
-                            startIcon={<DeleteIcon />}
                             onClick={() =>
                               confirmDeleteApiAccess(filteredApiAccess.id)
-                            }></Button>
+                            }>
+                            <DeleteIcon />
+                          </IconButton>
                         </TableCell>
                       </TableRow>
                     ))}

@@ -154,17 +154,6 @@ interface ThemeSettings {
     h6: { fontFamily: string; fontSize: number; color: string };
     body1: { color: string };
   };
-  components?: {
-    MuiTableCell?: {
-      styleOverrides?: {
-        head?: {
-          backgroundColor?: string;
-          color?: string;
-          fontWeight?: string;
-        };
-      };
-    };
-  };
   // components?: {
   // MuiTextField?: {
   //   styleOverrides?: {
@@ -261,18 +250,6 @@ export const themeSettings = (mode: 'dark' | 'light'): ThemeSettings => {
       },
       body1: {
         color: textPrimary,
-      },
-    },
-    components: {
-      MuiTableCell: {
-        styleOverrides: {
-          head: {
-            // Define styles for table header cells
-            backgroundColor: mode === 'dark' ? '#0a0d16' : colors.grey[800],
-            color: textPrimary,
-            fontWeight: 'bold',
-          },
-        },
       },
     },
     // components: {

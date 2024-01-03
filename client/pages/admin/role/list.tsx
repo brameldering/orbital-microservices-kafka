@@ -17,7 +17,7 @@ import {
   Delete as DeleteIcon,
 } from '@mui/icons-material';
 import FormTitle from 'form/FormTitle';
-import FormTable from 'form/TableContainer';
+import FormTable from 'form/FormTable';
 import Loader from 'components/Loader';
 import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
