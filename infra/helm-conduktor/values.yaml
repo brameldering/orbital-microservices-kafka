@@ -8,8 +8,8 @@ config:
 
   database:
     # host: 'postgres'
-    host: postgres.kafka.svc.cluster.local
+    host: postgres-conduktor.kafka.svc.cluster.local
     port: 5432
     name: 'postgresdb'
     username: 'admin'
-    password: 'psltest'
+    password: 'conduktor'

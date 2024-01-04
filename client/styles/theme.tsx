@@ -263,11 +263,11 @@ export const themeSettings = (mode: 'dark' | 'light'): ThemeSettings => {
               backgroundColor:
                 mode === 'dark' ? colors.primary[800] : colors.primary[400],
             },
-          },
-          disabled: {
-            backgroundColor:
-              mode === 'dark' ? colors.grey[700] : colors.grey[400],
-            color: mode === 'dark' ? colors.grey[500] : colors.grey[300],
+            '&.Mui-disabled': {
+              backgroundColor:
+                mode === 'dark' ? colors.grey[700] : colors.grey[400],
+              color: mode === 'dark' ? colors.grey[500] : colors.grey[300],
+            },
           },
         },
       },

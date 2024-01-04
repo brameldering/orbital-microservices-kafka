@@ -31,9 +31,14 @@ spec:
             # - name: KAFKA_BROKERS
             #   value: kafka-service-1:9092
             - name: KAFKA_BROKERS
-              value: 'kafka-service-1.kafka.svc.cluster.local:9092,kafka-service-2.kafka.svc.cluster.local:9093'
+              value: 'kafka-service-1.kafka.svc.cluster.local:9092'
+              # value: 'kafka-service-1.kafka.svc.cluster.local:9092,kafka-service-2.kafka.svc.cluster.local:9093'
             - name: KAFKA_LOG_LEVEL
               value: WARN
+            - name: KAFKA_NUM_PARTITIONS
+              value: '1'
+            - name: KAFKA_REPLICATION_FACTOR
+              value: '1'
 ---
 apiVersion: v1
 kind: Service

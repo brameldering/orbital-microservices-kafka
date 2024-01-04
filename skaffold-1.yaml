@@ -2,10 +2,10 @@ apiVersion: skaffold/v4beta6
 kind: Config
 manifests:
   rawYaml:
-    - ./infra/k8s/kafka-namespace/*
-    - ./infra/k8s/kafka/*
-    - ./infra/k8s/postgres/postgres-config.yaml
-    - ./infra/k8s/postgres/postgres-depl-1.yaml
-    - ./infra/k8s/postgres/postgres-depl-2.yaml
+    - ./infra/k8s/kafka/kafka-namespace.yaml
+    - ./infra/k8s/kafka/zookeeper-depl.yaml
+    - ./infra/k8s/kafka/kafka-broker-1-depl.yaml
+    # v To set a second broker, also update ENV variables of microservices and replication factor in seeder
+    # - ./infra/k8s/kafka/kafka-broker-2-depl.yaml
 deploy:
   kubectl: {}

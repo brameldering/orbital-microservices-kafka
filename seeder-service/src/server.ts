@@ -17,6 +17,10 @@ import {
 } from '@orbitelco/common';
 import { seedDataRouter } from './routes/seed-data';
 
+function canBeConvertedToNumber(strNumber: string) {
+  return !isNaN(parseFloat(strNumber)) && isFinite(parseFloat(strNumber));
+}
+
 // ======================================================
 // Check for existence of ENV variables set in depl files (dev/prod) or .env file for test
 if (
@@ -46,6 +50,26 @@ try {
 } catch (error: any) {
   console.error('ENV variable for KAFKA_LOG_LEVEL not valid', error);
 }
+if (
+  !(process.env.KAFKA_NUM_PARTITIONS && process.env.KAFKA_REPLICATION_FACTOR)
+) {
+  console.error(
+    'Missing ENV variable for KAFKA_NUM_PARTITIONS or KAFKA_REPLICATION_FACTOR'
+  );
+  process.exit(1);
+}
+if (
+  !(
+    canBeConvertedToNumber(process.env.KAFKA_NUM_PARTITIONS) &&
+    canBeConvertedToNumber(process.env.KAFKA_REPLICATION_FACTOR)
+  )
+) {
+  console.error(
+    'ENV variable for KAFKA_NUM_PARTITIONS or KAFKA_REPLICATION_FACTOR is not a number'
+  );
+  process.exit(1);
+}
+
 // ======================================================
 
 const app = express();
@@ -70,8 +94,8 @@ app.use(errorHandler);
 
 // ======================================================================
 const KAFKA_CLIENT_ID = 'seeder';
-const NUM_PARTITIONS = 3;
-const REPLICATION_FACTOR = 2;
+const NumPartitions = Number(process.env.KAFKA_NUM_PARTITIONS!);
+const ReplicationFactor = Number(process.env.KAFKA_REPLICATION_FACTOR!);
 
 // ======================================================================
 // Initialize Kafka topics and Mongo DB connections
@@ -93,8 +117,8 @@ const start = async () => {
     for (const topic of Object.values(Topics)) {
       await kafkaWrapper.ensureTopicExists(
         topic,
-        NUM_PARTITIONS,
-        REPLICATION_FACTOR
+        NumPartitions,
+        ReplicationFactor
       );
       await wait(100); // wait to give balancing time
     }

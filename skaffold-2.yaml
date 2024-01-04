@@ -14,6 +14,9 @@ build:
     push: false
 manifests:
   rawYaml:
+    - ./infra/k8s/postgres-inv/postgres-config.yaml
+    - ./infra/k8s/postgres-inv/postgres-depl-1.yaml
+    - ./infra/k8s/postgres-inv/postgres-depl-2.yaml
     - ./infra/k8s/set-1/*
 deploy:
   kubectl: {}

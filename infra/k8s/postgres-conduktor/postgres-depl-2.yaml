@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-conduktor-depl # Sets Deployment name
+  namespace: kafka
+  labels:
+    app: postgres-conduktor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-conduktor
+  template:
+    metadata:
+      labels:
+        app: postgres-conduktor
+    spec:
+      containers:
+        - name: postgres-conduktor
+          image: postgres:15.1 # Sets Image
+          imagePullPolicy: 'IfNotPresent'
+          ports:
+            - containerPort: 5432 # Exposes container port
+          envFrom:
+            - configMapRef:
+                name: postgres-conduktor-config
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgredb
+      volumes:
+        - name: postgredb
+          persistentVolumeClaim:
+            claimName: postgres-conduktor-pv-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-conduktor # Sets service name
+  namespace: kafka
+  labels:
+    app: postgres-conduktor # Labels and Selectors
+spec:
+  ports:
+    - name: postgres-conduktor-port
+      protocol: TCP
+      port: 5432 # Sets port to run the postgres application
+      targetPort: 5432
+  selector:
+    app: postgres-conduktor
