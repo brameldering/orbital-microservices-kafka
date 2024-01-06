@@ -15,7 +15,7 @@ import { sequences } from '../../seederdata/sequences';
 import { products } from '../../seederdata/products';
 import { users } from '../../seederdata/users';
 import { priceCalcSettings } from '../../seederdata/price-calc-settings';
-import { product_quantities } from '../../seederdata/inventory';
+import { invProducts } from '../../seederdata/inventory';
 import {
   sequencesDB,
   authDB,
@@ -122,8 +122,8 @@ router.post(SEED_DATA_URL, async (req: Request, res: Response) => {
   );
 
   // InventoryDB
-  for (const prodQty of product_quantities) {
-    await inventoryDB.product_quantity.create({ data: prodQty });
+  for (const prod of invProducts) {
+    await inventoryDB.product.create({ data: prod });
   }
   console.log(
     `Seeded ${await inventoryDB.product_quantity.count()} records in inventory.product_quantity`
