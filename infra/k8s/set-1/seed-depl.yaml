@@ -28,6 +28,8 @@ spec:
               value: 'mongodb://products-mongo-service:27017/products'
             - name: MONGO_URI_ORDERS
               value: 'mongodb://orders-mongo-service:27017/orders'
+            - name: PG_URI_INVENTORY
+              value: 'postgresql://admin:inventory@inventory-postgres-service:5432/postgresdb?schema=inventory'
             # - name: KAFKA_BROKERS
             #   value: kafka-service-1:9092
             - name: KAFKA_BROKERS

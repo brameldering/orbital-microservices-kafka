@@ -4,6 +4,7 @@ if (!process.env.DEPLOY_ENV || process.env.DEPLOY_ENV !== 'kubernetes') {
 }
 import express from 'express';
 import mongoose, { Connection } from 'mongoose';
+import { PrismaClient } from '@prisma/client';
 import 'express-async-errors';
 import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
@@ -28,11 +29,12 @@ if (
     process.env.MONGO_URI_SEQUENCES &&
     process.env.MONGO_URI_AUTH &&
     process.env.MONGO_URI_PRODUCTS &&
-    process.env.MONGO_URI_ORDERS
+    process.env.MONGO_URI_ORDERS &&
+    process.env.PG_URI_INVENTORY
   )
 ) {
   console.error(
-    'Missing ENV variable for MONGO_URI_SEQUENCES, MONGO_URI_AUTH, MONGO_URI_PRODUCTS, or MONGO_URI_ORDERS'
+    'Missing ENV variable for MONGO_URI_SEQUENCES, MONGO_URI_AUTH, MONGO_URI_PRODUCTS, MONGO_URI_ORDERS or PG_URI_INVENTORY'
   );
   process.exit(1);
 }
@@ -104,6 +106,7 @@ let sequencesDB: Connection;
 let authDB: Connection;
 let productsDB: Connection;
 let ordersDB: Connection;
+let inventoryDB: PrismaClient;
 
 const start = async () => {
   try {
@@ -135,6 +138,9 @@ const start = async () => {
     ordersDB = mongoose.createConnection(process.env.MONGO_URI_ORDERS!);
     console.log('Connected to MongoDB', process.env.MONGO_URI_ORDERS!);
 
+    inventoryDB = new PrismaClient();
+    console.log('Created Prisma client for', process.env.PG_URI_INVENTORY!);
+
     // Start listening
     const port = process.env.PORT || 3000;
     app.listen(port, () => {
@@ -154,8 +160,9 @@ const shutDown = async () => {
       authDB.close(),
       productsDB.close(),
       ordersDB.close(),
+      inventoryDB.$disconnect(),
     ]);
-    console.log('All MongoDB connections closed');
+    console.log('All database connections closed');
 
     process.exit(0);
   } catch (err) {
@@ -183,4 +190,4 @@ process.on('unhandledRejection', (err: Error) => {
   process.exit(1);
 });
 
-export { sequencesDB, authDB, productsDB, ordersDB }; // seqDB
+export { sequencesDB, authDB, productsDB, ordersDB, inventoryDB };

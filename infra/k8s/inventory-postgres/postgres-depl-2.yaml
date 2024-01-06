@@ -1,49 +1,49 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: postgres-inv-depl # Sets Deployment name
+  name: inventory-postgres-depl # Sets Deployment name
   # namespace: kafka
   labels:
-    app: postgres-inv
+    app: inventory-postgres
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: postgres-inv
+      app: inventory-postgres
   template:
     metadata:
       labels:
-        app: postgres-inv
+        app: inventory-postgres
     spec:
       containers:
-        - name: postgres-inv
+        - name: inventory-postgres
           image: postgres:15.1 # Sets Image
           imagePullPolicy: 'IfNotPresent'
           ports:
             - containerPort: 5432 # Exposes container port
           envFrom:
             - configMapRef:
-                name: postgres-inv-config
+                name: inventory-postgres-config
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: postgredb
       volumes:
         - name: postgredb
           persistentVolumeClaim:
-            claimName: postgres-inv-pv-claim
+            claimName: inventory-postgres-pv-claim
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: postgres-inv # Sets service name
+  name: inventory-postgres-service # Service name
   # namespace: kafka
   labels:
-    app: postgres-inv # Labels and Selectors
+    app: inventory-postgres # Labels and Selectors
 spec:
   ports:
-    - name: postgres-inv-port
+    - name: inventory-postgres-port
       protocol: TCP
       port: 5432 # Sets port to run the postgres application
       targetPort: 5432
   selector:
-    app: postgres-inv
+    app: inventory-postgres

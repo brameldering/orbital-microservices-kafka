@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: postgres-inv-config
+  name: inventory-postgres-config
   # namespace: kafka
   labels:
-    app: postgres-inv
+    app: inventory-postgres
 data:
   POSTGRES_DB: postgresdb
   POSTGRES_USER: admin

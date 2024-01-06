@@ -1,0 +1,25 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("PG_URI_INVENTORY")
+}
+
+model product_quantity {
+  product_id    String          @id @db.VarChar(14)
+  name          String          @db.VarChar(256)
+  brand         String          @db.VarChar(256)
+  category      String          @db.VarChar(256)
+  quantity      BigInt
+  serial_numbers serial_number[]
+}
+
+model serial_number {
+  product_id    String  @db.VarChar(14)
+  serial_number String  @db.VarChar(64)
+  product       product_quantity @relation(fields: [product_id], references: [product_id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([product_id, serial_number])
+}
