@@ -71,6 +71,7 @@ router.post(SEED_DATA_URL, async (req: Request, res: Response) => {
   // InventoryDB
   await inventoryDB.serial_number.deleteMany();
   await inventoryDB.product_quantity.deleteMany();
+  await inventoryDB.product.deleteMany();
   console.log('Deleted existing data');
 
   // =============== Load seed data =================
@@ -126,7 +127,7 @@ router.post(SEED_DATA_URL, async (req: Request, res: Response) => {
     await inventoryDB.product.create({ data: prod });
   }
   console.log(
-    `Seeded ${await inventoryDB.product_quantity.count()} records in inventory.product_quantity`
+    `Seeded ${await inventoryDB.product.count()} records in inventory.product`
   );
 
   // ==================================
