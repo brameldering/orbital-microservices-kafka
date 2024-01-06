@@ -38,7 +38,10 @@ export const invProducts = [
       create: { quantity: 2 },
     },
     serial_numbers: {
-      create: [{ serial_number: 'PS12345' }, { serial_number: 'PS12346' }],
+      create: [
+        { serial_number: 'PS12345', status: 'AVAILABLE' },
+        { serial_number: 'PS12346', status: 'SOLD' },
+      ],
     },
   },
   {
@@ -50,7 +53,7 @@ export const invProducts = [
       create: { quantity: 1 },
     },
     serial_numbers: {
-      create: [{ serial_number: 'GM12345' }],
+      create: [{ serial_number: 'GM12345', status: 'AVAILABLE' }],
     },
   },
   {

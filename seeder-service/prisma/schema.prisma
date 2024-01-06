@@ -28,6 +28,7 @@ model product_quantity {
 model serial_number {
   product_id    String  @db.VarChar(14)
   serial_number String  @db.VarChar(64)
+  status        String?  @db.VarChar(16)
   // location_id    String  @db.VarChar(14)
   product       product @relation(fields: [product_id], references: [product_id], onDelete: NoAction, onUpdate: NoAction)
   @@id([product_id, serial_number])
