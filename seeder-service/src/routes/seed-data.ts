@@ -23,6 +23,8 @@ import {
   ordersDB,
   inventoryDB,
 } from '../../src/server';
+import { postgresTableExists } from '../../utils/check-table-exists';
+import { runCommand } from '../../utils/run-npx-command';
 
 const router = express.Router();
 
@@ -68,10 +70,33 @@ router.post(SEED_DATA_URL, async (req: Request, res: Response) => {
   await AccessInProductDB.deleteMany();
   await ProductsInProductDB.deleteMany();
 
+  // Create prisma schema and client
+  await runCommand('npx prisma migrate dev --name init');
+  await runCommand('npx prisma generate');
+  console.log('Migration and Prisma client generation complete.');
+
   // InventoryDB
-  await inventoryDB.serial_number.deleteMany();
-  await inventoryDB.product_quantity.deleteMany();
-  await inventoryDB.product.deleteMany();
+  if (await postgresTableExists('inventory', 'serial_number')) {
+    console.log(
+      `There are ${await inventoryDB.serial_number.count()} records in inventory.serial_number`
+    );
+    await inventoryDB.serial_number.deleteMany();
+    console.log('Deleted records from inventory.serial_number');
+  }
+  if (await postgresTableExists('inventory', 'product_quantity')) {
+    console.log(
+      `There are ${await inventoryDB.product_quantity.count()} records in inventory.product_quantity`
+    );
+    await inventoryDB.product_quantity.deleteMany();
+    console.log('Deleted records from inventory.product_quantity');
+  }
+  if (await postgresTableExists('inventory', 'product')) {
+    console.log(
+      `There are ${await inventoryDB.product.count()} records in inventory.product`
+    );
+    await inventoryDB.product.deleteMany();
+    console.log('Deleted records from inventory.product');
+  }
   console.log('Deleted existing data');
 
   // =============== Load seed data =================
