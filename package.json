@@ -1,20 +1,12 @@
 {
-  "name": "orbitelco-shop",
+  "name": "orbitelco",
   "version": "0.1.0",
-  "description": "eCommerce application built with the MERN stack",
+  "description": "eCommerce, CRM and ERP application built with the MERN and Spring Boot stack",
   "private": true,
   "scripts": {
-    "dev": "concurrently \"cd backend && npm run server\" \"cd frontend && npm start\"",
-    "build": "concurrently \"cd backend && npm install && npm run build\" \"cd frontend && npm install && npm run build\"",
-    "generate-toc": "markdown-toc -i readme.md",
-    "data_import": "cd backend && node dist/seeder",
-    "lint": "eslint --ext .ts,.tsx ./frontend/src/ && eslint --ext .ts ./backend/",
-    "lint:fix": "eslint --ext .ts,.tsx ./frontend/src/**/*.ts --no-error-on-unmatched-pattern --fix && eslint --ext .ts ./backend/**/*.ts --no-error-on-unmatched-pattern --fix",
-    "test": "concurrently \"cd backend && npm run test\" \"cd frontend && npm run test\"",
-    "types:check": "tsc --noEmit --pretty -p ./frontend && tsc --noEmit --pretty -p ./backend",
-    "cypress:open": "cd client && npm run cypress:open",
-    "cypress:run": "cd client && npm run cypress:run",
-    "seeddata": "cd client && npm run seeddata"
+    "cypress:open": "cd typescript-react-node/client && npm run cypress:open",
+    "cypress:run": "cd typescript-react-node/client && npm run cypress:run",
+    "seeddata": "cd typescript-react-node/client && npm run seeddata"
   },
   "author": "Bram Eldering",
   "license": "MIT",

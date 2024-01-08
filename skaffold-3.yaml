@@ -3,7 +3,7 @@ kind: Config
 build:
   artifacts:
     - image: orbitelco/sequences
-      context: sequences
+      context: typescript-react-node/sequences
       sync:
         manual:
           - src: src/**/*.ts
@@ -11,7 +11,7 @@ build:
       docker:
         dockerfile: Dockerfile
     - image: orbitelco/auth
-      context: auth
+      context: typescript-react-node/auth
       sync:
         manual:
           - src: src/**/*.ts
@@ -19,7 +19,7 @@ build:
       docker:
         dockerfile: Dockerfile
     - image: orbitelco/products
-      context: products
+      context: typescript-react-node/products
       sync:
         manual:
           - src: src/**/*.ts
@@ -27,7 +27,7 @@ build:
       docker:
         dockerfile: Dockerfile
     - image: orbitelco/orders
-      context: orders
+      context: typescript-react-node/orders
       sync:
         manual:
           - src: src/**/*.ts
@@ -35,7 +35,7 @@ build:
       docker:
         dockerfile: Dockerfile
     - image: orbitelco/client
-      context: client
+      context: typescript-react-node/client
       sync:
         manual:
           - src: /**/*.js

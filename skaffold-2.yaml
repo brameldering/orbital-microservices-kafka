@@ -3,7 +3,15 @@ kind: Config
 build:
   artifacts:
     - image: orbitelco/seed
-      context: seeder-service
+      context: typescript-react-node/seeder-service
+      sync:
+        manual:
+          - src: src/**/*.ts
+            dest: .
+      docker:
+        dockerfile: Dockerfile
+    - image: orbitelco/inventory
+      context: java-spring-boot/inventory
       sync:
         manual:
           - src: src/**/*.ts
@@ -14,6 +22,7 @@ build:
     push: false
 manifests:
   rawYaml:
+    - ./infra/k8s/spring-boot/*
     - ./infra/k8s/set-1/*
 deploy:
   kubectl: {}

@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inventory-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: inventory
+  template:
+    metadata:
+      labels:
+        app: inventory
+    spec:
+      containers:
+        - name: inventory
+          image: orbitelco/inventory
+          env:
+            - name: DEPLOY_ENV
+              value: 'kubernetes'
+            - name: NODE_ENV
+              value: 'development'
+            - name: PG_URI_INVENTORY
+              value: 'jdbc:postgresql://inventory-postgres-service:5432/postgresdb?currentSchema=inventory'
+            - name: PG_DB_USERNAME
+              value: 'admin'
+            - name: PG_DB_PASSWORD
+              value: 'inventory'
+            # - name: KAFKA_BROKERS
+            #   value: kafka-service-1:9092
+            - name: KAFKA_BROKERS
+              value: 'kafka-service-1.kafka.svc.cluster.local:9092'
+              # value: 'kafka-service-1.kafka.svc.cluster.local:9092,kafka-service-2.kafka.svc.cluster.local:9093'
+            - name: KAFKA_LOG_LEVEL
+              value: WARN
+            # - name: KAFKAJS_NO_PARTITIONER_WARNING
+            #   value: 1
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
+            - name: EXPIRES_IN
+              value: '1d'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: inventory-service
+spec:
+  type: ClusterIP
+  selector:
+    app: inventory
+  ports:
+    - name: inventory
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
