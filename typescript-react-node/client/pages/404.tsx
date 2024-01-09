@@ -5,7 +5,7 @@ import FormContainer from 'form/FormContainer';
 import Meta from 'components/Meta';
 import { INDEX_PAGE } from 'constants/client-pages';
 
-const NotFound: React.FunctionComponent = () => {
+const NotFound: React.FC = () => {
   return (
     <FormContainer>
       <Meta title='Page not found' />

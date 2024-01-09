@@ -6,11 +6,12 @@ import MuiLink from '@mui/material/Link';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Button, Grid } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import FormContainer from 'form/FormContainer';
 import FormTitle from 'form/FormTitle';
 import { TextNumField, PasswordField } from 'form/FormComponents';
 import { textField, passwordField } from 'form/ValidationSpecs';
+import { SubmitButton } from 'form/FormButtons';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
@@ -92,15 +93,11 @@ const SignInScreen: React.FC = () => {
           />
           {errorSigninIn && <ErrorBlock error={errorSigninIn} />}
           {/* <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 3 }}> */}
-          <Button
+          <SubmitButton
             id='BUTTON_login'
-            type='submit'
-            variant='contained'
             disabled={isProcessing || !isDirty}
-            fullWidth
-            sx={{ mt: 3, mb: 2 }}>
-            Sign In
-          </Button>
+            label='Sign In'
+          />
           {/* </Box> */}
         </Box>
         <Grid container>

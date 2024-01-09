@@ -14,9 +14,7 @@ interface CheckoutStepsProps {
   currentStep: number;
 }
 
-const CheckoutSteps: React.FunctionComponent<CheckoutStepsProps> = ({
-  currentStep,
-}) => {
+const CheckoutSteps: React.FC<CheckoutStepsProps> = ({ currentStep }) => {
   const checkOutSteps = [
     { name: 'Cart', path: CART_PAGE },
     { name: 'Address', path: SHIPPING_PAGE },

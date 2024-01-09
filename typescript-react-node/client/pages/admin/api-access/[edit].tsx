@@ -10,7 +10,6 @@ import {
   FormGroup,
   FormLabel,
   FormControlLabel,
-  Button,
   Typography,
 } from '@mui/material';
 import { toast } from 'react-toastify';
@@ -18,6 +17,7 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import FormContainer from 'form/FormContainer';
 import FormTitle from 'form/FormTitle';
+import { UpdateSubmitButton, CancelButton } from 'form/FormButtons';
 import Loader from 'components/Loader';
 import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
@@ -192,12 +192,8 @@ const ApiAccessEditScreen: React.FC<TPageProps> = ({
                   alignItems: 'center',
                   mt: 3,
                 }}>
-                <Button id='BUTTON_update' variant='contained' color='primary'>
-                  Update
-                </Button>
-                <Button variant='outlined' onClick={goBackHandler}>
-                  Cancel
-                </Button>
+                <UpdateSubmitButton disabled={updating || !isDirty} />
+                <CancelButton disabled={updating} onClick={goBackHandler} />
               </Box>
             </>
           )}

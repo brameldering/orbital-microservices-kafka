@@ -5,7 +5,7 @@ interface FormTitleProps {
   children: ReactNode;
 }
 
-const FormTitle: React.FunctionComponent<FormTitleProps> = ({ children }) => {
+const FormTitle: React.FC<FormTitleProps> = ({ children }) => {
   return (
     <Typography variant='h3' sx={{ mb: 3 }}>
       {children}

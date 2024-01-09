@@ -5,11 +5,12 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Button } from '@mui/material';
-import { TextNumField, CurrencyNumField } from 'form/FormComponents';
+import { Box } from '@mui/material';
 import FormContainer from 'form/FormContainer';
 import FormTitle from 'form/FormTitle';
+import { TextNumField, CurrencyNumField } from 'form/FormComponents';
 import { numField } from 'form/ValidationSpecs';
+import { UpdateSubmitButton, CancelButton } from 'form/FormButtons';
 import Loader from 'components/Loader';
 import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
@@ -144,19 +145,13 @@ const PriceCalcSettingsEditScreen: React.FC<TPageProps> = ({
                   mt: 3,
                   mb: 2,
                 }}>
-                <Button
-                  id='BUTTON_update'
-                  type='submit'
-                  variant='contained'
-                  disabled={loadingOrProcessing || !isDirty}>
-                  Update
-                </Button>
-                <Button
-                  variant='outlined'
+                <UpdateSubmitButton
+                  disabled={loadingOrProcessing || !isDirty}
+                />
+                <CancelButton
+                  disabled={loadingOrProcessing}
                   onClick={goBackHandler}
-                  disabled={loadingOrProcessing}>
-                  Cancel
-                </Button>
+                />
               </Box>
               {loadingOrProcessing && <Loader />}
             </Box>

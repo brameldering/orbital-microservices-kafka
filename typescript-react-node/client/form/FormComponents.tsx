@@ -29,7 +29,7 @@ interface CheckBoxFieldProps {
   setError: any;
 }
 
-const CheckBoxField: React.FunctionComponent<CheckBoxFieldProps> = ({
+const CheckBoxField: React.FC<CheckBoxFieldProps> = ({
   controlId,
   label,
   checked,
@@ -72,7 +72,7 @@ interface TextNumFieldProps {
   setError: any;
 }
 
-const TextNumField: React.FunctionComponent<TextNumFieldProps> = ({
+const TextNumField: React.FC<TextNumFieldProps> = ({
   controlId,
   label,
   type = 'text',
@@ -110,7 +110,7 @@ interface CurrencyNumFieldProps {
   setError: any;
 }
 
-const CurrencyNumField: React.FunctionComponent<CurrencyNumFieldProps> = ({
+const CurrencyNumField: React.FC<CurrencyNumFieldProps> = ({
   controlId,
   label,
   register,
@@ -169,7 +169,7 @@ interface PasswordFieldProps {
   setError: any;
 }
 
-const PasswordField: React.FunctionComponent<PasswordFieldProps> = ({
+const PasswordField: React.FC<PasswordFieldProps> = ({
   controlId,
   label,
   register,
@@ -218,7 +218,7 @@ interface SelectFieldProps {
   setError: any;
 }
 
-const SelectField: React.FunctionComponent<SelectFieldProps> = ({
+const SelectField: React.FC<SelectFieldProps> = ({
   controlId,
   options,
   control,
@@ -269,7 +269,7 @@ interface TextAreaFieldProps {
   setError: any;
 }
 
-const TextAreaField: React.FunctionComponent<TextAreaFieldProps> = ({
+const TextAreaField: React.FC<TextAreaFieldProps> = ({
   controlId,
   label,
   register,

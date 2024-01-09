@@ -15,10 +15,7 @@ interface OrderSummaryBlockProps {
   totalAmounts: ITotalAmounts;
 }
 
-const CurrencyField: React.FunctionComponent<CurrencyFieldProps> = ({
-  label,
-  amount,
-}) => {
+const CurrencyField: React.FC<CurrencyFieldProps> = ({ label, amount }) => {
   return (
     <ListItem>
       <Grid container>
@@ -36,7 +33,7 @@ const CurrencyField: React.FunctionComponent<CurrencyFieldProps> = ({
   );
 };
 
-const OrderSummaryBlock: React.FunctionComponent<OrderSummaryBlockProps> = ({
+const OrderSummaryBlock: React.FC<OrderSummaryBlockProps> = ({
   totalAmounts,
 }) => {
   console.log('OrderSummaryBlock', totalAmounts);

@@ -4,11 +4,12 @@ import Router from 'next/router';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import FormTitle from 'form/FormTitle';
 import { TextNumField } from 'form/FormComponents';
 import FormContainer from 'form/FormContainer';
 import { textField } from 'form/ValidationSpecs';
+import { SubmitButton } from 'form/FormButtons';
 import Meta from 'components/Meta';
 import CheckoutSteps from 'components/CheckoutSteps';
 import { TITLE_SHIPPING } from 'constants/form-titles';
@@ -98,14 +99,7 @@ const ShippingScreen = () => {
             error={errors.country}
             setError={setError}
           />
-          <Button
-            id='BUTTON_continue'
-            type='submit'
-            variant='contained'
-            color='primary'
-            sx={{ mt: 2 }}>
-            Continue
-          </Button>
+          <SubmitButton id='BUTTON_continue' label='Continue' />
         </Box>
       </FormContainer>
     </>

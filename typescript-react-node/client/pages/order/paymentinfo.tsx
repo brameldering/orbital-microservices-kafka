@@ -4,7 +4,6 @@ import Router from 'next/router';
 import { useForm } from 'react-hook-form';
 import {
   Box,
-  Button,
   Radio,
   RadioGroup,
   FormControlLabel,
@@ -13,6 +12,7 @@ import {
 } from '@mui/material';
 import FormContainer from 'form/FormContainer';
 import FormTitle from 'form/FormTitle';
+import { SubmitButton } from 'form/FormButtons';
 import Meta from 'components/Meta';
 import CheckoutSteps from 'components/CheckoutSteps';
 import { TITLE_PAYMENT_METHOD } from 'constants/form-titles';
@@ -66,14 +66,7 @@ const PaymentScreen = () => {
               />
             </RadioGroup>
           </FormControl>
-          <Button
-            id='BUTTON_continue'
-            type='submit'
-            variant='contained'
-            color='primary'
-            sx={{ mt: 2 }}>
-            Continue
-          </Button>
+          <SubmitButton id='BUTTON_continue' label='Continue' />
         </Box>
       </FormContainer>
     </>

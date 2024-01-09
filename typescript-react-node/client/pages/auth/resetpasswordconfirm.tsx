@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { Typography, Box, Button } from '@mui/material';
+import { Typography, Box } from '@mui/material';
 import FormTitle from 'form/FormTitle';
 import FormContainer from 'form/FormContainer';
 import Meta from 'components/Meta';
@@ -22,10 +22,7 @@ const ResetPasswordConfirmation = () => {
         (and only if that email is already known in our system)
       </Typography>
       <Box mt={2}>
-        <Link href={SIGNIN_PAGE} passHref>
-          <Button variant='contained' color='primary'></Button>Go to Login
-          screen
-        </Link>
+        <Link href={SIGNIN_PAGE}>Go to Login screen</Link>
       </Box>
     </FormContainer>
   );

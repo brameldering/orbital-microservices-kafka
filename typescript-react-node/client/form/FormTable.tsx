@@ -15,7 +15,7 @@ interface FormTableProps {
   children: ReactNode;
 }
 
-const FormTable: React.FunctionComponent<FormTableProps> = ({ children }) => {
+const FormTable: React.FC<FormTableProps> = ({ children }) => {
   const theme = useTheme();
   return (
     <Box sx={{ maxWidth: theme.spacing(100), margin: 'auto' }}>

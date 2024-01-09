@@ -13,9 +13,7 @@ interface ProductComponentProps {
   product: IProduct;
 }
 
-const ProductComponent: React.FunctionComponent<ProductComponentProps> = ({
-  product,
-}) => {
+const ProductComponent: React.FC<ProductComponentProps> = ({ product }) => {
   return (
     <Card sx={{ my: 3, p: 3, borderRadius: '4px' }} id='product_card'>
       <Link href={`${PRODUCT_DETAIL_PAGE}/${product.id}`} passHref>

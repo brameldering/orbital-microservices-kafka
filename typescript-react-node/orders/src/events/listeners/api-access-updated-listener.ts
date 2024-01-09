@@ -35,6 +35,7 @@ export class ApiAccessUpdatedListener extends Listener<ApiAccessUpdatedEvent> {
 
         // Refresh ApiAccessArray cache
         await apiAccessCache.loadCacheFromDB();
+        console.log('Updated apiAccess');
       }
     } catch (error: any) {
       console.error(

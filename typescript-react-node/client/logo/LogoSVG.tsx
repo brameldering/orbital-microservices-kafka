@@ -1,5 +1,5 @@
 import React from 'react';
-const LogoSVG: React.FunctionComponent = () => {
+const LogoSVG: React.FC = () => {
   return (
     <svg
       width='50'

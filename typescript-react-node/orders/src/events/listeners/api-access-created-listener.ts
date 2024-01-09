@@ -28,6 +28,7 @@ export class ApiAccessCreatedListener extends Listener<ApiAccessCreatedEvent> {
 
         // Refresh ApiAccess cache
         await apiAccessCache.loadCacheFromDB();
+        console.log('Updated apiAccess');
       }
     } catch (error: any) {
       console.error(

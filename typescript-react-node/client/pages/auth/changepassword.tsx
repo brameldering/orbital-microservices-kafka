@@ -4,11 +4,12 @@ import Router from 'next/router';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, Box } from '@mui/material';
+import { Box } from '@mui/material';
 import FormContainer from 'form/FormContainer';
 import FormTitle from 'form/FormTitle';
 import { PasswordField } from 'form/FormComponents';
 import { passwordField } from 'form/ValidationSpecs';
+import { UpdateSubmitButton, CancelButton } from 'form/FormButtons';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ModalConfirmBox from 'components/ModalConfirmBox';
@@ -111,21 +112,8 @@ const ChangePasswordScreen: React.FC = () => {
               alignItems: 'center',
               mt: 3,
             }}>
-            <Button
-              id='BUTTON_update'
-              type='submit'
-              variant='contained'
-              color='primary'
-              disabled={isProcessing || !isDirty}>
-              Update
-            </Button>
-            <Button
-              variant='outlined'
-              color='secondary'
-              onClick={goBackHandler}
-              disabled={isProcessing}>
-              Cancel
-            </Button>
+            <UpdateSubmitButton disabled={isProcessing || !isDirty} />
+            <CancelButton disabled={isProcessing} onClick={goBackHandler} />
           </Box>
 
           {isProcessing && <Loader />}

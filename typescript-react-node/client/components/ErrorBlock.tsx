@@ -10,9 +10,7 @@ interface AlertWithStylingProps {
   children: ReactNode;
 }
 
-const AlertWithStyling: React.FunctionComponent<AlertWithStylingProps> = ({
-  children,
-}) => {
+const AlertWithStyling: React.FC<AlertWithStylingProps> = ({ children }) => {
   return (
     <Alert severity='error' sx={{ mt: 3, mb: 0 }} id='error_message'>
       {children}

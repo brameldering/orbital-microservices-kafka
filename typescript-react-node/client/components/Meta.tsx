@@ -7,11 +7,7 @@ interface MetaProps {
   keywords?: string;
 }
 
-const Meta: React.FunctionComponent<MetaProps> = ({
-  title,
-  description,
-  keywords,
-}) => {
+const Meta: React.FC<MetaProps> = ({ title, description, keywords }) => {
   return (
     <Helmet>
       <title>{title}</title>

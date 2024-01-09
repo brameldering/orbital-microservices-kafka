@@ -13,7 +13,7 @@ interface ModalConfirmBoxProps {
   handleConfirm: () => void;
 }
 
-const ModalConfirmBox: React.FunctionComponent<ModalConfirmBoxProps> = ({
+const ModalConfirmBox: React.FC<ModalConfirmBoxProps> = ({
   showModal,
   title,
   body,

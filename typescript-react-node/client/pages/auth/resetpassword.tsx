@@ -3,11 +3,12 @@ import Router from 'next/router';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import FormContainer from 'form/FormContainer';
 import FormTitle from 'form/FormTitle';
 import { TextNumField } from 'form/FormComponents';
 import { textField } from 'form/ValidationSpecs';
+import { SubmitButton } from 'form/FormButtons';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
@@ -78,13 +79,11 @@ const PasswordResetScreen = () => {
               alignItems: 'center',
               mt: 3,
             }}>
-            <Button
+            <SubmitButton
               id='BUTTON_reset_password'
-              type='submit'
-              variant='contained'
-              disabled={isProcessing || !isDirty}>
-              Reset Password
-            </Button>
+              disabled={isProcessing || !isDirty}
+              label='Reset Password'
+            />
           </Box>
           {isProcessing && <Loader />}
         </Box>

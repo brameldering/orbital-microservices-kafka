@@ -6,11 +6,12 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, Box } from '@mui/material';
+import { Box } from '@mui/material';
 import { TextNumField, SelectField } from 'form/FormComponents';
 import FormContainer from 'form/FormContainer';
 import FormTitle from 'form/FormTitle';
 import { textField } from 'form/ValidationSpecs';
+import { UpdateSubmitButton, CancelButton } from 'form/FormButtons';
 import Loader from 'components/Loader';
 import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
@@ -153,20 +154,13 @@ const UserEditScreen: React.FC<TPageProps> = ({ roles, user, error }) => {
                   alignItems: 'center',
                   mt: 3,
                 }}>
-                <Button
-                  id='BUTTON_update'
-                  type='submit'
-                  variant='contained'
-                  color='primary'
-                  disabled={loadingOrProcessing || !isDirty}>
-                  Update
-                </Button>
-                <Button
-                  variant='outlined'
+                <UpdateSubmitButton
+                  disabled={loadingOrProcessing || !isDirty}
+                />
+                <CancelButton
+                  disabled={loadingOrProcessing}
                   onClick={goBackHandler}
-                  disabled={loadingOrProcessing}>
-                  Cancel
-                </Button>
+                />
               </Box>
             </>
           )}

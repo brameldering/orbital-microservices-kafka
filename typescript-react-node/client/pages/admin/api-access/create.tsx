@@ -8,7 +8,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Box,
   Grid,
-  Button,
   FormControl,
   FormLabel,
   FormGroup,
@@ -19,6 +18,7 @@ import FormContainer from 'form/FormContainer';
 import FormTitle from 'form/FormTitle';
 import { TextNumField, SelectField } from 'form/FormComponents';
 import { textField } from 'form/ValidationSpecs';
+import { CreateSubmitButton, CancelButton } from 'form/FormButtons';
 import Loader from 'components/Loader';
 import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
@@ -168,21 +168,13 @@ const ApiAccessCreateScreen: React.FC<TPageProps> = ({ roles, error }) => {
                 justifyContent='space-between'
                 alignItems='center'
                 mt={3}>
-                <Button
-                  id='BUTTON_update'
-                  type='submit'
-                  variant='contained'
-                  color='primary'
-                  disabled={loadingOrProcessing || !isDirty}>
-                  Update
-                </Button>
-                <Button
-                  variant='outlined'
+                <CreateSubmitButton
+                  disabled={loadingOrProcessing || !isDirty}
+                />
+                <CancelButton
+                  disabled={loadingOrProcessing}
                   onClick={goBackHandler}
-                  color='secondary'
-                  disabled={loadingOrProcessing}>
-                  Cancel
-                </Button>
+                />
               </Box>
             </>
           )}

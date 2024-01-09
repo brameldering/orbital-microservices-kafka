@@ -14,6 +14,7 @@ import {
 import FormContainer from 'form/FormContainer';
 import FormTitle from 'form/FormTitle';
 import { textField, textAreaField, numField } from 'form/ValidationSpecs';
+import { UpdateSubmitButton, CancelButton } from 'form/FormButtons';
 import Loader from 'components/Loader';
 import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
@@ -247,19 +248,13 @@ const ProductEditScreen: React.FC<TPageProps> = ({ product, error }) => {
                   mt: 3,
                   mb: 2,
                 }}>
-                <Button
-                  id='BUTTON_save'
-                  type='submit'
-                  variant='contained'
-                  disabled={loadingOrProcessing || !isDirty}>
-                  Save
-                </Button>
-                <Button
-                  variant='outlined'
+                <UpdateSubmitButton
+                  disabled={loadingOrProcessing || !isDirty}
+                />
+                <CancelButton
+                  disabled={loadingOrProcessing}
                   onClick={goBackHandler}
-                  disabled={loadingOrProcessing}>
-                  Cancel
-                </Button>
+                />
               </Box>
               {loadingOrProcessing && <Loader />}
             </>

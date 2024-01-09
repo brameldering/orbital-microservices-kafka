@@ -11,7 +11,7 @@ interface PaginateProps {
   isAdmin?: boolean;
 }
 
-const Paginate: React.FunctionComponent<PaginateProps> = ({
+const Paginate: React.FC<PaginateProps> = ({
   pages,
   page,
   isAdmin = false,

@@ -24,11 +24,12 @@ import {
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
-import { parseError } from 'utils/parse-error';
 import CustomRating from 'components/Rating';
+import { SubmitButton } from 'form/FormButtons';
 import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
 import { ICartItem, IPriceCalcSettingsAttrs } from '@orbitelco/common';
 import { dateTimeToLocaleDateString } from 'utils/dateUtils';
+import { parseError } from 'utils/parse-error';
 import { PRODUCTS_PAGE, CART_PAGE, SIGNIN_PAGE } from 'constants/client-pages';
 import type { RootState } from 'slices/store';
 import { addToCart } from 'slices/cartSlice';
@@ -270,19 +271,15 @@ const ProductDetailScreen: React.FC<TPageProps> = ({
                         {errorCreatingReview && (
                           <ErrorBlock error={errorCreatingReview} />
                         )}
-                        <Button
+                        <SubmitButton
                           id='BUTTON_review_submit'
                           disabled={
                             loadingOrProcessing ||
                             comment.trim().length === 0 ||
                             rating === 0
                           }
-                          type='submit'
-                          variant='contained'
-                          color='primary'
-                          sx={{ mt: 2 }}>
-                          Submit
-                        </Button>
+                          label='Save'
+                        />
                       </Box>
                     ) : (
                       <Alert severity='info'>

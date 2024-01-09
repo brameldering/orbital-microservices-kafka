@@ -9,10 +9,7 @@ interface RatingProps {
   text?: string;
 }
 
-const CustomRating: React.FunctionComponent<RatingProps> = ({
-  value,
-  text,
-}) => {
+const CustomRating: React.FC<RatingProps> = ({ value, text }) => {
   return (
     <div>
       <Rating

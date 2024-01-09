@@ -6,9 +6,7 @@ interface FormContainerProps {
   children: ReactNode;
 }
 
-const FormContainer: React.FunctionComponent<FormContainerProps> = ({
-  children,
-}) => {
+const FormContainer: React.FC<FormContainerProps> = ({ children }) => {
   const theme = useTheme();
   return (
     <Container maxWidth='sm'>

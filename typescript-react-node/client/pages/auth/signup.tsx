@@ -7,11 +7,12 @@ import MuiLink from '@mui/material/Link';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Button, Grid } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import FormContainer from 'form/FormContainer';
 import FormTitle from 'form/FormTitle';
 import { TextNumField, PasswordField, SelectField } from 'form/FormComponents';
 import { textField, passwordField } from 'form/ValidationSpecs';
+import { SubmitButton } from 'form/FormButtons';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
@@ -163,14 +164,11 @@ const SignUpScreen: React.FC<TPageProps> = ({ roles, error }) => {
                   alignItems: 'center',
                   mt: 3,
                 }}>
-                <Button
+                <SubmitButton
                   id='BUTTON_register'
-                  type='submit'
-                  variant='contained'
-                  fullWidth
-                  disabled={isProcessing || !isDirty}>
-                  Sign Up
-                </Button>
+                  disabled={isProcessing || !isDirty}
+                  label='Sign Up'
+                />
               </Box>
             </>
           )}

@@ -32,6 +32,7 @@ export class ApiAccessDeletedListener extends Listener<ApiAccessDeletedEvent> {
 
         // Refresh ApiAccesscache
         await apiAccessCache.loadCacheFromDB();
+        console.log('Updated apiAccess');
       }
     } catch (error: any) {
       console.error(

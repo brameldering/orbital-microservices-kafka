@@ -10,6 +10,7 @@ import FormContainer from 'form/FormContainer';
 import FormTitle from 'form/FormTitle';
 import { TextNumField } from 'form/FormComponents';
 import { textField } from 'form/ValidationSpecs';
+import { UpdateSubmitButton } from 'form/FormButtons';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
@@ -97,13 +98,7 @@ const ProfileScreen: React.FC = () => {
               alignItems: 'center',
               mt: 3,
             }}>
-            <Button
-              id='BUTTON_update'
-              type='submit'
-              variant='contained'
-              disabled={isProcessing || !isDirty}>
-              Update
-            </Button>
+            <UpdateSubmitButton disabled={isProcessing || !isDirty} />
             <Link
               id='LINK_change_password'
               href={CHANGE_PASSWORD_PAGE}
