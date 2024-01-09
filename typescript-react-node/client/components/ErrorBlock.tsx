@@ -25,7 +25,7 @@ const ErrorBlock = ({ error }: { error: any }): ReactNode => {
     // Our custom error
     errorBlock = (
       <AlertWithStyling>
-        <ul className='my-0 list-unstyled'>
+        <ul style={{ listStyleType: 'none', paddingLeft: 0 }}>
           {error.data.errors.map((err: ISerializedError) => (
             <li key={err.message}>{err.message}</li>
           ))}
