@@ -18,6 +18,7 @@ import FormContainer from 'form/FormContainer';
 import FormTitle from 'form/FormTitle';
 import { TextNumField, SelectField } from 'form/FormComponents';
 import { textField } from 'form/ValidationSpecs';
+import FormButtonBox from 'form/FormButtonBox';
 import { CreateSubmitButton, CancelButton } from 'form/FormButtons';
 import Loader from 'components/Loader';
 import Meta from 'components/Meta';
@@ -163,11 +164,7 @@ const ApiAccessCreateScreen: React.FC<TPageProps> = ({ roles, error }) => {
                 </FormGroup>
               </FormControl>
               {errorCreating && <ErrorBlock error={errorCreating} />}
-              <Box
-                display='flex'
-                justifyContent='space-between'
-                alignItems='center'
-                mt={3}>
+              <FormButtonBox>
                 <CreateSubmitButton
                   disabled={loadingOrProcessing || !isDirty}
                 />
@@ -175,7 +172,7 @@ const ApiAccessCreateScreen: React.FC<TPageProps> = ({ roles, error }) => {
                   disabled={loadingOrProcessing}
                   onClick={goBackHandler}
                 />
-              </Box>
+              </FormButtonBox>
             </>
           )}
           {loadingOrProcessing && <Loader />}

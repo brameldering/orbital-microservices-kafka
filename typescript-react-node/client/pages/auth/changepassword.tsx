@@ -9,6 +9,7 @@ import FormContainer from 'form/FormContainer';
 import FormTitle from 'form/FormTitle';
 import { PasswordField } from 'form/FormComponents';
 import { passwordField } from 'form/ValidationSpecs';
+import FormButtonBox from 'form/FormButtonBox';
 import { UpdateSubmitButton, CancelButton } from 'form/FormButtons';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
@@ -105,16 +106,10 @@ const ChangePasswordScreen: React.FC = () => {
             setError={setError}
           />
           {errorChanging && <ErrorBlock error={errorChanging} />}
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              mt: 3,
-            }}>
+          <FormButtonBox>
             <UpdateSubmitButton disabled={isProcessing || !isDirty} />
             <CancelButton disabled={isProcessing} onClick={goBackHandler} />
-          </Box>
+          </FormButtonBox>
 
           {isProcessing && <Loader />}
         </Box>

@@ -9,6 +9,7 @@ import { TextNumField } from 'form/FormComponents';
 import FormContainer from 'form/FormContainer';
 import FormTitle from 'form/FormTitle';
 import { textField } from 'form/ValidationSpecs';
+import FormButtonBox from 'form/FormButtonBox';
 import { CreateSubmitButton, CancelButton } from 'form/FormButtons';
 import Loader from 'components/Loader';
 import Meta from 'components/Meta';
@@ -109,19 +110,13 @@ const RoleCreateScreen: React.FC = () => {
             error={errors.roleDisplay}
             setError={setError}
           />
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              mt: 3,
-              mb: 2,
-            }}>
+          <FormButtonBox>
             <CreateSubmitButton disabled={loadingOrProcessing || !isDirty} />
             <CancelButton
               disabled={loadingOrProcessing}
               onClick={goBackHandler}
             />
-          </Box>
+          </FormButtonBox>
           {loadingOrProcessing && <Loader />}
         </Box>
       </FormContainer>

@@ -12,6 +12,7 @@ import FormContainer from 'form/FormContainer';
 import FormTitle from 'form/FormTitle';
 import { TextNumField, PasswordField, SelectField } from 'form/FormComponents';
 import { textField, passwordField } from 'form/ValidationSpecs';
+import FormButtonBox from 'form/FormButtonBox';
 import { SubmitButton } from 'form/FormButtons';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
@@ -157,19 +158,13 @@ const SignUpScreen: React.FC<TPageProps> = ({ roles, error }) => {
                 setError={setError}
               />
               {errorSigninUp && <ErrorBlock error={errorSigninUp} />}
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  mt: 3,
-                }}>
+              <FormButtonBox>
                 <SubmitButton
                   id='BUTTON_register'
                   disabled={isProcessing || !isDirty}
                   label='Sign Up'
                 />
-              </Box>
+              </FormButtonBox>
             </>
           )}
         </Box>

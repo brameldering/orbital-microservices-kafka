@@ -11,6 +11,7 @@ import FormContainer from 'form/FormContainer';
 import FormTitle from 'form/FormTitle';
 import { TextNumField, PasswordField } from 'form/FormComponents';
 import { textField, passwordField } from 'form/ValidationSpecs';
+import FormButtonBox from 'form/FormButtonBox';
 import { SubmitButton } from 'form/FormButtons';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
@@ -92,13 +93,13 @@ const SignInScreen: React.FC = () => {
             setError={setError}
           />
           {errorSigninIn && <ErrorBlock error={errorSigninIn} />}
-          {/* <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 3 }}> */}
-          <SubmitButton
-            id='BUTTON_login'
-            disabled={isProcessing || !isDirty}
-            label='Sign In'
-          />
-          {/* </Box> */}
+          <FormButtonBox>
+            <SubmitButton
+              id='BUTTON_login'
+              disabled={isProcessing || !isDirty}
+              label='Sign In'
+            />
+          </FormButtonBox>
         </Box>
         <Grid container>
           <Grid item xs>

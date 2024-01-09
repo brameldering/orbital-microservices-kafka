@@ -10,6 +10,7 @@ import FormContainer from 'form/FormContainer';
 import FormTitle from 'form/FormTitle';
 import { TextNumField } from 'form/FormComponents';
 import { textField } from 'form/ValidationSpecs';
+import FormButtonBox from 'form/FormButtonBox';
 import { UpdateSubmitButton } from 'form/FormButtons';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
@@ -91,13 +92,7 @@ const ProfileScreen: React.FC = () => {
           />
           {errorChanging && <ErrorBlock error={errorChanging} />}
 
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              mt: 3,
-            }}>
+          <FormButtonBox>
             <UpdateSubmitButton disabled={isProcessing || !isDirty} />
             <Link
               id='LINK_change_password'
@@ -107,7 +102,7 @@ const ProfileScreen: React.FC = () => {
                 Change Password
               </Button>
             </Link>
-          </Box>
+          </FormButtonBox>
           {isProcessing && <Loader />}
         </Box>
       </FormContainer>

@@ -8,6 +8,7 @@ import FormContainer from 'form/FormContainer';
 import FormTitle from 'form/FormTitle';
 import { TextNumField } from 'form/FormComponents';
 import { textField } from 'form/ValidationSpecs';
+import FormButtonBox from 'form/FormButtonBox';
 import { SubmitButton } from 'form/FormButtons';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
@@ -72,19 +73,13 @@ const PasswordResetScreen = () => {
           {errorResettingPassword && (
             <ErrorBlock error={errorResettingPassword} />
           )}
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              mt: 3,
-            }}>
+          <FormButtonBox>
             <SubmitButton
               id='BUTTON_reset_password'
               disabled={isProcessing || !isDirty}
               label='Reset Password'
             />
-          </Box>
+          </FormButtonBox>
           {isProcessing && <Loader />}
         </Box>
       </FormContainer>

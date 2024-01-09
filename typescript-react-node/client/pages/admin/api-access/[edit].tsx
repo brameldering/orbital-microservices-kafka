@@ -17,6 +17,7 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import FormContainer from 'form/FormContainer';
 import FormTitle from 'form/FormTitle';
+import FormButtonBox from 'form/FormButtonBox';
 import { UpdateSubmitButton, CancelButton } from 'form/FormButtons';
 import Loader from 'components/Loader';
 import Meta from 'components/Meta';
@@ -185,16 +186,10 @@ const ApiAccessEditScreen: React.FC<TPageProps> = ({
                   </Grid>
                 </FormGroup>
               </FormControl>
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  mt: 3,
-                }}>
+              <FormButtonBox>
                 <UpdateSubmitButton disabled={updating || !isDirty} />
                 <CancelButton disabled={updating} onClick={goBackHandler} />
-              </Box>
+              </FormButtonBox>
             </>
           )}
           {updating && <Loader />}

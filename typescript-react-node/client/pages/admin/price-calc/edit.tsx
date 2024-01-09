@@ -10,6 +10,7 @@ import FormContainer from 'form/FormContainer';
 import FormTitle from 'form/FormTitle';
 import { TextNumField, CurrencyNumField } from 'form/FormComponents';
 import { numField } from 'form/ValidationSpecs';
+import FormButtonBox from 'form/FormButtonBox';
 import { UpdateSubmitButton, CancelButton } from 'form/FormButtons';
 import Loader from 'components/Loader';
 import Meta from 'components/Meta';
@@ -138,13 +139,7 @@ const PriceCalcSettingsEditScreen: React.FC<TPageProps> = ({
                 error={errors.thresholdFreeShipping}
                 setError={setError}
               />
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  mt: 3,
-                  mb: 2,
-                }}>
+              <FormButtonBox>
                 <UpdateSubmitButton
                   disabled={loadingOrProcessing || !isDirty}
                 />
@@ -152,7 +147,7 @@ const PriceCalcSettingsEditScreen: React.FC<TPageProps> = ({
                   disabled={loadingOrProcessing}
                   onClick={goBackHandler}
                 />
-              </Box>
+              </FormButtonBox>
               {loadingOrProcessing && <Loader />}
             </Box>
           </FormContainer>

@@ -10,6 +10,7 @@ import { TextNumField } from 'form/FormComponents';
 import FormContainer from 'form/FormContainer';
 import FormTitle from 'form/FormTitle';
 import { textField } from 'form/ValidationSpecs';
+import FormButtonBox from 'form/FormButtonBox';
 import { UpdateSubmitButton, CancelButton } from 'form/FormButtons';
 import Loader from 'components/Loader';
 import Meta from 'components/Meta';
@@ -118,13 +119,7 @@ const RoleEditScreen: React.FC<TPageProps> = ({ roleObj, error }) => {
                 error={errors.roleDisplay}
                 setError={setError}
               />
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  mt: 3,
-                  mb: 2,
-                }}>
+              <FormButtonBox>
                 <UpdateSubmitButton
                   disabled={loadingOrProcessing || !isDirty}
                 />
@@ -132,7 +127,7 @@ const RoleEditScreen: React.FC<TPageProps> = ({ roleObj, error }) => {
                   disabled={loadingOrProcessing}
                   onClick={goBackHandler}
                 />
-              </Box>
+              </FormButtonBox>
             </>
           )}
           {loadingOrProcessing && <Loader />}

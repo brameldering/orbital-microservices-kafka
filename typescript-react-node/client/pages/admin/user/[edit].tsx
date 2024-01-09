@@ -11,6 +11,7 @@ import { TextNumField, SelectField } from 'form/FormComponents';
 import FormContainer from 'form/FormContainer';
 import FormTitle from 'form/FormTitle';
 import { textField } from 'form/ValidationSpecs';
+import FormButtonBox from 'form/FormButtonBox';
 import { UpdateSubmitButton, CancelButton } from 'form/FormButtons';
 import Loader from 'components/Loader';
 import Meta from 'components/Meta';
@@ -147,13 +148,7 @@ const UserEditScreen: React.FC<TPageProps> = ({ roles, user, error }) => {
                 error={errors.role}
                 setError={setError}
               />
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  mt: 3,
-                }}>
+              <FormButtonBox>
                 <UpdateSubmitButton
                   disabled={loadingOrProcessing || !isDirty}
                 />
@@ -161,7 +156,7 @@ const UserEditScreen: React.FC<TPageProps> = ({ roles, user, error }) => {
                   disabled={loadingOrProcessing}
                   onClick={goBackHandler}
                 />
-              </Box>
+              </FormButtonBox>
             </>
           )}
           {loadingOrProcessing && <Loader />}
