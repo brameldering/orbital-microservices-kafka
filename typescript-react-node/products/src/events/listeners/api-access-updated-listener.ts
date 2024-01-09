@@ -6,6 +6,7 @@ import {
   apiAccessCache,
   ApplicationIntegrityError,
   ApplicationServerError,
+  MICROSERVICE_PRODUCTS,
 } from '@orbitelco/common';
 
 export class ApiAccessUpdatedListener extends Listener<ApiAccessUpdatedEvent> {
@@ -13,23 +14,28 @@ export class ApiAccessUpdatedListener extends Listener<ApiAccessUpdatedEvent> {
 
   async onMessage(key: string, data: ApiAccessUpdatedEvent['data']) {
     try {
-      const apiAccess = await ApiAccess.findOne({ apiName: data.apiName });
+      const { microservice, apiName, allowedRoles } = data;
 
-      // If no apiAccess record, throw error
-      if (!apiAccess) {
-        throw new ApplicationIntegrityError(
-          'Products - ApiAccess record not found'
-        );
+      // Check that this ApiAccessUpdatedEvent is relevant for the Products Microservice
+      if (microservice === MICROSERVICE_PRODUCTS) {
+        const apiAccess = await ApiAccess.findOne({ apiName });
+
+        // If no apiAccess record, throw error
+        if (!apiAccess) {
+          throw new ApplicationIntegrityError(
+            'Products - ApiAccess record not found'
+          );
+        }
+
+        // Update the allowedRoles property
+        apiAccess.set({ allowedRoles });
+
+        // Save the apiAccess record
+        await apiAccess.save();
+
+        // Refresh ApiAccessArray cache
+        await apiAccessCache.loadCacheFromDB();
       }
-
-      // Update the allowedRoles property
-      apiAccess.set({ allowedRoles: data.allowedRoles });
-
-      // Save the apiAccess record
-      await apiAccess.save();
-
-      // Refresh ApiAccessArray cache
-      await apiAccessCache.loadCacheFromDB();
     } catch (error: any) {
       console.error(
         `Error in ApiAccessUpdatedListener for topic ${this.topic}:`,

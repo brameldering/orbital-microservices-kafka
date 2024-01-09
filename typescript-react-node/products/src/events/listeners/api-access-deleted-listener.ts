@@ -6,6 +6,7 @@ import {
   apiAccessCache,
   ApplicationIntegrityError,
   ApplicationServerError,
+  MICROSERVICE_PRODUCTS,
 } from '@orbitelco/common';
 
 export class ApiAccessDeletedListener extends Listener<ApiAccessDeletedEvent> {
@@ -13,20 +14,25 @@ export class ApiAccessDeletedListener extends Listener<ApiAccessDeletedEvent> {
 
   async onMessage(key: string, data: ApiAccessDeletedEvent['data']) {
     try {
-      const apiAccess = await ApiAccess.findOne({ apiName: data.apiName });
+      const { id, microservice, apiName } = data;
 
-      // If no apiAccess record, throw error
-      if (!apiAccess) {
-        throw new ApplicationIntegrityError(
-          'Products - ApiAccess record not found'
-        );
+      // Check that this ApiAccessDeletedEvent is relevant for the Products Microservice
+      if (microservice === MICROSERVICE_PRODUCTS) {
+        const apiAccess = await ApiAccess.findOne({ apiName });
+
+        // If no apiAccess record, throw error
+        if (!apiAccess) {
+          throw new ApplicationIntegrityError(
+            'Products - ApiAccess record not found'
+          );
+        }
+
+        // Update the ApiAccess record
+        apiAccess.deleteOne({ _id: id });
+
+        // Refresh ApiAccesscache
+        await apiAccessCache.loadCacheFromDB();
       }
-
-      // Update the ApiAccess record
-      apiAccess.deleteOne({ _id: data.id });
-
-      // Refresh ApiAccesscache
-      await apiAccessCache.loadCacheFromDB();
     } catch (error: any) {
       console.error(
         `Error in ApiAccessDeletedListener for topic ${this.topic}:`,

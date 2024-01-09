@@ -5,6 +5,7 @@ import {
   ApiAccess,
   apiAccessCache,
   ApplicationServerError,
+  MICROSERVICE_PRODUCTS,
 } from '@orbitelco/common';
 
 export class ApiAccessCreatedListener extends Listener<ApiAccessCreatedEvent> {
@@ -14,17 +15,20 @@ export class ApiAccessCreatedListener extends Listener<ApiAccessCreatedEvent> {
     try {
       const { id, microservice, apiName, allowedRoles } = data;
 
-      const apiAccess = ApiAccess.build({
-        id,
-        microservice,
-        apiName,
-        allowedRoles,
-      });
+      // Check that this ApiAccessCreatedEvent is relevant for the Products Microservice
+      if (microservice === MICROSERVICE_PRODUCTS) {
+        const apiAccess = ApiAccess.build({
+          id,
+          microservice,
+          apiName,
+          allowedRoles,
+        });
 
-      await apiAccess.save();
+        await apiAccess.save();
 
-      // Refresh ApiAccess cache
-      await apiAccessCache.loadCacheFromDB();
+        // Refresh ApiAccess cache
+        await apiAccessCache.loadCacheFromDB();
+      }
     } catch (error: any) {
       console.error(
         `Error in ApiAccessCreatedListener for topic ${this.topic}:`,
