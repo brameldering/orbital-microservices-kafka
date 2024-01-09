@@ -101,8 +101,12 @@ const SignInScreen: React.FC = () => {
             />
           </FormButtonBox>
         </Box>
-        <Grid container>
-          <Grid item xs>
+        <Grid
+          container
+          sx={{
+            mt: 1,
+          }}>
+          <Grid item>
             New Customer?{'  '}
             <MuiLink
               id='LINK_register_new_customer'
@@ -115,7 +119,11 @@ const SignInScreen: React.FC = () => {
           </Grid>
         </Grid>
         <Grid container>
-          <Grid item>
+          <Grid
+            item
+            sx={{
+              mt: 1,
+            }}>
             Password forgotten?{'  '}
             <MuiLink
               id='LINK_reset_password'
