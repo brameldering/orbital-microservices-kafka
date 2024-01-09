@@ -32,22 +32,26 @@ public class SerialNumberApiController {
     this.serialNumberRepository = serialNumberRepository;
   }
 
+  /* get-serial-numbers */
   @GetMapping
   public List<SerialNumber> getAllSerialNumbers(){
     return this.serialNumberRepository.findAll();
   }
 
+  /* get-serial-numbers-by-status */
   @GetMapping("/status/{status}")
   public List<SerialNumber> getSerialNumbersByStatus(@PathVariable("status") SerialStatus status) {
       return this.serialNumberRepository.findByStatus(status);
   }
 
+  /* create-serial-number */
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public SerialNumber addSerialNumber(@RequestBody SerialNumber serialNumber){
     return this.serialNumberRepository.save(serialNumber);
   }
 
+  /* get-status-by-product_id_and_serial_number */
   // @GetMapping("/{productId}/{serialNumber}")
   // public SerialNumber getSerialNumber(@PathVariable("productId") String productId,
   //                                     @PathVariable("serialNumber") String serialNumber) {
@@ -60,8 +64,9 @@ public class SerialNumberApiController {
   //   return serialNumberOptional.get();
   // }
 
-@PutMapping("/{productId}/{serialNumber}")
-public SerialNumber updateSerialNumber(@PathVariable("productId") String productId,
+/* update-serial-number-status */
+  @PutMapping("/{productId}/{serialNumber}")
+  public SerialNumber updateSerialNumber(@PathVariable("productId") String productId,
                                        @PathVariable("serialNumber") String serialNumber,
                                        @RequestBody SerialNumber updatedSerialNumber) {
     // Construct the composite key
@@ -72,13 +77,11 @@ public SerialNumber updateSerialNumber(@PathVariable("productId") String product
         .orElseThrow(() -> new NotFoundException("SerialNumber not found with productId: " + productId +
                                                  " and serialNumber: " + serialNumber));
 
-    // Update the fields of the existing entity with values from the provided object
-    // (except the composite key fields)
-    // Example: existingSerialNumber.setSomeField(updatedSerialNumber.getSomeField());
+    existingSerialNumber.setStatus(updatedSerialNumber.getStatus());
 
-    // Save the updated entity
+    // Save and return the updated entity
     return serialNumberRepository.save(existingSerialNumber);
-}
+  }
 
   // @DeleteMapping("/{id}")
   // @ResponseStatus(HttpStatus.RESET_CONTENT)
