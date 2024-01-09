@@ -8,6 +8,8 @@ import {
   PRODUCTS_APIS,
   checkObjectId,
   ObjectNotFoundError,
+  kafkaWrapper,
+  Topics,
 } from '@orbitelco/common';
 
 const router = express.Router();
@@ -69,6 +71,19 @@ router.put(
       product.category = category;
       product.countInStock = countInStock;
       const updatedProduct = await product.save();
+
+      // Post created product on kafka
+      await kafkaWrapper.publishers[Topics.ProductUpdated].publish(
+        updatedProduct._id.toString(),
+        {
+          id: updatedProduct._id,
+          productId: updatedProduct.sequentialProductId,
+          name: updatedProduct.name,
+          brand: updatedProduct.brand,
+          category: updatedProduct.category,
+        }
+      );
+
       res.send(updatedProduct.toJSON());
     } else {
       throw new ObjectNotFoundError('Product not found');

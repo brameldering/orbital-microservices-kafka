@@ -13,6 +13,9 @@ import { ApiAccessUpdatedListener } from './events/listeners/api-access-updated-
 import { ApiAccessDeletedListener } from './events/listeners/api-access-deleted-listener';
 import { SequenceRequestProductsPublisher } from './events/publishers/sequence-request-products-publisher';
 import { SequenceResponseProductsListener } from './events/listeners/sequence-response-products-listener';
+import { ProductCreatedPublisher } from './events/publishers/product-created-publisher';
+import { ProductUpdatedPublisher } from './events/publishers/product-updated-publisher';
+import { ProductDeletedPublisher } from './events/publishers/product-deleted-publisher';
 
 class Server {
   private readonly KAFKA_CLIENT_ID = 'products';
@@ -24,6 +27,18 @@ class Server {
     {
       topic: Topics.SequenceRequestProducts,
       publisherClass: SequenceRequestProductsPublisher,
+    },
+    {
+      topic: Topics.ProductCreated,
+      publisherClass: ProductCreatedPublisher,
+    },
+    {
+      topic: Topics.ProductUpdated,
+      publisherClass: ProductUpdatedPublisher,
+    },
+    {
+      topic: Topics.ProductDeleted,
+      publisherClass: ProductDeletedPublisher,
     },
   ];
 

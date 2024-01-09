@@ -8,6 +8,8 @@ import {
   PRODUCTS_APIS,
   checkObjectId,
   ObjectNotFoundError,
+  kafkaWrapper,
+  Topics,
 } from '@orbitelco/common';
 
 const router = express.Router();
@@ -46,6 +48,16 @@ router.delete(
     const product = await Product.findById(req.params.id);
     if (product) {
       await Product.deleteOne({ _id: product._id });
+
+      // Post updated product on kafka
+      await kafkaWrapper.publishers[Topics.ProductDeleted].publish(
+        product._id.toString(),
+        {
+          id: product._id,
+          productId: product.sequentialProductId,
+        }
+      );
+
       res.send();
     } else {
       throw new ObjectNotFoundError('Product not found');

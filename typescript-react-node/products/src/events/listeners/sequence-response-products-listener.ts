@@ -1,5 +1,6 @@
 import {
   Product,
+  kafkaWrapper,
   Listener,
   Topics,
   Entities,
@@ -15,12 +16,25 @@ export class SequenceResponseProductsListener extends Listener<SequenceResponseP
     const { entityObjectId, sequenceNumber } = data;
     try {
       const product = await Product.findById(entityObjectId);
+
       if (product) {
         const sequentialProductId: string =
           'PRD-' + sequenceNumber.toString().padStart(10, '0');
 
         product.sequentialProductId = sequentialProductId;
         await product.save();
+
+        // Post created product on kafka
+        await kafkaWrapper.publishers[Topics.ProductCreated].publish(
+          product._id.toString(),
+          {
+            id: product._id,
+            productId: product.sequentialProductId,
+            name: product.name,
+            brand: product.brand,
+            category: product.category,
+          }
+        );
       } else {
         throw new ObjectNotFoundError(
           'Error in SequenceResponseListener: Product not found'

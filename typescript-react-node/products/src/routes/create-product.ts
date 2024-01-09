@@ -75,6 +75,7 @@ router.post(
         entityObjectId: savedProduct._id,
       }
     );
+    // Note that the product create event will be published by the SequenceResponseProducts listener
 
     res.status(201).send(savedProduct.toJSON());
   }
