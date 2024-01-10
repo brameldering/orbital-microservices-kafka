@@ -17,8 +17,8 @@ import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
 import { parseError } from 'utils/parse-error';
 import ModalConfirmBox from 'components/ModalConfirmBox';
-import { TITLE_EDIT_ROLE } from 'constants/form-titles';
-import { ROLE_LIST_PAGE } from 'constants/client-pages';
+import TITLES from 'constants/form-titles';
+import PAGES from 'constants/client-pages';
 import { IRole } from '@orbitelco/common';
 import { getRoleById } from 'api/roles/get-role-by-id';
 import { useUpdateRoleMutation } from 'slices/rolesApiSlice';
@@ -65,7 +65,7 @@ const RoleEditScreen: React.FC<TPageProps> = ({ roleObj, error }) => {
         roleDisplay: getValues('roleDisplay'),
       }).unwrap();
       toast.success('Role updated');
-      Router.push(ROLE_LIST_PAGE);
+      Router.push(PAGES.ROLE_LIST_PAGE);
     } catch (err: any) {
       // To avoid "Uncaught in promise" errors in console, errors are handled by RTK mutation
     }
@@ -74,14 +74,14 @@ const RoleEditScreen: React.FC<TPageProps> = ({ roleObj, error }) => {
   const [showChangesModal, setShowChangesModal] = useState(false);
   const goBackWithoutSaving = () => {
     setShowChangesModal(false);
-    Router.push(ROLE_LIST_PAGE);
+    Router.push(PAGES.ROLE_LIST_PAGE);
   };
   const cancelGoBack = () => setShowChangesModal(false);
   const goBackHandler = async () => {
     if (isDirty) {
       setShowChangesModal(true);
     } else {
-      Router.push(ROLE_LIST_PAGE);
+      Router.push(PAGES.ROLE_LIST_PAGE);
     }
   };
 
@@ -89,7 +89,7 @@ const RoleEditScreen: React.FC<TPageProps> = ({ roleObj, error }) => {
 
   return (
     <>
-      <Meta title={TITLE_EDIT_ROLE} />
+      <Meta title={TITLES.TITLE_EDIT_ROLE} />
       <ModalConfirmBox
         showModal={showChangesModal}
         title='Are you sure you want to go back?'
@@ -103,7 +103,7 @@ const RoleEditScreen: React.FC<TPageProps> = ({ roleObj, error }) => {
           onSubmit={handleSubmit(onSubmit)}
           noValidate
           sx={{ mt: 1 }}>
-          <FormTitle>{TITLE_EDIT_ROLE}</FormTitle>
+          <FormTitle>{TITLES.TITLE_EDIT_ROLE}</FormTitle>
           {errorUpdating && <ErrorBlock error={errorUpdating} />}
           {error ? (
             <ErrorBlock error={error} />

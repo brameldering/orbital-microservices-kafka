@@ -12,8 +12,8 @@ import { textField } from 'form/ValidationSpecs';
 import { SubmitButton } from 'form/FormButtons';
 import Meta from 'components/Meta';
 import CheckoutSteps from 'components/CheckoutSteps';
-import { TITLE_SHIPPING } from 'constants/form-titles';
-import { PAYMENT_INFO_PAGE } from 'constants/client-pages';
+import TITLES from 'constants/form-titles';
+import PAGES from 'constants/client-pages';
 import { saveShippingAddress } from 'slices/cartSlice';
 import type { RootState } from 'slices/store';
 
@@ -61,15 +61,15 @@ const ShippingScreen = () => {
     const city = getValues('city');
     const country = getValues('country');
     dispatch(saveShippingAddress({ address, postalCode, city, country }));
-    Router.push(PAYMENT_INFO_PAGE);
+    Router.push(PAGES.PAYMENT_INFO_PAGE);
   };
 
   return (
     <>
-      <Meta title={TITLE_SHIPPING} />
+      <Meta title={TITLES.TITLE_SHIPPING} />
       <CheckoutSteps currentStep={1} />
       <FormContainer>
-        <FormTitle>{TITLE_SHIPPING}</FormTitle>
+        <FormTitle>{TITLES.TITLE_SHIPPING}</FormTitle>
         <Box component='form' onSubmit={handleSubmit(onSubmit)}>
           <TextNumField
             controlId='address'

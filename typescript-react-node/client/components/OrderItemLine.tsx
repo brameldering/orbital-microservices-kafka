@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
-import { PRODUCT_DETAIL_PAGE } from 'constants/client-pages';
+import PAGES from 'constants/client-pages';
 import { IOrderItem } from '@orbitelco/common';
 
 interface OrderItemLineProps {
@@ -24,7 +24,7 @@ const OrderItemLine = (itemProps: OrderItemLineProps) => {
       </Grid>
       <Grid item xs={12} md={7}>
         <Link
-          href={`${PRODUCT_DETAIL_PAGE}/${item.productId}?goBackPath=${itemProps.goBackPath}`}
+          href={`${PAGES.PRODUCT_DETAIL_PAGE}/${item.productId}?goBackPath=${itemProps.goBackPath}`}
           underline='hover'>
           <Typography variant='body1' component='span'>
             {item.productName}

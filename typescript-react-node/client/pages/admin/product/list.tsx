@@ -23,14 +23,14 @@ import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
 import ModalConfirmBox from 'components/ModalConfirmBox';
 import Paginate from 'components/Paginate';
-import { TITLE_PRODUCT_ADMIN } from 'constants/form-titles';
+import TITLES from 'constants/form-titles';
 import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
 import {
   useGetProductsQuery,
   useCreateProductMutation,
   useDeleteProductMutation,
 } from 'slices/productsApiSlice';
-import { PRODUCT_EDIT_PAGE } from 'constants/client-pages';
+import PAGES from 'constants/client-pages';
 
 const ProductListScreen = () => {
   const router = useRouter();
@@ -61,7 +61,7 @@ const ProductListScreen = () => {
     try {
       await createProduct().unwrap();
       refetch();
-      // Router.push(PRODUCT_LIST_PAGE);
+      // Router.push(PAGES.PRODUCT_LIST_PAGE);
     } catch (err) {
       // Do nothing because useCreateProductMutation will set errorCreating in case of an error
     } finally {
@@ -100,7 +100,7 @@ const ProductListScreen = () => {
 
   return (
     <>
-      <Meta title={TITLE_PRODUCT_ADMIN} />
+      <Meta title={TITLES.TITLE_PRODUCT_ADMIN} />
       <ModalConfirmBox
         showModal={confirmCreateProductModal}
         title='Create Product'
@@ -121,7 +121,7 @@ const ProductListScreen = () => {
         alignItems='center'
         sx={{ mb: 2 }}>
         <Grid item>
-          <FormTitle>{TITLE_PRODUCT_ADMIN}</FormTitle>
+          <FormTitle>{TITLES.TITLE_PRODUCT_ADMIN}</FormTitle>
         </Grid>
         <Grid item>
           <Button
@@ -178,7 +178,7 @@ const ProductListScreen = () => {
                     }}>
                     <Link
                       id={`edit_${product.sequentialProductId}`}
-                      href={`${PRODUCT_EDIT_PAGE}/${product.id}`}
+                      href={`${PAGES.PRODUCT_EDIT_PAGE}/${product.id}`}
                       passHref>
                       <IconButton>
                         <EditIcon />

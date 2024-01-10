@@ -15,8 +15,8 @@ import Loader from 'components/Loader';
 import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
 import ModalConfirmBox from 'components/ModalConfirmBox';
-import { TITLE_CREATE_ROLE } from 'constants/form-titles';
-import { ROLE_LIST_PAGE } from 'constants/client-pages';
+import TITLES from 'constants/form-titles';
+import PAGES from 'constants/client-pages';
 import { useCreateRoleMutation } from 'slices/rolesApiSlice';
 
 interface IFormInput {
@@ -56,7 +56,7 @@ const RoleCreateScreen: React.FC = () => {
         roleDisplay: getValues('roleDisplay'),
       }).unwrap();
       toast.success('Role created');
-      Router.push(ROLE_LIST_PAGE);
+      Router.push(PAGES.ROLE_LIST_PAGE);
     } catch (err: any) {
       // To avoid "Uncaught in promise" errors in console, errors are handled by RTK mutation
     }
@@ -65,14 +65,14 @@ const RoleCreateScreen: React.FC = () => {
   const [showChangesModal, setShowChangesModal] = useState(false);
   const goBackWithoutSaving = () => {
     setShowChangesModal(false);
-    Router.push(ROLE_LIST_PAGE);
+    Router.push(PAGES.ROLE_LIST_PAGE);
   };
   const cancelGoBack = () => setShowChangesModal(false);
   const goBackHandler = async () => {
     if (isDirty) {
       setShowChangesModal(true);
     } else {
-      Router.push(ROLE_LIST_PAGE);
+      Router.push(PAGES.ROLE_LIST_PAGE);
     }
   };
 
@@ -80,7 +80,7 @@ const RoleCreateScreen: React.FC = () => {
 
   return (
     <>
-      <Meta title={TITLE_CREATE_ROLE} />
+      <Meta title={TITLES.TITLE_CREATE_ROLE} />
       <ModalConfirmBox
         showModal={showChangesModal}
         title='Are you sure you want to go back?'
@@ -94,7 +94,7 @@ const RoleCreateScreen: React.FC = () => {
           onSubmit={handleSubmit(onSubmit)}
           noValidate
           sx={{ mt: 1 }}>
-          <FormTitle>{TITLE_CREATE_ROLE}</FormTitle>
+          <FormTitle>{TITLES.TITLE_CREATE_ROLE}</FormTitle>
           {errorCreating && <ErrorBlock error={errorCreating} />}
           <TextNumField
             controlId='role'

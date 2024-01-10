@@ -23,14 +23,9 @@ import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
 import { parseError } from 'utils/parse-error';
 import CheckoutSteps from 'components/CheckoutSteps';
-import { TITLE_SHOPPING_CART } from 'constants/form-titles';
+import TITLES from 'constants/form-titles';
 import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
-import {
-  PRODUCTS_PAGE,
-  SIGNIN_PAGE,
-  SHIPPING_PAGE,
-  PRODUCT_DETAIL_PAGE,
-} from 'constants/client-pages';
+import PAGES from 'constants/client-pages';
 import { ICartItem, IPriceCalcSettingsAttrs } from '@orbitelco/common';
 import type { RootState } from 'slices/store';
 import { addToCart, removeFromCart } from 'slices/cartSlice';
@@ -57,20 +52,20 @@ const CartScreen: React.FC<TPageProps> = ({ priceCalcSettings, error }) => {
     dispatch(removeFromCart({ id, priceCalcSettings }));
   };
 
-  const nextPage = SHIPPING_PAGE;
+  const nextPage = PAGES.SHIPPING_PAGE;
   const checkoutHandler = () => {
     if (userInfo?.name) {
       // user logged in, proceed to next page
       Router.push(nextPage);
     } else {
       // user not yet logged in, log in first then redirect to next page
-      Router.push(`${SIGNIN_PAGE}?redirect=${nextPage}`);
+      Router.push(`${PAGES.SIGNIN_PAGE}?redirect=${nextPage}`);
     }
   };
 
   return (
     <>
-      <Meta title={TITLE_SHOPPING_CART} />
+      <Meta title={TITLES.TITLE_SHOPPING_CART} />
       <CheckoutSteps currentStep={0} />
       {error ? (
         <ErrorBlock error={error} />
@@ -78,11 +73,11 @@ const CartScreen: React.FC<TPageProps> = ({ priceCalcSettings, error }) => {
         <>
           <Grid container spacing={3}>
             <Grid item xs={12} md={8}>
-              <FormTitle>{TITLE_SHOPPING_CART}</FormTitle>
+              <FormTitle>{TITLES.TITLE_SHOPPING_CART}</FormTitle>
               {cartItems.length === 0 ? (
                 <Alert severity='info'>
                   Your cart is empty{' '}
-                  <Link id='LINK_go_to_shop' href={PRODUCTS_PAGE}>
+                  <Link id='LINK_go_to_shop' href={PAGES.PRODUCTS_PAGE}>
                     Go to shop
                   </Link>
                 </Alert>
@@ -104,7 +99,7 @@ const CartScreen: React.FC<TPageProps> = ({ priceCalcSettings, error }) => {
                           <Grid item xs={4}>
                             <Link
                               id={`product_name_${item.productName}`}
-                              href={`${PRODUCT_DETAIL_PAGE}/${item.productId}?goBackPath=${currentPath}`}
+                              href={`${PAGES.PRODUCT_DETAIL_PAGE}/${item.productId}?goBackPath=${currentPath}`}
                               passHref>
                               <Typography component='a' variant='body1'>
                                 {item.productName}

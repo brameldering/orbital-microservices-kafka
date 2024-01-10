@@ -3,7 +3,7 @@ import Link from 'next/link';
 import FormTitle from 'form/FormTitle';
 import FormContainer from 'form/FormContainer';
 import Meta from 'components/Meta';
-import { INDEX_PAGE } from 'constants/client-pages';
+import PAGES from 'constants/client-pages';
 
 const NotFound: React.FC = () => {
   return (
@@ -14,7 +14,7 @@ const NotFound: React.FC = () => {
         <strong>The requested page does not exist.</strong>
       </p>
       <p></p>
-      <Link href={INDEX_PAGE}>Go to home page</Link>
+      <Link href={PAGES.INDEX_PAGE}>Go to home page</Link>
     </FormContainer>
   );
 };

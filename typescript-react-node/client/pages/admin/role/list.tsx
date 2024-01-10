@@ -23,13 +23,9 @@ import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
 import { parseError } from 'utils/parse-error';
 import ModalConfirmBox from 'components//ModalConfirmBox';
-import { TITLE_ROLE_ADMIN } from 'constants/form-titles';
+import TITLES from 'constants/form-titles';
 import { IRole } from '@orbitelco/common';
-import {
-  ROLE_LIST_PAGE,
-  ROLE_CREATE_PAGE,
-  ROLE_EDIT_PAGE,
-} from 'constants/client-pages';
+import PAGES from 'constants/client-pages';
 import { getRoles } from 'api/roles/get-roles';
 import { useDeleteRoleMutation } from 'slices/rolesApiSlice';
 
@@ -57,7 +53,7 @@ const RolesListScreen: React.FC<TPageProps> = ({ roles, error }) => {
     try {
       await deleteRole(deleteRoleId).unwrap();
       // perform a redirect to this page to refetch role records
-      Router.push(ROLE_LIST_PAGE);
+      Router.push(PAGES.ROLE_LIST_PAGE);
     } catch (err) {
       // Do nothing because useDeleteRoleMutation will set errorDeleting in case of an error
     } finally {
@@ -70,7 +66,7 @@ const RolesListScreen: React.FC<TPageProps> = ({ roles, error }) => {
 
   return (
     <>
-      <Meta title={TITLE_ROLE_ADMIN} />
+      <Meta title={TITLES.TITLE_ROLE_ADMIN} />
       <ModalConfirmBox
         showModal={confirmDeleteRoleModal}
         title='Delete Role'
@@ -84,10 +80,10 @@ const RolesListScreen: React.FC<TPageProps> = ({ roles, error }) => {
         alignItems='center'
         sx={{ mb: 2 }}>
         <Grid item>
-          <FormTitle>{TITLE_ROLE_ADMIN}</FormTitle>
+          <FormTitle>{TITLES.TITLE_ROLE_ADMIN}</FormTitle>
         </Grid>
         <Grid item>
-          <Link href={ROLE_CREATE_PAGE} passHref>
+          <Link href={PAGES.ROLE_CREATE_PAGE} passHref>
             <Button
               id={'BUTTON_create_role'}
               variant='contained'
@@ -123,7 +119,7 @@ const RolesListScreen: React.FC<TPageProps> = ({ roles, error }) => {
                     </TableCell>
                     <TableCell>
                       <Link
-                        href={`${ROLE_EDIT_PAGE}/${role.id}`}
+                        href={`${PAGES.ROLE_EDIT_PAGE}/${role.id}`}
                         style={{ marginRight: '10px' }}>
                         <Button
                           variant='outlined'

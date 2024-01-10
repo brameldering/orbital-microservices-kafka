@@ -18,8 +18,8 @@ import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
 import { parseError } from 'utils/parse-error';
 import ModalConfirmBox from 'components/ModalConfirmBox';
-import { TITLE_EDIT_USER } from 'constants/form-titles';
-import { USER_LIST_PAGE } from 'constants/client-pages';
+import TITLES from 'constants/form-titles';
+import PAGES from 'constants/client-pages';
 import { IUser } from '@orbitelco/common';
 import { getRoles } from 'api/roles/get-roles';
 import { getUserById } from 'api/users/get-user-by-id';
@@ -82,7 +82,7 @@ const UserEditScreen: React.FC<TPageProps> = ({ roles, user, error }) => {
       }).unwrap();
       dispatch(updUserState({ ...res }));
       toast.success('User updated');
-      Router.push(USER_LIST_PAGE);
+      Router.push(PAGES.USER_LIST_PAGE);
     } catch (err: any) {
       // To avoid "Uncaught in promise" errors in console, errors are handled by RTK mutation
     }
@@ -91,14 +91,14 @@ const UserEditScreen: React.FC<TPageProps> = ({ roles, user, error }) => {
   const [showChangesModal, setShowChangesModal] = useState(false);
   const goBackWithoutSaving = () => {
     setShowChangesModal(false);
-    Router.push(USER_LIST_PAGE);
+    Router.push(PAGES.USER_LIST_PAGE);
   };
   const cancelGoBack = () => setShowChangesModal(false);
   const goBackHandler = async () => {
     if (isDirty) {
       setShowChangesModal(true);
     } else {
-      Router.push(USER_LIST_PAGE);
+      Router.push(PAGES.USER_LIST_PAGE);
     }
   };
 
@@ -111,7 +111,7 @@ const UserEditScreen: React.FC<TPageProps> = ({ roles, user, error }) => {
 
   return (
     <>
-      <Meta title={TITLE_EDIT_USER} />
+      <Meta title={TITLES.TITLE_EDIT_USER} />
       <ModalConfirmBox
         showModal={showChangesModal}
         title='Are you sure you want to go back?'
@@ -121,7 +121,7 @@ const UserEditScreen: React.FC<TPageProps> = ({ roles, user, error }) => {
       />
       <FormContainer>
         <Box component='form' onSubmit={handleSubmit(onSubmit)}>
-          <FormTitle>{TITLE_EDIT_USER}</FormTitle>
+          <FormTitle>{TITLES.TITLE_EDIT_USER}</FormTitle>
           {errorUpdating && <ErrorBlock error={errorUpdating} />}
           {error ? (
             <ErrorBlock error={error} />

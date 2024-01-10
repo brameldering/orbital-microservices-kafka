@@ -17,13 +17,8 @@ import Meta from 'components/Meta';
 import CheckoutSteps from 'components/CheckoutSteps';
 import OrderItemLine from 'components/OrderItemLine';
 import OrderSummaryBlock from 'components/OrderSummaryBlock';
-import { TITLE_CONFIRM_ORDER } from 'constants/form-titles';
-import {
-  SHIPPING_PAGE,
-  PAYMENT_INFO_PAGE,
-  PLACE_ORDER_PAGE,
-  ORDER_DETAIL_PAGE,
-} from 'constants/client-pages';
+import TITLES from 'constants/form-titles';
+import PAGES from 'constants/client-pages';
 import { clearCartItems } from 'slices/cartSlice';
 import { useCreateOrderMutation } from 'slices/ordersApiSlice';
 import type { RootState } from 'slices/store';
@@ -35,9 +30,9 @@ const PlaceOrderScreen = () => {
 
   useEffect(() => {
     if (!cart.shippingAddress.address) {
-      Router.push(SHIPPING_PAGE);
+      Router.push(PAGES.SHIPPING_PAGE);
     } else if (!cart.paymentMethod) {
-      Router.push(PAYMENT_INFO_PAGE);
+      Router.push(PAGES.PAYMENT_INFO_PAGE);
     }
   }, [cart.paymentMethod, cart.shippingAddress.address]);
 
@@ -62,7 +57,7 @@ const PlaceOrderScreen = () => {
         totalAmounts: cart.totalAmounts,
       }).unwrap();
       dispatch(clearCartItems());
-      Router.push(`${ORDER_DETAIL_PAGE}/${res.id}`);
+      Router.push(`${PAGES.ORDER_DETAIL_PAGE}/${res.id}`);
     } catch (err) {
       // Do nothing because useCreateOrderMutation will set errorCreatingOrder in case of an error
     }
@@ -70,7 +65,7 @@ const PlaceOrderScreen = () => {
 
   return (
     <>
-      <Meta title={TITLE_CONFIRM_ORDER} />
+      <Meta title={TITLES.TITLE_CONFIRM_ORDER} />
       <CheckoutSteps currentStep={3} />
       <Grid container spacing={3}>
         <Grid item md={8} xs={12}>
@@ -101,7 +96,7 @@ const PlaceOrderScreen = () => {
                     <ListItem key={index}>
                       <OrderItemLine
                         item={item}
-                        goBackPath={PLACE_ORDER_PAGE}
+                        goBackPath={PAGES.PLACE_ORDER_PAGE}
                       />
                     </ListItem>
                   ))}

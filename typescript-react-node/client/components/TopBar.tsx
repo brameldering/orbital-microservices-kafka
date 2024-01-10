@@ -23,14 +23,7 @@ import Link from 'next/link';
 import Router from 'next/router';
 import LogoSVG from 'logo/LogoSVG';
 import SearchBox from './SearchBox';
-import {
-  PRODUCTS_PAGE,
-  CART_PAGE,
-  MY_PROFILE_PAGE,
-  MY_ORDERS_PAGE,
-  SIGNUP_PAGE,
-  SIGNIN_PAGE,
-} from 'constants/client-pages';
+import PAGES from 'constants/client-pages';
 import type { RootState } from 'slices/store';
 import { logout } from 'slices/authSlice';
 import { useSignOutMutation } from 'slices/usersApiSlice';
@@ -46,7 +39,7 @@ const TopBar: React.FC = () => {
       setAnchorEl(null);
       await doSignOut().unwrap();
       dispatch(logout());
-      Router.push(PRODUCTS_PAGE);
+      Router.push(PAGES.PRODUCTS_PAGE);
     } catch (err: any) {
       // To avoid "Uncaught in promise" errors in console, errors are handled by RTK mutation
     }
@@ -85,7 +78,7 @@ const TopBar: React.FC = () => {
       open={isMenuOpen}
       onClose={handleMenuClose}>
       <MenuItem onClick={handleMenuClose}>
-        <Link href={MY_PROFILE_PAGE} passHref>
+        <Link href={PAGES.MY_PROFILE_PAGE} passHref>
           <Typography
             variant='body1'
             component='a'
@@ -95,7 +88,7 @@ const TopBar: React.FC = () => {
         </Link>
       </MenuItem>
       <MenuItem onClick={handleMenuClose}>
-        <Link href={MY_ORDERS_PAGE} passHref>
+        <Link href={PAGES.MY_ORDERS_PAGE} passHref>
           <Typography
             variant='body1'
             component='a'
@@ -127,7 +120,7 @@ const TopBar: React.FC = () => {
       open={isMenuOpen}
       onClose={handleMenuClose}>
       <MenuItem onClick={handleMenuClose}>
-        <Link href={SIGNIN_PAGE} passHref>
+        <Link href={PAGES.SIGNIN_PAGE} passHref>
           <Typography
             variant='body1'
             component='a'
@@ -137,7 +130,7 @@ const TopBar: React.FC = () => {
         </Link>
       </MenuItem>
       <MenuItem onClick={handleMenuClose}>
-        <Link href={SIGNUP_PAGE} passHref>
+        <Link href={PAGES.SIGNUP_PAGE} passHref>
           <MuiLink sx={{ textDecoration: 'none', color: 'inherit' }}>
             <Typography variant='body1'>Sign up</Typography>
           </MuiLink>
@@ -154,7 +147,7 @@ const TopBar: React.FC = () => {
           <Link
             legacyBehavior
             id='LINK_orbitelco_shop'
-            href={PRODUCTS_PAGE}
+            href={PAGES.PRODUCTS_PAGE}
             passHref>
             <a
               style={{
@@ -194,7 +187,7 @@ const TopBar: React.FC = () => {
               <Link
                 legacyBehavior
                 id='LINK_orbitelco_shop'
-                href={CART_PAGE}
+                href={PAGES.CART_PAGE}
                 passHref>
                 <a
                   style={{

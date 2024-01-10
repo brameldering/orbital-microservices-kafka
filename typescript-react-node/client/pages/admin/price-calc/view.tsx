@@ -7,9 +7,9 @@ import Link from 'next/link';
 import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
 import { parseError } from 'utils/parse-error';
-import { TITLE_PRICE_CALC_ADMIN } from 'constants/form-titles';
+import TITLES from 'constants/form-titles';
 import { IPriceCalcSettingsAttrs } from '@orbitelco/common';
-import { PRICE_CALC_EDIT_PAGE } from 'constants/client-pages';
+import PAGES from 'constants/client-pages';
 import { getPriceCalcSettings } from 'api/orders/get-price-calc-settings';
 
 interface TPageProps {
@@ -23,7 +23,7 @@ const PriceCalcSettingsScreen: React.FC<TPageProps> = ({
 }) => {
   return (
     <>
-      <Meta title={TITLE_PRICE_CALC_ADMIN} />
+      <Meta title={TITLES.TITLE_PRICE_CALC_ADMIN} />
       <Box
         sx={{
           display: 'flex',
@@ -31,8 +31,8 @@ const PriceCalcSettingsScreen: React.FC<TPageProps> = ({
           alignItems: 'center',
           my: 2,
         }}>
-        <FormTitle>{TITLE_PRICE_CALC_ADMIN}</FormTitle>
-        <Link href={PRICE_CALC_EDIT_PAGE} style={{ marginRight: '10px' }}>
+        <FormTitle>{TITLES.TITLE_PRICE_CALC_ADMIN}</FormTitle>
+        <Link href={PAGES.PRICE_CALC_EDIT_PAGE} style={{ marginRight: '10px' }}>
           <Button
             id={'BUTTON_edit_price_calc'}
             variant='contained'

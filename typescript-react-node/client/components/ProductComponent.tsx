@@ -5,7 +5,7 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Link from 'next/link';
 import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
-import { PRODUCT_DETAIL_PAGE } from 'constants/client-pages';
+import PAGES from 'constants/client-pages';
 import { IProduct } from '@orbitelco/common';
 import CustomRating from './Rating';
 
@@ -16,7 +16,7 @@ interface ProductComponentProps {
 const ProductComponent: React.FC<ProductComponentProps> = ({ product }) => {
   return (
     <Card sx={{ my: 3, p: 3, borderRadius: '4px' }} id='product_card'>
-      <Link href={`${PRODUCT_DETAIL_PAGE}/${product.id}`} passHref>
+      <Link href={`${PAGES.PRODUCT_DETAIL_PAGE}/${product.id}`} passHref>
         <CardMedia
           component='img'
           image={product.imageURL}

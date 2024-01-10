@@ -2,7 +2,7 @@ import React from 'react';
 import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
 import Link from 'next/link';
-import { PRODUCTS_PAGE } from 'constants/client-pages';
+import PAGES from 'constants/client-pages';
 
 interface PaginateProps {
   pages: number;
@@ -28,10 +28,10 @@ const Paginate: React.FC<PaginateProps> = ({
             href={
               !isAdmin
                 ? keyword
-                  ? `${PRODUCTS_PAGE}?keyword=${keyword.trim()}&page/${
+                  ? `${PAGES.PRODUCTS_PAGE}?keyword=${keyword.trim()}&page/${
                       item.page
                     }`
-                  : `${PRODUCTS_PAGE}?page=${item.page}`
+                  : `${PAGES.PRODUCTS_PAGE}?page=${item.page}`
                 : `/admin/productlist/?page=${item.page}`
             }
             {...item}

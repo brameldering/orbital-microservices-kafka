@@ -30,7 +30,7 @@ import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
 import { ICartItem, IPriceCalcSettingsAttrs } from '@orbitelco/common';
 import { dateTimeToLocaleDateString } from 'utils/dateUtils';
 import { parseError } from 'utils/parse-error';
-import { PRODUCTS_PAGE, CART_PAGE, SIGNIN_PAGE } from 'constants/client-pages';
+import PAGES from 'constants/client-pages';
 import type { RootState } from 'slices/store';
 import { addToCart } from 'slices/cartSlice';
 import {
@@ -66,7 +66,7 @@ const ProductDetailScreen: React.FC<TPageProps> = ({
     productId = '';
   }
 
-  const goBackPath = router.query.goBackPath || PRODUCTS_PAGE;
+  const goBackPath = router.query.goBackPath || PAGES.PRODUCTS_PAGE;
 
   const [qty, setQty] = useState<number>(1);
   const [rating, setRating] = useState<number>(0);
@@ -92,7 +92,7 @@ const ProductDetailScreen: React.FC<TPageProps> = ({
       dispatch(
         addToCart({ cartItem: { ...cartItem, qty }, priceCalcSettings })
       );
-      Router.push(CART_PAGE);
+      Router.push(PAGES.CART_PAGE);
     }
   };
 
@@ -286,7 +286,7 @@ const ProductDetailScreen: React.FC<TPageProps> = ({
                         Please{' '}
                         <MuiLink
                           id='LINK_sign_in'
-                          href={`${SIGNIN_PAGE}?redirect=${asPath}`}
+                          href={`${PAGES.SIGNIN_PAGE}?redirect=${asPath}`}
                           component={NextLink}>
                           sign in{' '}
                         </MuiLink>

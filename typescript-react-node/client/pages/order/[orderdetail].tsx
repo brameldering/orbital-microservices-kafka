@@ -31,9 +31,9 @@ import ErrorBlock from 'components/ErrorBlock';
 import { parseError } from 'utils/parse-error';
 import OrderItemLine from 'components/OrderItemLine';
 import OrderSummaryBlock from 'components/OrderSummaryBlock';
-import { TITLE_ORDER_DETAILS } from 'constants/form-titles';
+import TITLES from 'constants/form-titles';
 import { CURRENCY_PAYPAL } from 'constants/constants-frontend';
-import { ORDER_DETAIL_PAGE } from 'constants/client-pages';
+import PAGES from 'constants/client-pages';
 import { ADMIN_ROLE, IOrder } from '@orbitelco/common';
 import { getOrderById } from 'api/orders/get-order-by-id';
 import type { RootState } from 'slices/store';
@@ -150,7 +150,7 @@ const OrderScreen: React.FC<TPageProps> = ({ order, error }) => {
         if (order.id) {
           await setPayData({ orderId: order.id, details }).unwrap();
         }
-        Router.push(`${ORDER_DETAIL_PAGE}/${order.id}`);
+        Router.push(`${PAGES.ORDER_DETAIL_PAGE}/${order.id}`);
         if (errorSettingPayData) {
           setPayPalError(errorSettingPayData);
         } else {
@@ -185,7 +185,7 @@ const OrderScreen: React.FC<TPageProps> = ({ order, error }) => {
         throw new Error('Error: PayPal OrderId not defined');
       }
       await setDeliverData(order.id).unwrap();
-      Router.push(`${ORDER_DETAIL_PAGE}/${order.id}`);
+      Router.push(`${PAGES.ORDER_DETAIL_PAGE}/${order.id}`);
     } catch (error: any) {
       console.error('Error in [orderdetail].tsx deliverHandler', error);
       setDeliverError(error);
@@ -197,7 +197,7 @@ const OrderScreen: React.FC<TPageProps> = ({ order, error }) => {
 
   return (
     <>
-      <Meta title={TITLE_ORDER_DETAILS} />
+      <Meta title={TITLES.TITLE_ORDER_DETAILS} />
       {error ? (
         <ErrorBlock error={error} />
       ) : (
@@ -206,7 +206,7 @@ const OrderScreen: React.FC<TPageProps> = ({ order, error }) => {
             <Grid item xs={12} md={8}>
               <List disablePadding>
                 <ListItem>
-                  <FormTitle>{TITLE_ORDER_DETAILS}</FormTitle>
+                  <FormTitle>{TITLES.TITLE_ORDER_DETAILS}</FormTitle>
                   <Typography paragraph>
                     <strong>Order Id: </strong> {order.sequentialOrderId}
                   </Typography>
@@ -270,7 +270,7 @@ const OrderScreen: React.FC<TPageProps> = ({ order, error }) => {
                       <ListItem key={index}>
                         <OrderItemLine
                           item={item}
-                          goBackPath={`${ORDER_DETAIL_PAGE}/${order.id}`}
+                          goBackPath={`${PAGES.ORDER_DETAIL_PAGE}/${order.id}`}
                         />
                       </ListItem>
                     ))

@@ -16,12 +16,8 @@ import { SubmitButton } from 'form/FormButtons';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
-import { TITLE_SIGN_IN } from 'constants/form-titles';
-import {
-  PRODUCTS_PAGE,
-  SIGNUP_PAGE,
-  RESET_PASSWORD_PAGE,
-} from 'constants/client-pages';
+import TITLES from 'constants/form-titles';
+import PAGES from 'constants/client-pages';
 import { setUserState } from 'slices/authSlice';
 import { useSignInMutation } from 'slices/usersApiSlice';
 
@@ -49,10 +45,10 @@ const SignInScreen: React.FC = () => {
     resolver: yupResolver(schema),
   });
 
-  // Extract the 'redirect' query parameter with a default value of PRODUCTS_PAGE
+  // Extract the 'redirect' query parameter with a default value of PAGES.PRODUCTS_PAGE
   const router = useRouter();
   const { query } = router;
-  const redirect = query.redirect || PRODUCTS_PAGE;
+  const redirect = query.redirect || PAGES.PRODUCTS_PAGE;
 
   const [doSignIn, { isLoading: isProcessing, error: errorSigninIn }] =
     useSignInMutation();
@@ -74,10 +70,10 @@ const SignInScreen: React.FC = () => {
 
   return (
     <>
-      <Meta title={TITLE_SIGN_IN} />
+      <Meta title={TITLES.TITLE_SIGN_IN} />
       <FormContainer>
         <Box component='form' onSubmit={handleSubmit(onSubmit, onError)}>
-          <FormTitle>{TITLE_SIGN_IN}</FormTitle>
+          <FormTitle>{TITLES.TITLE_SIGN_IN}</FormTitle>
           <TextNumField
             controlId='email'
             label='Email'
@@ -111,7 +107,9 @@ const SignInScreen: React.FC = () => {
             <MuiLink
               id='LINK_register_new_customer'
               href={
-                redirect ? `${SIGNUP_PAGE}?redirect=${redirect}` : SIGNUP_PAGE
+                redirect
+                  ? `${PAGES.SIGNUP_PAGE}?redirect=${redirect}`
+                  : PAGES.SIGNUP_PAGE
               }
               component={NextLink}>
               Register
@@ -127,7 +125,7 @@ const SignInScreen: React.FC = () => {
             Password forgotten?{'  '}
             <MuiLink
               id='LINK_reset_password'
-              href={RESET_PASSWORD_PAGE}
+              href={PAGES.RESET_PASSWORD_PAGE}
               component={NextLink}>
               Reset password
             </MuiLink>

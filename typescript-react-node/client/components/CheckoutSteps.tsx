@@ -3,12 +3,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Button from '@mui/material/Button';
 import Link from 'next/link';
-import {
-  CART_PAGE,
-  SHIPPING_PAGE,
-  PAYMENT_INFO_PAGE,
-  PLACE_ORDER_PAGE,
-} from 'constants/client-pages';
+import PAGES from 'constants/client-pages';
 
 interface CheckoutStepsProps {
   currentStep: number;
@@ -16,10 +11,10 @@ interface CheckoutStepsProps {
 
 const CheckoutSteps: React.FC<CheckoutStepsProps> = ({ currentStep }) => {
   const checkOutSteps = [
-    { name: 'Cart', path: CART_PAGE },
-    { name: 'Address', path: SHIPPING_PAGE },
-    { name: 'Payment', path: PAYMENT_INFO_PAGE },
-    { name: 'Order', path: PLACE_ORDER_PAGE },
+    { name: 'Cart', path: PAGES.CART_PAGE },
+    { name: 'Address', path: PAGES.SHIPPING_PAGE },
+    { name: 'Payment', path: PAGES.PAYMENT_INFO_PAGE },
+    { name: 'Order', path: PAGES.PLACE_ORDER_PAGE },
   ];
 
   return (

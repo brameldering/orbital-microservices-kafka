@@ -15,8 +15,8 @@ import { UpdateSubmitButton } from 'form/FormButtons';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
-import { TITLE_MY_PROFILE } from 'constants/form-titles';
-import { CHANGE_PASSWORD_PAGE } from 'constants/client-pages';
+import TITLES from 'constants/form-titles';
+import PAGES from 'constants/client-pages';
 import type { RootState } from 'slices/store';
 import { updUserState } from 'slices/authSlice';
 import { useChangeUserProfileMutation } from 'slices/usersApiSlice';
@@ -72,10 +72,10 @@ const ProfileScreen: React.FC = () => {
 
   return (
     <>
-      <Meta title={TITLE_MY_PROFILE} />
+      <Meta title={TITLES.TITLE_MY_PROFILE} />
       <FormContainer>
         <Box component='form' onSubmit={handleSubmit(onSubmit, onError)}>
-          <FormTitle>{TITLE_MY_PROFILE}</FormTitle>
+          <FormTitle>{TITLES.TITLE_MY_PROFILE}</FormTitle>
           <TextNumField
             controlId='name'
             label='Full name'
@@ -96,7 +96,7 @@ const ProfileScreen: React.FC = () => {
             <UpdateSubmitButton disabled={isProcessing || !isDirty} />
             <Link
               id='LINK_change_password'
-              href={CHANGE_PASSWORD_PAGE}
+              href={PAGES.CHANGE_PASSWORD_PAGE}
               passHref>
               <Button component='a' variant='outlined'>
                 Change Password

@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { styled, alpha } from '@mui/material/styles';
 import { Box, InputBase } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import { PRODUCTS_PAGE } from 'constants/client-pages';
+import PAGES from 'constants/client-pages';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -53,10 +53,10 @@ const SearchBox = () => {
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (keyword.trim()) {
-      router.push(`${PRODUCTS_PAGE}?keyword=${keyword.trim()}`);
+      router.push(`${PAGES.PRODUCTS_PAGE}?keyword=${keyword.trim()}`);
       setKeyword('');
     } else {
-      router.push(PRODUCTS_PAGE);
+      router.push(PAGES.PRODUCTS_PAGE);
     }
   };
 

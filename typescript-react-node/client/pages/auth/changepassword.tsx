@@ -15,8 +15,8 @@ import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ModalConfirmBox from 'components/ModalConfirmBox';
 import ErrorBlock from 'components/ErrorBlock';
-import { TITLE_CHANGE_PASSWORD } from 'constants/form-titles';
-import { MY_PROFILE_PAGE } from 'constants/client-pages';
+import TITLES from 'constants/form-titles';
+import PAGES from 'constants/client-pages';
 import { useChangePasswordMutation } from 'slices/usersApiSlice';
 
 interface IFormInput {
@@ -54,7 +54,7 @@ const ChangePasswordScreen: React.FC = () => {
         newPassword,
       }).unwrap();
       toast.success('Password updated');
-      Router.push(MY_PROFILE_PAGE);
+      Router.push(PAGES.MY_PROFILE_PAGE);
     } catch (err: any) {
       // To avoid "Uncaught in promise" errors in console, errors are handled by RTK mutation
     }
@@ -67,20 +67,20 @@ const ChangePasswordScreen: React.FC = () => {
   const [showChangesModal, setShowChangesModal] = useState(false);
   const goBackWithoutSaving = () => {
     setShowChangesModal(false);
-    Router.push(MY_PROFILE_PAGE);
+    Router.push(PAGES.MY_PROFILE_PAGE);
   };
   const cancelGoBack = () => setShowChangesModal(false);
   const goBackHandler = async () => {
     if (isDirty) {
       setShowChangesModal(true);
     } else {
-      Router.push(MY_PROFILE_PAGE);
+      Router.push(PAGES.MY_PROFILE_PAGE);
     }
   };
 
   return (
     <>
-      <Meta title={TITLE_CHANGE_PASSWORD} />
+      <Meta title={TITLES.TITLE_CHANGE_PASSWORD} />
       <ModalConfirmBox
         showModal={showChangesModal}
         title='Are you sure you want to go back?'
@@ -90,7 +90,7 @@ const ChangePasswordScreen: React.FC = () => {
       />
       <FormContainer>
         <Box component='form' onSubmit={handleSubmit(onSubmit, onError)}>
-          <FormTitle>{TITLE_CHANGE_PASSWORD}</FormTitle>
+          <FormTitle>{TITLES.TITLE_CHANGE_PASSWORD}</FormTitle>
           <PasswordField
             controlId='currentPassword'
             label='Current Password'

@@ -26,15 +26,7 @@ import PeopleAllOutlinedIcon from '@mui/icons-material/PeopleOutlined';
 import PsychologyOutlinedIcon from '@mui/icons-material/PsychologyOutlined';
 import GppGoodOutlinedIcon from '@mui/icons-material/GppGoodOutlined';
 import Shop2OutlinedIcon from '@mui/icons-material/Shop2Outlined';
-import {
-  PRODUCTS_PAGE,
-  PRODUCT_LIST_PAGE,
-  USER_LIST_PAGE,
-  ORDER_LIST_PAGE,
-  ROLE_LIST_PAGE,
-  API_ACCESS_LIST_PAGE,
-  PRICE_CALC_VIEW_PAGE,
-} from 'constants/client-pages';
+import PAGES from 'constants/client-pages';
 
 const drawerWidth = 200;
 
@@ -190,46 +182,46 @@ const AdminSideBar: React.FC = () => {
           <AdminListItem
             text='Shop'
             icon={<HomeOutlinedIcon />}
-            url={PRODUCTS_PAGE}
+            url={PAGES.PRODUCTS_PAGE}
             open={open}
           />
           <Divider />
           <AdminListItem
             text='Products'
             icon={<CategoryOutlinedIcon />}
-            url={PRODUCT_LIST_PAGE}
+            url={PAGES.PRODUCT_LIST_PAGE}
             open={open}
           />
           <AdminListItem
             text='Price Calculation'
             icon={<CalculateOutlinedIcon />}
-            url={PRICE_CALC_VIEW_PAGE}
+            url={PAGES.PRICE_CALC_VIEW_PAGE}
             open={open}
           />
           <Divider />
           <AdminListItem
             text='Users'
             icon={<PeopleAllOutlinedIcon />}
-            url={USER_LIST_PAGE}
+            url={PAGES.USER_LIST_PAGE}
             open={open}
           />
           <AdminListItem
             text='Roles'
             icon={<PsychologyOutlinedIcon />}
-            url={ROLE_LIST_PAGE}
+            url={PAGES.ROLE_LIST_PAGE}
             open={open}
           />
           <AdminListItem
             text='Role Access Rights'
             icon={<GppGoodOutlinedIcon />}
-            url={API_ACCESS_LIST_PAGE}
+            url={PAGES.API_ACCESS_LIST_PAGE}
             open={open}
           />
           <Divider />
           <AdminListItem
             text='Orders'
             icon={<Shop2OutlinedIcon />}
-            url={ORDER_LIST_PAGE}
+            url={PAGES.ORDER_LIST_PAGE}
             open={open}
           />
           <Divider />

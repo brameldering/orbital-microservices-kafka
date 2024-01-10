@@ -25,8 +25,8 @@ import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
 import { parseError } from 'utils/parse-error';
 import ModalConfirmBox from 'components/ModalConfirmBox';
-import { TITLE_CREATE_API_ACCESS } from 'constants/form-titles';
-import { API_ACCESS_LIST_PAGE } from 'constants/client-pages';
+import TITLES from 'constants/form-titles';
+import PAGES from 'constants/client-pages';
 import { CURRENT_MICROSERVICES } from '@orbitelco/common';
 import { getRoles } from 'api/roles/get-roles';
 import { useCreateApiAccessMutation } from 'slices/apiAccessApiSlice';
@@ -79,7 +79,7 @@ const ApiAccessCreateScreen: React.FC<TPageProps> = ({ roles, error }) => {
         allowedRoles: getValues('allowedRoles'),
       }).unwrap();
       toast.success('Api Access created');
-      Router.push(API_ACCESS_LIST_PAGE);
+      Router.push(PAGES.API_ACCESS_LIST_PAGE);
     } catch (err: any) {
       // To avoid "Uncaught in promise" errors in console, errors are handled by RTK mutation
     }
@@ -88,14 +88,14 @@ const ApiAccessCreateScreen: React.FC<TPageProps> = ({ roles, error }) => {
   const [showChangesModal, setShowChangesModal] = useState(false);
   const goBackWithoutSaving = () => {
     setShowChangesModal(false);
-    Router.push(API_ACCESS_LIST_PAGE);
+    Router.push(PAGES.API_ACCESS_LIST_PAGE);
   };
   const cancelGoBack = () => setShowChangesModal(false);
   const goBackHandler = async () => {
     if (isDirty) {
       setShowChangesModal(true);
     } else {
-      Router.push(API_ACCESS_LIST_PAGE);
+      Router.push(PAGES.API_ACCESS_LIST_PAGE);
     }
   };
   // --------------------------------------------------
@@ -111,7 +111,7 @@ const ApiAccessCreateScreen: React.FC<TPageProps> = ({ roles, error }) => {
 
   return (
     <>
-      <Meta title={TITLE_CREATE_API_ACCESS} />
+      <Meta title={TITLES.TITLE_CREATE_API_ACCESS} />
       <ModalConfirmBox
         showModal={showChangesModal}
         title='Are you sure you want to go back?'
@@ -121,7 +121,7 @@ const ApiAccessCreateScreen: React.FC<TPageProps> = ({ roles, error }) => {
       />
       <FormContainer>
         <Box component='form' onSubmit={handleSubmit(onSubmit)}>
-          <FormTitle>{TITLE_CREATE_API_ACCESS}</FormTitle>
+          <FormTitle>{TITLES.TITLE_CREATE_API_ACCESS}</FormTitle>
           {error ? (
             <ErrorBlock error={error} />
           ) : (

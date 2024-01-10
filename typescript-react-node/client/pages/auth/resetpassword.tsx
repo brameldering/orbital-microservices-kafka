@@ -13,8 +13,8 @@ import { SubmitButton } from 'form/FormButtons';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
-import { TITLE_RESET_PASSWORD } from 'constants/form-titles';
-import { RESET_PASSWORD_CONFIRM_PAGE } from 'constants/client-pages';
+import TITLES from 'constants/form-titles';
+import PAGES from 'constants/client-pages';
 import { useResetPasswordMutation } from 'slices/usersApiSlice';
 
 interface IFormInput {
@@ -47,7 +47,7 @@ const PasswordResetScreen = () => {
     const email = getValues('email');
     try {
       await resetPassword({ email }).unwrap();
-      Router.push(RESET_PASSWORD_CONFIRM_PAGE);
+      Router.push(PAGES.RESET_PASSWORD_CONFIRM_PAGE);
     } catch (err: any) {
       // To avoid "Uncaught in promise" errors in console, errors are handled by RTK mutation
     }
@@ -59,10 +59,10 @@ const PasswordResetScreen = () => {
 
   return (
     <>
-      <Meta title={TITLE_RESET_PASSWORD} />
+      <Meta title={TITLES.TITLE_RESET_PASSWORD} />
       <FormContainer>
         <Box component='form' onSubmit={handleSubmit(onSubmit, onError)}>
-          <FormTitle>{TITLE_RESET_PASSWORD}</FormTitle>
+          <FormTitle>{TITLES.TITLE_RESET_PASSWORD}</FormTitle>
           <TextNumField
             controlId='email'
             label='Your email address as known to us'

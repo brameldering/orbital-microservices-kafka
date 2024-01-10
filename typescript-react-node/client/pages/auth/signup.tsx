@@ -18,8 +18,8 @@ import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
 import { parseError } from 'utils/parse-error';
-import { TITLE_SIGN_UP } from 'constants/form-titles';
-import { PRODUCTS_PAGE, SIGNIN_PAGE } from 'constants/client-pages';
+import TITLES from 'constants/form-titles';
+import PAGES from 'constants/client-pages';
 import { getRoles } from 'api/roles/get-roles';
 import type { RootState } from 'slices/store';
 import { setUserState } from 'slices/authSlice';
@@ -65,10 +65,10 @@ const SignUpScreen: React.FC<TPageProps> = ({ roles, error }) => {
     resolver: yupResolver(schema),
   });
 
-  // Extract the 'redirect' query parameter with a default value of PRODUCTS_PAGE
+  // Extract the 'redirect' query parameter with a default value of PAGES.PRODUCTS_PAGE
   const router = useRouter();
   const { query } = router;
-  const redirect = query.redirect || PRODUCTS_PAGE;
+  const redirect = query.redirect || PAGES.PRODUCTS_PAGE;
   const redirectString = Array.isArray(redirect) ? redirect[0] : redirect;
 
   useEffect(() => {
@@ -105,19 +105,21 @@ const SignUpScreen: React.FC<TPageProps> = ({ roles, error }) => {
 
   return (
     <>
-      <Meta title={TITLE_SIGN_UP} />
+      <Meta title={TITLES.TITLE_SIGN_UP} />
       <FormContainer>
         <Box component='form' onSubmit={handleSubmit(onSubmit)}>
           <Grid container justifyContent='space-between' alignItems='center'>
             <Grid item>
-              <FormTitle>{TITLE_SIGN_UP}</FormTitle>
+              <FormTitle>{TITLES.TITLE_SIGN_UP}</FormTitle>
             </Grid>
             <Grid item>
               Already have an account?{'  '}
               <MuiLink
                 id='LINK_already_have_an_account'
                 href={
-                  redirect ? `${SIGNIN_PAGE}?redirect=${redirect}` : SIGNIN_PAGE
+                  redirect
+                    ? `${PAGES.SIGNIN_PAGE}?redirect=${redirect}`
+                    : PAGES.SIGNIN_PAGE
                 }
                 component={NextLink}>
                 Login

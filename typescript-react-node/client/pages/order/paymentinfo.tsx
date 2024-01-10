@@ -15,8 +15,8 @@ import FormTitle from 'form/FormTitle';
 import { SubmitButton } from 'form/FormButtons';
 import Meta from 'components/Meta';
 import CheckoutSteps from 'components/CheckoutSteps';
-import { TITLE_PAYMENT_METHOD } from 'constants/form-titles';
-import { SHIPPING_PAGE, PLACE_ORDER_PAGE } from 'constants/client-pages';
+import TITLES from 'constants/form-titles';
+import PAGES from 'constants/client-pages';
 import { savePaymentMethod } from 'slices/cartSlice';
 import type { RootState } from 'slices/store';
 import { PAYMENT_METHOD_PAYPAL } from '@orbitelco/common';
@@ -30,7 +30,7 @@ const PaymentScreen = () => {
   /* If shippingAddress has not yet been filled then redirect */
   useEffect(() => {
     if (!shippingAddress.address) {
-      Router.push(SHIPPING_PAGE);
+      Router.push(PAGES.SHIPPING_PAGE);
     }
   }, [shippingAddress]);
 
@@ -40,16 +40,16 @@ const PaymentScreen = () => {
 
   const onSubmit = async () => {
     dispatch(savePaymentMethod(paymentMethod));
-    Router.push(PLACE_ORDER_PAGE);
+    Router.push(PAGES.PLACE_ORDER_PAGE);
   };
 
   return (
     <>
-      <Meta title={TITLE_PAYMENT_METHOD} />
+      <Meta title={TITLES.TITLE_PAYMENT_METHOD} />
       <CheckoutSteps currentStep={2} />
       <FormContainer>
         <Box component='form' onSubmit={handleSubmit(onSubmit)}>
-          <FormTitle>{TITLE_PAYMENT_METHOD}</FormTitle>
+          <FormTitle>{TITLES.TITLE_PAYMENT_METHOD}</FormTitle>
           <FormControl component='fieldset'>
             <FormLabel component='legend'>Select Method</FormLabel>
             <RadioGroup

@@ -30,17 +30,13 @@ import FormTable from 'form/FormTable';
 import ErrorBlock from 'components/ErrorBlock';
 import { parseError } from 'utils/parse-error';
 import ModalConfirmBox from 'components//ModalConfirmBox';
-import { TITLE_API_ACCESS_ADMIN } from 'constants/form-titles';
+import TITLES from 'constants/form-titles';
 import {
   IApiAccess,
   CURRENT_MICROSERVICES,
   MICROSERVICE_AUTH,
 } from '@orbitelco/common';
-import {
-  API_ACCESS_LIST_PAGE,
-  API_ACCESS_CREATE_PAGE,
-  API_ACCESS_EDIT_PAGE,
-} from 'constants/client-pages';
+import PAGES from 'constants/client-pages';
 import { getRoles } from 'api/roles/get-roles';
 import { getApiAccessList } from 'api/api-access/get-api-access-list';
 import { useDeleteApiAccessMutation } from 'slices/apiAccessApiSlice';
@@ -74,7 +70,7 @@ const ApiAccessListscreen: React.FC<TPageProps> = ({
     try {
       await deleteApiAccess(deleteApiAccessId).unwrap();
       // perform a redirect to this page to refetch apiAccess records
-      Router.push(API_ACCESS_LIST_PAGE);
+      Router.push(PAGES.API_ACCESS_LIST_PAGE);
     } catch (err) {
       // Do nothing because useDeleteApiAccessMutation will set errorDeleting in case of an error
     } finally {
@@ -90,7 +86,7 @@ const ApiAccessListscreen: React.FC<TPageProps> = ({
   const handleSelectChange = (event: any) => {
     const value = event.target.value;
     // Reload the page with the selected value as a query parameter
-    Router.push(`${API_ACCESS_LIST_PAGE}/?selected=${value}`, undefined, {
+    Router.push(`${PAGES.API_ACCESS_LIST_PAGE}/?selected=${value}`, undefined, {
       shallow: true,
     });
   };
@@ -110,7 +106,7 @@ const ApiAccessListscreen: React.FC<TPageProps> = ({
 
   return (
     <>
-      <Meta title={TITLE_API_ACCESS_ADMIN} />
+      <Meta title={TITLES.TITLE_API_ACCESS_ADMIN} />
       <ModalConfirmBox
         showModal={confirmDeleteApiAccessModal}
         title='Delete Api Access'
@@ -120,10 +116,10 @@ const ApiAccessListscreen: React.FC<TPageProps> = ({
       />
       <Grid container alignItems='center' spacing={2}>
         <Grid item xs>
-          <FormTitle>{TITLE_API_ACCESS_ADMIN}</FormTitle>
+          <FormTitle>{TITLES.TITLE_API_ACCESS_ADMIN}</FormTitle>
         </Grid>
         <Grid item>
-          <Link href={API_ACCESS_CREATE_PAGE} passHref>
+          <Link href={PAGES.API_ACCESS_CREATE_PAGE} passHref>
             <Button
               id='BUTTON_create_apiAccess'
               variant='contained'
@@ -228,7 +224,7 @@ const ApiAccessListscreen: React.FC<TPageProps> = ({
                         <TableCell>
                           <Link
                             id={`edit_${filteredApiAccess.apiName}`}
-                            href={`${API_ACCESS_EDIT_PAGE}/${filteredApiAccess.id}`}
+                            href={`${PAGES.API_ACCESS_EDIT_PAGE}/${filteredApiAccess.id}`}
                             passHref>
                             <IconButton>
                               <EditIcon />

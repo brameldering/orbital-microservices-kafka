@@ -20,9 +20,9 @@ import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
 import { parseError } from 'utils/parse-error';
 import ModalConfirmBox from 'components//ModalConfirmBox';
-import { TITLE_USER_ADMIN } from 'constants/form-titles';
+import TITLES from 'constants/form-titles';
 import { ADMIN_ROLE, IUser } from '@orbitelco/common';
-import { USER_EDIT_PAGE, USER_LIST_PAGE } from 'constants/client-pages';
+import PAGES from 'constants/client-pages';
 import { getUsers } from 'api/users/get-users';
 import { useDeleteUserMutation } from 'slices/usersApiSlice';
 
@@ -50,7 +50,7 @@ const UserListScreen: React.FC<TPageProps> = ({ users, error }) => {
     try {
       await deleteUser(deleteUserId).unwrap();
       // perform a redirect to this page to refetch user records
-      Router.push(USER_LIST_PAGE);
+      Router.push(PAGES.USER_LIST_PAGE);
     } catch (err) {
       // Do nothing because useDeleteUserMutation will set errorDeleting in case of an error
     } finally {
@@ -62,7 +62,7 @@ const UserListScreen: React.FC<TPageProps> = ({ users, error }) => {
 
   return (
     <>
-      <Meta title={TITLE_USER_ADMIN} />
+      <Meta title={TITLES.TITLE_USER_ADMIN} />
       <ModalConfirmBox
         showModal={confirmDeleteUserModal}
         title='Delete User'
@@ -70,7 +70,7 @@ const UserListScreen: React.FC<TPageProps> = ({ users, error }) => {
         handleClose={cancelDeleteUser}
         handleConfirm={deleteUserHandler.bind(this)}
       />
-      <FormTitle>{TITLE_USER_ADMIN}</FormTitle>
+      <FormTitle>{TITLES.TITLE_USER_ADMIN}</FormTitle>
       {errorDeleting && <ErrorBlock error={errorDeleting} />}
       {/* {isLoading ? (
         <Loader />
@@ -111,7 +111,7 @@ const UserListScreen: React.FC<TPageProps> = ({ users, error }) => {
                   <TableCell>
                     <Link
                       id={`edit_${user.email}`}
-                      href={`${USER_EDIT_PAGE}/${user.id}`}
+                      href={`${PAGES.USER_EDIT_PAGE}/${user.id}`}
                       passHref>
                       <IconButton>
                         <EditIcon />

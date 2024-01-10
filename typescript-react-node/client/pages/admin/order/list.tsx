@@ -14,9 +14,9 @@ import FormTable from 'form/FormTable';
 import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
 import { parseError } from 'utils/parse-error';
-import { TITLE_ORDER_ADMIN } from 'constants/form-titles';
+import TITLES from 'constants/form-titles';
 import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
-import { ORDER_DETAIL_PAGE } from 'constants/client-pages';
+import PAGES from 'constants/client-pages';
 import { dateTimeToLocaleDateString } from 'utils/dateUtils';
 import { getOrders } from 'api/orders/get-orders';
 import { IOrder } from '@orbitelco/common';
@@ -29,8 +29,8 @@ interface TPageProps {
 const OrderListScreen: React.FC<TPageProps> = ({ orders, error }) => {
   return (
     <>
-      <Meta title={TITLE_ORDER_ADMIN} />
-      <FormTitle>{TITLE_ORDER_ADMIN}</FormTitle>
+      <Meta title={TITLES.TITLE_ORDER_ADMIN} />
+      <FormTitle>{TITLES.TITLE_ORDER_ADMIN}</FormTitle>
       {error ? (
         <ErrorBlock error={error} />
       ) : orders?.length === 0 ? (
@@ -86,7 +86,9 @@ const OrderListScreen: React.FC<TPageProps> = ({ orders, error }) => {
                   )}
                 </TableCell>
                 <TableCell>
-                  <Link href={`${ORDER_DETAIL_PAGE}/${order.id}`} passHref>
+                  <Link
+                    href={`${PAGES.ORDER_DETAIL_PAGE}/${order.id}`}
+                    passHref>
                     <Button variant='outlined' size='small'>
                       Details
                     </Button>

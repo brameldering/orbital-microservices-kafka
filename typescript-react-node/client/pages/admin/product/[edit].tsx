@@ -21,8 +21,8 @@ import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
 import { parseError } from 'utils/parse-error';
 import ModalConfirmBox from 'components/ModalConfirmBox';
-import { TITLE_EDIT_PRODUCT } from 'constants/form-titles';
-import { PRODUCT_LIST_PAGE } from 'constants/client-pages';
+import TITLES from 'constants/form-titles';
+import PAGES from 'constants/client-pages';
 import { IProduct } from '@orbitelco/common';
 import { getProductById } from 'api/produts/get-product-by-id';
 import {
@@ -103,7 +103,7 @@ const ProductEditScreen: React.FC<TPageProps> = ({ product, error }) => {
         countInStock: getValues('countInStock') || 0,
       }).unwrap();
       toast.success('Product updated');
-      Router.push(PRODUCT_LIST_PAGE);
+      Router.push(PAGES.PRODUCT_LIST_PAGE);
     } catch (err) {
       // Do nothing because useUploadImageMutation will set errorUploadImage in case of an error
     }
@@ -126,14 +126,14 @@ const ProductEditScreen: React.FC<TPageProps> = ({ product, error }) => {
   const [showChangesModal, setShowChangesModal] = useState(false);
   const goBackWithoutSaving = () => {
     setShowChangesModal(false);
-    Router.push(PRODUCT_LIST_PAGE);
+    Router.push(PAGES.PRODUCT_LIST_PAGE);
   };
   const cancelGoBack = () => setShowChangesModal(false);
   const goBackHandler = async () => {
     if (isDirty) {
       setShowChangesModal(true);
     } else {
-      Router.push(PRODUCT_LIST_PAGE);
+      Router.push(PAGES.PRODUCT_LIST_PAGE);
     }
   };
 
@@ -141,7 +141,7 @@ const ProductEditScreen: React.FC<TPageProps> = ({ product, error }) => {
 
   return (
     <>
-      <Meta title={TITLE_EDIT_PRODUCT} />
+      <Meta title={TITLES.TITLE_EDIT_PRODUCT} />
       <ModalConfirmBox
         showModal={showChangesModal}
         title='Are you sure you want to go back?'
@@ -155,7 +155,7 @@ const ProductEditScreen: React.FC<TPageProps> = ({ product, error }) => {
           onSubmit={handleSubmit(onSubmit)}
           noValidate
           sx={{ mt: 1 }}>
-          <FormTitle>{TITLE_EDIT_PRODUCT}</FormTitle>
+          <FormTitle>{TITLES.TITLE_EDIT_PRODUCT}</FormTitle>
           {errorUpdating && <ErrorBlock error={errorUpdating} />}
           {errorUploadImage && <ErrorBlock error={errorUploadImage} />}
           {error ? (

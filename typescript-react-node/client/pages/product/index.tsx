@@ -9,9 +9,9 @@ import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
 import Paginate from 'components/Paginate';
 import ProductComponent from 'components/ProductComponent';
-import { TITLE_SHOP } from 'constants/form-titles';
+import TITLES from 'constants/form-titles';
 import { IProduct, ADMIN_ROLE } from '@orbitelco/common';
-import { PRODUCTS_PAGE } from 'constants/client-pages';
+import PAGES from 'constants/client-pages';
 import type { RootState } from 'slices/store';
 import { useGetProductsQuery } from 'slices/productsApiSlice';
 
@@ -36,10 +36,10 @@ const ProductsPage: React.FC = () => {
 
   return (
     <>
-      <Meta title={TITLE_SHOP} />
-      <FormTitle>{TITLE_SHOP}</FormTitle>
+      <Meta title={TITLES.TITLE_SHOP} />
+      <FormTitle>{TITLES.TITLE_SHOP}</FormTitle>
       {keyword && (
-        <Link href={PRODUCTS_PAGE} passHref>
+        <Link href={PAGES.PRODUCTS_PAGE} passHref>
           <Button variant='outlined' sx={{ mb: 2 }}>
             Go Back
           </Button>

@@ -24,8 +24,8 @@ import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
 import { parseError } from 'utils/parse-error';
 import ModalConfirmBox from 'components/ModalConfirmBox';
-import { TITLE_EDIT_API_ACCESS } from 'constants/form-titles';
-import { API_ACCESS_LIST_PAGE } from 'constants/client-pages';
+import TITLES from 'constants/form-titles';
+import PAGES from 'constants/client-pages';
 import { IApiAccess } from '@orbitelco/common';
 import { getRoles } from 'api/roles/get-roles';
 import { getApiAccessById } from 'api/api-access/get-api-access-by-id';
@@ -88,7 +88,7 @@ const ApiAccessEditScreen: React.FC<TPageProps> = ({
         allowedRoles: allowedRoles,
       }).unwrap();
       toast.success('Api Access updated');
-      Router.push(API_ACCESS_LIST_PAGE);
+      Router.push(PAGES.API_ACCESS_LIST_PAGE);
     } catch (err: any) {
       // To avoid "Uncaught in promise" errors in console, errors are handled by RTK mutation
     }
@@ -98,14 +98,14 @@ const ApiAccessEditScreen: React.FC<TPageProps> = ({
   const [showChangesModal, setShowChangesModal] = useState(false);
   const goBackWithoutSaving = () => {
     setShowChangesModal(false);
-    Router.push(API_ACCESS_LIST_PAGE);
+    Router.push(PAGES.API_ACCESS_LIST_PAGE);
   };
   const cancelGoBack = () => setShowChangesModal(false);
   const goBackHandler = async () => {
     if (isDirty) {
       setShowChangesModal(true);
     } else {
-      Router.push(API_ACCESS_LIST_PAGE);
+      Router.push(PAGES.API_ACCESS_LIST_PAGE);
     }
   };
 
@@ -130,7 +130,7 @@ const ApiAccessEditScreen: React.FC<TPageProps> = ({
   // --------------------------------------------------
   return (
     <>
-      <Meta title={TITLE_EDIT_API_ACCESS} />
+      <Meta title={TITLES.TITLE_EDIT_API_ACCESS} />
       <ModalConfirmBox
         showModal={showChangesModal}
         title='Are you sure you want to go back?'
@@ -140,7 +140,7 @@ const ApiAccessEditScreen: React.FC<TPageProps> = ({
       />
       <FormContainer>
         <Box component='form' onSubmit={handleSubmit(onSubmit)}>
-          <FormTitle>{TITLE_EDIT_API_ACCESS}</FormTitle>
+          <FormTitle>{TITLES.TITLE_EDIT_API_ACCESS}</FormTitle>
           {errorUpdating && <ErrorBlock error={errorUpdating} />}
           {error ? (
             <ErrorBlock error={error} />
