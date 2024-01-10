@@ -140,8 +140,8 @@ export const createApiAccess: any = async () => {
     .post(API_ACCESS_URL)
     .set('Cookie', fakeSignupAdmin())
     .send({
-      microservice: MICROSERVICE_AUTH,
       apiName: TEST_API_NAME,
+      microservice: MICROSERVICE_AUTH,
       allowedRoles: [ADMIN_ROLE],
     })
     .expect(201);

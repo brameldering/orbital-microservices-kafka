@@ -1,4 +1,4 @@
-package com.orbitelco.inventory.data.common;
+package com.orbitelco.inventory.common;
 
 public enum SerialStatus {
 	AVAILABLE,

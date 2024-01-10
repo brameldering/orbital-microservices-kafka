@@ -1,6 +1,6 @@
 package com.orbitelco.inventory.data.repository;
 
-import com.orbitelco.inventory.data.common.SerialStatus;
+import com.orbitelco.inventory.common.SerialStatus;
 import com.orbitelco.inventory.data.entity.SerialNumber;
 import com.orbitelco.inventory.data.entity.SerialNumberKey;
 

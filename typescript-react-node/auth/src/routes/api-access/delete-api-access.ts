@@ -57,8 +57,8 @@ router.delete(
         apiAccess.id,
         {
           id: apiAccess.id,
-          microservice: apiAccess.microservice,
           apiName: apiAccess.apiName,
+          microservice: apiAccess.microservice,
         }
       );
 

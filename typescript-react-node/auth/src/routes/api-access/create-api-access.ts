@@ -31,9 +31,9 @@ router.post(
   async (req: IExtendedRequest, res: Response) => {
     /*  #swagger.tags = ['Users']
       #swagger.description = 'Create a new api access record'
-      #swagger.parameters['microservice: string, apiName: string, allowedRoles: [string]'] = {
+      #swagger.parameters['apiName: string, microservice: string, allowedRoles: [string]'] = {
           in: 'body',
-          description: '{microservice: string, apiName: string, allowedRoles: [string]',
+          description: '{apiName: string, microservice: string, allowedRoles: [string]',
           required: 'true',
           type: 'object',
       }
@@ -46,9 +46,9 @@ router.post(
           description: 'That object already exists',
       }
      } */
-    const { microservice, apiName, allowedRoles } = req.body;
+    const { apiName, microservice, allowedRoles } = req.body;
 
-    const apiAccess = ApiAccess.build({ microservice, apiName, allowedRoles });
+    const apiAccess = ApiAccess.build({ apiName, microservice, allowedRoles });
     await apiAccess.save();
 
     // Refresh ApiAccess cache
@@ -59,8 +59,8 @@ router.post(
       apiAccess.id,
       {
         id: apiAccess.id,
-        microservice: apiAccess.microservice,
         apiName: apiAccess.apiName,
+        microservice: apiAccess.microservice,
         allowedRoles: apiAccess.allowedRoles,
       }
     );

@@ -56,8 +56,6 @@ router.put(
     const { allowedRoles } = req.body;
     const apiAccess = await ApiAccess.findById(req.params.id);
     if (apiAccess) {
-      // apiAccess.microservice = microservice;
-      // apiAccess.apiName = apiName;
       apiAccess.allowedRoles = allowedRoles;
       const updatedApiAccess = await apiAccess.save();
 
@@ -69,8 +67,8 @@ router.put(
         apiAccess.id,
         {
           id: updatedApiAccess.id,
-          microservice: updatedApiAccess.microservice,
           apiName: updatedApiAccess.apiName,
+          microservice: updatedApiAccess.microservice,
           allowedRoles: updatedApiAccess.allowedRoles,
         }
       );

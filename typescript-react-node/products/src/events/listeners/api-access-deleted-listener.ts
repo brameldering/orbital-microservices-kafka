@@ -14,7 +14,7 @@ export class ApiAccessDeletedListener extends Listener<ApiAccessDeletedEvent> {
 
   async onMessage(key: string, data: ApiAccessDeletedEvent['data']) {
     try {
-      const { id, microservice, apiName } = data;
+      const { id, apiName, microservice } = data;
 
       // Check that this ApiAccessDeletedEvent is relevant for the Products Microservice
       if (microservice === MICROSERVICE_PRODUCTS) {

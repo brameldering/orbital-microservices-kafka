@@ -25,7 +25,7 @@ router.get(
       #swagger.description = 'Fetch all api access records'
       #swagger.parameters[] = {},
       #swagger.responses[200] = {
-          description: 'List of api access records[{microservice: string, apiName: string, allowedRoles: [string]}]',
+          description: 'List of api access records[{apiName: string, microservice: string, allowedRoles: [string]}]',
 } */
     const apiAccessesOriginal = await ApiAccess.find({});
     // map users to json format as defined in user-types userSchema

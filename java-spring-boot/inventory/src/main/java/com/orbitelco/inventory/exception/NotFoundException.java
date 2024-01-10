@@ -1,4 +1,4 @@
-package com.orbitelco.inventory.web.exception;
+package com.orbitelco.inventory.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

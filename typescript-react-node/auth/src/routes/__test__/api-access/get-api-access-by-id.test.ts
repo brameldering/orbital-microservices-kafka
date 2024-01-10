@@ -23,8 +23,8 @@ describe('Test getting api access record by id', () => {
       .set('Cookie', fakeSignupAdmin())
       .send();
     expect(res.status).toEqual(200);
-    expect(res.body.microservice).toEqual(MICROSERVICE_AUTH);
     expect(res.body.apiName).toEqual(TEST_API_NAME);
+    expect(res.body.microservice).toEqual(MICROSERVICE_AUTH);
     expect(res.body.allowedRoles).toEqual([ADMIN_ROLE]);
   });
   it('returns a status 400 when trying to get a api access record with an invalid object Id', async () => {

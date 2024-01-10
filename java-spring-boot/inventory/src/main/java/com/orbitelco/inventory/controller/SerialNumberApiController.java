@@ -1,12 +1,11 @@
-package com.orbitelco.inventory.web.api;
+package com.orbitelco.inventory.controller;
 
-import com.orbitelco.inventory.data.common.SerialStatus;
+import com.orbitelco.inventory.common.SerialStatus;
 import com.orbitelco.inventory.data.entity.SerialNumber;
 import com.orbitelco.inventory.data.entity.SerialNumberKey;
 // import com.orbitelco.inventory.data.entity.SerialNumberKey;
 import com.orbitelco.inventory.data.repository.SerialNumberRepository;
-// import com.orbitelco.inventory.web.exception.BadRequestException;
-import com.orbitelco.inventory.web.exception.NotFoundException;
+import com.orbitelco.inventory.exception.NotFoundException;
 
 // import com.orbitelco.inventory.web.exception.NotFoundException;
 import org.springframework.http.HttpStatus;

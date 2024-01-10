@@ -1,6 +1,6 @@
 package com.orbitelco.inventory.data.entity;
 
-import com.orbitelco.inventory.data.common.SerialStatus;
+import com.orbitelco.inventory.common.SerialStatus;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,9 +15,9 @@ import lombok.Data;
 import lombok.ToString;
 
 @Entity
-@Table(name="serial_number")   
+@Table(name="serial_number")
 @Data
-@ToString 
+@ToString
 public class SerialNumber {
 	@EmbeddedId
 	private SerialNumberKey id;
@@ -30,8 +30,8 @@ public class SerialNumber {
 	// private String productId;
 	// @Column(name="serial_number")
 	// private String serialNumber;
-	
-	@Enumerated(EnumType.STRING) 
+
+	@Enumerated(EnumType.STRING)
 	@Column(name = "status")
 	private SerialStatus status; // Status is an enum
 }

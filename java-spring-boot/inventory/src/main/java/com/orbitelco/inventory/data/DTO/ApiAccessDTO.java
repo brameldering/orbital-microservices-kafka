@@ -12,7 +12,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class ApiAccessDTO {
-    private String microservice;
     private String apiName;
+    private String microservice;
     private String[] allowedRoles;
 }

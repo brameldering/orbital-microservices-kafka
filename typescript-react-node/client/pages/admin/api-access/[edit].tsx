@@ -83,8 +83,8 @@ const ApiAccessEditScreen: React.FC<TPageProps> = ({
     try {
       await updateApiAccess({
         id: apiAccess.id,
-        microservice: apiAccess.microservice,
         apiName: apiAccess.apiName,
+        microservice: apiAccess.microservice,
         allowedRoles: allowedRoles,
       }).unwrap();
       toast.success('Api Access updated');
@@ -147,10 +147,10 @@ const ApiAccessEditScreen: React.FC<TPageProps> = ({
           ) : (
             <>
               <Typography>
-                <strong>Microservice: </strong> {apiAccess.microservice}
+                <strong>Api Name: </strong> {apiAccess.apiName}
               </Typography>
               <Typography>
-                <strong>Api Name: </strong> {apiAccess.apiName}
+                <strong>Microservice: </strong> {apiAccess.microservice}
               </Typography>
               {/* <fieldset className='border border-primary mt-3 mb-0'> */}
               <FormControl

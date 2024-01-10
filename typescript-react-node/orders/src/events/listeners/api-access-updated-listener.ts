@@ -14,7 +14,7 @@ export class ApiAccessUpdatedListener extends Listener<ApiAccessUpdatedEvent> {
 
   async onMessage(key: string, data: ApiAccessUpdatedEvent['data']) {
     try {
-      const { microservice, apiName, allowedRoles } = data;
+      const { apiName, microservice, allowedRoles } = data;
 
       // Check that this ApiAccessUpdatedEvent is relevant for the Orders Microservice
       if (microservice === MICROSERVICE_ORDERS) {

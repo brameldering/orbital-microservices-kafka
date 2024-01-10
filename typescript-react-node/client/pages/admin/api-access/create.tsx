@@ -32,14 +32,14 @@ import { getRoles } from 'api/roles/get-roles';
 import { useCreateApiAccessMutation } from 'slices/apiAccessApiSlice';
 
 interface IFormInput {
-  microservice: string;
   apiName: string;
+  microservice: string;
   allowedRoles: string[];
 }
 
 const schema = yup.object().shape({
-  microservice: yup.string().required('Required'),
   apiName: textField().max(40).required('Required'),
+  microservice: yup.string().required('Required'),
   allowedRoles: yup.array().of(yup.string()),
 });
 
@@ -61,8 +61,8 @@ const ApiAccessCreateScreen: React.FC<TPageProps> = ({ roles, error }) => {
     formState: { isDirty, errors },
   } = useForm<IFormInput>({
     defaultValues: {
-      microservice: '',
       apiName: '',
+      microservice: '',
       allowedRoles: [],
     },
     mode: 'onBlur',
@@ -74,8 +74,8 @@ const ApiAccessCreateScreen: React.FC<TPageProps> = ({ roles, error }) => {
     try {
       // console.log('getValues(allowedRoles)', getValues('allowedRoles'));
       await createApiAccess({
-        microservice: getValues('microservice'),
         apiName: getValues('apiName'),
+        microservice: getValues('microservice'),
         allowedRoles: getValues('allowedRoles'),
       }).unwrap();
       toast.success('Api Access created');
@@ -126,18 +126,18 @@ const ApiAccessCreateScreen: React.FC<TPageProps> = ({ roles, error }) => {
             <ErrorBlock error={error} />
           ) : (
             <>
-              <SelectField
-                controlId='microservice'
-                options={microservices}
-                control={control}
-                error={errors.microservice}
-                setError={setError}
-              />
               <TextNumField
                 controlId='apiName'
                 label='API Name'
                 register={register}
                 error={errors.apiName}
+                setError={setError}
+              />
+              <SelectField
+                controlId='microservice'
+                options={microservices}
+                control={control}
+                error={errors.microservice}
                 setError={setError}
               />
               <FormControl component='fieldset'>

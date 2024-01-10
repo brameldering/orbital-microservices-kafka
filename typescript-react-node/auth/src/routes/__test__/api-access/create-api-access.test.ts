@@ -22,28 +22,28 @@ describe('Test create api access', () => {
       .post(API_ACCESS_URL)
       .set('Cookie', fakeSignupAdmin())
       .send({
-        microservice: MICROSERVICE_AUTH,
         apiName: TEST_API_NAME,
+        microservice: MICROSERVICE_AUTH,
         allowedRoles: [ADMIN_ROLE],
       });
     expect(res.status).toEqual(201);
-    expect(res.body.microservice).toEqual(MICROSERVICE_AUTH);
     expect(res.body.apiName).toEqual(TEST_API_NAME);
+    expect(res.body.microservice).toEqual(MICROSERVICE_AUTH);
     expect(res.body.allowedRoles[0]).toEqual(ADMIN_ROLE);
 
     // Check that the ApiAccess database contains one record
     apiAccessRecords = await ApiAccess.find({});
     expect(apiAccessRecords.length).toEqual(1);
-    expect(apiAccessRecords[0].microservice).toEqual(MICROSERVICE_AUTH);
     expect(apiAccessRecords[0].apiName).toEqual(TEST_API_NAME);
+    expect(apiAccessRecords[0].microservice).toEqual(MICROSERVICE_AUTH);
     expect(apiAccessRecords[0].allowedRoles[0]).toEqual(ADMIN_ROLE);
   });
   it('gives an authorization error (401) if the user is not logged in', async () => {
     await request(app)
       .post(API_ACCESS_URL)
       .send({
-        microservice: MICROSERVICE_AUTH,
         apiName: TEST_API_NAME,
+        microservice: MICROSERVICE_AUTH,
         allowedRoles: [ADMIN_ROLE],
       })
       .expect(401);
@@ -53,8 +53,8 @@ describe('Test create api access', () => {
       .post(API_ACCESS_URL)
       .set('Cookie', fakeSignupCustomer())
       .send({
-        microservice: MICROSERVICE_AUTH,
         apiName: TEST_API_NAME,
+        microservice: MICROSERVICE_AUTH,
         allowedRoles: [ADMIN_ROLE],
       })
       .expect(401);
@@ -64,8 +64,8 @@ describe('Test create api access', () => {
       .post(API_ACCESS_URL)
       .set('Cookie', fakeSignupAdmin())
       .send({
-        microservice: MICROSERVICE_AUTH,
         apiName: TEST_API_NAME,
+        microservice: MICROSERVICE_AUTH,
         allowedRoles: [ADMIN_ROLE],
       })
       .expect(201);
@@ -73,8 +73,8 @@ describe('Test create api access', () => {
       .post(API_ACCESS_URL)
       .set('Cookie', fakeSignupAdmin())
       .send({
-        microservice: MICROSERVICE_AUTH,
         apiName: TEST_API_NAME,
+        microservice: MICROSERVICE_AUTH,
         allowedRoles: [ADMIN_ROLE],
       })
       .expect(422);

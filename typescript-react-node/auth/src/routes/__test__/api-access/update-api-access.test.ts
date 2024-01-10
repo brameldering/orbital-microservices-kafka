@@ -25,13 +25,13 @@ describe('Test update api access', () => {
       .put(API_ACCESS_URL + '/' + id)
       .set('Cookie', fakeSignupAdmin())
       .send({
-        microservice: MICROSERVICE_AUTH,
         apiName: TEST_API_NAME,
+        microservice: MICROSERVICE_AUTH,
         allowedRoles: [ANONYMOUS_ROLE, CUSTOMER_ROLE, ADMIN_ROLE],
       });
     expect(updApiAccess.status).toEqual(200);
-    expect(updApiAccess.body.microservice).toEqual(MICROSERVICE_AUTH);
     expect(updApiAccess.body.apiName).toEqual(TEST_API_NAME);
+    expect(updApiAccess.body.microservice).toEqual(MICROSERVICE_AUTH);
     expect(updApiAccess.body.allowedRoles).toEqual([
       ANONYMOUS_ROLE,
       CUSTOMER_ROLE,
@@ -44,8 +44,8 @@ describe('Test update api access', () => {
       .set('Cookie', fakeSignupAdmin())
       .send();
     expect(updatedApiAccess.status).toEqual(200);
-    expect(updatedApiAccess.body.microservice).toEqual(MICROSERVICE_AUTH);
     expect(updatedApiAccess.body.apiName).toEqual(TEST_API_NAME);
+    expect(updatedApiAccess.body.microservice).toEqual(MICROSERVICE_AUTH);
     expect(updatedApiAccess.body.allowedRoles).toEqual([
       ANONYMOUS_ROLE,
       CUSTOMER_ROLE,
@@ -59,8 +59,8 @@ describe('Test update api access', () => {
       .put(API_ACCESS_URL + '/' + dummyApiAccesstId)
       .set('Cookie', fakeSignupAdmin())
       .send({
-        microservice: MICROSERVICE_AUTH,
         apiName: 'TEST_API_UPDATED',
+        microservice: MICROSERVICE_AUTH,
         allowedRoles: [ANONYMOUS_ROLE, CUSTOMER_ROLE, ADMIN_ROLE],
       });
     expect(updatedApiAccess.status).toEqual(400);
@@ -78,8 +78,8 @@ describe('Test update api access', () => {
     await request(app)
       .put(API_ACCESS_URL + '/' + id)
       .send({
-        microservice: MICROSERVICE_AUTH,
         apiName: 'TEST_API_UPDATED',
+        microservice: MICROSERVICE_AUTH,
         allowedRoles: [ANONYMOUS_ROLE, CUSTOMER_ROLE, ADMIN_ROLE],
       })
       .expect(401);
@@ -94,8 +94,8 @@ describe('Test update api access', () => {
       .put(API_ACCESS_URL + '/' + id)
       .set('Cookie', fakeSignupCustomer())
       .send({
-        microservice: MICROSERVICE_AUTH,
         apiName: 'TEST_API_UPDATED',
+        microservice: MICROSERVICE_AUTH,
         allowedRoles: [ANONYMOUS_ROLE, CUSTOMER_ROLE, ADMIN_ROLE],
       })
       .expect(401);
@@ -107,8 +107,8 @@ describe('Test update api access', () => {
       .put(API_ACCESS_URL + '/' + dummyApiAccesstId)
       .set('Cookie', fakeSignupAdmin())
       .send({
-        microservice: MICROSERVICE_AUTH,
         apiName: 'TEST_API_UPDATED',
+        microservice: MICROSERVICE_AUTH,
         allowedRoles: [ANONYMOUS_ROLE, CUSTOMER_ROLE, ADMIN_ROLE],
       });
     expect(res.status).toEqual(404);

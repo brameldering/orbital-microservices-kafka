@@ -8,15 +8,15 @@ datasource db {
 }
 
 model api_access {
+  api_name      String @id @db.VarChar(32)
   microservice String @db.VarChar(32)
-  apiName      String @id @db.VarChar(32)
-  allowedRoles role[] @relation("ApiAccessRoles")
+  allowed_roles role[] @relation("api_access_roles")
 }
 
 model role {
   role        String       @id @db.VarChar(32)
-  roleDisplay String       @db.VarChar(32)
-  api_access  api_access[] @relation("ApiAccessRoles")
+  roleDisplay String      @db.VarChar(32)
+  api_access  api_access[] @relation("api_access_roles")
 }
 
 model product {

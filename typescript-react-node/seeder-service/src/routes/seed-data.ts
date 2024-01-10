@@ -184,9 +184,9 @@ router.post(SEED_DATA_URL, async (req: Request, res: Response) => {
     });
     await inventoryDB.api_access.create({
       data: {
+        api_name: apiAccess.apiName,
         microservice: apiAccess.microservice,
-        apiName: apiAccess.apiName,
-        allowedRoles: {
+        allowed_roles: {
           connect: allowedRoles.map((role) => ({ role: role.role })),
         },
       },

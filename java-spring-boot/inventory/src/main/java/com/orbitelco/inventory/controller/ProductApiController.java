@@ -1,11 +1,11 @@
-package com.orbitelco.inventory.web.api;
+package com.orbitelco.inventory.controller;
 
 import com.orbitelco.inventory.data.DTO.ProductDTO;
 import com.orbitelco.inventory.data.entity.Product;
 // import com.orbitelco.inventory.data.entity.ProductQuantity;
 import com.orbitelco.inventory.data.repository.ProductRepository;
-// import com.orbitelco.inventory.web.exception.BadRequestException;
-import com.orbitelco.inventory.web.exception.NotFoundException;
+import com.orbitelco.inventory.exception.NotFoundException;
+
 // import org.springframework.http.HttpStatus;
 // import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;

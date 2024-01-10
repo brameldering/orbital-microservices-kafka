@@ -13,14 +13,14 @@ export class ApiAccessCreatedListener extends Listener<ApiAccessCreatedEvent> {
 
   async onMessage(key: string, data: ApiAccessCreatedEvent['data']) {
     try {
-      const { id, microservice, apiName, allowedRoles } = data;
+      const { id, apiName, microservice, allowedRoles } = data;
 
       // Check that this ApiAccessCreatedEvent is relevant for the Orders Microservice
       if (microservice === MICROSERVICE_ORDERS) {
         const apiAccess = ApiAccess.build({
           id,
-          microservice,
           apiName,
+          microservice,
           allowedRoles,
         });
 
