@@ -15,7 +15,7 @@ model api_access {
 
 model role {
   role        String       @id @db.VarChar(32)
-  roleDisplay String      @db.VarChar(32)
+  role_display String      @db.VarChar(32)
   api_access  api_access[] @relation("api_access_roles")
 }
 

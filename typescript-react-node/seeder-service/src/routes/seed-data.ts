@@ -170,7 +170,12 @@ router.post(SEED_DATA_URL, async (req: Request, res: Response) => {
 
   // InventoryDB - Roles
   for (const role of roles) {
-    await inventoryDB.role.create({ data: role });
+    await inventoryDB.role.create({
+      data: {
+        role: role.role,
+        role_display: role.roleDisplay,
+      },
+    });
   }
   console.log(
     `Seeded ${await inventoryDB.role.count()} records in inventory.role`

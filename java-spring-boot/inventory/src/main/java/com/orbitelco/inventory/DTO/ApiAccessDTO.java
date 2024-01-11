@@ -1,4 +1,4 @@
-package com.orbitelco.inventory.data.DTO;
+package com.orbitelco.inventory.DTO;
 
 import lombok.Getter;
 import lombok.Setter;

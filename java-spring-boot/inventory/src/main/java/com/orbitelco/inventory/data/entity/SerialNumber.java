@@ -25,6 +25,7 @@ public class SerialNumber {
 	// @Column(name="serial_number_id")
 	// @GeneratedValue(strategy = GenerationType.AUTO)
 	// private long id;
+
 	// No need to define the following again because of SerialNumberKey
 	// @Column(name="product_id")
 	// private String productId;

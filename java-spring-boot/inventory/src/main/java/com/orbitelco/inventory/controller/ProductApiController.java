@@ -1,20 +1,16 @@
 package com.orbitelco.inventory.controller;
 
-import com.orbitelco.inventory.data.DTO.ProductDTO;
+import com.orbitelco.inventory.DTO.ProductDTO;
 import com.orbitelco.inventory.data.entity.Product;
-// import com.orbitelco.inventory.data.entity.ProductQuantity;
+import com.orbitelco.inventory.data.entity.ProductQuantity;
 import com.orbitelco.inventory.data.repository.ProductRepository;
+import com.orbitelco.inventory.exception.BadRequestException;
 import com.orbitelco.inventory.exception.NotFoundException;
-
-// import org.springframework.http.HttpStatus;
-// import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-// import org.springframework.web.bind.annotation.PostMapping;
-// import org.springframework.web.bind.annotation.PutMapping;
-// import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-// import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Optional;
@@ -58,44 +54,34 @@ public class ProductApiController {
   }
 
   /* update-product-inventory */
-  // @PutMapping("/{id}")
-  // public ProductDTO updateProduct(@PathVariable("id") String id, @RequestBody ProductDTO productDto) {
-  //     if (!id.equals(productDto.getProductId())) {
-  //         throw new BadRequestException("ID on path must match body");
-  //     }
+  // Updates the quantity in the ProductQuantity entity (product_quantity table)
+  // does not allow upding anything else on the product since that data is coming from the Product service
+  @PutMapping("/{id}")
+  public ProductDTO updateProduct(@PathVariable("id") String id, @RequestBody ProductDTO productDto) {
+      if (!id.equals(productDto.getProductId())) {
+          throw new BadRequestException("ID on path must match body");
+      }
 
-  //     // Find the existing product
-  //     Optional<Product> existingProductOpt = productRepository.findById(id);
-  //     if (existingProductOpt.isEmpty()) {
-  //         throw new NotFoundException("Product not found with ID: " + id);
-  //     }
-  //     Product existingProduct = existingProductOpt.get();
+      // Find the existing product
+      Optional<Product> existingProductOpt = productRepository.findById(id);
+      if (existingProductOpt.isEmpty()) {
+          throw new NotFoundException("Product not found with ID: " + id);
+      }
+      Product existingProduct = existingProductOpt.get();
+      // Update quantity if it's provided in the DTO
+      ProductQuantity existingQuantity = existingProduct.getProductQuantity();
+      if (existingQuantity == null) {
+          existingQuantity = new ProductQuantity();
+          existingQuantity.setProduct(existingProduct);
+      }
+      existingQuantity.setQuantity(productDto.getQuantity());
+      existingProduct.setProductQuantity(existingQuantity);
 
-  //     // Update product details from DTO
-  //     existingProduct.setName(productDto.getName());
-  //     existingProduct.setBrand(productDto.getBrand());
-  //     existingProduct.setCategory(productDto.getCategory());
+      // Save the updated product
+      Product updatedProduct = productRepository.save(existingProduct);
 
-  //     // Update quantity if it's provided in the DTO
-  //     ProductQuantity existingQuantity = existingProduct.getProductQuantity();
-  //     if (existingQuantity == null) {
-  //         existingQuantity = new ProductQuantity();
-  //         existingQuantity.setProduct(existingProduct);
-  //     }
-  //     existingQuantity.setQuantity(productDto.getQuantity());
-  //     existingProduct.setProductQuantity(existingQuantity);
+      // Return the updated product as DTO
+      return ProductDTO.fromEntity(updatedProduct);
+  }
 
-  //     // Save the updated product
-  //     Product updatedProduct = productRepository.save(existingProduct);
-
-  //     // Return the updated product as DTO
-  //     return ProductDTO.fromEntity(updatedProduct);
-  // }
-
-  /* delete-product-inventory */
-  // @DeleteMapping("/{id}")
-  // @ResponseStatus(HttpStatus.NO_CONTENT)
-  // public void deleteProduct(@PathVariable("id")String id){
-  //   this.productRepository.deleteById(id);
-  // }
 }

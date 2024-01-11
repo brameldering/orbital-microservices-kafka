@@ -1,4 +1,4 @@
-package com.orbitelco.inventory.data.DTO;
+package com.orbitelco.inventory.DTO;
 
 import com.orbitelco.inventory.data.entity.Product;
 import com.orbitelco.inventory.data.entity.ProductQuantity;
@@ -15,12 +15,12 @@ public class ProductDTO {
 	private String name;
 	private String brand;
 	private String category;
-	private long quantity;  
+	private long quantity;
 
 	public static ProductDTO fromEntity(Product product) {
 		ProductQuantity pq = product.getProductQuantity();
 		long quantity = pq != null ? pq.getQuantity() : 0;
-		return new ProductDTO(product.getProductId(), product.getName(), 
+		return new ProductDTO(product.getProductId(), product.getName(),
 												product.getBrand(), product.getCategory(), quantity);
 	}
 
@@ -30,7 +30,7 @@ public class ProductDTO {
 		product.setName(dto.getName());
 		product.setBrand(dto.getBrand());
 		product.setCategory(dto.getCategory());
-		
+
 		// Handle ProductQuantity if needed
 		ProductQuantity pq = new ProductQuantity();
 		pq.setQuantity(dto.getQuantity());

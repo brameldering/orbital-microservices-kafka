@@ -24,4 +24,5 @@ WORKDIR /usr/app
 EXPOSE 8080
 
 # Command to run the application
-CMD ["java", "-jar", "inventory.jar"]
+CMD ["java", "-Dspring.profiles.active=dev", "-jar", "inventory.jar"]
+

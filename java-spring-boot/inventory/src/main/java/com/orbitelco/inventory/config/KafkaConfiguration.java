@@ -1,7 +1,5 @@
 package com.orbitelco.inventory.config;
 
-import com.orbitelco.inventory.data.DTO.ApiAccessDTO;
-import com.orbitelco.inventory.data.DTO.ProductDTO;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +9,9 @@ import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
+
+import com.orbitelco.inventory.DTO.ApiAccessDTO;
+import com.orbitelco.inventory.DTO.ProductDTO;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -20,15 +20,12 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 @ToString
 public class ProductQuantity {
   @Id
-  // @Column(name="product_quantity_id")
-  // @GeneratedValue(strategy = GenerationType.AUTO)
-  // private long id;
   @Column(name="product_id")
   private String productId;
-  
+
   @Column(name="quantity")
   private long quantity;
-  
+
   @OneToOne
   @MapsId
   @JoinColumn(name = "product_id")

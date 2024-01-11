@@ -1,7 +1,8 @@
 package com.orbitelco.inventory.listeners;
 
+import com.orbitelco.inventory.DTO.ApiAccessDTO;
 import com.orbitelco.inventory.config.Constants;
-import com.orbitelco.inventory.data.DTO.ApiAccessDTO;
+
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 

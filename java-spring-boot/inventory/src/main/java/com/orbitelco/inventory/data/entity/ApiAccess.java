@@ -21,6 +21,6 @@ public class ApiAccess {
   @Column(name="microservice")
   private String microservice;
 
-  // @Column(name="allowed_roles")
-  // private String[] role;
+  @Column(name="allowed_roles")
+  private String[] role;
 }
