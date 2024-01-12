@@ -1,11 +1,19 @@
 package com.orbitelco.inventory.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.ToString;
+
+import java.util.Set;
+import java.util.HashSet;
 
 // import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -21,6 +29,12 @@ public class ApiAccess {
   @Column(name="microservice")
   private String microservice;
 
-  @Column(name="allowed_roles")
-  private String[] role;
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable(
+      name = "api_access_role",
+      joinColumns = @JoinColumn(name = "api_name"),
+      inverseJoinColumns = @JoinColumn(name = "role")
+  )
+  @JsonManagedReference // To avoid circular dependencies
+  private Set<Role> allowedRoles = new HashSet<>();
 }

@@ -103,6 +103,12 @@ router.post(SEED_DATA_URL, async (req: Request, res: Response) => {
     );
     await inventoryDB.product.deleteMany();
   }
+  if (await postgresTableExists('inventory', 'api_access_role')) {
+    console.log(
+      `There are ${await inventoryDB.api_access_role.count()} records in inventory.api_access_role`
+    );
+    await inventoryDB.api_access_role.deleteMany();
+  }
   if (await postgresTableExists('inventory', 'api_access')) {
     console.log(
       `There are ${await inventoryDB.api_access.count()} records in inventory.api_access`
@@ -168,6 +174,7 @@ router.post(SEED_DATA_URL, async (req: Request, res: Response) => {
     `Seeded ${await AccessInOrderDB.countDocuments()} records in AccessInOrderDB`
   );
 
+  // ====================  Inventory DB ====================
   // InventoryDB - Roles
   for (const role of roles) {
     await inventoryDB.role.create({
@@ -180,25 +187,42 @@ router.post(SEED_DATA_URL, async (req: Request, res: Response) => {
   console.log(
     `Seeded ${await inventoryDB.role.count()} records in inventory.role`
   );
+
   // InventoryDB - apiAccess
+  // Create api_access records
   for (const apiAccess of apiAccessInventory) {
-    const allowedRoles = await inventoryDB.role.findMany({
-      where: {
-        role: { in: apiAccess.allowedRoles },
-      },
-    });
     await inventoryDB.api_access.create({
       data: {
         api_name: apiAccess.apiName,
         microservice: apiAccess.microservice,
-        allowed_roles: {
-          connect: allowedRoles.map((role) => ({ role: role.role })),
-        },
+        // Not yet include the allowed_roles connection
       },
     });
   }
   console.log(
     `Seeded ${await inventoryDB.api_access.count()} records in inventory.api_access`
+  );
+
+  // Fill the many-to-many relation table api_access_role
+  for (const apiAccess of apiAccessInventory) {
+    // Fetch the roles to connect with the current api_access record
+    const allowedRoles = await inventoryDB.role.findMany({
+      where: {
+        role: { in: apiAccess.allowedRoles },
+      },
+    });
+    // Insert records directly into the join table
+    for (const role of allowedRoles) {
+      await inventoryDB.api_access_role.create({
+        data: {
+          api_name: apiAccess.apiName,
+          role: role.role,
+        },
+      });
+    }
+  }
+  console.log(
+    `Seeded ${await inventoryDB.api_access_role.count()} records in inventory.api_access_role`
   );
   // InventoryDB - product
   for (const prod of invProducts) {

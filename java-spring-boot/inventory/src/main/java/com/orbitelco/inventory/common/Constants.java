@@ -1,4 +1,4 @@
-package com.orbitelco.inventory.config;
+package com.orbitelco.inventory.common;
 
 public final class Constants {
     public static final String BOOTSTRAP_SERVERS_CONFIG = "kafka-service-1.kafka.svc.cluster.local:9092";
@@ -9,6 +9,8 @@ public final class Constants {
     public static final String TOPIC_PRODUCT_UPDATED = "product-updated";
     public static final String TOPIC_PRODUCT_DELETED = "product-deleted";
     public static final String GROUP_JSON = "inventory";
+
+    public static final String MICROSERVICE_INVENTORY = "inventory";
 
     private Constants() {
       // private constructor to prevent instantiation

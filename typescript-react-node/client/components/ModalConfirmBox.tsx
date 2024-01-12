@@ -25,11 +25,11 @@ const ModalConfirmBox: React.FC<ModalConfirmBoxProps> = ({
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>{body}</DialogContent>
       <DialogActions>
-        <Button color='secondary' onClick={handleClose}>
-          No
-        </Button>
         <Button color='primary' onClick={handleConfirm}>
           Yes
+        </Button>
+        <Button color='secondary' onClick={handleClose}>
+          No
         </Button>
       </DialogActions>
     </Dialog>

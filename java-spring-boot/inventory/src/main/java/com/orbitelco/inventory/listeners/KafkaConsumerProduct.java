@@ -1,9 +1,8 @@
 package com.orbitelco.inventory.listeners;
 
-import com.orbitelco.inventory.DTO.ProductDTO;
-import com.orbitelco.inventory.config.Constants;
 import com.orbitelco.inventory.data.entity.Product;
-// import com.orbitelco.inventory.data.entity.ProductQuantity;
+import com.orbitelco.inventory.DTO.ProductDTO;
+import com.orbitelco.inventory.common.Constants;
 import com.orbitelco.inventory.data.repository.ProductRepository;
 
 import java.util.Optional;
@@ -22,55 +21,56 @@ public class KafkaConsumerProduct {
     this.productRepository = productRepository;
   }
 
-    @KafkaListener(topics = {Constants.TOPIC_PRODUCT_CREATED, Constants.TOPIC_PRODUCT_UPDATED, Constants.TOPIC_PRODUCT_DELETED}, groupId = Constants.GROUP_JSON,
-        containerFactory = "productDTOKafkaListenerFactory")
-    public void consumeJson(ProductDTO productDTO,
-                          @Header(KafkaHeaders.RECEIVED_TOPIC) String topic) {
-      System.out.println("Consumed message: " + productDTO + " from topic " + topic );
+  @KafkaListener(topics = {Constants.TOPIC_PRODUCT_CREATED, Constants.TOPIC_PRODUCT_UPDATED, Constants.TOPIC_PRODUCT_DELETED}, groupId = Constants.GROUP_JSON,
+      containerFactory = "productDTOKafkaListenerFactory")
+  public void consumeJson(ProductDTO productDTO,
+          @Header(KafkaHeaders.RECEIVED_TOPIC) String topic) {
+    System.out.println("Consumed message: " + productDTO + " from topic " + topic );
 
-      // New Product
-      if (topic.equals(Constants.TOPIC_PRODUCT_CREATED)) {
-        Product product = ProductDTO.toEntity(productDTO);
-        Product savedProduct = this.productRepository.save(product);
-        ProductDTO savedProductDTO = ProductDTO.fromEntity(savedProduct);
-        System.out.println("Saved Product: " + savedProductDTO);
-      // Updated product (not the quantity)
-      } else if (topic.equals(Constants.TOPIC_PRODUCT_UPDATED)) {
-      // Find the existing product
-        Optional<Product> existingProductOpt = productRepository.findById(productDTO.getProductId());
+    // New Product
+    if (topic.equals(Constants.TOPIC_PRODUCT_CREATED)) {
+      Product product = ProductDTO.toEntity(productDTO);
+      Product savedProduct = this.productRepository.save(product);
+      ProductDTO savedProductDTO = ProductDTO.fromEntity(savedProduct);
+      System.out.println("Saved Product: " + savedProductDTO);
 
-        if (existingProductOpt.isPresent()) {
-            Product existingProduct = existingProductOpt.get();
+    // Updated product (not the quantity)
+    } else if (topic.equals(Constants.TOPIC_PRODUCT_UPDATED)) {
+    // Find the existing product
+      Optional<Product> existingProductOpt = productRepository.findById(productDTO.getProductId());
 
-            // Update the existing product with new values from DTO
-            existingProduct.setName(productDTO.getName());
-            existingProduct.setBrand(productDTO.getBrand());
-            existingProduct.setCategory(productDTO.getCategory());
+      if (existingProductOpt.isPresent()) {
+          Product existingProduct = existingProductOpt.get();
 
-            // Do not update the quantity
+          // Update the existing product with new values from DTO
+          existingProduct.setName(productDTO.getName());
+          existingProduct.setBrand(productDTO.getBrand());
+          existingProduct.setCategory(productDTO.getCategory());
 
-            // Save the updated product
-            Product updatedProduct = productRepository.save(existingProduct);
-            ProductDTO updatedProductDTO = ProductDTO.fromEntity(updatedProduct);
+          // Do not update the quantity
 
-            System.out.println("Updated Product: " + updatedProductDTO);
-        } else {
-            System.out.println("Product not found with ID: " + productDTO.getProductId());
-            // TO DO: Log
-        }
-      } else if (topic.equals(Constants.TOPIC_PRODUCT_DELETED)) {
-          // Find the existing product
-          Optional<Product> productOpt = productRepository.findById(productDTO.getProductId());
+          // Save the updated product
+          Product updatedProduct = productRepository.save(existingProduct);
+          ProductDTO updatedProductDTO = ProductDTO.fromEntity(updatedProduct);
+          System.out.println("Updated Product: " + updatedProductDTO);
 
-          if (productOpt.isPresent()) {
-              // Delete the product
-              productRepository.deleteById(productDTO.getProductId());
-              System.out.println("Deleted Product with ID: " + productDTO.getProductId());
-          } else {
-              System.out.println("Product not found for deletion with ID: " + productDTO.getProductId());
-              // TO DO: Log
-          }
+      } else {
+          System.out.println("Product not found with ID: " + productDTO.getProductId());
+          // TO DO: Log
+      }
+    } else if (topic.equals(Constants.TOPIC_PRODUCT_DELETED)) {
+        // Find the existing product
+      Optional<Product> productOpt = productRepository.findById(productDTO.getProductId());
+
+      if (productOpt.isPresent()) {
+          // Delete the product
+          productRepository.deleteById(productDTO.getProductId());
+          System.out.println("Deleted Product with ID: " + productDTO.getProductId());
+      } else {
+          System.out.println("Product not found for deletion with ID: " + productDTO.getProductId());
+          // TO DO: Log
       }
     }
+  }
 
 }

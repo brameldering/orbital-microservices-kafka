@@ -34,7 +34,7 @@ public class Product {
   private String category;
 
   // Note that with CascadeTyoe.All when creating/deleting a product also the product_quantity will be created/deleted
-  @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   @PrimaryKeyJoinColumn
   @JsonManagedReference // To avoid circular dependencies
   private ProductQuantity productQuantity;

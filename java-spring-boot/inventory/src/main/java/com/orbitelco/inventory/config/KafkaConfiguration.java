@@ -12,6 +12,7 @@ import org.springframework.kafka.support.serializer.JsonDeserializer;
 
 import com.orbitelco.inventory.DTO.ApiAccessDTO;
 import com.orbitelco.inventory.DTO.ProductDTO;
+import com.orbitelco.inventory.common.Constants;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -26,7 +26,18 @@ router.post(
   cacheMiddleware,
   (req: IExtendedRequest, res: Response, next: NextFunction) =>
     authorize(AUTH_APIS, req.apiAccessCache || [])(req, res, next),
-  [body('apiName').trim().notEmpty().withMessage('Api Name can not be empty')],
+  [
+    body('apiName')
+      .trim()
+      .notEmpty()
+      .withMessage('Api Name can not be empty')
+      .custom((value) => {
+        if (value.includes(' ')) {
+          throw new Error('No spaces allowed in Api Name');
+        }
+        return true;
+      }),
+  ],
   validateRequest,
   async (req: IExtendedRequest, res: Response) => {
     /*  #swagger.tags = ['Users']

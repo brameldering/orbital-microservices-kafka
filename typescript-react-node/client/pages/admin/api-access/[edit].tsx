@@ -58,6 +58,17 @@ const ApiAccessEditScreen: React.FC<TPageProps> = ({
     roles.map(() => false) // Initialize all checkboxes as unchecked
   );
 
+  // On start-up assign values of apiAccess.allowedRoles
+  useEffect(() => {
+    if (apiAccess) {
+      // Populate checked status based on apiAccess.allowedRoles
+      const initialChecked = roles.map((role) =>
+        apiAccess.allowedRoles.includes(role.role)
+      );
+      setCheckedBoxes(initialChecked);
+    }
+  }, [apiAccess, roles]);
+
   const {
     control,
     handleSubmit,
@@ -116,18 +127,8 @@ const ApiAccessEditScreen: React.FC<TPageProps> = ({
       updatedChecked[index] = e.target.checked;
       setCheckedBoxes(updatedChecked);
     };
-
-  // Populate checked status based on apiAccess.allowedRoles
-  useEffect(() => {
-    if (apiAccess) {
-      // Populate checked status based on apiAccess.allowedRoles
-      const initialChecked = roles.map((role) =>
-        apiAccess.allowedRoles.includes(role.role)
-      );
-      setCheckedBoxes(initialChecked);
-    }
-  }, [apiAccess, roles]);
   // --------------------------------------------------
+
   return (
     <>
       <Meta title={TITLES.TITLE_EDIT_API_ACCESS} />
@@ -159,9 +160,9 @@ const ApiAccessEditScreen: React.FC<TPageProps> = ({
                 margin='normal'>
                 <FormLabel component='legend'>Allowed Roles</FormLabel>
                 <FormGroup>
-                  <Grid container>
+                  <Grid container spacing={2}>
                     {roles.map((role, index) => (
-                      <Grid item sm={6} key={role.role}>
+                      <Grid item xs={12} sm={6} key={role.role}>
                         <Controller
                           name={`allowedRoles.${index}`}
                           control={control}

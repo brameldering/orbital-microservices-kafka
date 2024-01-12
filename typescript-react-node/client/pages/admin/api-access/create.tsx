@@ -17,7 +17,7 @@ import {
 import FormContainer from 'form/FormContainer';
 import FormTitle from 'form/FormTitle';
 import { TextNumField, SelectField } from 'form/FormComponents';
-import { textField } from 'form/ValidationSpecs';
+import { textFieldNoSpaces } from 'form/ValidationSpecs';
 import FormButtonBox from 'form/FormButtonBox';
 import { CreateSubmitButton, CancelButton } from 'form/FormButtons';
 import Loader from 'components/Loader';
@@ -38,7 +38,7 @@ interface IFormInput {
 }
 
 const schema = yup.object().shape({
-  apiName: textField().max(40).required('Required'),
+  apiName: textFieldNoSpaces().max(40).required('Required'),
   microservice: yup.string().required('Required'),
   allowedRoles: yup.array().of(yup.string()),
 });
@@ -55,8 +55,8 @@ const ApiAccessCreateScreen: React.FC<TPageProps> = ({ roles, error }) => {
   const {
     register,
     control,
-    handleSubmit,
     getValues,
+    handleSubmit,
     setError,
     formState: { isDirty, errors },
   } = useForm<IFormInput>({
@@ -72,11 +72,20 @@ const ApiAccessCreateScreen: React.FC<TPageProps> = ({ roles, error }) => {
 
   const onSubmit = async () => {
     try {
-      // console.log('getValues(allowedRoles)', getValues('allowedRoles'));
+      // Extract array of role name strings based on order
+      // of false/undefined and true in getValues('allowedRoles') array
+      const allowedRoles: string[] = [];
+      let index = 0;
+      roles.forEach((roleObj) => {
+        if (getValues('allowedRoles')[index]) {
+          allowedRoles.push(roleObj.role);
+        }
+        index++;
+      });
       await createApiAccess({
         apiName: getValues('apiName'),
         microservice: getValues('microservice'),
-        allowedRoles: getValues('allowedRoles'),
+        allowedRoles: allowedRoles,
       }).unwrap();
       toast.success('Api Access created');
       Router.push(PAGES.API_ACCESS_LIST_PAGE);
@@ -140,7 +149,10 @@ const ApiAccessCreateScreen: React.FC<TPageProps> = ({ roles, error }) => {
                 error={errors.microservice}
                 setError={setError}
               />
-              <FormControl component='fieldset'>
+              <FormControl
+                component='fieldset'
+                variant='outlined'
+                margin='normal'>
                 <FormLabel component='legend'>Allowed Roles</FormLabel>
                 <FormGroup>
                   <Grid container spacing={2}>
