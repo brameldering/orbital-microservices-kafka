@@ -6,7 +6,7 @@ import {
   SIGN_IN_URL,
   CUST_TEST_EMAIL,
   CUST_TEST_PASSWORD,
-} from '@orbitelco/common';
+} from '@orbital_app/common';
 
 const updatedPassword = 'UpdatedPassword';
 const invalidPassword = 'short';

@@ -2,7 +2,7 @@ import {
   API_ACCESS_URL,
   IApiAccess,
   IApiAccessCreate,
-} from '@orbitelco/common';
+} from '@orbital_app/common';
 
 import apiSlice from './apiSlice';
 

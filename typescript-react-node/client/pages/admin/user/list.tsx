@@ -21,7 +21,7 @@ import ErrorBlock from 'components/ErrorBlock';
 import { parseError } from 'utils/parse-error';
 import ModalConfirmBox from 'components//ModalConfirmBox';
 import TITLES from 'constants/form-titles';
-import { ADMIN_ROLE, IUser } from '@orbitelco/common';
+import { ADMIN_ROLE, IUser } from '@orbital_app/common';
 import PAGES from 'constants/client-pages';
 import { getUsers } from 'api/users/get-users';
 import { useDeleteUserMutation } from 'slices/usersApiSlice';

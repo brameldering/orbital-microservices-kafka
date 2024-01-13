@@ -6,7 +6,7 @@ import {
   fakeSignupCustomer,
   createTestProduct,
 } from '../../test/helper-functions';
-import { PRODUCTS_URL } from '@orbitelco/common';
+import { PRODUCTS_URL } from '@orbital_app/common';
 
 describe('Test update product', () => {
   it('returns a status 200 and the product info for the updated product', async () => {

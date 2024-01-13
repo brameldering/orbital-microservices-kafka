@@ -27,7 +27,7 @@ import ErrorBlock from 'components/ErrorBlock';
 import CustomRating from 'components/Rating';
 import { SubmitButton } from 'form/FormButtons';
 import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
-import { ICartItem, IPriceCalcSettingsAttrs } from '@orbitelco/common';
+import { ICartItem, IPriceCalcSettingsAttrs } from '@orbital_app/common';
 import { dateTimeToLocaleDateString } from 'utils/dateUtils';
 import { parseError } from 'utils/parse-error';
 import PAGES from 'constants/client-pages';

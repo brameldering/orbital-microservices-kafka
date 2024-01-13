@@ -8,7 +8,7 @@ import {
   Order,
   UserInputError,
   ObjectNotFoundError,
-} from '@orbitelco/common';
+} from '@orbital_app/common';
 import { verifyPayPalPayment, checkIfNewTransaction } from '../utils/paypal';
 
 const router = express.Router();

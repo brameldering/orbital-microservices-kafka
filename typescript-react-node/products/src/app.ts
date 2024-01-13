@@ -13,7 +13,7 @@ import {
   validateURL,
   errorHandler,
   RouteNotFoundError,
-} from '@orbitelco/common';
+} from '@orbital_app/common';
 import { uploadFileRouter } from './routes/upload-file';
 import { getProductsRouter } from './routes/get-products';
 import { createProductRouter } from './routes/create-product';

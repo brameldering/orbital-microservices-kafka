@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import { app, setupApp } from './app';
-import { kafkaWrapper, Topics, wait } from '@orbitelco/common';
+import { kafkaWrapper, Topics, wait } from '@orbital_app/common';
 import { ApiAccessCreatedPublisher } from './events/publishers/api-access-created-publisher';
 import { ApiAccessUpdatedPublisher } from './events/publishers/api-access-updated-publisher';
 import { ApiAccessDeletedPublisher } from './events/publishers/api-access-deleted-publisher';

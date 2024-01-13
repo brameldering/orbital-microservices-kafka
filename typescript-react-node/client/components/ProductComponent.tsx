@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import Link from 'next/link';
 import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
 import PAGES from 'constants/client-pages';
-import { IProduct } from '@orbitelco/common';
+import { IProduct } from '@orbital_app/common';
 import CustomRating from './Rating';
 
 interface ProductComponentProps {

@@ -5,7 +5,7 @@ import {
   signupCustomer2,
   signupAdmin,
 } from '../../test/helper-functions';
-import { USERS_URL } from '@orbitelco/common';
+import { USERS_URL } from '@orbital_app/common';
 
 describe('Test getting users', () => {
   it('returns a status 200 and list of users', async () => {

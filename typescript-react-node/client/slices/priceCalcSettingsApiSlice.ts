@@ -1,7 +1,7 @@
 import {
   PRICE_CALC_SETTINGS_URL,
   IPriceCalcSettingsAttrs,
-} from '@orbitelco/common';
+} from '@orbital_app/common';
 
 import apiSlice from './apiSlice';
 

@@ -1,6 +1,6 @@
 import { NextPageContext } from 'next';
 import ConfigureAxios from '../configure-axios';
-import { ORDERS_URL } from '@orbitelco/common';
+import { ORDERS_URL } from '@orbital_app/common';
 
 export const getOrderById = async (context: NextPageContext, id: string) => {
   const axiosInstance = ConfigureAxios(context);

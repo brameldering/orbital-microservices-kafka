@@ -10,7 +10,7 @@ import {
   AUTH_APIS,
   validateRequest,
   NotAuthorizedError,
-} from '@orbitelco/common';
+} from '@orbital_app/common';
 
 import generateToken from '../utils/generateToken';
 

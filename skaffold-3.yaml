@@ -2,7 +2,7 @@ apiVersion: skaffold/v4beta6
 kind: Config
 build:
   artifacts:
-    - image: orbitelco/sequences
+    - image: brameldering/sequences
       context: typescript-react-node/sequences
       sync:
         manual:
@@ -10,7 +10,7 @@ build:
             dest: .
       docker:
         dockerfile: Dockerfile
-    - image: orbitelco/auth
+    - image: brameldering/auth
       context: typescript-react-node/auth
       sync:
         manual:
@@ -18,7 +18,7 @@ build:
             dest: .
       docker:
         dockerfile: Dockerfile
-    - image: orbitelco/products
+    - image: brameldering/products
       context: typescript-react-node/products
       sync:
         manual:
@@ -26,7 +26,7 @@ build:
             dest: .
       docker:
         dockerfile: Dockerfile
-    - image: orbitelco/orders
+    - image: brameldering/orders
       context: typescript-react-node/orders
       sync:
         manual:
@@ -34,7 +34,7 @@ build:
             dest: .
       docker:
         dockerfile: Dockerfile
-    - image: orbitelco/client
+    - image: brameldering/client
       context: typescript-react-node/client
       sync:
         manual:

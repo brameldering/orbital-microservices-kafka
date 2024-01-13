@@ -146,7 +146,7 @@ const TopBar: React.FC = () => {
           {/* Logo */}
           <Link
             legacyBehavior
-            id='LINK_orbitelco_shop'
+            id='LINK_orbital_shop'
             href={PAGES.PRODUCTS_PAGE}
             passHref>
             <a
@@ -186,7 +186,7 @@ const TopBar: React.FC = () => {
             <IconButton size='large' aria-label='shopping cart' color='inherit'>
               <Link
                 legacyBehavior
-                id='LINK_orbitelco_shop'
+                id='LINK_orbital_shop'
                 href={PAGES.CART_PAGE}
                 passHref>
                 <a

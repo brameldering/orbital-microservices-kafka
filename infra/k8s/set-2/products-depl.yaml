@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: products
-          image: orbitelco/products
+          image: brameldering/products
           env:
             - name: DEPLOY_ENV
               value: 'kubernetes'

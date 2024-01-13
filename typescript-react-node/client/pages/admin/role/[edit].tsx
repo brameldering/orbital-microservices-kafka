@@ -19,7 +19,7 @@ import { parseError } from 'utils/parse-error';
 import ModalConfirmBox from 'components/ModalConfirmBox';
 import TITLES from 'constants/form-titles';
 import PAGES from 'constants/client-pages';
-import { IRole } from '@orbitelco/common';
+import { IRole } from '@orbital_app/common';
 import { getRoleById } from 'api/roles/get-role-by-id';
 import { useUpdateRoleMutation } from 'slices/rolesApiSlice';
 

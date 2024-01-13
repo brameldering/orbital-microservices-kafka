@@ -10,7 +10,7 @@ import {
   SIGN_IN_URL,
   CUST_TEST_EMAIL,
   CUST_TEST_PASSWORD,
-} from '@orbitelco/common';
+} from '@orbital_app/common';
 
 describe('Test delete user', () => {
   it('returns a status 200 on succesfully deleting a user account', async () => {

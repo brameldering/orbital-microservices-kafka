@@ -17,7 +17,7 @@ import {
   ADMIN_DISPLAY,
   API_ACCESS_URL,
   MICROSERVICE_AUTH,
-} from '@orbitelco/common';
+} from '@orbital_app/common';
 
 // Re-usable signup function for a test customer
 export const signupCustomer: any = async () => {

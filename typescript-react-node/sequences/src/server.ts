@@ -10,7 +10,7 @@ import {
   ListenerManager,
   IConsumerConfig,
   wait,
-} from '@orbitelco/common';
+} from '@orbital_app/common';
 import { SequenceResponseOrdersPublisher } from './events/publishers/sequence-response-orders-publisher';
 import { SequenceResponseProductsPublisher } from './events/publishers/sequence-response-products-publisher';
 import { SequenceRequestOrdersListener } from './events/listeners/sequence-request-orders-listener';

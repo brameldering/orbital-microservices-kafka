@@ -19,7 +19,7 @@ import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
 import PAGES from 'constants/client-pages';
 import { dateTimeToLocaleDateString } from 'utils/dateUtils';
 import { getMyOrders } from 'api/orders/get-my-orders';
-import { IOrder } from '@orbitelco/common';
+import { IOrder } from '@orbital_app/common';
 
 interface TPageProps {
   myOrders: IOrder[];

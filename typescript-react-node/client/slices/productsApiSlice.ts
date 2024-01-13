@@ -7,7 +7,7 @@ import {
   IGetProductsPaginated,
   IReviewInput,
   IUploadImageResponse,
-} from '@orbitelco/common';
+} from '@orbital_app/common';
 
 import apiSlice from './apiSlice';
 

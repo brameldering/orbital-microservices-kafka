@@ -7,7 +7,7 @@ import {
   ApplicationIntegrityError,
   ApplicationServerError,
   MICROSERVICE_PRODUCTS,
-} from '@orbitelco/common';
+} from '@orbital_app/common';
 
 export class ApiAccessUpdatedListener extends Listener<ApiAccessUpdatedEvent> {
   topic: Topics.ApiAccessUpdated = Topics.ApiAccessUpdated;

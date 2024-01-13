@@ -2,7 +2,7 @@ const axios = require('axios');
 const https = require('https');
 
 const configureAxiosForSeedData = () => {
-  const baseURL = 'https://orbitelco.dev';
+  const baseURL = 'https://orbital.dev';
 
   // 'https://ingress-nginx-controller.ingress-nginx.svc.cluster.local';
   const headers = {};

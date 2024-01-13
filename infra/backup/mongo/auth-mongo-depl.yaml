@@ -14,7 +14,7 @@ spec:
     spec:
       # initContainers:
       #   - name: init-mongodb
-      #     image: orbitelco/init-data
+      #     image: brameldering/init-data
       #     command:
       #       # ['sh', '-c', 'node seed-auth-data.js']
       #       [

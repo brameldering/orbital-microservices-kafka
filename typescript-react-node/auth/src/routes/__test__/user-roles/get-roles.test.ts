@@ -6,7 +6,7 @@ import {
   CUSTOMER_DISPLAY,
   ADMIN_ROLE,
   ADMIN_DISPLAY,
-} from '@orbitelco/common';
+} from '@orbital_app/common';
 import {
   createCustomerRole,
   createAdminRole,

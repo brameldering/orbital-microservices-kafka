@@ -4,7 +4,7 @@ import {
   CURRENT_USER_URL,
   CUST_TEST_EMAIL,
   CUSTOMER_ROLE,
-} from '@orbitelco/common';
+} from '@orbital_app/common';
 import { signupCustomer } from '../../test/helper-functions';
 
 describe('Test current-user', () => {

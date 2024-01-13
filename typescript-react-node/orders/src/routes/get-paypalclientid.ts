@@ -5,7 +5,7 @@ import {
   cacheMiddleware,
   authorize,
   ORDERS_APIS,
-} from '@orbitelco/common';
+} from '@orbital_app/common';
 
 const router = express.Router();
 

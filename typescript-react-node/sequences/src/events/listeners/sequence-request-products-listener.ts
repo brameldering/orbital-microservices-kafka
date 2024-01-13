@@ -5,7 +5,7 @@ import {
   Sequence,
   SequenceRequestProductsEvent,
   Entities,
-} from '@orbitelco/common';
+} from '@orbital_app/common';
 
 export class SequenceRequestProductsListener extends Listener<SequenceRequestProductsEvent> {
   topic: Topics.SequenceRequestProducts = Topics.SequenceRequestProducts;

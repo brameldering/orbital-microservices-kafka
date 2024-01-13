@@ -8,7 +8,7 @@ import {
   authorize,
   AUTH_APIS,
   validateRequest,
-} from '@orbitelco/common';
+} from '@orbital_app/common';
 
 const router = express.Router();
 

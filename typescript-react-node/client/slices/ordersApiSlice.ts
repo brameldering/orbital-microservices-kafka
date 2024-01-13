@@ -7,7 +7,7 @@ import {
   IOrder,
   IPaymentResult,
   IPayPalClientId,
-} from '@orbitelco/common';
+} from '@orbital_app/common';
 
 import apiSlice from './apiSlice';
 

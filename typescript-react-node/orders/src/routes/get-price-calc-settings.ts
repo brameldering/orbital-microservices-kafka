@@ -6,7 +6,7 @@ import {
   authorize,
   ORDERS_APIS,
   IPriceCalcSettingsAttrs,
-} from '@orbitelco/common';
+} from '@orbital_app/common';
 import { getPriceCalcSettings } from '../utils/getPriceCalcSettings';
 
 const router = express.Router();

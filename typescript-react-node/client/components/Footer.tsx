@@ -21,7 +21,7 @@ const Footer: React.FC = () => {
               justifyContent: 'center',
             }}>
             <Typography variant='body1'>
-              Orbitelco Shop &copy; {currentYear}
+              Orbital Shop &copy; {currentYear}
             </Typography>
           </Grid>
         </Grid>

@@ -7,7 +7,7 @@ import {
   ApplicationIntegrityError,
   ApplicationServerError,
   MICROSERVICE_PRODUCTS,
-} from '@orbitelco/common';
+} from '@orbital_app/common';
 
 export class ApiAccessDeletedListener extends Listener<ApiAccessDeletedEvent> {
   topic: Topics.ApiAccessDeleted = Topics.ApiAccessDeleted;

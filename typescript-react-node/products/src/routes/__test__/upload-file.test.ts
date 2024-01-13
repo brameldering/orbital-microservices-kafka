@@ -4,7 +4,7 @@ import {
   fakeSignupAdmin,
   fakeSignupCustomer,
 } from '../../test/helper-functions';
-import { UPLOAD_URL } from '@orbitelco/common';
+import { UPLOAD_URL } from '@orbital_app/common';
 
 describe('Test file upload', () => {
   it('returns a status 415 and FileUploadError when there is no file to upload', async () => {

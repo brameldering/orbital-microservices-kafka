@@ -9,7 +9,7 @@ import {
   Role,
   CUSTOMER_ROLE,
   CUSTOMER_DISPLAY,
-} from '@orbitelco/common';
+} from '@orbital_app/common';
 
 describe('Test create role', () => {
   it('creates a role with valid inputs and returns a status 201 with the created product', async () => {

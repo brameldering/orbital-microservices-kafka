@@ -10,7 +10,7 @@ import {
   ApiAccess,
   MICROSERVICE_AUTH,
   ADMIN_ROLE,
-} from '@orbitelco/common';
+} from '@orbital_app/common';
 
 describe('Test create api access', () => {
   it('creates an api access with valid inputs and returns a status 201 with the created product', async () => {

@@ -19,7 +19,7 @@ const Meta: React.FC<MetaProps> = ({ title, description, keywords }) => {
 };
 
 Meta.defaultProps = {
-  title: 'Welcome To Orbitelco Shop',
+  title: 'Welcome To Orbital Shop',
   description: 'Study project',
   keywords: 'Telecom, Phones, Electronics',
 };

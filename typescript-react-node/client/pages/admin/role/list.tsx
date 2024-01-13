@@ -24,7 +24,7 @@ import ErrorBlock from 'components/ErrorBlock';
 import { parseError } from 'utils/parse-error';
 import ModalConfirmBox from 'components//ModalConfirmBox';
 import TITLES from 'constants/form-titles';
-import { IRole } from '@orbitelco/common';
+import { IRole } from '@orbital_app/common';
 import PAGES from 'constants/client-pages';
 import { getRoles } from 'api/roles/get-roles';
 import { useDeleteRoleMutation } from 'slices/rolesApiSlice';

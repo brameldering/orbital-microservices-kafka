@@ -2,7 +2,7 @@ import {
   PriceCalcSettings,
   IPriceCalcSettingsAttrs,
   IPriceCalcSettingsDoc,
-} from '@orbitelco/common';
+} from '@orbital_app/common';
 
 export const getPriceCalcSettings =
   async (): Promise<IPriceCalcSettingsAttrs | null> => {

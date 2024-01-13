@@ -35,7 +35,7 @@ import {
   IApiAccess,
   CURRENT_MICROSERVICES,
   MICROSERVICE_AUTH,
-} from '@orbitelco/common';
+} from '@orbital_app/common';
 import PAGES from 'constants/client-pages';
 import { getRoles } from 'api/roles/get-roles';
 import { getApiAccessList } from 'api/api-access/get-api-access-list';

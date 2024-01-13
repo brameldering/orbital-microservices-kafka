@@ -6,7 +6,7 @@ import {
   fakeSignupCustomer,
   createTestProduct,
 } from '../../test/helper-functions';
-import { PRODUCTS_URL } from '@orbitelco/common';
+import { PRODUCTS_URL } from '@orbital_app/common';
 
 describe('Test delete product', () => {
   it('returns a status 200 after deleting a product and the product is no longer in the DB', async () => {

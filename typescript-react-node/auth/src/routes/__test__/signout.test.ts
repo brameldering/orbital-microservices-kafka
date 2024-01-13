@@ -6,7 +6,7 @@ import {
   SIGN_OUT_URL,
   CUST_TEST_EMAIL,
   CUST_TEST_PASSWORD,
-} from '@orbitelco/common';
+} from '@orbital_app/common';
 
 describe('Test signout', () => {
   it('clears the cookie on succesful signout', async () => {

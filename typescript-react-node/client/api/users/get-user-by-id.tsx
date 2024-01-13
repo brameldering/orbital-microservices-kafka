@@ -1,6 +1,6 @@
 import { NextPageContext } from 'next';
 import ConfigureAxios from '../configure-axios';
-import { USERS_URL } from '@orbitelco/common';
+import { USERS_URL } from '@orbital_app/common';
 
 export const getUserById = async (context: NextPageContext, id: string) => {
   const axiosInstance = ConfigureAxios(context);

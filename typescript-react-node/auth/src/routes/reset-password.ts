@@ -9,7 +9,7 @@ import {
   AUTH_APIS,
   validateRequest,
   ObjectNotFoundError,
-} from '@orbitelco/common';
+} from '@orbital_app/common';
 
 const router = express.Router();
 

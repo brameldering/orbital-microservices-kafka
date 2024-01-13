@@ -2,7 +2,7 @@ import request from 'supertest';
 import mongoose from 'mongoose';
 import { app } from '../../app';
 import { createTestProduct } from '../../test/helper-functions';
-import { PRODUCTS_URL } from '@orbitelco/common';
+import { PRODUCTS_URL } from '@orbital_app/common';
 
 describe('Test get product by id', () => {
   it('returns a status 200 and the product info for an existing product', async () => {

@@ -6,7 +6,7 @@ export default defineConfig({
     setupNodeEvents(on, config) {
       // implement node event listeners here
     },
-    baseUrl: 'https://orbitelco.dev',
+    baseUrl: 'https://orbital.dev',
   },
 
   component: {

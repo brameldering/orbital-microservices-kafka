@@ -5,7 +5,7 @@ import {
   RESET_PASSWORD_URL,
   SIGN_IN_URL,
   CUST_TEST_EMAIL,
-} from '@orbitelco/common';
+} from '@orbital_app/common';
 
 const defaultResetPassword = process.env.DEFAULT_RESET_PASSWORD;
 

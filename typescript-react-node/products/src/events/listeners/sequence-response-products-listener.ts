@@ -7,7 +7,7 @@ import {
   SequenceResponseProductsEvent,
   ApplicationServerError,
   ObjectNotFoundError,
-} from '@orbitelco/common';
+} from '@orbital_app/common';
 
 export class SequenceResponseProductsListener extends Listener<SequenceResponseProductsEvent> {
   topic: Topics.SequenceResponseProducts = Topics.SequenceResponseProducts;

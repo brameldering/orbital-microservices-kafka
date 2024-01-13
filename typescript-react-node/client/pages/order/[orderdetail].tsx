@@ -34,7 +34,7 @@ import OrderSummaryBlock from 'components/OrderSummaryBlock';
 import TITLES from 'constants/form-titles';
 import { CURRENCY_PAYPAL } from 'constants/constants-frontend';
 import PAGES from 'constants/client-pages';
-import { ADMIN_ROLE, IOrder } from '@orbitelco/common';
+import { ADMIN_ROLE, IOrder } from '@orbital_app/common';
 import { getOrderById } from 'api/orders/get-order-by-id';
 import type { RootState } from 'slices/store';
 import {
@@ -123,7 +123,7 @@ const OrderScreen: React.FC<TPageProps> = ({ order, error }) => {
         .create({
           purchase_units: [
             {
-              description: 'Orbitelco order',
+              description: 'Orbital order',
               reference_id: order.sequentialOrderId,
               amount: { value: order.totalAmounts.totalPrice },
             },
@@ -145,7 +145,7 @@ const OrderScreen: React.FC<TPageProps> = ({ order, error }) => {
     try {
       return actions.order.capture().then(async function (details: any) {
         console.log('== actions.order.capture ===');
-        console.log('== Orbitelco orderId ===', order.id);
+        console.log('== Orbital orderId ===', order.id);
         console.log('== PayPal details ===', details);
         if (order.id) {
           await setPayData({ orderId: order.id, details }).unwrap();

@@ -19,7 +19,7 @@ import { parseError } from 'utils/parse-error';
 import ModalConfirmBox from 'components/ModalConfirmBox';
 import TITLES from 'constants/form-titles';
 import PAGES from 'constants/client-pages';
-import { IPriceCalcSettingsAttrs } from '@orbitelco/common';
+import { IPriceCalcSettingsAttrs } from '@orbital_app/common';
 import { getPriceCalcSettings } from 'api/orders/get-price-calc-settings';
 import { useUpdatePriceCalcSettingsMutation } from 'slices/priceCalcSettingsApiSlice';
 

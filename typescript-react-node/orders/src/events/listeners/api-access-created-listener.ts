@@ -6,7 +6,7 @@ import {
   apiAccessCache,
   ApplicationServerError,
   MICROSERVICE_ORDERS,
-} from '@orbitelco/common';
+} from '@orbital_app/common';
 
 export class ApiAccessCreatedListener extends Listener<ApiAccessCreatedEvent> {
   topic: Topics.ApiAccessCreated = Topics.ApiAccessCreated;

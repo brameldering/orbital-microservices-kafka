@@ -6,7 +6,7 @@ import type {
   IRemoveFromCart,
   IShippingAddress,
   ITotalAmounts,
-} from '@orbitelco/common';
+} from '@orbital_app/common';
 import { updateCart } from 'utils/cartUtils';
 
 // Define the initial state

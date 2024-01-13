@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: client
-          image: orbitelco/client
+          image: brameldering/client
 ---
 apiVersion: v1
 kind: Service

@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: seed
-          image: orbitelco/seed
+          image: brameldering/seed
           env:
             - name: NODE_ENV
               value: 'development'

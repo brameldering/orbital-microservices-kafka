@@ -1,6 +1,6 @@
 import { NextPageContext } from 'next';
 import ConfigureAxios from '../configure-axios';
-import { ROLES_URL } from '@orbitelco/common';
+import { ROLES_URL } from '@orbital_app/common';
 
 export const getRoles = async (context: NextPageContext) => {
   const axiosInstance = ConfigureAxios(context);

@@ -11,7 +11,7 @@ import {
   API_ACCESS_URL,
   ADMIN_ROLE,
   MICROSERVICE_AUTH,
-} from '@orbitelco/common';
+} from '@orbital_app/common';
 
 describe('Test getting api access record by id', () => {
   it('returns a status 200 and the api access record on retrieving a api access record', async () => {

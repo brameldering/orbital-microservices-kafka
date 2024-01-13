@@ -2,7 +2,7 @@ import {
   Publisher,
   Topics,
   SequenceResponseOrdersEvent,
-} from '@orbitelco/common';
+} from '@orbital_app/common';
 
 export class SequenceResponseOrdersPublisher extends Publisher<SequenceResponseOrdersEvent> {
   topic: Topics.SequenceResponseOrders = Topics.SequenceResponseOrders;

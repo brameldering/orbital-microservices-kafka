@@ -10,7 +10,7 @@ import {
   Order,
   IOrderItem,
   PAYMENT_METHOD_PAYPAL,
-} from '@orbitelco/common';
+} from '@orbital_app/common';
 
 describe('Test create order', () => {
   it('creates an order with valid inputs and returns a status 201 with the created order', async () => {

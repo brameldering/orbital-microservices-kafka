@@ -1,6 +1,6 @@
 const TEST_CONSTANTS = {
-  HOME_PAGE_URL: 'https://orbitelco.dev/product',
-  LOGIN_URL: 'https://orbitelco.dev/auth/signin',
+  HOME_PAGE_URL: 'https://orbital.dev/product',
+  LOGIN_URL: 'https://orbital.dev/auth/signin',
 
   TEST_USER_NAME: 'John Doe',
   TEST_USER_EMAIL: 'john@email.com',

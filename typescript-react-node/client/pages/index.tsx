@@ -8,10 +8,10 @@ import PAGES from 'constants/client-pages';
 const HomePage: React.FC = () => {
   return (
     <>
-      <Meta title='Orbitelco' />
+      <Meta title='Orbital' />
       <FormTitle>Menu</FormTitle>
       <Link id='LINK_products_page' href={PAGES.PRODUCTS_PAGE}>
-        Orbitelco Shop
+        Orbital Shop
       </Link>
     </>
   );

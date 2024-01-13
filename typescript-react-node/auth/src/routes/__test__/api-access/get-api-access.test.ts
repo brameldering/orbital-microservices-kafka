@@ -1,6 +1,6 @@
 import request from 'supertest';
 import { app } from '../../../app';
-import { API_ACCESS_URL, MICROSERVICE_AUTH } from '@orbitelco/common';
+import { API_ACCESS_URL, MICROSERVICE_AUTH } from '@orbital_app/common';
 import {
   createApiAccess,
   fakeSignupAdmin,

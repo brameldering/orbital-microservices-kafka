@@ -6,7 +6,7 @@ if (process.env?.NODE_ENV === 'test') {
   // WIll be used in test environment
   dotenv.config();
 }
-// import { EnvConfigurationError } from '@orbitelco/common';
+// import { EnvConfigurationError } from '@orbital_app/common';
 
 const generateToken = (
   req: Request,

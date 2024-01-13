@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs';
-import { ADMIN_ROLE, CUSTOMER_ROLE } from '@orbitelco/common';
+import { ADMIN_ROLE, CUSTOMER_ROLE } from '@orbital_app/common';
 
 export const users = [
   {

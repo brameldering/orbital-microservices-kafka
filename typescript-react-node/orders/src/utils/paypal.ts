@@ -1,6 +1,6 @@
 // import dotenv from 'dotenv';
 // import { Order } from '../orderModel';
-import { IOrderModel, ExternalAPIError } from '@orbitelco/common';
+import { IOrderModel, ExternalAPIError } from '@orbital_app/common';
 
 // dotenv.config();
 const { PAYPAL_CLIENT_ID, PAYPAL_APP_SECRET, PAYPAL_API_URL } = process.env;

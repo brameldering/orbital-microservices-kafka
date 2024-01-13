@@ -1,7 +1,7 @@
 import express, { Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
 // import { body } from 'express-validator';
-// import { validateRequest } from '@orbitelco/common';
+// import { validateRequest } from '@orbital_app/common';
 import {
   PRODUCTS_URL,
   Product,
@@ -13,7 +13,7 @@ import {
   kafkaWrapper,
   Topics,
   GENERATING,
-} from '@orbitelco/common';
+} from '@orbital_app/common';
 
 const router = express.Router();
 

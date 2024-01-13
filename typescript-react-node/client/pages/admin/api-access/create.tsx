@@ -27,7 +27,7 @@ import { parseError } from 'utils/parse-error';
 import ModalConfirmBox from 'components/ModalConfirmBox';
 import TITLES from 'constants/form-titles';
 import PAGES from 'constants/client-pages';
-import { CURRENT_MICROSERVICES } from '@orbitelco/common';
+import { CURRENT_MICROSERVICES } from '@orbital_app/common';
 import { getRoles } from 'api/roles/get-roles';
 import { useCreateApiAccessMutation } from 'slices/apiAccessApiSlice';
 

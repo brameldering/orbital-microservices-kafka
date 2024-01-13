@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: auth
-          image: orbitelco/auth
+          image: brameldering/auth
           env:
             - name: DEPLOY_ENV
               value: 'kubernetes'

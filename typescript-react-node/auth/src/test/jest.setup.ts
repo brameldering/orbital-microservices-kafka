@@ -6,34 +6,34 @@ import { setupApp } from '../app';
 require('dotenv').config();
 
 // ================== Mock kafka.js ====================
-import '../../node_modules/@orbitelco/common/build/__mocks__/kafkajs';
+import '../../node_modules/ @orbital_app/common/build/__mocks__/kafkajs';
 
 // ======================= Mock the kafka-wrapper =========================
 jest.mock(
-  '../../node_modules/@orbitelco/common/build/kafka/kafka-wrapper',
+  '../../node_modules/ @orbital_app/common/build/kafka/kafka-wrapper',
   () => {
     return jest.requireActual(
-      '../../node_modules/@orbitelco/common/build/__mocks__/kafka-wrapper'
+      '../../node_modules/ @orbital_app/common/build/__mocks__/kafka-wrapper'
     );
   }
 );
 
 // ======================= Mock the apiAccessCache =========================
 jest.mock(
-  '../../node_modules/@orbitelco/common/build/middleware/api-access-cache',
+  '../../node_modules/ @orbital_app/common/build/middleware/api-access-cache',
   () => {
     return jest.requireActual(
-      '../../node_modules/@orbitelco/common/build/__mocks__/api-access-cache'
+      '../../node_modules/ @orbital_app/common/build/__mocks__/api-access-cache'
     );
   }
 );
 
 // ======================= Mock the Publisher abstract class =========================
 jest.mock(
-  '../../node_modules/@orbitelco/common/build/kafka/base-publisher',
+  '../../node_modules/ @orbital_app/common/build/kafka/base-publisher',
   () => {
     return jest.requireActual(
-      '../../node_modules/@orbitelco/common/build/__mocks__/base-publisher'
+      '../../node_modules/ @orbital_app/common/build/__mocks__/base-publisher'
     );
   }
 );

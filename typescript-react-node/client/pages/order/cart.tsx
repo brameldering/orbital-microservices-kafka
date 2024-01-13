@@ -26,7 +26,7 @@ import CheckoutSteps from 'components/CheckoutSteps';
 import TITLES from 'constants/form-titles';
 import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
 import PAGES from 'constants/client-pages';
-import { ICartItem, IPriceCalcSettingsAttrs } from '@orbitelco/common';
+import { ICartItem, IPriceCalcSettingsAttrs } from '@orbital_app/common';
 import type { RootState } from 'slices/store';
 import { addToCart, removeFromCart } from 'slices/cartSlice';
 import { getPriceCalcSettings } from 'api/orders/get-price-calc-settings';

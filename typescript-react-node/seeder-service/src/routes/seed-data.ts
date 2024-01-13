@@ -13,7 +13,7 @@ import {
   apiAccessProducts,
   apiAccessOrders,
   apiAccessInventory,
-} from '@orbitelco/common';
+} from '@orbital_app/common';
 import { sequences } from '../../seederdata/sequences';
 import { products } from '../../seederdata/products';
 import { users } from '../../seederdata/users';

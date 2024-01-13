@@ -1,6 +1,6 @@
 import TEST_CONSTANTS from '../test_constants';
 import TITLES from 'constants/form-titles';
-import { CUSTOMER_DISPLAY, ADMIN_DISPLAY } from '@orbitelco/common';
+import { CUSTOMER_DISPLAY, ADMIN_DISPLAY } from '@orbital_app/common';
 
 const login = (email: string, password: string) => {
   cy.visit(TEST_CONSTANTS.LOGIN_URL);

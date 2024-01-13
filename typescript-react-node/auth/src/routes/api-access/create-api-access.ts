@@ -11,7 +11,7 @@ import {
   validateRequest,
   kafkaWrapper,
   Topics,
-} from '@orbitelco/common';
+} from '@orbital_app/common';
 
 const router = express.Router();
 

@@ -6,7 +6,7 @@ import {
   fakeSignupCustomer,
   createCustomerRole,
 } from '../../../test/helper-functions';
-import { ROLES_URL, Role } from '@orbitelco/common';
+import { ROLES_URL, Role } from '@orbital_app/common';
 
 describe('Test delete role', () => {
   it('returns a status 200 after deleting a role', async () => {

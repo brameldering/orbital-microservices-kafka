@@ -6,7 +6,7 @@ import {
   fakeSignupCustomer,
   fakeSignupAdmin,
 } from '../../test/helper-functions';
-import { UPDATE_ORDER_TO_DELIVERED_URL } from '@orbitelco/common';
+import { UPDATE_ORDER_TO_DELIVERED_URL } from '@orbital_app/common';
 
 describe('Test update order to delivered', () => {
   it('returns a status 200 and the order status set to delivered', async () => {

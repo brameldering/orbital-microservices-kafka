@@ -1,4 +1,4 @@
-import { Publisher, Topics, ProductDeletedEvent } from '@orbitelco/common';
+import { Publisher, Topics, ProductDeletedEvent } from '@orbital_app/common';
 
 export class ProductDeletedPublisher extends Publisher<ProductDeletedEvent> {
   topic: Topics.ProductDeleted = Topics.ProductDeleted;

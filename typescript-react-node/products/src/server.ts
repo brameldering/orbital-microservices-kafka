@@ -7,7 +7,7 @@ import {
   ListenerManager,
   IConsumerConfig,
   wait,
-} from '@orbitelco/common';
+} from '@orbital_app/common';
 import { ApiAccessCreatedListener } from './events/listeners/api-access-created-listener';
 import { ApiAccessUpdatedListener } from './events/listeners/api-access-updated-listener';
 import { ApiAccessDeletedListener } from './events/listeners/api-access-deleted-listener';

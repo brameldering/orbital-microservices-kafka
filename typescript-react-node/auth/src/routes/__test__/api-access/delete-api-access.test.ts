@@ -6,7 +6,7 @@ import {
   fakeSignupCustomer,
   createApiAccess,
 } from '../../../test/helper-functions';
-import { API_ACCESS_URL, ApiAccess } from '@orbitelco/common';
+import { API_ACCESS_URL, ApiAccess } from '@orbital_app/common';
 
 describe('Test delete api access', () => {
   it('returns a status 200 after deleting an api access', async () => {

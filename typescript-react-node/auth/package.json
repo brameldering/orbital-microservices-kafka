@@ -19,7 +19,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@orbitelco/common": "^1.0.281",
+    "@orbital_app/common": "^1.0.284",
     "@types/bcryptjs": "^2.4.5",
     "@types/body-parser": "^1.19.4",
     "@types/cookie-session": "^2.0.46",

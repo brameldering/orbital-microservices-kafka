@@ -1,6 +1,6 @@
 import { NextPageContext } from 'next';
 import ConfigureAxios from '../configure-axios';
-import { PRICE_CALC_SETTINGS_URL } from '@orbitelco/common';
+import { PRICE_CALC_SETTINGS_URL } from '@orbital_app/common';
 
 export const getPriceCalcSettings = async (context: NextPageContext) => {
   const axiosInstance = ConfigureAxios(context);

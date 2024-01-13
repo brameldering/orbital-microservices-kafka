@@ -13,7 +13,7 @@ import {
   CUST_TEST_NAME,
   CUSTOMER_ROLE,
   ADMIN_ROLE,
-} from '@orbitelco/common';
+} from '@orbital_app/common';
 
 const updatedName = 'Updated Name';
 const updatedEmail = 'updated.email@test.com';

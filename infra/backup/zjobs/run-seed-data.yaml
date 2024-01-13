@@ -7,7 +7,7 @@ spec:
     spec:
       containers:
         - name: init-mongodb
-          image: orbitelco/init-data
+          image: brameldering/init-data
           command:
             ['sh', '-c', 'echo "hello"; node seed-test.js']
             # [

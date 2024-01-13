@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
-import { ITotalAmounts } from '@orbitelco/common';
+import { ITotalAmounts } from '@orbital_app/common';
 
 interface CurrencyFieldProps {
   label: string;

@@ -11,7 +11,7 @@ import Footer from 'components/Footer';
 // import Grid from '@mui/material/Grid';
 import { Container } from '@mui/material';
 import type { RootState } from 'slices/store';
-import { ADMIN_ROLE } from '@orbitelco/common';
+import { ADMIN_ROLE } from '@orbital_app/common';
 
 // Potentially add automatic logout based on expiration time
 // See useEffect in frontend App.tsx

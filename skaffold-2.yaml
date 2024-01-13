@@ -2,7 +2,7 @@ apiVersion: skaffold/v4beta6
 kind: Config
 build:
   artifacts:
-    - image: orbitelco/seed
+    - image: brameldering/seed
       context: typescript-react-node/seeder-service
       sync:
         manual:
@@ -10,7 +10,7 @@ build:
             dest: .
       docker:
         dockerfile: Dockerfile
-    - image: orbitelco/inventory
+    - image: brameldering/inventory
       context: java-spring-boot/inventory
       sync:
         manual:

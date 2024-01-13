@@ -1,4 +1,4 @@
-import { ROLES_URL, IRole, IRoleCreate } from '@orbitelco/common';
+import { ROLES_URL, IRole, IRoleCreate } from '@orbital_app/common';
 
 import apiSlice from './apiSlice';
 

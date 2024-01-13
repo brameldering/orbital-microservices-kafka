@@ -19,7 +19,7 @@ import TITLES from 'constants/form-titles';
 import PAGES from 'constants/client-pages';
 import { savePaymentMethod } from 'slices/cartSlice';
 import type { RootState } from 'slices/store';
-import { PAYMENT_METHOD_PAYPAL } from '@orbitelco/common';
+import { PAYMENT_METHOD_PAYPAL } from '@orbital_app/common';
 
 const PaymentScreen = () => {
   const dispatch = useDispatch();

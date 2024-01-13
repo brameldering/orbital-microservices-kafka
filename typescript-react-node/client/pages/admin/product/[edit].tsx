@@ -23,7 +23,7 @@ import { parseError } from 'utils/parse-error';
 import ModalConfirmBox from 'components/ModalConfirmBox';
 import TITLES from 'constants/form-titles';
 import PAGES from 'constants/client-pages';
-import { IProduct } from '@orbitelco/common';
+import { IProduct } from '@orbital_app/common';
 import { getProductById } from 'api/produts/get-product-by-id';
 import {
   useUpdateProductMutation,

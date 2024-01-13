@@ -34,7 +34,7 @@ import {
   validateURL,
   errorHandler,
   RouteNotFoundError,
-} from '@orbitelco/common';
+} from '@orbital_app/common';
 
 // ======================================================
 // Check for existence of ENV variables set in depl files (dev/prod) or .env file for test

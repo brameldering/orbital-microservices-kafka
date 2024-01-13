@@ -1,6 +1,6 @@
 import { createSlice, createAction } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { IUserInfo, IUser } from '@orbitelco/common';
+import { IUserInfo, IUser } from '@orbital_app/common';
 
 const initialState: IUserInfo = { userInfo: null };
 

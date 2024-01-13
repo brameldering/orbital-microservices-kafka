@@ -5,7 +5,7 @@ import {
   SIGN_IN_URL,
   CUST_TEST_EMAIL,
   CUST_TEST_PASSWORD,
-} from '@orbitelco/common';
+} from '@orbital_app/common';
 
 describe('Test signin', () => {
   it('returns a status 200 on succesful signin', async () => {

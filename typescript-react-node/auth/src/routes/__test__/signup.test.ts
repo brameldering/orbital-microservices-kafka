@@ -7,7 +7,7 @@ import {
   CUST_TEST_EMAIL,
   CUST_TEST_PASSWORD,
   CUSTOMER_ROLE,
-} from '@orbitelco/common';
+} from '@orbital_app/common';
 
 describe('Test signup', () => {
   it('returns a status 201 on succesful signup', async () => {

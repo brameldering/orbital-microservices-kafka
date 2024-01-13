@@ -10,7 +10,7 @@ import ErrorBlock from 'components/ErrorBlock';
 import Paginate from 'components/Paginate';
 import ProductComponent from 'components/ProductComponent';
 import TITLES from 'constants/form-titles';
-import { IProduct, ADMIN_ROLE } from '@orbitelco/common';
+import { IProduct, ADMIN_ROLE } from '@orbital_app/common';
 import PAGES from 'constants/client-pages';
 import type { RootState } from 'slices/store';
 import { useGetProductsQuery } from 'slices/productsApiSlice';

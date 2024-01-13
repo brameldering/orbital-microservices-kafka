@@ -13,7 +13,7 @@ import {
   ANONYMOUS_ROLE,
   CUSTOMER_ROLE,
   ADMIN_ROLE,
-} from '@orbitelco/common';
+} from '@orbital_app/common';
 
 describe('Test update api access', () => {
   it('returns a status 200 for an update of the roles', async () => {

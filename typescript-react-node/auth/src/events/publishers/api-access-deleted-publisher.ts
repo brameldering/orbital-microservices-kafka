@@ -1,4 +1,4 @@
-import { Publisher, Topics, ApiAccessDeletedEvent } from '@orbitelco/common';
+import { Publisher, Topics, ApiAccessDeletedEvent } from '@orbital_app/common';
 
 export class ApiAccessDeletedPublisher extends Publisher<ApiAccessDeletedEvent> {
   topic: Topics.ApiAccessDeleted = Topics.ApiAccessDeleted;

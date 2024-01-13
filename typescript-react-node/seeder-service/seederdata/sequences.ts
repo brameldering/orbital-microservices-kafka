@@ -1,4 +1,4 @@
-import { Entities } from '@orbitelco/common';
+import { Entities } from '@orbital_app/common';
 
 export const sequences = [
   {

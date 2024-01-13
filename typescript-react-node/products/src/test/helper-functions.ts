@@ -9,7 +9,7 @@ import {
   ADMIN_TEST_NAME,
   ADMIN_TEST_EMAIL,
   ADMIN_ROLE,
-} from '@orbitelco/common';
+} from '@orbital_app/common';
 import { app } from '../app';
 
 interface IPayload {

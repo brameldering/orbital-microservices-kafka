@@ -12,7 +12,7 @@ import {
   ORDERS_URL,
   PAYMENT_METHOD_PAYPAL,
   IOrderItem,
-} from '@orbitelco/common';
+} from '@orbital_app/common';
 import { app } from '../app';
 
 interface IPayload {

@@ -1,6 +1,6 @@
 import { NextPageContext } from 'next';
 import ConfigureAxios from '../configure-axios';
-import { API_ACCESS_URL } from '@orbitelco/common';
+import { API_ACCESS_URL } from '@orbital_app/common';
 
 export const getApiAccessById = async (
   context: NextPageContext,

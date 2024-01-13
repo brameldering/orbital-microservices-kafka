@@ -15,7 +15,7 @@ import {
   getKafkaLogLevel,
   Topics,
   wait,
-} from '@orbitelco/common';
+} from '@orbital_app/common';
 import { seedDataRouter } from './routes/seed-data';
 
 function canBeConvertedToNumber(strNumber: string) {

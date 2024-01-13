@@ -12,7 +12,7 @@ import {
   IChangeUserProfile,
   IChangePassword,
   IResetPassword,
-} from '@orbitelco/common';
+} from '@orbital_app/common';
 
 import apiSlice from './apiSlice';
 

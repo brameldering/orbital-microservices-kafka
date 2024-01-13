@@ -1,7 +1,7 @@
 import express, { Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
 // import { body } from 'express-validator';
-// import { validateRequest } from '@orbitelco/common';
+// import { validateRequest } from '@orbital_app/common';
 import {
   PRODUCT_REVIEW_URL,
   IExtendedRequest,
@@ -14,7 +14,7 @@ import {
   IProductReviewDoc,
   ObjectNotFoundError,
   UserInputError,
-} from '@orbitelco/common';
+} from '@orbital_app/common';
 
 const router = express.Router();
 

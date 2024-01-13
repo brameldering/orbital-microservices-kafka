@@ -1,6 +1,6 @@
 config:
   organization:
-    name: 'Orbitelco'
+    name: 'Orbital'
 
   admin:
     email: 'bram.eldering@gmail.com'
