@@ -2,9 +2,11 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Router from 'next/router';
 import {
+  Stack,
   Grid,
   Card,
   CardContent,
+  Paper,
   Button,
   List,
   ListItem,
@@ -69,56 +71,73 @@ const PlaceOrderScreen = () => {
       <CheckoutSteps currentStep={3} />
       <Grid container spacing={3}>
         <Grid item md={8} xs={12}>
-          <List>
-            <ListItem>
-              <Typography variant='h3'>Shipping</Typography>
-              <Typography paragraph>
-                <strong>Address: </strong>
-                {cart.shippingAddress.address},{' '}
-                {cart.shippingAddress.postalCode} {cart.shippingAddress.city},{' '}
-                {cart.shippingAddress.country}
-              </Typography>
-            </ListItem>
-            <ListItem>
-              <Typography variant='h3'>Payment Method</Typography>
-              <Typography paragraph>
-                <strong>Method: </strong>
-                {cart.paymentMethod}
-              </Typography>
-            </ListItem>
-            <ListItem>
-              <Typography variant='h3'>Order Items</Typography>
-              {cart.cartItems.length === 0 ? (
-                <Alert severity='info'>Your cart is empty</Alert>
-              ) : (
-                <List>
-                  {cart.cartItems.map((item, index) => (
-                    <ListItem key={index}>
-                      <OrderItemLine
-                        item={item}
-                        goBackPath={PAGES.PLACE_ORDER_PAGE}
-                      />
-                    </ListItem>
-                  ))}
-                </List>
-              )}
-            </ListItem>
-          </List>
+          <Stack spacing={2}>
+            <Card>
+              <CardContent>
+                <Typography variant='h3' sx={{ mt: 2, mb: 1 }}>
+                  Shipping
+                </Typography>
+                <Paper elevation={2} sx={{ p: 2 }}>
+                  <strong>Address: </strong>
+                  {cart.shippingAddress.address},{' '}
+                  {cart.shippingAddress.postalCode} {cart.shippingAddress.city},{' '}
+                  {cart.shippingAddress.country}
+                </Paper>
+              </CardContent>
+              <CardContent>
+                <Typography variant='h3' sx={{ mt: 2, mb: 1 }}>
+                  Payment Method
+                </Typography>
+                <Paper elevation={2} sx={{ p: 2 }}>
+                  <strong>Method: </strong>
+                  {cart.paymentMethod}
+                </Paper>
+              </CardContent>
+              <CardContent>
+                <Typography variant='h3' sx={{ mt: 2, mb: 1 }}>
+                  Order Items
+                </Typography>
+                {cart.cartItems.length === 0 ? (
+                  <Alert severity='info'>Your cart is empty</Alert>
+                ) : (
+                  <Paper elevation={2} sx={{ p: 2 }}>
+                    <List>
+                      {cart.cartItems.map((item, index) => (
+                        <ListItem key={index}>
+                          <OrderItemLine
+                            item={item}
+                            goBackPath={PAGES.PLACE_ORDER_PAGE}
+                          />
+                        </ListItem>
+                      ))}
+                    </List>
+                  </Paper>
+                )}
+              </CardContent>
+            </Card>
+          </Stack>
         </Grid>
         <Grid item md={4} xs={12}>
           <Card>
             <CardContent>
               <OrderSummaryBlock totalAmounts={cart.totalAmounts} />
-              {errorCreatingOrder && <ErrorBlock error={errorCreatingOrder} />}
-              <Button
-                id='BUTTON_place_order'
-                type='button'
-                variant='contained'
-                disabled={cart.cartItems.length === 0 || creatingOrder}
-                onClick={placeOrderHandler}>
-                Place Order
-              </Button>
-              {creatingOrder && <Loader />}
+              <List>
+                <ListItem>
+                  {errorCreatingOrder && (
+                    <ErrorBlock error={errorCreatingOrder} />
+                  )}
+                  <Button
+                    id='BUTTON_place_order'
+                    type='button'
+                    variant='outlined'
+                    color='primary'
+                    disabled={cart.cartItems.length === 0 || creatingOrder}
+                    onClick={placeOrderHandler}>
+                    Place Order
+                  </Button>
+                  {creatingOrder && <Loader />}
+                </ListItem>
+              </List>
             </CardContent>
           </Card>
         </Grid>

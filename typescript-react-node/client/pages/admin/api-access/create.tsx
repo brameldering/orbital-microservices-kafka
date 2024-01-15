@@ -152,12 +152,18 @@ const ApiAccessCreateScreen: React.FC<TPageProps> = ({ roles, error }) => {
               <FormControl
                 component='fieldset'
                 variant='outlined'
-                margin='normal'>
+                margin='normal'
+                sx={{
+                  border: '1px solid #ccc', // Customize the color and width as needed
+                  borderRadius: '4px', // Adjust the border radius as desired
+                  padding: '1em', // Add some padding inside the border
+                  marginTop: '1em', // Optional: Add margin for spacing outside the border
+                }}>
                 <FormLabel component='legend'>Allowed Roles</FormLabel>
                 <FormGroup>
-                  <Grid container spacing={2}>
+                  <Grid container spacing={1}>
                     {roles.map((role, index) => (
-                      <Grid item xs={12} sm={6} key={role.role}>
+                      <Grid item xs={12} key={role.role}>
                         <FormControlLabel
                           control={
                             <Controller

@@ -1,7 +1,8 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NextPageContext } from 'next';
-import Link from 'next/link';
+import NextLink from 'next/link';
+import MuiLink from '@mui/material/Link';
 import Image from 'next/image';
 import Router, { useRouter } from 'next/router';
 import {
@@ -77,9 +78,12 @@ const CartScreen: React.FC<TPageProps> = ({ priceCalcSettings, error }) => {
               {cartItems.length === 0 ? (
                 <Alert severity='info'>
                   Your cart is empty{' '}
-                  <Link id='LINK_go_to_shop' href={PAGES.PRODUCTS_PAGE}>
-                    Go to shop
-                  </Link>
+                  <MuiLink
+                    id='LINK_go_to_shop'
+                    href={PAGES.PRODUCTS_PAGE}
+                    component={NextLink}>
+                    Reset password
+                  </MuiLink>
                 </Alert>
               ) : (
                 <List>
@@ -97,14 +101,12 @@ const CartScreen: React.FC<TPageProps> = ({ priceCalcSettings, error }) => {
                             />
                           </Grid>
                           <Grid item xs={4}>
-                            <Link
+                            <MuiLink
                               id={`product_name_${item.productName}`}
                               href={`${PAGES.PRODUCT_DETAIL_PAGE}/${item.productId}?goBackPath=${currentPath}`}
-                              passHref>
-                              <Typography component='a' variant='body1'>
-                                {item.productName}
-                              </Typography>
-                            </Link>
+                              component={NextLink}>
+                              {item.productName}
+                            </MuiLink>
                           </Grid>
                           <Grid item xs={2}>
                             <Typography>
@@ -169,7 +171,7 @@ const CartScreen: React.FC<TPageProps> = ({ priceCalcSettings, error }) => {
                   <ListItem>
                     <Button
                       id='BUTTON_checkout'
-                      variant='contained'
+                      variant='outlined'
                       color='primary'
                       fullWidth
                       disabled={cartItems.length === 0}

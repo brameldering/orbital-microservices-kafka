@@ -27,12 +27,12 @@ const ProductComponent: React.FC<ProductComponentProps> = ({ product }) => {
 
       <CardContent>
         <Link href={`/product/${product.id}`} passHref>
-          <Typography variant='h6' component='div' gutterBottom>
+          <Typography variant='h5' component='div' gutterBottom>
             {product.name}
           </Typography>
         </Link>
 
-        <Typography variant='body2' color='text.secondary'>
+        <Typography variant='h5'>
           <CustomRating
             value={product.rating}
             text={`${product.numReviews} reviews`}

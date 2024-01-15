@@ -1,5 +1,7 @@
 import React from 'react';
 import { Button } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import { secondaryButtonStyles } from 'styles/theme';
 
 interface ButtonProps {
   id: string;
@@ -16,7 +18,7 @@ export const SubmitButton: React.FC<ButtonProps> = ({
     <Button
       id={id}
       type='submit'
-      variant='contained'
+      variant='outlined'
       color='primary'
       disabled={disabled}>
       {label}
@@ -49,11 +51,13 @@ export const CancelButton: React.FC<CancelButtonProps> = ({
   disabled = false,
   onClick,
 }) => {
+  const theme = useTheme();
   return (
     <Button
       id='BUTTON_cancel'
       variant='outlined'
-      color='secondary'
+      color='primary'
+      sx={{ ...secondaryButtonStyles(theme) }}
       disabled={disabled}
       onClick={onClick}>
       Cancel

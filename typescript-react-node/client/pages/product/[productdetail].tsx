@@ -25,6 +25,7 @@ import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
 import CustomRating from 'components/Rating';
+import FormButtonBox from 'form/FormButtonBox';
 import { SubmitButton } from 'form/FormButtons';
 import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
 import { ICartItem, IPriceCalcSettingsAttrs } from '@orbital_app/common';
@@ -152,14 +153,12 @@ const ProductDetailScreen: React.FC<TPageProps> = ({
                     value={product.rating}
                     text={`${product.numReviews} reviews`}
                   />
-                  <Typography variant='body1'>
+                  <Typography variant='h5'>
                     Price: {CURRENCY_SYMBOL}
                     {product.price.toFixed(2)}
                   </Typography>
-                  <Typography variant='body1'>
-                    Description: {product.description}
-                  </Typography>
-                  <Typography variant='body1'>
+                  <Typography>Description: {product.description}</Typography>
+                  <Typography variant='h5'>
                     Product Id: {product.sequentialProductId}
                   </Typography>
                 </CardContent>
@@ -169,16 +168,18 @@ const ProductDetailScreen: React.FC<TPageProps> = ({
             <Grid item md={4} xs={12}>
               <Card>
                 <CardContent>
-                  <Typography variant='subtitle1'>Price:</Typography>
-                  <Typography variant='body1' gutterBottom>
+                  <Typography variant='h5'>
+                    Price:
                     <strong>
                       {CURRENCY_SYMBOL}
                       {product.price.toFixed(2)}
                     </strong>
                   </Typography>
-                  <Typography variant='subtitle1'>Status:</Typography>
-                  <Typography variant='body1' gutterBottom>
-                    {product.countInStock > 0 ? 'In Stock' : 'Out Of Stock'}
+                  <Typography variant='h5'>
+                    Status:
+                    <strong>
+                      {product.countInStock > 0 ? 'In Stock' : 'Out Of Stock'}
+                    </strong>
                   </Typography>
                   {product.countInStock > 0 && (
                     <FormControl fullWidth margin='normal'>
@@ -202,7 +203,8 @@ const ProductDetailScreen: React.FC<TPageProps> = ({
                   <Box mt={2}>
                     <Button
                       id='BUTTON_add_to_cart'
-                      variant='contained'
+                      variant='outlined'
+                      color='primary'
                       fullWidth
                       disabled={
                         product.countInStock === 0 || loadingOrProcessing
@@ -220,7 +222,9 @@ const ProductDetailScreen: React.FC<TPageProps> = ({
             <Grid item md={8}>
               <Card>
                 <CardContent>
-                  <Typography variant='h3'>Reviews</Typography>
+                  <Typography variant='h3' sx={{ mb: 2 }}>
+                    Reviews
+                  </Typography>
                   {product.reviews.length === 0 && (
                     <Alert severity='info'>No Reviews</Alert>
                   )}
@@ -236,8 +240,8 @@ const ProductDetailScreen: React.FC<TPageProps> = ({
                       <Typography variant='body2'>{review.comment}</Typography>
                     </Box>
                   ))}
-                  <Box sx={{ mt: 2 }}>
-                    <Typography variant='h3'>
+                  <Box sx={{ my: 2 }}>
+                    <Typography variant='h3' sx={{ mb: 2 }}>
                       Write a Customer Review
                     </Typography>
                     {creatingProductReview && <Loader />}
@@ -260,8 +264,9 @@ const ProductDetailScreen: React.FC<TPageProps> = ({
                           </Select>
                         </FormControl>
                         <FormControl fullWidth margin='normal'>
+                          <InputLabel>Comment</InputLabel>
                           <TextareaAutosize
-                            minRows={3}
+                            minRows={6}
                             value={comment}
                             onChange={(e) => setComment(e.target.value)}
                             required
@@ -271,15 +276,17 @@ const ProductDetailScreen: React.FC<TPageProps> = ({
                         {errorCreatingReview && (
                           <ErrorBlock error={errorCreatingReview} />
                         )}
-                        <SubmitButton
-                          id='BUTTON_review_submit'
-                          disabled={
-                            loadingOrProcessing ||
-                            comment.trim().length === 0 ||
-                            rating === 0
-                          }
-                          label='Save'
-                        />
+                        <FormButtonBox>
+                          <SubmitButton
+                            id='BUTTON_review_submit'
+                            disabled={
+                              loadingOrProcessing ||
+                              comment.trim().length === 0 ||
+                              rating === 0
+                            }
+                            label='Save'
+                          />
+                        </FormButtonBox>
                       </Box>
                     ) : (
                       <Alert severity='info'>

@@ -35,7 +35,8 @@ const PriceCalcSettingsScreen: React.FC<TPageProps> = ({
         <Link href={PAGES.PRICE_CALC_EDIT_PAGE} style={{ marginRight: '10px' }}>
           <Button
             id={'BUTTON_edit_price_calc'}
-            variant='contained'
+            variant='outlined'
+            color='primary'
             startIcon={<EditIcon />}
             size='small'>
             Edit Price Calculation Settings

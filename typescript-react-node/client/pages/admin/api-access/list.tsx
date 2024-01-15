@@ -122,7 +122,8 @@ const ApiAccessListscreen: React.FC<TPageProps> = ({
           <Link href={PAGES.API_ACCESS_CREATE_PAGE} passHref>
             <Button
               id='BUTTON_create_apiAccess'
-              variant='contained'
+              variant='outlined'
+              color='primary'
               startIcon={<AddIcon />}>
               Create Api Access
             </Button>

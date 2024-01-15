@@ -12,6 +12,7 @@ import {
 } from '@mui/material';
 import FormContainer from 'form/FormContainer';
 import FormTitle from 'form/FormTitle';
+import FormButtonBox from 'form/FormButtonBox';
 import { SubmitButton } from 'form/FormButtons';
 import Meta from 'components/Meta';
 import CheckoutSteps from 'components/CheckoutSteps';
@@ -66,7 +67,9 @@ const PaymentScreen = () => {
               />
             </RadioGroup>
           </FormControl>
-          <SubmitButton id='BUTTON_continue' label='Continue' />
+          <FormButtonBox>
+            <SubmitButton id='BUTTON_continue' label='Continue' />
+          </FormButtonBox>
         </Box>
       </FormContainer>
     </>

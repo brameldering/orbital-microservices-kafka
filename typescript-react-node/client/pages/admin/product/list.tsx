@@ -126,7 +126,8 @@ const ProductListScreen = () => {
         <Grid item>
           <Button
             id='BUTTON_create_product'
-            variant='contained'
+            variant='outlined'
+            color='primary'
             startIcon={<AddIcon />}
             onClick={confirmCreateProduct}
             disabled={loadingOrProcessing}>

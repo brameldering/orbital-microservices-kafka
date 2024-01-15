@@ -9,6 +9,7 @@ import FormTitle from 'form/FormTitle';
 import { TextNumField } from 'form/FormComponents';
 import FormContainer from 'form/FormContainer';
 import { textField } from 'form/ValidationSpecs';
+import FormButtonBox from 'form/FormButtonBox';
 import { SubmitButton } from 'form/FormButtons';
 import Meta from 'components/Meta';
 import CheckoutSteps from 'components/CheckoutSteps';
@@ -99,7 +100,9 @@ const ShippingScreen = () => {
             error={errors.country}
             setError={setError}
           />
-          <SubmitButton id='BUTTON_continue' label='Continue' />
+          <FormButtonBox>
+            <SubmitButton id='BUTTON_continue' label='Continue' />
+          </FormButtonBox>
         </Box>
       </FormContainer>
     </>

@@ -195,7 +195,11 @@ const ProductEditScreen: React.FC<TPageProps> = ({ product, error }) => {
                     />
                   </Grid>
                 </Grid>
-                <Button component='label' variant='contained' sx={{ mt: 1 }}>
+                <Button
+                  component='label'
+                  variant='outlined'
+                  color='primary'
+                  sx={{ mt: 1 }}>
                   Upload Image
                   <input
                     name='imageFile'

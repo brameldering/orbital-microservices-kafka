@@ -16,11 +16,12 @@ import {
 import {
   Box,
   Button,
+  Stack,
   Grid,
-  List,
   ListItem,
   Card,
   CardContent,
+  Paper,
   Typography,
   Alert,
 } from '@mui/material';
@@ -204,79 +205,91 @@ const OrderScreen: React.FC<TPageProps> = ({ order, error }) => {
         order && (
           <Grid container spacing={3}>
             <Grid item xs={12} md={8}>
-              <List disablePadding>
-                <ListItem>
-                  <FormTitle>{TITLES.TITLE_ORDER_DETAILS}</FormTitle>
-                  <Typography paragraph>
-                    <strong>Order Id: </strong> {order.sequentialOrderId}
-                  </Typography>
-                  <Typography paragraph>
-                    <strong>Order Date: </strong>{' '}
-                    {order.createdAt &&
-                      dateTimeToLocaleDateString(order.createdAt)}
-                  </Typography>
-                </ListItem>
-                <ListItem>
-                  <h3>Shipping</h3>
-                  <Typography paragraph>
-                    <strong>Name: </strong> {order.user?.name}
-                  </Typography>
-                  <Typography paragraph>
-                    <strong>Email: </strong>{' '}
-                    <a href={`mailto:${order.user && order.user.email}`}>
-                      {order.user?.email}
-                    </a>
-                  </Typography>
-                  <Typography paragraph>
-                    <strong>Address: </strong>
-                    {order.shippingAddress.address},{' '}
-                    {order.shippingAddress.postalCode}{' '}
-                    {order.shippingAddress.city},{' '}
-                    {order.shippingAddress.country}
-                  </Typography>
-                  {order.isDelivered && order.deliveredAt ? (
-                    <Alert severity='success'>
-                      Delivered on:{' '}
-                      {dateTimeToLocaleDateString(order.deliveredAt)}
-                    </Alert>
-                  ) : (
-                    <Alert severity='info'>Not Delivered</Alert>
-                  )}
-                </ListItem>
-                <ListItem>
-                  <Typography variant='h3'>Payment Method</Typography>
-                  <Typography paragraph>
-                    <strong>Method: </strong>
-                    {order.paymentMethod}
-                  </Typography>
-                  {order.isPaid && order.paidAt ? (
-                    <Alert severity='success'>
-                      Paid on: {dateTimeToLocaleDateString(order.paidAt)} at{' '}
-                      {dateTimeToLocaleTimeString(order.paidAt)}
-                      <br />
-                      {`Payment Id: ${order.paymentResult?.id}`}
-                    </Alert>
-                  ) : (
-                    <Alert severity='info'>Not Paid</Alert>
-                  )}
-                </ListItem>
-                <ListItem>
-                  <Typography variant='h3'>Order Items</Typography>
-                  {order.orderItems.length === 0 ? (
-                    <Alert severity='info'>Order is empty</Alert>
-                  ) : (
-                    order &&
-                    order.orderItems.map((item, index) => (
-                      <ListItem key={index}>
-                        <OrderItemLine
-                          item={item}
-                          goBackPath={`${PAGES.ORDER_DETAIL_PAGE}/${order.id}`}
-                        />
-                      </ListItem>
-                    ))
-                  )}
-                </ListItem>
-              </List>
+              <Stack spacing={2}>
+                <Card>
+                  <CardContent>
+                    <FormTitle>{TITLES.TITLE_ORDER_DETAILS}</FormTitle>
+                    <Paper elevation={2} sx={{ p: 2 }}>
+                      <Typography paragraph>
+                        <strong>Order Id: </strong> {order.sequentialOrderId}
+                      </Typography>
+                      <Typography paragraph>
+                        <strong>Order Date: </strong>{' '}
+                        {order.createdAt &&
+                          dateTimeToLocaleDateString(order.createdAt)}
+                      </Typography>
+                    </Paper>
+                    <Paper elevation={2} sx={{ p: 2 }}>
+                      <Typography variant='h3' sx={{ mt: 2 }}>
+                        Shipping
+                      </Typography>
+                      <Typography paragraph>
+                        <strong>Name: </strong> {order.user?.name}
+                      </Typography>
+                      <Typography paragraph>
+                        <strong>Email: </strong>{' '}
+                        <a href={`mailto:${order.user && order.user.email}`}>
+                          {order.user?.email}
+                        </a>
+                      </Typography>
+                      <Typography paragraph>
+                        <strong>Address: </strong>
+                        {order.shippingAddress.address},{' '}
+                        {order.shippingAddress.postalCode}{' '}
+                        {order.shippingAddress.city},{' '}
+                        {order.shippingAddress.country}
+                      </Typography>
+                      {order.isDelivered && order.deliveredAt ? (
+                        <Alert severity='success'>
+                          Delivered on:{' '}
+                          {dateTimeToLocaleDateString(order.deliveredAt)}
+                        </Alert>
+                      ) : (
+                        <Alert severity='info'>Not Delivered</Alert>
+                      )}
+                    </Paper>
+                    <Paper elevation={2} sx={{ p: 2 }}>
+                      <Typography variant='h3' sx={{ mt: 2 }}>
+                        Payment Method
+                      </Typography>
+                      <Typography paragraph>
+                        <strong>Method: </strong>
+                        {order.paymentMethod}
+                      </Typography>
+                      {order.isPaid && order.paidAt ? (
+                        <Alert severity='success'>
+                          Paid on: {dateTimeToLocaleDateString(order.paidAt)} at{' '}
+                          {dateTimeToLocaleTimeString(order.paidAt)}
+                          <br />
+                          {`Payment Id: ${order.paymentResult?.id}`}
+                        </Alert>
+                      ) : (
+                        <Alert severity='info'>Not Paid</Alert>
+                      )}
+                    </Paper>
+                    <Paper elevation={2} sx={{ p: 2 }}>
+                      <Typography variant='h3' sx={{ mt: 2 }}>
+                        Order Items
+                      </Typography>
+                      <Paper elevation={2} sx={{ p: 2 }}>
+                        {order.orderItems.length === 0 ? (
+                          <Alert severity='info'>Order is empty</Alert>
+                        ) : (
+                          order &&
+                          order.orderItems.map((item, index) => (
+                            <ListItem key={index}>
+                              <OrderItemLine
+                                item={item}
+                                goBackPath={`${PAGES.ORDER_DETAIL_PAGE}/${order.id}`}
+                              />
+                            </ListItem>
+                          ))
+                        )}
+                      </Paper>
+                    </Paper>
+                  </CardContent>
+                </Card>
+              </Stack>
             </Grid>
             <Grid item xs={12} md={4}>
               <Card>
@@ -324,7 +337,7 @@ const OrderScreen: React.FC<TPageProps> = ({ order, error }) => {
                     !order.isDelivered && (
                       <ListItem>
                         <Button
-                          variant='contained'
+                          variant='outlined'
                           color='primary'
                           fullWidth
                           onClick={deliverHandler}>

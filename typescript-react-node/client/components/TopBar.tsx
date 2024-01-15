@@ -198,7 +198,12 @@ const TopBar: React.FC = () => {
                   }}>
                   <Badge
                     badgeContent={cartItems.reduce((a, c) => a + c.qty, 0)}
-                    color='secondary'>
+                    sx={{
+                      '& .MuiBadge-badge': {
+                        backgroundColor: 'green', // Set the background color
+                        color: 'white', // Optional: change text color if needed
+                      },
+                    }}>
                     <ShoppingCart />
                   </Badge>
                 </a>

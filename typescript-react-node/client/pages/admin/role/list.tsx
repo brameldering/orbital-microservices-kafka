@@ -4,6 +4,7 @@ import Router from 'next/router';
 import Link from 'next/link';
 import {
   Button,
+  IconButton,
   TableBody,
   TableCell,
   TableHead,
@@ -86,9 +87,9 @@ const RolesListScreen: React.FC<TPageProps> = ({ roles, error }) => {
           <Link href={PAGES.ROLE_CREATE_PAGE} passHref>
             <Button
               id={'BUTTON_create_role'}
-              variant='contained'
+              variant='outlined'
+              color='primary'
               startIcon={<AddIcon />}>
-              {' '}
               Create Role
             </Button>
           </Link>
@@ -117,23 +118,21 @@ const RolesListScreen: React.FC<TPageProps> = ({ roles, error }) => {
                     <TableCell id={`roleDisplay_${role.role}`}>
                       {role.roleDisplay}
                     </TableCell>
+
                     <TableCell>
                       <Link
+                        id={`edit_${role.role}`}
                         href={`${PAGES.ROLE_EDIT_PAGE}/${role.id}`}
-                        style={{ marginRight: '10px' }}>
-                        <Button
-                          variant='outlined'
-                          size='small'
-                          startIcon={<EditIcon />}
-                          sx={{ mx: 1 }}></Button>
+                        passHref>
+                        <IconButton>
+                          <EditIcon />
+                        </IconButton>
                       </Link>
-                      <Button
+                      <IconButton
                         id={`delete_${role.role}`}
-                        variant='contained'
-                        color='error'
-                        size='small'
-                        startIcon={<DeleteIcon />}
-                        onClick={() => confirmDeleteRole(role.id)}></Button>
+                        onClick={() => confirmDeleteRole(role.id)}>
+                        <DeleteIcon />
+                      </IconButton>
                     </TableCell>
                   </TableRow>
                 ))}

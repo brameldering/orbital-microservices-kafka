@@ -15,7 +15,7 @@ const FormButtonBox: React.FC<FormButtonBoxProps> = ({
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        mt: 3,
+        mt: 2,
         mb: 2,
         ...props.sx, // This allows for additional styling
       }}

@@ -4,6 +4,8 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
+import { useTheme } from '@mui/material/styles';
+import { secondaryButtonStyles } from 'styles/theme';
 
 interface ModalConfirmBoxProps {
   showModal: boolean;
@@ -20,15 +22,25 @@ const ModalConfirmBox: React.FC<ModalConfirmBoxProps> = ({
   handleClose,
   handleConfirm,
 }) => {
+  const theme = useTheme();
   return (
     <Dialog open={showModal} onClose={handleClose}>
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>{body}</DialogContent>
       <DialogActions>
-        <Button color='primary' onClick={handleConfirm}>
+        <Button
+          id='BUTTON_modal_yes'
+          variant='outlined'
+          color='primary'
+          onClick={handleConfirm}>
           Yes
         </Button>
-        <Button color='secondary' onClick={handleClose}>
+        <Button
+          id='BUTTON_modal_cancel'
+          variant='outlined'
+          color='primary'
+          sx={{ ...secondaryButtonStyles(theme) }}
+          onClick={handleClose}>
           No
         </Button>
       </DialogActions>

@@ -256,21 +256,28 @@ export const themeSettings = (mode: 'dark' | 'light'): ThemeSettings => {
       MuiButton: {
         styleOverrides: {
           root: {
-            color: mode === 'dark' ? colors.grey[100] : colors.grey[900],
+            // color: mode === 'dark' ? colors.grey[100] : colors.grey[900],
+            color: textPrimary,
             backgroundColor:
-              mode === 'dark' ? colors.primary[600] : colors.primary[300],
+              mode === 'dark'
+                ? colors.greenAccent[600]
+                : colors.greenAccent[600],
             '&:hover': {
               backgroundColor:
-                mode === 'dark' ? colors.primary[800] : colors.primary[400],
+                mode === 'dark'
+                  ? colors.greenAccent[800]
+                  : colors.greenAccent[400],
             },
             '&.Mui-disabled': {
+              // color: mode === 'dark' ? colors.grey[900] : colors.grey[100],
+              color: textPrimary,
               backgroundColor:
-                mode === 'dark' ? colors.grey[700] : colors.grey[400],
-              color: mode === 'dark' ? colors.grey[500] : colors.grey[300],
+                mode === 'dark' ? colors.grey[500] : colors.grey[900],
             },
           },
         },
       },
+
       // Custom style for table header cells
       MuiTableCell: {
         styleOverrides: {
@@ -285,13 +292,27 @@ export const themeSettings = (mode: 'dark' | 'light'): ThemeSettings => {
       MuiLink: {
         styleOverrides: {
           root: {
-            color: mode === 'dark' ? textPrimary : colors.blueAccent[100],
+            color:
+              mode === 'dark' ? colors.blueAccent[200] : colors.primary[500],
           },
         },
       },
     },
   };
 };
+
+// export const getSecondaryButtonStyles = (theme) => ({
+//   backgroundColor: theme.palette.mode === 'dark' ? theme.palette.blueAccent[400] : theme.palette.blueAccent[200],
+//   '&:hover': {
+//     backgroundColor: theme.palette.mode === 'dark' ? theme.palette.blueAccent[600] : theme.palette.blueAccent[300],
+//   },
+// });
+export const secondaryButtonStyles = (theme: Theme) => ({
+  backgroundColor: theme.palette.mode === 'dark' ? '#e2726e' : '#e99592',
+  '&:hover': {
+    backgroundColor: theme.palette.mode === 'dark' ? '#f1b9b7' : '#f8dcdb',
+  },
+});
 
 // Context for color mode
 interface ColorModeContextType {
