@@ -46,7 +46,6 @@ const TopBar: React.FC = () => {
   };
 
   const theme = useTheme();
-  // const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
