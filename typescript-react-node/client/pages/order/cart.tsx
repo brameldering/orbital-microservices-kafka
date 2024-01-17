@@ -82,7 +82,7 @@ const CartScreen: React.FC<TPageProps> = ({ priceCalcSettings, error }) => {
                     id='LINK_go_to_shop'
                     href={PAGES.PRODUCTS_PAGE}
                     component={NextLink}>
-                    Reset password
+                    Go to shop
                   </MuiLink>
                 </Alert>
               ) : (

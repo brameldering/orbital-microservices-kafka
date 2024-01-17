@@ -5,7 +5,6 @@ import {
   Badge,
   Box,
   IconButton,
-  Link as MuiLink,
   Menu,
   MenuItem,
   Toolbar,
@@ -33,18 +32,6 @@ const TopBar: React.FC = () => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const { cartItems } = useSelector((state: RootState) => state.cart);
 
-  const [doSignOut] = useSignOutMutation();
-  const handleLogout = async () => {
-    try {
-      setAnchorEl(null);
-      await doSignOut().unwrap();
-      dispatch(logout());
-      Router.push(PAGES.PRODUCTS_PAGE);
-    } catch (err: any) {
-      // To avoid "Uncaught in promise" errors in console, errors are handled by RTK mutation
-    }
-  };
-
   const theme = useTheme();
   const colorMode = useContext(ColorModeContext);
 
@@ -58,6 +45,28 @@ const TopBar: React.FC = () => {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
+  };
+
+  const [doSignOut] = useSignOutMutation();
+  const handleLogout = async () => {
+    try {
+      handleMenuClose();
+      await doSignOut().unwrap();
+      dispatch(logout());
+      Router.push(PAGES.PRODUCTS_PAGE);
+    } catch (err: any) {
+      // To avoid "Uncaught in promise" errors in console, errors are handled by RTK mutation
+    }
+  };
+
+  // Generic handle redirect to page function that also closes floating menu
+  const handleRedirect = async (page: string) => {
+    try {
+      handleMenuClose();
+      Router.push(page);
+    } catch (err: any) {
+      // To avoid "Uncaught in promise" errors in console, errors are handled by RTK mutation
+    }
   };
 
   const menuIdLoggedIn = 'account-menu-logged-in';
@@ -76,25 +85,11 @@ const TopBar: React.FC = () => {
       }}
       open={isMenuOpen}
       onClose={handleMenuClose}>
-      <MenuItem onClick={handleMenuClose}>
-        <Link href={PAGES.MY_PROFILE_PAGE} passHref>
-          <Typography
-            variant='body1'
-            component='a'
-            sx={{ textDecoration: 'none' }}>
-            My profile
-          </Typography>
-        </Link>
+      <MenuItem onClick={() => handleRedirect(PAGES.MY_PROFILE_PAGE)}>
+        My profile
       </MenuItem>
-      <MenuItem onClick={handleMenuClose}>
-        <Link href={PAGES.MY_ORDERS_PAGE} passHref>
-          <Typography
-            variant='body1'
-            component='a'
-            sx={{ textDecoration: 'none' }}>
-            My orders
-          </Typography>
-        </Link>
+      <MenuItem onClick={() => handleRedirect(PAGES.MY_ORDERS_PAGE)}>
+        My orders
       </MenuItem>
       <MenuItem onClick={handleLogout}>
         <Typography variant='body1'>Sign out</Typography>
@@ -118,22 +113,11 @@ const TopBar: React.FC = () => {
       }}
       open={isMenuOpen}
       onClose={handleMenuClose}>
-      <MenuItem onClick={handleMenuClose}>
-        <Link href={PAGES.SIGNIN_PAGE} passHref>
-          <Typography
-            variant='body1'
-            component='a'
-            sx={{ textDecoration: 'none' }}>
-            Sign in
-          </Typography>
-        </Link>
+      <MenuItem onClick={() => handleRedirect(PAGES.SIGNIN_PAGE)}>
+        Sign in
       </MenuItem>
-      <MenuItem onClick={handleMenuClose}>
-        <Link href={PAGES.SIGNUP_PAGE} passHref>
-          <MuiLink sx={{ textDecoration: 'none', color: 'inherit' }}>
-            <Typography variant='body1'>Sign up</Typography>
-          </MuiLink>
-        </Link>
+      <MenuItem onClick={() => handleRedirect(PAGES.SIGNUP_PAGE)}>
+        Sign up
       </MenuItem>
     </Menu>
   );

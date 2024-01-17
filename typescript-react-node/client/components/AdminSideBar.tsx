@@ -37,6 +37,10 @@ const openedMixin = (theme: Theme): CSSObject => ({
     duration: theme.transitions.duration.enteringScreen,
   }),
   overflowX: 'hidden',
+  boxShadow:
+    theme.palette.mode === 'dark'
+      ? '3px 0 4px -2px rgba(255,255,255,0.2)'
+      : '3px 0 4px -2px rgba(0,0,0,0.2)',
 });
 
 const closedMixin = (theme: Theme): CSSObject => ({
@@ -45,6 +49,10 @@ const closedMixin = (theme: Theme): CSSObject => ({
     duration: theme.transitions.duration.leavingScreen,
   }),
   overflowX: 'hidden',
+  boxShadow:
+    theme.palette.mode === 'dark'
+      ? '2px 0 4px -2px rgba(255,255,255,0.2)'
+      : '2px 0 4px -2px rgba(0,0,0,0.2)',
   width: `calc(${theme.spacing(7)} + 1px)`,
   [theme.breakpoints.up('sm')]: {
     width: `calc(${theme.spacing(8)} + 1px)`,
@@ -93,22 +101,39 @@ const AdminListItem: React.FC<AdminListItemProps> = ({
   return (
     <ListItem key={text} disablePadding sx={{ display: 'block' }}>
       <Link href={url} passHref>
-        <ListItemButton
-          sx={{
-            minHeight: 48,
-            justifyContent: open ? 'initial' : 'center',
-            px: 2.5,
-          }}>
-          <ListItemIcon
+        <span style={{ textDecoration: 'none' }}>
+          {' '}
+          {/* Removes underline from the link */}
+          <ListItemButton
             sx={{
-              minWidth: 0,
-              mr: open ? 3 : 'auto',
-              justifyContent: 'center',
+              minHeight: 48,
+              justifyContent: open ? 'initial' : 'center',
+              px: 2.5,
             }}>
-            {icon}
-          </ListItemIcon>
-          <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-        </ListItemButton>
+            <ListItemIcon
+              sx={{
+                minWidth: 0,
+                mr: open ? 3 : 'auto',
+                justifyContent: 'center',
+                color: 'rgb(255, 255, 255)',
+              }}>
+              {icon}
+            </ListItemIcon>
+            <ListItemText
+              primary={text}
+              sx={{
+                opacity: open ? 1 : 0,
+                '.MuiTypography-root': {
+                  color: 'rgb(255, 255, 255)',
+                  textDecoration: 'none',
+                  '&:hover': {
+                    textDecoration: 'underline',
+                  },
+                },
+              }}
+            />
+          </ListItemButton>
+        </span>
       </Link>
     </ListItem>
   );
@@ -135,10 +160,10 @@ const AdminSideBar: React.FC = () => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'flex-start',
+          color: 'rgb(255, 255, 255)',
         }}>
         <DrawerHeader>
           <IconButton
-            color='inherit'
             aria-label='open drawer'
             onClick={handleDrawerOpen}
             sx={{
@@ -146,6 +171,7 @@ const AdminSideBar: React.FC = () => {
               ml: 2,
               flexGrow: 1,
               textAlign: 'left',
+              color: 'rgb(255, 255, 255)',
             }}>
             {theme.direction === 'rtl' ? (
               <ChevronLeftIcon />
@@ -160,15 +186,16 @@ const AdminSideBar: React.FC = () => {
               ml: 2,
               flexGrow: 1,
               textAlign: 'left',
+              color: 'rgb(255, 255, 255)',
             }}>
             Administration
           </Typography>
           <IconButton
-            color='inherit'
             aria-label='close drawer'
             onClick={handleDrawerClose}
             sx={{
               ...(!open && { display: 'none' }),
+              color: 'rgb(255, 255, 255)',
             }}>
             {theme.direction === 'rtl' ? (
               <ChevronRightIcon />
@@ -177,7 +204,7 @@ const AdminSideBar: React.FC = () => {
             )}
           </IconButton>
         </DrawerHeader>
-        <Divider />
+        <Divider style={{ backgroundColor: 'rgba(255, 255, 255, 0.5)' }} />
         <List>
           <AdminListItem
             text='Shop'
@@ -185,7 +212,7 @@ const AdminSideBar: React.FC = () => {
             url={PAGES.PRODUCTS_PAGE}
             open={open}
           />
-          <Divider />
+          <Divider style={{ backgroundColor: 'rgba(255, 255, 255, 0.5)' }} />
           <AdminListItem
             text='Products'
             icon={<CategoryOutlinedIcon />}
@@ -198,7 +225,7 @@ const AdminSideBar: React.FC = () => {
             url={PAGES.PRICE_CALC_VIEW_PAGE}
             open={open}
           />
-          <Divider />
+          <Divider style={{ backgroundColor: 'rgba(255, 255, 255, 0.5)' }} />
           <AdminListItem
             text='Users'
             icon={<PeopleAllOutlinedIcon />}
@@ -217,14 +244,14 @@ const AdminSideBar: React.FC = () => {
             url={PAGES.API_ACCESS_LIST_PAGE}
             open={open}
           />
-          <Divider />
+          <Divider style={{ backgroundColor: 'rgba(255, 255, 255, 0.5)' }} />
           <AdminListItem
             text='Orders'
             icon={<Shop2OutlinedIcon />}
             url={PAGES.ORDER_LIST_PAGE}
             open={open}
           />
-          <Divider />
+          <Divider style={{ backgroundColor: 'rgba(255, 255, 255, 0.5)' }} />
         </List>
       </Drawer>
     </Box>

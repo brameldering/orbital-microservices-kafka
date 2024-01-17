@@ -69,6 +69,14 @@ const SearchBox = () => {
         <StyledInputBase
           placeholder='Search…'
           inputProps={{ 'aria-label': 'search' }}
+          sx={{
+            border: (theme) =>
+              `1px solid ${
+                theme.palette.mode === 'dark'
+                  ? 'rgba(255, 255, 255, 0.2)'
+                  : 'rgba(0, 0, 0, 0.2)'
+              }`,
+          }}
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
         />

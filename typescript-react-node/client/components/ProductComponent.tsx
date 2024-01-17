@@ -27,7 +27,19 @@ const ProductComponent: React.FC<ProductComponentProps> = ({ product }) => {
 
       <CardContent>
         <Link href={`/product/${product.id}`} passHref>
-          <Typography variant='h5' component='div' gutterBottom>
+          <Typography
+            gutterBottom
+            sx={{
+              fontSize: '1rem',
+              textDecoration: 'none',
+              '&:hover': {
+                textDecoration: 'underline',
+              },
+              color: (theme) =>
+                theme.palette.mode === 'dark'
+                  ? 'rgb(255, 255, 255)'
+                  : 'rgb(0, 0, 0)',
+            }}>
             {product.name}
           </Typography>
         </Link>
