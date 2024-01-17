@@ -1,7 +1,6 @@
 import React from 'react';
-import Grid from '@mui/material/Grid';
+import { Grid, Box } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
 import { ITotalAmounts } from '@orbital_app/common';
@@ -20,7 +19,9 @@ const CurrencyField: React.FC<CurrencyFieldProps> = ({ label, amount }) => {
     <ListItem>
       <Grid container>
         <Grid item xs={6}>
-          <Typography>{label}</Typography>
+          <Typography>
+            <strong>{label}</strong>
+          </Typography>
         </Grid>
         <Grid item xs={6}>
           <Typography>
@@ -36,17 +37,15 @@ const CurrencyField: React.FC<CurrencyFieldProps> = ({ label, amount }) => {
 const OrderSummaryBlock: React.FC<OrderSummaryBlockProps> = ({
   totalAmounts,
 }) => {
-  console.log('OrderSummaryBlock', totalAmounts);
+  // console.log('OrderSummaryBlock', totalAmounts);
   return (
-    <List>
-      <ListItem>
-        <Typography variant='h2'>Order Summary</Typography>
-      </ListItem>
+    <Box sx={{ textAlign: 'left' }}>
+      <Typography variant='h2'>Order Summary</Typography>
       <CurrencyField label='Items' amount={totalAmounts.itemsPrice} />
       <CurrencyField label='Shipping' amount={totalAmounts.shippingPrice} />
       <CurrencyField label='Tax' amount={totalAmounts.taxPrice} />
       <CurrencyField label='Total' amount={totalAmounts.totalPrice} />
-    </List>
+    </Box>
   );
 };
 

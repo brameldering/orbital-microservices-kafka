@@ -208,21 +208,19 @@ const OrderScreen: React.FC<TPageProps> = ({ order, error }) => {
               <Stack spacing={2}>
                 <Card>
                   <CardContent>
-                    <FormTitle>{TITLES.TITLE_ORDER_DETAILS}</FormTitle>
+                    <FormTitle> {TITLES.TITLE_ORDER_DETAILS}</FormTitle>
+                    <Typography paragraph>
+                      <strong>Order Id: </strong> {order.sequentialOrderId}
+                    </Typography>
+                    <Typography paragraph>
+                      <strong>Order Date: </strong>{' '}
+                      {order.createdAt &&
+                        dateTimeToLocaleDateString(order.createdAt)}
+                    </Typography>
+                    <Typography variant='h3' sx={{ mt: 4, mb: 2 }}>
+                      Shipping
+                    </Typography>
                     <Paper elevation={2} sx={{ p: 2 }}>
-                      <Typography paragraph>
-                        <strong>Order Id: </strong> {order.sequentialOrderId}
-                      </Typography>
-                      <Typography paragraph>
-                        <strong>Order Date: </strong>{' '}
-                        {order.createdAt &&
-                          dateTimeToLocaleDateString(order.createdAt)}
-                      </Typography>
-                    </Paper>
-                    <Paper elevation={2} sx={{ p: 2 }}>
-                      <Typography variant='h3' sx={{ mt: 2 }}>
-                        Shipping
-                      </Typography>
                       <Typography paragraph>
                         <strong>Name: </strong> {order.user?.name}
                       </Typography>
@@ -248,10 +246,10 @@ const OrderScreen: React.FC<TPageProps> = ({ order, error }) => {
                         <Alert severity='info'>Not Delivered</Alert>
                       )}
                     </Paper>
+                    <Typography variant='h3' sx={{ mt: 4, mb: 2 }}>
+                      Payment Method
+                    </Typography>
                     <Paper elevation={2} sx={{ p: 2 }}>
-                      <Typography variant='h3' sx={{ mt: 2 }}>
-                        Payment Method
-                      </Typography>
                       <Typography paragraph>
                         <strong>Method: </strong>
                         {order.paymentMethod}
@@ -267,25 +265,23 @@ const OrderScreen: React.FC<TPageProps> = ({ order, error }) => {
                         <Alert severity='info'>Not Paid</Alert>
                       )}
                     </Paper>
+                    <Typography variant='h3' sx={{ mt: 4, mb: 2 }}>
+                      Order Items
+                    </Typography>
                     <Paper elevation={2} sx={{ p: 2 }}>
-                      <Typography variant='h3' sx={{ mt: 2 }}>
-                        Order Items
-                      </Typography>
-                      <Paper elevation={2} sx={{ p: 2 }}>
-                        {order.orderItems.length === 0 ? (
-                          <Alert severity='info'>Order is empty</Alert>
-                        ) : (
-                          order &&
-                          order.orderItems.map((item, index) => (
-                            <ListItem key={index}>
-                              <OrderItemLine
-                                item={item}
-                                goBackPath={`${PAGES.ORDER_DETAIL_PAGE}/${order.id}`}
-                              />
-                            </ListItem>
-                          ))
-                        )}
-                      </Paper>
+                      {order.orderItems.length === 0 ? (
+                        <Alert severity='info'>Order is empty</Alert>
+                      ) : (
+                        order &&
+                        order.orderItems.map((item, index) => (
+                          <ListItem key={index}>
+                            <OrderItemLine
+                              item={item}
+                              goBackPath={`${PAGES.ORDER_DETAIL_PAGE}/${order.id}`}
+                            />
+                          </ListItem>
+                        ))
+                      )}
                     </Paper>
                   </CardContent>
                 </Card>
@@ -310,7 +306,7 @@ const OrderScreen: React.FC<TPageProps> = ({ order, error }) => {
                       ) : payPalError ? (
                         <ErrorBlock error={payPalError} />
                       ) : (
-                        <Box>
+                        <>
                           {/* THIS BUTTON IS FOR TESTING! REMOVE BEFORE PRODUCTION! */}
                           {/* <Button
                         style={{ marginBottom: '10px' }}
@@ -318,13 +314,13 @@ const OrderScreen: React.FC<TPageProps> = ({ order, error }) => {
                       >
                         Test Pay Order
                       </Button> */}
-                          <Box>
+                          <Box sx={{ mt: 2 }}>
                             <PayPalButtons
                               createOrder={createOrder}
                               onApprove={onApprove}
                               onError={onPayPalError}></PayPalButtons>
                           </Box>
-                        </Box>
+                        </>
                       )}
                     </>
                   )}

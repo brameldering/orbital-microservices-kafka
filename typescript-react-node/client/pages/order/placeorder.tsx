@@ -97,10 +97,10 @@ const PlaceOrderScreen = () => {
                 <Typography variant='h3' sx={{ mt: 2, mb: 1 }}>
                   Order Items
                 </Typography>
-                {cart.cartItems.length === 0 ? (
-                  <Alert severity='info'>Your cart is empty</Alert>
-                ) : (
-                  <Paper elevation={2} sx={{ p: 2 }}>
+                <Paper elevation={2} sx={{ p: 2 }}>
+                  {cart.cartItems.length === 0 ? (
+                    <Alert severity='info'>Your cart is empty</Alert>
+                  ) : (
                     <List>
                       {cart.cartItems.map((item, index) => (
                         <ListItem key={index}>
@@ -111,8 +111,8 @@ const PlaceOrderScreen = () => {
                         </ListItem>
                       ))}
                     </List>
-                  </Paper>
-                )}
+                  )}
+                </Paper>
               </CardContent>
             </Card>
           </Stack>

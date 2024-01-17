@@ -213,7 +213,7 @@ const getTheme = (mode: 'light' | 'dark') => {
       MuiDivider: {
         styleOverrides: {
           root: {
-            backgroundColor: 'ffffff',
+            backgroundColor: 'rgba(255, 255, 255, 0.5)',
           },
         },
       },

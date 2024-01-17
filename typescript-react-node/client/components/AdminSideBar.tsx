@@ -204,7 +204,7 @@ const AdminSideBar: React.FC = () => {
             )}
           </IconButton>
         </DrawerHeader>
-        <Divider style={{ backgroundColor: 'rgba(255, 255, 255, 0.5)' }} />
+        <Divider />
         <List>
           <AdminListItem
             text='Shop'
@@ -212,7 +212,7 @@ const AdminSideBar: React.FC = () => {
             url={PAGES.PRODUCTS_PAGE}
             open={open}
           />
-          <Divider style={{ backgroundColor: 'rgba(255, 255, 255, 0.5)' }} />
+          <Divider />
           <AdminListItem
             text='Products'
             icon={<CategoryOutlinedIcon />}
@@ -225,7 +225,7 @@ const AdminSideBar: React.FC = () => {
             url={PAGES.PRICE_CALC_VIEW_PAGE}
             open={open}
           />
-          <Divider style={{ backgroundColor: 'rgba(255, 255, 255, 0.5)' }} />
+          <Divider />
           <AdminListItem
             text='Users'
             icon={<PeopleAllOutlinedIcon />}
@@ -244,14 +244,14 @@ const AdminSideBar: React.FC = () => {
             url={PAGES.API_ACCESS_LIST_PAGE}
             open={open}
           />
-          <Divider style={{ backgroundColor: 'rgba(255, 255, 255, 0.5)' }} />
+          <Divider />
           <AdminListItem
             text='Orders'
             icon={<Shop2OutlinedIcon />}
             url={PAGES.ORDER_LIST_PAGE}
             open={open}
           />
-          <Divider style={{ backgroundColor: 'rgba(255, 255, 255, 0.5)' }} />
+          <Divider />
         </List>
       </Drawer>
     </Box>
