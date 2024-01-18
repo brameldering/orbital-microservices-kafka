@@ -26,6 +26,7 @@ import PeopleAllOutlinedIcon from '@mui/icons-material/PeopleOutlined';
 import PsychologyOutlinedIcon from '@mui/icons-material/PsychologyOutlined';
 import GppGoodOutlinedIcon from '@mui/icons-material/GppGoodOutlined';
 import Shop2OutlinedIcon from '@mui/icons-material/Shop2Outlined';
+import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 import PAGES from 'constants/client-pages';
 
 const drawerWidth = 200;
@@ -249,6 +250,13 @@ const AdminSideBar: React.FC = () => {
             text='Orders'
             icon={<Shop2OutlinedIcon />}
             url={PAGES.ORDER_LIST_PAGE}
+            open={open}
+          />
+          <Divider />
+          <AdminListItem
+            text='Inventory'
+            icon={<Inventory2OutlinedIcon />}
+            url={PAGES.INVENTORY_LIST_PAGE}
             open={open}
           />
           <Divider />

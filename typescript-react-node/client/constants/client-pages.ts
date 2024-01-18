@@ -8,6 +8,9 @@ const PAGES = {
   ORDER_LIST_PAGE: '/admin/order/list',
   //  ORDER_EDIT_PAGE : '/admin/order',
 
+  INVENTORY_LIST_PAGE: '/admin/inventory/list',
+  INVENTORY_EDIT_PAGE: '/admin/inventory',
+
   PRICE_CALC_VIEW_PAGE: '/admin/price-calc/view',
   PRICE_CALC_EDIT_PAGE: '/admin/price-calc/edit',
 

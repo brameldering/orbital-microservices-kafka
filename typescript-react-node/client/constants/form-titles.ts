@@ -27,6 +27,9 @@ const TITLES = {
 
   TITLE_ORDER_ADMIN: 'Order Admin',
 
+  TITLE_INVENTORY_ADMIN: 'Inventory Admin',
+  TITLE_EDIT_INVENTORY: 'Edit Inventory',
+
   TITLE_PRICE_CALC_ADMIN: 'Price Calculation Admin',
   TITLE_EDIT_PRICE_CALC: 'Edit Price Calculation',
 

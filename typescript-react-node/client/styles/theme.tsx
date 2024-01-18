@@ -266,6 +266,13 @@ const getTheme = (mode: 'light' | 'dark') => {
           },
         },
       },
+      MuiTableCell: {
+        styleOverrides: {
+          head: {
+            fontWeight: 'bold',
+          },
+        },
+      },
     },
   });
 };
