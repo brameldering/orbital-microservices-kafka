@@ -16,6 +16,7 @@ import { SequenceResponseProductsListener } from './events/listeners/sequence-re
 import { ProductCreatedPublisher } from './events/publishers/product-created-publisher';
 import { ProductUpdatedPublisher } from './events/publishers/product-updated-publisher';
 import { ProductDeletedPublisher } from './events/publishers/product-deleted-publisher';
+import { InventoryUpdatedListener } from './events/listeners/inventory-updated-listener';
 
 class Server {
   private readonly KAFKA_CLIENT_ID = 'products';
@@ -62,6 +63,10 @@ class Server {
     {
       topic: Topics.SequenceResponseProducts,
       listenerClass: SequenceResponseProductsListener,
+    },
+    {
+      topic: Topics.InventoryUpdated,
+      listenerClass: InventoryUpdatedListener,
     },
   ];
   private readonly listenerConfig: IConsumerConfig = {

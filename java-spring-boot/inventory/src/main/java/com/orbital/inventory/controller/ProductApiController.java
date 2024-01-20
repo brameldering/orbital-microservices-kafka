@@ -6,6 +6,9 @@ import com.orbital.inventory.data.entity.ProductQuantity;
 import com.orbital.inventory.data.repository.ProductRepository;
 import com.orbital.inventory.exception.BadRequestException;
 import com.orbital.inventory.exception.NotFoundException;
+import com.orbital.inventory.publishers.InventoryPublisherService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -25,6 +28,9 @@ public class ProductApiController {
   public ProductApiController(ProductRepository productRepository) {
     this.productRepository = productRepository;
   }
+
+  @Autowired
+  private InventoryPublisherService inventoryPublisherService;
 
   /* get-product-inventory */
   @GetMapping
@@ -58,30 +64,34 @@ public class ProductApiController {
   // does not allow upding anything else on the product since that data is coming from the Product service
   @PutMapping("/{id}")
   public ProductDTO updateProduct(@PathVariable("id") String id, @RequestBody ProductDTO productDto) {
-      if (!id.equals(productDto.getProductId())) {
-          throw new BadRequestException("ID on path must match body");
-      }
+    if (!id.equals(productDto.getProductId())) {
+        throw new BadRequestException("ID on path must match body");
+    }
 
-      // Find the existing product
-      Optional<Product> existingProductOpt = productRepository.findById(id);
-      if (existingProductOpt.isEmpty()) {
-          throw new NotFoundException("Product not found with ID: " + id);
-      }
-      Product existingProduct = existingProductOpt.get();
-      // Update quantity if it's provided in the DTO
-      ProductQuantity existingQuantity = existingProduct.getProductQuantity();
-      if (existingQuantity == null) {
-          existingQuantity = new ProductQuantity();
-          existingQuantity.setProduct(existingProduct);
-      }
-      existingQuantity.setQuantity(productDto.getQuantity());
-      existingProduct.setProductQuantity(existingQuantity);
+    // Find the existing product
+    Optional<Product> existingProductOpt = productRepository.findById(id);
+    if (existingProductOpt.isEmpty()) {
+        throw new NotFoundException("Product not found with ID: " + id);
+    }
+    Product existingProduct = existingProductOpt.get();
+    // Update quantity if it's provided in the DTO
+    ProductQuantity existingQuantity = existingProduct.getProductQuantity();
+    if (existingQuantity == null) {
+        existingQuantity = new ProductQuantity();
+        existingQuantity.setProduct(existingProduct);
+    }
+    existingQuantity.setQuantity(productDto.getQuantity());
+    existingProduct.setProductQuantity(existingQuantity);
 
-      // Save the updated product
-      Product updatedProduct = productRepository.save(existingProduct);
+    // Save the updated product
+    Product updatedProduct = productRepository.save(existingProduct);
 
-      // Return the updated product as DTO
-      return ProductDTO.fromEntity(updatedProduct);
+    // Publish the event
+    String key = productDto.getProductId();
+    inventoryPublisherService.publishInventoryUpdate(key, productDto.getProductId(), productDto.getQuantity());
+
+    // Return the updated product as DTO
+    return ProductDTO.fromEntity(updatedProduct);
   }
 
 }

@@ -20,7 +20,7 @@ export class ApiAccessDeletedListener extends Listener<ApiAccessDeletedEvent> {
       if (microservice === MICROSERVICE_PRODUCTS) {
         const apiAccess = await ApiAccess.findOne({ apiName });
 
-        // If no apiAccess record, throw error
+        // If no apiAccess record found, throw error
         if (!apiAccess) {
           throw new ApplicationIntegrityError(
             'Products - ApiAccess record not found'
