@@ -1,18 +1,16 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Router from 'next/router';
-import {
-  Stack,
-  Grid,
-  Card,
-  CardContent,
-  Paper,
-  Button,
-  List,
-  ListItem,
-  Typography,
-  Alert,
-} from '@mui/material';
+import Alert from '@mui/material/Alert';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Grid from '@mui/material/Grid';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import Paper from '@mui/material/Paper';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 import ErrorBlock from 'components/ErrorBlock';
 import Loader from 'components/Loader';
 import Meta from 'components/Meta';

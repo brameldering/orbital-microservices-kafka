@@ -5,19 +5,17 @@ import NextLink from 'next/link';
 import MuiLink from '@mui/material/Link';
 import Image from 'next/image';
 import Router, { useRouter } from 'next/router';
-import {
-  Grid,
-  Button,
-  IconButton,
-  Typography,
-  List,
-  ListItem,
-  FormControl,
-  Select,
-  MenuItem,
-  Alert,
-  Paper,
-} from '@mui/material';
+import Alert from '@mui/material/Alert';
+import Button from '@mui/material/Button';
+import FormControl from '@mui/material/FormControl';
+import Grid from '@mui/material/Grid';
+import IconButton from '@mui/material/IconButton';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import MenuItem from '@mui/material/MenuItem';
+import Paper from '@mui/material/Paper';
+import Select from '@mui/material/Select';
+import Typography from '@mui/material/Typography';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FormTitle from 'form/FormTitle';
 import Meta from 'components/Meta';
