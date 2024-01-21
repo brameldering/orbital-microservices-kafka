@@ -1,8 +1,8 @@
 import React from 'react';
 import Rating from '@mui/material/Rating';
-import Typography from '@mui/material/Typography';
-import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
+import StarIcon from '@mui/icons-material/Star';
+import Typography from '@mui/material/Typography';
 
 interface RatingProps {
   value: number;

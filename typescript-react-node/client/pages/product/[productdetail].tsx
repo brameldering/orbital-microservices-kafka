@@ -7,20 +7,18 @@ import NextLink from 'next/link';
 import MuiLink from '@mui/material/Link';
 import Router, { useRouter } from 'next/router';
 import Image from 'next/image';
-import {
-  Grid,
-  Card,
-  CardContent,
-  Button,
-  Typography,
-  Alert,
-  FormControl,
-  Select,
-  InputLabel,
-  MenuItem,
-  TextareaAutosize,
-  Box,
-} from '@mui/material';
+import Alert from '@mui/material/Alert';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import FormControl from '@mui/material/FormControl';
+import Grid from '@mui/material/Grid';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import TextareaAutosize from '@mui/material/TextareaAutosize';
+import Typography from '@mui/material/Typography';
 import Meta from 'components/Meta';
 import Loader from 'components/Loader';
 import ErrorBlock from 'components/ErrorBlock';
@@ -187,11 +185,10 @@ const ProductDetailScreen: React.FC<TPageProps> = ({
                       <Select
                         id='select_quantity'
                         value={qty}
-                        variant='outlined'
+                        variant='standard'
                         fullWidth
                         onChange={(e) => setQty(Number(e.target.value))}>
-                        {/* The following creates an array starting with 0 to countinStock-1:
-                                [...Array(product.countInStock).keys()] */}
+                        {/* The following creates an array starting with 0 to countinStock-1 */}
                         {[...Array(product.countInStock).keys()].map((x) => (
                           <MenuItem key={x + 1} value={x + 1}>
                             {x + 1}
@@ -230,9 +227,7 @@ const ProductDetailScreen: React.FC<TPageProps> = ({
                   )}
                   {product.reviews.map((review) => (
                     <Box key={review.id} sx={{ my: 2 }}>
-                      <Typography variant='subtitle1'>
-                        {review.userName}
-                      </Typography>
+                      <Typography variant='body1'>{review.userName}</Typography>
                       <CustomRating value={review.rating} />
                       <Typography variant='body2'>
                         {dateTimeToLocaleDateString(review.createdAt)}
@@ -240,7 +235,7 @@ const ProductDetailScreen: React.FC<TPageProps> = ({
                       <Typography variant='body2'>{review.comment}</Typography>
                     </Box>
                   ))}
-                  <Box sx={{ my: 2 }}>
+                  <Box sx={{ mt: 3, mb: 2 }}>
                     <Typography variant='h3' sx={{ mb: 2 }}>
                       Write a Customer Review
                     </Typography>
@@ -251,7 +246,7 @@ const ProductDetailScreen: React.FC<TPageProps> = ({
                           <InputLabel>Rating</InputLabel>
                           <Select
                             value={rating}
-                            variant='outlined'
+                            variant='standard'
                             fullWidth
                             onChange={(e) => setRating(Number(e.target.value))}
                             required>
@@ -270,7 +265,6 @@ const ProductDetailScreen: React.FC<TPageProps> = ({
                             value={comment}
                             onChange={(e) => setComment(e.target.value)}
                             required
-                            placeholder='Comment'
                           />
                         </FormControl>
                         {errorCreatingReview && (

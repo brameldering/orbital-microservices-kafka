@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
-import { Typography, Box } from '@mui/material';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import FormTitle from 'form/FormTitle';
 import FormContainer from 'form/FormContainer';
 import Meta from 'components/Meta';

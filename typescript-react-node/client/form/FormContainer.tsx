@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
-import { Container, Paper } from '@mui/material';
+import Container from '@mui/material/Container';
+import Paper from '@mui/material/Paper';
 import { useTheme } from '@mui/material/styles';
 
 interface FormContainerProps {

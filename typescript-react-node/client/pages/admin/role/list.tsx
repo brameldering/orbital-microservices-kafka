@@ -2,21 +2,17 @@ import React, { useState } from 'react';
 import { NextPageContext } from 'next';
 import Router from 'next/router';
 import Link from 'next/link';
-import {
-  Button,
-  IconButton,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Grid,
-  Typography,
-} from '@mui/material';
-import {
-  Edit as EditIcon,
-  Add as AddIcon,
-  Delete as DeleteIcon,
-} from '@mui/icons-material';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
+import IconButton from '@mui/material/IconButton';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Typography from '@mui/material/Typography';
+import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import FormTitle from 'form/FormTitle';
 import FormTable from 'form/FormTable';
 import Loader from 'components/Loader';

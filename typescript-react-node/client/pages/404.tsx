@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
-import FormTitle from 'form/FormTitle';
 import FormContainer from 'form/FormContainer';
+import FormTitle from 'form/FormTitle';
 import Meta from 'components/Meta';
 import PAGES from 'constants/client-pages';
 

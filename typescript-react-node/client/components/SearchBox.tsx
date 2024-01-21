@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { styled, alpha } from '@mui/material/styles';
-import { Box, InputBase } from '@mui/material';
+import Box from '@mui/material/Box';
+import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import PAGES from 'constants/client-pages';
 

@@ -5,15 +5,13 @@ import { useForm, Resolver, Controller } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  Box,
-  Grid,
-  FormControl,
-  FormLabel,
-  FormGroup,
-  FormControlLabel,
-  Checkbox,
-} from '@mui/material';
+import Box from '@mui/material/Box';
+import Checkbox from '@mui/material/Checkbox';
+import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormGroup from '@mui/material/FormGroup';
+import FormLabel from '@mui/material/FormLabel';
+import Grid from '@mui/material/Grid';
 import FormContainer from 'form/FormContainer';
 import FormTitle from 'form/FormTitle';
 import { TextNumField, SelectField } from 'form/FormComponents';

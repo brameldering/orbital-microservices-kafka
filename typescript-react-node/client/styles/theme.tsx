@@ -241,14 +241,14 @@ const getTheme = (mode: 'light' | 'dark') => {
           },
         },
       },
-      MuiTextField: {
-        styleOverrides: {
-          root: {
-            paddingTop: '2px',
-            paddingBottom: '2px',
-          },
-        },
-      },
+      // MuiTextField: {
+      //   styleOverrides: {
+      //     root: {
+      //       paddingTop: '2px',
+      //       paddingBottom: '2px',
+      //     },
+      //   },
+      // },
       MuiFormHelperText: {
         styleOverrides: {
           root: {

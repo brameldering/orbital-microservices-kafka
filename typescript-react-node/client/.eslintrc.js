@@ -33,6 +33,12 @@ module.exports = {
     'no-var': 'error',
     'prefer-const': 'error',
     'no-undef': 'off',
+    'no-restricted-imports': [
+      'error',
+      {
+        patterns: ['@mui/*/*/*'],
+      },
+    ],
   },
   overrides: [
     {

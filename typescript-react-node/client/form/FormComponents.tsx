@@ -3,19 +3,17 @@ import React, { useState } from 'react';
 // import { Form, FloatingLabel, InputGroup, Button } from 'react-bootstrap';
 import { Controller } from 'react-hook-form';
 // import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import {
-  FormGroup,
-  FormControl,
-  TextField,
-  Checkbox,
-  Select,
-  InputLabel,
-  MenuItem,
-  FormHelperText,
-  FormControlLabel,
-  InputAdornment,
-  IconButton,
-} from '@mui/material';
+import Checkbox from '@mui/material/Checkbox';
+import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormGroup from '@mui/material/FormGroup';
+import FormHelperText from '@mui/material/FormHelperText';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import TextField from '@mui/material/TextField';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
@@ -86,7 +84,7 @@ const TextNumField: React.FC<TextNumFieldProps> = ({
       id={controlId}
       type={type}
       label={label}
-      variant='outlined'
+      variant='standard'
       margin='normal'
       fullWidth
       {...register(controlId)}
@@ -123,7 +121,7 @@ const CurrencyNumField: React.FC<CurrencyNumFieldProps> = ({
       id={controlId}
       type='number'
       label={label}
-      variant='outlined'
+      variant='standard'
       margin='normal'
       fullWidth
       error={!!error}
@@ -183,7 +181,7 @@ const PasswordField: React.FC<PasswordFieldProps> = ({
       id={controlId}
       type={contentVisible ? 'text' : 'password'}
       label={label}
-      variant='outlined'
+      variant='standard'
       margin='normal'
       fullWidth
       {...register(controlId)}
@@ -281,7 +279,7 @@ const TextAreaField: React.FC<TextAreaFieldProps> = ({
     <TextField
       id={controlId}
       label={label}
-      variant='outlined'
+      variant='standard'
       margin='normal'
       fullWidth
       multiline

@@ -9,7 +9,7 @@ import AdminSideBar from 'components/AdminSideBar';
 import TopBar from 'components/TopBar';
 import Footer from 'components/Footer';
 // import Grid from '@mui/material/Grid';
-import { Container } from '@mui/material';
+import Container from '@mui/material/Container';
 import type { RootState } from 'slices/store';
 import { ADMIN_ROLE } from '@orbital_app/common';
 

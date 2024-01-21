@@ -1,5 +1,8 @@
 import React, { ReactNode } from 'react';
-import { Box, TableContainer, Table, Paper } from '@mui/material';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import Table from '@mui/material/Table';
+import TableContainer from '@mui/material/TableContainer';
 import { useTheme } from '@mui/material/styles';
 
 // Style table to make a black header

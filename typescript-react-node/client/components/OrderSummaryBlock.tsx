@@ -1,5 +1,6 @@
 import React from 'react';
-import { Grid, Box } from '@mui/material';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import ListItem from '@mui/material/ListItem';
 import { CURRENCY_SYMBOL } from 'constants/constants-frontend';

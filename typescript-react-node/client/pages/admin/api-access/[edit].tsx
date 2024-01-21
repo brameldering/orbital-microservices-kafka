@@ -2,16 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { NextPageContext } from 'next';
 import Router from 'next/router';
 import { useForm, Resolver, Controller } from 'react-hook-form';
-import {
-  Box,
-  Grid,
-  Checkbox,
-  FormControl,
-  FormGroup,
-  FormLabel,
-  FormControlLabel,
-  Typography,
-} from '@mui/material';
+import Box from '@mui/material/Box';
+import Checkbox from '@mui/material/Checkbox';
+import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormGroup from '@mui/material/FormGroup';
+import FormLabel from '@mui/material/FormLabel';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';

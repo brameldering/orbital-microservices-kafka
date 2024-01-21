@@ -1,11 +1,9 @@
 import React from 'react';
-import {
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Button,
-} from '@mui/material';
+import Button from '@mui/material/Button';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 import { Close as CloseIcon } from '@mui/icons-material';
 import { NextPageContext } from 'next';
 import Link from 'next/link';

@@ -1,16 +1,14 @@
 import React from 'react';
 import { NextPageContext } from 'next';
 import Link from 'next/link';
-import {
-  IconButton,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Grid,
-  Typography,
-} from '@mui/material';
-import { Edit as EditIcon } from '@mui/icons-material';
+import Grid from '@mui/material/Grid';
+import IconButton from '@mui/material/IconButton';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Typography from '@mui/material/Typography';
+import EditIcon from '@mui/icons-material/Edit';
 import FormTitle from 'form/FormTitle';
 import FormTable from 'form/FormTable';
 import Meta from 'components/Meta';

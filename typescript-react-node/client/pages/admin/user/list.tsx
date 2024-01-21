@@ -2,13 +2,11 @@ import React, { useState } from 'react';
 import { NextPageContext } from 'next';
 import Router from 'next/router';
 import Link from 'next/link';
-import {
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  IconButton,
-} from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CheckIcon from '@mui/icons-material/Check';
