@@ -251,12 +251,12 @@ const ProductEditScreen: React.FC<TPageProps> = ({ product, error }) => {
                 setError={setError}
               />
               <FormButtonBox>
-                <UpdateSubmitButton
-                  disabled={loadingOrProcessing || !isDirty}
-                />
                 <CancelButton
                   disabled={loadingOrProcessing}
                   onClick={goBackHandler}
+                />
+                <UpdateSubmitButton
+                  disabled={loadingOrProcessing || !isDirty}
                 />
               </FormButtonBox>
               {loadingOrProcessing && <Loader />}

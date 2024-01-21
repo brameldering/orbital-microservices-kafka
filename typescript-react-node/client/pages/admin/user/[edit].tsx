@@ -149,12 +149,12 @@ const UserEditScreen: React.FC<TPageProps> = ({ roles, user, error }) => {
                 setError={setError}
               />
               <FormButtonBox>
-                <UpdateSubmitButton
-                  disabled={loadingOrProcessing || !isDirty}
-                />
                 <CancelButton
                   disabled={loadingOrProcessing}
                   onClick={goBackHandler}
+                />
+                <UpdateSubmitButton
+                  disabled={loadingOrProcessing || !isDirty}
                 />
               </FormButtonBox>
             </>

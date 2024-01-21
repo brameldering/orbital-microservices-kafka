@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from '@mui/material/Button';
 import { useTheme } from '@mui/material/styles';
-import { secondaryButtonStyles } from 'styles/theme';
+import { secondaryButtonStyles, backButtonStyles } from 'styles/theme';
 
 interface ButtonProps {
   id: string;
@@ -61,6 +61,24 @@ export const CancelButton: React.FC<CancelButtonProps> = ({
       disabled={disabled}
       onClick={onClick}>
       Cancel
+    </Button>
+  );
+};
+
+interface BackButtonProps {
+  disabled?: boolean;
+  onClick: any;
+}
+
+export const BackButton: React.FC<BackButtonProps> = ({ onClick }) => {
+  const theme = useTheme();
+  return (
+    <Button
+      id='BUTTON_back'
+      color='primary'
+      sx={{ ...backButtonStyles(theme) }}
+      onClick={onClick}>
+      Back
     </Button>
   );
 };

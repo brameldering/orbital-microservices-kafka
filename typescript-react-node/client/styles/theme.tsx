@@ -253,7 +253,7 @@ const getTheme = (mode: 'light' | 'dark') => {
         styleOverrides: {
           root: {
             '&.Mui-error': {
-              fontSize: '1rem',
+              fontSize: '0.8rem',
             },
           },
         },
@@ -281,6 +281,13 @@ export const secondaryButtonStyles = (theme: Theme) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#e2726e' : '#e99592',
   '&:hover': {
     backgroundColor: theme.palette.mode === 'dark' ? '#f1b9b7' : '#f8dcdb',
+  },
+});
+
+export const backButtonStyles = (theme: Theme) => ({
+  backgroundColor: tokens(theme.palette.mode).blueAccent[800],
+  '&:hover': {
+    backgroundColor: tokens(theme.palette.mode).blueAccent[800],
   },
 });
 

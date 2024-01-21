@@ -19,6 +19,8 @@ import OrderItemLine from 'components/OrderItemLine';
 import OrderSummaryBlock from 'components/OrderSummaryBlock';
 import TITLES from 'constants/form-titles';
 import PAGES from 'constants/client-pages';
+import FormButtonBox from 'form/FormButtonBox';
+import { BackButton } from 'form/FormButtons';
 import { clearCartItems } from 'slices/cartSlice';
 import { useCreateOrderMutation } from 'slices/ordersApiSlice';
 import type { RootState } from 'slices/store';
@@ -61,6 +63,10 @@ const PlaceOrderScreen = () => {
     } catch (err) {
       // Do nothing because useCreateOrderMutation will set errorCreatingOrder in case of an error
     }
+  };
+
+  const goBack = async () => {
+    Router.push(PAGES.PAYMENT_INFO_PAGE);
   };
 
   return (
@@ -118,24 +124,24 @@ const PlaceOrderScreen = () => {
         <Grid item md={4} xs={12}>
           <Card>
             <CardContent>
+              <Typography variant='h3' sx={{ my: 2 }}>
+                Order Summary
+              </Typography>
               <OrderSummaryBlock totalAmounts={cart.totalAmounts} />
-              <List>
-                <ListItem>
-                  {errorCreatingOrder && (
-                    <ErrorBlock error={errorCreatingOrder} />
-                  )}
-                  <Button
-                    id='BUTTON_place_order'
-                    type='button'
-                    variant='outlined'
-                    color='primary'
-                    disabled={cart.cartItems.length === 0 || creatingOrder}
-                    onClick={placeOrderHandler}>
-                    Place Order
-                  </Button>
-                  {creatingOrder && <Loader />}
-                </ListItem>
-              </List>
+              {errorCreatingOrder && <ErrorBlock error={errorCreatingOrder} />}
+              <FormButtonBox>
+                <BackButton onClick={goBack} />
+                <Button
+                  id='BUTTON_place_order'
+                  type='button'
+                  variant='outlined'
+                  color='primary'
+                  disabled={cart.cartItems.length === 0 || creatingOrder}
+                  onClick={placeOrderHandler}>
+                  Place Order
+                </Button>
+              </FormButtonBox>
+              {creatingOrder && <Loader />}
             </CardContent>
           </Card>
         </Grid>

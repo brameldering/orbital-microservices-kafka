@@ -130,12 +130,12 @@ const InventoryEditScreen: React.FC<TPageProps> = ({ inventoryObj, error }) => {
                 setError={setError}
               />
               <FormButtonBox>
-                <UpdateSubmitButton
-                  disabled={loadingOrProcessing || !isDirty}
-                />
                 <CancelButton
                   disabled={loadingOrProcessing}
                   onClick={goBackHandler}
+                />
+                <UpdateSubmitButton
+                  disabled={loadingOrProcessing || !isDirty}
                 />
               </FormButtonBox>
             </>

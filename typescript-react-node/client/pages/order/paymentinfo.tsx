@@ -11,7 +11,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormContainer from 'form/FormContainer';
 import FormTitle from 'form/FormTitle';
 import FormButtonBox from 'form/FormButtonBox';
-import { SubmitButton } from 'form/FormButtons';
+import { BackButton, SubmitButton } from 'form/FormButtons';
 import Meta from 'components/Meta';
 import CheckoutSteps from 'components/CheckoutSteps';
 import TITLES from 'constants/form-titles';
@@ -42,6 +42,10 @@ const PaymentScreen = () => {
     Router.push(PAGES.PLACE_ORDER_PAGE);
   };
 
+  const goBack = async () => {
+    Router.push(PAGES.SHIPPING_PAGE);
+  };
+
   return (
     <>
       <Meta title={TITLES.TITLE_PAYMENT_METHOD} />
@@ -66,6 +70,7 @@ const PaymentScreen = () => {
             </RadioGroup>
           </FormControl>
           <FormButtonBox>
+            <BackButton onClick={goBack} />
             <SubmitButton id='BUTTON_continue' label='Continue' />
           </FormButtonBox>
         </Box>

@@ -107,8 +107,8 @@ const ChangePasswordScreen: React.FC = () => {
           />
           {errorChanging && <ErrorBlock error={errorChanging} />}
           <FormButtonBox>
-            <UpdateSubmitButton disabled={isProcessing || !isDirty} />
             <CancelButton disabled={isProcessing} onClick={goBackHandler} />
+            <UpdateSubmitButton disabled={isProcessing || !isDirty} />
           </FormButtonBox>
 
           {isProcessing && <Loader />}

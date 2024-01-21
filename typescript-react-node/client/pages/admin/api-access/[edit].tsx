@@ -192,8 +192,8 @@ const ApiAccessEditScreen: React.FC<TPageProps> = ({
                 </FormGroup>
               </FormControl>
               <FormButtonBox>
-                <UpdateSubmitButton disabled={updating || !isDirty} />
                 <CancelButton disabled={updating} onClick={goBackHandler} />
+                <UpdateSubmitButton disabled={updating || !isDirty} />
               </FormButtonBox>
             </>
           )}

@@ -65,6 +65,7 @@ const CartScreen: React.FC<TPageProps> = ({ priceCalcSettings, error }) => {
   return (
     <>
       <Meta title={TITLES.TITLE_SHOPPING_CART} />
+      <FormTitle>{TITLES.TITLE_SHOPPING_CART}</FormTitle>
       <CheckoutSteps currentStep={0} />
       {error ? (
         <ErrorBlock error={error} />
@@ -72,7 +73,6 @@ const CartScreen: React.FC<TPageProps> = ({ priceCalcSettings, error }) => {
         <>
           <Grid container spacing={3}>
             <Grid item xs={12} md={8}>
-              <FormTitle>{TITLES.TITLE_SHOPPING_CART}</FormTitle>
               {cartItems.length === 0 ? (
                 <Alert severity='info'>
                   Your cart is empty{' '}
@@ -84,10 +84,10 @@ const CartScreen: React.FC<TPageProps> = ({ priceCalcSettings, error }) => {
                   </MuiLink>
                 </Alert>
               ) : (
-                <List>
-                  {cartItems.map((item) => (
-                    <ListItem id='product_item' key={item.productId}>
-                      <Paper elevation={2} sx={{ p: 2 }}>
+                <Paper elevation={2} sx={{ p: 2 }}>
+                  <List>
+                    {cartItems.map((item) => (
+                      <ListItem id='product_item' key={item.productId}>
                         <Grid container spacing={2}>
                           <Grid item xs={2}>
                             <Image
@@ -142,10 +142,10 @@ const CartScreen: React.FC<TPageProps> = ({ priceCalcSettings, error }) => {
                             </IconButton>
                           </Grid>
                         </Grid>
-                      </Paper>
-                    </ListItem>
-                  ))}
-                </List>
+                      </ListItem>
+                    ))}
+                  </List>
+                </Paper>
               )}
             </Grid>
             <Grid item md={4} xs={12}>

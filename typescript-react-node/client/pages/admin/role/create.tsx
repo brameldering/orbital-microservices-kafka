@@ -111,11 +111,11 @@ const RoleCreateScreen: React.FC = () => {
             setError={setError}
           />
           <FormButtonBox>
-            <CreateSubmitButton disabled={loadingOrProcessing || !isDirty} />
             <CancelButton
               disabled={loadingOrProcessing}
               onClick={goBackHandler}
             />
+            <CreateSubmitButton disabled={loadingOrProcessing || !isDirty} />
           </FormButtonBox>
           {loadingOrProcessing && <Loader />}
         </Box>

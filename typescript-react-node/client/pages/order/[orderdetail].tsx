@@ -288,6 +288,9 @@ const OrderScreen: React.FC<TPageProps> = ({ order, error }) => {
             <Grid item xs={12} md={4}>
               <Card>
                 <CardContent>
+                  <Typography variant='h3' sx={{ mb: 2 }}>
+                    Order Summary
+                  </Typography>
                   <OrderSummaryBlock totalAmounts={order.totalAmounts} />
                   {disableButtons && (
                     <>

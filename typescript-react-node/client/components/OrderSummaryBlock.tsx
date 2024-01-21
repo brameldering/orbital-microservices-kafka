@@ -1,8 +1,8 @@
 import React from 'react';
-import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import ListItem from '@mui/material/ListItem';
+// import ListItem from '@mui/material/ListItem';
 import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
 import { ITotalAmounts } from '@orbital_app/common';
 
@@ -17,21 +17,19 @@ interface OrderSummaryBlockProps {
 
 const CurrencyField: React.FC<CurrencyFieldProps> = ({ label, amount }) => {
   return (
-    <ListItem>
-      <Grid container>
-        <Grid item xs={6}>
-          <Typography>
-            <strong>{label}</strong>
-          </Typography>
-        </Grid>
-        <Grid item xs={6}>
-          <Typography>
-            {CURRENCY_SYMBOL}
-            {amount.toFixed(2)}
-          </Typography>
-        </Grid>
+    <Grid container>
+      <Grid item xs={6}>
+        <Typography>
+          <strong>{label}</strong>
+        </Typography>
       </Grid>
-    </ListItem>
+      <Grid item xs={6}>
+        <Typography>
+          {CURRENCY_SYMBOL}
+          {amount.toFixed(2)}
+        </Typography>
+      </Grid>
+    </Grid>
   );
 };
 
@@ -40,13 +38,12 @@ const OrderSummaryBlock: React.FC<OrderSummaryBlockProps> = ({
 }) => {
   // console.log('OrderSummaryBlock', totalAmounts);
   return (
-    <Box sx={{ textAlign: 'left' }}>
-      <Typography variant='h2'>Order Summary</Typography>
+    <Stack>
       <CurrencyField label='Items' amount={totalAmounts.itemsPrice} />
       <CurrencyField label='Shipping' amount={totalAmounts.shippingPrice} />
       <CurrencyField label='Tax' amount={totalAmounts.taxPrice} />
       <CurrencyField label='Total' amount={totalAmounts.totalPrice} />
-    </Box>
+    </Stack>
   );
 };
 
