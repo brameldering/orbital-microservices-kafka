@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
 if (process.env?.NODE_ENV === 'test') {
-  // WIll be used in test environment
+  // Will be used in test environment
   dotenv.config();
 }
 // import { EnvConfigurationError } from '@orbital_app/common';
