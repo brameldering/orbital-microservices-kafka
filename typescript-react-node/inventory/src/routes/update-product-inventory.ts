@@ -15,14 +15,14 @@ const router = express.Router();
 
 const updateProductInventoryRouter = (inventoryDB: PrismaClient) => {
   // @desc    Update a product inventory
-  // @route   PUT /api/inventory/v2/products/:id
+  // @route   PUT /api/inventory/v2/products/:productId
   // @access  Admin
-  // @req     params.id
+  // @req     params.productId
   //          body {Product}
   // @res     (updatedProduct)
   //       or status(404).ObjectNotFoundError(Product inventory not found)
   router.put(
-    PRODUCT_INVENTORY_URL + '/:id',
+    PRODUCT_INVENTORY_URL + '/:productId',
     cacheMiddlewarePostgres,
     (req: IExtendedRequest, res: Response, next: NextFunction) =>
       authorize(INVENTORY_APIS, req.apiAccessCache || [])(req, res, next),
@@ -32,7 +32,7 @@ const updateProductInventoryRouter = (inventoryDB: PrismaClient) => {
       #swagger.security = [{
         bearerAuth: ['admin']
       }]
-      #swagger.parameters['id'] = {
+      #swagger.parameters['productId'] = {
               in: 'path',
               description: 'Product id of product inventory to update',
               required: 'true',
@@ -51,7 +51,7 @@ const updateProductInventoryRouter = (inventoryDB: PrismaClient) => {
             description: 'ObjectNotFoundError(Product inventory not found)'
       }
   } */
-      const productId = req.params.id;
+      const productId = req.params.productId;
       const { quantity } = req.body;
       const productQuantity = await inventoryDB.product_quantity.findUnique({
         where: {

@@ -13,20 +13,20 @@ const router = express.Router();
 
 const getProductInventoryByIdRouter = (inventoryDB: PrismaClient) => {
   // @desc    Fetch single product inventory
-  // @route   GET /api/inventory/v2/products/:id
+  // @route   GET /api/inventory/v2/products/:productId
   // @access  Public
-  // @req     params.id
+  // @req     params.productId
   // @res     json(product)
   //       or status(404).ObjectNotFoundError(Product not found)
   router.get(
-    PRODUCT_INVENTORY_URL + '/:id',
+    PRODUCT_INVENTORY_URL + '/:productId',
     cacheMiddlewarePostgres,
     (req: IExtendedRequest, res: Response, next: NextFunction) =>
       authorize(INVENTORY_APIS, req.apiAccessCache || [])(req, res, next),
     async (req: IExtendedRequest, res: Response) => {
       /*  #swagger.tags = ['Inventory']
       #swagger.description = 'Fetch single product inventory'
-      #swagger.parameters['id'] = {
+      #swagger.parameters['productId'] = {
             in: 'path',
             description: 'product id',
             required: 'true',
@@ -42,7 +42,7 @@ const getProductInventoryByIdRouter = (inventoryDB: PrismaClient) => {
       const productInventoryPostgres =
         await inventoryDB.product_inventory.findUnique({
           where: {
-            product_id: req.params.id,
+            product_id: req.params.productId,
           },
           include: {
             quantity: true,

@@ -17,6 +17,10 @@ import {
 import { getProductInventoryRouter } from './routes/get-product-inventory';
 import { getProductInventoryByIdRouter } from './routes/get-product-inventory-by-id';
 import { updateProductInventoryRouter } from './routes/update-product-inventory';
+import { createSerialNumberRouter } from './routes/create-serial-number';
+import { getSerialNumbersByProductIdRouter } from './routes/get-serial-numbers-by-product-id';
+import { getSerialNumbersByStatusRouter } from './routes/get-serial-numbers-by-status';
+import { updateSerialNumberStatusRouter } from './routes/update-serial-number-status';
 import { PrismaClient } from '@prisma/client';
 
 // ======================================================
@@ -69,6 +73,10 @@ const setupApp = async (inventoryDB: PrismaClient) => {
     app.use(getProductInventoryRouter(inventoryDB));
     app.use(getProductInventoryByIdRouter(inventoryDB));
     app.use(updateProductInventoryRouter(inventoryDB));
+    app.use(getSerialNumbersByProductIdRouter(inventoryDB));
+    app.use(getSerialNumbersByStatusRouter(inventoryDB));
+    app.use(createSerialNumberRouter(inventoryDB));
+    app.use(updateSerialNumberStatusRouter(inventoryDB));
 
     // Handle any other (unknown) route API calls
     app.all('*', async (req) => {

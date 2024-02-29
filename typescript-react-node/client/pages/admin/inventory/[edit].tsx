@@ -1,15 +1,23 @@
 import React, { useState } from 'react';
 import { NextPageContext } from 'next';
 import Router from 'next/router';
+import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import IconButton from '@mui/material/IconButton';
+import EditIcon from '@mui/icons-material/Edit';
 import { TextNumField } from 'form/FormComponents';
 import FormContainer from 'form/FormContainer';
 import FormTitle from 'form/FormTitle';
+import FormTable from 'form/FormTable';
 import { numField } from 'form/ValidationSpecs';
 import FormButtonBox from 'form/FormButtonBox';
 import { UpdateSubmitButton, CancelButton } from 'form/FormButtons';
@@ -20,8 +28,9 @@ import { parseError } from 'utils/parse-error';
 import ModalConfirmBox from 'components/ModalConfirmBox';
 import TITLES from 'constants/form-titles';
 import PAGES from 'constants/client-pages';
-import { IInventory } from '@orbital_app/common';
+import { IInventory, ISerialNumber } from '@orbital_app/common';
 import { getInventoryById } from 'api/inventory/get-inventory-by-id';
+import { getSerialsByProductId } from 'api/inventory/get-serials-by-product-id';
 import { useUpdateInventoryMutation } from 'slices/inventoryApiSlice';
 
 interface IFormInput {
@@ -34,10 +43,15 @@ const schema = yup.object().shape({
 
 interface TPageProps {
   inventoryObj: IInventory;
+  serialNumbers: ISerialNumber[];
   error?: string[];
 }
 
-const InventoryEditScreen: React.FC<TPageProps> = ({ inventoryObj, error }) => {
+const InventoryEditScreen: React.FC<TPageProps> = ({
+  inventoryObj,
+  serialNumbers,
+  error,
+}) => {
   const [updateInventory, { isLoading: updating, error: errorUpdating }] =
     useUpdateInventoryMutation();
 
@@ -129,6 +143,56 @@ const InventoryEditScreen: React.FC<TPageProps> = ({ inventoryObj, error }) => {
                 error={errors.quantity}
                 setError={setError}
               />
+              {serialNumbers?.length === 0 ? (
+                <Typography>
+                  There are no serial numbers for this product
+                </Typography>
+              ) : (
+                <>
+                  <Typography variant='h3' sx={{ mb: 3 }}>
+                    Serial Numbers
+                  </Typography>
+                  <FormTable>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Product ID</TableCell>
+                        <TableCell>Serial Number</TableCell>
+                        <TableCell>Status</TableCell>
+                        <TableCell></TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {serialNumbers.map((serialNumber: ISerialNumber) => (
+                        <TableRow key={serialNumber.productId}>
+                          <TableCell
+                            id={`serialNumber_product_id_${serialNumber.productId}`}>
+                            {serialNumber.productId}
+                          </TableCell>
+                          <TableCell
+                            id={`serialNumber_serialNumber_${serialNumber.serialNumber}`}>
+                            {serialNumber.serialNumber}
+                          </TableCell>
+                          <TableCell
+                            id={`serialNumber_status_${serialNumber.status}`}>
+                            {serialNumber.status}
+                          </TableCell>
+                          <TableCell>
+                            <Link
+                              id={`edit_${serialNumber.productId}`}
+                              href={`${PAGES.SERIAL_NUMBER_EDIT_PAGE}/${serialNumber.productId}`}
+                              passHref>
+                              <IconButton>
+                                <EditIcon />
+                              </IconButton>
+                            </Link>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </FormTable>
+                </>
+              )}
+
               <FormButtonBox>
                 <CancelButton
                   disabled={loadingOrProcessing}
@@ -157,17 +221,19 @@ export const getServerSideProps = async (context: NextPageContext) => {
       inventoryId = '';
     }
     let inventoryObj = null;
+    let serialNumbers = null;
     if (inventoryId) {
       // Call the corresponding API function to fetch inventory data
       inventoryObj = await getInventoryById(context, inventoryId);
+      serialNumbers = await getSerialsByProductId(context, inventoryId);
     }
     return {
-      props: { inventoryObj },
+      props: { inventoryObj, serialNumbers },
     };
   } catch (error: any) {
     const parsedError = parseError(error);
     return {
-      props: { inventoryObj: {}, error: parsedError },
+      props: { inventoryObj: {}, serialNumbers: {}, error: parsedError },
     };
   }
 };

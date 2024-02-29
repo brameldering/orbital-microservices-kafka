@@ -10,6 +10,7 @@ const PAGES = {
 
   INVENTORY_LIST_PAGE: '/admin/inventory/list',
   INVENTORY_EDIT_PAGE: '/admin/inventory',
+  SERIAL_NUMBER_EDIT_PAGE: '/admin/serialnumber',
 
   PRICE_CALC_VIEW_PAGE: '/admin/price-calc/view',
   PRICE_CALC_EDIT_PAGE: '/admin/price-calc/edit',
