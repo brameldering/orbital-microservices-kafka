@@ -65,4 +65,4 @@ export const invProducts = [
       create: { quantity: 0 },
     },
   },
-] satisfies Prisma.productCreateInput[];
+] satisfies Prisma.product_inventoryCreateInput[];

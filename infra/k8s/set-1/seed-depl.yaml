@@ -30,8 +30,19 @@ spec:
               value: 'mongodb://orders-mongo-service:27017/orders'
             - name: PG_URI_INVENTORY
               value: 'postgresql://admin:inventory@inventory-postgres-service:5432/postgresdb?schema=inventory'
-            # - name: KAFKA_BROKERS
-            #   value: kafka-service-1:9092
+            #   value: 'postgresql://${PG_USERNAME}:${PG_PASSWORD}@inventory-postgres-service:5432/postgresdb?schema=inventory'
+            # - name: PG_USERNAME
+            #   valueFrom:
+            #     secretKeyRef:
+            #       name: pg-credentials
+            #       key: username
+            # - name: PG_PASSWORD
+            #   valueFrom:
+            #     secretKeyRef:
+            #       name: pg-credentials
+            #       key: password
+            - name: KAFKA_BROKERS
+              value: kafka-service-1:9092
             - name: KAFKA_BROKERS
               value: 'kafka-service-1.kafka.svc.cluster.local:9092'
               # value: 'kafka-service-1.kafka.svc.cluster.local:9092,kafka-service-2.kafka.svc.cluster.local:9093'

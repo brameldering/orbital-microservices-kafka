@@ -53,3 +53,6 @@ PRODUCTS_PER_PAGE = <max number of products per page>
 DEFAULT_RESET_PASSWORD = <default password which is set during reset pasword function>
 
 ```
+
+Prisma Client for Inventory Postgres Database
+In inventory folder run "npx prisma generate" to generate the prisma client

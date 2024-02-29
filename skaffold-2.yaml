@@ -10,19 +10,19 @@ build:
             dest: .
       docker:
         dockerfile: Dockerfile
-    - image: brameldering/inventory
-      context: java-spring-boot/inventory
-      sync:
-        manual:
-          - src: src/**/*.ts
-            dest: .
-      docker:
-        dockerfile: Dockerfile
+    # - image: brameldering/inventory
+    #   context: java-spring-boot/inventory
+    #   sync:
+    #     manual:
+    #       - src: src/**/*.ts
+    #         dest: .
+    #   docker:
+    #     dockerfile: Dockerfile
   local:
     push: false
 manifests:
   rawYaml:
-    - ./infra/k8s/spring-boot/*
+    # - ./infra/k8s/inventory/*
     - ./infra/k8s/set-1/*
 deploy:
   kubectl: {}

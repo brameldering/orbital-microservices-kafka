@@ -27,7 +27,7 @@ import {
   inventoryDB,
 } from '../../src/server';
 import { postgresTableExists } from '../../utils/check-table-exists';
-import { runCommand } from '../../utils/run-npx-command';
+// import { runCommand } from '../../utils/run-npx-command';
 
 const router = express.Router();
 
@@ -81,9 +81,9 @@ router.post(SEED_DATA_URL, async (req: Request, res: Response) => {
 
   // InventoryDB
   // Create prisma schema and client
-  await runCommand('npx prisma migrate dev --name init');
-  await runCommand('npx prisma generate');
-  console.log('Migration and Prisma client generation complete.');
+  // await runCommand('npx prisma migrate dev --name init');
+  // await runCommand('npx prisma generate');
+  // console.log('Migration and Prisma client generation complete.');
 
   if (await postgresTableExists('inventory', 'serial_number')) {
     console.log(
@@ -97,11 +97,11 @@ router.post(SEED_DATA_URL, async (req: Request, res: Response) => {
     );
     await inventoryDB.product_quantity.deleteMany();
   }
-  if (await postgresTableExists('inventory', 'product')) {
+  if (await postgresTableExists('inventory', 'product_inventory')) {
     console.log(
-      `There are ${await inventoryDB.product.count()} records in inventory.product`
+      `There are ${await inventoryDB.product_inventory.count()} records in inventory.product_inventory`
     );
-    await inventoryDB.product.deleteMany();
+    await inventoryDB.product_inventory.deleteMany();
   }
   if (await postgresTableExists('inventory', 'api_access_role')) {
     console.log(
@@ -215,8 +215,8 @@ router.post(SEED_DATA_URL, async (req: Request, res: Response) => {
     for (const role of allowedRoles) {
       await inventoryDB.api_access_role.create({
         data: {
-          api_name: apiAccess.apiName,
-          role: role.role,
+          api_access_name: apiAccess.apiName,
+          role_id: role.role,
         },
       });
     }
@@ -226,10 +226,10 @@ router.post(SEED_DATA_URL, async (req: Request, res: Response) => {
   );
   // InventoryDB - product
   for (const prod of invProducts) {
-    await inventoryDB.product.create({ data: prod });
+    await inventoryDB.product_inventory.create({ data: prod });
   }
   console.log(
-    `Seeded ${await inventoryDB.product.count()} records in inventory.product`
+    `Seeded ${await inventoryDB.product_inventory.count()} records in inventory.product_inventory`
   );
 
   // ==================================

@@ -17,6 +17,7 @@ import {
   wait,
 } from '@orbital_app/common';
 import { seedDataRouter } from './routes/seed-data';
+// import { postgresTableExists } from '../utils/check-table-exists';
 
 function canBeConvertedToNumber(strNumber: string) {
   return !isNaN(parseFloat(strNumber)) && isFinite(parseFloat(strNumber));
@@ -139,10 +140,23 @@ const start = async () => {
     console.log('Connected to MongoDB', process.env.MONGO_URI_ORDERS!);
 
     inventoryDB = new PrismaClient();
-    console.log('Created Prisma client for', process.env.PG_URI_INVENTORY!);
+    console.log(
+      'Instantiated Prisma client for',
+      process.env.PG_URI_INVENTORY!
+    );
+    // const productInventoryExists = await postgresTableExists(
+    //   'inventory',
+    //   'product_inventory'
+    // );
+    // if (!productInventoryExists) {
+    //   console.error(
+    //     'Postgres Inventory database has not been initialized: table PRODUCT_INVENTORY does not exist'
+    //   );
+    //   process.exit(1);
+    // }
 
     // Start listening
-    const port = process.env.PORT || 3000;
+    const port = process.env.PORT ?? 3000;
     app.listen(port, () => {
       console.log(`Listening on port ${port}`);
     });

@@ -26,6 +26,14 @@ build:
             dest: .
       docker:
         dockerfile: Dockerfile
+    # - image: brameldering/inventory
+    #   context: typescript-react-node/inventory
+    #   sync:
+    #     manual:
+    #       - src: src/**/*.ts
+    #         dest: .
+    #   docker:
+    #     dockerfile: Dockerfile
     - image: brameldering/orders
       context: typescript-react-node/orders
       sync:

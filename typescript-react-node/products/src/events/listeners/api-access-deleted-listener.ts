@@ -27,7 +27,7 @@ export class ApiAccessDeletedListener extends Listener<ApiAccessDeletedEvent> {
           );
         }
 
-        // Update the ApiAccess record
+        // Delete the ApiAccess record
         apiAccess.deleteOne({ _id: id });
 
         // Refresh ApiAccesscache
