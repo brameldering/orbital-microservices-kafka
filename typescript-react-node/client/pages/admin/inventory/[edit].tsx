@@ -149,7 +149,7 @@ const InventoryEditScreen: React.FC<TPageProps> = ({
                 </Typography>
               ) : (
                 <>
-                  <Typography variant='h3' sx={{ mb: 3 }}>
+                  <Typography variant='h4' sx={{ mb: 3 }}>
                     Serial Numbers
                   </Typography>
                   <FormTable>
