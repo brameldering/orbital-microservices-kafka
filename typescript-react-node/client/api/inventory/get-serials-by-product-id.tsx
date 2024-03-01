@@ -8,6 +8,6 @@ export const getSerialsByProductId = async (
 ) => {
   const axiosInstance = ConfigureAxios(context);
   const res = await axiosInstance.get(`${INVENTORY_SERIALS_URL}/${id}`);
-  console.log('getSerialByProductId res', res.data);
+  // console.log('getSerialByProductId res', res.data);
   return res.data;
 };

@@ -8,6 +8,6 @@ export const getInventoryById = async (
 ) => {
   const axiosInstance = ConfigureAxios(context);
   const res = await axiosInstance.get(`${PRODUCT_INVENTORY_URL}/${id}`);
-  console.log('getInventoryById res', res.data);
+  // console.log('getInventoryById res', res.data);
   return res.data;
 };

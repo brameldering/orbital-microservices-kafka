@@ -163,23 +163,44 @@ const InventoryEditScreen: React.FC<TPageProps> = ({
                     </TableHead>
                     <TableBody>
                       {serialNumbers.map((serialNumber: ISerialNumber) => (
-                        <TableRow key={serialNumber.productId}>
+                        <TableRow
+                          key={
+                            serialNumber.productId +
+                            '_' +
+                            serialNumber.serialNumber
+                          }>
                           <TableCell
-                            id={`serialNumber_product_id_${serialNumber.productId}`}>
+                            id={`serialNumber_product_id_${
+                              serialNumber.productId +
+                              '_' +
+                              serialNumber.serialNumber
+                            }`}>
                             {serialNumber.productId}
                           </TableCell>
                           <TableCell
-                            id={`serialNumber_serialNumber_${serialNumber.serialNumber}`}>
+                            id={`serialNumber_serialNumber_${
+                              serialNumber.productId +
+                              '_' +
+                              serialNumber.serialNumber
+                            }`}>
                             {serialNumber.serialNumber}
                           </TableCell>
                           <TableCell
-                            id={`serialNumber_status_${serialNumber.status}`}>
+                            id={`serialNumber_status_${
+                              serialNumber.productId +
+                              '_' +
+                              serialNumber.serialNumber
+                            }`}>
                             {serialNumber.status}
                           </TableCell>
                           <TableCell>
                             <Link
-                              id={`edit_${serialNumber.productId}`}
-                              href={`${PAGES.SERIAL_NUMBER_EDIT_PAGE}/${serialNumber.productId}`}
+                              href={{
+                                pathname: `${PAGES.SERIAL_NUMBER_EDIT_PAGE}/${serialNumber.productId}`,
+                                query: {
+                                  serialNumber: serialNumber.serialNumber,
+                                },
+                              }}
                               passHref>
                               <IconButton>
                                 <EditIcon />

@@ -30,6 +30,9 @@ const TITLES = {
   TITLE_INVENTORY_ADMIN: 'Inventory Admin',
   TITLE_EDIT_INVENTORY: 'Edit Inventory',
 
+  TITLE_CREATE_SERIAL_NUMBER: 'Create Serial Number',
+  TITLE_EDIT_SERIAL_NUMBER: 'Edit Serial Number',
+
   TITLE_PRICE_CALC_ADMIN: 'Price Calculation Admin',
   TITLE_EDIT_PRICE_CALC: 'Edit Price Calculation',
 

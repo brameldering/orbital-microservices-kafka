@@ -82,7 +82,8 @@ const updateSerialNumberStatusRouter = (inventoryDB: PrismaClient) => {
             },
           });
 
-        // Casting BigInt to Number for json stringify to work in res.send
+        // TO DO move to service layer
+        // Translate postgres data format to internal format
         const updatedSerialNumberObj = {
           productId: updatedSerialNumberPostgres.product_id,
           serialNumber: updatedSerialNumberPostgres.serial_number,

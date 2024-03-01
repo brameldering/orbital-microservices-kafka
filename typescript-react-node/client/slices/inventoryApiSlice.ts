@@ -1,4 +1,8 @@
-import { PRODUCT_INVENTORY_URL, IInventory } from '@orbital_app/common';
+import {
+  PRODUCT_INVENTORY_URL,
+  INVENTORY_SERIALS_URL,
+  IInventory,
+} from '@orbital_app/common';
 
 import apiSlice from './apiSlice';
 
@@ -16,8 +20,21 @@ export const inventoryApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    updateSerialNumber: builder.mutation<
+      IInventory,
+      { productId: string; serialNumber: string; status: string }
+    >({
+      query: ({ productId, serialNumber, status }) => ({
+        url: `${INVENTORY_SERIALS_URL}/${productId}/${serialNumber}`,
+        method: 'PUT',
+        body: { status: status },
+      }),
+    }),
   }),
 });
 
-export const { useGetInventoryByIdQuery, useUpdateInventoryMutation } =
-  inventoryApiSlice;
+export const {
+  useGetInventoryByIdQuery,
+  useUpdateInventoryMutation,
+  useUpdateSerialNumberMutation,
+} = inventoryApiSlice;

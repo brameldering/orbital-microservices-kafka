@@ -37,7 +37,7 @@ interface IFormInput {
 
 const schema = yup.object().shape({
   apiName: textFieldNoSpaces().max(40).required('Required'),
-  microservice: yup.string().required('Required'),
+  microservice: textFieldNoSpaces().required('Required'),
   allowedRoles: yup.array().of(yup.string()),
 });
 
