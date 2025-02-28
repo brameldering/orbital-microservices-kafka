@@ -18,7 +18,7 @@ module.exports = {
     'import/extensions': 'off',
     'linebreak-style': ['error', 'unix'],
     '@typescript-eslint/no-var-requires': 'off',
-    '@typescript-eslint/no-explicit-any': 'warn',
+    '@typescript-eslint/no-explicit-any': 'off',
     'no-multiple-empty-lines': 'warn',
     'no-var': 'error',
     'prefer-const': 'error',
