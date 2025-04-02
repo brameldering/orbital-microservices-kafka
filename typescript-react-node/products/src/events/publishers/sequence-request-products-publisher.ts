@@ -1,8 +1,6 @@
-import {
-  Publisher,
-  Topics,
-  SequenceRequestProductsEvent,
-} from '@orbital_app/common';
+import { Publisher } from '../../kafka/base-publisher';
+import { Topics } from '../../kafka/types/topics';
+import { SequenceRequestProductsEvent } from '../../kafka/types/sequence/sequence-request-products-event';
 
 export class SequenceRequestProductsPublisher extends Publisher<SequenceRequestProductsEvent> {
   topic: Topics.SequenceRequestProducts = Topics.SequenceRequestProducts;

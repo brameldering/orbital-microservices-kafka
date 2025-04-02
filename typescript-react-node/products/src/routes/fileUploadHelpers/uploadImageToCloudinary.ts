@@ -3,7 +3,7 @@ import { Request, Response, RequestHandler } from 'express';
 import multer from 'multer';
 
 import { MAX_IMAGE_FILE_SIZE } from '../../constants';
-import { FileUploadError } from '@orbital_app/common';
+import { FileUploadError } from '../../types/error-types';
 
 import fileFilter from './fileFilter';
 

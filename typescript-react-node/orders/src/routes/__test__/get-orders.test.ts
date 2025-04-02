@@ -5,7 +5,7 @@ import {
   createTestOrder,
   fakeSignupCustomer,
 } from '../../test/helper-functions';
-import { ORDERS_URL } from '@orbital_app/common';
+import { ORDERS_URL } from '../../constants/url-constants';
 
 describe('Test get orders', () => {
   it('returns a status 200 and the order info for 1 order', async () => {

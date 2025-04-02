@@ -6,14 +6,10 @@ import express from 'express';
 import 'express-async-errors';
 import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
-import {
-  getKafkaLogLevel,
-  currentUser,
-  apiAccessCache,
-  validateURL,
-  errorHandler,
-  RouteNotFoundError,
-} from '@orbital_app/common';
+import { getKafkaLogLevel } from './kafka/get-kafka-log-level';
+import { currentUser } from './middleware/auth-middleware';
+import { errorHandler } from './middleware/error-handler';
+import { RouteNotFoundError } from './types/error-types';
 import { uploadFileRouter } from './routes/upload-file';
 import { getProductsRouter } from './routes/get-products';
 import { createProductRouter } from './routes/create-product';
@@ -78,14 +74,14 @@ app.use(
 );
 
 // Validate URL
-app.use(validateURL);
+// app.use(validateURL);
 // set req.currentuser if a user is logged in
 app.use(currentUser);
 
 const setupApp = async () => {
   try {
     // Initialize cache of API Access Array
-    await apiAccessCache.loadCacheFromDB();
+    // await apiAccessCache.loadCacheFromDB();
 
     app.use(uploadFileRouter);
     app.use(createProductReviewRouter);

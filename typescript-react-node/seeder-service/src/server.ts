@@ -8,14 +8,13 @@ import { PrismaClient } from '@prisma/client';
 import 'express-async-errors';
 import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
-import {
-  errorHandler,
-  RouteNotFoundError,
-  kafkaWrapper,
-  getKafkaLogLevel,
-  Topics,
-  wait,
-} from '@orbital_app/common';
+import { kafkaWrapper } from './kafka/kafka-wrapper';
+import { Topics } from './kafka/types/topics';
+import { getKafkaLogLevel } from "./kafka/get-kafka-log-level";
+import { wait } from "./utils/wait";
+import { errorHandler } from './middleware/error-handler';
+import { RouteNotFoundError } from './types/error-types';
+
 import { seedDataRouter } from './routes/seed-data';
 
 function canBeConvertedToNumber(strNumber: string) {
@@ -87,7 +86,7 @@ app.use(
 app.use(seedDataRouter);
 
 // Handle any other (unknown) route API calls
-app.all('*', async (req) => {
+app.all('*', async (req: any) => {
   console.error('no match found for API route:', req.method, req.originalUrl);
   throw new RouteNotFoundError();
 });
@@ -180,6 +179,7 @@ process.on('SIGINT', shutDown);
 process.on('uncaughtException', (err: Error) => {
   console.error(`ERROR: ${err.stack}`);
   console.error('Shutting down due to uncaught exception');
+  shutDown();
   process.exit(1);
 });
 
@@ -187,6 +187,7 @@ process.on('uncaughtException', (err: Error) => {
 process.on('unhandledRejection', (err: Error) => {
   console.error(`ERROR: ${err.stack}`);
   console.error('Shutting down the server due to Unhandled Promise rejection');
+  shutDown();
   process.exit(1);
 });
 

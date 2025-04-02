@@ -1,16 +1,12 @@
 import mongoose from 'mongoose';
 import { app, setupApp } from './app';
-import {
-  kafkaWrapper,
-  Topics,
-  Listener,
-  ListenerManager,
-  IConsumerConfig,
-  wait,
-} from '@orbital_app/common';
-import { ApiAccessCreatedListener } from './events/listeners/api-access-created-listener';
-import { ApiAccessUpdatedListener } from './events/listeners/api-access-updated-listener';
-import { ApiAccessDeletedListener } from './events/listeners/api-access-deleted-listener';
+import { kafkaWrapper } from './kafka/kafka-wrapper';
+import { Listener } from './kafka/base-listener';
+import { ListenerManager } from './kafka/listener-manager';
+import { Topics } from './kafka/types/topics';
+import { IConsumerConfig } from './kafka/types/consumer-config';
+import { wait } from "./utils/wait";
+
 import { SequenceRequestOrdersPublisher } from './events/publishers/sequence-request-orders-publisher';
 import { SequenceResponseOrdersListener } from './events/listeners/sequence-response-orders-listener';
 
@@ -31,18 +27,6 @@ class Server {
   // Array to keep track of all listeners
   private allListeners: Listener<any>[] = [];
   private readonly listenerConfigurations = [
-    {
-      topic: Topics.ApiAccessCreated,
-      listenerClass: ApiAccessCreatedListener,
-    },
-    {
-      topic: Topics.ApiAccessUpdated,
-      listenerClass: ApiAccessUpdatedListener,
-    },
-    {
-      topic: Topics.ApiAccessDeleted,
-      listenerClass: ApiAccessDeletedListener,
-    },
     {
       topic: Topics.SequenceResponseOrders,
       listenerClass: SequenceResponseOrdersListener,
@@ -155,3 +139,18 @@ server.start();
 // Handle graceful shutdown
 process.on('SIGTERM', () => server.shutDown());
 process.on('SIGINT', () => server.shutDown());
+
+process.on('uncaughtException', (err: any) => {
+  console.error('Shutting down due to uncaught exception');
+  console.error(`ERROR: ${err.stack}`);
+  server.shutDown();
+  process.exit(1);
+});
+
+// Handle Unhandled Promise rejections
+process.on('unhandledRejection', (err: any) => {
+  console.error('Shutting down the server due to Unhandled Promise rejection');
+  console.error(`ERROR: ${err.stack}`);
+  server.shutDown();
+  process.exit(1);
+});

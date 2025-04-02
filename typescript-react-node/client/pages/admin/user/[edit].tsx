@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Box from '@mui/material/Box';
-import { TextNumField, SelectField } from 'form/FormComponents';
+import { TextNumField } from 'form/FormComponents';
 import FormContainer from 'form/FormContainer';
 import FormTitle from 'form/FormTitle';
 import { textField } from 'form/ValidationSpecs';
@@ -20,8 +20,8 @@ import { parseError } from 'utils/parse-error';
 import ModalConfirmBox from 'components/ModalConfirmBox';
 import TITLES from 'constants/form-titles';
 import PAGES from 'constants/client-pages';
-import { IUser } from '@orbital_app/common';
-import { getRoles } from 'api/roles/get-roles';
+import { IUser } from 'types/user-types';
+// import { getRoles } from 'api/roles/get-roles';
 import { getUserById } from 'api/users/get-user-by-id';
 import { updUserState } from 'slices/authSlice';
 import { useUpdateUserMutation } from 'slices/usersApiSlice';
@@ -47,14 +47,13 @@ interface TPageProps {
   error?: string[];
 }
 
-const UserEditScreen: React.FC<TPageProps> = ({ roles, user, error }) => {
+const UserEditScreen: React.FC<TPageProps> = ({ user, error }) => {
   const dispatch = useDispatch();
   const [updateUser, { isLoading: updating, error: errorUpdating }] =
     useUpdateUserMutation();
 
   const {
     register,
-    control,
     handleSubmit,
     // setValue,
     getValues,
@@ -65,7 +64,6 @@ const UserEditScreen: React.FC<TPageProps> = ({ roles, user, error }) => {
     defaultValues: {
       name: user?.name || '',
       email: user?.email || '',
-      role: user?.role || '',
     },
     mode: 'onBlur',
     reValidateMode: 'onSubmit',
@@ -102,10 +100,10 @@ const UserEditScreen: React.FC<TPageProps> = ({ roles, user, error }) => {
     }
   };
 
-  const selectRoles = [
-    { label: 'Select role', value: '' },
-    ...roles.map((role) => ({ label: role.roleDisplay, value: role.role })),
-  ];
+  // const selectRoles = [
+  //   { label: 'Select role', value: '' },
+  //   ...roles.map((role) => ({ label: role.roleDisplay, value: role.role })),
+  // ];
 
   const loadingOrProcessing = updating;
 
@@ -141,13 +139,13 @@ const UserEditScreen: React.FC<TPageProps> = ({ roles, user, error }) => {
                 error={errors.email}
                 setError={setError}
               />
-              <SelectField
+              {/* <SelectField
                 controlId='role'
                 options={selectRoles}
                 control={control}
                 error={errors.role}
                 setError={setError}
-              />
+              /> */}
               <FormButtonBox>
                 <CancelButton
                   disabled={loadingOrProcessing}
@@ -169,7 +167,7 @@ const UserEditScreen: React.FC<TPageProps> = ({ roles, user, error }) => {
 // Fetch user and User Roles (to fill dropdown box)
 export const getServerSideProps = async (context: NextPageContext) => {
   try {
-    const roles = await getRoles(context);
+    // const roles = await getRoles(context);
     // the name of the query parameter ('edit') should match the [filename].tsx
     const id = context.query.edit as string | string[] | undefined;
     let userId = Array.isArray(id) ? id[0] : id;
@@ -182,7 +180,8 @@ export const getServerSideProps = async (context: NextPageContext) => {
       user = await getUserById(context, userId);
     }
     return {
-      props: { roles, user },
+      // props: { roles, user },
+      props: { user },
     };
   } catch (error: any) {
     const parsedError = parseError(error);

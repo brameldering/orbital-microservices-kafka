@@ -1,8 +1,6 @@
 import { Dispatch, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import {
-  IPriceCalcSettingsAttrs,
-  PRICE_CALC_SETTINGS_URL,
-} from '@orbital_app/common';
+import { PRICE_CALC_SETTINGS_URL } from 'constants/url-constants';
+import { IPriceCalcSettingsAttrs } from '../types/common-types';
 
 // Action creator that fetches information from the API
 export const fetchPriceCalcSettingsInformation =

@@ -25,7 +25,8 @@ import CheckoutSteps from 'components/CheckoutSteps';
 import TITLES from 'constants/form-titles';
 import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
 import PAGES from 'constants/client-pages';
-import { ICartItem, IPriceCalcSettingsAttrs } from '@orbital_app/common';
+import { ICartItem } from 'types/cart-types';
+import { IPriceCalcSettingsAttrs } from '../../types/common-types';
 import type { RootState } from 'slices/store';
 import { addToCart, removeFromCart } from 'slices/cartSlice';
 import { getPriceCalcSettings } from 'api/orders/get-price-calc-settings';
@@ -40,7 +41,7 @@ const CartScreen: React.FC<TPageProps> = ({ priceCalcSettings, error }) => {
   const router = useRouter();
   const currentPath = router.pathname;
 
-  const { userInfo } = useSelector((state: RootState) => state.auth);
+  // const { userInfo } = useSelector((state: RootState) => state.auth);
   const { cartItems } = useSelector((state: RootState) => state.cart);
 
   const addToCartHandler = (product: ICartItem, qty: number) => {
@@ -53,13 +54,13 @@ const CartScreen: React.FC<TPageProps> = ({ priceCalcSettings, error }) => {
 
   const nextPage = PAGES.SHIPPING_PAGE;
   const checkoutHandler = () => {
-    if (userInfo?.name) {
+    // if (userInfo?.name) {
       // user logged in, proceed to next page
       Router.push(nextPage);
-    } else {
-      // user not yet logged in, log in first then redirect to next page
-      Router.push(`${PAGES.SIGNIN_PAGE}?redirect=${nextPage}`);
-    }
+    // } else {
+    //   // user not yet logged in, log in first then redirect to next page
+    //   Router.push(`${PAGES.SIGNIN_PAGE}?redirect=${nextPage}`);
+    // }
   };
 
   return (
@@ -86,7 +87,7 @@ const CartScreen: React.FC<TPageProps> = ({ priceCalcSettings, error }) => {
               ) : (
                 <Paper elevation={2} sx={{ p: 2 }}>
                   <List>
-                    {cartItems.map((item) => (
+                    {cartItems.map((item: any) => (
                       <ListItem id='product_item' key={item.productId}>
                         <Grid container spacing={2}>
                           <Grid item xs={2}>
@@ -154,15 +155,22 @@ const CartScreen: React.FC<TPageProps> = ({ priceCalcSettings, error }) => {
                   <ListItem>
                     <Typography variant='h3'>
                       Subtotal (
-                      {cartItems.reduce((acc, item) => acc + item.qty, 0)})
-                      items
+                      {cartItems.reduce(
+                        (acc: number, item: ICartItem) => acc + item.qty,
+                        0
+                      )}
+                      ) items
                     </Typography>
                   </ListItem>
                   <ListItem>
                     <Typography variant='h5'>
                       {CURRENCY_SYMBOL}
                       {cartItems
-                        .reduce((acc, item) => acc + item.qty * item.price, 0)
+                        .reduce(
+                          (acc: number, item: ICartItem) =>
+                            acc + item.qty * item.price,
+                          0
+                        )
                         .toFixed(2)}
                     </Typography>
                   </ListItem>

@@ -5,7 +5,7 @@ import {
   fakeSignupCustomer,
   createTestProduct,
 } from '../../test/helper-functions';
-import { PRODUCTS_URL, PRODUCT_REVIEW_URL } from '@orbital_app/common';
+import { PRODUCTS_URL , PRODUCT_REVIEW_URL } from '../../constants/url-constants';
 
 describe('Test create product review', () => {
   it('returns a status 201 when a product review has been succesfully created', async () => {

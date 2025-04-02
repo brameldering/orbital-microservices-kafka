@@ -5,12 +5,11 @@ import {
   fakeSignupCustomer,
   testShippingAddress,
 } from '../../test/helper-functions';
-import {
-  ORDERS_URL,
-  Order,
-  IOrderItem,
-  PAYMENT_METHOD_PAYPAL,
-} from '@orbital_app/common';
+
+import { ORDERS_URL } from '../../constants/url-constants';
+import { IOrderItem } from '../../types/order-types';
+import { Order }  from '../../models/order-model';
+import { PAYMENT_METHOD_PAYPAL } from '../../constants/payment-methods';
 
 describe('Test create order', () => {
   it('creates an order with valid inputs and returns a status 201 with the created order', async () => {

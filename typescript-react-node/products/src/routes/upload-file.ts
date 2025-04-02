@@ -1,13 +1,9 @@
-import express, { Response, NextFunction } from 'express';
+import express, { Response } from 'express';
 import { uploadImageToCloudinary } from './fileUploadHelpers/uploadImageToCloudinary';
-import {
-  UPLOAD_URL,
-  IExtendedRequest,
-  cacheMiddleware,
-  authorize,
-  PRODUCTS_APIS,
-  FileUploadError,
-} from '@orbital_app/common';
+
+import { UPLOAD_URL } from '../constants/url-constants';
+import { IExtendedRequest } from "../types/request-types";
+import  { FileUploadError } from '../types/error-types';
 
 const router = express.Router();
 
@@ -19,9 +15,9 @@ const router = express.Router();
 //       or status(415).FileUploadError(message)
 router.post(
   UPLOAD_URL,
-  cacheMiddleware,
-  (req: IExtendedRequest, res: Response, next: NextFunction) =>
-    authorize(PRODUCTS_APIS, req.apiAccessCache || [])(req, res, next),
+  // cacheMiddleware,
+  // (req: IExtendedRequest, res: Response, next: NextFunction) =>
+  //   authorize(PRODUCTS_APIS, req.apiAccessCache || [])(req, res, next),
   async (req: IExtendedRequest, res: Response) => {
     /*  #swagger.tags = ['Products']
      #swagger.description = 'Upload image to cloudinary'

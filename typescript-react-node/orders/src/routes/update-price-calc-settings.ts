@@ -1,14 +1,10 @@
-import express, { Response, NextFunction } from 'express';
-import {
-  PRICE_CALC_SETTINGS_URL,
-  IExtendedRequest,
-  cacheMiddleware,
-  authorize,
-  ORDERS_APIS,
-  PriceCalcSettings,
-  IPriceCalcSettingsDoc,
-  ObjectNotFoundError,
-} from '@orbital_app/common';
+import express, { Response } from 'express';
+
+import { PRICE_CALC_SETTINGS_URL } from '../constants/url-constants';
+import { IExtendedRequest } from "../types/request-types";
+import { PriceCalcSettings }  from '../models/price-calc-settings-model';
+import { IPriceCalcSettingsDoc } from '../types/mongoose-model-types/mongoose-price-calc-settings-types';
+import  { ObjectNotFoundError } from '../types/error-types';
 
 const router = express.Router();
 
@@ -19,9 +15,9 @@ const router = express.Router();
 // @res     {updated PriceCalcSettingsObj}
 router.put(
   PRICE_CALC_SETTINGS_URL,
-  cacheMiddleware,
-  (req: IExtendedRequest, res: Response, next: NextFunction) =>
-    authorize(ORDERS_APIS, req.apiAccessCache || [])(req, res, next),
+  // cacheMiddleware,
+  // (req: IExtendedRequest, res: Response, next: NextFunction) =>
+  //   authorize(ORDERS_APIS, req.apiAccessCache || [])(req, res, next),
   async (req: IExtendedRequest, res: Response) => {
     /*  #swagger.tags = ['Orders']
       #swagger.description = 'Update Price Calculation Settings'

@@ -1,20 +1,17 @@
-import express, { Response, NextFunction } from 'express';
+import express, { Response } from 'express';
 import mongoose from 'mongoose';
 // import { body } from 'express-validator';
 // import { validateRequest } from '@orbital_app/common';
-import {
-  PRODUCT_REVIEW_URL,
-  IExtendedRequest,
-  cacheMiddleware,
-  authorize,
-  PRODUCTS_APIS,
-  Product,
-  ProductReview,
-  checkObjectId,
-  IProductReviewDoc,
-  ObjectNotFoundError,
-  UserInputError,
-} from '@orbital_app/common';
+import { PRODUCT_REVIEW_URL } from '../constants/url-constants';
+import { IExtendedRequest } from "../types/request-types";
+import { IProductReviewDoc } from '../types/mongoose-model-types/mongoose-product-types';
+import { Product }  from '../models/product-model';
+import { ProductReview }  from '../models/product-review-model';
+// import { kafkaWrapper } from '../kafka/kafka-wrapper';
+// import { Topics } from '../kafka/types/topics';
+import { checkObjectId } from '../middleware/check-object-id'
+import  { UserInputError, ObjectNotFoundError } from '../types/error-types';
+
 
 const router = express.Router();
 
@@ -30,9 +27,9 @@ const router = express.Router();
 //       or status(404).ObjectNotFoundError(Product not found)
 router.post(
   PRODUCT_REVIEW_URL + '/:id',
-  cacheMiddleware,
-  (req: IExtendedRequest, res: Response, next: NextFunction) =>
-    authorize(PRODUCTS_APIS, req.apiAccessCache || [])(req, res, next),
+  // cacheMiddleware,
+  // (req: IExtendedRequest, res: Response, next: NextFunction) =>
+  //   authorize(PRODUCTS_APIS, req.apiAccessCache || [])(req, res, next),
   checkObjectId,
   async (req: IExtendedRequest, res: Response) => {
     /* #swagger.tags = ['Products']

@@ -20,15 +20,15 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 @ToString
 public class ProductQuantity {
   @Id
-  @Column(name="product_id")
+  @Column(name = "product_id", nullable = false, unique = true)
   private String productId;
 
-  @Column(name="quantity")
+  @Column(name = "quantity", nullable = false)
   private long quantity;
 
   @OneToOne
   @MapsId
-  @JoinColumn(name = "product_id")
+  @JoinColumn(name = "product_id", nullable = false)
   @JsonBackReference // To avoid circular dependency
   private Product product;
 }

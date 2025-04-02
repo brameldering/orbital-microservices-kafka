@@ -21,20 +21,20 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @ToString
 public class Product {
   @Id
-  @Column(name="product_id")
+  @Column(name = "product_id", nullable = false, unique = true, length = 80)
   private String productId;
 
-  @Column(name="name")
+  @Column(name = "name", nullable = false, length = 100)
   private String name;
 
-  @Column(name="brand")
+  @Column(name = "brand", nullable = true, length = 80)
   private String brand;
 
-  @Column(name="category")
+  @Column(name = "category", nullable = false, length = 50)
   private String category;
 
   // Note that with CascadeTyoe.All when creating/deleting a product also the product_quantity will be created/deleted
-  @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
   @PrimaryKeyJoinColumn
   @JsonManagedReference // To avoid circular dependencies
   private ProductQuantity productQuantity;

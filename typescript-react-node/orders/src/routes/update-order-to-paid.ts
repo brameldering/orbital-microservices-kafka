@@ -1,14 +1,10 @@
-import express, { Response, NextFunction } from 'express';
-import {
-  UPDATE_ORDER_TO_PAID_URL,
-  IExtendedRequest,
-  cacheMiddleware,
-  authorize,
-  ORDERS_APIS,
-  Order,
-  UserInputError,
-  ObjectNotFoundError,
-} from '@orbital_app/common';
+import express, { Response } from 'express';
+
+import { UPDATE_ORDER_TO_PAID_URL } from '../constants/url-constants';
+import { IExtendedRequest } from "../types/request-types";
+import { Order }  from '../models/order-model';
+import  { UserInputError, ObjectNotFoundError } from '../types/error-types';
+
 import { verifyPayPalPayment, checkIfNewTransaction } from '../utils/paypal';
 
 const router = express.Router();
@@ -22,9 +18,9 @@ const router = express.Router();
 //       or status(404).ObjectNotFoundError(Order not found)
 router.put(
   UPDATE_ORDER_TO_PAID_URL + '/:id',
-  cacheMiddleware,
-  (req: IExtendedRequest, res: Response, next: NextFunction) =>
-    authorize(ORDERS_APIS, req.apiAccessCache || [])(req, res, next),
+  // cacheMiddleware,
+  // (req: IExtendedRequest, res: Response, next: NextFunction) =>
+  //   authorize(ORDERS_APIS, req.apiAccessCache || [])(req, res, next),
   async (req: IExtendedRequest, res: Response) => {
     /*  #swagger.tags = ['Orders']
       #swagger.description = 'Update order to paid.  Verifies that correct payment has been made using PayPal'

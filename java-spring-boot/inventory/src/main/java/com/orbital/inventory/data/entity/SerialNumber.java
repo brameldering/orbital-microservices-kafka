@@ -2,15 +2,7 @@ package com.orbital.inventory.data.entity;
 
 import com.orbital.inventory.common.SerialStatus;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.EnumType;
-// import jakarta.persistence.GeneratedValue;
-// import jakarta.persistence.GenerationType;
-// import jakarta.persistence.Id;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
 
@@ -33,6 +25,6 @@ public class SerialNumber {
 	// private String serialNumber;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "status")
+	@Column(name = "status", nullable = false)
 	private SerialStatus status; // Status is an enum
 }

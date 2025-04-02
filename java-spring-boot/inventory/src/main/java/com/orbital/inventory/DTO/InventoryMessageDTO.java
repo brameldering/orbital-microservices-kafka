@@ -1,29 +1,24 @@
 package com.orbital.inventory.DTO;
 
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.ToString;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class InventoryMessageDTO {
+  @NotBlank(message = "Product ID cannot be empty")
   private String productId;
-  private long quantity;
 
-  // Constructors, getters, and setters
-  public InventoryMessageDTO(String productId, long quantity) {
-      this.productId = productId;
-      this.quantity = quantity;
-  }
-
-  public String getProductId() {
-      return productId;
-  }
-
-  public void setProductId(String productId) {
-      this.productId = productId;
-  }
-
-  public long getQuantity() {
-      return quantity;
-  }
-
-  public void setQuantity(long quantity) {
-      this.quantity = quantity;
-  }
+  @NotNull(message = "Quantity cannot be null")
+  private Long quantity;
 }
 

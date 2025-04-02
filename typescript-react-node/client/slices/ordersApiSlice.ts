@@ -4,11 +4,12 @@ import {
   UPDATE_ORDER_TO_PAID_URL,
   UPDATE_ORDER_TO_DELIVERED_URL,
   GET_PAYPAL_CLIENT_ID_URL,
+} from 'constants/url-constants';
+import {
   IOrder,
   IPaymentResult,
   IPayPalClientId,
-} from '@orbital_app/common';
-
+} from 'types/order-types';
 import apiSlice from './apiSlice';
 
 // Define an API slice for orders

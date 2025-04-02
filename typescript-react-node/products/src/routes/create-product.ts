@@ -1,19 +1,14 @@
-import express, { Response, NextFunction } from 'express';
+import express, { Response } from 'express';
 import mongoose from 'mongoose';
 // import { body } from 'express-validator';
 // import { validateRequest } from '@orbital_app/common';
-import {
-  PRODUCTS_URL,
-  Product,
-  IExtendedRequest,
-  cacheMiddleware,
-  authorize,
-  PRODUCTS_APIS,
-  IProductAttrs,
-  kafkaWrapper,
-  Topics,
-  GENERATING,
-} from '@orbital_app/common';
+import { PRODUCTS_URL } from '../constants/url-constants';
+import { IExtendedRequest } from "../types/request-types";
+import { IProductAttrs } from '../types/mongoose-model-types/mongoose-product-types';
+import { Product }  from '../models/product-model';
+import { kafkaWrapper } from '../kafka/kafka-wrapper';
+import { Topics } from '../kafka/types/topics';
+import { GENERATING } from '../constants/various-constants';
 
 const router = express.Router();
 
@@ -29,9 +24,9 @@ const router = express.Router();
 // @res     status(201).(createdProduct)
 router.post(
   PRODUCTS_URL,
-  cacheMiddleware,
-  (req: IExtendedRequest, res: Response, next: NextFunction) =>
-    authorize(PRODUCTS_APIS, req.apiAccessCache || [])(req, res, next),
+  // cacheMiddleware,
+  // (req: IExtendedRequest, res: Response, next: NextFunction) =>
+  //   authorize(PRODUCTS_APIS, req.apiAccessCache || [])(req, res, next),
   async (req: IExtendedRequest, res: Response) => {
     /*  #swagger.tags = ['Products']
         #swagger.description = 'Create a product'

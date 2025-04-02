@@ -26,7 +26,9 @@ import CustomRating from 'components/Rating';
 import FormButtonBox from 'form/FormButtonBox';
 import { SubmitButton } from 'form/FormButtons';
 import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
-import { ICartItem, IPriceCalcSettingsAttrs } from '@orbital_app/common';
+import { ICartItem } from 'types/cart-types';
+import { IReview } from 'types/product-types';
+import { IPriceCalcSettingsAttrs } from '../../types/common-types';
 import { dateTimeToLocaleDateString } from 'utils/dateUtils';
 import { parseError } from 'utils/parse-error';
 import PAGES from 'constants/client-pages';
@@ -225,7 +227,7 @@ const ProductDetailScreen: React.FC<TPageProps> = ({
                   {product.reviews.length === 0 && (
                     <Alert severity='info'>No Reviews</Alert>
                   )}
-                  {product.reviews.map((review) => (
+                  {product.reviews.map((review: IReview) => (
                     <Box key={review.id} sx={{ my: 2 }}>
                       <Typography variant='body1'>{review.userName}</Typography>
                       <CustomRating value={review.rating} />

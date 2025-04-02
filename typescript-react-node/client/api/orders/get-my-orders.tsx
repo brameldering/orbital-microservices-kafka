@@ -1,6 +1,6 @@
 import { NextPageContext } from 'next';
 import ConfigureAxios from '../configure-axios';
-import { MY_ORDERS_URL } from '@orbital_app/common';
+import { MY_ORDERS_URL } from 'constants/url-constants';
 
 export const getMyOrders = async (context: NextPageContext) => {
   const axiosInstance = ConfigureAxios(context);

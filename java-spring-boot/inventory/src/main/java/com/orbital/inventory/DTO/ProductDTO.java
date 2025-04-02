@@ -2,7 +2,7 @@ package com.orbital.inventory.DTO;
 
 import com.orbital.inventory.data.entity.Product;
 import com.orbital.inventory.data.entity.ProductQuantity;
-
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
@@ -11,17 +11,23 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductDTO {
+  @NotBlank(message = "Product ID cannot be empty")
 	private String productId;
+
+  @NotBlank(message = "Product name cannot be empty")
 	private String name;
 	private String brand;
 	private String category;
-	private long quantity;
+	private Long quantity;
 
 	public static ProductDTO fromEntity(Product product) {
-		ProductQuantity pq = product.getProductQuantity();
-		long quantity = pq != null ? pq.getQuantity() : 0;
-		return new ProductDTO(product.getProductId(), product.getName(),
-												product.getBrand(), product.getCategory(), quantity);
+		return new ProductDTO(
+                  product.getProductId(),
+                  product.getName(),
+                  product.getBrand(),
+                  product.getCategory(),
+                  product.getProductQuantity() != null ? product.getProductQuantity().getQuantity() : 0
+                );
 	}
 
 	public static Product toEntity(ProductDTO dto) {

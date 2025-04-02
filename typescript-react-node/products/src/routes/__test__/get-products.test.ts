@@ -1,7 +1,7 @@
 import request from 'supertest';
 import { app } from '../../app';
 import { createTestProduct } from '../../test/helper-functions';
-import { PRODUCTS_URL } from '@orbital_app/common';
+import { PRODUCTS_URL } from '../../constants/url-constants';
 
 describe('Test get products', () => {
   it('returns a status 200 and the product info for 1 product', async () => {

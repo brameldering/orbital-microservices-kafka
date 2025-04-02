@@ -10,14 +10,14 @@ build:
             dest: .
       docker:
         dockerfile: Dockerfile
-    - image: brameldering/auth
-      context: typescript-react-node/auth
-      sync:
-        manual:
-          - src: src/**/*.ts
-            dest: .
-      docker:
-        dockerfile: Dockerfile
+    # - image: brameldering/auth
+    #   context: typescript-react-node/auth
+    #   sync:
+    #     manual:
+    #       - src: src/**/*.ts
+    #         dest: .
+    #   docker:
+    #     dockerfile: Dockerfile
     - image: brameldering/products
       context: typescript-react-node/products
       sync:

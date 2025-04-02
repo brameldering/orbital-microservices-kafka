@@ -1,4 +1,4 @@
-import { Entities } from '@orbital_app/common';
+import { Entities } from '../src/kafka/types/sequence/entity-types';
 
 export const sequences = [
   {

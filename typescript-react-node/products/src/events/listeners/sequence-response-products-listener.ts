@@ -1,13 +1,10 @@
-import {
-  Product,
-  kafkaWrapper,
-  Listener,
-  Topics,
-  Entities,
-  SequenceResponseProductsEvent,
-  ApplicationServerError,
-  ObjectNotFoundError,
-} from '@orbital_app/common';
+import { Entities } from '../../kafka/types/sequence/entity-types';
+import { Product } from '../../models/product-model';
+import { kafkaWrapper} from "../../kafka/kafka-wrapper";
+import { Listener } from '../../kafka/base-listener';
+import { Topics } from '../../kafka/types/topics';
+import { SequenceResponseProductsEvent } from '../../kafka/types/sequence/sequence-response-products-event';
+import { ApplicationServerError, ObjectNotFoundError } from '../../types/error-types';
 
 export class SequenceResponseProductsListener extends Listener<SequenceResponseProductsEvent> {
   topic: Topics.SequenceResponseProducts = Topics.SequenceResponseProducts;
@@ -18,10 +15,7 @@ export class SequenceResponseProductsListener extends Listener<SequenceResponseP
       const product = await Product.findById(entityObjectId);
 
       if (product) {
-        const sequentialProductId: string =
-          'PRD-' + sequenceNumber.toString().padStart(10, '0');
-
-        product.sequentialProductId = sequentialProductId;
+        product.sequentialProductId =  'PRD-' + sequenceNumber.toString().padStart(10, '0');;
         await product.save();
 
         // Post created product on kafka

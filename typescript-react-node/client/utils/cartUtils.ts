@@ -1,9 +1,7 @@
 'use client';
-import {
-  ICart,
-  calcPrices,
-  IPriceCalcSettingsAttrs,
-} from '@orbital_app/common';
+import { ICart } from 'types/cart-types';
+import { calcPrices } from './calc-prices';
+import { IPriceCalcSettingsAttrs } from '../types/common-types';
 
 export const updateCart = (
   state: ICart,

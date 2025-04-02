@@ -1,22 +1,16 @@
 import express, { Request, Response } from 'express';
-import {
-  SEED_DATA_URL,
-  sequenceSchema,
-  roleSchema,
-  apiAccessSchema,
-  priceCalcSettingsSchema,
-  userSchema,
-  productSchema,
-  orderSchema,
-  roles,
-  apiAccessAuth,
-  apiAccessProducts,
-  apiAccessOrders,
-  apiAccessInventory,
-} from '@orbital_app/common';
+
+import { SEED_DATA_URL } from '../constants/url-constants';
+import { sequenceSchema } from '../models/sequence-model';
+import { roleSchema } from '../models/role-model';
+import { priceCalcSettingsSchema } from '../models/price-calc-settings-model';
+import { userSchema } from '../models/user-model';
+import { productSchema } from '../models/product-model';
+import { orderSchema } from '../models/order-model';
 import { sequences } from '../../seederdata/sequences';
 import { products } from '../../seederdata/products';
 import { users } from '../../seederdata/users';
+import { roles } from '../../seederdata/roles';
 import { priceCalcSettings } from '../../seederdata/price-calc-settings';
 import { invProducts } from '../../seederdata/inventory';
 import {
@@ -25,7 +19,7 @@ import {
   productsDB,
   ordersDB,
   inventoryDB,
-} from '../../src/server';
+} from '../server';
 import { postgresTableExists } from '../../utils/check-table-exists';
 import { runCommand } from '../../utils/run-npx-command';
 
@@ -44,15 +38,12 @@ router.post(SEED_DATA_URL, async (req: Request, res: Response) => {
   // authDB
   const UserInAuthDB = authDB.model('User', userSchema);
   const RolesInAuthDB = authDB.model('Roles', roleSchema);
-  const AccessInAuthDB = authDB.model('ApiAccess', apiAccessSchema);
 
   // productDB
   const ProductsInProductDB = productsDB.model('Product', productSchema);
-  const AccessInProductDB = productsDB.model('ApiAccess', apiAccessSchema);
 
   // orderDB
   const OrdersInOrderDB = ordersDB.model('Order', orderSchema);
-  const AccessInOrderDB = ordersDB.model('ApiAccess', apiAccessSchema);
   const PriceCalcSettingsInOrderDB = ordersDB.model(
     'PriceCalcSettings',
     priceCalcSettingsSchema
@@ -67,16 +58,13 @@ router.post(SEED_DATA_URL, async (req: Request, res: Response) => {
 
   // AuthDB
   await RolesInAuthDB.deleteMany();
-  await AccessInAuthDB.deleteMany();
   await UserInAuthDB.deleteMany();
 
   // ProductDB
-  await AccessInProductDB.deleteMany();
   await ProductsInProductDB.deleteMany();
 
   // OrderDB
   await PriceCalcSettingsInOrderDB.deleteMany();
-  await AccessInOrderDB.deleteMany();
   await OrdersInOrderDB.deleteMany();
 
   // InventoryDB
@@ -136,14 +124,6 @@ router.post(SEED_DATA_URL, async (req: Request, res: Response) => {
   console.log(
     `Seeded ${await RolesInAuthDB.countDocuments()} records in RolesInAuthDB`
   );
-  // AuthDB contains all access records
-  await AccessInAuthDB.insertMany(apiAccessAuth);
-  await AccessInAuthDB.insertMany(apiAccessProducts);
-  await AccessInAuthDB.insertMany(apiAccessOrders);
-  await AccessInAuthDB.insertMany(apiAccessInventory);
-  console.log(
-    `Seeded ${await AccessInAuthDB.countDocuments()} records in AccessInAuthDB`
-  );
   const createdUsers = await UserInAuthDB.insertMany(users);
 
   const adminUserId = createdUsers[0].id;
@@ -159,19 +139,11 @@ router.post(SEED_DATA_URL, async (req: Request, res: Response) => {
   console.log(
     `Seeded ${await ProductsInProductDB.countDocuments()} records in ProductsInProductDB`
   );
-  await AccessInProductDB.insertMany(apiAccessProducts);
-  console.log(
-    `Seeded ${await AccessInProductDB.countDocuments()} records in AccessInProductDB`
-  );
 
   // OrderDB
   await PriceCalcSettingsInOrderDB.insertMany(priceCalcSettings);
   console.log(
     `Seeded ${await PriceCalcSettingsInOrderDB.countDocuments()} records in PriceCalcSettingsInOrderDB`
-  );
-  await AccessInOrderDB.insertMany(apiAccessOrders);
-  console.log(
-    `Seeded ${await AccessInOrderDB.countDocuments()} records in AccessInOrderDB`
   );
 
   // ====================  Inventory DB ====================
@@ -188,42 +160,6 @@ router.post(SEED_DATA_URL, async (req: Request, res: Response) => {
     `Seeded ${await inventoryDB.role.count()} records in inventory.role`
   );
 
-  // InventoryDB - apiAccess
-  // Create api_access records
-  for (const apiAccess of apiAccessInventory) {
-    await inventoryDB.api_access.create({
-      data: {
-        api_name: apiAccess.apiName,
-        microservice: apiAccess.microservice,
-        // Not yet include the allowed_roles connection
-      },
-    });
-  }
-  console.log(
-    `Seeded ${await inventoryDB.api_access.count()} records in inventory.api_access`
-  );
-
-  // Fill the many-to-many relation table api_access_role
-  for (const apiAccess of apiAccessInventory) {
-    // Fetch the roles to connect with the current api_access record
-    const allowedRoles = await inventoryDB.role.findMany({
-      where: {
-        role: { in: apiAccess.allowedRoles },
-      },
-    });
-    // Insert records directly into the join table
-    for (const role of allowedRoles) {
-      await inventoryDB.api_access_role.create({
-        data: {
-          api_name: apiAccess.apiName,
-          role: role.role,
-        },
-      });
-    }
-  }
-  console.log(
-    `Seeded ${await inventoryDB.api_access_role.count()} records in inventory.api_access_role`
-  );
   // InventoryDB - product
   for (const prod of invProducts) {
     await inventoryDB.product.create({ data: prod });

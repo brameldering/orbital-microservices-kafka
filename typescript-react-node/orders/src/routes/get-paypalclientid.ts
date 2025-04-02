@@ -1,11 +1,6 @@
-import express, { Response, NextFunction } from 'express';
-import {
-  GET_PAYPAL_CLIENT_ID_URL,
-  IExtendedRequest,
-  cacheMiddleware,
-  authorize,
-  ORDERS_APIS,
-} from '@orbital_app/common';
+import express, { Response } from 'express';
+import { GET_PAYPAL_CLIENT_ID_URL } from '../constants/url-constants';
+import { IExtendedRequest } from "../types/request-types";
 
 const router = express.Router();
 
@@ -16,9 +11,9 @@ const router = express.Router();
 // @res     status(200).json({ clientId })
 router.get(
   GET_PAYPAL_CLIENT_ID_URL,
-  cacheMiddleware,
-  (req: IExtendedRequest, res: Response, next: NextFunction) =>
-    authorize(ORDERS_APIS, req.apiAccessCache || [])(req, res, next),
+  // cacheMiddleware,
+  // (req: IExtendedRequest, res: Response, next: NextFunction) =>
+  //   authorize(ORDERS_APIS, req.apiAccessCache || [])(req, res, next),
   async (req: IExtendedRequest, res: Response) => {
     /*  #swagger.tags = ['Config']
       #swagger.description = 'Get PayPal client id from .env'

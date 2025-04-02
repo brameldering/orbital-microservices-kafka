@@ -1,4 +1,5 @@
-import { ROLES_URL, IRole, IRoleCreate } from '@orbital_app/common';
+import { ROLES_URL } from 'constants/url-constants';
+import { IRole, IRoleCreate } from 'types/role-types';
 
 import apiSlice from './apiSlice';
 

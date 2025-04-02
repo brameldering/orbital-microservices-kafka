@@ -1,8 +1,6 @@
-import {
-  PriceCalcSettings,
-  IPriceCalcSettingsAttrs,
-  IPriceCalcSettingsDoc,
-} from '@orbital_app/common';
+import { IPriceCalcSettingsAttrs , IPriceCalcSettingsDoc}
+  from '../types/mongoose-model-types/mongoose-price-calc-settings-types';
+import { PriceCalcSettings } from '../models/price-calc-settings-model';
 
 export const getPriceCalcSettings =
   async (): Promise<IPriceCalcSettingsAttrs | null> => {

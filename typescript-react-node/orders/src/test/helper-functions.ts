@@ -4,15 +4,15 @@ import mongoose from 'mongoose';
 import {
   CUST_TEST_NAME,
   CUST_TEST_EMAIL,
-  CUSTOMER_ROLE,
   ADMIN_TEST_NAME,
   ADMIN_TEST_EMAIL,
-  ADMIN_ROLE,
-  IShippingAddress,
-  ORDERS_URL,
-  PAYMENT_METHOD_PAYPAL,
-  IOrderItem,
-} from '@orbital_app/common';
+} from '../constants/test-constants';
+import { CUSTOMER_ROLE, ADMIN_ROLE } from '../constants/role-constants';
+import { ORDERS_URL } from '../constants/url-constants';
+import { IOrderItem } from '../types/order-types';
+import { IShippingAddress }  from '../types/common-types';
+import { PAYMENT_METHOD_PAYPAL } from '../constants/payment-methods';
+
 import { app } from '../app';
 
 interface IPayload {

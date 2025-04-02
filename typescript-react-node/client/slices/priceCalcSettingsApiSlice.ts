@@ -1,7 +1,5 @@
-import {
-  PRICE_CALC_SETTINGS_URL,
-  IPriceCalcSettingsAttrs,
-} from '@orbital_app/common';
+import { PRICE_CALC_SETTINGS_URL } from 'constants/url-constants';
+import { IPriceCalcSettingsAttrs } from '../types/common-types';
 
 import apiSlice from './apiSlice';
 

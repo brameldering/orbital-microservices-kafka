@@ -4,9 +4,8 @@ import type {
   ICart,
   ICartItemWithSettings,
   IRemoveFromCart,
-  IShippingAddress,
-  ITotalAmounts,
-} from '@orbital_app/common';
+} from 'types/cart-types';
+import { IShippingAddress, ITotalAmounts } from 'types/common-types';
 import { updateCart } from 'utils/cartUtils';
 
 // Define the initial state

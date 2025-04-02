@@ -20,7 +20,7 @@ import { parseError } from 'utils/parse-error';
 import ModalConfirmBox from 'components/ModalConfirmBox';
 import TITLES from 'constants/form-titles';
 import PAGES from 'constants/client-pages';
-import { IInventory } from '@orbital_app/common';
+import { IInventory } from 'types/inventory-types';
 import { getInventoryById } from 'api/inventory/get-inventory-by-id';
 import { useUpdateInventoryMutation } from 'slices/inventoryApiSlice';
 

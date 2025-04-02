@@ -17,7 +17,7 @@ import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
 import PAGES from 'constants/client-pages';
 import { dateTimeToLocaleDateString } from 'utils/dateUtils';
 import { getOrders } from 'api/orders/get-orders';
-import { IOrder } from '@orbital_app/common';
+import { IOrder } from 'types/order-types';
 
 interface TPageProps {
   orders: IOrder[];

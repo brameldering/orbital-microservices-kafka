@@ -4,7 +4,8 @@ import {
   fakeSignupAdmin,
   fakeSignupCustomer,
 } from '../../test/helper-functions';
-import { PRODUCTS_URL, Product } from '@orbital_app/common';
+import { PRODUCTS_URL } from '../../constants/url-constants';
+import { Product } from '../../models/product-model';
 
 describe('Test create product', () => {
   it('creates a product with valid inputs and returns a status 201 with the created product', async () => {

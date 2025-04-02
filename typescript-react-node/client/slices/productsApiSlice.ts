@@ -2,12 +2,14 @@ import {
   PRODUCTS_URL,
   PRODUCT_REVIEW_URL,
   UPLOAD_URL,
+} from 'constants/url-constants';
+import {
   IBaseProduct,
   IProduct,
   IGetProductsPaginated,
   IReviewInput,
   IUploadImageResponse,
-} from '@orbital_app/common';
+} from 'types/product-types';
 
 import apiSlice from './apiSlice';
 

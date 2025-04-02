@@ -12,7 +12,7 @@ import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
 import { parseError } from 'utils/parse-error';
 import TITLES from 'constants/form-titles';
-import { IPriceCalcSettingsAttrs } from '@orbital_app/common';
+import { IPriceCalcSettingsAttrs } from '../../../types/common-types';
 import PAGES from 'constants/client-pages';
 import { getPriceCalcSettings } from 'api/orders/get-price-calc-settings';
 

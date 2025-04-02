@@ -4,7 +4,7 @@ import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import { CURRENCY_SYMBOL } from 'constants/constants-frontend';
 import PAGES from 'constants/client-pages';
-import { IOrderItem } from '@orbital_app/common';
+import { IOrderItem } from 'types/order-types';
 
 interface OrderItemLineProps {
   item: IOrderItem;

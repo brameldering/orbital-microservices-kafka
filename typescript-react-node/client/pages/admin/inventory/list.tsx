@@ -15,7 +15,7 @@ import Meta from 'components/Meta';
 import ErrorBlock from 'components/ErrorBlock';
 import { parseError } from 'utils/parse-error';
 import TITLES from 'constants/form-titles';
-import { IInventory } from '@orbital_app/common';
+import { IInventory } from 'types/inventory-types';
 import PAGES from 'constants/client-pages';
 import { getInventory } from 'api/inventory/get-inventory';
 

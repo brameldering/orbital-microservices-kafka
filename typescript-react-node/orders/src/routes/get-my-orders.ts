@@ -1,13 +1,8 @@
-import express, { Response, NextFunction } from 'express';
+import express, { Response } from 'express';
 import mongoose from 'mongoose';
-import {
-  MY_ORDERS_URL,
-  IExtendedRequest,
-  cacheMiddleware,
-  authorize,
-  ORDERS_APIS,
-  Order,
-} from '@orbital_app/common';
+import { MY_ORDERS_URL } from '../constants/url-constants';
+import { IExtendedRequest } from "../types/request-types";
+import { Order }  from '../models/order-model';
 
 const router = express.Router();
 
@@ -18,9 +13,9 @@ const router = express.Router();
 // @res     json(orders)
 router.get(
   MY_ORDERS_URL,
-  cacheMiddleware,
-  (req: IExtendedRequest, res: Response, next: NextFunction) =>
-    authorize(ORDERS_APIS, req.apiAccessCache || [])(req, res, next),
+  // cacheMiddleware,
+  // (req: IExtendedRequest, res: Response, next: NextFunction) =>
+  //   authorize(ORDERS_APIS, req.apiAccessCache || [])(req, res, next),
   async (req: IExtendedRequest, res: Response) => {
     /*  #swagger.tags = ['Orders']
       #swagger.description = 'Fetch orders belonging to currently logged in user'

@@ -1,16 +1,15 @@
 import request from 'supertest';
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
+import { app } from '../app';
+import { PRODUCTS_URL } from '../constants/url-constants';
 import {
-  PRODUCTS_URL,
   CUST_TEST_NAME,
   CUST_TEST_EMAIL,
-  CUSTOMER_ROLE,
   ADMIN_TEST_NAME,
   ADMIN_TEST_EMAIL,
-  ADMIN_ROLE,
-} from '@orbital_app/common';
-import { app } from '../app';
+} from '../constants/test-constants';
+import { CUSTOMER_ROLE, ADMIN_ROLE } from '../constants/role-constants';
 
 interface IPayload {
   id: string;

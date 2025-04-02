@@ -19,7 +19,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@orbital_app/common": "^1.0.319",
     "@prisma/client": "^5.8.0",
     "@types/bcryptjs": "^2.4.5",
     "@types/body-parser": "^1.19.4",
@@ -30,6 +29,8 @@
     "cookie-session": "^2.0.0",
     "express": "^4.18.2",
     "express-async-errors": "^3.1.1",
+    "express-validator": "^7.2.1",
+    "kafkajs": "^2.2.4",
     "mongoose": "^7.6.3",
     "ts-node-dev": "^2.0.0"
   },

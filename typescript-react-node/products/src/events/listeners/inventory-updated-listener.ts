@@ -1,20 +1,18 @@
-import {
-  Listener,
-  Topics,
-  InventoryUpdatedEvent,
-  Product,
-  ApplicationIntegrityError,
-  ApplicationServerError,
-} from '@orbital_app/common';
+
+import { Product } from '../../models/product-model';
+import { Listener } from '../../kafka/base-listener';
+import { Topics } from '../../kafka/types/topics';
+import { InventoryUpdatedEvent } from '../../kafka/types/inventory/inventory-updated-event';
+import { ApplicationServerError, ApplicationIntegrityError } from '../../types/error-types';
 
 export class InventoryUpdatedListener extends Listener<InventoryUpdatedEvent> {
   topic: Topics.InventoryUpdated = Topics.InventoryUpdated;
 
   async onMessage(key: string, data: InventoryUpdatedEvent['data']) {
     try {
-      if (typeof data === 'string') {
-        data = JSON.parse(data);
-      }
+      // if (typeof data === 'string') {
+      //   data = JSON.parse(data);
+      // }
       const { productId, quantity } = data;
       // console.log('productId', productId);
       // console.log('quantity', quantity);

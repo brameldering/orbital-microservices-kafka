@@ -9,6 +9,7 @@ import com.orbital.inventory.exception.NotFoundException;
 import com.orbital.inventory.publishers.InventoryPublisherService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -25,12 +26,13 @@ public class ProductApiController {
 
   private final ProductRepository productRepository;
 
-  public ProductApiController(ProductRepository productRepository) {
-    this.productRepository = productRepository;
-  }
-
-  @Autowired
+   @Autowired
   private InventoryPublisherService inventoryPublisherService;
+
+  public ProductApiController(ProductRepository productRepository, InventoryPublisherService inventoryPublisherService) {
+    this.productRepository = productRepository;
+    this.inventoryPublisherService = inventoryPublisherService;
+  }
 
   /* get-product-inventory */
   @GetMapping
@@ -63,6 +65,7 @@ public class ProductApiController {
   // Updates the quantity in the ProductQuantity entity (product_quantity table)
   // does not allow upding anything else on the product since that data is coming from the Product service
   @PutMapping("/{id}")
+  @Transactional
   public ProductDTO updateProduct(@PathVariable("id") String id, @RequestBody ProductDTO productDto) {
     if (!id.equals(productDto.getProductId())) {
         throw new BadRequestException("ID on path must match body");

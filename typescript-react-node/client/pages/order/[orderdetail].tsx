@@ -8,6 +8,7 @@ import {
   PayPalButtons,
   usePayPalScriptReducer,
   SCRIPT_LOADING_STATE,
+  DISPATCH_ACTION,
 } from '@paypal/react-paypal-js';
 import {
   dateTimeToLocaleDateString,
@@ -33,7 +34,8 @@ import OrderSummaryBlock from 'components/OrderSummaryBlock';
 import TITLES from 'constants/form-titles';
 import { CURRENCY_PAYPAL } from 'constants/constants-frontend';
 import PAGES from 'constants/client-pages';
-import { ADMIN_ROLE, IOrder } from '@orbital_app/common';
+import { ADMIN_ROLE } from 'constants/role-constants';
+import { IOrder } from 'types/order-types';
 import { getOrderById } from 'api/orders/get-order-by-id';
 import type { RootState } from 'slices/store';
 import {
@@ -75,7 +77,7 @@ const OrderScreen: React.FC<TPageProps> = ({ order, error }) => {
     if (payPalClientId?.clientId) {
       console.log('=======> payPalDispatch resetOptions');
       payPalDispatch({
-        type: 'resetOptions',
+        type: DISPATCH_ACTION.RESET_OPTIONS,
         value: {
           clientId: payPalClientId.clientId,
           currency: CURRENCY_PAYPAL,
@@ -83,7 +85,7 @@ const OrderScreen: React.FC<TPageProps> = ({ order, error }) => {
       });
       console.log('=======> payPalDispatch setLoadingStatus');
       payPalDispatch({
-        type: 'setLoadingStatus',
+        type: DISPATCH_ACTION.LOADING_STATUS,
         value: SCRIPT_LOADING_STATE['PENDING'],
       });
     } else {

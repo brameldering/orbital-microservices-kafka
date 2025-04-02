@@ -24,6 +24,7 @@ import { BackButton } from 'form/FormButtons';
 import { clearCartItems } from 'slices/cartSlice';
 import { useCreateOrderMutation } from 'slices/ordersApiSlice';
 import type { RootState } from 'slices/store';
+import { ICartItem } from 'types/cart-types';
 
 const PlaceOrderScreen = () => {
   const dispatch = useDispatch();
@@ -42,7 +43,7 @@ const PlaceOrderScreen = () => {
     useCreateOrderMutation();
 
   const placeOrderHandler = async () => {
-    const orderItems = cart.cartItems.map((item) => {
+    const orderItems = cart.cartItems.map((item: ICartItem) => {
       return {
         productId: item.productId,
         productName: item.productName,
@@ -106,7 +107,7 @@ const PlaceOrderScreen = () => {
                     <Alert severity='info'>Your cart is empty</Alert>
                   ) : (
                     <List>
-                      {cart.cartItems.map((item, index) => (
+                      {cart.cartItems.map((item: ICartItem, index: number) => (
                         <ListItem key={index}>
                           <OrderItemLine
                             item={item}

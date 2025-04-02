@@ -36,7 +36,7 @@ REDIS_HOST = <redis db uri>
 REDIS_PORT = <redis db port>
 REDIS_PASSWORD = <redis db password>
 
-JWT_SECRET = <your_secret>
+# verwijderd: JWT_SECRET = <your_secret>
 EXPIRES_IN = <number of days in format '30d' for 30 days>
 COOKIE_EXPIRES_TIME = <number of days in format 30 for 30 days>
 

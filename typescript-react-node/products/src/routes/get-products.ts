@@ -1,12 +1,9 @@
-import express, { Response, NextFunction } from 'express';
-import {
-  PRODUCTS_URL,
-  Product,
-  IExtendedRequest,
-  cacheMiddleware,
-  authorize,
-  PRODUCTS_APIS,
-} from '@orbital_app/common';
+import express, { Response } from 'express';
+
+import { PRODUCTS_URL } from '../constants/url-constants';
+import { IExtendedRequest } from "../types/request-types";
+import { Product }  from '../models/product-model';
+
 
 const router = express.Router();
 
@@ -18,9 +15,9 @@ const router = express.Router();
 // @res     json({ products, page, pages })
 router.get(
   PRODUCTS_URL,
-  cacheMiddleware,
-  (req: IExtendedRequest, res: Response, next: NextFunction) =>
-    authorize(PRODUCTS_APIS, req.apiAccessCache || [])(req, res, next),
+  // cacheMiddleware,
+  // (req: IExtendedRequest, res: Response, next: NextFunction) =>
+  //   authorize(PRODUCTS_APIS, req.apiAccessCache || [])(req, res, next),
   async (req: IExtendedRequest, res: Response) => {
     /*  #swagger.tags = ['Products']
       #swagger.description = 'Fetch all products'

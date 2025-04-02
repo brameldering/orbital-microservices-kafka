@@ -35,13 +35,6 @@ spec:
               value: WARN
             # - name: KAFKAJS_NO_PARTITIONER_WARNING
             #   value: 1
-            - name: JWT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: jwt-secret
-                  key: JWT_KEY
-            - name: EXPIRES_IN
-              value: '1d'
 ---
 apiVersion: v1
 kind: Service

@@ -6,13 +6,15 @@ import {
   RESET_PASSWORD_URL,
   UPDATE_PASSWORD_URL,
   UPDATE_PROFILE_URL,
+} from 'constants/url-constants';
+import {
   IUser,
   ISignUp,
   ISignIn,
   IChangeUserProfile,
   IChangePassword,
   IResetPassword,
-} from '@orbital_app/common';
+} from 'types/user-types';
 
 import apiSlice from './apiSlice';
 

@@ -1,11 +1,9 @@
-import {
-  kafkaWrapper,
-  Listener,
-  Topics,
-  Sequence,
-  SequenceRequestProductsEvent,
-  Entities,
-} from '@orbital_app/common';
+import { Sequence } from '../../models/sequence-model';
+import { kafkaWrapper } from '../../kafka/kafka-wrapper';
+import { Listener } from '../../kafka/base-listener';
+import { Topics } from '../../kafka/types/topics';
+import { SequenceRequestProductsEvent } from '../../kafka/types/sequence/sequence-request-products-event';
+import { Entities } from '../../kafka/types/sequence/entity-types';
 
 export class SequenceRequestProductsListener extends Listener<SequenceRequestProductsEvent> {
   topic: Topics.SequenceRequestProducts = Topics.SequenceRequestProducts;

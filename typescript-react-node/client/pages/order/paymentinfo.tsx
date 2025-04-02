@@ -18,7 +18,7 @@ import TITLES from 'constants/form-titles';
 import PAGES from 'constants/client-pages';
 import { savePaymentMethod } from 'slices/cartSlice';
 import type { RootState } from 'slices/store';
-import { PAYMENT_METHOD_PAYPAL } from '@orbital_app/common';
+import { PAYMENT_METHOD_PAYPAL } from 'constants/payment-methods';
 
 const PaymentScreen = () => {
   const dispatch = useDispatch();

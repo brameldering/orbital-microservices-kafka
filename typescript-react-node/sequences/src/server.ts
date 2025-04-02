@@ -2,15 +2,15 @@ if (!process.env.DEPLOY_ENV || process.env.DEPLOY_ENV !== 'kubernetes') {
   require('dotenv').config();
 }
 import mongoose from 'mongoose';
-import {
-  kafkaWrapper,
-  getKafkaLogLevel,
-  Topics,
-  Listener,
-  ListenerManager,
-  IConsumerConfig,
-  wait,
-} from '@orbital_app/common';
+
+import { kafkaWrapper } from './kafka/kafka-wrapper';
+import { Listener } from './kafka/base-listener';
+import { ListenerManager } from './kafka/listener-manager';
+import { Topics } from './kafka/types/topics';
+import { IConsumerConfig } from './kafka/types/consumer-config';
+import { getKafkaLogLevel } from "./kafka/get-kafka-log-level";
+import { wait } from "./utils/wait";
+
 import { SequenceResponseOrdersPublisher } from './events/publishers/sequence-response-orders-publisher';
 import { SequenceResponseProductsPublisher } from './events/publishers/sequence-response-products-publisher';
 import { SequenceRequestOrdersListener } from './events/listeners/sequence-request-orders-listener';
@@ -170,6 +170,7 @@ process.on('SIGINT', server.shutDown);
 process.on('uncaughtException', (err: any) => {
   console.error('Shutting down due to uncaught exception');
   console.error(`ERROR: ${err.stack}`);
+  server.shutDown();
   process.exit(1);
 });
 
@@ -177,5 +178,6 @@ process.on('uncaughtException', (err: any) => {
 process.on('unhandledRejection', (err: any) => {
   console.error('Shutting down the server due to Unhandled Promise rejection');
   console.error(`ERROR: ${err.stack}`);
+  server.shutDown();
   process.exit(1);
 });

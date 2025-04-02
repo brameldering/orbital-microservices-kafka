@@ -151,7 +151,7 @@ const ProductListScreen = () => {
           </TableHead>
           <TableBody>
             {data &&
-              data.products.map((product) => (
+              data.products.map((product: any) => (
                 <TableRow key={product.id}>
                   <TableCell>{product.sequentialProductId}</TableCell>
                   <TableCell id={`name_${product.sequentialProductId}`}>

@@ -1,12 +1,9 @@
-import {
-  Order,
-  Listener,
-  Topics,
-  Entities,
-  SequenceResponseOrdersEvent,
-  ApplicationServerError,
-  ObjectNotFoundError,
-} from '@orbital_app/common';
+import { Order } from '../../models/order-model'
+import { Listener } from '../../kafka/base-listener';
+import { Topics } from '../../kafka/types/topics';
+import { Entities } from '../../kafka/types/sequence/entity-types';
+import { SequenceResponseOrdersEvent } from '../../kafka/types/sequence/sequence-response-orders-event';
+import { ApplicationServerError, ObjectNotFoundError } from '../../types/error-types';
 
 export class SequenceResponseOrdersListener extends Listener<SequenceResponseOrdersEvent> {
   topic: Topics.SequenceResponseOrders = Topics.SequenceResponseOrders;
@@ -16,10 +13,7 @@ export class SequenceResponseOrdersListener extends Listener<SequenceResponseOrd
     try {
       const order = await Order.findById(entityObjectId);
       if (order) {
-        const sequentialOrderId: string =
-          'ORD-' + sequenceNumber.toString().padStart(10, '0');
-
-        order.sequentialOrderId = sequentialOrderId;
+        order.sequentialOrderId = 'ORD-' + sequenceNumber.toString().padStart(10, '0');;
         await order.save();
       } else {
         throw new ObjectNotFoundError(
