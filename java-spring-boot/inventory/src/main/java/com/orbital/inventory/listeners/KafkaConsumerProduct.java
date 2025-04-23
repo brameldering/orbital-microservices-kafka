@@ -25,7 +25,7 @@ public class KafkaConsumerProduct {
       containerFactory = "productDTOKafkaListenerFactory")
   public void consumeJson(ProductDTO productDTO,
           @Header(KafkaHeaders.RECEIVED_TOPIC) String topic) {
-    System.out.println("Consumed message: " + productDTO + " from topic " + topic );
+    System.out.println("Consumed message: " + productDTO + " from topic: " + topic );
 
     // New Product
     if (topic.equals(Constants.TOPIC_PRODUCT_CREATED)) {

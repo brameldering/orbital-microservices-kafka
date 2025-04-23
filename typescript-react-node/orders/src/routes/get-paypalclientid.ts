@@ -1,6 +1,6 @@
 import express, { Response } from 'express';
 import { GET_PAYPAL_CLIENT_ID_URL } from '../constants/url-constants';
-import { IExtendedRequest } from "../types/request-types";
+import { IExtendedRequest } from '../types/request-types';
 
 const router = express.Router();
 

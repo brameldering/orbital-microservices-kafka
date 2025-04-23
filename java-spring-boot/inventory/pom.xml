@@ -96,6 +96,18 @@
 					</excludes>
 				</configuration>
 			</plugin>
+      <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-wrapper-plugin</artifactId>
+          <version>3.2.0</version> <!-- Replace with an available version -->
+          <executions>
+              <execution>
+                  <goals>
+                      <goal>wrapper</goal>
+                  </goals>
+              </execution>
+          </executions>
+      </plugin>
 		</plugins>
 	</build>
 

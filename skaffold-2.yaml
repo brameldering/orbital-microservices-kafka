@@ -14,7 +14,7 @@ build:
       context: java-spring-boot/inventory
       sync:
         manual:
-          - src: src/**/*.ts
+          - src: src/**/*.java
             dest: .
       docker:
         dockerfile: Dockerfile

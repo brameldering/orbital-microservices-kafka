@@ -1,7 +1,7 @@
 // import dotenv from 'dotenv';
 // import { Order } from '../orderModel';
 import { IOrderModel } from '../types/mongoose-model-types/mongoose-order-types';
-import  { ExternalAPIError } from '../types/error-types';
+import { ExternalAPIError } from '../types/error-types';
 
 // dotenv.config();
 const { PAYPAL_CLIENT_ID, PAYPAL_APP_SECRET, PAYPAL_API_URL } = process.env;
